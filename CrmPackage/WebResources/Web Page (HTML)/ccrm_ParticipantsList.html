@@ -1,0 +1,17 @@
+<HTML><HEAD><TITLE></TITLE>
+<SCRIPT type=text/javascript>
+       OnLoad = function () {
+           if (window.location.href.indexOf('webresourceeditor') != -1)
+               return;
+
+           var oppoId = window.parent.Xrm.Page.data.entity.getId();
+           oppoId = oppoId.substring(1, 37);
+           var QUrl = "&opportunityid=" + oppoId;
+           var reportFrame = document.getElementById("reportContainer");           
+           reportFrame.src = parent.iFrameSRS("Oppo_ParticipantsList", QUrl);
+       }
+
+  </SCRIPT>
+
+<META charset=utf-8></HEAD>
+<BODY onload=OnLoad(); bgColor=#f7fbff><IFRAME style="BORDER-BOTTOM: #a5acb5 1px solid; BORDER-LEFT: #a5acb5 1px solid; BORDER-TOP: #a5acb5 1px solid; BORDER-RIGHT: #a5acb5 1px solid" id=reportContainer height="100%" src="about:blank" width="100%"></IFRAME></BODY></HTML>

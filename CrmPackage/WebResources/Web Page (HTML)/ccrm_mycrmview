@@ -1,0 +1,12 @@
+﻿<HTML><HEAD><TITLE>Untitled Page</TITLE>
+<META charset=utf-8></HEAD>
+<BODY contentEditable=true>﻿ 
+<STYLE type=text/css> 
+html {height:100%}
+body {
+margin:0;
+height:100%;
+overflow:hidden
+}
+</STYLE>
+<IFRAME id=reportContainer style="HEIGHT: 100%; WIDTH: 100%" src="http://glosqltest02/ReportServer/Pages/ReportViewer.aspx?%2fArupDev_MSCRM%2fMy+CRM&amp;rc%3AParameters=Collapsed&amp;rc%3AToolbar=False" frameBorder=0 scrolling=yes></IFRAME></BODY></HTML>

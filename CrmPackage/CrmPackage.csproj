@@ -1,0 +1,1950 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>c7027909-cfa4-4561-9d6e-59ee3c9b8396</ProjectGuid>
+    <ProjectTypeGuids>{88A30576-7583-4F75-8136-5EFD2C14ADFF}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CRM_Package.CrmPackage</RootNamespace>
+    <AssemblyName>CRM_Package.CrmPackage</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <OutputFile>CrmPackage.zip</OutputFile>
+    <Name>CrmPackage</Name>
+    <MainFile>WebResources\Web Page (HTML)\ccrm_bidreview.htm</MainFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="WebResources\GIF format\" />
+    <Folder Include="WebResources\ICO format\" />
+    <Folder Include="WebResources\PNG format\" />
+    <Folder Include="WebResources\Script %28JScript%29\" />
+    <Folder Include="WebResources\Web Page %28HTML%29\" />
+    <RegisterPlugin Include="RegisterFile.crmregister">
+      <DisplayName>RegisterFile</DisplayName>
+      <UniqueName>arup_RegisterFile</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </RegisterPlugin>
+    <Folder Include="WebResources" />
+  </ItemGroup>
+  <ItemGroup>
+    <CRMWebResource Include="WebResources\GIF format\arup_ProcessingLoader">
+      <DisplayName>arup_ProcessingLoader</DisplayName>
+      <UniqueName>arup_arup_ProcessingLoader</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\ccrm_AutoNumber16x16GIF">
+      <DisplayName>ccrm_AutoNumber16x16GIF</DisplayName>
+      <UniqueName>arup_ccrm_AutoNumber16x16GIF</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\ccrm_AutoNumber32x32GIF">
+      <DisplayName>ccrm_AutoNumber32x32GIF</DisplayName>
+      <UniqueName>arup_ccrm_AutoNumber32x32GIF</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\ccrm_AutoNumber32x32GIF.gif">
+      <DisplayName>ConsultCRM Auto Number 32 x 32 GIF</DisplayName>
+      <UniqueName>ccrm_AutoNumber32x32GIF</UniqueName>
+      <WebResourceType>GIF</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupaccountingcodeSmall">
+      <DisplayName>IconCcrm_arupaccountingcodeSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_arupaccountingcodeSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupaccountingcodeSmallUnpublished">
+      <DisplayName>IconCcrm_arupaccountingcodeSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_arupaccountingcodeSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupbusinessoverheadrateSmall">
+      <DisplayName>IconCcrm_arupbusinessoverheadrateSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_arupbusinessoverheadrateSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupbusinessoverheadrateSmallUnpublished">
+      <DisplayName>IconCcrm_arupbusinessoverheadrateSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_arupbusinessoverheadrateSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupbusinessSmall">
+      <DisplayName>IconCcrm_arupbusinessSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_arupbusinessSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupbusinessSmallUnpublished">
+      <DisplayName>IconCcrm_arupbusinessSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_arupbusinessSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupcompanySmall">
+      <DisplayName>IconCcrm_arupcompanySmall</DisplayName>
+      <UniqueName>arup_IconCcrm_arupcompanySmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupcompanySmallUnpublished">
+      <DisplayName>IconCcrm_arupcompanySmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_arupcompanySmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupgroupSmall">
+      <DisplayName>IconCcrm_arupgroupSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_arupgroupSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupgroupSmallUnpublished">
+      <DisplayName>IconCcrm_arupgroupSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_arupgroupSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupinterfacesettingSmall">
+      <DisplayName>IconCcrm_arupinterfacesettingSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_arupinterfacesettingSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupinterfacesettingSmallUnpublished">
+      <DisplayName>IconCcrm_arupinterfacesettingSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_arupinterfacesettingSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupmarketSmall">
+      <DisplayName>IconCcrm_arupmarketSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_arupmarketSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupmarketSmallUnpublished">
+      <DisplayName>IconCcrm_arupmarketSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_arupmarketSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupofficeSmall">
+      <DisplayName>IconCcrm_arupofficeSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_arupofficeSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupofficeSmallUnpublished">
+      <DisplayName>IconCcrm_arupofficeSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_arupofficeSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupregionSmall">
+      <DisplayName>IconCcrm_arupregionSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_arupregionSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupregionSmallUnpublished">
+      <DisplayName>IconCcrm_arupregionSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_arupregionSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_aruprelationshipLarge">
+      <DisplayName>IconCcrm_aruprelationshipLarge</DisplayName>
+      <UniqueName>arup_IconCcrm_aruprelationshipLarge</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_aruprelationshipLargeUnpublished">
+      <DisplayName>IconCcrm_aruprelationshipLargeUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_aruprelationshipLargeUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_aruprelationshipSmall">
+      <DisplayName>IconCcrm_aruprelationshipSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_aruprelationshipSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_aruprelationshipSmallUnpublished">
+      <DisplayName>IconCcrm_aruprelationshipSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_aruprelationshipSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupsubaccountingcodeSmall">
+      <DisplayName>IconCcrm_arupsubaccountingcodeSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_arupsubaccountingcodeSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupsubaccountingcodeSmallUnpublished">
+      <DisplayName>IconCcrm_arupsubaccountingcodeSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_arupsubaccountingcodeSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupusstateSmall">
+      <DisplayName>IconCcrm_arupusstateSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_arupusstateSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_arupusstateSmallUnpublished">
+      <DisplayName>IconCcrm_arupusstateSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_arupusstateSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditconfigLarge">
+      <DisplayName>IconCcrm_auditconfigLarge</DisplayName>
+      <UniqueName>arup_IconCcrm_auditconfigLarge</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditconfigLargeUnpublished">
+      <DisplayName>IconCcrm_auditconfigLargeUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_auditconfigLargeUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditconfigSmall">
+      <DisplayName>IconCcrm_auditconfigSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_auditconfigSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditconfigSmallUnpublished">
+      <DisplayName>IconCcrm_auditconfigSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_auditconfigSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditdetailLarge">
+      <DisplayName>IconCcrm_auditdetailLarge</DisplayName>
+      <UniqueName>arup_IconCcrm_auditdetailLarge</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditdetailLargeUnpublished">
+      <DisplayName>IconCcrm_auditdetailLargeUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_auditdetailLargeUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditdetailSmall">
+      <DisplayName>IconCcrm_auditdetailSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_auditdetailSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditdetailSmallUnpublished">
+      <DisplayName>IconCcrm_auditdetailSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_auditdetailSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_audithistoryLarge">
+      <DisplayName>IconCcrm_audithistoryLarge</DisplayName>
+      <UniqueName>arup_IconCcrm_audithistoryLarge</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_audithistoryLargeUnpublished">
+      <DisplayName>IconCcrm_audithistoryLargeUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_audithistoryLargeUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_audithistorySmall">
+      <DisplayName>IconCcrm_audithistorySmall</DisplayName>
+      <UniqueName>arup_IconCcrm_audithistorySmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_audithistorySmallUnpublished">
+      <DisplayName>IconCcrm_audithistorySmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_audithistorySmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditlogLarge">
+      <DisplayName>IconCcrm_auditlogLarge</DisplayName>
+      <UniqueName>arup_IconCcrm_auditlogLarge</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditlogLargeUnpublished">
+      <DisplayName>IconCcrm_auditlogLargeUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_auditlogLargeUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditlogSmall">
+      <DisplayName>IconCcrm_auditlogSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_auditlogSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditlogSmallUnpublished">
+      <DisplayName>IconCcrm_auditlogSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_auditlogSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditsetupLarge">
+      <DisplayName>IconCcrm_auditsetupLarge</DisplayName>
+      <UniqueName>arup_IconCcrm_auditsetupLarge</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_auditsetupSmall">
+      <DisplayName>IconCcrm_auditsetupSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_auditsetupSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_autonumberLarge">
+      <DisplayName>IconCcrm_autonumberLarge</DisplayName>
+      <UniqueName>arup_IconCcrm_autonumberLarge</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_autonumberLargeUnpublished">
+      <DisplayName>IconCcrm_autonumberLargeUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_autonumberLargeUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_autonumberSmall">
+      <DisplayName>IconCcrm_autonumberSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_autonumberSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_autonumberSmallUnpublished">
+      <DisplayName>IconCcrm_autonumberSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_autonumberSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_bidreviewSmall">
+      <DisplayName>IconCcrm_bidreviewSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_bidreviewSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_bidreviewSmallUnpublished">
+      <DisplayName>IconCcrm_bidreviewSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_bidreviewSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_businessleaderSmall">
+      <DisplayName>IconCcrm_businessleaderSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_businessleaderSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_businessleaderSmallUnpublished">
+      <DisplayName>IconCcrm_businessleaderSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_businessleaderSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_businessregionSmall">
+      <DisplayName>IconCcrm_businessregionSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_businessregionSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_businessregionSmallUnpublished">
+      <DisplayName>IconCcrm_businessregionSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_businessregionSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_cjnapplicationSmall">
+      <DisplayName>IconCcrm_cjnapplicationSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_cjnapplicationSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_contactrelationshipSmall">
+      <DisplayName>IconCcrm_contactrelationshipSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_contactrelationshipSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_contactrelationshipSmallUnpublished">
+      <DisplayName>IconCcrm_contactrelationshipSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_contactrelationshipSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_countrySmall">
+      <DisplayName>IconCcrm_countrySmall</DisplayName>
+      <UniqueName>arup_IconCcrm_countrySmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_countrySmallUnpublished">
+      <DisplayName>IconCcrm_countrySmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_countrySmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_crmofflinesettingSmall">
+      <DisplayName>IconCcrm_crmofflinesettingSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_crmofflinesettingSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_crmofflinesettingSmallUnpublished">
+      <DisplayName>IconCcrm_crmofflinesettingSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_crmofflinesettingSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_exclusivityrequestLarge">
+      <DisplayName>IconCcrm_exclusivityrequestLarge</DisplayName>
+      <UniqueName>arup_IconCcrm_exclusivityrequestLarge</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_exclusivityrequestLargeUnpublished">
+      <DisplayName>IconCcrm_exclusivityrequestLargeUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_exclusivityrequestLargeUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_exclusivityrequestSmall">
+      <DisplayName>IconCcrm_exclusivityrequestSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_exclusivityrequestSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_exclusivityrequestSmallUnpublished">
+      <DisplayName>IconCcrm_exclusivityrequestSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_exclusivityrequestSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_mandatorylevelSmall">
+      <DisplayName>IconCcrm_mandatorylevelSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_mandatorylevelSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_mandatorylevelSmallUnpublished">
+      <DisplayName>IconCcrm_mandatorylevelSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_mandatorylevelSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_manualpromoteSmall">
+      <DisplayName>IconCcrm_manualpromoteSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_manualpromoteSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_manualpromoteSmallUnpublished">
+      <DisplayName>IconCcrm_manualpromoteSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_manualpromoteSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_marketregionSmall">
+      <DisplayName>IconCcrm_marketregionSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_marketregionSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_marketregionSmallUnpublished">
+      <DisplayName>IconCcrm_marketregionSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_marketregionSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuadministrationSmall">
+      <DisplayName>IconCcrm_menuadministrationSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menuadministrationSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuadministrationSmallUnpublished">
+      <DisplayName>IconCcrm_menuadministrationSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menuadministrationSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuauditconfigSmall">
+      <DisplayName>IconCcrm_menuauditconfigSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menuauditconfigSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuauditconfigSmallUnpublished">
+      <DisplayName>IconCcrm_menuauditconfigSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menuauditconfigSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuaudithistorySmall">
+      <DisplayName>IconCcrm_menuaudithistorySmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menuaudithistorySmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuaudithistorySmallUnpublished">
+      <DisplayName>IconCcrm_menuaudithistorySmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menuaudithistorySmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuauditsetupSmall">
+      <DisplayName>IconCcrm_menuauditsetupSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menuauditsetupSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuauditsetupSmallUnpublished">
+      <DisplayName>IconCcrm_menuauditsetupSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menuauditsetupSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuautonumberSmall">
+      <DisplayName>IconCcrm_menuautonumberSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menuautonumberSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuautonumberSmallUnpublished">
+      <DisplayName>IconCcrm_menuautonumberSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menuautonumberSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menubusinessmanagementSmall">
+      <DisplayName>IconCcrm_menubusinessmanagementSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menubusinessmanagementSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menubusinessmanagementSmallUnpublished">
+      <DisplayName>IconCcrm_menubusinessmanagementSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menubusinessmanagementSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menucalendarSmall">
+      <DisplayName>IconCcrm_menucalendarSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menucalendarSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menucalendarSmallUnpublished">
+      <DisplayName>IconCcrm_menucalendarSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menucalendarSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menucustomizationSmall">
+      <DisplayName>IconCcrm_menucustomizationSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menucustomizationSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menucustomizationSmallUnpublished">
+      <DisplayName>IconCcrm_menucustomizationSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menucustomizationSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menudatamanagementSmall">
+      <DisplayName>IconCcrm_menudatamanagementSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menudatamanagementSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menudatamanagementSmallUnpublished">
+      <DisplayName>IconCcrm_menudatamanagementSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menudatamanagementSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuduplicatedetectionSmall">
+      <DisplayName>IconCcrm_menuduplicatedetectionSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menuduplicatedetectionSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuduplicatedetectionSmallUnpublished">
+      <DisplayName>IconCcrm_menuduplicatedetectionSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menuduplicatedetectionSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menumandatorylevelSmall">
+      <DisplayName>IconCcrm_menumandatorylevelSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menumandatorylevelSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menumandatorylevelSmallUnpublished">
+      <DisplayName>IconCcrm_menumandatorylevelSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menumandatorylevelSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuproductcatalogSmall">
+      <DisplayName>IconCcrm_menuproductcatalogSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menuproductcatalogSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuproductcatalogSmallUnpublished">
+      <DisplayName>IconCcrm_menuproductcatalogSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menuproductcatalogSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuresourcecenterSmall">
+      <DisplayName>IconCcrm_menuresourcecenterSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menuresourcecenterSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuresourcecenterSmallUnpublished">
+      <DisplayName>IconCcrm_menuresourcecenterSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menuresourcecenterSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menusettingsSmall">
+      <DisplayName>IconCcrm_menusettingsSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menusettingsSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menusettingsSmallUnpublished">
+      <DisplayName>IconCcrm_menusettingsSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menusettingsSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menusystemjobSmall">
+      <DisplayName>IconCcrm_menusystemjobSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menusystemjobSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menusystemjobSmallUnpublished">
+      <DisplayName>IconCcrm_menusystemjobSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menusystemjobSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menutemplateSmall">
+      <DisplayName>IconCcrm_menutemplateSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menutemplateSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menutemplateSmallUnpublished">
+      <DisplayName>IconCcrm_menutemplateSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menutemplateSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuworkflowSmall">
+      <DisplayName>IconCcrm_menuworkflowSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_menuworkflowSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_menuworkflowSmallUnpublished">
+      <DisplayName>IconCcrm_menuworkflowSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_menuworkflowSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_notificationlistSmall">
+      <DisplayName>IconCcrm_notificationlistSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_notificationlistSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_notificationlistSmallUnpublished">
+      <DisplayName>IconCcrm_notificationlistSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_notificationlistSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_opportunityapprovalSmall">
+      <DisplayName>IconCcrm_opportunityapprovalSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_opportunityapprovalSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_opportunityapprovalSmallUnpublished">
+      <DisplayName>IconCcrm_opportunityapprovalSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_opportunityapprovalSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_opportunitycontactSmall">
+      <DisplayName>IconCcrm_opportunitycontactSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_opportunitycontactSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_opportunitycontactSmallUnpublished">
+      <DisplayName>IconCcrm_opportunitycontactSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_opportunitycontactSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_opportunitymanualresetSmall">
+      <DisplayName>IconCcrm_opportunitymanualresetSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_opportunitymanualresetSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_opportunitymanualresetSmallUnpublished">
+      <DisplayName>IconCcrm_opportunitymanualresetSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_opportunitymanualresetSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_opportunityreviewerSmall">
+      <DisplayName>IconCcrm_opportunityreviewerSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_opportunityreviewerSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_opportunityreviewerSmallUnpublished">
+      <DisplayName>IconCcrm_opportunityreviewerSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_opportunityreviewerSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_opportunitytrackruleSmall">
+      <DisplayName>IconCcrm_opportunitytrackruleSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_opportunitytrackruleSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_opportunitytrackruleSmallUnpublished">
+      <DisplayName>IconCcrm_opportunitytrackruleSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_opportunitytrackruleSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_opportunitytrackSmall">
+      <DisplayName>IconCcrm_opportunitytrackSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_opportunitytrackSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_opportunitytrackSmallUnpublished">
+      <DisplayName>IconCcrm_opportunitytrackSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_opportunitytrackSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_practiceleaderSmall">
+      <DisplayName>IconCcrm_practiceleaderSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_practiceleaderSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_practiceleaderSmallUnpublished">
+      <DisplayName>IconCcrm_practiceleaderSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_practiceleaderSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_progresshistorySmall">
+      <DisplayName>IconCcrm_progresshistorySmall</DisplayName>
+      <UniqueName>arup_IconCcrm_progresshistorySmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_progresshistorySmallUnpublished">
+      <DisplayName>IconCcrm_progresshistorySmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_progresshistorySmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_projectSmall">
+      <DisplayName>IconCcrm_projectSmall</DisplayName>
+      <UniqueName>arup_IconCcrm_projectSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\IconCcrm_projectSmallUnpublished">
+      <DisplayName>IconCcrm_projectSmallUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_projectSmallUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\Print_ico_16.gif">
+      <DisplayName>ccrm_\Images\Print_ico_16</DisplayName>
+      <UniqueName>ccrmarup_Print_ico_16</UniqueName>
+      <WebResourceType>GIF</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\ccrm_AN_16x16_Icon.ico">
+      <DisplayName>ConsultCRM - Auto Number 16 x 16 Icon</DisplayName>
+      <UniqueName>ccrm_AN_16x16_Icon</UniqueName>
+      <WebResourceType>ICO</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\ccrm_pl_Icon_16x16">
+      <DisplayName>ccrm_pl_Icon_16x16</DisplayName>
+      <UniqueName>arup_ccrm_pl_Icon_16x16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\ccrm_pl_Icon_32x32">
+      <DisplayName>ccrm_pl_Icon_32x32</DisplayName>
+      <UniqueName>arup_ccrm_pl_Icon_32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_arupinterfacesettingMedium">
+      <DisplayName>IconCcrm_arupinterfacesettingMedium</DisplayName>
+      <UniqueName>arup_IconCcrm_arupinterfacesettingMedium</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_arupinterfacesettingMediumUnpublished">
+      <DisplayName>IconCcrm_arupinterfacesettingMediumUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_arupinterfacesettingMediumUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_aruprelationshipMedium">
+      <DisplayName>IconCcrm_aruprelationshipMedium</DisplayName>
+      <UniqueName>arup_IconCcrm_aruprelationshipMedium</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_aruprelationshipMediumUnpublished">
+      <DisplayName>IconCcrm_aruprelationshipMediumUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_aruprelationshipMediumUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_auditconfigMedium">
+      <DisplayName>IconCcrm_auditconfigMedium</DisplayName>
+      <UniqueName>arup_IconCcrm_auditconfigMedium</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_auditconfigMediumUnpublished">
+      <DisplayName>IconCcrm_auditconfigMediumUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_auditconfigMediumUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_auditdetailMedium">
+      <DisplayName>IconCcrm_auditdetailMedium</DisplayName>
+      <UniqueName>arup_IconCcrm_auditdetailMedium</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_auditdetailMediumUnpublished">
+      <DisplayName>IconCcrm_auditdetailMediumUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_auditdetailMediumUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_audithistoryMedium">
+      <DisplayName>IconCcrm_audithistoryMedium</DisplayName>
+      <UniqueName>arup_IconCcrm_audithistoryMedium</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_audithistoryMediumUnpublished">
+      <DisplayName>IconCcrm_audithistoryMediumUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_audithistoryMediumUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_auditlogMedium">
+      <DisplayName>IconCcrm_auditlogMedium</DisplayName>
+      <UniqueName>arup_IconCcrm_auditlogMedium</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_auditlogMediumUnpublished">
+      <DisplayName>IconCcrm_auditlogMediumUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_auditlogMediumUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_auditsetupMedium">
+      <DisplayName>IconCcrm_auditsetupMedium</DisplayName>
+      <UniqueName>arup_IconCcrm_auditsetupMedium</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_autonumberMedium">
+      <DisplayName>IconCcrm_autonumberMedium</DisplayName>
+      <UniqueName>arup_IconCcrm_autonumberMedium</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_autonumberMediumUnpublished">
+      <DisplayName>IconCcrm_autonumberMediumUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_autonumberMediumUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_exclusivityrequestMedium">
+      <DisplayName>IconCcrm_exclusivityrequestMedium</DisplayName>
+      <UniqueName>arup_IconCcrm_exclusivityrequestMedium</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\ICO format\IconCcrm_exclusivityrequestMediumUnpublished">
+      <DisplayName>IconCcrm_exclusivityrequestMediumUnpublished</DisplayName>
+      <UniqueName>arup_IconCcrm_exclusivityrequestMediumUnpublished</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\AccountFolder.png">
+      <DisplayName>arup_/Images/AccountFolder</DisplayName>
+      <UniqueName>arup_AccountFolder</UniqueName>
+      <WebResourceType>PNG</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_Amber_Light">
+      <DisplayName>arup_Amber_Light</DisplayName>
+      <UniqueName>arup_arup_Amber_Light</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_bidreview_icon16">
+      <DisplayName>arup_bidreview_icon16</DisplayName>
+      <UniqueName>arup_arup_bidreview_icon16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_bidreview_icon32">
+      <DisplayName>arup_bidreview_icon32</DisplayName>
+      <UniqueName>arup_arup_bidreview_icon32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_Bid_Review_SectionB">
+      <DisplayName>arup_Bid_Review_SectionB</DisplayName>
+      <UniqueName>arup_arup_Bid_Review_SectionB</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_Blue_Light">
+      <DisplayName>arup_Blue_Light</DisplayName>
+      <UniqueName>arup_arup_Blue_Light</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_Border_Light">
+      <DisplayName>arup_Border_Light</DisplayName>
+      <UniqueName>arup_arup_Border_Light</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_business_sitemap_icon">
+      <DisplayName>arup_business_sitemap_icon</DisplayName>
+      <UniqueName>arup_arup_business_sitemap_icon</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_button_icon_addprojectparticipant">
+      <DisplayName>arup_button_icon_addprojectparticipant</DisplayName>
+      <UniqueName>arup_arup_button_icon_addprojectparticipant</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_button_icon_addprojectparticipant16">
+      <DisplayName>arup_button_icon_addprojectparticipant16</DisplayName>
+      <UniqueName>arup_arup_button_icon_addprojectparticipant16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_DefaultSubscrip_16x16">
+      <DisplayName>arup_DefaultSubscrip_16x16</DisplayName>
+      <UniqueName>arup_arup_DefaultSubscrip_16x16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_DefaultSubscrip_32x32">
+      <DisplayName>arup_DefaultSubscrip_32x32</DisplayName>
+      <UniqueName>arup_arup_DefaultSubscrip_32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_exit_button_16x16">
+      <DisplayName>arup_exit_button_16x16</DisplayName>
+      <UniqueName>arup_arup_exit_button_16x16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_exit_button_32x32">
+      <DisplayName>arup_exit_button_32x32</DisplayName>
+      <UniqueName>arup_arup_exit_button_32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_FeeExtIcon16">
+      <DisplayName>arup_FeeExtIcon16</DisplayName>
+      <UniqueName>arup_arup_FeeExtIcon16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_FeeExtIcon16.png">
+      <UniqueName>arup_FeeExtIcon16</UniqueName>
+      <WebResourceType>PNG</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_FeeExtIcon32">
+      <DisplayName>arup_FeeExtIcon32</DisplayName>
+      <UniqueName>arup_arup_FeeExtIcon32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_folderadd_16x16">
+      <DisplayName>arup_folderadd_16x16</DisplayName>
+      <UniqueName>arup_arup_folderadd_16x16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_folderadd_32x32">
+      <DisplayName>arup_folderadd_32x32</DisplayName>
+      <UniqueName>arup_arup_folderadd_32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_Green_Light">
+      <DisplayName>arup_Green_Light</DisplayName>
+      <UniqueName>arup_arup_Green_Light</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_Grey_Light">
+      <DisplayName>arup_Grey_Light</DisplayName>
+      <UniqueName>arup_arup_Grey_Light</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_help_sitemap_icon">
+      <DisplayName>arup_help_sitemap_icon</DisplayName>
+      <UniqueName>arup_arup_help_sitemap_icon</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_homepage_icon">
+      <DisplayName>arup_homepage_icon</DisplayName>
+      <UniqueName>arup_arup_homepage_icon</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_icons_progresshistory_32">
+      <DisplayName>arup_icons_progresshistory_32</DisplayName>
+      <UniqueName>arup_arup_icons_progresshistory_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_icon_bond_application_16">
+      <DisplayName>arup_icon_bond_application_16</DisplayName>
+      <UniqueName>arup_arup_icon_bond_application_16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_icon_bond_application_32">
+      <DisplayName>arup_icon_bond_application_32</DisplayName>
+      <UniqueName>arup_arup_icon_bond_application_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_icon_cjna">
+      <DisplayName>arup_icon_cjna</DisplayName>
+      <UniqueName>arup_arup_icon_cjna</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_icon_exclusivityrequest_x32">
+      <DisplayName>arup_icon_exclusivityrequest_x32</DisplayName>
+      <UniqueName>arup_arup_icon_exclusivityrequest_x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_icon_optycontact_32">
+      <DisplayName>arup_icon_optycontact_32</DisplayName>
+      <UniqueName>arup_arup_icon_optycontact_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_icon_review_approval_32">
+      <DisplayName>arup_icon_review_approval_32</DisplayName>
+      <UniqueName>arup_arup_icon_review_approval_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_legal_sitemap_icon">
+      <DisplayName>arup_legal_sitemap_icon</DisplayName>
+      <UniqueName>arup_arup_legal_sitemap_icon</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_marketing_sitemap_icon">
+      <DisplayName>arup_marketing_sitemap_icon</DisplayName>
+      <UniqueName>arup_arup_marketing_sitemap_icon</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_Microsoft_Office_Teams_16">
+      <DisplayName>arup_Microsoft_Office_Teams_16</DisplayName>
+      <UniqueName>arup_arup_Microsoft_Office_Teams_16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_Microsoft_Office_Teams_32">
+      <DisplayName>arup_Microsoft_Office_Teams_32</DisplayName>
+      <UniqueName>arup_arup_Microsoft_Office_Teams_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_mysubscriptions_icon">
+      <DisplayName>arup_mysubscriptions_icon</DisplayName>
+      <UniqueName>arup_arup_mysubscriptions_icon</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_mysubscription_icon_large">
+      <DisplayName>arup_mysubscription_icon_large</DisplayName>
+      <UniqueName>arup_arup_mysubscription_icon_large</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_projectparticipants_32">
+      <DisplayName>arup_projectparticipants_32</DisplayName>
+      <UniqueName>arup_arup_projectparticipants_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_Red_Light">
+      <DisplayName>arup_Red_Light</DisplayName>
+      <UniqueName>arup_arup_Red_Light</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_report_icon">
+      <DisplayName>arup_report_icon</DisplayName>
+      <UniqueName>arup_arup_report_icon</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_request_bid_site_16x16">
+      <DisplayName>arup_request_bid_site_16x16</DisplayName>
+      <UniqueName>arup_arup_request_bid_site_16x16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_request_bid_site_32x32">
+      <DisplayName>arup_request_bid_site_32x32</DisplayName>
+      <UniqueName>arup_arup_request_bid_site_32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_secure_form_16x16">
+      <DisplayName>arup_secure_form_16x16</DisplayName>
+      <UniqueName>arup_arup_secure_form_16x16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_secure_form_32x32">
+      <DisplayName>arup_secure_form_32x32</DisplayName>
+      <UniqueName>arup_arup_secure_form_32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_settings_sitemap_icon">
+      <DisplayName>arup_settings_sitemap_icon</DisplayName>
+      <UniqueName>arup_arup_settings_sitemap_icon</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_arupOppoProgressJN_16">
+      <DisplayName>ccrm_arupOppoProgressJN_16</DisplayName>
+      <UniqueName>arup_ccrm_arupOppoProgressJN_16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_arupOppoProgressJN_32">
+      <DisplayName>ccrm_arupOppoProgressJN_32</DisplayName>
+      <UniqueName>arup_ccrm_arupOppoProgressJN_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_arupOppoProgress_16">
+      <DisplayName>ccrm_arupOppoProgress_16</DisplayName>
+      <UniqueName>arup_ccrm_arupOppoProgress_16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_arupOppoProgress_32">
+      <DisplayName>ccrm_arupOppoProgress_32</DisplayName>
+      <UniqueName>arup_ccrm_arupOppoProgress_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_arupSharePoint_16">
+      <DisplayName>ccrm_arupSharePoint_16</DisplayName>
+      <UniqueName>arup_ccrm_arupSharePoint_16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_arupSharePoint_32">
+      <DisplayName>ccrm_arupSharePoint_32</DisplayName>
+      <UniqueName>arup_ccrm_arupSharePoint_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_arup_environment_logo">
+      <DisplayName>ccrm_arup_environment_logo</DisplayName>
+      <UniqueName>arup_ccrm_arup_environment_logo</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_bidreview_16_16_button">
+      <DisplayName>ccrm_bidreview_16_16_button</DisplayName>
+      <UniqueName>arup_ccrm_bidreview_16_16_button</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_bids_site_32_32_button">
+      <DisplayName>ccrm_bids_site_32_32_button</DisplayName>
+      <UniqueName>arup_ccrm_bids_site_32_32_button</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_blankimage">
+      <DisplayName>ccrm_blankimage</DisplayName>
+      <UniqueName>arup_ccrm_blankimage</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_bookAddress16x16.png">
+      <DisplayName>ccrm_bookAddress16x16</DisplayName>
+      <UniqueName>arup_ccrm_bookAddress16x16</UniqueName>
+      <WebResourceType>PNG</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_bookAddress32x32.png">
+      <DisplayName>ccrm_bookAddress32x32</DisplayName>
+      <UniqueName>arup_ccrm_bookAddress32x32</UniqueName>
+      <WebResourceType>PNG</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_chart_line">
+      <DisplayName>ccrm_chart_line</DisplayName>
+      <UniqueName>arup_ccrm_chart_line</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_clientgroupings_16x16">
+      <DisplayName>ccrm_clientgroupings_16x16</DisplayName>
+      <UniqueName>arup_ccrm_clientgroupings_16x16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_clientgroupings_32x32">
+      <DisplayName>ccrm_clientgroupings_32x32</DisplayName>
+      <UniqueName>arup_ccrm_clientgroupings_32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_CRMOfflineSetting_16">
+      <DisplayName>ccrm_CRMOfflineSetting_16</DisplayName>
+      <UniqueName>arup_ccrm_CRMOfflineSetting_16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_CRMOfflineSetting_32">
+      <DisplayName>ccrm_CRMOfflineSetting_32</DisplayName>
+      <UniqueName>arup_ccrm_CRMOfflineSetting_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_ExclusivityRequestSubmit_16">
+      <DisplayName>ccrm_ExclusivityRequestSubmit_16</DisplayName>
+      <UniqueName>arup_ccrm_ExclusivityRequestSubmit_16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_ExclusivityRequestSubmit_32">
+      <DisplayName>ccrm_ExclusivityRequestSubmit_32</DisplayName>
+      <UniqueName>arup_ccrm_ExclusivityRequestSubmit_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_ExclusivityRequest_16">
+      <DisplayName>ccrm_ExclusivityRequest_16</DisplayName>
+      <UniqueName>arup_ccrm_ExclusivityRequest_16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_ExclusivityRequest_32">
+      <DisplayName>ccrm_ExclusivityRequest_32</DisplayName>
+      <UniqueName>arup_ccrm_ExclusivityRequest_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_exit_door_out_16_16">
+      <DisplayName>ccrm_exit_door_out_16_16</DisplayName>
+      <UniqueName>arup_ccrm_exit_door_out_16_16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_exit_door_out_32_32">
+      <DisplayName>ccrm_exit_door_out_32_32</DisplayName>
+      <UniqueName>arup_ccrm_exit_door_out_32_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_finance16x16">
+      <DisplayName>ccrm_finance16x16</DisplayName>
+      <UniqueName>arup_ccrm_finance16x16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_finance32x32">
+      <DisplayName>ccrm_finance32x32</DisplayName>
+      <UniqueName>arup_ccrm_finance32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_greentick_16x16">
+      <DisplayName>ccrm_greentick_16x16</DisplayName>
+      <UniqueName>arup_ccrm_greentick_16x16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_greentick_32x32">
+      <DisplayName>ccrm_greentick_32x32</DisplayName>
+      <UniqueName>arup_ccrm_greentick_32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_hierarchy">
+      <DisplayName>ccrm_hierarchy</DisplayName>
+      <UniqueName>arup_ccrm_hierarchy</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_jvpartners16x16">
+      <DisplayName>ccrm_jvpartners16x16</DisplayName>
+      <UniqueName>arup_ccrm_jvpartners16x16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_jvpartners32x32">
+      <DisplayName>ccrm_jvpartners32x32</DisplayName>
+      <UniqueName>arup_ccrm_jvpartners32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_LessonLearned_32">
+      <DisplayName>ccrm_LessonLearned_32</DisplayName>
+      <UniqueName>arup_ccrm_LessonLearned_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_LessonsLearned_16">
+      <DisplayName>ccrm_LessonsLearned_16</DisplayName>
+      <UniqueName>arup_ccrm_LessonsLearned_16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_marketing16x16">
+      <DisplayName>ccrm_marketing16x16</DisplayName>
+      <UniqueName>arup_ccrm_marketing16x16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_ms_notch">
+      <DisplayName>ccrm_ms_notch</DisplayName>
+      <UniqueName>arup_ccrm_ms_notch</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_OppoProcessFlow_BidApproved">
+      <DisplayName>ccrm_OppoProcessFlow_BidApproved</DisplayName>
+      <UniqueName>arup_ccrm_OppoProcessFlow_BidApproved</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_OppoProcessFlow_BidInDevelopment">
+      <DisplayName>ccrm_OppoProcessFlow_BidInDevelopment</DisplayName>
+      <UniqueName>arup_ccrm_OppoProcessFlow_BidInDevelopment</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_OppoProcessFlow_BidSubmitted">
+      <DisplayName>ccrm_OppoProcessFlow_BidSubmitted</DisplayName>
+      <UniqueName>arup_ccrm_OppoProcessFlow_BidSubmitted</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_OppoProcessFlow_Blank">
+      <DisplayName>ccrm_OppoProcessFlow_Blank</DisplayName>
+      <UniqueName>arup_ccrm_OppoProcessFlow_Blank</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_OppoProcessFlow_ConfirmedJobApprovalReceived">
+      <DisplayName>ccrm_OppoProcessFlow_ConfirmedJobApprovalReceived</DisplayName>
+      <UniqueName>arup_ccrm_OppoProcessFlow_ConfirmedJobApprovalReceived</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_OppoProcessFlow_Lead">
+      <DisplayName>ccrm_OppoProcessFlow_Lead</DisplayName>
+      <UniqueName>arup_ccrm_OppoProcessFlow_Lead</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_outlook32x32">
+      <DisplayName>ccrm_outlook32x32</DisplayName>
+      <UniqueName>arup_ccrm_outlook32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_ParticipantsList.png">
+      <DisplayName>ccrm_ParticipantsList</DisplayName>
+      <UniqueName>arup_ccrm_ParticipantsList</UniqueName>
+      <WebResourceType>PNG</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_redcross_16x16">
+      <DisplayName>ccrm_redcross_16x16</DisplayName>
+      <UniqueName>arup_ccrm_redcross_16x16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_redcross_32x32">
+      <DisplayName>ccrm_redcross_32x32</DisplayName>
+      <UniqueName>arup_ccrm_redcross_32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_reportchart">
+      <DisplayName>ccrm_reportchart</DisplayName>
+      <UniqueName>arup_ccrm_reportchart</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_SharePointEntityAttribute_16">
+      <DisplayName>ccrm_SharePointEntityAttribute_16</DisplayName>
+      <UniqueName>arup_ccrm_SharePointEntityAttribute_16</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_SharePointEntityAttribute_32">
+      <DisplayName>ccrm_SharePointEntityAttribute_32</DisplayName>
+      <UniqueName>arup_ccrm_SharePointEntityAttribute_32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_SubIcon32x32">
+      <DisplayName>ccrm_SubIcon32x32</DisplayName>
+      <UniqueName>arup_ccrm_SubIcon32x32</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_SubIconPNGLarge">
+      <DisplayName>ccrm_SubIconPNGLarge</DisplayName>
+      <UniqueName>arup_ccrm_SubIconPNGLarge</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ccrm_SubIconPNGSmall">
+      <DisplayName>ccrm_SubIconPNGSmall</DisplayName>
+      <UniqueName>arup_ccrm_SubIconPNGSmall</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\ClientOverviewReportButton.png">
+      <DisplayName>arup_/Images/ClientOverviewReportButton</DisplayName>
+      <UniqueName>arup_ClientOverviewReportButton</UniqueName>
+      <WebResourceType>PNG</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\Contact.png">
+      <DisplayName>arup_/Images/Contact</DisplayName>
+      <UniqueName>arup_Contact</UniqueName>
+      <WebResourceType>PNG</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_Activities_Common_Library">
+      <DisplayName>Activities_Common_Library</DisplayName>
+      <UniqueName>arup_Activities_Common_Library</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_Appointment_Main_Library">
+      <DisplayName>arup_Appointment_Main_Library</DisplayName>
+      <UniqueName>arup_Appointment_Main_Library</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_ContactTemp">
+      <DisplayName>arup_ContactTemp</DisplayName>
+      <UniqueName>arup_arup_ContactTemp</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_CreditChecks">
+      <DisplayName>arup_CreditChecks</DisplayName>
+      <UniqueName>arup_arup_CreditChecks</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_dashboardsubscription.js">
+      <DisplayName>arup_dashboardsubscription</DisplayName>
+      <UniqueName>arup_arup_dashboardsubscription</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_DefEventSubConfig">
+      <DisplayName>arup_DefEventSubConfig</DisplayName>
+      <UniqueName>arup_arup_DefEventSubConfig</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_documentsFolder.js">
+      <DisplayName>arup_documentsFolder.js</DisplayName>
+      <UniqueName>arup_documentsFolder.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_DuplicateCheck">
+      <DisplayName>arup_DuplicateCheck</DisplayName>
+      <UniqueName>arup_arup_DuplicateCheck</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_FOP_Main_Library">
+      <DisplayName>arup_FOP_Main_Library</DisplayName>
+      <UniqueName>arup_arup_FOP_Main_Library</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_frameworksecured_library.js">
+      <DisplayName>arup_frameworksecured_library.js</DisplayName>
+      <UniqueName>arup_frameworksecured_library.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_frameworks_library.js">
+      <DisplayName>arup_frameworks_library</DisplayName>
+      <UniqueName>arup_arup_frameworks_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_NotifyForQuickCreate.js">
+      <DisplayName>arup_NotifyForQuickCreate</DisplayName>
+      <UniqueName>arup_arup_NotifyForQuickCreate</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_Notify_Opportunity">
+      <DisplayName>arup_Notify_Opportunity</DisplayName>
+      <UniqueName>arup_arup_Notify_Opportunity</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_OrgFrom16SpacingFix.js">
+      <DisplayName>arup_OrgFrom16SpacingFix</DisplayName>
+      <UniqueName>arup_arup_OrgFrom16SpacingFix</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_Phonecall_Main_Library">
+      <DisplayName>arup_Phonecall_Main_Library</DisplayName>
+      <UniqueName>arup_arup_Phonecall_Main_Library</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_projectparticipant_library">
+      <DisplayName>arup_projectparticipant_library</DisplayName>
+      <UniqueName>arup_arup_projectparticipant_library</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_Task_Main_Library">
+      <DisplayName>arup_Task_Main_Library</DisplayName>
+      <UniqueName>arup_arup_Task_Main_Library</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_Team_Main_Library">
+      <DisplayName>arup_Team_Main_Library</DisplayName>
+      <UniqueName>arup_arup_Team_Main_Library</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_TEST">
+      <DisplayName>arup_TEST</DisplayName>
+      <UniqueName>arup_arup_TEST</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_XrmServiceToolkit">
+      <DisplayName>arup_XrmServiceToolkit</DisplayName>
+      <UniqueName>arup_arup_XrmServiceToolkit</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_account_main_library.js">
+      <DisplayName>ccrm_account_main_library</DisplayName>
+      <UniqueName>arup_ccrm_account_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_acfilter">
+      <DisplayName>ccrm_acfilter</DisplayName>
+      <UniqueName>arup_ccrm_acfilter</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_ActivityViewsFilterDefault">
+      <DisplayName>ccrm_ActivityViewsFilterDefault</DisplayName>
+      <UniqueName>arup_ccrm_ActivityViewsFilterDefault</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_applicationnsights">
+      <DisplayName>ccrm_applicationnsights</DisplayName>
+      <UniqueName>arup_ccrm_applicationnsights</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Async_Retrieve.js">
+      <DisplayName>ccrm_Async_Retrieve</DisplayName>
+      <UniqueName>arup_ccrm_Async_Retrieve</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_auditconfig_main_library.js">
+      <DisplayName>Ccrm_auditconfig_main</DisplayName>
+      <UniqueName>Ccrm_auditconfig_main_library.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+      <Description>Default Form User Library</Description>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_auditsetup_main_library.js">
+      <DisplayName>Ccrm_auditsetup_main</DisplayName>
+      <UniqueName>Ccrm_auditsetup_main_library.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+      <Description>Default Form User Library</Description>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_bidreview_main_library.js">
+      <DisplayName>Ccrm_bidreview_main_library</DisplayName>
+      <UniqueName>arup_Ccrm_bidreview_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_bidreview_main_library_2015.js">
+      <DisplayName>ccrm_bidreview_main_library_2015</DisplayName>
+      <UniqueName>arup_ccrm_bidreview_main_library_2015</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_browserDetection">
+      <DisplayName>ccrm_browserDetection</DisplayName>
+      <UniqueName>arup_ccrm_browserDetection</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_case_main_library.js">
+      <DisplayName>ccrm_case_main_library</DisplayName>
+      <UniqueName>arup_ccrm_case_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_cjnapplication_main_library.js">
+      <DisplayName>Ccrm_cjnapplication_main_library</DisplayName>
+      <UniqueName>arup_Ccrm_cjnapplication_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_ClientGrouping_main_library">
+      <DisplayName>ccrm_ClientGrouping_main_library</DisplayName>
+      <UniqueName>arup_ccrm_ClientGrouping_main_library</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_ClientGrouping_main_library.js">
+      <UniqueName>ccrm_ClientGrouping_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+      <WebResourceLanguage>English (United States)</WebResourceLanguage>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Common_library.js">
+      <DisplayName>ccrm_Common_library</DisplayName>
+      <UniqueName>arup_ccrm_Common_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_contactrelationship_main_library.js">
+      <DisplayName>Ccrm_contactrelationship_main_library</DisplayName>
+      <UniqueName>arup_Ccrm_contactrelationship_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_CrmFetchKit">
+      <DisplayName>ccrm_CrmFetchKit</DisplayName>
+      <UniqueName>arup_ccrm_CrmFetchKit</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_crmofflinesetting_helper.js">
+      <DisplayName>ccrm_crmofflinesetting_helper</DisplayName>
+      <UniqueName>arup_ccrm_crmofflinesetting_helper</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_crmofflinesetting_main_library.js">
+      <DisplayName>ccrm_crmofflinesetting_main_library</DisplayName>
+      <UniqueName>arup_ccrm_crmofflinesetting_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_CRMSubscriptionService">
+      <DisplayName>ccrm_CRMSubscriptionService</DisplayName>
+      <UniqueName>arup_ccrm_CRMSubscriptionService</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Customer_main_library.js">
+      <DisplayName>ccrm_Customer_main_library</DisplayName>
+      <UniqueName>arup_ccrm_Customer_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_duplicatebid.js">
+      <DisplayName>ccrm_duplicatebid</DisplayName>
+      <UniqueName>arup_ccrm_duplicatebid</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_exclusivityrequest_main_library.js">
+      <DisplayName>Ccrm_exclusivityrequest_main_library</DisplayName>
+      <UniqueName>arup_Ccrm_exclusivityrequest_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_JSHelper.js">
+      <DisplayName>ccrm_JSHelper</DisplayName>
+      <UniqueName>arup_ccrm_JSHelper</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_JSON1.4.js">
+      <DisplayName>ccrm_JSON1.4</DisplayName>
+      <UniqueName>arup_ccrm_JSON1.4</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_JSON2.js">
+      <DisplayName>ccrm_JSON2</DisplayName>
+      <UniqueName>arup_ccrm_JSON2</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_lead_library_2015">
+      <DisplayName>ccrm_lead_library_2015</DisplayName>
+      <UniqueName>arup_ccrm_lead_library_2015</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_LessonsLearned_main_library.js">
+      <DisplayName>ccrm_LessonsLearned_main_library</DisplayName>
+      <UniqueName>arup_ccrm_LessonsLearned_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_LoadHelp">
+      <DisplayName>ccrm_LoadHelp</DisplayName>
+      <UniqueName>arup_ccrm_LoadHelp</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_LoadHelp.js">
+      <DisplayName>ccrm_LoadHelp</DisplayName>
+      <UniqueName>ccrm_LoadHelp</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+      <WebResourceLanguage>English (United States)</WebResourceLanguage>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_mandatorylevel_main_library.js">
+      <DisplayName>Ccrm_mandatorylevel_main_library</DisplayName>
+      <UniqueName>arup_Ccrm_mandatorylevel_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_marketing_list">
+      <DisplayName>ccrm_marketing_list</DisplayName>
+      <UniqueName>arup_ccrm_marketing_list</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_ms_BPF_MultiSelect.js">
+      <DisplayName>ccrm_ms_BPF_MultiSelect.js</DisplayName>
+      <UniqueName>ccrm_ms_BPF_MultiSelect.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_ms_jQuery1102">
+      <DisplayName>ccrm_ms_jQuery1102</DisplayName>
+      <UniqueName>arup_ccrm_ms_jQuery1102</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_ms_MultiSelect.js">
+      <DisplayName>ccrm_ms_MultiSelect.js</DisplayName>
+      <UniqueName>ccrm_ms_MultiSelect.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_MultiEntityLookup">
+      <DisplayName>ccrm_MultiEntityLookup</DisplayName>
+      <UniqueName>arup_ccrm_MultiEntityLookup</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_newsfeed">
+      <DisplayName>ccrm_newsfeed</DisplayName>
+      <UniqueName>arup_ccrm_newsfeed</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_newsfeed.js">
+      <DisplayName>ccrm_newsfeed</DisplayName>
+      <UniqueName>ccrm_newsfeed</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+      <WebResourceLanguage>English (United States)</WebResourceLanguage>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_nr_agent">
+      <DisplayName>ccrm_nr_agent</DisplayName>
+      <UniqueName>arup_ccrm_nr_agent</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Nr_Injector">
+      <DisplayName>ccrm_Nr_Injector</DisplayName>
+      <UniqueName>arup_ccrm_Nr_Injector</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_opportunityapproval_main_library.js">
+      <DisplayName>Ccrm_opportunityapproval_main_library</DisplayName>
+      <UniqueName>arup_Ccrm_opportunityapproval_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_opportunitycontact_main_library.js">
+      <DisplayName>Ccrm_opportunitycontact_main_library</DisplayName>
+      <UniqueName>arup_Ccrm_opportunitycontact_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_opportunitymanualreset_main_library.js">
+      <DisplayName>Ccrm_opportunitymanualreset_main_library</DisplayName>
+      <UniqueName>arup_Ccrm_opportunitymanualreset_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_opportunityreviewer_main_library.js">
+      <DisplayName>Ccrm_opportunityreviewer_main_library</DisplayName>
+      <UniqueName>arup_Ccrm_opportunityreviewer_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_opportunitytrack_main_library.js">
+      <DisplayName>Ccrm_opportunitytrack_main_library</DisplayName>
+      <UniqueName>arup_Ccrm_opportunitytrack_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_opportunity_library_2015">
+      <DisplayName>ccrm_opportunity_library_2015</DisplayName>
+      <UniqueName>arup_ccrm_opportunity_library_2015</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Opportunity_QuickCreate_Main_Library">
+      <DisplayName>ccrm_Opportunity_QuickCreate_Main_Library</DisplayName>
+      <UniqueName>arup_ccrm_Opportunity_QuickCreate_Main_Library</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_ribbon.js">
+      <DisplayName>ccrm_ribbon</DisplayName>
+      <UniqueName>arup_ccrm_ribbon</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_RunDialog.js">
+      <DisplayName>ccrm_RunDialog</DisplayName>
+      <UniqueName>arup_ccrm_RunDialog</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_script_ribbonHandler">
+      <DisplayName>ccrm_script_ribbonHandler</DisplayName>
+      <UniqueName>arup_ccrm_script_ribbonHandler</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_sdk_rest_data_library">
+      <DisplayName>ccrm_sdk_rest_data_library</DisplayName>
+      <UniqueName>arup_ccrm_sdk_rest_data_library</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Sync_Arup_Retrieve.js">
+      <DisplayName>ccrm_Sync_Arup_Retrieve</DisplayName>
+      <UniqueName>arup_ccrm_Sync_Arup_Retrieve</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Sync_DataOperations">
+      <DisplayName>ccrm_Sync_DataOperations</DisplayName>
+      <UniqueName>arup_ccrm_Sync_DataOperations</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Sync_Retrieve.js">
+      <DisplayName>ccrm_Sync_Retrieve</DisplayName>
+      <UniqueName>arup_ccrm_Sync_Retrieve</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Sync_RetrieveAssociated.js">
+      <DisplayName>ccrm_Sync_RetrieveAssociated</DisplayName>
+      <UniqueName>arup_ccrm_Sync_RetrieveAssociated</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Sync_RetrieveMultiple.js">
+      <DisplayName>ccrm_Sync_RetrieveMultiple</DisplayName>
+      <UniqueName>arup_ccrm_Sync_RetrieveMultiple</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_TriggerSync">
+      <DisplayName>ccrm_TriggerSync</DisplayName>
+      <UniqueName>arup_ccrm_TriggerSync</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_TriggerSyncWorkflow">
+      <DisplayName>ccrm_TriggerSyncWorkflow</DisplayName>
+      <UniqueName>arup_ccrm_TriggerSyncWorkflow</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_uirecordcounter">
+      <DisplayName>ccrm_uirecordcounter</DisplayName>
+      <UniqueName>arup_ccrm_uirecordcounter</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_V9Spacing">
+      <DisplayName>ccrm_V9Spacing</DisplayName>
+      <UniqueName>arup_ccrm_V9Spacing</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_WindowSize">
+      <DisplayName>ccrm_WindowSize</DisplayName>
+      <UniqueName>arup_ccrm_WindowSize</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\sc_json2.js">
+      <DisplayName>sc_json2</DisplayName>
+      <UniqueName>arup_sc_json2</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\sc_MultiSelect_OnSave.js">
+      <DisplayName>sc_MultiSelect_OnSave</DisplayName>
+      <UniqueName>arup_sc_MultiSelect_OnSave</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_BlankHTML">
+      <DisplayName>arup_BlankHTML</DisplayName>
+      <UniqueName>arup_arup_BlankHTML</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_DeclineReason">
+      <DisplayName>arup_DeclineReason</DisplayName>
+      <UniqueName>arup_arup_DeclineReason</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_DupeCheckHtmlWithQC.htm">
+      <DisplayName>arup_DupeCheckHtmlWithQC</DisplayName>
+      <UniqueName>arup_arup_DupeCheckHtmlWithQC</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_DuplicateCheckMoreResults.htm">
+      <DisplayName>arup_DuplicateCheckMoreResults</DisplayName>
+      <UniqueName>arup_arup_DuplicateCheckMoreResults</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_DuplicateCheckResult">
+      <DisplayName>arup_DuplicateCheckResult</DisplayName>
+      <UniqueName>arup_arup_DuplicateCheckResult</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_lead_detailssection_html">
+      <DisplayName>arup_lead_detailssection_html</DisplayName>
+      <UniqueName>arup_arup_lead_detailssection_html</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_Relationship_Interactions">
+      <DisplayName>arup_Relationship_Interactions</DisplayName>
+      <UniqueName>arup_arup_Relationship_Interactions</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_UploadAttachments">
+      <DisplayName>arup_UploadAttachments</DisplayName>
+      <UniqueName>arup_arup_UploadAttachments</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_bidreview">
+      <DisplayName>ccrm_bidreview</DisplayName>
+      <UniqueName>arup_ccrm_bidreview</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_bidreview.htm">
+      <DisplayName>ccrm_bidreview.html</DisplayName>
+      <UniqueName>ccrm_bidreview</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+      <WebResourceLanguage>English (United States)</WebResourceLanguage>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_bidreviewjcloseout">
+      <DisplayName>ccrm_bidreviewjcloseout</DisplayName>
+      <UniqueName>arup_ccrm_bidreviewjcloseout</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_BidReview_Label">
+      <DisplayName>ccrm_BidReview_Label</DisplayName>
+      <UniqueName>arup_ccrm_BidReview_Label</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_BidReview_Risk">
+      <DisplayName>ccrm_BidReview_Risk</DisplayName>
+      <UniqueName>arup_ccrm_BidReview_Risk</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_BidReview_RiskFactors">
+      <DisplayName>ccrm_BidReview_RiskFactors</DisplayName>
+      <UniqueName>arup_ccrm_BidReview_RiskFactors</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_clientoverview">
+      <DisplayName>ccrm_clientoverview</DisplayName>
+      <UniqueName>arup_ccrm_clientoverview</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_clientriskdec01">
+      <DisplayName>ccrm_clientriskdec01</DisplayName>
+      <UniqueName>arup_ccrm_clientriskdec01</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_ContactOverview">
+      <DisplayName>ccrm_ContactOverview</DisplayName>
+      <UniqueName>arup_ccrm_ContactOverview</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_contractriskdesc01">
+      <DisplayName>ccrm_contractriskdesc01</DisplayName>
+      <UniqueName>arup_ccrm_contractriskdesc01</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_CRMSuperUsers">
+      <DisplayName>ccrm_CRMSuperUsers</DisplayName>
+      <UniqueName>arup_ccrm_CRMSuperUsers</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_CRMTabs">
+      <DisplayName>ccrm_CRMTabs</DisplayName>
+      <UniqueName>arup_ccrm_CRMTabs</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_duplicatebids">
+      <DisplayName>ccrm_duplicatebids</DisplayName>
+      <UniqueName>arup_ccrm_duplicatebids</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_eventsguidance">
+      <DisplayName>ccrm_eventsguidance</DisplayName>
+      <UniqueName>arup_ccrm_eventsguidance</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_feesriskdesc01">
+      <DisplayName>ccrm_feesriskdesc01</DisplayName>
+      <UniqueName>arup_ccrm_feesriskdesc01</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_GoogleMap.html">
+      <DisplayName>ccrm_GoogleMap</DisplayName>
+      <UniqueName>arup_ccrm_GoogleMap</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_HeaderBlank">
+      <DisplayName>ccrm_HeaderBlank</DisplayName>
+      <UniqueName>arup_ccrm_HeaderBlank</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_headerriskdesc01">
+      <DisplayName>ccrm_headerriskdesc01</DisplayName>
+      <UniqueName>arup_ccrm_headerriskdesc01</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_homepage.html">
+      <DisplayName>ccrm_homepage</DisplayName>
+      <UniqueName>arup_ccrm_homepage</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_marketingviewer">
+      <DisplayName>ccrm_marketingviewer</DisplayName>
+      <UniqueName>arup_ccrm_marketingviewer</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_multiselect2.htm">
+      <DisplayName>ccrm_multiselect2</DisplayName>
+      <UniqueName>arup_ccrm_multiselect2</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_mycrmview">
+      <DisplayName>ccrm_mycrmview</DisplayName>
+      <UniqueName>arup_ccrm_mycrmview</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_OpenAdvancedFind">
+      <DisplayName>ccrm_OpenAdvancedFind</DisplayName>
+      <UniqueName>arup_ccrm_OpenAdvancedFind</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_OpportunityProcessFlow.html">
+      <DisplayName>ccrm_OpportunityProcessFlow</DisplayName>
+      <UniqueName>arup_ccrm_OpportunityProcessFlow</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_ParticipantsList.html">
+      <DisplayName>ccrm_ParticipantsList</DisplayName>
+      <UniqueName>arup_ccrm_ParticipantsList</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_possjobfooter">
+      <DisplayName>ccrm_possjobfooter</DisplayName>
+      <UniqueName>arup_ccrm_possjobfooter</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_progriskdesc01">
+      <DisplayName>ccrm_progriskdesc01</DisplayName>
+      <UniqueName>arup_ccrm_progriskdesc01</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_projectriskdesc01">
+      <DisplayName>ccrm_projectriskdesc01</DisplayName>
+      <UniqueName>arup_ccrm_projectriskdesc01</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_RedirectAnnouncements.html">
+      <DisplayName>ccrm_RedirectAnnouncements</DisplayName>
+      <UniqueName>arup_ccrm_RedirectAnnouncements</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_RedirectAnnouncements2.html">
+      <DisplayName>ccrm_RedirectAnnouncements2</DisplayName>
+      <UniqueName>arup_ccrm_RedirectAnnouncements2</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_RedirectBidManagerDashboardSRS.html">
+      <DisplayName>ccrm_RedirectBidManagerDashboardSRS</DisplayName>
+      <UniqueName>arup_ccrm_RedirectBidManagerDashboardSRS</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_RedirectCountriedWorldMapSRS.html">
+      <DisplayName>ccrm_RedirectCountriedWorldMapSRS</DisplayName>
+      <UniqueName>arup_ccrm_RedirectCountriedWorldMapSRS</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_RedirectRegionsWorldMapSRS.html">
+      <DisplayName>ccrm_RedirectRegionsWorldMapSRS</DisplayName>
+      <UniqueName>arup_ccrm_RedirectRegionsWorldMapSRS</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_reportmenuviewer">
+      <DisplayName>ccrm_reportmenuviewer</DisplayName>
+      <UniqueName>arup_ccrm_reportmenuviewer</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_reportviewer">
+      <DisplayName>ccrm_reportviewer</DisplayName>
+      <UniqueName>arup_ccrm_reportviewer</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_reportviewerorg">
+      <DisplayName>ccrm_reportviewerorg</DisplayName>
+      <UniqueName>arup_ccrm_reportviewerorg</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_SubscriptionIntro">
+      <DisplayName>ccrm_SubscriptionIntro</DisplayName>
+      <UniqueName>arup_ccrm_SubscriptionIntro</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_subscriptionviewer">
+      <DisplayName>ccrm_subscriptionviewer</DisplayName>
+      <UniqueName>arup_ccrm_subscriptionviewer</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_techriskdesc01">
+      <DisplayName>ccrm_techriskdesc01</DisplayName>
+      <UniqueName>arup_ccrm_techriskdesc01</UniqueName>
+      <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\sc_MultiSelect.htm">
+      <DisplayName>sc_MultiSelect</DisplayName>
+      <UniqueName>arup_sc_MultiSelect</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\CRM\Microsoft.CrmDeveloperTools.12.targets" />-->
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+			 Other similar extension points exist, see Microsoft.Common.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

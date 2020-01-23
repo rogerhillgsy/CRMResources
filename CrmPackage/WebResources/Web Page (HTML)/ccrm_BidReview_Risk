@@ -1,0 +1,78 @@
+<html lang="en-us"><head><title>Risk Factor User Notes</title>
+<style type="text/css">
+    body
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 12px;
+        border: 0 0 0 0;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        color: #000000;
+        text-align: left;
+    }
+    
+    tbody
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 11px;
+    }
+    H1
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 14px;
+        font-weight: bold;
+		padding:0 0 0 0; 
+    }
+    table, td
+    {
+        border: 1px solid black;
+    }
+    
+ 
+</style>
+
+<meta charset="utf-8">
+</head><body>
+<table cellSpacing="0" cellPadding="5" width="100%">
+<tbody>
+<tr><td vAlign="top" width="30%">
+<h1>Typical low risk factors</h1></td>
+<td vAlign="top" width="30%">
+<h1>Typical medium risk factors</h1></td>
+<td vAlign="top" width="30%">
+<h1>Typical high risk factors</h1></td>
+<td vAlign="top" width="5%">
+<h1>Refer Section</h1></td></tr>
+<tr>
+<td vAlign="top" width="20%">Known client. Experienced. Established. Direct or single point of contact with client. Major client in the market. Prime Agency work. No claims history. </td>
+<td vAlign="top" width="25%">Uncertain if client can afford scheme. Some evidence of financial substance. No previous experience of client. Client exposed to unstable markets. Indirect client contact. </td>
+<td vAlign="top" width="25%">Unfamiliarity with the client's business. No evidence of financial stability. Unsatisfactory previous experience with no mitigating factors. Claims history exists. </td>
+<td vAlign="top"><b>C</b> </td></tr>
+<tr>
+<td vAlign="top" width="20%">Easily achievable. Arup activity not on critical path. No overlap between design and construction programmes </td>
+<td vAlign="top" width="20%">Programme unrealistic. Programme tied to production deadlines. Arup activities on critical path. Cost build-up is sensitive to project delay. Some programme overlap. </td>
+<td vAlign="top" width="20%">Serious doubts as to whether program can be achieved. Penalties for non-achievement. Multiple critical paths. Strong overlap between design &amp; construction activities. </td>
+<td vAlign="top"><b>D</b> </td></tr>
+<tr>
+<td vAlign="top" width="20%">Standard contract terms. English language and UK Law. Proposal explicit on what has / has not been allowed for (qualified tender). Excludes items not foreseen by client. </td>
+<td vAlign="top" width="20%">Non-standard contract terms but reviewed and accepted by Legal Group. Governed by Non-UK but first world Law. Design &amp; Build or novation to Contractor. </td>
+<td vAlign="top" width="20%">Non-standard contract terms. Legal Group had outstanding concerns. Contract not governed by UK or first world Law. Contract not in English. Design &amp; Build. </td>
+<td vAlign="top"><b>E</b> </td></tr>
+<tr>
+<td vAlign="top" width="20%">Stable currency (GBP, USD, EUR HKD etc) with minimal unmatched costs. Strong cash flow. Remuneration on time basis. Contingencies identified </td>
+<td vAlign="top" width="20%">Stable currency but with unmatched currency of costs and income. Target cost with/without pain/gain. Lack of comparable job costs with which to compare. </td>
+<td vAlign="top" width="20%">Unstable currency. Currency subject to exchange controls. Lump sum. Link between fees &amp; deliverables. Poor cash flow. No contingencies. </td>
+<td vAlign="top"><b>F</b> </td></tr>
+<tr>
+<td vAlign="top" width="20%">Previous experience in activity fields. Low technical specification. Minimal dependence on inputs or data from others. Clear brief. </td>
+<td vAlign="top" width="20%">Limited previous experience in field. Some dependence on inputs from others. Some technical risk. Innovation required. Brief unclear. </td>
+<td vAlign="top" width="20%">No experience in field. Complex. Cutting edge. High technical requirements. Vague brief. Significant dependence on inputs or data from others, which is critical to success. </td>
+<td vAlign="top"><b>G</b> </td></tr>
+<tr>
+<td vAlign="top" width="20%">Home territory or country where we have previous positive experience of working. Category A country. Competent team. In-house resources readily available. Strengths/weakness of stakeholders known. Clear brief, roles, responsibilities etc. </td>
+<td vAlign="top" width="20%">Non-home territory but stable politically &amp; economically. Non-penal tax regime. Previous experience of licensing requirements. Language is not a concern. Category B Country. Multi-office working has been addressed &amp; issues resolved. </td>
+<td vAlign="top" width="20%">Economically &amp; politically unstable country. Penal tax regime. No previous experience. Significant language barriers. Category C country. High profile project. Project uncertainties &amp; complexities exist. Issues around multi-office working unresolved. </td>
+<td vAlign="top"><b>H1<br><br>H2</b> </td></tr></tbody></table><br>
+</body></html>

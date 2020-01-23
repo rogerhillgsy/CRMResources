@@ -1,0 +1,105 @@
+<HTML lang=en-us><HEAD><TITLE>Risk Factor User Notes</TITLE>
+<STYLE type=text/css>
+    body
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 12px;
+        border: 0 0 0 0;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        color: #000000;
+        text-align: left;
+    }
+    
+    tbody
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 11px;
+    }
+    H1
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 14px;
+        font-weight: bold;
+		padding:0 0 0 0; 
+    }
+    table, td
+    {
+        border: 1px solid black;
+    }
+    
+ 
+</STYLE>
+
+<META charset=utf-8></HEAD>
+<BODY>
+<TABLE cellSpacing=0 cellPadding=5 width="100%">
+<TBODY>
+<TR>
+<TD vAlign=top rowSpan=7 width="20%">
+<DIV style="FONT-SIZE: 13px"><B>User Notes.</B> This template is both a checklist to help prepare suitable proposals and a record of the review that occurs near the end of the bid process, before the proposal is issued. As part of the bid process, an assessment of commercial risk should be made. For each of the risk factors in the table on the right, judge risk to be low, medium or high and indicate this on the right of the table. For any aspect judged to be medium or high risk the relevant section of this review record should be completed and discussed with the bid reviewers. For low risk areas, completion of the relevant section is optional.</DIV></TD>
+<TD vAlign=top width="10%">
+<H1>Risk Areas</H1></TD>
+<TD vAlign=top width="20%">
+<H1>Typical low risk factors</H1></TD>
+<TD vAlign=top width="25%">
+<H1>Typical medium risk factors</H1></TD>
+<TD vAlign=top width="25%">
+<H1>Typical high risk factors</H1></TD>
+<TD vAlign=top width="5%">
+<H1>Risk</H1></TD>
+<TD vAlign=top>Refer Section </TD></TR>
+<TR>
+<TD vAlign=top width="10%"><EM>Client</EM> </TD>
+<TD vAlign=top width="20%">Known client. Experienced. Established. Direct or single point of contact with client. Major client in the market. Prime Agency work. No claims history. </TD>
+<TD vAlign=top width="25%">Uncertain if client can afford scheme. Some evidence of financial substance. No previous experience of client. Client exposed to unstable markets. Indirect client contact. </TD>
+<TD vAlign=top width="25%">Unfamiliarity with the client's business. No evidence of financial stability. Unsatisfactory previous experience with no mitigating factors. Claims history exists. </TD>
+<TD vAlign=top width="5%"><B>L<BR><BR>M<BR><BR>H</B> </TD>
+<TD vAlign=top><B>C</B> </TD></TR>
+<TR>
+<TD vAlign=top width="10%"><EM>Programme (Schedule) of Work</EM> </TD>
+<TD vAlign=top width="20%">Easily achievable. Arup activity not on critical path. No overlap between design and construction programmes </TD>
+<TD vAlign=top width="20%">Programme unrealistic. Programme tied to production deadlines. Arup activities on critical path. Cost build-up is sensitive to project delay. Some programme overlap. </TD>
+<TD vAlign=top width="20%">Serious doubts as to whether program can be achieved. Penalties for non-achievement. Multiple critical paths. Strong overlap between design &amp; construction activities. </TD>
+<TD vAlign=top width="5%"><B>L<BR><BR>M<BR><BR>H</B> </TD>
+<TD vAlign=top><B>D</B> </TD></TR>
+<TR>
+<TD vAlign=top width="10%"><EM>Contract Terms and Liabilities</EM> </TD>
+<TD vAlign=top width="20%">Standard contract terms. English language and UK Law. Proposal explicit on what has / has not been allowed for (qualified tender). Excludes items not foreseen by client. </TD>
+<TD vAlign=top width="20%">Non-standard contract terms but reviewed and accepted by Legal Group. Governed by Non-UK but first world Law. Design &amp; Build or novation to Contractor. </TD>
+<TD vAlign=top width="20%">Non-standard contract terms. Legal Group had outstanding concerns. Contract not governed by UK or first world Law. Contract not in English. Design &amp; Build. </TD>
+<TD vAlign=top width="5%"><B>L<BR><BR>M<BR><BR>H</B> </TD>
+<TD vAlign=top><B>E</B> </TD></TR>
+<TR>
+<TD vAlign=top width="10%"><EM>Fees &amp; Financial</EM> </TD>
+<TD vAlign=top width="20%">Stable currency (GBP, USD, EUR HKD etc) with minimal unmatched costs. Strong cash flow. Remuneration on time basis. Contingencies identified </TD>
+<TD vAlign=top width="20%">Stable currency but with unmatched currency of costs and income. Target cost with/without pain/gain. Lack of comparable job costs with which to compare. </TD>
+<TD vAlign=top width="20%">Unstable currency. Currency subject to exchange controls. Lump sum. Link between fees &amp; deliverables. Poor cash flow. No contingencies. </TD>
+<TD vAlign=top width="5%"><B>L<BR><BR>M<BR><BR>H</B> </TD>
+<TD vAlign=top><B>F</B> </TD></TR>
+<TR>
+<TD vAlign=top width="10%"><EM>Technical Issues and Client's Brief</EM> </TD>
+<TD vAlign=top width="20%">Previous experience in activity fields. Low technical specification. Minimal dependence on inputs or data from others. Clear brief. </TD>
+<TD vAlign=top width="20%">Limited previous experience in field. Some dependence on inputs from others. Some technical risk. Innovation required. Brief unclear. </TD>
+<TD vAlign=top width="20%">No experience in field. Complex. Cutting edge. High technical requirements. Vague brief. Significant dependence on inputs or data from others, which is critical to success. </TD>
+<TD vAlign=top width="5%"><B>L<BR><BR>M<BR><BR>H</B> </TD>
+<TD vAlign=top><B>G</B> </TD></TR>
+<TR>
+<TD vAlign=top width="10%"><EM>Project, Project Country, Team, Resources</EM> </TD>
+<TD vAlign=top width="20%">Home territory or country where we have previous positive experience of working. Category A country. Competent team. In-house resources readily available. Strengths/weakness of stakeholders known. Clear brief, roles, responsibilities etc. </TD>
+<TD vAlign=top width="20%">Non-home territory but stable politically &amp; economically. Non-penal tax regime. Previous experience of licensing requirements. Language is not a concern. Category B Country. Multi-office working has been addressed &amp; issues resolved. </TD>
+<TD vAlign=top width="20%">Economically &amp; politically unstable country. Penal tax regime. No previous experience. Significant language barriers. Category C country. High profile project. Project uncertainties &amp; complexities exist. Issues around multi-office working unresolved. </TD>
+<TD vAlign=top width="5%"><B>L<BR><BR>M<BR><BR>H</B> </TD>
+<TD vAlign=top><B>H1<BR><BR>H2</B> </TD></TR></TBODY></TABLE><BR>
+<TABLE style="TEXT-ALIGN: center; BACKGROUND-COLOR: #c0c0c0" cellSpacing=0 cellPadding=5 width="100%">
+<TBODY>
+<TR>
+<TD width="20%">
+<H1>Review Area</H1></TD>
+<TD width="28%">
+<H1>Bid Managers notes</H1>(and references to attachments where applicable)</TD>
+<TD width="27%">
+<H1>Comments, Reviewers responses, actions required etc.</H1></TD>
+<TD width="25%">Action Completed? <BR>By Whom/Date</TD></TR></TBODY></TABLE></BODY></HTML>

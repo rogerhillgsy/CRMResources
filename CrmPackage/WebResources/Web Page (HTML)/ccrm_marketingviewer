@@ -1,0 +1,12 @@
+<HTML><HEAD><TITLE>Untitled Page</TITLE>
+<META charset=utf-8></HEAD>
+<BODY>﻿ ﻿ 
+<STYLE type=text/css> 
+html {height:100%}
+body {
+margin:0;
+height:100%;
+overflow:hidden
+}
+</STYLE>
+<IFRAME style="WIDTH: 100%; HEIGHT: 100%" id=reportContainer src="http://glosrsp01/ReportServer/Pages/ReportViewer.aspx?%2fArupGroup_MSCRM%2fMyMarketingv2&amp;rc%3AParameters=Collapsed&amp;rc%3AToolbar=False" frameBorder=0 scrolling=yes></IFRAME></BODY></HTML>

@@ -1,0 +1,298 @@
+<html><head>
+    <style type="text/css">
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            background-color: #32325F;
+            color: white;
+        }
+
+        @keyframes blink {
+            /**
+        * At the start of the animation the dot
+        * has an opacity of .2
+        */
+            0% {
+                opacity: .2;
+            }
+            /**
+        * At 20% the dot is fully visible and
+        * then fades out slowly
+        */
+            20% {
+                opacity: 1;
+            }
+            /**
+        * Until it reaches an opacity of .2 and
+        * the animation can start again
+        */
+            100% {
+                opacity: .2;
+            }
+        }
+
+        .saving span {
+            /**
+        * Use the blink animation, which is defined above
+        */
+            animation-name: blink;
+            /**
+        * The animation should take 1.4 seconds
+        */
+            animation-duration: 1.4s;
+            /**
+        * It will repeat itself forever
+        */
+            animation-iteration-count: infinite;
+            /**
+        * This makes sure that the starting style (opacity: .2)
+        * of the animation is applied before the animation starts.
+        * Otherwise we would see a short flash or would have
+        * to set the default styling of the dots to the same
+        * as the animation. Same applies for the ending styles.
+        */
+            animation-fill-mode: both;
+        }
+
+            .saving span:nth-child(2) {
+                /**
+        * Starts the animation of the third dot
+        * with a delay of .2s, otherwise all dots
+        * would animate at the same time
+        */
+                animation-delay: .2s;
+            }
+
+            .saving span:nth-child(3) {
+                /**
+        * Starts the animation of the third dot
+        * with a delay of .4s, otherwise all dots
+        * would animate at the same time
+        */
+                animation-delay: .4s;
+            }
+    </style>
+    <link href="arup_BootStrap_MinCSS.css" rel="stylesheet">
+    <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
+    <script src="ccrm_/JavaScripts/Lib/SDK.REST.js" type="text/javascript"></script>
+    <script src="ccrm_/JavaScripts/Lib/SDK.MetaData.js" type="text/javascript"></script>
+    <script src="ccrm_/JavaScripts/Lib/XrmServiceToolkit.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+
+        function readURL() {
+            debugger;
+            document.getElementById('myH2').innerHTML = "";
+            var input = document.getElementById('filesToUpload');
+            var list = document.getElementById('fileList');
+
+            //empty list for now...
+            while (list.hasChildNodes()) {
+                list.innerHTML = '';
+            }
+
+            //for every file...
+            for (var x = 0; x < input.files.length; x++) {
+                //add to list
+                if (input.files[x].size < 20000000) {
+                    var li = document.createElement('li');
+                    li.style.color = "blue";
+                    li.style.fontSize = "15px";
+                    li.innerHTML = (x + 1) + ': ' + input.files[x].name;
+                    list.appendChild(li);
+                }
+                else
+                {
+                    document.getElementById('myH2').innerText = "Error occured while uploading";
+                    document.getElementById('myH2').style.color = "red"
+                    // document.getElementById('myH2').style.fontsize = "15px"
+                    document.getElementById('tblfileupload').style.display = 'none';
+                    alert("file size(" + input.files[x].size + ") the maximum allowed size is set to : 20MB");
+                }
+            }
+            //  document.getElementById("testform").reset();
+        }
+
+        function processFiles() {
+            try{
+                var filelist = document.getElementById('filesToUpload').files;
+                // Create Folder
+                 var folderid = CreateorRetrieveFolder();
+                // alert("folderid" + folderid);
+
+                 document.getElementById('showSpinner').style.display = 'block';
+                 document.getElementById('spinnerImage').style.display = 'block';
+                 for (var i = 0; i < filelist.length; i++) {
+                    writefiles(filelist[i], folderid,i, filelist.length);
+                }
+                document.getElementById("testform").reset();
+                document.getElementById('fileList').innerHTML = '';
+                document.getElementById('tblfileupload').style.display = 'none';
+                document.getElementById("filesToUpload").value = "";
+            }
+            catch(exception)
+            {
+                document.getElementById("testform").reset();
+                document.getElementById('fileList').innerHTML = '';
+                document.getElementById('myH2').innerText = "Error occured while uploading";
+                document.getElementById('myH2').style.color = "red"
+               // document.getElementById('myH2').style.fontsize = "15px"
+                document.getElementById('tblfileupload').style.display = 'none';
+                document.getElementById('showSpinner').style.display = 'none';
+            }
+        }
+
+        function writefiles(file,folderid,iteration,length) {
+            // var data;
+            debugger;
+            var reader = new FileReader();
+            var fileType = file.type;
+            reader.onload = function () {
+                CrmProcessingforNotes(this.result, fileType,folderid,file.name,iteration,length);
+            }
+            reader.readAsDataURL(file);
+        }
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+        function CreateorRetrieveFolder()
+        {
+            var entity = {};
+            var urlParams = new URLSearchParams(window.location.search);
+
+            var frameworkguid = getUrlParameter('id');
+           // var frameworkguid = parent.Xrm.Page.data.entity.getId().replace('{', '').replace('}', '');
+            var newEntityId;
+            entity.ccrm_FrameworkId = {
+                Id: frameworkguid,
+                LogicalName: "arup_framework"
+            };
+            if (document.getElementById("ChkIsSecured").checked == true) {
+                entity.arup_IsSecured = false;
+                entity.arup_name = "Documents Folder";
+            }
+            else {
+                entity.arup_IsSecured = true;
+                entity.arup_name = "Secured Documents Folder";
+            }
+            var req = new XMLHttpRequest();
+            req.open("POST", encodeURI(Xrm.Page.context.getClientUrl() + "/XRMServices/2011/OrganizationData.svc/arup_frameworkfolderSet"), false);
+            req.setRequestHeader("Accept", "application/json");
+            req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            req.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    this.onreadystatechange = null;
+                    if (this.status === 201) {
+                        var result = JSON.parse(this.responseText).d;
+                         newEntityId = result.arup_frameworkfolderId;
+                       // alert("folder" + newEntityId);
+                    } else {
+                        Xrm.Utility.alertDialog(this.statusText);
+                    }
+                }
+            };
+            req.send(JSON.stringify(entity));
+            return newEntityId;
+        }
+
+        function CrmProcessingforNotes(reader, type, folderid, fileName,i,len)
+        {
+            var documentBody = reader.split(',')[1];
+            //alert(documentBody);
+            var entity = {};
+        //    entity.Subject = "Framework Files";
+            entity.DocumentBody = documentBody;
+            entity.FileName = fileName;
+            entity.MimeType = type;
+          //  entity.NoteText = "Framework Files";
+            entity.ObjectId = {
+                Id: folderid,
+                LogicalName: "arup_frameworkfolder"
+            };
+
+            var req = new XMLHttpRequest();
+            req.open("POST", encodeURI(Xrm.Page.context.getClientUrl() + "/XRMServices/2011/OrganizationData.svc/AnnotationSet"), false);
+            req.setRequestHeader("Accept", "application/json");
+            req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            req.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    this.onreadystatechange = null;
+                    if (this.status === 201) {
+                        var result = JSON.parse(this.responseText).d;
+                        var newEntityId = result.AnnotationId;
+                        if(i == len-1)
+                        {
+                            document.getElementById('myH2').innerText = "Documents uploaded successfully";
+                            document.getElementById('myH2').style.color = "green";
+                            //document.getElementById('myH2').style.fontsize = "15px";
+                            document.getElementById('showSpinner').style.display = 'none';
+                            document.getElementById('spinnerImage').style.display = 'none';
+                        }
+                    } else {
+                        Xrm.Utility.alertDialog(this.statusText);
+                        document.getElementById('myH2').innerText = "Error occured while uploading";
+                        document.getElementById('myH2').style.color = "red"
+                       // document.getElementById('myH2').style.fontsize = "15px";
+                        document.getElementById('showSpinner').style.display = 'none';
+                        document.getElementById('spinnerImage').style.display = 'none';
+                    }
+                }
+
+            };
+            req.send(JSON.stringify(entity));
+        }
+
+    </script>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+<meta></head>
+<body onfocusout="parent.setEmailRange();" style="overflow-wrap: break-word;">
+    <form enctype="multipart/form-data" id="testform">
+        <table align="left" style="margin-left : 90px; font-size:15px" id="tblfileupload">
+            <tbody>
+                <tr>
+                    <td colspan="6">
+                        <label for="filesToUpload">
+                        </label>
+                        <input id="filesToUpload" type="file" style="background-color:white;color:black;font-size:15px" class="btn btn-info btn-lg btn-block" name="filesToUpload[]" multiple="" onchange="readURL()">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <ul id="fileList"></ul>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3">
+                        <input type="checkbox" id="ChkIsSecured" value="Secure" style="margin-top: 15px" class="form-check-input">
+                        <label class="form-check-label" for="ChkIsSecured">Check here if you want to make the document openly accessible to all CRM users</label>
+                        <input type="button" class="btn btn-secondary" style="font-size:15px" id="Upload" onclick="processFiles()" value="Upload">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="saving" style="display:none; margin-left : 20px; margin-top : 30px; font-size:20px" id="showSpinner">Uploading Documents<span>.</span><span>.</span><span>.</span></p>
+        <img src="arup_processingloader" id="spinnerImage" style="display:none; margin-left : 280px; margin-top : 160px;">
+        <h5 id="myH2" style="margin-left : 20px; margin-top : 30px; font-size:x-large"></h5>
+
+    </form>
+
+
+
+
+</body></html>

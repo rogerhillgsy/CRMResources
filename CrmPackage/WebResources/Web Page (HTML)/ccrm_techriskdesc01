@@ -1,0 +1,46 @@
+<html><head><title>Risk Factor User Notes</title>
+<style type="text/css">
+    body
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 12px;
+        border: 0 0 0 0;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        color: #000000;
+        text-align: left;
+    }
+    
+    tbody
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 11px;
+    }
+    H1
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 14px;
+        font-weight: bold;
+		padding:0 0 0 0; 
+    }
+    table, td
+    {
+        border: 1px solid black;
+    }
+    
+ 
+</style>
+
+<meta charset="utf-8">
+</head><body>
+<table width="100%" cellspacing="0" cellpadding="5">
+<tbody>
+
+<tr>
+<td width="20%" valign="top">Previous experience in activity fields. Low technical specification. Minimal dependence on inputs or data from others. Clear brief. </td>
+<td width="20%" valign="top">Limited previous experience in field. Some dependence on inputs from others. Some technical risk. Innovation required. Brief unclear. </td>
+<td width="20%" valign="top">No experience in field. Complex. Cutting edge. High technical requirements. Vague brief. Significant dependence on inputs or data from others, which is critical to success. </td></tr>
+</tbody></table><br>
+</body></html>

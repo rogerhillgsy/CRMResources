@@ -1,0 +1,198 @@
+<html><head>
+    <meta>
+<meta><meta></head>
+
+<body style="word-wrap: break-word;">
+
+    <meta charset="utf-8">
+
+
+    <title>CRM Landing Page</title>
+    <base target="_parent">
+    <style>
+        body {
+            font-family: "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
+            font-weight: 600;
+            color: #5a5959;
+            background-color: rgba(221, 221, 221, 0.5);
+        }
+
+        #mainContainer {
+            width: 780px;
+            margin-left: 20px;
+        }
+
+        p {
+            margin: 11px 10px 5px 10px;
+        }
+
+        .row {
+            background-color: white;
+            height: 100px;
+            margin: 12px 0 0 0;
+            position: relative;
+        }
+
+        .header {
+            float: left;
+            width: 175px;
+            height: 50px;
+        }
+
+        .link,
+        .linkPortal {
+            float: left;
+            width: 170px;
+            height: 70px;
+            margin: 15px 15px 15px 15px;
+            background-color: rgba(114, 114, 114, 0.70);
+            text-decoration: none;
+            text-align: center;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .linkPortal {
+            background-color: rgba(0, 33, 82, 0.5);
+        }
+
+        .linkCont {
+            float: left;
+            width: 350px;
+            height: 90px;
+        }
+
+        .smallLink {
+            float: left;
+            width: 250px;
+            height: 25px;
+            margin: 5px 15px 5px 15px;
+            background-color: rgba(114, 114, 114, 0.70);
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+        }
+
+        a:hover {
+            background-color: rgba(114, 114, 114, 1);
+            font-weight: 600;
+            cursor: hand;
+        }
+
+        .linkPortal:hover {
+            background-color: rgba(0, 33, 82, 1);
+            color: white;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        h2 {
+            color: rgba(90, 89, 89, 0.9);
+            margin: 15px 0 0 15px;
+            font-weight: 500;
+        }
+
+        h3 {
+            margin: 0 0 2px 15px;
+            color: rgba(90, 89, 89, 0.9);
+            font-size: large;
+            font-weight: 600;
+        }
+        /* Tooltip container */
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        /* Tooltip text */
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            background: #B0E0E6;
+            border-radius: 5px;
+            top: 35px;
+            color: black;
+            padding: 5px 15px;
+            position: absolute;
+            z-index: 1;
+            width: 350px;
+        }
+        /* Show the tooltip text when you mouse over the tooltip container */
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+    </style>
+    <script>
+        function LoadUrl(url) {
+            var o = new Object();
+            o.uri = url;
+            if (window.top && window.top.document.getElementById("navBar") && window.top.document.getElementById("navBar").control.raiseNavigateRequest)
+                window.top.document.getElementById("navBar").control.raiseNavigateRequest(o);
+        }
+    </script>
+
+
+    <div id="mainContainer">
+        <h1>What do you want to do today?</h1>
+        <div class="row">
+            <div class="header">
+                <h2>Track Lead</h2>
+            </div>
+            <a class="link" onclick="LoadUrl('/_root/homepage.aspx?etc=4&amp;sitemappath=Workplace%7CMyWork%7Cnav_leads');">
+                <p>Create or update a Lead</p>
+            </a>
+        </div>
+        <div class="row">
+            <div class="header">
+                <h2>Manage Bids</h2>
+            </div>
+            <a class="link" onclick="LoadUrl('/_root/homepage.aspx?etc=3&amp;sitemappath=Workplace%7CMyWork%7Copportunity');">
+                <p>Create or update an Opportunity</p>
+            </a>
+            <a class="link" onclick="LoadUrl('_root/homepage.aspx?etc=3&amp;sitemappath=Workplace%7CMyWork%7Copportunity&amp;viewid=%7b792075D8-3711-E611-80E4-005056B55B13%7d&amp;viewtype=1039');">
+                <p>Review and approve an Opportunity</p>
+            </a>
+            <a class="link" onclick="LoadUrl('/_root/homepage.aspx?etc=10075&amp;sitemappath=Workplace%7CExtensions%7Cccrm_bidreview');">
+                <p>Do a Bid Review</p>
+            </a>
+        </div>
+        <div class="row">
+            <div class="header">
+                <h2>Get Insights</h2>
+            </div>
+            <a class="link" onclick="LoadUrl('/_root/homepage.aspx?etc=1&amp;sitemappath=Workplace%7CMyWork%7Caccount');">
+                <p>Find out about Clients</p>
+            </a>
+            <div class="linkCont">
+                <h3>Explore our Opportunity Pipeline</h3>
+                <a class="smallLink tooltip" onclick="LoadUrl('/_root/homepage.aspx?etc=3&amp;sitemappath=Workplace%7CMyWork%7Copportunity');"><span class="tooltiptext">Shows all internal AND external open opportunities relevant to you, sorted by fields.</span>in Screen View</a>
+                <a class="smallLink tooltip" onclick="LoadUrl('https://crm16-dev.arup.com/ArupDev/crmreports/viewer/viewer.aspx?action=filter&amp;helpID=Future%20Business%20List%20-%20PY.rdl&amp;id={FF6AB340-C1D9-E211-8706-D8D385B829F8}');"><span class="tooltiptext">Shows internal OR external open opportunities in a printable report, tailored by you.</span>in Report View</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="header">
+                <h2>Get Reports</h2>
+            </div>
+            <a class="link" onclick="LoadUrl('$webresource:ccrm_reportmenuviewer?sitemappath=Workplace%7CExtensions%7CtempId_634969528121524677');">
+                <p>Run and print Standard Reports</p>
+            </a>
+        </div>
+        <div class="row">
+            <div class="header">
+                <h2>Get Help</h2>
+            </div>
+            <a class="linkPortal" href="https://sharepoint.arup.com/communities/crmsp" target="_blank">
+                <p>Access the CRM Support Portal</p>
+            </a>
+        </div>
+    </div>
+
+
+
+</body></html>

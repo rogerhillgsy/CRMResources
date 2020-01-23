@@ -1,0 +1,96 @@
+﻿<html><head><title></title>
+<script type="text/javascript">
+    OnLoad = function () {
+        //        alert('OnLoad');
+        if (window.location.href.indexOf('webresourceeditor') != -1)
+            return;
+
+        var parentEntity = window.parent.Xrm.Page.data.entity;
+        var reporturl = window.parent.Xrm.Page.context.prependOrgName(
+                   "/crmreports/viewer/viewer.aspx?action=run&helpID=RecordHierarchy.rdl&id=%7b628CABBC-AB67-E211-A512-005056AF0014%7d&p:recordid="
+           + parentEntity.getId());
+        var reportFrame = document.getElementById("reportContainer");
+        reportFrame.src = reporturl;
+        reportFrame.onreadystatechange = function () {
+            if (reportFrame.readyState != "complete")
+                return;
+            var menubar = reportFrame.contentWindow.document.getElementById('crmMenuBar');
+            if (menubar != null) {
+                //alert('menubar');
+                menubar.parentNode.style.display = "none";
+                menubar.parentNode.setAttribute("style", "display:none;padding-bottom:5px");
+
+
+                var dummyDiv = reportFrame.contentWindow.document.getElementById('dummyDiv');
+
+                if (dummyDiv != null) {
+                    dummyDiv.setAttribute("style", "top: 0px; bottom: 0px; position: absolute;");
+                    dummyDiv.parentNode.style.top = '0px'
+
+                }
+            }
+
+
+            var resultsFrame = reportFrame.contentWindow.document.getElementById('resultFrame');
+
+            var timerId = window.setInterval(function () {
+                var resultsFrame = reportFrame.contentWindow.document.getElementById('resultFrame');
+                if (resultsFrame == null)
+                    return;
+
+                if (resultsFrame.contentWindow.document.getElementById('ParametersRowreportViewer') == null)
+                    return;
+
+                window.clearInterval(timerId);
+                resultsFrame.contentWindow.document.getElementById('ParametersRowreportViewer').style.display = "none";
+                resultsFrame.contentWindow.document.getElementById('ParametersRowreportViewer').nextSibling.style.display = "none";
+
+                var divTop = reportFrame.contentWindow.document.getElementById('divResultFrame');
+                divTop.setAttribute("style", "border-width:2px; border-color:#000000; top:0px;");
+            }, 1000);
+        }
+        //try chrome using browser agent
+        if (navigator.userAgent.indexOf('Chrome') != -1)
+            setTimeout(hideinChrome, 2000);
+        OnResizeComplete();
+    }
+
+    hideinChrome = function () {
+        var reportFrame = document.getElementById("reportContainer");
+        var chmenubar = reportFrame.contentWindow.document.getElementById('crmMenuBar');
+        if (chmenubar != null) {
+            chmenubar.parentNode.style.display = "none";
+            chmenubar.parentNode.setAttribute("style", "display:none;padding-bottom:5px");
+
+
+            var dummyDiv = reportFrame.contentWindow.document.getElementById('dummyDiv');
+
+            if (dummyDiv != null) {
+                dummyDiv.setAttribute("style", "top: 0px; bottom: 0px; position: absolute;");
+                dummyDiv.parentNode.style.top = '0px'
+
+            }
+            var resultsFrame = reportFrame.contentWindow.document.getElementById('resultFrame');
+            if (resultsFrame == null)
+                return;
+
+            if (resultsFrame.contentWindow.document.getElementById('ParametersRowreportViewer') == null)
+                return;
+
+            resultsFrame.contentWindow.document.getElementById('ParametersRowreportViewer').style.display = "none";
+            resultsFrame.contentWindow.document.getElementById('ParametersRowreportViewer').nextSibling.style.display = "none";
+            var divTop = reportFrame.contentWindow.document.getElementById('divResultFrame');
+            divTop.setAttribute("style", "border-width:2px; border-color:#000000; top:0px;");
+
+        }
+    };
+
+    OnResizeComplete = function () {
+        var fr = window.document.getElementById('reportContainer');
+        fr.style.width = (document.body.offsetWidth - 30) + 'px';
+        fr.style.height = (document.body.clientHeight - 30) + 'px';
+    }
+   </script>
+
+<meta charset="utf-8"></head>
+<body onload="OnLoad();" onresize="OnResizeComplete();"><iframe id="reportContainer" src="about:blank" style="width: 662px; height: 270px;"></iframe></body></html>

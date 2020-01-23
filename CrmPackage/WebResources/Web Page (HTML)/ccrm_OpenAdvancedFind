@@ -1,0 +1,10 @@
+<HTML><HEAD><TITLE></TITLE>
+<META charset=utf-8></HEAD>
+<BODY style="BACKGROUND-COLOR: #f6f8fa">
+<P><STRONG><FONT color=#999999 face=Arial>﻿Following Records in CRM</FONT></STRONG></P>
+<P><FONT size=2 face=Arial>You can follow and record in CRM where the '+follow' icon is available:</FONT>&nbsp;</P><SPAN>
+<P><SPAN>
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <IMG style="WIDTH: 165px; HEIGHT: 113px" alt="" src="ccrm_followshot" width=60 height=50> </P>
+<P></P>
+<P><FONT size=2 face=Arial>You can find more records to follow using CRM's 'Advanced Find' functionality. Click on the button below to launch 'Advanced Find' and start following records.</FONT></IMG></P></SPAN></IMG></SPAN>
+<P style="WIDTH: 663px; HEIGHT: 24px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <INPUT style="TEXT-ALIGN: center" onclick="window.open('http://crm-dev.arup.com/ArupDev/main.aspx?extraqs=&amp;pagetype=advancedfind');" value="Launch Advanced Find" type=button></P></BODY></HTML>

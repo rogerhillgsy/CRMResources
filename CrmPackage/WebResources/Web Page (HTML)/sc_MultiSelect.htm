@@ -1,0 +1,143 @@
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE></TITLE>
+<SCRIPT type=text/javascript src="sc_json2.js"></SCRIPT>
+
+<META charset=utf-8></HEAD>
+<BODY style="BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; BACKGROUND-COLOR: #f6f8fa; MARGIN: 0px; FONT-FAMILY: Segoe UI; FONT-SIZE: 11px; BORDER-TOP: 0px; BORDER-RIGHT: 0px" onload=onload()>
+<DIV id=MultiSelectField></DIV>
+<SCRIPT type=text/javascript>
+
+        var FORM_TYPE_CREATE = 1;
+        var FORM_TYPE_UPDATE = 2;
+        var FORM_TYPE_READ_ONLY = 3;
+        var FORM_TYPE_DISABLED = 4;
+        var FORM_TYPE_QUICK_CREATE = 5;
+        var FORM_TYPE_BULK_EDIT = 6;
+
+        var var_sc_optionset;
+        var var_sc_optionsetvalue;
+        var options;
+        var checkedValues;
+        var isDirty = false;
+        var html = "";
+
+        function onload() {
+            var formType = parent.Xrm.Page.ui.getFormType();
+            if (formType == FORM_TYPE_BULK_EDIT) {
+                displayMessage();
+            }
+            else {
+                init();
+            }
+        }
+
+        function init() {
+            getParameters();
+            getOptionSetValues();
+            getCheckedValues();
+            convertToMultiSelect();
+
+        }
+
+        function displayMessage() {
+            MultiSelectField.innerHTML = "This field cannot be displayed or edited in this form mode.";
+        }
+
+        function getParameters() {
+            var querystring = unescape(window.location.search.replace('?', '').replace('data=', ''));
+            var params = querystring.split(',');
+
+            for (var i = 0; i < params.length; i++) {
+                if (i == 0) {
+                    var_sc_optionset = params[i];
+                }
+                else if (i == 1) {
+                    var_sc_optionsetvalue = params[i];
+                }
+            }
+        }
+
+        //populate option-set values and integers
+        function getOptionSetValues() {
+            options = parent.Xrm.Page.getAttribute(var_sc_optionset).getOptions();
+        }
+
+        function getCheckedValues() {
+            var dirtyCheckedOptions = parent.Xrm.Page.getAttribute(var_sc_optionsetvalue).getValue();
+            if (dirtyCheckedOptions != null) {
+                checkedValues = dirtyCheckedOptions.split(';');
+            }
+            else {
+                checkedValues = '';
+            }
+
+        }
+
+        //Method to convert an optionset to multi select Option Set
+        function convertToMultiSelect() {
+
+            //var div = document.getElementById( 'MultiSelectField' );
+            //var addDiv = document.createElement( "<div style='overflow-y:auto; height:160px; border:1px #6699cc solid; background-color:#ffffff;' />" );
+            //MultiSelectField.appendChild( addDiv );
+            //            for ( var i = 0; i < options.length - 1; i++ )
+            //            {
+            //                var pOption = options[i];
+            //                if ( !isChecked( pOption.text ) )
+            //                    var addInput = document.createElement( "<input type='checkbox' style='border:none; width:25px; align:left;' />" );
+            //                else
+            //                    var addInput = document.createElement( "<input type='checkbox' checked='checked' style='border:none; width:25px; align:left;' />" );
+            //                var addLabel = document.createElement( "<label />" );
+            //                addLabel.innerText = pOption.text;
+            //                var addBr = document.createElement( "<br/>" ); //it's a 'br' flag
+            //                MultiSelectField.appendChild( addInput );
+            //                MultiSelectField.appendChild( addLabel );
+            //                MultiSelectField.appendChild( addBr );
+            //            }
+
+            for (var i = 0; i < options.length - 1; i++) {
+                var pOption = options[i];
+                if (!isChecked(pOption.text))
+                    html += "<input type='checkbox' class='multiselect_cb' onclick='makeDirty()' style='border:none; width:25px; align:left;' title='" + pOption.text + "'/>";
+                else
+                    html += "<input type='checkbox' class='multiselect_cb' checked='checked' onclick='makeDirty()' style='border:none; width:25px; align:left;' title='" + pOption.text + "'/>";
+
+                html += "<label>" + pOption.text + "</label>";
+                if (i != options.length - 2) {
+                    html += "<br/>"; //it's a 'br' flag 
+                }
+            }
+            MultiSelectField.innerHTML = html;
+
+        }
+
+        function makeDirty() {
+            isDirty = true;
+        }
+
+        function isChecked(ptext) {
+            for (var i = 0; i < checkedValues.length; i++) {
+                if (checkedValues[i] == ptext)
+                    return true;
+            }
+            return false;
+        }
+
+        function saveMultiSelect() {
+            if (isDirty) {
+                var divElement = document.getElementById("MultiSelectField");
+                var result = '';
+
+                for (var i = 0; i < divElement.childNodes.length; i++) {
+                    if (divElement.childNodes[i].type == "checkbox" && divElement.childNodes[i].checked) {
+                        result += divElement.childNodes[i].title + ";";
+                    }
+                }
+                //clear out the previous results from the field
+                parent.Xrm.Page.getAttribute(var_sc_optionsetvalue).setValue("");
+                //populate var_sc_optionsetvalue with the checked values
+                parent.Xrm.Page.getAttribute(var_sc_optionsetvalue).setValue(result);
+                isDirty = false;
+            }
+        }
+
+    </SCRIPT>
+</BODY></HTML>

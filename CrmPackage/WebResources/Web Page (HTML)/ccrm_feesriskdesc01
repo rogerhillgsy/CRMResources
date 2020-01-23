@@ -1,0 +1,46 @@
+<html><head><title>Risk Factor User Notes</title>
+<style type="text/css">
+    body
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 12px;
+        border: 0 0 0 0;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        color: #000000;
+        text-align: left;
+    }
+    
+    tbody
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 11px;
+    }
+    H1
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 14px;
+        font-weight: bold;
+		padding:0 0 0 0; 
+    }
+    table, td
+    {
+        border: 1px solid black;
+    }
+    
+ 
+</style>
+
+<meta charset="utf-8">
+</head><body>
+<table width="100%" cellspacing="0" cellpadding="5">
+<tbody>
+
+<tr>
+<td width="20%" valign="top">Stable currency (GBP, USD, EUR HKD etc) with minimal unmatched costs. Strong cash flow. Remuneration on time basis. Contingencies identified </td>
+<td width="20%" valign="top">Stable currency but with unmatched currency of costs and income. Target cost with/without pain/gain. Lack of comparable job costs with which to compare. </td>
+<td width="20%" valign="top">Unstable currency. Currency subject to exchange controls. Lump sum. Link between fees &amp; deliverables. Poor cash flow. No contingencies. </td></tr>
+</tbody></table><br>
+</body></html>

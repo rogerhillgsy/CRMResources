@@ -1,0 +1,25 @@
+<HTML><HEAD><TITLE>process flow</TITLE>
+<META charset=utf-8></HEAD>
+<BODY bgColor=#f6f8fa>
+<SCRIPT type=text/javascript>
+		//var oppoid = parent.window.Xrm.Page.data.entity.getId();
+		var phase = parent.window.Xrm.Page.getAttribute("ccrm_sys_phasename").getValue();
+		var stepName = parent.window.Xrm.Page.getAttribute("stepname").getValue();
+		if (stepName == 'Lost')
+		{
+			phase = 'Lost';
+		}
+		//document.write('id= '+ oppoid);
+		//document.write('phase= '+ phase);
+		if ( phase =='Lead')
+			document.write('<img src="../../WebResources/ccrm_OppoProcessFlow_Lead" />');
+		else if ( phase =='Possible Job – Bid in Development')
+			document.write('<img src="../../WebResources/ccrm_OppoProcessFlow_BidInDevelopment" />');
+		else if ( phase =='Possible Job – Bid Approved')
+			document.write('<img src="../../WebResources/ccrm_OppoProcessFlow_BidApproved" />');			
+		else if ( phase =='Bid Submitted')
+			document.write('<img src="../../WebResources/ccrm_OppoProcessFlow_BidSubmitted" />');			
+		else if ( phase =='Confirmed Job Approval – Received')
+			document.write('<img src="../../WebResources/ccrm_OppoProcessFlow_ConfirmedJobApprovalReceived" />');
+	</SCRIPT>
+</BODY></HTML>

@@ -1,0 +1,44 @@
+<html><head><title>Risk Factor User Notes</title>
+<style type="text/css">
+    body
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 12px;
+        border: 0 0 0 0;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        color: #000000;
+        text-align: left;
+    }
+    
+    tbody
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 11px;
+    }
+    H1
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 14px;
+        font-weight: bold;
+		padding:0 0 0 0; 
+    }
+    table, td
+    {
+        border: 1px solid black;
+    }
+    
+ 
+</style>
+
+<meta charset="utf-8">
+</head><body>
+<table width="100%" cellspacing="0" cellpadding="5">
+<tbody>
+<tr>
+<td width="20%" valign="top">Home territory or country where we have previous positive experience of working. Category A country. Competent team. In-house resources readily available. Strengths/weakness of stakeholders known. Clear brief, roles, responsibilities etc. </td>
+<td width="20%" valign="top">Non-home territory but stable politically &amp; economically. Non-penal tax regime. Previous experience of licensing requirements. Language is not a concern. Category B Country. Multi-office working has been addressed &amp; issues resolved. </td>
+<td width="20%" valign="top">Economically &amp; politically unstable country. Penal tax regime. No previous experience. Significant language barriers. Category C country. High profile project. Project uncertainties &amp; complexities exist. Issues around multi-office working unresolved. </td></tr></tbody></table><br>
+</body></html>

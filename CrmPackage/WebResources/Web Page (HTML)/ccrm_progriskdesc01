@@ -1,0 +1,45 @@
+<html><head><title>Risk Factor User Notes</title>
+<style type="text/css">
+    body
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 12px;
+        border: 0 0 0 0;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        color: #000000;
+        text-align: left;
+    }
+    
+    tbody
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 11px;
+    }
+    H1
+    {
+        font-family: Segoe UI, Tahoma, Arial;
+        font-size: 14px;
+        font-weight: bold;
+		padding:0 0 0 0; 
+    }
+    table, td
+    {
+        border: 1px solid black;
+    }
+    
+ 
+</style>
+
+<meta charset="utf-8">
+</head><body>
+<table width="100%" cellspacing="0" cellpadding="5">
+<tbody>
+<tr>
+<td width="20%" valign="top">Easily achievable. Arup activity not on critical path. No overlap between design and construction programmes </td>
+<td width="20%" valign="top">Programme unrealistic. Programme tied to production deadlines. Arup activities on critical path. Cost build-up is sensitive to project delay. Some programme overlap. </td>
+<td width="20%" valign="top">Serious doubts as to whether program can be achieved. Penalties for non-achievement. Multiple critical paths. Strong overlap between design &amp; construction activities. </td></tr>
+</tbody></table><br>
+</body></html>

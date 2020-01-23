@@ -1,0 +1,272 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Records with similar name</title>
+    <style type="text/css">
+        body {
+            font-family: Segoe UI, Tahoma, Arial;
+            background-color: #ffffff;
+            font-size: 14px;
+            position: initial;
+        }
+
+       td,tr {
+            font-family: Segoe UI, Tahoma, Arial;
+            font-style:normal;
+             /*display:table-cell;
+           border: 1px groove #808080;
+            padding: 8px;
+            background-color: #002050;
+            color: White;*/
+        }
+        thead, tfoot, th{  
+            border: 0.5px ridge #808080;
+           /* border-bottom-color:#ffffff;
+            border-top-color:#ffffff;*/
+            border-right-color:#ffffff;
+            border-left-color:#ffffff;
+            border-collapse :collapse;
+           
+            font-weight:normal;        
+        }
+        tfoot{
+            background-color: rgba(221, 221, 221, 0.5)
+
+        }
+
+        table {
+            border-collapse:collapse;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            font-size: 12px;
+        }
+
+        #wait
+        {
+           height:100%;
+           width: 100%;
+           margin: 0;
+           padding: 0;
+           border: 0;
+           vertical-align: middle;
+           text-align: center;
+
+        }
+    </style>
+
+    <script type="text/javascript">
+        document.onreadystatechange = function () {
+            if (document.readyState == "complete") {
+                var dataParam = getDataParam();
+                //on load - parameter passed from the form design
+                if (dataParam == "on load");
+                {
+                    getDupeCheckResults("on load");
+                }
+                //OnChange after retrieve complete - parameter passed from jscript
+                if (dataParam == "" || dataParam == "undefined" || dataParam == "onChange") {
+                    getDupeCheckResults("on change");
+                }
+                if (dataParam == "wait") {
+                    displayWaiting();
+                }
+            }
+        }
+
+        function getDupeCheckResults(dataPar) {
+            var dataParam = dataPar;
+            var strURL = getClientUrl();
+            var resJsonMsg = parent.Xrm.Page.getAttribute("arup_dupecheckresult").getValue();
+            var accName = parent.Xrm.Page.getAttribute("name").getValue();
+            //var resJsonMsg = "[{\"AccName\":\"name1\",\"guid\":\"B0D86709-67D3-E611-80F4-005056B55B13\",\"rank\":0.9},{\"AccName\":\"Organization Name\",\"guid\":\"A19071CF-85D5-E511-80E0-005056B55B13\",\"rank\":0.87}]";
+            if (resJsonMsg == null || accName == null) {
+                noDupes(dataParam);
+                return;
+            }
+
+            var list = JSON.parse(resJsonMsg);
+
+            if (list.length < 1) {
+                noDupes(dataParam);
+                return;
+            }
+
+            var parentAccId = parent.Xrm.Page.data.entity.getId().replace("{", "").replace("}", "");
+
+            //Create a table and header using the DOM
+            var oTable = document.createElement("table");
+            var oTHead = document.createElement("thead");
+            var oTHeadTR = document.createElement("tr");
+            var oTHeadTRTH1 = document.createElement("th");
+            oTHeadTRTH1.align = "left";
+            setText(oTHeadTRTH1, "Similar record");
+            var oTHeadTRTH2 = document.createElement("th");
+            oTHeadTRTH2.align = "left";
+            setText(oTHeadTRTH2, "City");
+            var oTHeadTRTH3 = document.createElement("th");
+            oTHeadTRTH3.align = "left";
+            setText(oTHeadTRTH3, "Rank");
+            oTHeadTR.appendChild(oTHeadTRTH1);
+            oTHeadTR.appendChild(oTHeadTRTH2);
+            oTHeadTR.appendChild(oTHeadTRTH3);
+            oTHead.appendChild(oTHeadTR);
+            oTable.appendChild(oTHead);
+            var oTBody = document.createElement("tbody");
+
+            var len = list.length < 5 ? list.length : 5;
+
+            for (var i = 0; i < len ; ++i) {
+                var acc = list[i];
+                var oTRow = document.createElement("tr");
+
+                var oTRowTD1 = document.createElement("td");
+                oTRowTD1.innerHTML = '<a href="' + strURL + "main.aspx?etn=account&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
+
+                var oTRowTD2 = document.createElement("td");
+                setText(oTRowTD2, acc.City);
+
+                var oTRowTD3 = document.createElement("td");
+                oTRowTD3.align = "center";
+                setText(oTRowTD3, acc.Rank);
+
+                oTRow.appendChild(oTRowTD1);
+                oTRow.appendChild(oTRowTD2);
+                oTRow.appendChild(oTRowTD3);
+                oTBody.appendChild(oTRow);
+            }
+             
+            
+            var oTFoot = document.createElement("tfoot");
+            var oTFootTR = document.createElement("tr");
+            var oTFootTRTD1 = document.createElement("td");
+            oTFootTRTD1.align = "left";
+            if (list.length <= 5) {
+                setText(oTFootTRTD1, "1 - " + list.length+" of "+list.length);
+            }
+            else { setText(oTFootTRTD1, "1 - 5 of " + list.length); }
+            oTFootTR.appendChild(oTFootTRTD1);
+            var oTFootTRTD2 = document.createElement("td");
+            oTFootTRTD2.colSpan = "2";
+            if (list.length > 5) {
+                
+                var oTFootTRTD2Para = document.createElement("p");
+                oTFootTRTD2Para.align = "right";
+                oTFootTRTD2Para.style.color = "blue";
+                oTFootTRTD2Para.style.cursor = "pointer";
+                
+                setText(oTFootTRTD2Para, "Click to Show More");
+                oTFootTRTD2.appendChild(oTFootTRTD2Para);
+
+                oTFootTRTD2.onclick = function () {
+                    window.open(strURL + "/Webresources/arup_DuplicateCheckMoreResults.htm", "_self");
+                };
+               
+            }
+            oTFootTR.appendChild(oTFootTRTD2);
+            oTFoot.appendChild(oTFootTR);
+            oTable.appendChild(oTFoot);
+
+            oTable.appendChild(oTBody);
+            document.body.appendChild(oTable);
+        }
+
+        function getDataParam() {
+            //Get the any query string parameters and load them
+            //into the vals array
+            var retDataParam = "on change";
+            var vals = new Array();
+            if (location.search != "") {
+                vals = location.search.substr(1).split("&");
+                for (var i in vals) {
+                    vals[i] = vals[i].replace(/\+/g, " ").split("=");
+                }
+                //look for the parameter named 'data'
+                var found = false;
+                for (var i in vals) {
+                    if (vals[i][0].toLowerCase() == "data") {
+                        retDataParam = vals[i][1];
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                { return retDataParam; }
+                else { return retDataParam; }
+            }
+            else {
+                return retDataParam;
+            }
+        }
+
+
+        function noDupes(action) {
+            var element = document.getElementsByTagName("p"), index;
+
+            for (index = element.length - 1; index >= 0; index--) {
+                element[index].parentNode.removeChild(element[index]);
+            }
+            var message = document.createElement("p");
+            setText(message, "No duplicate records were found " + action);
+            document.body.appendChild(message);
+        }
+        //Added for cross browser support.
+        function setText(element, text) {
+            if (typeof element.innerText != "undefined") {
+                element.innerText = text;
+            }
+            else {
+                element.textContent = text;
+            }
+        }
+
+        function getClientUrl() {
+            var strUrl = parent.Xrm.Page.context.getClientUrl();
+            if (strUrl.substr(strUrl.length - 1) != "/") {
+                strUrl += "/";
+            }
+            return strUrl;
+        }
+
+        function displayWaiting()
+        {
+            var element = document.getElementsByTagName("p"), index;
+
+            for (index = element.length - 1; index >= 0; index--) {
+                element[index].parentNode.removeChild(element[index]);
+            }
+
+            var elementTab = document.getElementsByTagName("table"), indextab;
+
+            for (indextab = elementTab.length - 1; indextab >= 0; indextab--) {
+                elementTab[indextab].parentNode.removeChild(elementTab[indextab]);
+            }
+            var message = document.createElement("p");
+            setText(message, "Searching for similar records.... ");
+            document.body.appendChild(message);
+            //var oTBody = document.createElement("tbody");
+            var oTable = document.createElement("table");
+            oTable.id = "wait";
+            var oTabTR = document.createElement("tr");
+            var oTabTD = document.createElement("td");
+            var oTDImg = document.createElement("img");
+            //oTDImg.src = getClientUrl + "WebResources/arup_ProcessingLoader";
+            oTDImg.src = "arup_ProcessingLoader";
+            oTDImg.alt = "Loading Please wait...";
+            oTabTD.appendChild(oTDImg);
+            oTabTR.appendChild(oTabTD);
+            oTable.appendChild(oTabTR);
+            document.body.appendChild(oTable);
+
+        }
+
+    </script>
+</head>
+<body style="word-wrap: break-word;">
+
+</body>
+</html>
