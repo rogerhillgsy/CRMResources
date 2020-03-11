@@ -39,6 +39,7 @@
     <Folder Include="WebResources\ICO format\" />
     <Folder Include="WebResources\PNG format\" />
     <Folder Include="WebResources\Script %28JScript%29\" />
+    <Folder Include="WebResources\Script %28JScript%29\Tests" />
     <Folder Include="WebResources\Web Page %28HTML%29\" />
     <RegisterPlugin Include="RegisterFile.crmregister">
       <DisplayName>RegisterFile</DisplayName>
