@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{dc35f396-6a35-4b3f-be27-3f2f7bd9d8c4}</savedqueryid>
+    <queryapi>AUTO</queryapi>
+    <layoutxml>
+      <grid name="opportunities" jump="name" select="1" icon="1" preview="1">
+        <row name="opportunity" id="opportunityid">
+          <cell name="name" />
+          <cell name="estimatedvalue" width="100" />
+          <cell name="statuscode" width="100" />
+          <cell name="estimatedclosedate" width="125" />
+          <cell name="opportunityroleidname" width="100" disableMetaDataBinding="1" LabelId="query.DC35F396-6A35-4b3f-BE27-3F2F7BD9D8C4.cell.opportunityroleidname.label" />
+        </row>
+      </grid>
+    </layoutxml>
+    <columnsetxml>
+      <columnset version="3.0" distinct="true">
+        <column>name</column>
+        <column>estimatedvalue</column>
+        <column>statuscode</column>
+        <column>estimatedclosedate</column>
+        <column>opportunityid</column>
+        <ascend>name</ascend>
+      </columnset>
+    </columnsetxml>
+    <querytype>2</querytype>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Opportunity Associated Extended View" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="Displays information about opportunities in the detail form of any associated account/contact record. This view also displays partnership information between account/contact and opportunity." languagecode="1033" />
+    </Descriptions>
+  </savedquery>
+</savedqueries>

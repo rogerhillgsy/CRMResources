@@ -1,0 +1,2507 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RibbonDiffXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <CustomActions>
+    <CustomAction Id="arup.ccrm.Form.opportunity.MainTab.arupOpportunityJobNumber.MaxSize.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="10">
+      <CommandUIDefinition>
+        <MaxSize GroupId="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress" Id="ccrm.Form.opportunity.MainTab.arupOpportunityJobNumber.MaxSize" Sequence="10" Size="LargeMedium" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Form.opportunity.MainTab.arupOpportunityJobNumber.Scale.Popup.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="300">
+      <CommandUIDefinition>
+        <Scale GroupId="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress" Id="ccrm.Form.opportunity.MainTab.arupOpportunityJobNumber.Scale.Popup" Sequence="300" Size="Popup" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Groups._children" Sequence="100">
+      <CommandUIDefinition>
+        <Group Command="Mscrm.Enabled" Description="$LocLabels:ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Title" Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress" Image32by32Popup="$webresource:ccrm_arupOppoProgress_32" Sequence="100" Template="Mscrm.Templates.Flexible2" Title="$LocLabels:ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Title">
+          <Controls Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Controls">
+            <Button Command="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command" Id="ccrm.opportunity.Button3.Button" Image32by32="$webresource:ccrm_ExclusivityRequest_32" Image16by16="$webresource:ccrm_ExclusivityRequest_16" LabelText="$LocLabels:ccrm.opportunity.Button3.Button.LabelText" Sequence="12" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button3.Button.ToolTipDescription" />
+            <Button Alt="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Sharing" Command="Mscrm.SharePrimaryRecordRefresh" Id="ccrm.opportunity.Button11.Button" Image32by32="/_imgs/ribbon/Sharing_32.png" Image16by16="/_imgs/ribbon/Sharing_16.png" LabelText="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Sharing" Sequence="18" TemplateAlias="o1" ToolTipDescription="$Resources(EntityPluralDisplayName):Ribbon.Tooltip.Share" ModernImage="Share" />
+            <Button Alt="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Assign" Command="Mscrm.AssignPrimaryRecord" Id="ccrm.opportunity.Button9.Button" Image32by32="/_imgs/ribbon/Assign_32.png" Image16by16="/_imgs/ribbon/Assign_16.png" LabelText="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Assign" Sequence="21" TemplateAlias="o1" ToolTipDescription="$Resources(EntityPluralDisplayName):Ribbon.Tooltip.Assign" ModernImage="Assign" />
+            <Button Alt="$Resources:Ribbon.HomepageGrid.Data.InteractiveWorkflow.RunScript" Command="Mscrm.RunInteractiveWorkflowPrimary" Id="ccrm.opportunity.Button12.Button" Image32by32="/_imgs/ribbon/startdialog_32.png" Image16by16="/_imgs/ribbon/startdialog_16.png" LabelText="$Resources:Ribbon.HomepageGrid.Data.InteractiveWorkflow.RunScript" Sequence="23" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Data.InteractiveWorkflow.RunScript" ToolTipDescription="$Resources(EntityDisplayName):Ribbon.Tooltip.RunScript" />
+            <Button Command="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.Command" Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW" Image32by32="$webresource:ccrm_arupOppoProgress_32" Image16by16="$webresource:ccrm_arupOppoProgress_16" LabelText="$LocLabels:ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.LabelText" Sequence="85" TemplateAlias="o1" ToolTipTitle="$LocLabels:ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.ToolTipTitle" ToolTipDescription="$LocLabels:ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.ToolTipDescription" />
+          </Controls>
+        </Group>
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.MaxSize.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="10">
+      <CommandUIDefinition>
+        <MaxSize GroupId="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress" Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.MaxSize" Sequence="10" Size="LargeMedium" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Scale.Popup.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="300">
+      <CommandUIDefinition>
+        <Scale GroupId="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress" Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Scale.Popup" Sequence="300" Size="Popup" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Form.opportunity.MainTab.SharePoint.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Groups._children" Sequence="300">
+      <CommandUIDefinition>
+        <Group Command="Mscrm.Enabled" Description="$LocLabels:ccrm.Form.opportunity.MainTab.SharePoint.Title" Id="ccrm.Form.opportunity.MainTab.SharePoint" Sequence="300" Template="Mscrm.Templates.Flexible2" Title="$LocLabels:ccrm.Form.opportunity.MainTab.SharePoint.Title">
+          <Controls Id="ccrm.Form.opportunity.MainTab.SharePoint.Controls" />
+        </Group>
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Form.opportunity.MainTab.SharePoint.MaxSize.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="10">
+      <CommandUIDefinition>
+        <MaxSize GroupId="ccrm.Form.opportunity.MainTab.SharePoint" Id="ccrm.Form.opportunity.MainTab.SharePoint.MaxSize" Sequence="10" Size="LargeMedium" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Form.opportunity.MainTab.SharePoint.Scale.Popup.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="300">
+      <CommandUIDefinition>
+        <Scale GroupId="ccrm.Form.opportunity.MainTab.SharePoint" Id="ccrm.Form.opportunity.MainTab.SharePoint.Scale.Popup" Sequence="300" Size="Popup" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.AddSuffix.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="26">
+      <CommandUIDefinition>
+        <Button Command="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command" Id="ccrm.opportunity.AddSuffix.Button" Image32by32="$webresource:ccrm_arupOppoProgressJN_32" Image16by16="$webresource:ccrm_arupOppoProgressJN_16" LabelText="$LocLabels:ccrm.opportunity.AddSuffix.Button.LabelText" Sequence="26" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.AddSuffix.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.advancedfind2.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="4">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.advancedfind2.Button.Alt" Command="Mscrm.OpenGridAdvancedFind" Id="ccrm.opportunity.advancedfind2.Button" Image32by32="/_imgs/ribbon/advancedfind32.png" Image16by16="/_imgs/ribbon/AdvancedFind_16.png" LabelText="$LocLabels:ccrm.opportunity.advancedfind2.Button.LabelText" Sequence="4" TemplateAlias="o1" ToolTipTitle="$LocLabels:ccrm.opportunity.advancedfind2.Button.ToolTipTitle" ToolTipDescription="$LocLabels:ccrm.opportunity.advancedfind2.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Bidsite.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="51">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Bidsite.Button.Alt" Command="ccrm.opportunity.DWBidsSite.Command" Description="Bid Site" Id="ccrm.opportunity.Bidsite.Button" Image32by32="$webresource:ccrm_bids_site_32_32_button" Image16by16="$webresource:ccrm_bidreview_16_16_button" LabelText="$LocLabels:ccrm.opportunity.Bidsite.Button.LabelText" Sequence="51" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Bidsite.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.BtnBidReivewAppr.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="20">
+      <CommandUIDefinition>
+        <Button Command="ccrm.opportunity.BtnBidReviewApp.Command" Id="ccrm.opportunity.BtnBidReivewAppr.Button" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:ccrm.opportunity.BtnBidReivewAppr.Button.LabelText" Sequence="20" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.BtnBidReivewAppr.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.BtnBidReivewDecline.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="14">
+      <CommandUIDefinition>
+        <Button Command="ccrm.opportunity.BtnBidReviewDecline.Command" Id="ccrm.opportunity.BtnBidReivewDecline.Button" Image32by32="$webresource:ccrm_redcross_32x32" Image16by16="$webresource:ccrm_redcross_16x16" LabelText="$LocLabels:ccrm.opportunity.BtnBidReivewDecline.Button.LabelText" Sequence="14" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.BtnBidReivewDecline.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button.BidDirectorApp.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="53">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Button.BidDirectorApp.Alt" Command="ccrm.opportunity.BidDirectorApproval.Command" Id="ccrm.opportunity.Button.BidDirectorApp" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:ccrm.opportunity.Button.BidDirectorApp.LabelText" Sequence="53" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button.BidDirectorApp.ToolTipDescription" ModernImage="$webresource:ccrm_greentick_16x16" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button.BidDirectorDecline.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="52">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Button.BidDirectorDecline.Alt" Command="ccrm.opportunity.BidDirectorDecline.Command" Id="ccrm.opportunity.Button.BidDirectorDecline" Image32by32="$webresource:ccrm_redcross_32x32" Image16by16="$webresource:ccrm_redcross_16x16" LabelText="$LocLabels:ccrm.opportunity.Button.BidDirectorDecline.LabelText" Sequence="52" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button.BidDirectorDecline.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button.GroupLeaderApp.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="50">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Button.GroupLeaderApp.Alt" Command="ccrm.opportunity.GroupLeaderApproval.Command" Id="ccrm.opportunity.Button.GroupLeaderApp" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:ccrm.opportunity.Button.GroupLeaderApp.LabelText" Sequence="50" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button.GroupLeaderApp.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button.GroupLeaderDecline.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="48">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Button.GroupLeaderDecline.Alt" Command="ccrm.opportunity.GroupLeaderDeclinel.Command" Id="ccrm.opportunity.Button.GroupLeaderDecline" Image32by32="$webresource:ccrm_redcross_32x32" Image16by16="$webresource:ccrm_redcross_16x16" LabelText="$LocLabels:ccrm.opportunity.Button.GroupLeaderDecline.LabelText" Sequence="48" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button.GroupLeaderDecline.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button.PracticeLeaderApp.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="51">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Button.PracticeLeaderApp.Alt" Command="ccrm.opportunity.PracticeLeaderApproval.Command" Id="ccrm.opportunity.Button.PracticeLeaderApp" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:ccrm.opportunity.Button.PracticeLeaderApp.LabelText" Sequence="51" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button.PracticeLeaderApp.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button.PracticeLeaderDecline.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="51">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Button.PracticeLeaderDecline.Alt" Command="ccrm.opportunity.PracticeLeaderDecline.Command" Description="" Id="ccrm.opportunity.Button.PracticeLeaderDecline" Image32by32="$webresource:ccrm_redcross_32x32" Image16by16="$webresource:ccrm_redcross_16x16" LabelText="$LocLabels:ccrm.opportunity.Button.PracticeLeaderDecline.LabelText" Sequence="51" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button.PracticeLeaderDecline.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button.RegCOOApp.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="47">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Button.RegCOOApp.Alt" Command="ccrm.opportunity.RegionalCOOApproval.Command" Id="ccrm.opportunity.Button.RegCOOApp" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:ccrm.opportunity.Button.RegCOOApp.LabelText" Sequence="47" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button.RegCOOApp.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button.RegCOODecline.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="44">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Button.RegCOODecline.Alt" Command="ccrm.opportunity.RegionalCOODecline.Command" Id="ccrm.opportunity.Button.RegCOODecline" Image32by32="$webresource:ccrm_redcross_32x32" Image16by16="$webresource:ccrm_redcross_16x16" LabelText="$LocLabels:ccrm.opportunity.Button.RegCOODecline.LabelText" Sequence="44" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button.RegCOODecline.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button.RegPracLeaderApp.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="55">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Button.RegPracLeaderApp.Alt" Command="ccrm.opportunity.RegPracticeLeader.Command" Id="ccrm.opportunity.Button.RegPracLeaderApp" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:ccrm.opportunity.Button.RegPracLeaderApp.LabelText" Sequence="55" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button.RegPracLeaderApp.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button.RegPracLeaderDecline.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="54">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Button.RegPracLeaderDecline.Alt" Command="ccrm.opportunity.RegPracticeLeaderDecline.Command" Id="ccrm.opportunity.Button.RegPracLeaderDecline" Image32by32="$webresource:ccrm_redcross_32x32" Image16by16="$webresource:ccrm_redcross_16x16" LabelText="$LocLabels:ccrm.opportunity.Button.RegPracLeaderDecline.LabelText" Sequence="54" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button.RegPracLeaderDecline.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button.SectorLeaderApp.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="52">
+      <CommandUIDefinition>
+        <Button Command="ccrm.opportunity.SectorLeaderApproval.Command" Id="ccrm.opportunity.Button.SectorLeaderApp" LabelText="$LocLabels:ccrm.opportunity.Button.SectorLeaderApp.LabelText" Sequence="52" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button.SectorLeaderApp.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button1.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="3">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Button1.Button.Alt" Command="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command" Description="Close As Won - CJN Needed" Id="ccrm.opportunity.Button1.Button" Image32by32="$webresource:ccrm_arupOppoProgressJN_32" Image16by16="$webresource:ccrm_arupOppoProgressJN_16" LabelText="$LocLabels:ccrm.opportunity.Button1.Button.LabelText" Sequence="3" TemplateAlias="o1" ToolTipTitle="$LocLabels:ccrm.opportunity.Button1.Button.ToolTipTitle" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button10.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.ExportData.Controls._children" Sequence="25">
+      <CommandUIDefinition>
+        <Button Command="Mscrm.Form.FollowCommand" Id="ccrm.opportunity.Button10.Button" Image32by32="/_imgs/ribbon/Entity32_8003.png" Image16by16="/_imgs/ribbon/Entity16_8003.png" LabelText="$LocLabels:ccrm.opportunity.Button10.Button.LabelText" Sequence="25" TemplateAlias="o1" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button11.Button.CustomAction" Location="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Controls._children" Sequence="18">
+      <CommandUIDefinition>
+        <Button Alt="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Sharing" Command="Mscrm.SharePrimaryRecordRefresh" Id="ccrm.opportunity.Button11.Button" Image32by32="/_imgs/ribbon/Sharing_32.png" Image16by16="/_imgs/ribbon/Sharing_16.png" LabelText="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Sharing" Sequence="18" TemplateAlias="o1" ToolTipDescription="$Resources(EntityPluralDisplayName):Ribbon.Tooltip.Share" ModernImage="Share" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button12.Button.CustomAction" Location="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Controls._children" Sequence="23">
+      <CommandUIDefinition>
+        <Button Alt="$Resources:Ribbon.HomepageGrid.Data.InteractiveWorkflow.RunScript" Command="Mscrm.RunInteractiveWorkflowPrimary" Id="ccrm.opportunity.Button12.Button" Image32by32="/_imgs/ribbon/startdialog_32.png" Image16by16="/_imgs/ribbon/startdialog_16.png" LabelText="$Resources:Ribbon.HomepageGrid.Data.InteractiveWorkflow.RunScript" Sequence="23" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Data.InteractiveWorkflow.RunScript" ToolTipDescription="$Resources(EntityDisplayName):Ribbon.Tooltip.RunScript" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button2.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="42">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.Button2.Button.Alt" Command="ccrm.opportunity.PossibleJobNumber.Command" Description="Request Possible Job" Id="ccrm.opportunity.Button2.Button" Image32by32="$webresource:ccrm_arupOppoProgressJN_32" Image16by16="$webresource:ccrm_arupOppoProgressJN_16" LabelText="$LocLabels:ccrm.opportunity.Button2.Button.LabelText" Sequence="42" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button2.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button3.Button.CustomAction" Location="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Controls._children" Sequence="12">
+      <CommandUIDefinition>
+        <Button Command="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command" Id="ccrm.opportunity.Button3.Button" Image32by32="$webresource:ccrm_ExclusivityRequest_32" Image16by16="$webresource:ccrm_ExclusivityRequest_16" LabelText="$LocLabels:ccrm.opportunity.Button3.Button.LabelText" Sequence="12" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button3.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.Button9.Button.CustomAction" Location="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Controls._children" Sequence="21">
+      <CommandUIDefinition>
+        <Button Alt="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Assign" Command="Mscrm.AssignPrimaryRecord" Id="ccrm.opportunity.Button9.Button" Image32by32="/_imgs/ribbon/Assign_32.png" Image16by16="/_imgs/ribbon/Assign_16.png" LabelText="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Assign" Sequence="21" TemplateAlias="o1" ToolTipDescription="$Resources(EntityPluralDisplayName):Ribbon.Tooltip.Assign" ModernImage="Assign" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.ccrmReopenOpp.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="23">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.ccrmReopenOpp.Button.Alt" Command="ccrm.opportunity.ReopenOppo.Command" Id="ccrm.opportunity.ccrmReopenOpp.Button" Image32by32="/_imgs/ribbon/ReopenOpportunity_32.png" Image16by16="/_imgs/ribbon/ReopenOpportunity_16.png" LabelText="$LocLabels:ccrm.opportunity.ccrmReopenOpp.Button.LabelText" Sequence="23" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.ccrmReopenOpp.Button.ToolTipDescription" ModernImage="ReOpenOpportunity" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.CJNAccCenLeadApp.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="9">
+      <CommandUIDefinition>
+        <Button Command="ccrm.opportunity.CJNAccCentLeadApp.Command" Id="ccrm.opportunity.CJNAccCenLeadApp.Button" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:ccrm.opportunity.CJNAccCenLeadApp.Button.LabelText" Sequence="9" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.CJNAccCenLeadApp.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.CJNFinApp.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="9">
+      <CommandUIDefinition>
+        <Button Command="ccrm.opportunity.CJNFinApp.Command" Id="ccrm.opportunity.CJNFinApp.Button" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:ccrm.opportunity.CJNFinApp.Button.LabelText" Sequence="9" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.CJNFinApp.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.CJNFinDecline.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="9">
+      <CommandUIDefinition>
+        <Button Command="ccrm.opportunity.CJNFinDecline.Command" Id="ccrm.opportunity.CJNFinDecline.Button" Image32by32="$webresource:ccrm_redcross_32x32" Image16by16="$webresource:ccrm_redcross_16x16" LabelText="$LocLabels:ccrm.opportunity.CJNFinDecline.Button.LabelText" Sequence="9" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.CJNFinDecline.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.CJNGrpLeaderApp.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="8">
+      <CommandUIDefinition>
+        <Button Command="ccrm.opportunity.CJNGrpLeaderApp.Command" Id="ccrm.opportunity.CJNGrpLeaderApp.Button" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:ccrm.opportunity.CJNGrpLeaderApp.Button.LabelText" Sequence="8" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.CJNGrpLeaderApp.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.CJNGrpLeaderDecline.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="7">
+      <CommandUIDefinition>
+        <Button Command="ccrm.opportunity.CJNGrpLeaderDecline.Command" Id="ccrm.opportunity.CJNGrpLeaderDecline.Button" Image32by32="$webresource:ccrm_redcross_32x32" Image16by16="$webresource:ccrm_redcross_16x16" LabelText="$LocLabels:ccrm.opportunity.CJNGrpLeaderDecline.Button.LabelText" Sequence="7" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.CJNGrpLeaderDecline.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.CJNPrjMgrApp.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="7">
+      <CommandUIDefinition>
+        <Button Command="ccrm.opportunity.CJNProjMgrApp.Command" Id="ccrm.opportunity.CJNPrjMgrApp.Button" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:ccrm.opportunity.CJNPrjMgrApp.Button.LabelText" Sequence="7" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.CJNPrjMgrApp.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.CJNPrjMgrDeclne.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="4">
+      <CommandUIDefinition>
+        <Button Command="ccrm.opportunity.CJNProjMgrDecline.Command" Id="ccrm.opportunity.CJNPrjMgrDeclne.Button" Image32by32="$webresource:ccrm_redcross_32x32" Image16by16="$webresource:ccrm_redcross_16x16" LabelText="$LocLabels:ccrm.opportunity.CJNPrjMgrDeclne.Button.LabelText" Sequence="4" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.CJNPrjMgrDeclne.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.SimBids.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="37">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.opportunity.SimBids.Button.Alt" Command="ccrm.opportunity.SimilarBid.Command" Description="Similar Bids" Id="ccrm.opportunity.SimBids.Button" Image32by32="$webresource:ccrm_LessonLearned_32" Image16by16="$webresource:ccrm_LessonsLearned_16" LabelText="$LocLabels:ccrm.opportunity.SimBids.Button.LabelText" Sequence="37" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.SimBids.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.Mscrm.Form.opportunity.MainTab.Collaborate.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Groups._children" Sequence="60">
+      <CommandUIDefinition>
+        <Group Command="Mscrm.Enabled" Description="$Resources:Ribbon.HomepageGrid.MainTab.Collaborate" Id="Mscrm.Form.opportunity.MainTab.Collaborate" Image32by32Popup="/_imgs/ribbon/Assign_32.png" Sequence="60" Template="Mscrm.Templates.Flexible2" Title="$Resources:Ribbon.HomepageGrid.MainTab.Collaborate">
+          <Controls Id="Mscrm.Form.opportunity.MainTab.Collaborate.Controls">
+            <SplitButton Alt="$Resources:Ribbon.Connection.Splitbutton.AddConnection.Label" Command="Mscrm.AddConnectionForm" Id="Mscrm.Form.opportunity.AddConnection" Image32by32="/_imgs/ribbon/AddConnection_32.png" Image16by16="/_imgs/ribbon/AddConnection_16.png" LabelText="$Resources:Ribbon.Connection.Splitbutton.AddConnection.Label" Sequence="10" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.Connection.Splitbutton.AddConnection.Label" ToolTipDescription="$Resources:Ribbon.Connection.Splitbutton.AddConnection.Tooltip" ModernImage="Connect">
+              <Menu Id="Mscrm.Form.opportunity.AddConnection.Menu">
+                <MenuSection Id="Mscrm.Form.opportunity.AddConnection.MenuSection" Sequence="10" DisplayMode="Menu16">
+                  <Controls Id="Mscrm.Form.opportunity.AddConnection.Controls">
+                    <Button Alt="$Resources:Ribbon.Connection.AddConnectionNew.Label" Command="Mscrm.AddConnectionForm" Id="Mscrm.Form.opportunity.AddConnectionNew" LabelText="$Resources:Ribbon.Connection.AddConnectionNew.Label" Sequence="40" ToolTipTitle="$Resources:Ribbon.Connection.AddConnectionNew.Label" ToolTipDescription="$Resources:Ribbon.Connection.AddConnectionNew.Tooltip" />
+                    <Button Alt="$Resources:Ribbon.Connection.AddConnectionToMe.Label" Command="Mscrm.AddConnectionToMeForm" Id="Mscrm.Form.opportunity.AddConnectionToMe" LabelText="$Resources:Ribbon.Connection.AddConnectionToMe.Label" Sequence="41" ToolTipTitle="$Resources:Ribbon.Connection.AddConnectionToMe.Label" ToolTipDescription="$Resources:Ribbon.Connection.AddConnectionToMe.Tooltip" />
+                  </Controls>
+                </MenuSection>
+              </Menu>
+            </SplitButton>
+            <Button Alt="$Resources:Ribbon.HomepageGrid.MainTab.Actions.AddToQueue" Command="Mscrm.AddPrimaryToQueue" Id="Mscrm.Form.opportunity.AddToQueue" Image32by32="/_imgs/ribbon/AddToQueue_32.png" Image16by16="/_imgs/ribbon/AddToQueue_16.png" LabelText="$Resources:Ribbon.HomepageGrid.MainTab.Actions.AddToQueue" Sequence="31" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.HomepageGrid.MainTab.Actions.AddToQueue" ToolTipDescription="$Resources(EntityPluralDisplayName):Mscrm_Form_EntityLogicalName_MainTab_Actions_AddToQueue_ToolTipDescription" />
+            <Button Alt="$Resources:Ribbon.HomepageGrid.queueitem.MainTab.Actions.QueueItemDetail" Command="Mscrm.QueueItemDetail" Id="Mscrm.Form.opportunity.QueueItemDetail" Image32by32="/_imgs/Workplace/QueueItemDetails_32.png" Image16by16="/_imgs/Workplace/QueueItemDetails_16.png" LabelText="$Resources:Ribbon.HomepageGrid.queueitem.MainTab.Actions.QueueItemDetail" Sequence="32" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.HomepageGrid.queueitem.MainTab.Actions.QueueItemDetail" ToolTipDescription="$Resources:Mscrm_SubGrid_queueitem_MainTab_Actions_QueueItemDetail_ToolTipDescription" />
+            <Button Alt="$Resources:Ribbon.HomepageGrid.MainTab.Actions.ViewHierarchy" Command="Mscrm.ViewHierarchyForPrimaryRecord" Id="Mscrm.Form.opportunity.ViewHierarchy" Image32by32="/_imgs/ribbon/Hierarchy_32.png" Image16by16="/_imgs/Hierarchy.png" LabelText="$Resources:Ribbon.HomepageGrid.MainTab.Actions.ViewHierarchy" Sequence="35" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.HomepageGrid.MainTab.Actions.ViewHierarchy" ToolTipDescription="$Resources:Mscrm_MainTab_Actions_ViewHierarchy_ToolTipDescription" />
+            <FlyoutAnchor Alt="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Permissions" Command="Mscrm.ShareRecordsAndSecuredFieldsPrimaryRecord" Id="Mscrm.Form.opportunity.Permissions" Image16by16="/_imgs/ribbon/Share_16.png" Image32by32="/_imgs/ribbon/Sharing_32.png" LabelText="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Permissions" Sequence="40" TemplateAlias="o2" ToolTipTitle="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Permissions" ToolTipDescription="$Resources(EntityDisplayName):Ribbon.Tooltip.Permissions">
+              <Menu Id="Mscrm.Form.opportunity.Permissions.Menu">
+                <MenuSection Id="Mscrm.Form.opportunity.Permissions.MenuSection" Sequence="10" DisplayMode="Menu16">
+                  <Controls Id="Mscrm.Form.opportunity.Permissions.Controls">
+                    <Button Alt="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Sharing" Command="Mscrm.SharePrimaryRecord" Id="Mscrm.Form.opportunity.Permissions.SharingNonRefresh" Image32by32="/_imgs/ribbon/Sharing_32.png" Image16by16="/_imgs/ribbon/Share_16.png" LabelText="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Sharing" Sequence="10" ToolTipTitle="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Sharing" ToolTipDescription="$Resources(EntityPluralDisplayName):Ribbon.Tooltip.Share" />
+                    <Button Alt="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Grant" Command="Mscrm.ShareSecuredFieldsPrimaryRecord" Id="Mscrm.Form.opportunity.Permissions.GrantNonRefresh" Image32by32="/_imgs/ribbon/GrantPermissions_32.png" Image16by16="/_imgs/ribbon/GrantPermissions_16.png" LabelText="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Grant" Sequence="20" ToolTipTitle="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Grant" ToolTipDescription="$Resources(EntityDisplayName):Ribbon.Tooltip.Grant" />
+                  </Controls>
+                </MenuSection>
+              </Menu>
+            </FlyoutAnchor>
+            <Button Alt="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Grant" Command="Mscrm.ShareSecuredFieldsPrimaryRecord" Id="Mscrm.Form.opportunity.Permissions.Grant" Image32by32="/_imgs/ribbon/GrantPermissions_32.png" Image16by16="/_imgs/ribbon/GrantPermissions_16.png" LabelText="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Grant" Sequence="50" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.HomepageGrid.MainTab.Actions.Grant" ToolTipDescription="$Resources(EntityDisplayName):Ribbon.Tooltip.Grant" />
+            <Button Alt="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Copy" Command="Mscrm.CopyShortcutPrimary" Id="Mscrm.Form.opportunity.CopySelected" Image32by32="/_imgs/ribbon/copyshortcut32.png" Image16by16="/_imgs/ribbon/copyshortcut16.png" LabelText="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Copy" Sequence="60" TemplateAlias="o2" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Copy" ToolTipDescription="$Resources:Ribbon.Tooltip.CopyShortcut" />
+          </Controls>
+        </Group>
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.Mscrm.Form.opportunity.MainTab.Collaborate.MaxSize.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="20">
+      <CommandUIDefinition>
+        <MaxSize GroupId="Mscrm.Form.opportunity.MainTab.Collaborate" Id="Mscrm.Form.opportunity.MainTab.Collaborate.MaxSize" Sequence="20" Size="LargeMedium" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.Mscrm.Form.opportunity.MainTab.Collaborate.Scale.1.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="110">
+      <CommandUIDefinition>
+        <Scale GroupId="Mscrm.Form.opportunity.MainTab.Collaborate" Id="Mscrm.Form.opportunity.MainTab.Collaborate.Scale.1" Sequence="110" Size="LargeSmall" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.Mscrm.Form.opportunity.MainTab.Collaborate.Scale.2.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="160">
+      <CommandUIDefinition>
+        <Scale GroupId="Mscrm.Form.opportunity.MainTab.Collaborate" Id="Mscrm.Form.opportunity.MainTab.Collaborate.Scale.2" Sequence="160" Size="Popup" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.Mscrm.Form.opportunity.MainTab.ExportData.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Groups._children" Sequence="80">
+      <CommandUIDefinition>
+        <Group Command="Mscrm.Enabled" Description="$Resources:Ribbon.HomepageGrid.MainTab.ExportData" Id="Mscrm.Form.opportunity.MainTab.ExportData" Image32by32Popup="/_imgs/ribbon/runreport32.png" Sequence="80" Template="Mscrm.Templates.Flexible2" Title="$Resources:Ribbon.HomepageGrid.MainTab.ExportData">
+          <Controls Id="Mscrm.Form.opportunity.MainTab.ExportData.Controls">
+            <FlyoutAnchor Alt="$Resources:Ribbon.HomepageGrid.Data.Report.RunReport" Command="Mscrm.ReportMenu.Form" Id="Mscrm.Form.opportunity.Reports" Image16by16="/_imgs/ribbon/RunReport_16.png" Image32by32="/_imgs/ribbon/runreport32.png" LabelText="$Resources:Ribbon.HomepageGrid.Data.Report.RunReport" PopulateDynamically="true" PopulateQueryCommand="Mscrm.ReportsMenu.Populate.Form" PopulateOnlyOnce="true" Sequence="10" TemplateAlias="o1" ToolTipDescription="$LocLabels:Mscrm.Form.opportunity.Reports.ToolTipDescription" />
+            <Button Command="Mscrm.Form.FollowCommand" Id="ccrm.opportunity.Button10.Button" Image32by32="/_imgs/ribbon/Entity32_8003.png" Image16by16="/_imgs/ribbon/Entity16_8003.png" LabelText="$LocLabels:ccrm.opportunity.Button10.Button.LabelText" Sequence="25" TemplateAlias="o1" />
+            <Button Command="Mscrm.Form.UnfollowCommand" Id="Mscrm.Form.opportunity.UnfollowButton" Image32by32="/_imgs/ribbon/Entity32_8003_u.png" Image16by16="/_imgs/ribbon/Entity16_8003_u.png" LabelText="$LocLabels:Mscrm.Form.opportunity.UnfollowButton.LabelText" Sequence="30" TemplateAlias="o1" />
+          </Controls>
+        </Group>
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.Mscrm.Form.opportunity.MainTab.ExportData.MaxSize.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="50">
+      <CommandUIDefinition>
+        <MaxSize GroupId="Mscrm.Form.opportunity.MainTab.ExportData" Id="Mscrm.Form.opportunity.MainTab.ExportData.MaxSize" Sequence="50" Size="LargeMedium" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.Mscrm.Form.opportunity.MainTab.ExportData.Scale.1.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="90">
+      <CommandUIDefinition>
+        <Scale GroupId="Mscrm.Form.opportunity.MainTab.ExportData" Id="Mscrm.Form.opportunity.MainTab.ExportData.Scale.1" Sequence="90" Size="LargeSmall" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.Mscrm.Form.opportunity.MainTab.ExportData.Scale.2.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="140">
+      <CommandUIDefinition>
+        <Scale GroupId="Mscrm.Form.opportunity.MainTab.ExportData" Id="Mscrm.Form.opportunity.MainTab.ExportData.Scale.2" Sequence="140" Size="Popup" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <HideCustomAction HideActionId="arup.Mscrm.Form.opportunity.SaveAndClose.Hide" Location="Mscrm.Form.opportunity.SaveAndClose" />
+    <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.opportunity.MBPF.ConvertTo.Hide" Location="Mscrm.HomepageGrid.opportunity.MBPF.ConvertTo" />
+    <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.opportunity.ReopenOpp.Hide" Location="Mscrm.HomepageGrid.opportunity.ReopenOpp" />
+    <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.opportunity.Send.Hide" Location="Mscrm.HomepageGrid.opportunity.Send" />
+    <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.opportunity.SendDirectEmail.Hide" Location="Mscrm.HomepageGrid.opportunity.SendDirectEmail" />
+    <CustomAction Id="arup.opportunity.AddProjectParticipant.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="33">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.opportunity.AddProjectParticipant.Button.Alt" Command="arup.opportunity.AddProjectParticipants.Command" Description="Click to add Project Collaborators for this Opportunity" Id="arup.opportunity.AddProjectParticipant.Button" Image32by32="$webresource:arup_button_icon_addprojectparticipant" Image16by16="$webresource:arup_button_icon_addprojectparticipant16" LabelText="$LocLabels:arup.opportunity.AddProjectParticipant.Button.LabelText" Sequence="33" TemplateAlias="o1" ToolTipDescription="$LocLabels:arup.opportunity.AddProjectParticipant.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.opportunity.BidSubmitted.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="17">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.opportunity.BidSubmitted.Button.Alt" Command="arup.opportunity.BidSubmitted.Command" Id="arup.opportunity.BidSubmitted.Button" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:arup.opportunity.BidSubmitted.Button.LabelText" Sequence="17" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.opportunity.BidSubmitted.Button.ToolTipTitle" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.opportunity.Button.BidDecisionApproval.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="31">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.opportunity.Button.BidDecisionApproval.Alt" Command="arup.opportunity.BidDecisionApproval.Command" Id="arup.opportunity.Button.BidDecisionApproval" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:arup.opportunity.Button.BidDecisionApproval.LabelText" Sequence="31" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.opportunity.Button.BidDecisionApproval.ToolTipTitle" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.opportunity.Button31.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="47">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.opportunity.Button31.Button.Alt" Command="arup.opportunity.DWBidsSiteRequest.Command" Id="arup.opportunity.Button31.Button" Image32by32="$webresource:arup_request_bid_site_32x32" Image16by16="$webresource:arup_request_bid_site_16x16" LabelText="$LocLabels:arup.opportunity.Button31.Button.LabelText" Sequence="47" TemplateAlias="o1" ToolTipDescription="$LocLabels:arup.opportunity.Button31.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.opportunity.Button32.Button.CustomAction" Location="Mscrm.HomepageGrid.opportunity.MainTab.Actions.Controls._children" Sequence="18">
+      <CommandUIDefinition>
+        <SplitButton Command="Mscrm.SendShortcutSelected.AlwaysEnabled" Id="arup.opportunity.Button32.Button" Image32by32="/_imgs/ribbon/SendShortcut_32.png" Image16by16="/_imgs/ribbon/EmailLink_16.png" LabelText="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Send" Sequence="18" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Send" ToolTipDescription="$Resources:Mscrm_HomepageGrid_Other_MainTab_ExportData_Send_ToolTipDescription" ModernImage="EmailLink">
+          <Menu Id="Mscrm.HomepageGrid.opportunity.Send.Menu">
+            <MenuSection Id="Mscrm.HomepageGrid.opportunity.Send.MenuSection" Sequence="10" DisplayMode="Menu16">
+              <Controls Id="Mscrm.HomepageGrid.opportunity.Send.Controls">
+                <Button Command="Mscrm.SendShortcutSelected" Id="Mscrm.HomepageGrid.opportunity.Send.Selected" Image32by32="/_imgs/ribbon/SendShortcut_32.png" Image16by16="/_imgs/ribbon/EmailLink_16.png" LabelText="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Selected" Sequence="10" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Selected" ToolTipDescription="$Resources:Ribbon.Tooltip.SendShortcut" />
+                <Button Command="Mscrm.SendShortcutView" Id="Mscrm.HomepageGrid.opportunity.Send.View" Image32by32="/_imgs/ribbon/SendView_32.png" Image16by16="/_imgs/ribbon/SendView_16.png" LabelText="$Resources:Ribbon.HomepageGrid.Record.Shortcut.View" Sequence="20" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Record.Shortcut.View" ToolTipDescription="$Resources:Ribbon.Tooltip.SendShortcut_View" />
+              </Controls>
+            </MenuSection>
+          </Menu>
+        </SplitButton>
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.opportunity.Button35.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="8">
+      <CommandUIDefinition>
+        <Button Command="ccrm.opportunity.CJNAccCentLeadDecline.Command" Id="arup.opportunity.Button35.Button" Image32by32="$webresource:ccrm_redcross_32x32" Image16by16="$webresource:ccrm_redcross_16x16" LabelText="$LocLabels:arup.opportunity.Button35.Button.LabelText" Sequence="8" TemplateAlias="o1" ToolTipDescription="$LocLabels:arup.opportunity.Button35.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.opportunity.Button36.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="5">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.opportunity.Button36.Button.Alt" Command="ccrm.opportunity.ExitForm.Command" Id="arup.opportunity.Button36.Button" Image32by32="$webresource:ccrm_exit_door_out_32_32" Image16by16="$webresource:ccrm_exit_door_out_16_16" LabelText="$LocLabels:arup.opportunity.Button36.Button.LabelText" Sequence="5" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.opportunity.Button36.Button.ToolTipTitle" ToolTipDescription="$LocLabels:arup.opportunity.Button36.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.opportunity.Button45.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="24">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.opportunity.Button45.Button.Alt" Command="arup.opportunity.CloseAsLostNoBid.Command" Id="arup.opportunity.Button45.Button" Image32by32="/_imgs/SFA/MarkAsLost_32.png" Image16by16="/_imgs/SFA/MarkAsLost_16.png" LabelText="$LocLabels:arup.opportunity.Button45.Button.LabelText" Sequence="24" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.opportunity.Button45.Button.ToolTipTitle" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.opportunity.Button46.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="26">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.opportunity.Button46.Button.Alt" Command="ccrm.opportunity.CloseAsLost.Command" Id="arup.opportunity.Button46.Button" Image32by32="/_imgs/SFA/MarkAsLost_32.png" Image16by16="/_imgs/SFA/MarkAsLost_16.png" LabelText="$LocLabels:arup.opportunity.Button46.Button.LabelText" Sequence="26" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.opportunity.Button46.Button.ToolTipTitle" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.opportunity.Button47.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="27">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.opportunity.Button47.Button.Alt" Command="arup.opportunity.CloseAsWon.Command" Id="arup.opportunity.Button47.Button" Image32by32="/_imgs/SFA/MarkAsWon_32.png" Image16by16="/_imgs/SFA/MarkAsWon_16.png" LabelText="$LocLabels:arup.opportunity.Button47.Button.LabelText" Sequence="27" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.opportunity.Button47.Button.ToolTipTitle" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.opportunity.Assign.Hide" Location="Mscrm.Form.opportunity.Assign" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.opportunity.FollowButton.Hide" Location="Mscrm.Form.opportunity.FollowButton" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.opportunity.MarkAsLost.Hide" Location="Mscrm.Form.opportunity.MarkAsLost" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.opportunity.MarkAsWon.Hide" Location="Mscrm.Form.opportunity.MarkAsWon" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.opportunity.NewRecord.Hide" Location="Mscrm.Form.opportunity.NewRecord" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.opportunity.Permissions.Sharing.Hide" Location="Mscrm.Form.opportunity.Permissions.Sharing" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.opportunity.ReopenOpp.Hide" Location="Mscrm.Form.opportunity.ReopenOpp" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.opportunity.RunScript.Hide" Location="Mscrm.Form.opportunity.RunScript" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.opportunity.SwitchProcess.Hide" Location="Mscrm.Form.opportunity.SwitchProcess" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.HomepageGrid.opportunity.NewRecord.Hide" Location="Mscrm.HomepageGrid.opportunity.NewRecord" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.SubGrid.opportunity.NewRecord.Hide" Location="Mscrm.SubGrid.opportunity.NewRecord" />
+    <HideCustomAction HideActionId="ccrm.opportunity.Button.SectorLeaderApp.Hide" Location="ccrm.opportunity.Button.SectorLeaderApp" />
+    <HideCustomAction HideActionId="ccrm.Sample.opportunity.MainTab.LaunchURL.Button.Hide" Location="Sample.opportunity.MainTab.LaunchURL.Button" />
+    <HideCustomAction HideActionId="ccrmMscrm.HomepageGrid.opportunity.MarkAsWon.HideAction" Location="Mscrm.HomepageGrid.opportunity.MarkAsWon" />
+    <HideCustomAction HideActionId="ccrmMscrm.HomepageGrid.opportunity.Recalculate.HideAction" Location="Mscrm.HomepageGrid.opportunity.Recalculate" />
+    <HideCustomAction HideActionId="Mscrm.Form.opportunity.Recalculate.HideAction" Location="Mscrm.Form.opportunity.Recalculate" />
+  </CustomActions>
+  <Templates>
+    <RibbonTemplates Id="Mscrm.Templates"></RibbonTemplates>
+  </Templates>
+  <CommandDefinitions>
+    <CommandDefinition Id="arup.opportunity.AddProjectParticipants.Command">
+      <EnableRules>
+        <EnableRule Id="Mscrm.FormStateNotNew" />
+        <EnableRule Id="arup.opportunity.ProjectCollaborator.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CanWritePrimary" />
+        <DisplayRule Id="Mscrm.CanWriteOpportunity" />
+        <DisplayRule Id="ccrm.opportunity.PossibleJobNumber.Command.DisplayRule.FormStateRule" />
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="addProjectParticipant" Library="$webresource:ccrm_opportunity_library_2015" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.opportunity.BidDecisionApproval.Command">
+      <EnableRules>
+        <EnableRule Id="arup.opportunity.BidDecisionApproval.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="BidDicisionConfirmation" Library="$webresource:arup_Opportunity_Changes" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.opportunity.BidSubmitted.Command">
+      <EnableRules>
+        <EnableRule Id="arup.opportunity.BidSubmitted.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="BidSubmittedClick" Library="$webresource:ccrm_opportunity_library_2015" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.opportunity.CloseAsLostNoBid.Command">
+      <EnableRules>
+        <EnableRule Id="arup.opportunity.CLoseAsLostNoBid.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="CloseOpportunity" Library="$webresource:arup_Opportunity_Changes">
+          <StringParameter Value="lost" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.opportunity.CloseAsWon.Command">
+      <EnableRules>
+        <EnableRule Id="arup.opportunity.CloseAsWon.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="CloseOpportunityConfirmation" Library="$webresource:arup_Opportunity_Changes">
+          <StringParameter Value="won" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.opportunity.CloseOpportunity.Command">
+      <EnableRules />
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="CloseOpportunity" Library="$webresource:arup_Opportunity_Changes" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.opportunity.DWBidsSiteRequest.Command">
+      <EnableRules>
+        <EnableRule Id="DWSiteProvision.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="RequestDWBidsSite" Library="$webresource:opportunity_ribbon.js" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.EnableRule.ValueRule1" />
+        <EnableRule Id="arup.opportunity.AddSuffix.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.DisplayRule.OrRule2" />
+        <DisplayRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.DisplayRule.OrRule" />
+        <DisplayRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.DisplayRule.FormStateRule2" />
+        <DisplayRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.DisplayRule.FormStateRule3" />
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="oppoProgressFnCJNSuffix" Library="$webresource:opportunity_ribbon.js" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.BidDirectorApproval.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.2015.BidDirectorApproval" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="ApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Approve" />
+          <StringParameter Value="BidDirector" />
+          <StringParameter Value="ccrm_biddirectorapprovaloptions" />
+          <StringParameter Value="ccrm_biddirectorapproval" />
+          <StringParameter Value="ccrm_biddirectorapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.BidDirectorDecline.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.2015.BidDirectorApproval" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+        <DisplayRule Id="Mscrm.OpportunityIsClosed" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="ApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Decline" />
+          <StringParameter Value="BidDirector" />
+          <StringParameter Value="ccrm_biddirectorapprovaloptions" />
+          <StringParameter Value="ccrm_biddirectorapproval" />
+          <StringParameter Value="ccrm_biddirectorapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.BtnBidReviewApp.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.btnBidReviewAppr.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="BidReviewApprovalClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Approve" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.BtnBidReviewDecline.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.btnBidReviewAppr.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+        <DisplayRule Id="Mscrm.OpportunityIsClosed" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="BidReviewApprovalClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Decline" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.CJNAccCentLeadApp.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.CJNAccCenLeadApp.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="CJNApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Approve" />
+          <StringParameter Value="AccCenterLeadApproval" />
+          <StringParameter Value="ccrm_acctcentleadapprovaloptions" />
+          <StringParameter Value="ccrm_acctcentleadapproval" />
+          <StringParameter Value="ccrm_acctcentleadapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.CJNAccCentLeadDecline.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.CJNAccCenLeadApp.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+        <DisplayRule Id="Mscrm.OpportunityIsClosed" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="CJNApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Decline" />
+          <StringParameter Value="AccCenterLeadApproval" />
+          <StringParameter Value="ccrm_acctcentleadapprovaloptions" />
+          <StringParameter Value="ccrm_acctcentleadapproval" />
+          <StringParameter Value="ccrm_acctcentleadapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.CJNFinApp.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.CJNFinApp.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="CJNApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Approve" />
+          <StringParameter Value="FinanceApproval" />
+          <StringParameter Value="ccrm_financeapprovaloptions" />
+          <StringParameter Value="ccrm_financeapproval" />
+          <StringParameter Value="ccrm_financeapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.CJNFinDecline.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.CJNFinApp.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+        <DisplayRule Id="Mscrm.OpportunityIsClosed" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="CJNApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Decline" />
+          <StringParameter Value="FinanceApproval" />
+          <StringParameter Value="ccrm_financeapprovaloptions" />
+          <StringParameter Value="ccrm_financeapproval" />
+          <StringParameter Value="ccrm_financeapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.CJNGrpLeaderApp.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.GrpLeaderApp.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="CJNApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Approve" />
+          <StringParameter Value="GroupLeaderApproval" />
+          <StringParameter Value="ccrm_groupleadercjnapprovaloptions" />
+          <StringParameter Value="ccrm_groupleadercjnapproval" />
+          <StringParameter Value="ccrm_groupleadercjnapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.CJNGrpLeaderDecline.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.GrpLeaderApp.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+        <DisplayRule Id="Mscrm.OpportunityIsClosed" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="CJNApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Decline" />
+          <StringParameter Value="GroupLeaderApproval" />
+          <StringParameter Value="ccrm_groupleadercjnapprovaloptions" />
+          <StringParameter Value="ccrm_groupleadercjnapproval" />
+          <StringParameter Value="ccrm_groupleadercjnapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.CJNProjMgrApp.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.CJNProjMgrApp.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="CJNApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Approve" />
+          <StringParameter Value="ProjectManagerApproval" />
+          <StringParameter Value="ccrm_projmgrdirapprovaloptions" />
+          <StringParameter Value="ccrm_projmgrdirapproval" />
+          <StringParameter Value="ccrm_projmgrdirapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.CJNProjMgrDecline.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.CJNProjMgrApp.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+        <DisplayRule Id="Mscrm.OpportunityIsClosed" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="CJNApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Decline" />
+          <StringParameter Value="ProjectManagerApproval" />
+          <StringParameter Value="ccrm_projmgrdirapprovaloptions" />
+          <StringParameter Value="ccrm_projmgrdirapproval" />
+          <StringParameter Value="ccrm_projmgrdirapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.CloseAsLost.Command">
+      <EnableRules>
+        <EnableRule Id="arup.opportunity.CloseAsLost.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="CloseOpportunity" Library="$webresource:arup_Opportunity_Changes">
+          <StringParameter Value="lost" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.DWBidsSite.Command">
+      <EnableRules>
+        <EnableRule Id="DWBidsSite.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="OpenDWBidsSite" Library="$webresource:opportunity_ribbon.js" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.DWBidsSiteDisable.Command">
+      <EnableRules>
+        <EnableRule Id="MSCRM.Disabled" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions />
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.ExitForm.Command">
+      <EnableRules />
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="exitForm" Library="$webresource:ccrm_opportunity_library_2015" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.GroupLeaderApproval.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.2015.GroupLeaderApproval" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="ApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Approve" />
+          <StringParameter Value="GroupLeader" />
+          <StringParameter Value="ccrm_groupleaderapprovaloptions" />
+          <StringParameter Value="ccrm_groupleaderapproval" />
+          <StringParameter Value="ccrm_groupleaderapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.GroupLeaderDeclinel.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.2015.GroupLeaderApproval" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+        <DisplayRule Id="Mscrm.OpportunityIsClosed" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="ApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Decline" />
+          <StringParameter Value="GroupLeader" />
+          <StringParameter Value="ccrm_groupleaderapprovaloptions" />
+          <StringParameter Value="ccrm_groupleaderapproval" />
+          <StringParameter Value="ccrm_groupleaderapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.MarkAsLost.Command">
+      <EnableRules />
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="Mscrm.OpportunityCommandActions.opportunityClose" Library="$webresource:Sales/Opportunity/Opportunity_main_system_library.js">
+          <BoolParameter Value="false" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.PossibleJobNumber.Command">
+      <EnableRules />
+      <DisplayRules>
+        <DisplayRule Id="ccrm.opportunity.RequestPossibleJob.DisplayRule" />
+        <DisplayRule Id="ccrm.opportunity.RequestPossibleJob3.DisplayRule" />
+        <DisplayRule Id="ccrm.opportunity.RequestPossibleJobNumber3.DisplayRule" />
+        <DisplayRule Id="ccrm.opportunity.StatusCodeCloseOppo.DisplayRule" />
+        <DisplayRule Id="ccrm.opportunity.PossibleJobNumber.Command.DisplayRule.FormStateRule" />
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="requestPossibleJob" Library="$webresource:ccrm_opportunity_library_2015" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.PracticeLeaderApproval.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.2015.PracticeLeaderApproval" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="ApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Approve" />
+          <StringParameter Value="PracticeLeader" />
+          <StringParameter Value="ccrm_practiceleaderapprovaloptions" />
+          <StringParameter Value="ccrm_practiceleaderapproval" />
+          <StringParameter Value="ccrm_practiceleaderapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.PracticeLeaderDecline.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.2015.PracticeLeaderApproval" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+        <DisplayRule Id="Mscrm.OpportunityIsClosed" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="ApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Decline" />
+          <StringParameter Value="PracticeLeader" />
+          <StringParameter Value="ccrm_practiceleaderapprovaloptions" />
+          <StringParameter Value="ccrm_practiceleaderapproval" />
+          <StringParameter Value="ccrm_practiceleaderapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.RegionalCOOApproval.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.2015.RegionalCOOApproval" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="ApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Approve" />
+          <StringParameter Value="RegionalCOO" />
+          <StringParameter Value="ccrm_regioncooapprovaloptions" />
+          <StringParameter Value="ccrm_regioncooapproval" />
+          <StringParameter Value="ccrm_regionalcooapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.RegionalCOODecline.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.2015.RegionalCOOApproval" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+        <DisplayRule Id="Mscrm.OpportunityIsClosed" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="ApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Decline" />
+          <StringParameter Value="RegionalCOO" />
+          <StringParameter Value="ccrm_regioncooapprovaloptions" />
+          <StringParameter Value="ccrm_regioncooapproval" />
+          <StringParameter Value="regionalcooapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.RegPracticeLeader.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.2015.RegPracLeaderApproval" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="ApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Approve" />
+          <StringParameter Value="RegionalPracticeLeader" />
+          <StringParameter Value="ccrm_regionalpracticeleaderapprovaloptions" />
+          <StringParameter Value="ccrm_regionalpracticeleaderapproval" />
+          <StringParameter Value="ccrm_regionalpracticeleaderapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.RegPracticeLeaderDecline.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.2015.PracticeLeaderApproval" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+        <DisplayRule Id="Mscrm.OpportunityIsClosed" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="ApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="Decline" />
+          <StringParameter Value="RegionalPracticeLeader" />
+          <StringParameter Value="ccrm_regionalpracticeleaderapprovaloptions" />
+          <StringParameter Value="ccrm_regionalpracticeleaderapproval" />
+          <StringParameter Value="ccrm_regionalpracticeleaderapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.ReopenOppo.Command">
+      <EnableRules>
+        <EnableRule Id="Mscrm.CanWritePrimary" />
+        <EnableRule Id="arup.opportunity.CanReopen.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CanWriteOpportunity" />
+        <DisplayRule Id="Mscrm.OpportunityIsClosed" />
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="ReopenOpp" Library="$webresource:ccrm_opportunity_library_2015" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.SectorLeaderApproval.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.2015.SectorLeaderApproval" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="CJNApprovalButtonClick" Library="$webresource:ccrm_opportunity_library_2015">
+          <StringParameter Value="SectorLeader" />
+          <StringParameter Value="ccrm_sectorleaderapprovaloptions" />
+          <StringParameter Value="ccrm_sectorleaderleaderapproval" />
+          <StringParameter Value="ccrm_sectorleaderapprovaldate" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.opportunity.SimilarBid.Command">
+      <EnableRules>
+        <EnableRule Id="arup.opportunity.SimilarBid.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="SimilarBidsDuplicate" Library="$webresource:ccrm_opportunity_library_2015" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command">
+      <EnableRules>
+        <EnableRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.EnableRule.OrRule3" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.FormStateRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.FormStateRule2" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.FormStateRule3" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.FormStateRule4" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.ValueRule4" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.ValueRule5" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.OrRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.OrRule2" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="oppoProgressFnBRGateway" Library="$Webresource:opportunity_ribbon.js" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command">
+      <EnableRules>
+        <EnableRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.EnableRule.ValueRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.FormStateRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.FormStateRule2" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.FormStateRule3" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.FormStateRule4" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.ValueRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.OrRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.ValueRule3" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.OrRule2" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.ValueRule2" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="oppoProgressFnBRWPJNGateway" Library="$Webresource:opportunity_ribbon.js" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command">
+      <EnableRules />
+      <DisplayRules>
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.FormStateRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.FormStateRule2" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.FormStateRule3" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.FormStateRule4" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.ValueRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.ValueRule2" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.ValueRule3" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.ValueRule4" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="oppoProgressFnGateway" Library="$Webresource:opportunity_ribbon.js" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cja.Command">
+      <EnableRules>
+        <EnableRule Id="ccrm.opportunity.RequestCJA.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="openNewCJNAForm" Library="$webresource:ccrm_opportunity_library_2015">
+          <BoolParameter Value="true" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command">
+      <EnableRules>
+        <EnableRule Id="arup.opportunity.CloseAsWonCJNNeeded.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command.DisplayRule.FormStateRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command.DisplayRule.ValueRule3" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command.DisplayRule.ValueRule5" />
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="CloseOpportunityConfirmation" Library="$webresource:arup_Opportunity_Changes">
+          <StringParameter Value="cjn" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command">
+      <EnableRules />
+      <DisplayRules>
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.FormStateRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.FormStateRule2" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.FormStateRule3" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.FormStateRule4" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.ValueRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.ValueRule2" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.ValueRule3" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.ValueRule4" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.ValueRule6" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.OrRule" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="oppoProgressFnDTPGateway" Library="$Webresource:opportunity_ribbon.js" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.Command">
+      <EnableRules />
+      <DisplayRules>
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.Command.DisplayRule.FormStateRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.Command.DisplayRule.ValueRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.Command.DisplayRule.ValueRule2" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.Command.DisplayRule.ValueRule3" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="oppoProgressFnResetCJNGateway" Library="$webresource:opportunity_ribbon.js" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command">
+      <EnableRules />
+      <DisplayRules>
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command.DisplayRule.FormStateRule" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command.DisplayRule.FormStateRule2" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command.DisplayRule.FormStateRule3" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command.DisplayRule.FormStateRule4" />
+        <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command.DisplayRule.ValueRule" />
+        <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="fnBtnExclusivityRequest" Library="$webresource:ccrm_opportunity_library_2015" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.AddEmailToSelectedRecord">
+      <EnableRules>
+        <EnableRule Id="Mscrm.SelectionCountAtLeastOne" />
+        <EnableRule Id="Mscrm.VisualizationPaneNotMaximized" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.WriteActivityPermission" />
+        <DisplayRule Id="Mscrm.SelectedEntityIsListedForSendDirectEmailOrEmailable" />
+        <DisplayRule Id="Mscrm.HideOnModern" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="Mscrm.GridRibbonActions.sendBulkEmail" Library="/_static/_common/scripts/RibbonActions.js">
+          <CrmParameter Value="SelectedControl" />
+          <CrmParameter Value="SelectedControlSelectedItemIds" />
+          <CrmParameter Value="SelectedEntityTypeCode" />
+          <CrmParameter Value="SelectedControlAllItemCount" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.AddNewRecordFromSubGridStandard">
+      <EnableRules>
+        <EnableRule Id="Mscrm.AppendToPrimary" />
+        <EnableRule Id="Mscrm.EntityFormIsEnabled" />
+        <EnableRule Id="Mscrm.IsEntityAvailableForUserInMocaOffline" />
+        <EnableRule Id="arup.opportunity.AddNewRecord.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.ShowForOneToManyGrids" />
+        <DisplayRule Id="Mscrm.AppendToPrimary" />
+        <DisplayRule Id="Mscrm.CreateSelectedEntityPermission" />
+        <DisplayRule Id="Mscrm.AppendSelected" />
+        <DisplayRule Id="Mscrm.HideAddNewForChildEntities" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="Mscrm.GridCommandActions.addNewFromSubGridStandard" Library="/_static/_common/scripts/CommandBarActions.js">
+          <CrmParameter Value="SelectedEntityTypeCode" />
+          <CrmParameter Value="PrimaryEntityTypeCode" />
+          <CrmParameter Value="FirstPrimaryItemId" />
+          <CrmParameter Value="PrimaryControl" />
+          <CrmParameter Value="SelectedControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.AssignPrimaryRecord">
+      <EnableRules>
+        <EnableRule Id="Mscrm.FormStateNotNew" />
+        <EnableRule Id="Mscrm.AssignPrimaryPermission" />
+        <EnableRule Id="Mscrm.NotOffline" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.AssignPrimaryPermission" />
+        <DisplayRule Id="Mscrm.NotClosedActivity" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="XrmCore.Commands.Assign.assignObjectLegacy" Library="$webresource:Main_system_library.js">
+          <CrmParameter Value="PrimaryEntityTypeCode" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.Form.FollowCommand">
+      <EnableRules>
+        <EnableRule Id="Mscrm.NotOffline" />
+        <EnableRule Id="msdyn.ActivityFeeds.NotNewEnableRule" />
+        <EnableRule Id="msdyn.ActivityFeeds.IsFollowButtonEnabled" />
+        <EnableRule Id="msdyn.ActivityFeeds.Yammer.ShouldEnableFollow" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.HideOnModern" />
+        <DisplayRule Id="msdyn.ActivityFeeds.ShowFollowButton" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="Follow.FollowCommands.followFromForm" Library="$webresource:msdyn_/Follow.Command.js">
+          <CrmParameter Value="FirstPrimaryItemId" />
+          <CrmParameter Value="PrimaryEntityTypeName" />
+          <CrmParameter Value="PrimaryEntityTypeCode" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.Form.opportunity.MarkAsLost">
+      <EnableRules>
+        <EnableRule Id="Mscrm.CanWritePrimary" />
+        <EnableRule Id="Mscrm.OpportunityIsOpen" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CanWriteOpportunity" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="Mscrm.OpportunityCommandActions.opportunityClose" Library="$webresource:Sales/Opportunity/Opportunity_main_system_library.js">
+          <BoolParameter Value="false" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.Form.opportunity.MarkAsWon">
+      <EnableRules>
+        <EnableRule Id="Mscrm.CanWritePrimary" />
+        <EnableRule Id="Mscrm.OpportunityIsOpen" />
+        <EnableRule Id="Opportunity.MarkAsWon.Command.EnableRule.ValueRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CanWriteOpportunity" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="Mscrm.OpportunityCommandActions.opportunityClose" Library="$webresource:Sales/Opportunity/Opportunity_main_system_library.js">
+          <BoolParameter Value="true" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.Form.opportunity.MarkAsWonWithCJN">
+      <EnableRules>
+        <EnableRule Id="Mscrm.CanWritePrimary" />
+        <EnableRule Id="Mscrm.OpportunityIsOpen" />
+        <EnableRule Id="Opportunity.MarkAsWonWithCJN.Command.EnableRule.ValueRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CanWriteOpportunity" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="Mscrm.OpportunityCommandActions.opportunityClose" Library="$webresource:Sales/Opportunity/Opportunity_main_system_library.js">
+          <BoolParameter Value="true" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.Form.opportunity.ReopenOpp">
+      <EnableRules>
+        <EnableRule Id="Mscrm.CanWritePrimary" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CanWriteOpportunity" />
+        <DisplayRule Id="Mscrm.OpportunityIsClosed" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="Mscrm.OpportunityCommandActions.opportunityReopen" Library="$webresource:Sales/Opportunity/Opportunity_main_system_library.js" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.SaveAndClosePrimary">
+      <EnableRules>
+        <EnableRule Id="Mscrm.IsAutoSaveDisable" />
+        <EnableRule Id="Mscrm.AvailableOnForm" />
+        <EnableRule Id="Mscrm.CanSavePrimary" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CanSaveAndClosePrimaryEntityType" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="XrmCore.Commands.Save.saveAndCloseForm" Library="$webresource:Main_system_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.SavePrimary">
+      <EnableRules>
+        <EnableRule Id="Mscrm.AvailableOnForm" />
+        <EnableRule Id="Mscrm.CanSavePrimary" />
+        <EnableRule Id="Mscrm.ReadPrimaryPermission" />
+        <EnableRule Id="Mscrm.IsAutoSaveDisable" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CanSavePrimaryEntityType" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="XrmCore.Commands.Save.saveForm" Library="$webresource:Main_system_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.SwitchProcess">
+      <EnableRules>
+        <EnableRule Id="Mscrm.FormStateNotNew" />
+        <EnableRule Id="Mscrm.IsBusinessProcessPresent" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CanWritePrimary" />
+        <DisplayRule Id="Mscrm.IsBusinessProcessEnabled" />
+        <DisplayRule Id="ccrm.opportunity.DisplayRule90.DisplayRule" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="Mscrm.CommandBarActions.switchProcess" Library="/_static/_common/scripts/CommandBarActions.js" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="new.Opportunity.RunDialogForm.Command">
+      <EnableRules>
+        <EnableRule Id="Mscrm.OpportunityIsOpen" />
+        <EnableRule Id="Mscrm.CanWritePrimary" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CanWriteOpportunity" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="Develop1_RibbonCommands_runDialogForm" Library="$webresource:ccrm_RunDialog.js">
+          <CrmParameter Value="PrimaryEntityTypeName" />
+          <StringParameter Value="BD0C76A6-9817-453F-8174-9CFB2BD8A8EA" />
+        </JavaScriptFunction>
+        <JavaScriptFunction FunctionName="dialogFormRefresh" Library="$webresource:ccrm_opportunity_library_2015" />
+      </Actions>
+    </CommandDefinition>
+  </CommandDefinitions>
+  <RuleDefinitions>
+    <TabDisplayRules />
+    <DisplayRules>
+      <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule">
+        <EntityPrivilegeRule PrivilegeType="Write" PrivilegeDepth="Local" EntityName="opportunity" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.DisplayRule.AndRule">
+        <ValueRule Field="statecode" Value="1" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.DisplayRule.FormStateRule2">
+        <FormStateRule State="Create" Default="true" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.DisplayRule.FormStateRule3">
+        <FormStateRule State="BulkEdit" Default="true" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.DisplayRule.OrRule">
+        <OrRule>
+          <Or>
+            <ValueRule Field="statuscode" Value="3" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="statuscode" Value="200022" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="statuscode" Value="100000007" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="statuscode" Value="100000003" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="statuscode" Value="100000012" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="statuscode" Value="100000008" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="statuscode" Value="100000011" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="statuscode" Value="100000010" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="statuscode" Value="100000009" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="statuscode" Value="100000013" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="statuscode" Value="100000022" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="statuscode" Value="100000004" Default="true" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.DisplayRule.OrRule2">
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_financeapprovaloptions" Value="100000001" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_sys_fa_approval" Value="1" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.DisplayRule.OrRule3">
+        <ValueRule Field="statuscode" Value="100000004" Default="false" InvertResult="true" />
+        <ValueRule Field="statecode" Value="1" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.DisplayRule.OrRule4">
+        <ValueRule Field="statecode" Value="1" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.opportunity.BidDirectorApproval.DisplayRule">
+        <ValueRule Field="ccrm_biddirectorapprovaloptions" Value="100000000" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.opportunity.DisplayRule79.DisplayRule">
+        <FormStateRule State="Create" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.opportunity.DisplayRule90.DisplayRule">
+        <FormTypeRule Default="false" InvertResult="true" Type="AppointmentBook" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.opportunity.PossibleJobNumber.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.opportunity.RequestPossibleJob.DisplayRule">
+        <ValueRule Field="ccrm_possiblejobnumberrequired" Value="1" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.opportunity.RequestPossibleJob3.DisplayRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.opportunity.RequestPossibleJobNumber3.DisplayRule">
+        <ValueRule Field="ccrm_showpjnbutton" Value="0" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrm.opportunity.StatusCodeCloseOppo.DisplayRule">
+        <ValueRule Field="statuscode" Value="3" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.arupOpportunityJobNumber.Jn.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.arupOpportunityJobNumber.Jn.Command.DisplayRule.FormStateRule2">
+        <FormStateRule State="ReadOnly" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.arupOpportunityJobNumber.Jn.Command.DisplayRule.FormStateRule3">
+        <FormStateRule State="BulkEdit" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.arupOpportunityJobNumber.Jn.Command.DisplayRule.OrRule">
+        <OrRule>
+          <Or>
+            <ValueRule Field="statuscode" Value="3" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="statuscode" Value="200022" Default="true" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.arupOpportunityJobNumber.Jn.Command.DisplayRule.ValueRule">
+        <ValueRule Field="ccrm_sys_fa_approval" Value="1" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.FormStateRule2">
+        <FormStateRule State="ReadOnly" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.FormStateRule3">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.FormStateRule4">
+        <FormStateRule State="BulkEdit" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.OrRule">
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_sys_dtb_approval" Value="1" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_sys_childopportunity" Value="1" Default="true" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.OrRule2">
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_sys_bidreview_gateway" Value="1" InvertResult="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_sys_br_rejected" Value="1" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.ValueRule4">
+        <ValueRule Field="ccrm_sys_br_review" Value="0" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.DisplayRule.ValueRule5">
+        <ValueRule Field="ccrm_pjna" Value="Requested" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.FormStateRule2">
+        <FormStateRule State="ReadOnly" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.FormStateRule3">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.FormStateRule4">
+        <FormStateRule State="BulkEdit" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.OrRule">
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_sys_dtb_approval" Value="0" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_sys_dtp_gateway" Value="0" Default="true" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.OrRule2">
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_sys_bidreview_gateway" Value="1" InvertResult="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_sys_br_rejected" Value="1" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.ValueRule">
+        <ValueRule Field="ccrm_sys_phasename" Value="Lead" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.ValueRule2">
+        <ValueRule Field="ccrm_sys_childopportunity" Value="1" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.DisplayRule.ValueRule3">
+        <ValueRule Field="ccrm_pjn_opportunitytype" Value="100000001" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.FormStateRule2">
+        <FormStateRule State="ReadOnly" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.FormStateRule3">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.FormStateRule4">
+        <FormStateRule State="BulkEdit" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.ValueRule">
+        <ValueRule Field="ccrm_sys_phasename" Value="Possible Job â€“ Bid Approved" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.ValueRule2">
+        <ValueRule Field="ccrm_sys_br_review" Value="1" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.ValueRule3">
+        <ValueRule Field="ccrm_sys_bidreview_gateway" Value="1" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Bs.Command.DisplayRule.ValueRule4">
+        <ValueRule Field="ccrm_sys_markassubmitted" Value="0" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cja.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cja.Command.DisplayRule.FormStateRule2">
+        <FormStateRule State="ReadOnly" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cja.Command.DisplayRule.FormStateRule3">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cja.Command.DisplayRule.FormStateRule4">
+        <FormStateRule State="BulkEdit" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cja.Command.DisplayRule.ValueRule">
+        <ValueRule Field="ccrm_sys_phasename" Value="Bid Submitted" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cja.Command.DisplayRule.ValueRule2">
+        <ValueRule Field="statuscode" Value="3" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cja.Command.DisplayRule.ValueRule3">
+        <ValueRule Field="ccrm_sys_fa_approval" Value="0" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cja.Command.DisplayRule.ValueRule4">
+        <ValueRule Field="ccrm_sys_confirmedjob_gateway" Value="1" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Existing" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command.DisplayRule.ValueRule3">
+        <ValueRule Field="ccrm_sys_confirmedjob_buttonhide" Value="1" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command.DisplayRule.ValueRule5">
+        <ValueRule Field="ccrm_systemcjnarequesttrigger" Value="1" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.FormStateRule2">
+        <FormStateRule State="ReadOnly" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.FormStateRule3">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.FormStateRule4">
+        <FormStateRule State="BulkEdit" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.OrRule">
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_sys_dtp_gateway" Value="1" InvertResult="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_sys_dtb_rejected" Value="1" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.ValueRule">
+        <ValueRule Field="ccrm_sys_phasename" Value="Lead" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.ValueRule2">
+        <ValueRule Field="ccrm_sys_dtb_approval" Value="0" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.ValueRule3">
+        <ValueRule Field="ccrm_sys_bidreview_gateway" Value="0" Default="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.ValueRule4">
+        <ValueRule Field="ccrm_sys_childopportunity" Value="1" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.DisplayRule.ValueRule6">
+        <ValueRule Field="ccrm_pjn_opportunitytype" Value="100000000" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Existing" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.Command.DisplayRule.ValueRule">
+        <ValueRule Field="ccrm_sys_fa_approval" Value="0" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.Command.DisplayRule.ValueRule2">
+        <ValueRule Field="ccrm_sys_confirmedjob_gateway" Value="1" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.Command.DisplayRule.ValueRule3">
+        <ValueRule Field="ccrm_sys_markassubmitted" Value="1" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command.DisplayRule.FormStateRule2">
+        <FormStateRule State="ReadOnly" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command.DisplayRule.FormStateRule3">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command.DisplayRule.FormStateRule4">
+        <FormStateRule State="BulkEdit" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.Exclusivity.ExclusivityRequest.Command.DisplayRule.ValueRule">
+        <ValueRule Field="ccrm_exclusivity" Value="1" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.FormStateRule2">
+        <FormStateRule State="ReadOnly" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.FormStateRule3">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.FormStateRule4">
+        <FormStateRule State="BulkEdit" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.ValueRule">
+        <ValueRule Field="ccrm_sys_sharepoint_trigger" Value="1" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.ValueRule2">
+        <ValueRule Field="ccrm_sys_sharepoint_status" Value="2" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.AppendSelected">
+        <EntityPrivilegeRule PrivilegeType="Append" PrivilegeDepth="Basic" AppliesTo="SelectedEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.AppendToPrimary">
+        <EntityPrivilegeRule PrivilegeType="AppendTo" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.AssignPrimaryPermission">
+        <EntityPrivilegeRule PrivilegeType="Assign" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CanSaveAndClosePrimaryEntityType">
+        <OrRule>
+          <Or>
+            <EntityPrivilegeRule PrivilegeType="Create" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+          </Or>
+          <Or>
+            <EntityPrivilegeRule PrivilegeType="Write" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CanSavePrimaryEntityType">
+        <OrRule>
+          <Or>
+            <EntityPrivilegeRule PrivilegeType="Create" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+          </Or>
+          <Or>
+            <EntityPrivilegeRule PrivilegeType="Write" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+          </Or>
+        </OrRule>
+        <EntityPrivilegeRule PrivilegeType="Read" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CanWritePrimary">
+        <EntityPrivilegeRule PrivilegeType="Write" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CreateSelectedEntityPermission">
+        <EntityPrivilegeRule PrivilegeType="Create" PrivilegeDepth="Basic" AppliesTo="SelectedEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.HideAddNewForChildEntities">
+        <OrRule>
+          <Or>
+            <EntityPropertyRule AppliesTo="SelectedEntity" PropertyName="IsChildEntity" PropertyValue="false" />
+          </Or>
+          <Or>
+            <RelationshipTypeRule AppliesTo="SelectedEntity" AllowCustomRelationship="false" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.HideOnModern">
+        <CommandClientTypeRule Type="Modern" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.IsBusinessProcessEnabled">
+        <EntityPropertyRule AppliesTo="PrimaryEntity" PropertyName="IsBusinessProcessEnabled" PropertyValue="true" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.NotClosedActivity">
+        <OrRule>
+          <Or>
+            <EntityPropertyRule AppliesTo="PrimaryEntity" PropertyName="IsActivity" PropertyValue="false" />
+          </Or>
+          <Or>
+            <EntityPropertyRule AppliesTo="PrimaryEntity" PropertyName="IsActivity" PropertyValue="true" />
+            <ValueRule Field="statecode" Value="Open" />
+          </Or>
+          <Or>
+            <EntityPropertyRule AppliesTo="PrimaryEntity" PropertyName="IsActivity" PropertyValue="true" />
+            <ValueRule Field="statecode" Value="Scheduled" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.OpportunityIsClosed">
+        <FormStateRule State="Disabled" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.SelectedEntityIsListedForSendDirectEmailOrEmailable">
+        <OrRule>
+          <Or>
+            <EntityRule EntityName="lead" AppliesTo="SelectedEntity" Default="false" />
+          </Or>
+          <Or>
+            <EntityRule EntityName="opportunity" AppliesTo="SelectedEntity" Default="false" />
+          </Or>
+          <Or>
+            <EntityRule EntityName="account" AppliesTo="SelectedEntity" Default="false" />
+          </Or>
+          <Or>
+            <EntityRule EntityName="contact" AppliesTo="SelectedEntity" Default="false" />
+          </Or>
+          <Or>
+            <EntityRule EntityName="socialprofile" AppliesTo="SelectedEntity" Default="false" />
+          </Or>
+          <Or>
+            <EntityRule EntityName="incident" AppliesTo="SelectedEntity" Default="false" />
+          </Or>
+          <Or>
+            <EntityRule EntityName="contract" AppliesTo="SelectedEntity" Default="false" />
+          </Or>
+          <Or>
+            <EntityRule EntityName="quote" AppliesTo="SelectedEntity" Default="false" />
+          </Or>
+          <Or>
+            <EntityRule EntityName="salesorder" AppliesTo="SelectedEntity" Default="false" />
+          </Or>
+          <Or>
+            <EntityRule EntityName="invoice" AppliesTo="SelectedEntity" Default="false" />
+          </Or>
+          <Or>
+            <EntityRule EntityName="systemuser" AppliesTo="SelectedEntity" Default="false" />
+          </Or>
+          <Or>
+            <EntityPropertyRule AppliesTo="SelectedEntity" PropertyName="IsActivityParty" PropertyValue="true" />
+            <EntityPropertyRule AppliesTo="SelectedEntity" PropertyName="HasEmailAddresses" PropertyValue="true" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.ShowForOneToManyGrids">
+        <RelationshipTypeRule AppliesTo="SelectedEntity" RelationshipType="OneToMany" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.WriteActivityPermission">
+        <EntityPrivilegeRule PrivilegeType="Write" PrivilegeDepth="Basic" EntityName="activitypointer" />
+      </DisplayRule>
+      <DisplayRule Id="msdyn.ActivityFeeds.ShowFollowButton">
+        <EntityRule EntityName="postfollow" AppliesTo="SelectedEntity" Default="true" InvertResult="true" />
+        <EntityPrivilegeRule PrivilegeType="Create" PrivilegeDepth="Basic" EntityName="postfollow" />
+        <EntityPrivilegeRule PrivilegeType="Read" PrivilegeDepth="Basic" EntityName="postfollow" />
+      </DisplayRule>
+      <DisplayRule Id="new.Opportunity.RunDialogForm.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </DisplayRule>
+    </DisplayRules>
+    <EnableRules>
+      <EnableRule Id="arup.opportunity.AddNewRecord.EnableRule">
+        <CustomRule FunctionName="hidePlusSign" Library="$webresource:arup_hide_addnewrecord_subgrid" Default="true" InvertResult="false">
+          <StringParameter Value="opportunity" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="arup.opportunity.AddProjectParticipant.EnableRule">
+        <ValueRule Field="arup_projparticipants_reqd" Value="true" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="arup.opportunity.AddSuffix.EnableRule">
+        <CustomRule FunctionName="hideButtonAddSuffix" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="arup.opportunity.BidDecisionApproval.EnableRule">
+        <CustomRule FunctionName="hideButtonBidDecisionApproval" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="arup.opportunity.BidSubmitted.EnableRule">
+        <CustomRule FunctionName="hideButtonBidSubmitted" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="arup.opportunity.CanReopen.EnableRule">
+        <CustomRule FunctionName="canReopenOpportunity" Library="$webresource:ccrm_opportunity_library_2015" />
+      </EnableRule>
+      <EnableRule Id="arup.opportunity.CloseAsLost.EnableRule">
+        <CustomRule FunctionName="hideButtonCloseAsLost" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="arup.opportunity.CLoseAsLostNoBid.EnableRule">
+        <CustomRule FunctionName="hideButtonCloseAsLostNoBid" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="arup.opportunity.CloseAsWon.EnableRule">
+        <CustomRule FunctionName="hideButtonCloseAsWonNoCJN" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="arup.opportunity.CloseAsWonCJNNeeded.EnableRule">
+        <CustomRule FunctionName="hideButtonCloseAsWonCJNNeeded" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="arup.opportunity.ProjectCollaborator.EnableRule">
+        <CustomRule FunctionName="hideButtonProjectCollaborator" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="arup.opportunity.RequestBidSite.EnableRule">
+        <CustomRule FunctionName="hideButtonRequestBidSite" Library="$webresource:opportunity_ribbon.js" />
+      </EnableRule>
+      <EnableRule Id="arup.opportunity.SimilarBid.EnableRule">
+        <CustomRule FunctionName="hideButtonSimiliarBids" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.EnableRule.ValueRule">
+        <ValueRule Field="statuscode" Value="3" Default="true" />
+      </EnableRule>
+      <EnableRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.EnableRule.ValueRule1">
+        <ValueRule Field="statecode" Value="1" Default="true" />
+      </EnableRule>
+      <EnableRule Id="ccrm.Form.opportunity.MemberOfDQTeam.EnableRule">
+        <CustomRule FunctionName="isPartOfDQTeam" Library="$webresource:ccrm_opportunity_library_2015" />
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.2015.BidDirectorApproval">
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_biddirectorapprovaloptions" Value="100000000" Default="false" InvertResult="false" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_biddirectorapprovaloptions" Value="100000002" Default="false" InvertResult="false" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.2015.GroupLeaderApproval">
+        <ValueRule Field="statecode" Value="0" Default="false" InvertResult="false" />
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_groupleaderapprovaloptions" Value="100000000" Default="false" InvertResult="false" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_groupleaderapprovaloptions" Value="100000002" Default="false" InvertResult="false" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.2015.PracticeLeaderApproval">
+        <ValueRule Field="ccrm_opportunitytype" Value="200002" Default="false" InvertResult="false" />
+        <ValueRule Field="statecode" Value="0" Default="false" InvertResult="false" />
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_practiceleaderapprovaloptions" Value="100000000" Default="false" InvertResult="false" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_practiceleaderapprovaloptions" Value="100000002" Default="false" InvertResult="false" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.2015.RegionalCOOApproval">
+        <ValueRule Field="ccrm_opportunitytype" Value="200003" Default="false" InvertResult="false" />
+        <ValueRule Field="statecode" Value="0" Default="false" InvertResult="false" />
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_regioncooapprovaloptions" Value="100000000" Default="false" InvertResult="false" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_regioncooapprovaloptions" Value="100000002" Default="false" InvertResult="false" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.2015.RegPracLeaderApproval">
+        <ValueRule Field="ccrm_opportunitytype" Value="200003" Default="false" InvertResult="false" />
+        <ValueRule Field="statecode" Value="0" Default="false" InvertResult="false" />
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_regionalpracticeleaderapprovaloptions" Value="100000000" Default="false" InvertResult="false" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_regionalpracticeleaderapprovaloptions" Value="100000002" Default="false" InvertResult="false" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.2015.SectorLeaderApproval">
+        <ValueRule Field="ccrm_sectorleaderapprovaloptions" Value="100000000" Default="false" InvertResult="false" />
+        <ValueRule Field="statecode" Value="0" Default="false" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.BidReviewAppBtn.EnableRule">
+        <ValueRule Field="ccrm_showbidreviewappbutton" Value="1" Default="false" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.btnBidReviewAppr.EnableRule">
+        <ValueRule Field="ccrm_shwbidreviewappbtn" Value="1" Default="false" InvertResult="false" />
+        <ValueRule Field="statecode" Value="0" Default="false" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.CJNAccCenLeadApp.EnableRule">
+        <ValueRule Field="statecode" Value="0" Default="false" InvertResult="false" />
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_acctcentleadapprovaloptions" Value="100000000" Default="false" InvertResult="false" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_acctcentleadapprovaloptions" Value="100000002" Default="false" InvertResult="false" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.CJNFinApp.EnableRule">
+        <ValueRule Field="statecode" Value="0" Default="false" InvertResult="false" />
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_financeapprovaloptions" Value="100000000" Default="false" InvertResult="false" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_financeapprovaloptions" Value="100000002" Default="false" InvertResult="false" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.CJNProjMgrApp.EnableRule">
+        <ValueRule Field="statecode" Value="0" Default="false" InvertResult="false" />
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_projmgrdirapprovaloptions" Value="100000000" Default="false" InvertResult="false" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_projmgrdirapprovaloptions" Value="100000002" Default="false" InvertResult="false" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.DoDebug">
+        <CustomRule FunctionName="debug" Library="$webresource:ccrm_opportunity_library_2015" Default="true" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.EnableRule.AlwaysTrue">
+        <ValueRule Field="opportunityid" Value="00000000-0000-0000-0000-000000000000" Default="true" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.EnableRule35.EnableRule">
+        <ValueRule Field="opportunityid" Value="00000000-0000-0000-0000-000000000000" Default="false" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.GrpLeaderApp.EnableRule">
+        <ValueRule Field="statecode" Value="0" Default="false" InvertResult="false" />
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_groupleadercjnapprovaloptions" Value="100000000" Default="false" InvertResult="false" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_groupleadercjnapprovaloptions" Value="100000002" Default="false" InvertResult="false" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.RequestCJA.EnableRule">
+        <ValueRule Field="statuscode" Value="3" />
+      </EnableRule>
+      <EnableRule Id="ccrm.opportunity.SimBidDuplicate.EnableRule">
+        <FormStateRule State="Existing" Default="true" />
+      </EnableRule>
+      <EnableRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Br.Command.EnableRule.OrRule3">
+        <OrRule>
+          <Or>
+            <ValueRule Field="ccrm_sys_dtp_approval" Value="1" Default="true" />
+          </Or>
+          <Or>
+            <ValueRule Field="ccrm_opportunitytype" Value="200001" Default="true" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.BRWPJN.Command.EnableRule.ValueRule">
+        <ValueRule Field="ccrm_pjn_opportunitytype" Value="100000000" />
+      </EnableRule>
+      <EnableRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command.EnableRule.ValueRule">
+        <ValueRule Field="ccrm_pjn_opportunitytype" Value="100000001" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="ccrmccrm.Form.opportunity.MainTabArupOpportunityProgress.Cja.Command.EnableRule.ValueRule">
+        <ValueRule Field="ccrm_sys_confirmedjob_buttonhide" Value="true" InvertResult="true" />
+      </EnableRule>
+      <EnableRule Id="DWBidsSite.EnableRule">
+        <CustomRule FunctionName="DWBidsButtonVisibility" Library="$webresource:opportunity_ribbon.js" />
+      </EnableRule>
+      <EnableRule Id="DWSiteProvision.EnableRule">
+        <CustomRule FunctionName="DWBidSiteRequestVisibility" Library="$webresource:opportunity_ribbon.js" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.AppendToPrimary">
+        <RecordPrivilegeRule PrivilegeType="AppendTo" AppliesTo="PrimaryEntity" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.AssignPrimaryPermission">
+        <RecordPrivilegeRule PrivilegeType="Assign" AppliesTo="PrimaryEntity" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.AvailableOnForm">
+        <EntityRule AppliesTo="PrimaryEntity" Context="Form" Default="false" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.CanSavePrimary">
+        <OrRule>
+          <Or>
+            <RecordPrivilegeRule PrivilegeType="Create" AppliesTo="PrimaryEntity" />
+            <FormStateRule State="Create" />
+          </Or>
+          <Or>
+            <RecordPrivilegeRule PrivilegeType="Write" AppliesTo="PrimaryEntity" />
+            <FormStateRule State="Existing" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="Mscrm.Enabled">
+        <CustomRule FunctionName="XrmCore.Rules.Enabled.alwaysEnabled" Library="$webresource:Main_system_library.js" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.EntityFormIsEnabled">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.FormStateNotNew">
+        <FormStateRule State="Create" InvertResult="true" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.IsAutoSaveDisable">
+        <OrRule>
+          <Or>
+            <FormStateRule State="Create" />
+          </Or>
+          <Or>
+            <CustomRule FunctionName="XrmCore.Rules.AutoSave.isAutoSaveEnabled" Library="$webresource:Main_system_library.js" InvertResult="true" />
+          </Or>
+          <Or>
+            <CustomRule FunctionName="XrmCore.Rules.RefreshForm.isRefreshForm" Library="$webresource:Main_system_library.js" InvertResult="true" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="Mscrm.IsBusinessProcessPresent">
+        <CustomRule FunctionName="Mscrm.CommandBarActions.isBusinessProcessPresent" Library="/_static/_common/scripts/CommandBarActions.js" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.IsEntityAvailableForUserInMocaOffline">
+        <CustomRule FunctionName="XrmCore.Rules.Online.IsEntityAvailableForUserInMocaOffline" Library="$webresource:Main_system_library.js">
+          <CrmParameter Value="SelectedEntityTypeName" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="Mscrm.NotOffline">
+        <CrmOfflineAccessStateRule State="Offline" InvertResult="true" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.ReadPrimaryPermission">
+        <RecordPrivilegeRule PrivilegeType="Read" AppliesTo="PrimaryEntity" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.SelectionCountAtLeastOne">
+        <SelectionCountRule AppliesTo="SelectedEntity" Minimum="1" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.VisualizationPaneNotMaximized">
+        <OrRule>
+          <Or>
+            <CommandClientTypeRule Type="Modern" />
+          </Or>
+          <Or>
+            <CustomRule FunctionName="XrmCore.Rules.Charts.disableButtonsWhenChartMaximized" Library="$webresource:Main_system_library.js">
+              <CrmParameter Value="SelectedControl" />
+            </CustomRule>
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="msdyn.ActivityFeeds.IsFollowButtonEnabled">
+        <CustomRule FunctionName="Follow.FollowCommands.dummy" Library="$webresource:msdyn_/Follow.Command.js" Default="false" />
+        <CustomRule FunctionName="Follow.FollowCommands.dummy" Library="$webresource:msdyn_/Scripts/PlatformScriptLoader.js" />
+        <CustomRule FunctionName="Follow.FollowCommands.dummy" Library="$webresource:msdyn_/InstalledLocales.js" />
+        <CustomRule FunctionName="Follow.FollowEnabled.isFollowButtonEnabled" Library="$webresource:msdyn_/Follow.Command.js" Default="false">
+          <CrmParameter Value="FirstPrimaryItemId" />
+          <CrmParameter Value="PrimaryEntityTypeName" />
+          <BoolParameter Value="true" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="msdyn.ActivityFeeds.NotNewEnableRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </EnableRule>
+      <EnableRule Id="msdyn.ActivityFeeds.Yammer.ShouldEnableFollow">
+        <CustomRule FunctionName="Follow.FollowEnableYammerCheck.shouldEnableFollow" Library="$webresource:msdyn_/Follow.Command.js" Default="true">
+          <CrmParameter Value="PrimaryEntityTypeCode" />
+          <CrmParameter Value="SelectedEntityTypeCode" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="new.contact.RunDialogForm.Command.EnableRule.FormStateRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </EnableRule>
+      <EnableRule Id="Opportunity.MarkAsWon.Command.EnableRule.ValueRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </EnableRule>
+      <EnableRule Id="Opportunity.MarkAsWonWithCJN.Command.EnableRule.ValueRule">
+        <ValueRule Field="ccrm_jna" Value="null" InvertResult="true" />
+      </EnableRule>
+    </EnableRules>
+  </RuleDefinitions>
+  <LocLabels>
+    <LocLabel Id="arup.opportunity.AddProjectParticipant.Button.Alt">
+      <Titles>
+        <Title description="Project Collaborators" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.AddProjectParticipant.Button.LabelText">
+      <Titles>
+        <Title description="Project Collaborators" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.AddProjectParticipant.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to add Project Collaborators for this Opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.BidSubmitted.Button.Alt">
+      <Titles>
+        <Title description="Bid Submitted" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.BidSubmitted.Button.LabelText">
+      <Titles>
+        <Title description="Bid Submitted" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.BidSubmitted.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Bid Submitted" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button.BidDecisionApproval.Alt">
+      <Titles>
+        <Title description="Bid Decision Approval" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button.BidDecisionApproval.LabelText">
+      <Titles>
+        <Title description="Bid Decision Approval" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button.BidDecisionApproval.ToolTipTitle">
+      <Titles>
+        <Title description="Bid Decision Approval" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button31.Button.Alt">
+      <Titles>
+        <Title description="Request Bid Site to be provisioned" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button31.Button.LabelText">
+      <Titles>
+        <Title description="Request Bid Site" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button31.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click the button to request provisioning of the new Bid Site" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button35.Button.LabelText">
+      <Titles>
+        <Title description="Accounting Center Leader/Delegate Decline" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button35.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to decline this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button36.Button.Alt">
+      <Titles>
+        <Title description="Exit" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button36.Button.LabelText">
+      <Titles>
+        <Title description="Exit" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button36.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Exit form" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button36.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Exit opportunity form" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button45.Button.Alt">
+      <Titles>
+        <Title description="Close as Lost / No Bid" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button45.Button.LabelText">
+      <Titles>
+        <Title description="Close as Lost / No Bid" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button45.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Close as Lost / No Bid" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button46.Button.Alt">
+      <Titles>
+        <Title description="Close as Lost" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button46.Button.LabelText">
+      <Titles>
+        <Title description="Close as Lost" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button46.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Close Opportunity as Lost" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button47.Button.Alt">
+      <Titles>
+        <Title description="Close as Won - No CJN" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button47.Button.LabelText">
+      <Titles>
+        <Title description="Close as Won - No CJN" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.opportunity.Button47.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Close Opportuntiy as Won" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Title">
+      <Titles>
+        <Title description="Opportunity Progress" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.Form.opportunity.MainTab.SharePoint.Title">
+      <Titles>
+        <Title description="Documents" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.AddSuffix.Button.LabelText">
+      <Titles>
+        <Title description="Add a Suffix" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.AddSuffix.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Add a Suffix" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.advancedfind2.Button.Alt">
+      <Titles>
+        <Title description="Advanced Find" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.advancedfind2.Button.LabelText">
+      <Titles>
+        <Title description="Advanced Find" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.advancedfind2.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Advanced Find" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.advancedfind2.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Advanced Find" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Bidsite.Button.Alt">
+      <Titles>
+        <Title description="Bid Site" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Bidsite.Button.LabelText">
+      <Titles>
+        <Title description="Bid Site" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Bidsite.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click the button to go to the Bid Hub" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.BtnBidReivewAppr.Button.LabelText">
+      <Titles>
+        <Title description="BID REVIEW APPROVAL" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.BtnBidReivewAppr.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to approve this" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.BtnBidReivewDecline.Button.LabelText">
+      <Titles>
+        <Title description="BID REVIEW DECLINE" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.BtnBidReivewDecline.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Decline this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.BidDirectorApp.Alt">
+      <Titles>
+        <Title description="BID DIRECTOR APPROVAL" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.BidDirectorApp.LabelText">
+      <Titles>
+        <Title description="Bid Director Approval" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.BidDirectorApp.ToolTipDescription">
+      <Titles>
+        <Title description="Click to approve this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.BidDirectorDecline.Alt">
+      <Titles>
+        <Title description="BID DIRECTOR DECLINE" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.BidDirectorDecline.LabelText">
+      <Titles>
+        <Title description="BID DIRECTOR DECLINE" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.BidDirectorDecline.ToolTipDescription">
+      <Titles>
+        <Title description="Click to decline this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.GroupLeaderApp.Alt">
+      <Titles>
+        <Title description="GROUP LEADER APPROVAL" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.GroupLeaderApp.LabelText">
+      <Titles>
+        <Title description="GROUP LEADER APPROVAL" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.GroupLeaderApp.ToolTipDescription">
+      <Titles>
+        <Title description="Click to approve this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.GroupLeaderDecline.Alt">
+      <Titles>
+        <Title description="GROUP LEADER DECLINE" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.GroupLeaderDecline.LabelText">
+      <Titles>
+        <Title description="GROUP LEADER DECLINE" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.GroupLeaderDecline.ToolTipDescription">
+      <Titles>
+        <Title description="Click to decline this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.PracticeLeaderApp.Alt">
+      <Titles>
+        <Title description="SECTOR LEADER APPROVAL" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.PracticeLeaderApp.LabelText">
+      <Titles>
+        <Title description="SECTOR LEADER APPROVAL" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.PracticeLeaderApp.ToolTipDescription">
+      <Titles>
+        <Title description="Click to approve this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.PracticeLeaderDecline.Alt">
+      <Titles>
+        <Title description="SECTOR LEADER DECLINE" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.PracticeLeaderDecline.LabelText">
+      <Titles>
+        <Title description="SECTOR LEADER DECLINE" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.PracticeLeaderDecline.ToolTipDescription">
+      <Titles>
+        <Title description="Click to decline this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.RegCOOApp.Alt">
+      <Titles>
+        <Title description="REGIONAL COO/CEO" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.RegCOOApp.LabelText">
+      <Titles>
+        <Title description="REGIONAL COO/CEO" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.RegCOOApp.ToolTipDescription">
+      <Titles>
+        <Title description="Click to approve this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.RegCOODecline.Alt">
+      <Titles>
+        <Title description="REGIONAL COO/CEO" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.RegCOODecline.LabelText">
+      <Titles>
+        <Title description="REGIONAL COO/CEO" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.RegCOODecline.ToolTipDescription">
+      <Titles>
+        <Title description="Click to decline this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.RegPracLeaderApp.Alt">
+      <Titles>
+        <Title description="REGIONAL SECTOR LEADER APPROVAL" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.RegPracLeaderApp.LabelText">
+      <Titles>
+        <Title description="REGIONAL SECTOR LEADER APPROVAL" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.RegPracLeaderApp.ToolTipDescription">
+      <Titles>
+        <Title description="Click to approve this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.RegPracLeaderDecline.Alt">
+      <Titles>
+        <Title description="REGIONAL SECTOR LEADER DECLINE" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.RegPracLeaderDecline.LabelText">
+      <Titles>
+        <Title description="REGIONAL SECTOR LEADER DECLINE" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.RegPracLeaderDecline.ToolTipDescription">
+      <Titles>
+        <Title description="Click to decline this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.SectorLeaderApp.LabelText">
+      <Titles>
+        <Title description="SECTOR LEADER APPROVAL" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button.SectorLeaderApp.ToolTipDescription">
+      <Titles>
+        <Title description="Click to approve this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button1.Button.Alt">
+      <Titles>
+        <Title description="Close As Won - CJN Needed" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button1.Button.LabelText">
+      <Titles>
+        <Title description="Close As Won - CJN Needed" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button1.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Close As Won - CJN Needed" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button10.Button.LabelText">
+      <Titles>
+        <Title description="Follow" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button2.Button.Alt">
+      <Titles>
+        <Title description="Request Possible Job" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button2.Button.LabelText">
+      <Titles>
+        <Title description="Request Possible Job" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button2.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to Request Possible Job for this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button3.Button.LabelText">
+      <Titles>
+        <Title description="Create Exclusivity Request" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button3.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click this button to create an Exclusivity Request" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.ccrmReopenOpp.Button.Alt">
+      <Titles>
+        <Title description="Reopen Opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.ccrmReopenOpp.Button.LabelText">
+      <Titles>
+        <Title description="Reopen Opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.ccrmReopenOpp.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Reopen this opportunity to make it active and continue working on it." languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNAccCenLeadApp.Button.LabelText">
+      <Titles>
+        <Title description="Accounting Center Leader/Delegate Approval" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNAccCenLeadApp.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to approve this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNFinApp.Button.LabelText">
+      <Titles>
+        <Title description="Finance Approval" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNFinApp.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to approve this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNFinDecline.Button.LabelText">
+      <Titles>
+        <Title description="Finance Decline" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNFinDecline.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to decline this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNGrpLeaderApp.Button.LabelText">
+      <Titles>
+        <Title description="Group Leader Approval" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNGrpLeaderApp.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to approve this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNGrpLeaderDecline.Button.LabelText">
+      <Titles>
+        <Title description="Group Leader Decline" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNGrpLeaderDecline.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to decline this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNPrjMgrApp.Button.LabelText">
+      <Titles>
+        <Title description="Project Manager/Director Approval" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNPrjMgrApp.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to approve this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNPrjMgrDeclne.Button.LabelText">
+      <Titles>
+        <Title description="Project Manager/Director Decline" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CJNPrjMgrDeclne.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to decline this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.SimBids.Button.Alt">
+      <Titles>
+        <Title description="Similar Bids" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.SimBids.Button.LabelText">
+      <Titles>
+        <Title description="Similar Bids" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.SimBids.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to search for Similar Bids for this {0}" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.LabelText">
+      <Titles>
+        <Title description="Reset Gateway to Confirmed Job Approval" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.ToolTipDescription">
+      <Titles>
+        <Title description="Reset to start of Confirmed Job Number Approval Gateway (this will delete your previous job number selection)" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.ResetCjnaGW.ToolTipTitle">
+      <Titles>
+        <Title description="Reset Gateway to Confirmed Job Approval" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="Mscrm.Form.opportunity.Reports.ToolTipDescription">
+      <Titles>
+        <Title description="Select a report to run.  &lt;br&gt;Run reports on records you select or on all records." languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="Mscrm.Form.opportunity.UnfollowButton.LabelText">
+      <Titles>
+        <Title description="Unfollow" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+  </LocLabels>
+</RibbonDiffXml>

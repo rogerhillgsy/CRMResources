@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{00000000-0000-0000-00aa-000010003003}</savedqueryid>
+    <queryapi></queryapi>
+    <layoutxml>
+      <grid name="resultset" jump="name" select="1" icon="1" preview="1">
+        <row name="result" id="opportunityid">
+          <cell name="name" width="300" />
+          <cell name="customerid" width="150" />
+          <cell name="estimatedclosedate" width="125" />
+          <cell name="estimatedvalue" width="125" />
+          <cell name="closeprobability" width="125" />
+          <cell name="a_dc8c9886201d4b3e877797f301fd62aa.emailaddress1" width="150" disableSorting="1" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical">
+        <entity name="opportunity">
+          <attribute name="name" />
+          <attribute name="estimatedvalue" />
+          <order attribute="name" descending="false" />
+          <filter type="and">
+            <condition attribute="createdon" operator="last-week" />
+          </filter>
+          <attribute name="estimatedclosedate" />
+          <attribute name="customerid" />
+          <attribute name="closeprobability" />
+          <link-entity alias="a_dc8c9886201d4b3e877797f301fd62aa" name="contact" from="contactid" to="customerid" link-type="outer" visible="false">
+            <attribute name="emailaddress1" />
+          </link-entity>
+          <attribute name="opportunityid" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Opportunities Opened Last Week" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

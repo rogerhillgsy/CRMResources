@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{934df555-3bfa-486b-89cb-91b8517066cf}</formid>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab id="{c2cd01f6-8e5e-4826-9e5a-608ef6ac5bd1}" name="tab_1" showlabel="false" labelid="{c09ce740-1085-4663-af5f-c723bb0a2aa4}">
+          <labels>
+            <label description="Tab" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section id="{2138ab27-5f08-40da-b4ee-c26e0519c431}" name="tab_1_column_1_section_1" columns="1" showlabel="false" showbar="false" IsUserDefined="0" labelid="{ae29a4c9-a140-4e23-b6c6-dc08a22de091}">
+                  <labels>
+                    <label description="section" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{b1e42699-7c33-bd01-db64-2592d021acbb}" showlabel="true" locklevel="0" visible="false" labelid="{b91cfd4a-36a9-4cfb-8ff1-0d0917bf84ed}">
+                        <labels>
+                          <label description="Project Name" languagecode="1033" />
+                        </labels>
+                        <control id="name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="name" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{1020844c-c134-896d-78be-c45398c652a6}" showlabel="true" locklevel="0" labelid="{a69f4ae2-dd7b-406c-9c62-03a5c8abf1f6}">
+                        <labels>
+                          <label description="Customer (copy)" languagecode="1033" />
+                        </labels>
+                        <control id="customerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="customerid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{88334982-26a5-d334-4804-1287b6002d12}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Ultimate/End Client" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_ultimateendclientid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_ultimateendclientid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a1d7965b-7e37-5242-3ce4-b8bd82e44477}" showlabel="true" locklevel="0" labelid="{75310209-5855-4167-a7bc-99f38f3d96f0}">
+                        <labels>
+                          <label description="PJN (Possible Job Number)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_pjna" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_pjna" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{ad53357e-86e2-4156-b6b9-300e3a5c3a8e}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Project ID" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_reference" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_reference" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{85ddb761-3313-a2aa-e127-998bb4aeb469}" showlabel="true" locklevel="0" labelid="{03080f22-567f-413e-9bd4-1e8a3ee347a1}">
+                        <labels>
+                          <label description="Bid Manager" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_bidmanager_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_bidmanager_userid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{7c5a0a2b-1213-8dd7-ca26-5992936ebd75}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Bid Director" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_biddirector_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_biddirector_userid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{da35a1c8-3a81-c5ae-822e-1d4889d795a8}" showlabel="true" locklevel="0" labelid="{5bb49304-e15f-4b00-8693-290fd9fe4f0d}">
+                        <labels>
+                          <label description="Project Manager" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projectmanager_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_projectmanager_userid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{98311eec-d100-b146-4e81-2543c9272c85}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Project Director" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projectdirector_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_projectdirector_userid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{3c65abc1-a5e7-2e85-6980-9c5b833092d3}" showlabel="true" locklevel="0" labelid="{7b0862f7-2c05-4598-9941-90ccd63eb08f}">
+                        <labels>
+                          <label description="Project Country" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projectlocationid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_projectlocationid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>true</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{20BC9030-BC6C-44EF-A763-E5997D15B0C1}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{c69cd2d7-dc83-b15e-8756-5bb67b1e5709}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Country of Client Registration" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_countryofclientregistrationid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_countryofclientregistrationid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{20BC9030-BC6C-44EF-A763-E5997D15B0C1}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <DisplayConditions Order="2">
+        <Role Id="{627090ff-40a3-4053-8790-584edc5be201}" />
+        <Role Id="{119f245c-3cc8-4b62-b31c-d1a046ced15d}" />
+      </DisplayConditions>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Bid Review Opp Client quick view" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="MK 16/04/14: created to address changes to bid review form" languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

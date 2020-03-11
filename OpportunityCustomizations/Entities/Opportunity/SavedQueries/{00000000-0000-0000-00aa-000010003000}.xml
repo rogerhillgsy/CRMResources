@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{00000000-0000-0000-00aa-000010003000}</savedqueryid>
+    <queryapi></queryapi>
+    <layoutxml>
+      <grid name="resultset" jump="name" select="1" icon="1" preview="1">
+        <row name="result" id="opportunityid">
+          <cell name="ccrm_pjna" width="100" />
+          <cell name="name" width="300" />
+          <cell name="customerid" width="150" />
+          <cell name="ccrm_projectlocationid" width="100" />
+          <cell name="ccrm_location" width="100" />
+          <cell name="statuscode" width="100" />
+          <cell name="ccrm_arupbusinessid" width="100" />
+          <cell name="ccrm_arupcompanyid" width="100" />
+          <cell name="estimatedvalue" width="100" />
+          <cell name="ccrm_estimatedvalue_num" width="100" />
+          <cell name="ccrm_bidreview" width="100" />
+          <cell name="ccrm_bidsubmission" width="100" />
+          <cell name="estimatedclosedate" width="125" />
+          <cell name="createdon" width="100" />
+          <cell name="modifiedon" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+        <entity name="opportunity">
+          <attribute name="name" />
+          <attribute name="estimatedvalue" />
+          <attribute name="estimatedclosedate" />
+          <attribute name="customerid" />
+          <attribute name="statuscode" />
+          <attribute name="ccrm_projectlocationid" />
+          <attribute name="ccrm_estimatedvalue_num" />
+          <attribute name="ccrm_pjna" />
+          <attribute name="ccrm_location" />
+          <attribute name="ccrm_arupbusinessid" />
+          <attribute name="ccrm_bidsubmission" />
+          <attribute name="ccrm_bidreview" />
+          <attribute name="ccrm_arupcompanyid" />
+          <attribute name="modifiedon" />
+          <attribute name="createdon" />
+          <order attribute="name" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <attribute name="opportunityid" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="My Open Opportunities" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{7458d1d0-1371-e211-a512-005056af0014}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="name" select="1" preview="1" icon="1">
+        <row name="result" id="opportunityid">
+          <cell name="name" width="200" />
+          <cell name="ccrm_client" width="150" />
+          <cell name="ccrm_projectdirector_userid" width="125" />
+          <cell name="ccrm_estimatedvalue_num" width="100" />
+          <cell name="ccrm_project_transactioncurrencyid" width="125" />
+          <cell name="closeprobability" width="100" />
+          <cell name="ccrm_probabilityofprojectproceeding" width="100" />
+          <cell name="ccrm_projectlocationid" width="100" />
+          <cell name="ccrm_arupbusinessid" width="100" />
+          <cell name="ccrm_arupgroupid" width="100" />
+          <cell name="ccrm_arupregionid" width="100" />
+          <cell name="statuscode" width="100" />
+          <cell name="ccrm_estarupinvolvementstart" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true">
+        <entity name="opportunity">
+          <attribute name="ccrm_projectlocationid" />
+          <attribute name="name" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <link-entity name="ccrm_arupregion" from="ccrm_arupregionid" to="ccrm_arupregionid" alias="ad">
+            <link-entity name="systemuser" from="ccrm_arupregionid" to="ccrm_arupregionid" alias="ae">
+              <filter type="and">
+                <condition attribute="systemuserid" operator="eq-userid" />
+              </filter>
+            </link-entity>
+          </link-entity>
+          <attribute name="ccrm_project_transactioncurrencyid" />
+          <attribute name="ccrm_estimatedvalue_num" />
+          <attribute name="ccrm_estarupinvolvementstart" />
+          <attribute name="ccrm_arupbusinessid" />
+          <attribute name="ccrm_projectdirector_userid" />
+          <attribute name="closeprobability" />
+          <attribute name="ccrm_probabilityofprojectproceeding" />
+          <attribute name="ccrm_arupgroupid" />
+          <attribute name="ccrm_arupregionid" />
+          <attribute name="statuscode" />
+          <order attribute="ccrm_estarupinvolvementstart" descending="false" />
+          <attribute name="ccrm_client" />
+          <attribute name="opportunityid" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="My Region - Open Opportunities" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

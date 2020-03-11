@@ -1,0 +1,2529 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{6f373027-ed7a-4bc6-81cb-abd4aaa4cdc5}</formid>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>0</FormActivationState>
+    <form shownavigationbar="true" showImage="false" maxWidth="1900">
+      <ancestor id="{a837e4a7-01b8-4f82-a475-be9abd67e667}" />
+      <tabs>
+        <tab name="Summary" verticallayout="true" id="{b6a005fd-5964-4427-b39b-6750e1a5fa6f}" IsUserDefined="0" locklevel="0" showlabel="true" labelid="{a71d45ea-c256-42db-83cf-77e13efc029e}" expanded="true">
+          <labels>
+            <label description="Summary" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="28%">
+              <sections>
+                <section name="opportunity_information" showlabel="false" showbar="false" id="{5d1cf874-b807-4158-b230-1a13c1db73ad}" columns="1" IsUserDefined="0" locklevel="0" labelwidth="135" celllabelalignment="Left" celllabelposition="Left" labelid="{12d9d727-1e39-4e67-ae92-96b8676b610e}">
+                  <labels>
+                    <label description="Opportunity Information" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{2d4d528e-8366-b03c-aba0-982c62139e14}" showlabel="true" locklevel="0" labelid="{5eefbab6-05d1-4f2e-a3fa-e07578b9aeeb}">
+                        <labels>
+                          <label description="Project ID" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_reference" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_reference" disabled="true" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell colspan="1" id="{439e0732-3f3a-409d-98ba-83d3251cb64b}" showlabel="true" locklevel="0" labelid="{77521f79-a56a-4d8b-b119-71b21a70a304}">
+                        <labels>
+                          <label description="Project Name" languagecode="1033" />
+                        </labels>
+                        <control id="name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="name" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{501ac2b1-045b-73e8-299a-a8c374d5e9b7}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Client" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_client" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_client" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{A9AF0AB8-861D-4CFA-92A5-C6281FED7FAB}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{7327036c-2d25-becd-7a24-ca46b9c88923}" showlabel="true" locklevel="0" labelid="{4f94e76d-f34b-43da-9306-b2035f3738d3}">
+                        <labels>
+                          <label description="Ultimate/End Client" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_ultimateendclientid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_ultimateendclientid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{A9AF0AB8-861D-4CFA-92A5-C6281FED7FAB}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{45945bc8-dad9-bab0-a239-5edb832555de}" showlabel="true" locklevel="0" labelid="{c8767aa5-75c7-42bd-9a32-79e708826cdb}">
+                        <labels>
+                          <label description="Arup Business" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupbusinessid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_arupbusinessid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{4E81B86F-99AF-421E-B021-A673156CE0DE}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{97c1cba5-bca2-801a-55d0-517b6bc5548e}" showlabel="true" locklevel="0" labelid="{85ced4d9-ba18-4ab0-ac0f-023a5d4dcf90}">
+                        <labels>
+                          <label description="Related Networks &amp; Markets" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_othernetworksdisp" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_othernetworksdisp" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{393d3aa3-d110-c1b7-b959-0d1be9a95dbc}" showlabel="true" locklevel="0" visible="false" labelid="{dcc27e74-0ee0-4728-af15-28080a34f0c1}">
+                        <labels>
+                          <label description="Related Networks &amp; Markets (code)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_othernetworks" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_othernetworks" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a4500ba6-c80d-c048-cb3d-c1b4e8181ac9}" showlabel="true" locklevel="0" visible="false" labelid="{e4cf7756-1a4c-4167-b524-ea17897558ab}">
+                        <labels>
+                          <label description="Related Networks &amp; Markets value" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_othernetworksval" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_othernetworksval" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{ae57c33a-3223-0c78-50ce-6a72cda81075}" showlabel="true" locklevel="0" visible="false">
+                        <labels>
+                          <label description="Related Networks &amp; Markets = Other" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_othernetworkdetails" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_othernetworkdetails" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{6de86a46-e65e-cb1c-bd8b-8a83a1b0d495}" showlabel="true" locklevel="0" labelid="{8ec04417-18cc-41ca-bef0-fac6c0c4d7f9}">
+                        <labels>
+                          <label description="Project Country" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projectlocationid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_projectlocationid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{20BC9030-BC6C-44EF-A763-E5997D15B0C1}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{2289acd3-b070-6861-89d2-1d6956856e79}" showlabel="true" locklevel="0" labelid="{a1936768-f9ac-45a7-871c-1d1261368625}">
+                        <labels>
+                          <label description="Project State/Province" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupusstateid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_arupusstateid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{8C7426D7-90B4-4865-9F63-2D35EDC09B57}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{63b0778e-a4b6-b090-6848-77314aa1beaa}" showlabel="true" locklevel="0" labelid="{d8723fdb-1c12-4bf7-b46e-fb9de63f0789}">
+                        <labels>
+                          <label description="Project Town/City" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_location" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_location" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{8a822676-1dec-bc71-3814-c9cddcec5d5a}" showlabel="true" locklevel="0" labelid="{0dfe2cc4-55eb-4741-9533-4bb1ba3fbf72}">
+                        <labels>
+                          <label description="Arup Company" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupcompanyid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_arupcompanyid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{8B3F3055-0DC8-414E-8D73-68ACD251DAF4}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{365de283-0564-e840-148e-45bbeb065661}" showlabel="true" locklevel="0" labelid="{3fdefdb1-e0af-41f3-abd9-297be8c065fb}">
+                        <labels>
+                          <label description="Accounting Centre" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_accountingcentreid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_accountingcentreid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{45F07848-C04D-4A72-A9DA-FF0BC11CB822}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                            <FilterRelationshipName>ccrm_arupaccountingcode_ccrm_arupcompany</FilterRelationshipName>
+                            <DependentAttributeName>opportunity.ccrm_arupcompanyid</DependentAttributeName>
+                            <DependentAttributeType>ccrm_arupcompany</DependentAttributeType>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{672c47eb-a53b-c161-627a-a0695db14a79}" showlabel="true" locklevel="0" labelid="{f554841b-e1f3-4729-b923-6b69a357c7af}">
+                        <labels>
+                          <label description="Arup Internal" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupinternal" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_arupinternal" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{0b62d434-ee2c-bde5-0d0b-ee778244ebe0}" showlabel="true" locklevel="1" labelid="{1432b5de-6dfd-4013-9c3e-b312b1b66ebc}">
+                        <labels>
+                          <label description="Risk Level" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_opportunitytype" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_opportunitytype" disabled="true" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{52739676-d193-b4d7-c1ce-0c00481196b3}" showlabel="true" locklevel="0" labelid="{f542d645-78dd-4e21-a3bf-216567b577ad}">
+                        <labels>
+                          <label description="Country Category" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_countrycategory" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_countrycategory" disabled="true" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{202d0c78-7331-35d4-b0dc-1dd708e606a6}" showlabel="true" locklevel="0" labelid="{cc457d62-c700-4fa3-994e-f393862427a8}">
+                        <labels>
+                          <label description="Charging Basis" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_chargingbasis" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_chargingbasis" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{4e3be0eb-482b-9674-9e22-ed73e3041dd3}" showlabel="true" locklevel="0" labelid="{f3a1d4c9-75a6-4ac0-86e5-2d844e9253b9}">
+                        <labels>
+                          <label description="Invoicing Level" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_invoicinglevel" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_invoicinglevel" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{8b9e0231-573b-71a6-885b-433e00c7c409}" showlabel="true" locklevel="0" labelid="{8a7b3c05-a75b-4046-a9f9-7c9cb5349842}" visible="false">
+                        <labels>
+                          <label description="Potential Customer" languagecode="1033" />
+                        </labels>
+                        <control id="customerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="customerid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>true</DisableMru>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{7d745722-3736-6dc5-e30a-65d3dede95ee}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Arup University/IiA Research Initiative" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupuniversityiiaresearchinitiative" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_arupuniversityiiaresearchinitiative" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="Summary_section_4" showlabel="true" showbar="true" locklevel="0" id="{5783eb96-0c94-0c61-7548-8602bc3d2e1a}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="165" height="auto" celllabelalignment="Left" celllabelposition="Top" labelid="{41ed4ef3-7f39-478c-9aad-31364ca20c48}">
+                  <labels>
+                    <label description="Summary" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{2cee855d-be6b-786d-e781-8ccbd1858cb5}" showlabel="false" locklevel="0" rowspan="5" labelid="{c8fc9aa1-19a3-4d47-8fa5-5b0a763d6d49}">
+                        <labels>
+                          <label description="Project Summary" languagecode="1033" />
+                        </labels>
+                        <control id="description" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="description" disabled="false" />
+                      </cell>
+                    </row>
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                  </rows>
+                </section>
+              </sections>
+            </column>
+            <column width="42%">
+              <sections>
+                <section name="Social_pane" showlabel="true" showbar="false" locklevel="0" id="{c03918d8-d714-7b95-3083-443db3e303c8}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="115" labelid="{3f214da1-0d05-4e43-a373-88274aa40e0f}" celllabelalignment="Left" celllabelposition="Left">
+                  <labels>
+                    <label description="Bid Costs" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{c33ca9ea-6711-6424-a609-350c996b0336}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Bid Salary Cost" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_salarycost_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_salarycost_num" disabled="false" />
+                      </cell>
+                      <cell id="{5b427881-be00-0357-96dc-7529bbe57099}" showlabel="true" locklevel="0" labelid="{c0a9a677-0e57-4e0c-a7f4-77e3fe12a065}">
+                        <labels>
+                          <label description="Bid Gross Expenses" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_grossexpenses_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_grossexpenses_num" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{3ed2e895-8bce-7b84-cb5b-c4ee8c73b8c0}" showlabel="true" locklevel="0" labelid="{6dfcaa88-3c16-4c77-b693-53480317077b}">
+                        <labels>
+                          <label description="Bid Staff OH Rate %" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_staffoverheadspercent" classid="{C3EFE0C3-0EC6-42be-8349-CBD9079DFD8E}" datafieldname="ccrm_staffoverheadspercent" disabled="false" />
+                      </cell>
+                      <cell id="{935577bd-895a-4b74-2619-8e7819be68b8}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Total Bid Cost" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_totalbidcost_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_totalbidcost_num" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a1d60b89-ea2b-6d58-9d8a-c67d259635c0}" showlabel="true" locklevel="0" labelid="{27702133-df23-498b-9e92-93fae454f776}">
+                        <labels>
+                          <label description="Bid Staff OH Cost" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_staffoverheads_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_staffoverheads_num" disabled="false" />
+                      </cell>
+                      <cell id="{35509529-668b-9654-858e-392960691d41}" showlabel="true" locklevel="0" labelid="{43fe7282-c4a2-4dd8-a433-5ab020e9b913}">
+                        <labels>
+                          <label description="Bid Currency" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_bid_transactioncurrencyid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_bid_transactioncurrencyid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{2275e62e-5d97-91a1-c2b8-49cec7e44bc9}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Actual Bid Effort Cost Spent" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_actualbidsalarycosts" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_actualbidsalarycosts" disabled="false" />
+                      </cell>
+                      <cell id="{c61d6c75-3184-7257-82b9-7c7264842c0d}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Actual Bid Expenses Spent" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_actualbidgrossexpenses" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_actualbidgrossexpenses" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{21b0e334-d846-46d9-4664-8a6a3b8ee832}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Actual Total Cost Spent" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_actualtotalbidcosts" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_actualtotalbidcosts" disabled="false" />
+                      </cell>
+                      <cell id="{13c0abd7-87c4-5204-b6b0-dbc2adc6b2d8}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="tab_Bid_section_9" showlabel="true" showbar="false" locklevel="0" id="{8cd51078-38aa-7194-2bdb-c48e213ee40c}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                  <labels>
+                    <label description="Project Financials" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{8ed2689a-4b85-65e9-1857-126098ba088d}" showlabel="true" locklevel="0" labelid="{57bafe6a-0e55-40e8-a3de-2285e5a9b524}">
+                        <labels>
+                          <label description="Fee Income" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estimatedvalue_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_estimatedvalue_num" disabled="false" />
+                      </cell>
+                      <cell id="{33857a67-20a9-6110-ab64-2a6e8157a47a}" showlabel="true" locklevel="0" labelid="{9e7ee0c1-757e-41bf-9631-d8c29240f216}">
+                        <labels>
+                          <label description="Salary Cost" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estprojectresourcecosts_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_estprojectresourcecosts_num" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{ac951787-ebbb-75d6-55e5-d9d68164c212}" showlabel="true" locklevel="0" labelid="{38256a11-1a43-40c1-a2ab-5c7a996a6ce3}">
+                        <labels>
+                          <label description="Expense Income" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estexpenseincome_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_estexpenseincome_num" disabled="false" />
+                      </cell>
+                      <cell id="{dbe67ac5-4556-898e-3dce-8a84727aaeb7}" showlabel="true" locklevel="0" labelid="{19f56ce3-8b76-4455-995e-800bc856340d}">
+                        <labels>
+                          <label description="Staff OH Rate %" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estprojectstaffoverheadsrate" classid="{C3EFE0C3-0EC6-42be-8349-CBD9079DFD8E}" datafieldname="ccrm_estprojectstaffoverheadsrate" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{475278be-a48a-7657-0224-a63308b00938}" showlabel="true" locklevel="0" labelid="{0d1bdf0f-d778-4c80-be62-54e812dec4fc}">
+                        <labels>
+                          <label description="Total Income" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projecttotalincome_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_projecttotalincome_num" disabled="false" />
+                      </cell>
+                      <cell id="{a199431a-2bbe-4288-6086-07b0eacb784c}" showlabel="true" locklevel="0" labelid="{12c5e57d-7a8a-496c-9cd2-2b4c4fb220a1}">
+                        <labels>
+                          <label description="Staff Overheads" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estprojectoverheads_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_estprojectoverheads_num" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{b7bbc4a5-9cae-17d7-d60c-5cac6c9a5db1}" showlabel="true" locklevel="0" labelid="{751da8be-3ba9-4d25-962e-fbdf5393e369}">
+                        <labels>
+                          <label description="Factored Income" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_proj_factoredincome_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_proj_factoredincome_num" disabled="false" />
+                      </cell>
+                      <cell id="{71e01670-2d53-3d3d-219d-91b4884120c7}" showlabel="true" locklevel="0" labelid="{c2124f0b-2fd7-44a3-8552-5fc9e96be74e}">
+                        <labels>
+                          <label description="Gross Expenses" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estprojectexpenses_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_estprojectexpenses_num" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{19a2eb88-ea05-a532-9a11-b3546a78937b}" showlabel="true" locklevel="0" labelid="{00c400b5-9816-4efb-852f-2bfcbe930471}">
+                        <labels>
+                          <label description="Project Profit" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estprojectprofit_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_estprojectprofit_num" disabled="false" />
+                      </cell>
+                      <cell id="{e7b33b51-d112-7381-9add-d05799c69830}" showlabel="true" locklevel="0" labelid="{cf494468-0a1e-4b9e-8971-efcdea05da5c}">
+                        <labels>
+                          <label description="Sub Contractor Fees (inc. in Gross Exp.)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estprojectsubcontractorfees_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_estprojectsubcontractorfees_num" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{70e89232-1788-c06a-05cc-7334626b61c4}" showlabel="true" locklevel="0" labelid="{8b2a6062-12e7-4823-9d0f-591e2a84554b}">
+                        <labels>
+                          <label description="Factored Profit" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_proj_factoredprofit_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_proj_factoredprofit_num" disabled="false" />
+                      </cell>
+                      <cell id="{b7893148-a030-421e-b125-bd4b8331a51e}" showlabel="true" locklevel="0" labelid="{cc56d497-ac4a-4796-b614-94595f86443f}">
+                        <labels>
+                          <label description="Total Cost" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projecttotalcosts_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_projecttotalcosts_num" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{878be81a-da01-971b-5b45-62b052c05d8b}" showlabel="true" locklevel="0" labelid="{cbaecec4-3994-4346-a964-d836e720d5ca}">
+                        <labels>
+                          <label description="% Profit on Income" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_profitasapercentageoffeedec" classid="{C3EFE0C3-0EC6-42be-8349-CBD9079DFD8E}" datafieldname="ccrm_profitasapercentageoffeedec" disabled="false" />
+                      </cell>
+                      <cell id="{313642e4-46a6-36de-018e-ce166c684027}" showlabel="true" locklevel="0" labelid="{e23c9d14-d41e-475c-9d7d-ea56cf0cabcb}">
+                        <labels>
+                          <label description="Maximum -ve Cashflow" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_anticipatedprojectcashflow_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_anticipatedprojectcashflow_num" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{c12b1383-badd-9330-144e-9ca378b11c66}" showlabel="true" locklevel="0" labelid="{343a19c6-364a-40b6-86fc-4086186a0f62}">
+                        <labels>
+                          <label description="Factored Net Return to Arup" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_factorednetreturntoarup_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_factorednetreturntoarup_num" disabled="false" />
+                      </cell>
+                      <cell id="{b89d4a91-bebd-e059-9393-685b6704165c}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{5a8be708-4e80-a785-804c-ad3532e27bc4}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Ratio Fact. Return/Arup Bid Costs" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_ratfactnetreturntoarupnetarupbidcost_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_ratfactnetreturntoarupnetarupbidcost_num" disabled="false" />
+                      </cell>
+                      <cell id="{07919782-c0ae-179c-ae88-6b292e44de6d}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a423151e-2738-e2e3-7155-b277d0ea6bd1}" showlabel="true" locklevel="0" visible="false">
+                        <labels>
+                          <label description="Finance Details Captured?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_financedetailscaptured" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_financedetailscaptured" disabled="true" />
+                      </cell>
+                      <cell id="{b52503e7-b883-d499-2a49-6e0d734e4bce}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+            <column width="30%">
+              <sections>
+                <section name="tab_7_section_1" showlabel="false" showbar="false" locklevel="0" id="{935e3911-bbcd-4b20-81b1-29c1224d2cb0}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelalignment="Left" celllabelposition="Left" labelid="{ce6f286f-2fa4-427f-95d2-52111db76ad7}" height="auto">
+                  <labels>
+                    <label description="SIMILAR BIDS" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{755d7abb-8998-ee67-323c-249bb3b009d5}" showlabel="false" colspan="1" auto="false">
+                        <labels>
+                          <label description="Client Details" languagecode="1033" />
+                        </labels>
+                        <control id="ClientDetails" classid="{5C5600E0-1D6E-4205-A272-BE80DA87FD42}" datafieldname="parentaccountid" disabled="false">
+                          <parameters>
+                            <QuickForms>&lt;QuickFormIds&gt;&lt;QuickFormId entityname="account"&gt;a387ead8-0801-4518-88cb-7a6f302be8e8&lt;/QuickFormId&gt;&lt;/QuickFormIds&gt;</QuickForms>
+                            <ControlMode>Edit</ControlMode>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="Notes_pane" showlabel="false" showbar="false" id="{cbe1fe44-90c3-40f3-9307-2e72bdefe443}" layout="varwidth" columns="11" celllabelposition="Top" locklevel="0" labelwidth="115" IsUserDefined="0" labelid="{0c6fcd87-49a3-4a29-987e-ca7991f72d58}" height="auto">
+                  <labels>
+                    <label description="NOTES PANE" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{d87e00ad-abd2-9486-465a-c828d8ba6c17}" showlabel="false" rowspan="15" auto="false" colspan="2" locklevel="0">
+                        <labels>
+                          <label description="Note Text" languagecode="1033" />
+                        </labels>
+                        <control id="notescontrol" classid="{06375649-c143-495e-a496-c962e5b4488e}" disabled="false">
+                          <parameters>
+                            <DefaultTabId>NotesTab</DefaultTabId>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab name="tab_7" id="{648642e8-1b42-6591-a862-8550ad6b71c7}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="true">
+          <labels>
+            <label description="Bid Details" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="28%">
+              <sections>
+                <section name="section_InternalInformation" showlabel="true" showbar="false" locklevel="0" id="{548d5d74-74cd-2e85-b727-214d7415407c}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="145" celllabelalignment="Left" celllabelposition="Left" labelid="{fb046743-b77e-47c7-9779-e2be1f48fdbf}">
+                  <labels>
+                    <label description="Internal Project Information" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{e1810a9c-5799-57b5-74b4-560b8cec76eb}" showlabel="true" locklevel="0" labelid="{bb54032a-dc04-4474-bc27-b80e70639c68}">
+                        <labels>
+                          <label description="Arup Group" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupgroupid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_arupgroupid" disabled="true">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{2EBA8051-83CE-4B17-B1FF-900B146DE59A}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{9c762775-a971-724c-d549-1a5eaed57c49}" showlabel="true" locklevel="0" labelid="{2a64991b-5587-456f-9922-5701a37b5d1c}">
+                        <labels>
+                          <label description="Arup Office" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupofficeid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_arupofficeid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{B1E4E51D-1EA1-4761-86ED-FFABFE295ED8}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{bbb13167-484e-7823-4200-766242b45aae}" showlabel="true" locklevel="0" labelid="{52f3b02b-2603-456a-ab7e-60f4276b87fc}">
+                        <labels>
+                          <label description="Arup Region" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupregionid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_arupregionid" disabled="true">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{179B1A07-010C-4173-B03D-7D27055382B9}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a58bcc92-b85d-93b2-eaba-85bd83153696}" showlabel="true" locklevel="0" labelid="{02a90d9b-3041-445c-96c6-6f29793d2781}">
+                        <labels>
+                          <label description="Sub-Accounting Centre" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_subaccountingcentreid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_subaccountingcentreid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{C4EAFE03-9A4A-48B7-95FD-5D32DEEA0668}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                            <FilterRelationshipName>ccrm_arupaccountingcode_arupsubaccoutingcode</FilterRelationshipName>
+                            <DependentAttributeName>opportunity.ccrm_accountingcentreid</DependentAttributeName>
+                            <DependentAttributeType>ccrm_arupaccountingcode</DependentAttributeType>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{12e87466-9952-dc66-552a-c705e90a1a21}" showlabel="true" locklevel="0" visible="false" labelid="{3be9b172-2652-4dd1-80ec-f163403e1e13}">
+                        <labels>
+                          <label description="Parent Practice" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_practice" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_practice" disabled="true" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{b785ec90-273e-57db-5b77-781bb6c01ad5}" showlabel="true" locklevel="0" visible="false" labelid="{6b37a208-a0b2-464a-ab55-c4b694775ce7}">
+                        <labels>
+                          <label description="Sub-Practice" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_subpractice" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_subpractice" disabled="true" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{deb31249-7b78-075c-c697-2b730cacd283}" showlabel="true" locklevel="0" labelid="{c56d4dca-e0d5-4b69-b198-bc3ccfacedc6}">
+                        <labels>
+                          <label description="Short Title" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_shorttitle" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_shorttitle" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{12d7a421-7214-773a-8dbc-0261e11721d4}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Project Country Region" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projectcountryregionid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_projectcountryregionid" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="tab_6_section_3" showlabel="true" showbar="false" locklevel="0" id="{ab37343d-04ee-7bc8-9662-28a694058314}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="130" celllabelalignment="Left" celllabelposition="Left" labelid="{98eaa8e7-d381-44ee-8d77-fa21c3b2a1dc}">
+                  <labels>
+                    <label description="GOVERNANCE" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{49197c42-aec4-a6eb-ba3d-43c827e81b68}" showlabel="true" locklevel="0" labelid="{5c1098f9-2dc7-46fa-b775-382a38a18d29}">
+                        <labels>
+                          <label description="Value Based Fee?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_valuebasedfee" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_valuebasedfee" disabled="false" />
+                      </cell>
+                      <cell id="{358c4568-d34d-5441-da6e-8a00221870ce}" showlabel="true" locklevel="0" labelid="{8ac0afe6-8a85-4270-a48f-cfa3a3a0941e}">
+                        <labels>
+                          <label description="Risk Review Completed?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_riskreviewcompleted" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_riskreviewcompleted" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{0e5c597b-9dc4-4854-b5b4-12ace1e0e1ea}" showlabel="true" locklevel="0" labelid="{69dd02d7-0305-4fb3-81bf-f32779f8ad9e}">
+                        <labels>
+                          <label description="Value Based Fee Type" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_valuebasedfeecategory" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_valuebasedfeecategory" disabled="false" />
+                      </cell>
+                      <cell id="{18b5a299-8936-bed3-659a-63e857386c9c}" showlabel="true" locklevel="0" labelid="{bdb993bc-e819-4cc7-8443-1730e85140e5}">
+                        <labels>
+                          <label description="Risk Review Level" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_pklist_riskreviewresult" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_pklist_riskreviewresult" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{ae49e873-8ec4-1953-764b-b31a0d293e0d}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Credit Check Required?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_creditcheckrequired" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_creditcheckrequired" disabled="false" />
+                      </cell>
+                      <cell id="{2698e25b-aaec-d588-e2a0-49e22cb81ca6}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+            <column width="44%">
+              <sections>
+                <section name="tab_7_section_3" showlabel="true" showbar="false" locklevel="0" id="{e3512827-630e-6307-adc5-89c29a643939}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
+                  <labels>
+                    <label description="Bid Team" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{6c5b941a-7e24-9065-ce09-db79bc46dec3}" showlabel="true" locklevel="0" labelid="{d658936a-6135-4bda-8b70-567155c594a9}">
+                        <labels>
+                          <label description="Bid Manager" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_bidmanager_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_bidmanager_userid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>true</DisableViewPicker>
+                            <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                            <AvailableViewIds>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</AvailableViewIds>
+                          </parameters>
+                        </control>
+                      </cell>
+                      <cell id="{6796de57-9e17-a1ba-2308-1d02d12bd7d0}" showlabel="true" locklevel="0" labelid="{d43a03bf-c2e6-4c15-add3-9304d9672ce1}">
+                        <labels>
+                          <label description="Project Manager" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projectmanager_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_projectmanager_userid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>true</DisableViewPicker>
+                            <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                            <AvailableViewIds>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</AvailableViewIds>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{0b372cb6-74dd-2547-3653-2b1c0baa60d0}" showlabel="true" locklevel="0" labelid="{8ec966b1-f17f-4df9-94a7-407549efc321}">
+                        <labels>
+                          <label description="Bid Director" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_biddirector_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_biddirector_userid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>true</DisableViewPicker>
+                            <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                            <AvailableViewIds>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</AvailableViewIds>
+                          </parameters>
+                        </control>
+                      </cell>
+                      <cell id="{22a9abd0-e6ea-86eb-7684-27b626e9bacd}" showlabel="true" locklevel="0" labelid="{7a094dfd-b823-4757-bf9a-5fb6f3cbd8fc}">
+                        <labels>
+                          <label description="Project Director" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projectdirector_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_projectdirector_userid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>true</DisableViewPicker>
+                            <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                            <AvailableViewIds>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</AvailableViewIds>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{436407c6-00ce-a48e-a2d9-32dd7b046377}" showlabel="true" locklevel="0" labelid="{81671032-a687-4a01-b99f-9b32758b0324}">
+                        <labels>
+                          <label description="Client Contact" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_clientcontactid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_clientcontactid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{A2D479C5-53E3-4C69-ADDD-802327E67A0D}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                      <cell id="{5136dd63-d206-8da6-3dc0-617bcdc92313}" showlabel="true" locklevel="0" labelid="{11cffb85-fab8-4374-9e30-7b9923ad924b}">
+                        <labels>
+                          <label description="Bid Review Chair" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_bidreviewchair_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_bidreviewchair_userid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{95c55264-d854-ac53-8456-e7d6420202d5}" showlabel="true" locklevel="0" labelid="{3b4a4258-ef86-4c1f-a86e-830edade518f}">
+                        <labels>
+                          <label description="Opportunity Admin" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_businessadministrator_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_businessadministrator_userid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                      <cell id="{016da50d-cdcd-d741-d564-859b226bc0a3}" showlabel="true" locklevel="0" labelid="{4fc4482f-2470-4e55-a13b-bf6c746be9ea}">
+                        <labels>
+                          <label description="Arup Local Contact" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_aruplocalcontact_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_aruplocalcontact_userid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{291c0bd7-341e-6906-1943-4a3a864ea604}" showlabel="true" locklevel="0" labelid="{de0eae79-3079-4489-a9fa-02f63a738989}">
+                        <labels>
+                          <label description="Commercial Manager" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_commercialmanager_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_commercialmanager_userid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                      <cell id="{b8961522-34ed-a069-1b6e-245e24bdbba3}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="tab_7_section_5" showlabel="true" showbar="false" locklevel="0" id="{9d017b8e-0b08-14ce-3a83-3016938da4d5}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
+                  <labels>
+                    <label description="Key Dates" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{10c13800-341e-ad43-58cb-6b2400c05d64}" showlabel="true" locklevel="0" labelid="{215db0dc-8595-4e5e-845a-6120f35a554f}">
+                        <labels>
+                          <label description="Arup Project Start Date" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estarupinvolvementstart" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_estarupinvolvementstart" disabled="false" />
+                      </cell>
+                      <cell id="{1d9c873a-97a1-9482-d189-2b474d02e343}" showlabel="true" locklevel="0" labelid="{08dc4305-2c3e-4391-bf1c-6cb4f0840d0a}">
+                        <labels>
+                          <label description="Arup Bid Start Date" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupbidstartdate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_arupbidstartdate" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d73c2a51-11e5-95e5-e73c-58bc3a6ebcd3}" showlabel="true" locklevel="0" labelid="{b91adeff-b8b7-4d4a-a055-bb9a70a9f88a}">
+                        <labels>
+                          <label description="Arup Project End Date" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estarupinvolvementend" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_estarupinvolvementend" disabled="false" />
+                      </cell>
+                      <cell id="{756b657b-7197-0cb4-016b-ed36a3a45490}" showlabel="true" locklevel="0" labelid="{3b21022b-ba7a-4f67-9f55-bd87c1625a0a}">
+                        <labels>
+                          <label description="Arup Bid Finish Date" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupbidfinishdate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_arupbidfinishdate" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{6694cd52-e62c-43c8-6183-9bd785476478}" showlabel="true" locklevel="0" labelid="{a3fa62d8-2eb0-45a4-9543-25c052bdc049}">
+                        <labels>
+                          <label description="Bid Submission Date" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_bidsubmission" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_bidsubmission" disabled="false" />
+                      </cell>
+                      <cell id="{cc1b8d3c-ee3b-d73b-c43a-9ba5aa73c6b8}" showlabel="true" locklevel="0" labelid="{a991e980-554a-4943-8913-41a352353ba6}">
+                        <labels>
+                          <label description="Bid Review Date" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_bidreview" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_bidreview" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{73890dd6-0d0e-c869-a65d-c9e83b7c0ad6}" showlabel="true" locklevel="0" labelid="{beed6d0e-966e-4033-abec-573d0bbeacb7}">
+                        <labels>
+                          <label description="Bid Response Date" languagecode="1033" />
+                        </labels>
+                        <control id="estimatedclosedate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="estimatedclosedate" disabled="false" />
+                      </cell>
+                      <cell id="{136531bb-97ad-0226-3754-d24e07809052}" showlabel="true" locklevel="0" labelid="{9563225b-46df-427a-be91-091f803f9bff}">
+                        <labels>
+                          <label description="Last Credit Check?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_dateoflastcreditcheck" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_dateoflastcreditcheck" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+            <column width="28%">
+              <sections>
+                <section name="Summary_section_7" showlabel="false" showbar="false" locklevel="0" id="{c2e03c61-9d2d-e943-6b7b-d9ea65b0c0d1}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="120" celllabelalignment="Left" celllabelposition="Top">
+                  <labels>
+                    <label description="Section" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{73a70d26-178e-a86b-a53e-046b1ba554c6}" showlabel="true" colspan="1" auto="false" rowspan="6">
+                        <labels>
+                          <label description="Bid Reviews (Opportunity)" languagecode="1033" />
+                        </labels>
+                        <control id="BidReview" classid="{E7A81278-8635-4d9e-8D4D-59480B391C5B}">
+                          <parameters>
+                            <ViewId>{538C8DA2-9C71-4223-9BA9-D0653286C57A}</ViewId>
+                            <IsUserView>false</IsUserView>
+                            <RelationshipName>ccrm_opportunity_ccrm_bidreview</RelationshipName>
+                            <TargetEntityType>ccrm_bidreview</TargetEntityType>
+                            <AutoExpand>Fixed</AutoExpand>
+                            <EnableQuickFind>false</EnableQuickFind>
+                            <EnableViewPicker>false</EnableViewPicker>
+                            <ViewIds>{538C8DA2-9C71-4223-9BA9-D0653286C57A}</ViewIds>
+                            <EnableJumpBar>false</EnableJumpBar>
+                            <ChartGridMode>Grid</ChartGridMode>
+                            <VisualizationId />
+                            <IsUserChart>false</IsUserChart>
+                            <EnableChartPicker>false</EnableChartPicker>
+                            <RecordsPerPage>4</RecordsPerPage>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                  </rows>
+                </section>
+                <section name="tab_7_section_4" showlabel="false" showbar="false" locklevel="0" id="{5b7e0e2b-3dec-905d-3e98-897810592bcc}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="200" celllabelalignment="Left" celllabelposition="Left">
+                  <labels>
+                    <label description="Section" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{ca448ace-5776-d86b-208e-8620b0982259}" showlabel="true" locklevel="0" labelid="{862a3505-a8a1-4d8f-a7e5-584f60bfa0a3}">
+                        <labels>
+                          <label description="Probability of Project Proceeding (%)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_probabilityofprojectproceeding" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="ccrm_probabilityofprojectproceeding" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{78a87866-4182-271d-a807-6dc003b23410}" showlabel="true" locklevel="0" labelid="{6fa3d27d-02fb-44dc-bd14-081bc0a485fc}">
+                        <labels>
+                          <label description="Probability of Win (%)" languagecode="1033" />
+                        </labels>
+                        <control id="closeprobability" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="closeprobability" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab name="tab_Bid" id="{1ed776de-54c0-eebd-2db1-ca4ccb183b17}" IsUserDefined="0" locklevel="0" showlabel="true" labelid="{54e00d7f-dff7-4e28-a279-c443f23157ce}" expanded="true">
+          <labels>
+            <label description="Bid Development" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section name="section_BiddingAlerts" showlabel="true" showbar="true" locklevel="0" id="{42c8a408-a39a-9682-cd1c-aeed4a5ec63a}" IsUserDefined="0" layout="varwidth" columns="111" labelwidth="165" celllabelalignment="Left" celllabelposition="Left" labelid="{22862966-cf23-4fcb-8d23-8851f0a868d6}">
+                  <labels>
+                    <label description="Bidding Alerts" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{bc18ca1b-0d55-0bb8-cc8c-9a74529713bc}" showlabel="true" locklevel="0" labelid="{30859405-79b7-4ffb-ba18-f8004ef4a3be}">
+                        <labels>
+                          <label description="Exclusivity Requested?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_exclusivity" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_exclusivity" disabled="false" />
+                      </cell>
+                      <cell id="{95458686-94d9-415e-e4e2-4049cca544b8}" showlabel="true" locklevel="0" labelid="{26da65c2-69e9-425c-883f-c4932463c5ef}">
+                        <labels>
+                          <label description="Exclusivity Agreed?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_exclusivitystate" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_exclusivitystate" disabled="false" />
+                      </cell>
+                      <cell id="{81dbe8cb-c1cc-a15e-d7b0-a21e4a6819e1}" showlabel="true" locklevel="0" labelid="{2ba4b65b-c03e-4cc6-9982-3751efec8779}">
+                        <labels>
+                          <label description="Equity or Loan Participation?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_equityorloanparticipation" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_equityorloanparticipation" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{55624ade-0c10-c071-6147-dca7e035359e}" showlabel="true" locklevel="0" labelid="{ca963b64-858b-4f04-b842-0962302c355c}">
+                        <labels>
+                          <label description="Perform. Guarantees?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_performanceguarantees" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_performanceguarantees" disabled="false" />
+                      </cell>
+                      <cell id="{213ab986-a168-a9b3-1d23-368359379701}" showlabel="true" locklevel="0" labelid="{14f0a238-1327-4c2e-825a-2d9d6407cdcf}">
+                        <labels>
+                          <label description="Parent Company Guarantee?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_parentcompanyguarantee" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_parentcompanyguarantee" disabled="false" />
+                      </cell>
+                      <cell id="{b3426bd1-53d2-a722-c469-498e3618e43e}" showlabel="true" locklevel="0" labelid="{4e62ac2e-5759-4ac0-a9ec-769763c2c08b}">
+                        <labels>
+                          <label description="New Entity/Tax Reg./Bank A/C?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_establishmentofnewentitytaxregbankac" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_establishmentofnewentitytaxregbankac" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{7db5e249-e5ee-ccd7-5ba3-46e9bb097dde}" showlabel="true" locklevel="0" labelid="{bf8feba5-42b1-44f5-9cdc-d564c35dc75d}">
+                        <labels>
+                          <label description="Bonds Required?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_bondsrequired" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_bondsrequired" disabled="false" />
+                      </cell>
+                      <cell id="{6e332746-ddc6-3c6c-7db0-7954034bb89e}" showlabel="false" userspacer="true" labelid="{c88aac6c-a55a-498a-ae8a-ccd7aee7af8e}">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                      <cell id="{a83a1154-7a4c-dd2c-3dae-2e7641da7dd0}" showlabel="true" locklevel="0" labelid="{75b84ee2-03be-40e6-83c7-32146329733b}">
+                        <labels>
+                          <label description="Unmatched Currency &gt; Limit?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_unmatchedcurrencyexceedslimit" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_unmatchedcurrencyexceedslimit" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d5ea3b74-9cc7-7087-85ca-2ea0d5b9b692}" showlabel="true" locklevel="0" labelid="{e9e2c606-16c4-42a4-a7ab-a494e5675089}">
+                        <labels>
+                          <label description="PI Requirement" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_pirequirement" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_pirequirement" disabled="false" />
+                      </cell>
+                      <cell id="{81256ed4-689a-3664-a1c6-d02ad901642d}" showlabel="true" locklevel="0" labelid="{64845c62-51b6-4131-87b4-d3662c78c323}">
+                        <labels>
+                          <label description="PI Currency" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_pi_transactioncurrencyid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_pi_transactioncurrencyid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{CD5625B0-DDA8-4EE2-B13F-B9331E027C8A}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                      <cell id="{39ed24ce-359d-0019-7c39-5009edb00583}" showlabel="false" userspacer="true" labelid="{24422221-cd1c-43d8-895b-5838fcf5b4cb}">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{709812b3-8b10-4e94-9b81-0881ba40a534}" showlabel="true" locklevel="0" labelid="{e8ecb47d-025e-4e85-9055-8aaec69d5e27}">
+                        <labels>
+                          <label description="Powers of Attorney" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_powersofattorney" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_powersofattorney" disabled="false" />
+                      </cell>
+                      <cell id="{a840bc6e-d448-be48-e8b0-97792b4ea9da}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="NDA Executed" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_ndaexecuted" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_ndaexecuted" disabled="false" />
+                      </cell>
+                      <cell id="{68d9749e-ba57-eb90-3ded-928a4525a401}" showlabel="true" locklevel="0" labelid="{8993e58a-befd-4219-9e5a-c1cbff8a8529}">
+                        <labels>
+                          <label description="PI Level" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_pilevelmoney_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_pilevelmoney_num" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="tab_6_section_2" showlabel="true" showbar="true" locklevel="0" id="{63e1be03-5624-2e8b-4025-26d779d542cd}" IsUserDefined="0" layout="varwidth" columns="111" labelwidth="165" celllabelalignment="Left" celllabelposition="Left" labelid="{93409ff3-0cfb-4ef3-9e0e-24582b994b16}">
+                  <labels>
+                    <label description="COMMERCIAL" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{148096c6-615d-d221-3787-2349848d7d79}" showlabel="true" locklevel="0" labelid="{b57f84f1-2689-41c3-86c4-74199e79ae17}">
+                        <labels>
+                          <label description="Procurement Type" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_contractarrangement" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_contractarrangement" disabled="false" />
+                      </cell>
+                      <cell id="{471129ab-1657-1c2e-4466-93a336186e3a}" showlabel="true" locklevel="0" labelid="{19d0c635-f289-499a-bd69-3eff452010d2}">
+                        <labels>
+                          <label description="Limit of Liability?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_contractlimitofliability" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_contractlimitofliability" disabled="false" />
+                      </cell>
+                      <cell id="{22619238-d3e3-75ea-8800-a13d7748aed2}" showlabel="true" locklevel="0" labelid="{41d24eba-2df0-4a9a-b1ed-17e2c7cb03c5}">
+                        <labels>
+                          <label description="Limit of Liability Agreed?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_limitofliabilityagreement" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_limitofliabilityagreement" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{b64c7cdc-8bc4-a29a-3ce9-0744ce85eb92}" showlabel="true" locklevel="0" labelid="{a6607951-4df8-464c-b1c0-b43aa7114685}">
+                        <labels>
+                          <label description="Contract Conditions" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_contractconditions" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_contractconditions" disabled="false" />
+                      </cell>
+                      <cell id="{12a728b1-4cad-565b-0533-6aa096331d3d}" showlabel="true" locklevel="0" labelid="{429a4a56-2647-4e8e-94c5-c6019f4371fd}">
+                        <labels>
+                          <label description="Arup's Role in Project" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arups_role_in_project" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_arups_role_in_project" disabled="false" />
+                      </cell>
+                      <cell id="{35476d67-0764-ce00-141b-add5825b59da}" showlabel="true" locklevel="0" labelid="{ec8d2800-385e-466e-a244-a5f05345bdb3}">
+                        <labels>
+                          <label description="Limit Amount" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_limitamount_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_limitamount_num" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{3728558a-0771-5914-75e7-868a56ed55a5}" showlabel="true" locklevel="0" labelid="{e4be0cf9-8ce7-48cf-9a8f-c038cca8932a}">
+                        <labels>
+                          <label description="Referred By" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_referredby_accountid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_referredby_accountid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{A9AF0AB8-861D-4CFA-92A5-C6281FED7FAB}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                      <cell id="{dea03c4e-45e9-38c6-3bd3-4c163316dd74}" showlabel="true" locklevel="0" labelid="{e16a2867-0de1-486e-8d56-0d8f38d181ed}">
+                        <labels>
+                          <label description="Parent Opportunity" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_parentopportunityid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_parentopportunityid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{9EB361B4-67AC-4830-8ABF-2D29EFBAEE2C}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                      <cell id="{5a053ed0-174c-db53-ade5-ccd91144577d}" showlabel="true" locklevel="0" labelid="{653f9621-b1fd-44d9-ac84-ef246558883d}">
+                        <labels>
+                          <label description="Contract Agreement Ref. Number" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_agreementnumber" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_agreementnumber" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{440e6bcd-347e-4a37-c191-d33ac64c8c96}" showlabel="false" userspacer="true">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                      <cell id="{7999c143-04b8-1eed-6cca-b5e9623820e3}" showlabel="false" userspacer="true">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                      <cell id="{d8d7aba4-2a38-a962-9b56-96298b5d9e0d}" showlabel="false" userspacer="true">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{55c390a1-06c9-b694-1da8-280a462b16b6}" showlabel="true" locklevel="0" labelid="{f0b95bf5-2960-4108-af69-363606d84946}">
+                        <labels>
+                          <label description="Charitable Work?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_charitablework" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_charitablework" disabled="false" />
+                      </cell>
+                      <cell id="{31e4a75b-d638-4002-c999-7c1bbbeeb209}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                      <cell id="{173171e7-b130-c676-b26b-64e2ac2ebca4}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="tab_Bid_section_11" showlabel="false" showbar="false" locklevel="0" id="{3b510309-6985-7c4d-3435-0cdaa2a45ac5}" IsUserDefined="0" layout="varwidth" columns="111" labelwidth="165" celllabelalignment="Left" celllabelposition="Left" visible="false" labelid="{41405511-ee5f-4067-bde6-ff65e973a2a4}">
+                  <labels>
+                    <label description="Hidden required fields" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{c801c916-da98-e392-b0e6-17040234625b}" showlabel="true" locklevel="0" visible="false" labelid="{07e9245d-7504-4658-b120-5a8ab5e0c9ef}">
+                        <labels>
+                          <label description="CJN (Confirmed Job Number)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_jna" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_jna" disabled="false" />
+                      </cell>
+                      <cell id="{b6e526eb-2563-23d9-2231-955999ca6c22}" showlabel="true" locklevel="0" visible="false" labelid="{8ce256c0-03fe-4c7b-aa71-78f3d8d5c564}">
+                        <labels>
+                          <label description="Valid Accounting Centre" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_validaccountingcentre" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_validaccountingcentre" disabled="false" />
+                      </cell>
+                      <cell id="{4197a7c4-c37d-e872-7ba1-72e6400dd220}" showlabel="true" locklevel="0" visible="false" labelid="{57f0f75b-8aa1-4dc7-b48e-840242f45a80}">
+                        <labels>
+                          <label description="Valid Opportunity Track" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_validopportunitytrack" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_validopportunitytrack" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{3c950864-476c-8266-1922-6815d68e63a5}" showlabel="true" locklevel="0" visible="false" labelid="{a91d9dff-d3f4-4e78-ad1a-69bd56616dab}">
+                        <labels>
+                          <label description="Valid Contact" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_validcontact" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_validcontact" disabled="false" />
+                      </cell>
+                      <cell id="{cd426c86-4953-3a46-82b7-5c4dda3b5adb}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                      <cell id="{b0dee088-1153-bcd0-e833-b339966403ad}" showlabel="true" locklevel="0" visible="false" labelid="{6fc73701-1786-4ec6-9a19-aaaef45ac7b3}">
+                        <labels>
+                          <label description="Possible Job Number Required?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_possiblejobnumberrequired" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_possiblejobnumberrequired" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{28967061-e1e0-6bd5-46cc-6a967304da4b}" showlabel="true" locklevel="0" visible="false" labelid="{65413dec-2d7d-45ef-9483-3da21ce8d808}">
+                        <labels>
+                          <label description="Opportunity Type" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_pjn_opportunitytype" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_pjn_opportunitytype" disabled="false" />
+                      </cell>
+                      <cell id="{89b0da66-3d10-85e5-a711-60e3830b2967}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                      <cell id="{1141e384-6e71-51a5-0e8b-784b89424b13}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab name="tab_ArupAccountingInfo" id="{d0a4999d-5c35-7342-8c11-c0a35ee97525}" IsUserDefined="0" locklevel="0" showlabel="false" labelid="{a242d3bb-7746-434b-a63c-57bbba1a3528}" expanded="true">
+          <labels>
+            <label description="Preferences" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section name="tab_5_section_3" showlabel="true" showbar="true" locklevel="0" id="{a4373454-7b26-8a90-a8d0-4aab17d14cad}" IsUserDefined="0" layout="varwidth" columns="111" labelwidth="115" celllabelalignment="Left" celllabelposition="Top" labelid="{e3a7f372-08ea-42ac-9701-cdce50fc41bc}">
+                  <labels>
+                    <label description="Services" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{75313b26-e8c2-3dbe-0542-90eae27d2b82}" showlabel="true" locklevel="0" colspan="3" rowspan="2" labelid="{e504577b-525c-4d3b-bfbc-645524d93080}">
+                        <labels>
+                          <label description="Project Description" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projectsummarydescription_sync" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_projectsummarydescription_sync" disabled="false" />
+                      </cell>
+                    </row>
+                    <row />
+                    <row>
+                      <cell id="{cd0d62c3-5255-724b-393b-531846866b2d}" showlabel="true" locklevel="0" visible="false" labelid="{c19c8e0d-4058-4b4d-a525-eb0d5f644912}">
+                        <labels>
+                          <label description="Services Value" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_servicesvalue" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_servicesvalue" disabled="false" />
+                      </cell>
+                      <cell id="{3d68db42-761a-80b6-6237-9eabd072c51d}" showlabel="true" locklevel="0" visible="false" labelid="{b07a8064-6973-4432-9470-1564bd79cd7a}">
+                        <labels>
+                          <label description="Services (code)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_servicespicklist" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_servicespicklist" disabled="false" />
+                      </cell>
+                      <cell id="{c994739c-e08d-362c-51d5-14704ded9696}" showlabel="false" labelid="{b8dc5374-5d08-4d1f-9d30-3f2d0ee18702}">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d9a0781a-c390-95bc-2da0-c14c5ce2523c}" showlabel="true" locklevel="0" labelid="{b067ab67-ea42-435c-80d6-b042e6a7a2f5}" visible="false">
+                        <labels>
+                          <label description="Project (code)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_theworkspicklist" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_theworkspicklist" disabled="false" />
+                      </cell>
+                      <cell id="{cec18d47-ec95-73e2-db47-866b26c15e1b}" showlabel="true" locklevel="0" visible="false" labelid="{5a15d33c-551f-41f5-962b-b2a55d73156c}">
+                        <labels>
+                          <label description="Project Value" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_theworksvalue" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_theworksvalue" disabled="false" />
+                      </cell>
+                      <cell id="{7649d2c4-5754-acaa-d423-8b5690c10b52}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{20a6acb9-c10e-03de-8790-444751d14c33}" showlabel="true" locklevel="0" visible="false" labelid="{fa59ae57-e9ef-4577-a433-f28bbfc5b992}">
+                        <labels>
+                          <label description="Project Sector (code)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projectsectorpicklist" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_projectsectorpicklist" disabled="false" />
+                      </cell>
+                      <cell id="{850ec197-a45c-28e3-5c41-e7acaa779e01}" showlabel="true" locklevel="0" visible="false" labelid="{3ddb36b0-fae1-4277-b98e-2f11f0cb354d}">
+                        <labels>
+                          <label description="Project Sector Value" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projectsectorvalue" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_projectsectorvalue" disabled="false" />
+                      </cell>
+                      <cell id="{674d9815-60e7-3633-c94c-ac15b62d918d}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{45d11323-aee1-aed8-27e4-5cc7be21a3d3}" showlabel="true" locklevel="0" visible="false" labelid="{b8ab672a-57e0-4d94-9ca4-f8990097c6ee}">
+                        <labels>
+                          <label description="Disciplines Picklist" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_disciplinespicklist" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_disciplinespicklist" disabled="false" />
+                      </cell>
+                      <cell id="{7b60b4ad-cc9c-8660-5a84-044d86a6e2a5}" showlabel="true" locklevel="0" visible="false" labelid="{af111cf3-bb9e-487a-bd86-a73a6efbfadc}">
+                        <labels>
+                          <label description="Disciplines Value" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_disciplinesvalue" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_disciplinesvalue" disabled="false" />
+                      </cell>
+                      <cell id="{351b6cdd-97b0-6a3e-0d9e-8a9ecba4b8d9}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="section_Hidden_System" showlabel="true" showbar="false" locklevel="0" id="{e2305303-d78a-d3e0-6a4d-2e5b1248ee82}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="165" celllabelalignment="Left" celllabelposition="Left" visible="false" labelid="{548a3e2c-3c8c-4257-8f04-d5ba74e731ee}">
+                  <labels>
+                    <label description="Hidden - System" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{0B8DF861-AE32-4C79-9C4E-2ECAA9F74712}" labelid="{3bfd086b-ebd6-4e05-b35d-0302f21bc1b1}">
+                        <labels>
+                          <label description="Revenue" languagecode="1033" />
+                        </labels>
+                        <control id="isrevenuesystemcalculated" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="isrevenuesystemcalculated" />
+                      </cell>
+                      <cell id="{0715257a-71e1-901e-0dc7-e1b9ad57b13c}" showlabel="true" locklevel="1" labelid="{a31872be-ed20-4173-8df1-2ed5b3ff7ff9}">
+                        <labels>
+                          <label description="Originating Lead" languagecode="1033" />
+                        </labels>
+                        <control id="originatingleadid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="originatingleadid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{ECBAC1A3-F8D8-4423-8F7E-10B11119739A}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{542549d5-d11a-14c9-4230-68910789335d}" showlabel="true" locklevel="1" visible="false" labelid="{79bbb8da-16f4-4d9e-b5a7-328827ee942b}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                          </parameters>
+                        </control>
+                      </cell>
+                      <cell id="{d99d7370-4b27-9743-cae1-2e31e6257947}" showlabel="true" locklevel="0" visible="false" labelid="{b247dd91-19fb-4dde-a50c-e1e4988dac43}">
+                        <labels>
+                          <label description="Fee Income (Currency)" languagecode="1033" />
+                        </labels>
+                        <control id="estimatedvalue" classid="{533B9E00-756B-4312-95A0-DC888637AC78}" datafieldname="estimatedvalue" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{4c69d917-e84e-4c9d-ba14-f7bb5bc0a51f}" showlabel="true" locklevel="0" visible="false" labelid="{c513c8f8-16e3-4137-8bad-7b53e79155a1}">
+                        <labels>
+                          <label description="Currency" languagecode="1033" />
+                        </labels>
+                        <control id="transactioncurrencyid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="transactioncurrencyid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{CD5625B0-DDA8-4EE2-B13F-B9331E027C8A}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                      <cell id="{8b98bdd2-614c-6753-b7dc-b339344dd520}" showlabel="true" locklevel="0" labelid="{40fae3ae-c354-45e4-80a7-84ccb2a00b29}">
+                        <labels>
+                          <label description="Overall Status" languagecode="1033" />
+                        </labels>
+                        <control id="statecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="statecode" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{D96BA356-1581-46E0-937C-49033D55E3A2}" showlabel="true" locklevel="0" labelid="{4c65d9b0-4689-4b8e-9fef-d9802fd2c3d5}">
+                        <labels>
+                          <label description="Total Amount" languagecode="1033" />
+                        </labels>
+                        <control id="totalamount" classid="{533B9E00-756B-4312-95A0-DC888637AC78}" datafieldname="totalamount" disabled="false" />
+                      </cell>
+                      <cell id="{809164cb-e2d2-b326-b642-e346303e6188}" showlabel="true" locklevel="1" labelid="{b885fb6e-b8fc-4701-9dac-f69c605dfbd1}">
+                        <labels>
+                          <label description="Confidential Bid Manager" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_confidentialbidmanager_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_confidentialbidmanager_userid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{556b9bd2-0444-2890-7a91-c299080119c2}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System Confirmed Job Button Hide" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_sys_confirmedjob_buttonhide" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_sys_confirmedjob_buttonhide" disabled="false" />
+                      </cell>
+                      <cell id="{47baeb84-9066-505c-0991-860ca9134a0b}" showlabel="true" locklevel="0" labelid="{361f9cd6-75ad-4d40-92a1-041d105fb5d7}">
+                        <labels>
+                          <label description="Bid Review Outcome" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_bidreviewoutcome" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_bidreviewoutcome" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{43b542d7-d35e-a850-137b-9722132a7bd0}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System CJNA Request Trigger" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_systemcjnarequesttrigger" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_systemcjnarequesttrigger" disabled="false" />
+                      </cell>
+                      <cell id="{905d55c5-5d0e-1326-05bc-7391d6645e2c}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Bid Review Approval Date" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_bidreviewdecisiondate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_bidreviewdecisiondate" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{7b950cd6-0ebd-4b5c-d8b0-cdae07e3ca7a}" showlabel="true" locklevel="0" labelid="{ffe6af02-e93e-4b16-b3f1-0b1c96eabea6}">
+                        <labels>
+                          <label description="Lead Source" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_leadsource" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_leadsource" disabled="false" />
+                      </cell>
+                      <cell id="{b720ead0-a314-31b5-1aec-0bc74682eb2a}" showlabel="true" locklevel="0" labelid="{f0389b40-b4cf-4656-8f6c-e34299b171aa}">
+                        <labels>
+                          <label description="Arup Bidding as a JV?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupbiddingasajointventure" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_arupbiddingasajointventure" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{08179628-062a-9695-b6c0-1a4d7ced4086}" showlabel="true" locklevel="0" labelid="{87bcf5b9-d346-43c4-913b-18ada0d1baf0}">
+                        <labels>
+                          <label description="Exchange Rate" languagecode="1033" />
+                        </labels>
+                        <control id="exchangerate" classid="{C3EFE0C3-0EC6-42be-8349-CBD9079DFD8E}" datafieldname="exchangerate" disabled="false" />
+                      </cell>
+                      <cell id="{59c8be15-c12c-40a8-9059-6e1744d876b6}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Confidential" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_confidentialoptionset" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_confidentialoptionset" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{e2b4512a-abda-5251-7550-18eee0a32d30}" showlabel="true" locklevel="0" visible="false">
+                        <labels>
+                          <label description="Current Bid Review Chair" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_currentbidreviewchair" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_currentbidreviewchair" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                      <cell id="{19d9dab3-9596-0a2b-183a-7e6584695b90}" showlabel="true" locklevel="1" labelid="{39522f38-e6e6-49a6-90e3-4af17b52e4c0}">
+                        <labels>
+                          <label description="Confidential" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_confidential" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_confidential" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d4ad2508-9926-48b6-1133-454b4ccdc22d}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                      <cell id="{67bec507-4a77-dee5-22c9-42de273444cb}" showlabel="true" locklevel="0" rowspan="2" labelid="{802fcac1-a554-4d65-9012-946d1c9e95ba}" colspan="1">
+                        <labels>
+                          <label description="Extent of Arup Services" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_descriptionofextentofarupservices" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_descriptionofextentofarupservices" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{b9a0b261-9838-9666-1e14-e18bc0d38153}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="section_Hidden_JobNumber" showlabel="true" showbar="false" locklevel="0" id="{c7099785-0e69-431c-2dca-2320168c898e}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="165" celllabelalignment="Left" celllabelposition="Left" visible="false" labelid="{08dac04e-4fca-4d46-8bb0-636b2e40dd14}">
+                  <labels>
+                    <label description="Hidden - Job Number" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{9c7a93c9-a187-8c53-925b-d8c249b73bd5}" showlabel="true" locklevel="0" labelid="{09658ef0-18a7-4c0c-8453-aa138d9daf06}">
+                        <labels>
+                          <label description="Create Method" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_createmethod" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_createmethod" disabled="false" />
+                      </cell>
+                      <cell id="{51ca051d-3989-19a3-9560-6732e299bca5}" showlabel="true" locklevel="0" labelid="{d8557cfd-56f3-4f3e-b377-312107173ecf}">
+                        <labels>
+                          <label description="Create Method Text" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_createmethodtext" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_createmethodtext" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{e382c6ea-87e9-c707-c155-1360b32b7cd6}" showlabel="true" locklevel="0" labelid="{4fb02cd6-4abf-4c78-b4c0-7ae12f7f652a}">
+                        <labels>
+                          <label description="Parent Project" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_parentproject" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_parentproject" disabled="false" />
+                      </cell>
+                      <cell id="{696356a1-7531-aecd-5606-8da88bbc1eba}" showlabel="true" locklevel="0" labelid="{e1911704-9d4d-4634-b257-66e1d97dbae6}">
+                        <labels>
+                          <label description="Country of Client Registration" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_countryofclientregistrationid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_countryofclientregistrationid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{3ecbbc6e-c7bb-67b7-3051-89a9ee2ba04c}" showlabel="true" locklevel="0" labelid="{dcba3334-a36e-4f21-b45b-6e19f0431973}">
+                        <labels>
+                          <label description="System Reserved CJN" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_sys_reserved_jna" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_sys_reserved_jna" disabled="false" />
+                      </cell>
+                      <cell id="{dd7e158d-1474-186e-b57e-5255e3e111ae}" showlabel="true" locklevel="0" labelid="{3a9b928e-20e5-499c-b01c-d16dcb97500b}">
+                        <labels>
+                          <label description="Project (Lookup)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projectid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_projectid" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="section_Hidden_Interface" showlabel="true" showbar="false" locklevel="1" id="{da7c7125-32c8-7042-721d-6282702b3630}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="165" celllabelalignment="Left" celllabelposition="Left" visible="false" labelid="{18ccabb3-df69-49f9-8bbf-1337d9d0a9ae}">
+                  <labels>
+                    <label description="Hidden - Interface" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{8a775d6d-990b-74d6-eb50-8208679b9b40}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                      <cell id="{37835bc4-e598-05e5-3077-b8814dc47d73}" showlabel="true" locklevel="0" labelid="{199a3dd8-0a43-4c48-b433-2e8bdb7ce6e5}">
+                        <labels>
+                          <label description="Interface Retries" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_interface_retries" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="ccrm_interface_retries" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="section_Hidden_AccountingInfo" showlabel="true" showbar="false" locklevel="1" id="{894daec8-532c-ea2d-9ad8-3028d34365e2}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="165" celllabelalignment="Left" celllabelposition="Left" visible="false" labelid="{6674677c-f268-4f7e-bda7-fe77e0ec4a1a}">
+                  <labels>
+                    <label description="Hidden Account Info" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{52caeec2-98db-e00b-6a76-5e3c6876802b}" showlabel="true" locklevel="0" labelid="{551090ad-e74d-4369-818f-0c936af340b1}">
+                        <labels>
+                          <label description="Parent Practice Code" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_practicecode" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_practicecode" disabled="false" />
+                      </cell>
+                      <cell id="{79940990-2410-ed5e-6798-1772333a0120}" showlabel="true" locklevel="0" labelid="{7a4f9892-caf2-45ba-8c38-178924b1b2c6}">
+                        <labels>
+                          <label description="Arup Group Name" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupgroup" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_arupgroup" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{93691e72-4965-2ea1-d7aa-65ce5dc87e61}" showlabel="true" locklevel="0" labelid="{d17f84c8-e072-4add-94bc-b6716644c95a}">
+                        <labels>
+                          <label description="Sub-Practice Code" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_subpracticecode" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_subpracticecode" disabled="false" />
+                      </cell>
+                      <cell id="{a7885539-1911-1559-0b53-5a9d487b9030}" showlabel="true" locklevel="0" labelid="{46f8f4e3-dd99-4f0d-bd01-49c5f3205239}">
+                        <labels>
+                          <label description="Arup Group Code" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_arupgroupcode" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_arupgroupcode" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{13894e15-31d8-e740-767b-5627beb63557}" showlabel="true" locklevel="0" labelid="{4f12b0eb-a0f1-4d04-a697-ee6c09726102}">
+                        <labels>
+                          <label description="Practice Leader" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_practiceleaderid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_practiceleaderid" disabled="false" />
+                      </cell>
+                      <cell id="{6dee4e88-b98b-0036-5036-b1db09bec81c}" showlabel="true" locklevel="0" labelid="{d2687474-e4d6-48f5-9500-5a4e95f2caa8}">
+                        <labels>
+                          <label description="Notification List" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_notificationlistid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_notificationlistid" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="section_Hidden_CloseOpportunity" showlabel="true" showbar="false" locklevel="0" id="{668e709c-87a7-8c05-dd4e-37565d800c47}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="165" celllabelalignment="Left" celllabelposition="Left" visible="false" labelid="{9382f6f1-da22-45a9-8c73-bbedb34b6a0a}">
+                  <labels>
+                    <label description="Hidden - Close Opportunity" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{c3259b0a-8638-9c42-b001-b68b9ee1aac0}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System Financial Approval" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_sys_fa_approval" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_sys_fa_approval" disabled="false" />
+                      </cell>
+                      <cell id="{a2bd9c22-4ea0-cdc4-08dc-cb715ace46c8}" showlabel="true" locklevel="0" labelid="{61b7fe8a-cc0e-4ffd-8326-04a08783acfd}">
+                        <labels>
+                          <label description="Close Reasons" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_closereasons" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_closereasons" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="section_Hidden_Gateways" showlabel="true" showbar="false" locklevel="0" id="{b30a84b2-3a49-54e9-6776-3b532a38ab85}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="165" celllabelalignment="Left" celllabelposition="Left" labelid="{fcc86a6f-86b9-4919-a8c9-7627ae87b940}">
+                  <labels>
+                    <label description="Hidden - Gateways" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{ba131dc7-aa7c-4d8b-9c94-421ed8a7ddaf}" labelid="{40f0d13a-7002-4c8e-8937-c3bf3a86049d}">
+                        <labels>
+                          <label description="Price List" languagecode="1033" />
+                        </labels>
+                        <events>
+                          <event name="setAdditionalParams" application="true" active="true">
+                            <InternalHandlers>
+                              <Handler functionName="Mscrm.pricelevelid_setadditionalparams" libraryName="Sales/Opportunity/Opportunity_main_system_library.js" handlerUniqueId="1191cc10-3daa-4368-9615-e3fb183f2189" enabled="true" passExecutionContext="true">
+                                <dependencies>
+                                  <dependency id="transactioncurrencyid" />
+                                </dependencies>
+                              </Handler>
+                            </InternalHandlers>
+                          </event>
+                        </events>
+                        <control id="pricelevelid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="pricelevelid" />
+                      </cell>
+                      <cell id="{2b666532-7eb7-3e95-41dd-3e88673d04c5}" showlabel="true" locklevel="1" labelid="{2badea00-a0ef-4ed3-97cd-758442c20876}">
+                        <labels>
+                          <label description="System Bid Review Rejected" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_sys_br_rejected" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_sys_br_rejected" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{59110ea0-6104-b9bd-083c-21a402e56b7a}" showlabel="true" locklevel="0" labelid="{38820dd1-bb8f-43d0-af30-82dceedd4634}">
+                        <labels>
+                          <label description="System Phase Name" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_sys_phasename" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_sys_phasename" disabled="false" />
+                      </cell>
+                      <cell id="{db8a66a0-8d24-36b1-d745-a5ea4b4204db}" showlabel="true" locklevel="1" labelid="{be5135ed-a195-40e4-b24c-5aad35d3b7cf}">
+                        <labels>
+                          <label description="Review / Approval Status" languagecode="1033" />
+                        </labels>
+                        <control id="statuscode" classid="{5D68B988-0661-4db2-BC3E-17598AD3BE6C}" datafieldname="statuscode" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{e34752b0-5a2a-c873-99e5-b88b8c3add2a}" showlabel="true" locklevel="0" visible="false" labelid="{cf26dee2-a893-49f8-a3d2-040fc7eaa11a}">
+                        <labels>
+                          <label description="PJN progress button" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_pjnprogressbutton" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_pjnprogressbutton" disabled="false" />
+                      </cell>
+                      <cell id="{1b4bb1d6-4b66-27a0-544e-d4816c6e763c}" showlabel="true" locklevel="0" visible="false" labelid="{cb0e7857-ad3e-4834-85b9-2fd59b3c3887}">
+                        <labels>
+                          <label description="Show PJN Button?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_showpjnbutton" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_showpjnbutton" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="tab_ArupAccountingInfo_section_7" showlabel="false" showbar="false" locklevel="0" id="{47b0832c-ba04-88a6-78a1-045bc4b4c762}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="115">
+                  <labels>
+                    <label description="Section" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{c68c7a4e-7917-c09a-2541-b15d61c349db}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Show Bid Review App Btn" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_shwbidreviewappbtn" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_shwbidreviewappbtn" disabled="false" />
+                      </cell>
+                      <cell id="{43504224-2c75-5e13-4376-ceec94a9a9ab}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Process Flag" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_processflag" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_processflag" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{6294556a-4deb-a2a0-357b-30e4d9c6c83b}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Review / Approval Status" languagecode="1033" />
+                        </labels>
+                        <control id="statuscode" classid="{5D68B988-0661-4db2-BC3E-17598AD3BE6C}" datafieldname="statuscode" disabled="false" />
+                      </cell>
+                      <cell id="{042642c1-535d-0874-a41d-7abd61b08c12}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Regional Sector Leader Approval Status (PJN)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_regionalpracticeleaderapprovaloptions" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_regionalpracticeleaderapprovaloptions" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{ab2b768c-4829-9d0b-2ea0-807806d8ad5b}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Stage Toggle Flag" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_stagetoggle" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_stagetoggle" disabled="false" />
+                      </cell>
+                      <cell id="{de0de54e-41e9-8b51-6421-2a09d53ea838}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Project Manager/Director Approval Status (CJN)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projmgrdirapprovaloptions" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_projmgrdirapprovaloptions" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{e7759e18-8656-de3c-de48-6e26d8b7ac13}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Job Number Progression" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_jobnumberprogression" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_jobnumberprogression" disabled="false" />
+                      </cell>
+                      <cell id="{9b23cca5-73ea-6dd0-a07b-2e3799977abe}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Finance Approval Status (CJN)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_financeapprovaloptions" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_financeapprovaloptions" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{90588738-c78e-b002-4c34-5d9293792799}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Bid Director Approval Status (PJN)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_biddirectorapprovaloptions" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_biddirectorapprovaloptions" disabled="false" />
+                      </cell>
+                      <cell id="{8e567eb4-b59a-0279-513e-c9c354721881}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Group Leader Approval Status (CJN)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_groupleadercjnapprovaloptions" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_groupleadercjnapprovaloptions" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{3153979c-6444-b4e2-a720-4320c30ea726}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Group Leader Approval Status (PJN)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_groupleaderapprovaloptions" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_groupleaderapprovaloptions" disabled="false" />
+                      </cell>
+                      <cell id="{36c61c0c-78bb-00b0-97cc-274cc20811bd}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Accounting Centre Lead/Delegate Appr. Status (CJN)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_acctcentleadapprovaloptions" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_acctcentleadapprovaloptions" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{822a24e6-2c41-0185-a6cb-12a16e91a506}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Regional COO Approval Status (PJN)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_regioncooapprovaloptions" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_regioncooapprovaloptions" disabled="false" />
+                      </cell>
+                      <cell id="{6d330a11-85dc-28dd-3e24-6e174b012e18}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Reason for not consulting Country Manager" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_reasonfornotconsultingcountrymanager" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_reasonfornotconsultingcountrymanager" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{3a101812-e1e7-9d2e-95bc-9ca593573d58}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Sector Leader Approval Status (PJN)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_practiceleaderapprovaloptions" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_practiceleaderapprovaloptions" disabled="false" />
+                      </cell>
+                      <cell id="{4d50747b-813b-6d58-4927-0a4a0c1d7ad0}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Date Consulted" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_dateconsulted" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_dateconsulted" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{54a729c2-bcb0-48a6-13bb-8351876123aa}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Country Manager/Proxy Consulted?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_geographicmanagerproxyconsulted2" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_geographicmanagerproxyconsulted2" disabled="false" />
+                      </cell>
+                      <cell id="{4e353cc1-d37a-1161-7178-5ee50757a1e9}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Project Country Region" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_projectcountryregionid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_projectcountryregionid" disabled="false">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                            <DisableQuickFind>false</DisableQuickFind>
+                            <DisableViewPicker>false</DisableViewPicker>
+                            <DefaultViewId>{179B1A07-010C-4173-B03D-7D27055382B9}</DefaultViewId>
+                            <AllowFilterOff>false</AllowFilterOff>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{6e6a2340-bdb3-0bb3-a0b7-03ddeb46ccb4}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Current Approvers" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_currentapprovers" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_currentapprovers" disabled="false" />
+                      </cell>
+                      <cell id="{11a94796-258e-72cc-638d-b200569b6e01}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System DTP Gateway" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_sys_dtp_gateway" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_sys_dtp_gateway" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{b5aad605-3cd5-829d-6e6a-0ad1d898816a}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Process Variation" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_processvariation" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_processvariation" disabled="false" />
+                      </cell>
+                      <cell id="{4e8a247d-1717-1799-b6c5-aa6d807c1b3d}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System Bid Review Gateway" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_sys_bidreview_gateway" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_sys_bidreview_gateway" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{ca93d52b-1c8e-e44a-299d-ba557b095337}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Fee Income (UK Pound Sterling)" languagecode="1033" />
+                        </labels>
+                        <control id="estimatedvalue_base" classid="{533B9E00-756B-4312-95A0-DC888637AC78}" datafieldname="estimatedvalue_base" disabled="false" />
+                      </cell>
+                      <cell id="{49632e4e-a034-5517-1064-a0303743451e}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System DTP Approval" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_sys_dtb_approval" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_sys_dtb_approval" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{cde81160-aed6-44c3-e227-0479a9c3c955}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Probability of Win (%) (Synced)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_closeprobability_synced" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="ccrm_closeprobability_synced" disabled="false" />
+                      </cell>
+                      <cell id="{08a0b5b7-70dd-e532-5235-daeb5aa62d87}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System PJN Requested Trigger" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_sys_pjnrequesteduser_trigger" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_sys_pjnrequesteduser_trigger" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{e66a9246-0a58-33d8-a9ce-a1617b2a1940}" showlabel="false" userspacer="true">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                      <cell id="{4d6104ec-2666-4a43-4eea-61a95c9538be}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System Opportunity Progress Trigger" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_sys_op_trigger" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_sys_op_trigger" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{38e6e3b0-16d3-e282-c0e8-1e74c3b89b95}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System Approver 1" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_approver1" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_approver1" disabled="false" />
+                      </cell>
+                      <cell id="{38228c40-5cb7-630b-9ee9-2e12d027e3d5}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System Approver 4" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_approver4" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_approver4" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{1c315116-2570-e1cb-3b22-b7e84c7d76cb}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System Approver 2" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_approver2" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_approver2" disabled="false" />
+                      </cell>
+                      <cell id="{7bdeba1a-9b79-6722-066d-e2774b44da0c}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System Approver 5" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_approver5" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_approver5" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{c881b3cb-0056-609d-9605-4b0393193244}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System Approver 3" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_approver3" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_approver3" disabled="false" />
+                      </cell>
+                      <cell id="{1730e043-0508-0551-ea3c-20157e57a637}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="System Approver 6" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_approver6" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_approver6" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{55c27463-dbd5-5c39-da4e-e48102a602a1}" showlabel="true" locklevel="0" visible="false">
+                        <labels>
+                          <label description="Approval No Longer Required?" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_approvalnolongerrequired" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_approvalnolongerrequired" disabled="false" />
+                      </cell>
+                      <cell id="{a66dc550-9005-43eb-884a-e6888e1ad41d}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <header id="{ee909091-5a89-403e-bf82-f34512080f08}" celllabelposition="Top" columns="1111" labelwidth="250" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{7ea8c588-51aa-786c-2c28-035e66ea4a89}" showlabel="true" locklevel="0" labelid="{224d1d84-c82e-4957-932b-0a1836995149}" colspan="1">
+              <labels>
+                <label description="Project Currency" languagecode="1033" />
+              </labels>
+              <control id="header_ccrm_project_transactioncurrencyid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_project_transactioncurrencyid" disabled="false">
+                <parameters>
+                  <AutoResolve>true</AutoResolve>
+                  <DisableMru>false</DisableMru>
+                  <DisableQuickFind>false</DisableQuickFind>
+                  <DisableViewPicker>false</DisableViewPicker>
+                  <DefaultViewId>{CD5625B0-DDA8-4EE2-B13F-B9331E027C8A}</DefaultViewId>
+                  <AllowFilterOff>false</AllowFilterOff>
+                </parameters>
+              </control>
+            </cell>
+            <cell id="{851995ca-4203-3e9a-b37d-1db9678e0479}" showlabel="true" locklevel="0" labelid="{dd628a7c-335c-4ed7-b318-7c52cd609f34}">
+              <labels>
+                <label description="Fee Income" languagecode="1033" />
+              </labels>
+              <control id="header_ccrm_estimatedvalue_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_estimatedvalue_num" disabled="false" />
+            </cell>
+            <cell id="{7c1ca96e-abb2-8d59-031d-08ded8064b13}" showlabel="true" locklevel="0" labelid="{3556cbaa-7b19-48f8-8f56-a5c3b3039a41}">
+              <labels>
+                <label description="PJN" languagecode="1033" />
+              </labels>
+              <control id="header_ccrm_pjna" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_pjna" disabled="true" />
+            </cell>
+            <cell id="{84b48035-6c12-6895-2eba-36751b45bbb7}" showlabel="true" locklevel="0">
+              <labels>
+                <label description="CJN" languagecode="1033" />
+              </labels>
+              <control id="header_ccrm_jna" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_jna" disabled="true" />
+            </cell>
+          </row>
+        </rows>
+      </header>
+      <footer id="{4d31b737-aebf-473f-ad99-a31feab68f97}" columns="1111" labelwidth="135" celllabelalignment="Left" celllabelposition="Left">
+        <rows>
+          <row>
+            <cell id="{de1491c0-730a-46b6-0766-735cead287b1}" showlabel="true" locklevel="0">
+              <labels>
+                <label description="Created By" languagecode="1033" />
+              </labels>
+              <control id="footer_createdby" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="createdby" disabled="true" />
+            </cell>
+            <cell id="{012c0978-33b0-8c97-beed-d5a8ddc2ae92}" showlabel="true" locklevel="0">
+              <labels>
+                <label description="Created On" languagecode="1033" />
+              </labels>
+              <control id="footer_createdon" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="createdon" disabled="true" />
+            </cell>
+            <cell id="{d06b4675-689e-440b-d3d9-7cdc4d7b941b}" showlabel="true" locklevel="0" visible="false">
+              <labels>
+                <label description="Active Stage" languagecode="1033" />
+              </labels>
+              <control id="footer_ccrm_sys_phasename" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_sys_phasename" disabled="true" />
+            </cell>
+            <cell id="{65bc3208-1de0-c84a-ecc3-409302816363}" showlabel="true" locklevel="0">
+              <labels>
+                <label description="Review / Approval Status" languagecode="1033" />
+              </labels>
+              <control id="footer_statuscode" classid="{5D68B988-0661-4db2-BC3E-17598AD3BE6C}" datafieldname="statuscode" disabled="true" />
+            </cell>
+          </row>
+        </rows>
+      </footer>
+      <events>
+        <event name="onload" application="true" active="true">
+          <InternalHandlers>
+            <Handler functionName="Mscrm.Form_onload" libraryName="Sales/Opportunity/Opportunity_main_system_library.js" handlerUniqueId="228e5887-18c6-4d90-8d6e-bae09af2d977" enabled="true">
+              <dependencies>
+                <dependency id="estimatedvalue" />
+                <dependency id="isrevenuesystemcalculated" />
+              </dependencies>
+            </Handler>
+          </InternalHandlers>
+          <Handlers>
+            <Handler handlerUniqueId="{ed4b95dd-7664-cc7b-76b8-b571bb9d0d33}" functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" enabled="true" passExecutionContext="false" parameters="&quot;header_process_ccrm_disciplinesname&quot;, &quot;ccrm_disciplinesvalue&quot;, &quot;9999&quot;, &quot;ccrm_disciplinespicklist&quot;, 300" />
+            <Handler handlerUniqueId="{06c1c62b-c435-acaa-608c-73a2d43c849d}" functionName="formatMultiSelect" libraryName="ccrm_ms_MultiSelect.js" enabled="false" passExecutionContext="false" parameters="&quot;ccrm_servicespicklist&quot;, &quot;ccrm_servicesname&quot;, &quot;ccrm_servicesvalue&quot;, &quot;9994&quot;" />
+            <Handler handlerUniqueId="{a4c6a275-0d08-048c-e6db-2d9eed48e995}" functionName="formatMultiSelect" libraryName="ccrm_ms_MultiSelect.js" enabled="true" passExecutionContext="false" parameters="&quot;ccrm_othernetworks&quot;, &quot;ccrm_othernetworksdisp&quot;, &quot;ccrm_othernetworksval&quot;, null,250,3" />
+            <Handler handlerUniqueId="{78907a21-53ae-40c1-596b-aab6d310003c}" functionName="formatMultiSelect" libraryName="ccrm_ms_MultiSelect.js" enabled="false" passExecutionContext="false" parameters="&quot;ccrm_disciplinespicklist&quot;,&quot;ccrm_disciplinesname&quot;,&quot;ccrm_disciplinesvalue&quot;" />
+            <Handler handlerUniqueId="{7e4eeadb-105d-cc85-56c9-55b9d2071c7d}" functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" enabled="true" passExecutionContext="false" parameters="&quot;header_process_ccrm_servicesname&quot;, &quot;ccrm_servicesvalue&quot;, &quot;9999&quot;, &quot;ccrm_servicespicklist&quot;" />
+            <Handler functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" handlerUniqueId="{02793acb-ae6c-6852-9373-7cecd9686149}" enabled="true" parameters="&quot;header_process_ccrm_theworksname&quot;, &quot;ccrm_theworksvalue&quot;, &quot;9990&quot;, &quot;ccrm_theworkspicklist&quot;, 350" passExecutionContext="false" />
+            <Handler functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" handlerUniqueId="{29ec436a-833b-363c-4123-79e0954ba769}" enabled="true" parameters="&quot;header_process_ccrm_projectsectorname&quot;, &quot;ccrm_projectsectorvalue&quot;, &quot;9980&quot;, &quot;ccrm_projectsectorpicklist&quot;" passExecutionContext="false" />
+            <Handler handlerUniqueId="{6a6ab98a-08b5-2c25-66de-a41aa2097c66}" functionName="FormOnload" libraryName="ccrm_opportunity_library_2015" enabled="true" passExecutionContext="true" parameters="" />
+            <Handler functionName="SuppressDirtyFields" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{a438c435-2be7-6910-024e-4ca6e1e02825}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" attribute="isrevenuesystemcalculated" application="true" active="true">
+          <InternalHandlers>
+            <Handler functionName="Mscrm.isrevenuesystemcalculated_onchange" libraryName="Sales/Opportunity/Opportunity_main_system_library.js" handlerUniqueId="3b6c5880-6469-48bc-9642-f5350374785b" enabled="true">
+              <dependencies>
+                <dependency id="estimatedvalue" />
+                <dependency id="totalamount" />
+              </dependencies>
+            </Handler>
+          </InternalHandlers>
+        </event>
+        <event name="onchange" application="true" active="true" attribute="transactioncurrencyid">
+          <InternalHandlers>
+            <Handler functionName="Mscrm.transactioncurrencyid_onchange" libraryName="Sales/Opportunity/Opportunity_main_system_library.js" handlerUniqueId="151544F6-720A-4606-820D-60E0DB0D2606" enabled="true">
+              <dependencies>
+                <dependency id="pricelevelid" />
+              </dependencies>
+            </Handler>
+          </InternalHandlers>
+        </event>
+        <event name="onsave" application="false" active="false">
+          <Handlers>
+            <Handler functionName="RestoreDirtyFields" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{b17e169c-4edc-0ae1-1b49-747ebb896618}" enabled="true" parameters="" passExecutionContext="false" />
+            <Handler handlerUniqueId="{5353cec0-8b0a-cd13-c933-7eab99d54cad}" functionName="FormOnSave" libraryName="ccrm_opportunity_library_2015" enabled="true" passExecutionContext="true" parameters="" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_opportunitytype">
+          <Handlers>
+            <Handler functionName="ccrm_opportunitytype_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{6aca3e0a-9173-32c0-5b22-6c057b73e46b}" enabled="true" parameters="" passExecutionContext="false" />
+            <Handler functionName="refreshPage" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{634733a9-3cbe-122e-ccc7-906008c7d522}" enabled="false" parameters="" passExecutionContext="true" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_accountingcentreid">
+          <Handlers>
+            <Handler handlerUniqueId="{630a4079-80cc-9673-daad-0b3bc8ec51c5}" functionName="ccrm_accountingcentreid_onchange" libraryName="ccrm_opportunity_library_2015" enabled="true" passExecutionContext="false" parameters="" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_estimatedvalue_num">
+          <Handlers>
+            <Handler functionName="ccrm_estimatedvalue_num_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{8407091c-705d-92d1-60a4-9c645d9594cd}" enabled="true" parameters="" passExecutionContext="false" />
+            <Handler functionName="CheckFinanceFields" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{0b11dc73-6cd0-50d5-b3a6-b4a22ba91ecc}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="closeprobability">
+          <Handlers>
+            <Handler functionName="closeprobability_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{09e466c7-426d-2544-ccd2-63039c772d9d}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_probabilityofprojectproceeding">
+          <Handlers>
+            <Handler functionName="ccrm_probabilityofprojectproceeding_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{4a429d8e-2a5d-9db2-7507-0ee850399514}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_estexpenseincome_num">
+          <Handlers>
+            <Handler functionName="ccrm_estexpenseincome_num_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{3d5d2699-5c41-92ec-3d78-360edc376a09}" enabled="true" parameters="" passExecutionContext="false" />
+            <Handler functionName="CheckFinanceFields" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{35a37e00-e9a6-5342-cc14-864250e5c17e}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_estprojectresourcecosts_num">
+          <Handlers>
+            <Handler functionName="ccrm_estprojectresourcecosts_num_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{367d3509-522c-e686-74bc-b50a5e9ee4ce}" enabled="true" parameters="" passExecutionContext="false" />
+            <Handler functionName="CheckFinanceFields" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{0a4a4423-d30d-7e91-05e9-7559741511a9}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_estprojectsubcontractorfees_num">
+          <Handlers>
+            <Handler functionName="ccrm_estprojectsubcontractorfees_num_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{97c6d775-80ad-478b-07c7-ed2056516ba7}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_estprojectstaffoverheadsrate">
+          <Handlers>
+            <Handler functionName="ccrm_estprojectstaffoverheadsrate_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{bbe003d8-98a8-0c6b-eb6c-108215ce2da8}" enabled="true" parameters="" passExecutionContext="false" />
+            <Handler functionName="CheckFinanceFields" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{08527e5c-eda3-7771-3ab0-e095dcb015e4}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_anticipatedprojectcashflow_num">
+          <Handlers>
+            <Handler functionName="ccrm_anticipatedprojectcashflow_num_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{962ad00a-a1ca-eb82-824e-b9d160b1ee28}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_estprojectexpenses_num">
+          <Handlers>
+            <Handler functionName="ccrm_estprojectexpenses_num_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{0dc471a1-6a5a-1817-e518-13d25802dde5}" enabled="true" parameters="" passExecutionContext="false" />
+            <Handler functionName="CheckFinanceFields" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{c01b8807-d7a5-0ad3-29ed-77e12d879915}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_projectlocationid">
+          <Handlers>
+            <Handler handlerUniqueId="{de8a1d9c-1a10-0be1-356a-5825324b4d52}" functionName="projectcountry_onchange" libraryName="ccrm_opportunity_library_2015" enabled="true" passExecutionContext="false" parameters="" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_arupusstateid">
+          <Handlers>
+            <Handler functionName="USStateLookupPreFilter" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{21368400-d826-0316-939e-32645bd148c7}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_arupcompanyid">
+          <Handlers>
+            <Handler functionName="ccrm_arupcompanyid_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{32847296-9050-792c-581e-c1d20054c4c2}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_bidreviewchair_userid">
+          <Handlers>
+            <Handler functionName="bidreviewchair_userid_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{e56de2cc-7481-4836-6d0a-15dba83433b7}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_possiblejobnumberrequired">
+          <Handlers>
+            <Handler handlerUniqueId="{68a0088c-02be-9d85-c19b-60e8244e8548}" functionName="possibleJNRequired_onChange" libraryName="ccrm_opportunity_library_2015" enabled="false" passExecutionContext="false" parameters="" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_reasonfornotconsultingcountrymanager">
+          <Handlers>
+            <Handler functionName="reasonnotconsulted_onChange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{2534c8b5-adea-0b6a-c5b6-41d0c2a9d4ce}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_salarycost_num">
+          <Handlers>
+            <Handler functionName="calcBidCosts" libraryName="ccrm_sdk_rest_data_library" handlerUniqueId="{a7eb8d4c-3973-14ae-caea-891354bc41ed}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_staffoverheadspercent">
+          <Handlers>
+            <Handler functionName="calcBidCosts" libraryName="ccrm_sdk_rest_data_library" handlerUniqueId="{50113216-4101-9534-ad5b-b85c74921e5c}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_grossexpenses_num">
+          <Handlers>
+            <Handler functionName="calcBidCosts" libraryName="ccrm_sdk_rest_data_library" handlerUniqueId="{d33ba685-21a3-20eb-8ed7-e46bb0d7866c}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_client">
+          <Handlers>
+            <Handler functionName="ccrm_client_onChange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{78d6e9c2-6c95-4d02-0649-a5a95aa1e916}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_geographicmanagerproxyconsulted2">
+          <Handlers>
+            <Handler functionName="ccrm_geographicmanagerproxyconsulted2_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{0c00b3c0-1752-45be-4ca6-2898451e57c1}" enabled="true" parameters="" passExecutionContext="true" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_dateconsulted">
+          <Handlers>
+            <Handler functionName="ccrm_dateconsulted_onChange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{4650358a-aedc-5bc8-3ec0-1ea70b612959}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_bidmanager_userid">
+          <Handlers>
+            <Handler functionName="Syncbidmanager_userid" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{8e4d7939-4d21-c1b9-4b19-e9cd69d8d079}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_biddirector_userid">
+          <Handlers>
+            <Handler functionName="Syncbiddirector_userid" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{9055c04b-8be9-d652-ac4c-57e93ade6e23}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_projecttotalincome_num">
+          <Handlers>
+            <Handler functionName="CheckFinanceFields" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{29a6e058-5461-4bc8-162a-3a55be145b39}" enabled="false" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_projecttotalcosts_num">
+          <Handlers>
+            <Handler functionName="CheckFinanceFields" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{97e5a677-e886-3d7d-469b-c4d3ba81db2d}" enabled="false" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_currentapprovers">
+          <Handlers>
+            <Handler functionName="SetCurrentApproverNotification_Show" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{ab335e44-39bc-b125-b780-69740203a352}" enabled="false" parameters="" passExecutionContext="true" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_limitofliabilityagreement">
+          <Handlers>
+            <Handler functionName="ccrm_limitofliabilityagreement_OnChange" libraryName="ccrm_sdk_rest_data_library" handlerUniqueId="{d0d3269d-55a5-9783-4db8-9821d9232c2b}" enabled="true" parameters="" passExecutionContext="true" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_contractlimitofliability">
+          <Handlers>
+            <Handler functionName="ccrm_contractlimitofliability_OnChange" libraryName="ccrm_sdk_rest_data_library" handlerUniqueId="{2a0c0603-6b28-57ea-7d26-4ec3cb51d5ce}" enabled="true" parameters="" passExecutionContext="true" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_confidentialoptionset">
+          <Handlers>
+            <Handler functionName="ccrm_confidential_onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{7ec491b0-8c80-1073-dca4-63ca3b14853a}" enabled="true" parameters="" passExecutionContext="true" />
+          </Handlers>
+        </event>
+      </events>
+      <Navigation>
+        <NavBar>
+          <NavBarByRelationshipItem RelationshipName="Opportunity_ActivityPointers" Id="navActivities" Icon="/_imgs/ico_18_act.gif" Sequence="20" Area="Info">
+            <Titles>
+              <Title LCID="1033" Text="Activities" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="opportunity_sales_orders" Area="Sales" Id="navOrders" Show="false" Sequence="21">
+            <Titles>
+              <Title LCID="1033" Text="Orders" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="opportunity_customer_opportunity_roles" Id="navRelationship" TitleResourceId="Tab_Label_Relationship" Area="Info" Show="false" Sequence="22">
+            <Privileges>
+              <Privilege Entity="" Privilege="ReadCustomerOpportunityRole" />
+            </Privileges>
+            <Titles>
+              <Title LCID="1033" Text="Relationships" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="opportunity_invoices" Sequence="30" Area="Sales" Id="navInvoices" Show="false">
+            <Titles>
+              <Title LCID="1033" Text="Invoices" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="opportunitycompetitors_association" Sequence="40" Area="Sales" Id="navComp" Show="false">
+            <Titles>
+              <Title LCID="1033" Text="Competitors" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navConnections" Id="navConnections" Sequence="9600" Area="Info">
+            <Titles>
+              <Title LCID="1033" Text="Connections" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navAudit" Area="Info" Id="navAudit" Sequence="9601">
+            <Titles>
+              <Title LCID="1033" Text="Audit History" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="ccrm_opportunity_ccrm_bidreview" Area="Info" Id="nav_ccrm_opportunity_ccrm_bidreview" Sequence="10001">
+            <Titles>
+              <Title LCID="1033" Text="Bid Review" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="ccrm_opportunity_opportunity_parent" Area="Info" Id="nav_ccrm_opportunity_opportunity_parent" Sequence="10001">
+            <Titles>
+              <Title LCID="1033" Text="Sub-Opportunities" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="ccrm_opportunity_ccrm_cjnapplication" Area="Info" Id="nav_ccrm_opportunity_ccrm_cjnapplication" Sequence="10002">
+            <Titles>
+              <Title LCID="1033" Text="Confirmed Job Number Applications" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="ccrm_projecttitle" Area="Info" Id="nav_ccrm_projecttitle" Sequence="10002">
+            <Titles>
+              <Title LCID="1033" Text="Exclusivity Requests" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="ccrm_opportunity_ccrm_progresshistory" Area="Info" Id="nav_ccrm_opportunity_ccrm_progresshistory" Sequence="10003">
+            <Titles>
+              <Title LCID="1033" Text="Progress Histories" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="ccrm_opprelationship" Area="Info" Id="nav_ccrm_opprelationship" Sequence="10003" Show="false">
+            <Titles>
+              <Title LCID="1033" Text="Arup Relationships" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="ccrm_opportunity_incident_Projectname" Area="Service" Id="nav_ccrm_opportunity_incident_Projectname" Sequence="10004">
+            <Titles>
+              <Title LCID="1033" Text="Legal Files" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="ccrm_opportunity_ccrm_opportunityapproval" Area="Info" Id="nav_ccrm_opportunity_ccrm_opportunityapproval" Sequence="10004">
+            <Titles>
+              <Title LCID="1033" Text="Review and Approval" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navProcessSessions" Id="navProcessSessions" Show="true" Sequence="10011" Area="Info">
+            <Titles>
+              <Title LCID="1033" Text="Process Sessions" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="ccrm_opportunity_opportunitycontact" Area="Info" Id="nav_ccrm_opportunity_opportunitycontact" Sequence="10012">
+            <Titles>
+              <Title LCID="1033" Text="Opportunity Contacts" />
+            </Titles>
+          </NavBarByRelationshipItem>
+          <NavBarByRelationshipItem RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navAsyncOperations" Id="navAsyncOperations" Show="true" Area="Info" Sequence="10013">
+            <Titles>
+              <Title LCID="1033" Text="Background Processes" />
+            </Titles>
+          </NavBarByRelationshipItem>
+        </NavBar>
+        <NavBarAreas>
+          <NavBarArea Id="Info">
+            <Titles>
+              <Title LCID="1033" Text="Common" />
+            </Titles>
+          </NavBarArea>
+          <NavBarArea Id="Sales">
+            <Titles>
+              <Title LCID="1033" Text="Sales" />
+            </Titles>
+          </NavBarArea>
+          <NavBarArea Id="Service">
+            <Titles>
+              <Title LCID="1033" Text="Service" />
+            </Titles>
+          </NavBarArea>
+          <NavBarArea Id="Marketing">
+            <Titles>
+              <Title LCID="1033" Text="Marketing" />
+            </Titles>
+          </NavBarArea>
+          <NavBarArea Id="ProcessCenter">
+            <Titles>
+              <Title LCID="1033" Text="Processes" />
+            </Titles>
+          </NavBarArea>
+        </NavBarAreas>
+      </Navigation>
+      <clientresources>
+        <internalresources>
+          <clientincludes>
+            <internaljscriptfile src="$webresource:Sales/Opportunity/Opportunity_main_system_library.js" />
+          </clientincludes>
+        </internalresources>
+      </clientresources>
+      <formLibraries>
+        <Library name="ccrm_sdk_rest_data_library" libraryUniqueId="{2dc900a1-bc15-b0e7-5d7e-e9a145e4c627}" />
+        <Library name="ccrm_opportunity_library_2015" libraryUniqueId="{b3dd8159-e21c-b174-3049-99463ce872a5}" />
+        <Library name="ccrm_ms_MultiSelect.js" libraryUniqueId="{39c5ec29-c600-4123-7465-11b2088456a6}" />
+        <Library name="ccrm_ms_BPF_MultiSelect.js" libraryUniqueId="{93759ad8-4e1a-55cc-64dd-54885c5e3b64}" />
+        <Library name="ccrm_ms_jQuery1102" libraryUniqueId="{2189d132-7c6a-8b94-0d17-2a9b30b8790d}" />
+        <Library name="opportunity_ribbon.js" libraryUniqueId="{489b4edb-aed8-1907-81e3-c69384e7aa4a}" />
+        <Library name="mag_/js/alert.js" libraryUniqueId="{1ac569a5-038d-3198-7a7d-52d2e1daeca8}" />
+      </formLibraries>
+      <DisplayConditions FallbackForm="true" Order="3">
+        <Everyone />
+      </DisplayConditions>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Opportunity" languagecode="1033" />
+    </LocalizedNames>
+  </systemform>
+</forms>

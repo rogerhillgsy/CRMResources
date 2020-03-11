@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{2c4926d6-bde9-e811-8116-005056b509e1}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="name" select="1" preview="1" icon="1">
+        <row name="result" id="opportunityid">
+          <cell name="name" width="150" />
+          <cell name="ccrm_client" width="125" />
+          <cell name="ccrm_projectdirector_userid" width="100" />
+          <cell name="ccrm_estimatedvalue_num" width="100" />
+          <cell name="ccrm_project_transactioncurrencyid" width="100" />
+          <cell name="closeprobability" width="100" />
+          <cell name="ccrm_probabilityofprojectproceeding" width="100" />
+          <cell name="ccrm_arupbusinessid" width="100" />
+          <cell name="ccrm_arupgroupid" width="100" />
+          <cell name="ccrm_estarupinvolvementstart" width="100" />
+          <cell name="estimatedvalue_base" width="100" />
+          <cell name="actualclosedate" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+        <entity name="opportunity">
+          <attribute name="name" />
+          <attribute name="ccrm_estimatedvalue_num" />
+          <attribute name="ccrm_project_transactioncurrencyid" />
+          <attribute name="ccrm_client" />
+          <attribute name="ccrm_projectdirector_userid" />
+          <attribute name="closeprobability" />
+          <attribute name="estimatedvalue_base" />
+          <attribute name="ccrm_estarupinvolvementstart" />
+          <attribute name="ccrm_arupgroupid" />
+          <attribute name="ccrm_arupbusinessid" />
+          <attribute name="actualclosedate" />
+          <order attribute="actualclosedate" descending="true" />
+          <order attribute="name" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="2" />
+            <filter type="or">
+              <condition attribute="ccrm_biddirector_userid" operator="eq-userid" />
+              <condition attribute="ccrm_bidmanager_userid" operator="eq-userid" />
+              <condition attribute="createdby" operator="eq-userid" />
+              <condition attribute="ccrm_bidreviewchair_userid" operator="eq-userid" />
+              <condition attribute="ccrm_businessadministrator_userid" operator="eq-userid" />
+              <condition attribute="ccrm_projectdirector_userid" operator="eq-userid" />
+              <condition attribute="ccrm_projectmanager_userid" operator="eq-userid" />
+              <condition attribute="ccrm_leadoriginator" operator="eq-userid" />
+            </filter>
+            <condition attribute="statuscode" operator="eq" value="100000005" />
+          </filter>
+          <attribute name="ccrm_probabilityofprojectproceeding" />
+          <attribute name="opportunityid" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="My Neglected Opportunities" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

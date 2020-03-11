@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{197658e5-4543-e011-abb4-005056af0e0d}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="name" select="1" preview="1" icon="1">
+        <row name="result" id="opportunityid">
+          <cell name="name" width="200" />
+          <cell name="ccrm_client" width="200" />
+          <cell name="ccrm_ultimateendclientid" width="200" />
+          <cell name="ccrm_projectdirector_userid" width="125" />
+          <cell name="ccrm_estimatedvalue_num" width="100" />
+          <cell name="ccrm_project_transactioncurrencyid" width="125" />
+          <cell name="closeprobability" width="100" />
+          <cell name="ccrm_probabilityofprojectproceeding" width="100" />
+          <cell name="ccrm_projectlocationid" width="100" />
+          <cell name="ccrm_arupbusinessid" width="100" />
+          <cell name="ccrm_arupgroupid" width="100" />
+          <cell name="ccrm_arupregionid" width="100" />
+          <cell name="statuscode" width="100" />
+          <cell name="ccrm_estarupinvolvementstart" width="100" />
+          <cell name="estimatedvalue_base" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+        <entity name="opportunity">
+          <attribute name="ccrm_projectlocationid" />
+          <attribute name="name" />
+          <attribute name="ccrm_project_transactioncurrencyid" />
+          <attribute name="ccrm_arupbusinessid" />
+          <attribute name="ccrm_estarupinvolvementstart" />
+          <attribute name="ccrm_estimatedvalue_num" />
+          <attribute name="ccrm_projectdirector_userid" />
+          <attribute name="closeprobability" />
+          <attribute name="ccrm_probabilityofprojectproceeding" />
+          <attribute name="ccrm_arupgroupid" />
+          <attribute name="ccrm_arupregionid" />
+          <attribute name="statuscode" />
+          <attribute name="ccrm_ultimateendclientid" />
+          <order attribute="ccrm_estarupinvolvementstart" descending="false" />
+          <filter type="and">
+            <filter type="or">
+              <condition attribute="ccrm_bidmanager_userid" operator="eq-userid" />
+              <condition attribute="ccrm_biddirector_userid" operator="eq-userid" />
+              <condition attribute="createdby" operator="eq-userid" />
+              <condition attribute="ccrm_bidreviewchair_userid" operator="eq-userid" />
+              <condition attribute="ccrm_businessadministrator_userid" operator="eq-userid" />
+              <condition attribute="ccrm_projectmanager_userid" operator="eq-userid" />
+              <condition attribute="ccrm_projectdirector_userid" operator="eq-userid" />
+              <condition attribute="ccrm_leadoriginator" operator="eq-userid" />
+            </filter>
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <attribute name="estimatedvalue_base" />
+          <attribute name="ccrm_client" />
+          <attribute name="opportunityid" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="My Active Work - Open Opportunities" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A listing of active opportunities where I am the bid manager, bid director, I created the opportunity, or I was the last person to modify the opportunity." languagecode="1033" />
+    </Descriptions>
+  </savedquery>
+</savedqueries>

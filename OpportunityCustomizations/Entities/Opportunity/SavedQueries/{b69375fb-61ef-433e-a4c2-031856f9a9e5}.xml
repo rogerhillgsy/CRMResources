@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{b69375fb-61ef-433e-a4c2-031856f9a9e5}</savedqueryid>
+    <queryapi></queryapi>
+    <layoutxml>
+      <grid name="resultset" jump="name" select="1" icon="1" preview="1">
+        <row name="result" id="opportunityid">
+          <cell name="name" width="300" />
+          <cell name="customerid" width="150" />
+          <cell name="estimatedclosedate" width="125" />
+          <cell name="estimatedvalue" width="100" />
+          <cell name="closeprobability" width="100" />
+          <cell name="opportunityratingcode" width="100" />
+          <cell name="opportunitycustomeridcontactcontactid.emailaddress1" width="150" disableSorting="1" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true">
+        <entity name="opportunity">
+          <attribute name="name" />
+          <attribute name="estimatedvalue" />
+          <attribute name="estimatedclosedate" />
+          <order attribute="name" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <attribute name="customerid" />
+          <attribute name="opportunityratingcode" />
+          <attribute name="closeprobability" />
+          <link-entity alias="opportunitycustomeridcontactcontactid" name="contact" from="contactid" to="customerid" link-type="outer" visible="false">
+            <attribute name="emailaddress1" />
+          </link-entity>
+          <link-entity name="connection" from="record2id" to="opportunityid" alias="MyConnections">
+            <filter type="and">
+              <condition attribute="record1id" operator="eq-userid" />
+              <condition attribute="statecode" operator="eq" value="0" />
+            </filter>
+          </link-entity>
+          <attribute name="opportunityid" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="My Connections" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="Shows all active instances of the opportunity that the current user is connected to via an active connection" languagecode="1033" />
+    </Descriptions>
+  </savedquery>
+</savedqueries>

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{00000000-0000-0000-00aa-000010001203}</savedqueryid>
+    <queryapi></queryapi>
+    <layoutxml>
+      <grid name="opportunities" jump="name" select="1" icon="1" preview="1">
+        <row name="opportunity" id="opportunityid">
+          <cell name="name" width="300" />
+          <cell name="ccrm_client" width="200" />
+          <cell name="ccrm_ultimateendclientid" width="200" imageproviderfunctionname="" imageproviderwebresource="$webresource:" />
+          <cell name="ccrm_projectdirector_userid" width="100" />
+          <cell name="ccrm_estimatedvalue_num" width="100" />
+          <cell name="ccrm_project_transactioncurrencyid" width="100" />
+          <cell name="closeprobability" width="100" />
+          <cell name="ccrm_probabilityofprojectproceeding" width="100" />
+          <cell name="ccrm_projectlocationid" width="100" />
+          <cell name="ccrm_arupbusinessid" width="100" />
+          <cell name="ccrm_arupgroupid" width="100" />
+          <cell name="ccrm_arupregionid" width="100" />
+          <cell name="statuscode" width="150" />
+          <cell name="ccrm_estarupinvolvementstart" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>2</querytype>
+    <fetchxml>
+      <fetch distinct="false" no-lock="false" mapping="logical">
+        <entity name="opportunity">
+          <attribute name="name" />
+          <attribute name="statuscode" />
+          <order attribute="name" descending="false" />
+          <attribute name="ccrm_arupregionid" />
+          <attribute name="ccrm_projectdirector_userid" />
+          <attribute name="ccrm_project_transactioncurrencyid" />
+          <attribute name="ccrm_projectlocationid" />
+          <attribute name="closeprobability" />
+          <attribute name="ccrm_probabilityofprojectproceeding" />
+          <attribute name="ccrm_estimatedvalue_num" />
+          <attribute name="ccrm_arupbusinessid" />
+          <attribute name="ccrm_estarupinvolvementstart" />
+          <attribute name="ccrm_arupgroupid" />
+          <attribute name="ccrm_client" />
+          <attribute name="ccrm_ultimateendclientid" />
+          <attribute name="opportunityid" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Opportunity Associated View" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="Displays information about opportunities in the detail form of any associated record." languagecode="1033" />
+    </Descriptions>
+  </savedquery>
+</savedqueries>

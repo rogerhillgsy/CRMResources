@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{41684291-4b0d-4922-897e-c9cb6d4e61d6}</formid>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab id="{7d1085ad-6a3f-453f-a519-a279483d8edf}" name="tab_1" showlabel="false">
+          <labels>
+            <label description="Tab" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section id="{700be052-37b9-438d-8144-54f2f09c2741}" name="tab_1_column_1_section_1" columns="1" showlabel="false" showbar="false" IsUserDefined="0">
+                  <labels>
+                    <label description="section" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{5b2242b0-a070-6533-3b87-7b89b97ab055}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Bid Submission Date" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_bidsubmission" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_bidsubmission" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{de9530b9-8e45-7b93-deac-7ca823a3e5ae}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Prob. of Win (%)" languagecode="1033" />
+                        </labels>
+                        <control id="closeprobability" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="closeprobability" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{07c15487-2992-6c2c-3b40-bc460ba1e2ce}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Prob. of Proc (%)" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_probabilityofprojectproceeding" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="ccrm_probabilityofprojectproceeding" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{8ed6ec33-57e5-4b39-4bdd-a273ec2a6caa}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Project Currency" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_project_transactioncurrencyid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_project_transactioncurrencyid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a654b748-77b4-e29a-32cd-de43546cb0b3}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Fee Income" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estimatedvalue_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_estimatedvalue_num" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{87ee6d0a-282d-5663-505b-ed170051c8a4}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Charging Basis" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_chargingbasis" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_chargingbasis" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{224cd95d-0690-6c29-7c95-7ab16b73948d}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Arup Project Start Date" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estarupinvolvementstart" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_estarupinvolvementstart" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{3a843921-dc51-cd0d-243e-60eda46863d1}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Arup Project End Date" languagecode="1033" />
+                        </labels>
+                        <control id="ccrm_estarupinvolvementend" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_estarupinvolvementend" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{601c1d7b-4c5c-3872-4190-4ed7e3e8a689}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Project Summary" languagecode="1033" />
+                        </labels>
+                        <control id="description" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="description" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <DisplayConditions Order="3">
+        <Role Id="{627090ff-40a3-4053-8790-584edc5be201}" />
+        <Role Id="{119f245c-3cc8-4b62-b31c-d1a046ced15d}" />
+      </DisplayConditions>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Bid Review Opp Details quick view" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="16/04/14 MK: created to address changes to Bid Review form changes" languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>
