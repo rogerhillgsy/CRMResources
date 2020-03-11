@@ -96,6 +96,60 @@
   </EntityMap>
   <EntityMap>
     <EntitySource>opportunity</EntitySource>
+    <EntityTarget>ccrm_cjnapplication</EntityTarget>
+    <AttributeMaps>
+      <AttributeMap>
+        <AttributeSource>ccrm_accountingcentreid</AttributeSource>
+        <AttributeTarget>ccrm_arupaccountingcodeid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_arupcompanyid</AttributeSource>
+        <AttributeTarget>ccrm_arupcompanyid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_arupinternal</AttributeSource>
+        <AttributeTarget>ccrm_arupinternal</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_estimatedvalue_num</AttributeSource>
+        <AttributeTarget>ccrm_feeincomenumeric</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_jna</AttributeSource>
+        <AttributeTarget>ccrm_opportunitycjn</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_project_transactioncurrencyid</AttributeSource>
+        <AttributeTarget>transactioncurrencyid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_projectdirector_userid</AttributeSource>
+        <AttributeTarget>ccrm_projectdirector_userid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_projectid</AttributeSource>
+        <AttributeTarget>ccrm_projectid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_projectmanager_userid</AttributeSource>
+        <AttributeTarget>ccrm_projectmanager_userid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_shorttitle</AttributeSource>
+        <AttributeTarget>ccrm_name</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>estimatedvalue</AttributeSource>
+        <AttributeTarget>ccrm_feeincome</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>transactioncurrencyid</AttributeSource>
+        <AttributeTarget>transactioncurrencyid</AttributeTarget>
+      </AttributeMap>
+    </AttributeMaps>
+  </EntityMap>
+  <EntityMap>
+    <EntitySource>opportunity</EntitySource>
     <EntityTarget>opportunity</EntityTarget>
     <AttributeMaps>
       <AttributeMap>

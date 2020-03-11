@@ -416,7 +416,7 @@ function FormOnload() {
         //set scroll bar height
         $('#processControlScrollbar').children().height(20);
         customerid_onChange();
-        ccrm_contractlimitofliability_OnChange();
+        //ccrm_contractlimitofliability_OnChange();
        
         feeIncomeCheck();
 
@@ -1148,6 +1148,8 @@ function getArupRegionName(opportunityFieldName) {
 }
 
 function addUserLookupFilter(opportunityFieldName, lookupFieldName, filterChkFieldName) {
+
+    debugger;
 
     var arupRegionData = getArupRegionName(opportunityFieldName);
     var region;
@@ -5275,6 +5277,8 @@ function BidReviewApprovalValidation(showmsg) {
 
 function CheckMandatoryFields() {
 
+    debugger;
+
     var result = true;
     var arupInternal = Xrm.Page.getAttribute('ccrm_arupinternal').getValue();
 
@@ -5911,7 +5915,7 @@ function requestConfirmJob() {
         v14 == null ||
         v19 == null) incompleteData = true;
 
-    if (!arupInternal && !incompleteData && (v15 == null || v16 == null || v17 == null || v18 == null ||(v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
+    if (!arupInternal && !incompleteData && (v15 == null || v16 == null || v17 == null || (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
         incompleteData = true;
 
     if (v20 == 0) { }
@@ -5941,7 +5945,7 @@ function requestConfirmJob() {
             highlightField('#header_process_ccrm_theworksname', '', (v15 != null) ? true : false);
             highlightField('#header_process_ccrm_servicesname', '', (v16 != null) ? true : false);
             highlightField('#header_process_ccrm_projectsectorname', '', (v17 != null) ? true : false);
-            highlightField('#header_process_ccrm_pilevelmoney_num1', '#ccrm_pilevelmoney_num', (v18 != null) ? true : false);
+            highlightField('#header_process_ccrm_pilevelmoney_num1', '#ccrm_pilevelmoney_num', (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null) ? true : false);
         }        
     } else {
         if (Xrm.Page.data.entity.getIsDirty()) { Xrm.Page.data.save(); }
@@ -6379,45 +6383,56 @@ function OpenDWBidsSiteLink() {
     //}
 }
 
-function ccrm_contractlimitofliability_OnChange() {
-    var strCLL = Xrm.Page.getAttribute('ccrm_contractlimitofliability').getValue();
-    if (strCLL != 6) {
-        Xrm.Page.getAttribute("ccrm_limitofliabilityagreement").setRequiredLevel("none");
-        Xrm.Page.getAttribute('ccrm_limitofliabilityagreement').setValue(null);
-        Xrm.Page.getControl("ccrm_limitofliabilityagreement").setDisabled(true);
-        if (Xrm.Page.getControl("header_process_ccrm_limitofliabilityagreement") != null)
-            Xrm.Page.getControl("header_process_ccrm_limitofliabilityagreement").setDisabled(true);
-        Xrm.Page.getAttribute('ccrm_limitamount_num').setValue(null);
-        Xrm.Page.getControl("ccrm_limitamount_num").setDisabled(true);
-        if (Xrm.Page.getControl("header_process_ccrm_limitamount_num") != null)
-            Xrm.Page.getControl("header_process_ccrm_limitamount_num").setDisabled(true);
-        Xrm.Page.getAttribute("ccrm_limitofliabilityagreement").setSubmitMode("always");
-        Xrm.Page.getAttribute("ccrm_limitamount_num").setSubmitMode("always");
-    } else {
-        Xrm.Page.getControl("ccrm_limitofliabilityagreement").setDisabled(false);
-        Xrm.Page.getControl("ccrm_limitofliabilityagreement").setVisible(true);
-        if (Xrm.Page.getControl("header_process_ccrm_limitofliabilityagreement") != null)
-            Xrm.Page.getControl("header_process_ccrm_limitofliabilityagreement").setDisabled(false);
-        Xrm.Page.getAttribute("ccrm_limitofliabilityagreement").setRequiredLevel("required");
-    }
-}
+//function ccrm_contractlimitofliability_OnChange() {
 
-function ccrm_limitofliabilityagreement_OnChange() {
-    var strLL = Xrm.Page.getAttribute('ccrm_limitofliabilityagreement').getValue();
-    if (strLL != 1) {
-        Xrm.Page.getControl("ccrm_limitamount_num").setDisabled(true);
-        if (Xrm.Page.getControl("header_process_ccrm_limitamount_num") != null)
-            Xrm.Page.getControl("header_process_ccrm_limitamount_num").setDisabled(true);
-        Xrm.Page.getAttribute('ccrm_limitamount_num').setValue(null);
-        Xrm.Page.getAttribute("ccrm_limitamount_num").setSubmitMode("always");
-        Xrm.Page.getAttribute("ccrm_limitamount_num").setRequiredLevel("none");
-    } else {
-        Xrm.Page.getControl("ccrm_limitamount_num").setDisabled(false);
-        if (Xrm.Page.getControl("header_process_ccrm_limitamount_num") != null)
-            Xrm.Page.getControl("header_process_ccrm_limitamount_num").setDisabled(false);
-        Xrm.Page.getAttribute("ccrm_limitamount_num").setRequiredLevel("required");
-    }
-}
+//    return;
+
+//    //debugger;
+//    var strCLL = Xrm.Page.getAttribute('ccrm_contractlimitofliability').getValue();
+//    /* 6 - limited; 3 - unlimited */
+//    if (strCLL != 6) {
+//        Xrm.Page.getAttribute("ccrm_limitofliabilityagreement").setRequiredLevel("none");
+//        Xrm.Page.getAttribute('ccrm_limitofliabilityagreement').setValue(null);
+//        Xrm.Page.getControl("ccrm_limitofliabilityagreement").setDisabled(true);
+//        if (Xrm.Page.getControl("header_process_ccrm_limitofliabilityagreement") != null)
+//            Xrm.Page.getControl("header_process_ccrm_limitofliabilityagreement").setDisabled(true);
+//        Xrm.Page.getAttribute('ccrm_limitamount_num').setValue(null);
+//        Xrm.Page.getControl("ccrm_limitamount_num").setDisabled(true);
+//        if (Xrm.Page.getControl("header_process_ccrm_limitamount_num") != null)
+//            Xrm.Page.getControl("header_process_ccrm_limitamount_num").setDisabled(true);
+//        Xrm.Page.getAttribute("ccrm_limitofliabilityagreement").setSubmitMode("always");
+//        Xrm.Page.getAttribute('ccrm_limitamount_num').setValue(null);
+//        Xrm.Page.getAttribute("ccrm_limitamount_num").setSubmitMode("always");
+//        Xrm.Page.getAttribute("ccrm_limitamount_num").setRequiredLevel("none");
+//    } else {
+//        if (Xrm.Page.getAttribute("statecode").getValue() == 0) {
+//            Xrm.Page.getControl("ccrm_limitofliabilityagreement").setDisabled(false);
+//        }
+//        Xrm.Page.getControl("ccrm_limitofliabilityagreement").setVisible(true);
+//        if (Xrm.Page.getControl("header_process_ccrm_limitofliabilityagreement") != null && Xrm.Page.getAttribute("statecode").getValue() == 0) {
+//            Xrm.Page.getControl("header_process_ccrm_limitofliabilityagreement").setDisabled(false);
+//        }
+//        Xrm.Page.getAttribute("ccrm_limitofliabilityagreement").setRequiredLevel("required");
+//    }
+//}
+
+//function ccrm_limitofliabilityagreement_OnChange() {
+//    var strLL = Xrm.Page.getAttribute('ccrm_limitofliabilityagreement').getValue();
+//    if (strLL != 1) {
+//        Xrm.Page.getControl("ccrm_limitamount_num").setDisabled(true);
+//        if (Xrm.Page.getControl("header_process_ccrm_limitamount_num") != null)
+//            Xrm.Page.getControl("header_process_ccrm_limitamount_num").setDisabled(true);
+//        Xrm.Page.getAttribute('ccrm_limitamount_num').setValue(null);
+//        Xrm.Page.getAttribute("ccrm_limitamount_num").setSubmitMode("always");
+//        Xrm.Page.getAttribute("ccrm_limitamount_num").setRequiredLevel("none");
+//    } else {
+//        Xrm.Page.getControl("ccrm_limitamount_num").setDisabled(false);
+//        if (Xrm.Page.getControl("header_process_ccrm_limitamount_num") != null)
+//            Xrm.Page.getControl("header_process_ccrm_limitamount_num").setDisabled(false);
+//        Xrm.Page.getAttribute("ccrm_limitamount_num").setRequiredLevel("required");
+//    }
+//}
+
 //CRM2016 Needs confirmation
 function show_hiddenrow(attributeName, supressTabCallback) {
     /// <summary>Due to a bug, CRM seems to hide certain rows when it should not. Ensure that parent row of a given field is not hidden</summary>
@@ -6914,7 +6929,7 @@ function PullDetailsFromParentOpportunity(parentOpportunity) {
     if (parentOpportunity != null && parentOpportunity != "undefined") {
         var parentOpportunityId = parentOpportunity[0].id.replace('{', '').replace('}', '');
         var req = new XMLHttpRequest();
-        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,_ccrm_accountingcentreid_value,_ccrm_arupcompanyid_value,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_contractarrangement,ccrm_estarupinvolvementend,ccrm_estarupinvolvementstart,ccrm_leadsource,ccrm_location,ccrm_othernetworks,ccrm_othernetworksdisp,ccrm_othernetworksval,ccrm_othernetworkdetails,ccrm_probabilityofprojectproceeding,_ccrm_projectlocationid_value,_ccrm_ultimateendclientid_value,closeprobability", true);
+        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_contractarrangement,ccrm_estarupinvolvementend,ccrm_estarupinvolvementstart,ccrm_leadsource,ccrm_location,ccrm_probabilityofprojectproceeding,_ccrm_projectlocationid_value,_ccrm_ultimateendclientid_value,closeprobability", true);
         req.setRequestHeader("OData-MaxVersion", "4.0");
         req.setRequestHeader("OData-Version", "4.0");
         req.setRequestHeader("Accept", "application/json");
@@ -7042,6 +7057,7 @@ function UpdateFieldFromParentOpportunity(fieldName, fieldValueFromParent, lookU
 
 function UpdateDetailsFromParentOpportunity(result) {
 
+
     UpdateFieldFromParentOpportunity("ccrm_projectlocationid", result["_ccrm_projectlocationid_value"], result["_ccrm_projectlocationid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_projectlocationid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
     Xrm.Page.getAttribute("ccrm_projectlocationid").fireOnChange();
     if(IsDependentFieldValueValid("arup_opportunitytype", Xrm.Page.getAttribute("arup_opportunitytype").getValue(), "ccrm_contractarrangement", result["ccrm_contractarrangement"]))
@@ -7054,11 +7070,11 @@ function UpdateDetailsFromParentOpportunity(result) {
         UpdateFieldFromParentOpportunity("ccrm_leadsource", result["ccrm_leadsource"]);
 
     UpdateFieldFromParentOpportunity("ccrm_location", result["ccrm_location"]);
-    UpdateFieldFromParentOpportunity("ccrm_othernetworks", result["ccrm_othernetworks"]);
-    UpdateFieldFromParentOpportunity("ccrm_othernetworksdisp", result["ccrm_othernetworksdisp"]);
-    UpdateFieldFromParentOpportunity("ccrm_othernetworksval", result["ccrm_othernetworksval"]);
-    setup_display_other_field("ccrm_othernetworksval", "ccrm_othernetworkdetails", "100000003");
-    UpdateFieldFromParentOpportunity("ccrm_othernetworkdetails", result["ccrm_othernetworkdetails"]);
+    //UpdateFieldFromParentOpportunity("ccrm_othernetworks", result["ccrm_othernetworks"]);
+    //UpdateFieldFromParentOpportunity("ccrm_othernetworksdisp", result["ccrm_othernetworksdisp"]);
+    //UpdateFieldFromParentOpportunity("ccrm_othernetworksval", result["ccrm_othernetworksval"]);
+   // setup_display_other_field("ccrm_othernetworksval", "ccrm_othernetworkdetails", "100000003");
+   // UpdateFieldFromParentOpportunity("ccrm_othernetworkdetails", result["ccrm_othernetworkdetails"]);
     UpdateFieldFromParentOpportunity("ccrm_probabilityofprojectproceeding", result["ccrm_probabilityofprojectproceeding"]);
     UpdateFieldFromParentOpportunity("closeprobability", result["closeprobability"]);
     UpdateFieldFromParentOpportunity("ccrm_arupbusinessid", result["_ccrm_arupbusinessid_value"], result["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupbusinessid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
@@ -7078,11 +7094,11 @@ function UpdateDetailsFromParentOpportunity(result) {
     setTimeout(function () {
         //debugger;
         UpdateFieldFromParentOpportunity("ccrm_arupusstateid", result["_ccrm_arupusstateid_value"], result["_ccrm_arupusstateid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupusstateid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
-        UpdateFieldFromParentOpportunity("ccrm_arupcompanyid", result["_ccrm_arupcompanyid_value"], result["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupcompanyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
-        if (Xrm.Page.getAttribute("ccrm_arupcompanyid").getValue() != null) {
-            UpdateFieldFromParentOpportunity("ccrm_accountingcentreid", result["_ccrm_accountingcentreid_value"], result["_ccrm_accountingcentreid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_accountingcentreid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
-            Xrm.Page.getAttribute("ccrm_accountingcentreid").fireOnChange();
-        }
+        //UpdateFieldFromParentOpportunity("ccrm_arupcompanyid", result["_ccrm_arupcompanyid_value"], result["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupcompanyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+        //if (Xrm.Page.getAttribute("ccrm_arupcompanyid").getValue() != null) {
+        //    UpdateFieldFromParentOpportunity("ccrm_accountingcentreid", result["_ccrm_accountingcentreid_value"], result["_ccrm_accountingcentreid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_accountingcentreid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+        //    Xrm.Page.getAttribute("ccrm_accountingcentreid").fireOnChange();
+        //}
     }, 1500);
 }
 

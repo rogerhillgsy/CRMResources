@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{34c84d21-e0b5-e411-940b-005056b5201f}" Name="Joint Venture Sync Fields BPF" Description="When the Arup Bidding as a JV? field on the Business process flow is set to yes, the value Bidding as JV on the Bid alerts its also set to Yes." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XamlFileName>/Workflows/JointVentureSyncFieldsBPF-34C84D21-E0B5-E411-940B-005056B5201F.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>0</StateCode>
+  <StatusCode>1</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>3.15.02.01</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <ProcessTriggerScope>1</ProcessTriggerScope>
+  <PrimaryEntity>Opportunity</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="Joint Venture Sync Fields BPF" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1033" description="When the Arup Bidding as a JV? field on the Business process flow is set to yes, the value Bidding as JV on the Bid alerts its also set to Yes." />
+  </Descriptions>
+</Workflow>

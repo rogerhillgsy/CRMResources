@@ -368,7 +368,7 @@ function BidConfirmationMessage(bidDecisionChair) {
 
     if (opportunityType == 770000001) {
         message +=
-            "This opportunity is for a Project Extension – Existing Contract. You confirm that there are no changes to the existing contract under this opportunity.</br></br>";
+            "This opportunity is for a Project Extension � Existing Contract. You confirm that there are no changes to the existing contract under this opportunity.</br></br>";
     }
 
     if (bidDecisionChair != null) {
@@ -433,18 +433,17 @@ function checkBidDecionChair(attribute) {
     var arupRegionName = (arupRegion != null) ? arupRegion[0].name.toLowerCase() : '';
     var stage = getStageId();
 
+    if (arupRegionName == 'americas region') { return true; }
+
     if (state != 0 || arupInternal || opportunityType == 770000005 || stage != ArupStages.Lead ||
-        (arupRegionName != 'europe' && arupRegionName != 'ukimea region' && arupRegionName != 'americas region')
+        (arupRegionName != 'europe' && arupRegionName != 'ukimea region')
         ) { return; }
 
     var bidDecisionChair = Xrm.Page.getAttribute("arup_biddecisionchair").getValue();
     var bidmanager = Xrm.Page.getAttribute("ccrm_bidmanager_userid").getValue();
     var biddirector = Xrm.Page.getAttribute("ccrm_biddirector_userid").getValue();
-    if (
-        (bidDecisionChair != null && bidmanager != null && bidDecisionChair[0].id == bidmanager[0].id) ||
-        (bidDecisionChair != null && biddirector != null && bidDecisionChair[0].id == biddirector[0].id && arupRegionName != 'americas region')
-        ) {
-        var errorMessage = (arupRegionName == 'americas region') ? 'Bid Decision Chair cannot be the same as Bid Manager' : 'Bid Decision Chair cannot be the same as Bid Manager or Bid Director';
+    if (bidDecisionChair != null && bidmanager != null && bidDecisionChair[0].id == bidmanager[0].id) {
+        var errorMessage = 'Bid Decision Chair cannot be the same as Bid Manager or Bid Director';
         showAlertMessage(attribute, errorMessage);
         if (attribute == 'AP') { return false; }
     }
@@ -478,15 +477,14 @@ function showAlertMessage(attribute, errorMessage) {
 function errorHandlerBidDecision() {
     Alert.show('<font size="6" color="#FF0000"><b>Stop</b></font>',
         '<font size="3" color="#000000"></br>Bid Decision Chair cannot be empty.</font>',
-        [
-            {
-                label: "<b>OK</b>",
-                setFocus: true,
-                preventClose: false
-            },
-        ], "ERROR", 450, 200, '', true);
+    [
+        {
+            label: "<b>OK</b>",
+            setFocus: true,
+            preventClose: false
+        },
+    ], "ERROR", 450, 200, '', true);
 }
-
 
 function BidReviewApprovalConfirmation(approvalType) {
     var ackMsg = BidReviewApprovalConfirmationMessage();
@@ -512,8 +510,7 @@ function BidReviewApprovalConfirmation(approvalType) {
                 setFocus: false,
                 preventClose: false
             }
-        ],
-        'QUESTION', 800, 400, '', true);
+        ], 'QUESTION', 800, 400, '', true);
 }
 
 function BidReviewApprovalConfirmationMessage() {

@@ -846,20 +846,20 @@
                         </control>
                       </cell>
                     </row>
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
                   </rows>
                 </section>
               </sections>
@@ -886,11 +886,11 @@
                         <control disabled="false" id="description" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="description" uniqueid="{e0bc637d-43a5-d825-a12e-e154ae498004}" />
                       </cell>
                     </row>
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
                   </rows>
                 </section>
               </sections>
@@ -925,11 +925,11 @@
                         <control disabled="false" id="ccrm_descriptionofextentofarupservices" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_descriptionofextentofarupservices" uniqueid="{a878697a-45ac-e314-4856-59a517a282c8}" />
                       </cell>
                     </row>
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
                   </rows>
                 </section>
               </sections>
@@ -966,12 +966,12 @@
                         </control>
                       </cell>
                     </row>
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
                     <row>
                       <cell id="{78cde27d-d6a3-4a28-5212-b2822ee03240}" locklevel="0" showlabel="true" visible="false">
                         <labels>
@@ -1455,13 +1455,13 @@
             </column>
             <column width="28%">
               <sections>
-                <section id="{c2e03c61-9d2d-e943-6b7b-d9ea65b0c0d1}" name="Summary_section_7" IsUserDefined="0" locklevel="0" showlabel="true" labelid="{44a3afa8-4625-4700-8261-33828ca9f70d}" showbar="true" columns="1" labelwidth="120" celllabelalignment="Left" celllabelposition="Top" layout="varwidth" availableforphone="true">
+                <section id="{c2e03c61-9d2d-e943-6b7b-d9ea65b0c0d1}" name="Summary_section_7" IsUserDefined="0" locklevel="0" showlabel="true" labelid="{44a3afa8-4625-4700-8261-33828ca9f70d}" showbar="true" columns="1" labelwidth="120" celllabelalignment="Left" celllabelposition="Top" layout="varwidth" availableforphone="false">
                   <labels>
                     <label description="Bid Reviews" languagecode="1033" />
                   </labels>
                   <rows>
                     <row>
-                      <cell id="{73a70d26-178e-a86b-a53e-046b1ba554c6}" showlabel="false" labelid="{9e5063ad-805c-400e-9eaa-4ff02566eade}" colspan="1" rowspan="6" auto="false" availableforphone="true">
+                      <cell id="{73a70d26-178e-a86b-a53e-046b1ba554c6}" showlabel="false" labelid="{9e5063ad-805c-400e-9eaa-4ff02566eade}" colspan="1" rowspan="6" auto="false" availableforphone="false">
                         <labels>
                           <label description="Bid Reviews (Opportunity)" languagecode="1033" />
                         </labels>
@@ -1485,11 +1485,11 @@
                         </control>
                       </cell>
                     </row>
-                    <row />
-                    <row />
-                    <row />
-                    <row />
-                    <row />
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
+                    <row></row>
                   </rows>
                 </section>
               </sections>
@@ -1885,7 +1885,7 @@
                         <control disabled="false" id="ccrm_projectsummarydescription_sync" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_projectsummarydescription_sync" />
                       </cell>
                     </row>
-                    <row />
+                    <row></row>
                     <row>
                       <cell id="{cd0d62c3-5255-724b-393b-531846866b2d}" locklevel="0" showlabel="true" labelid="{c44d232a-c5f1-44da-92ef-b8ef5fcb5ea0}" visible="false">
                         <labels>
@@ -3348,7 +3348,7 @@
         </event>
         <event name="onchange" application="false" active="false" attribute="ccrm_contractlimitofliability">
           <Handlers>
-            <Handler functionName="ccrm_contractlimitofliability_OnChange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{2a0c0603-6b28-57ea-7d26-4ec3cb51d5ce}" enabled="true" passExecutionContext="true" parameters="" />
+            <Handler handlerUniqueId="{2a0c0603-6b28-57ea-7d26-4ec3cb51d5ce}" functionName="ccrm_contractlimitofliability_OnChange" libraryName="ccrm_opportunity_library_2015" enabled="false" passExecutionContext="true" parameters="" />
           </Handlers>
         </event>
         <event name="onchange" application="false" active="false" attribute="ccrm_confidentialoptionset">
