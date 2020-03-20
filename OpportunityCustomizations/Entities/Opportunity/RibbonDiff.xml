@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RibbonDiffXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<RibbonDiffXml>
   <CustomActions>
     <CustomAction Id="arup.ccrm.Form.opportunity.MainTab.arupOpportunityJobNumber.MaxSize.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Scaling._children" Sequence="10">
       <CommandUIDefinition>
@@ -51,9 +51,9 @@
         <Scale GroupId="ccrm.Form.opportunity.MainTab.SharePoint" Id="ccrm.Form.opportunity.MainTab.SharePoint.Scale.Popup" Sequence="300" Size="Popup" />
       </CommandUIDefinition>
     </CustomAction>
-    <CustomAction Id="arup.ccrm.opportunity.AddSuffix.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="26">
+    <CustomAction Id="arup.ccrm.opportunity.AddSuffix.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="7">
       <CommandUIDefinition>
-        <Button Command="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command" Id="ccrm.opportunity.AddSuffix.Button" Image32by32="$webresource:ccrm_arupOppoProgressJN_32" Image16by16="$webresource:ccrm_arupOppoProgressJN_16" LabelText="$LocLabels:ccrm.opportunity.AddSuffix.Button.LabelText" Sequence="26" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.AddSuffix.Button.ToolTipDescription" />
+        <Button Command="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command" Id="ccrm.opportunity.AddSuffix.Button" Image32by32="$webresource:ccrm_arupOppoProgressJN_32" Image16by16="$webresource:ccrm_arupOppoProgressJN_16" LabelText="$LocLabels:ccrm.opportunity.AddSuffix.Button.LabelText" Sequence="7" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.AddSuffix.Button.ToolTipDescription" />
       </CommandUIDefinition>
     </CustomAction>
     <CustomAction Id="arup.ccrm.opportunity.advancedfind2.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="4">
@@ -133,7 +133,7 @@
     </CustomAction>
     <CustomAction Id="arup.ccrm.opportunity.Button1.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="3">
       <CommandUIDefinition>
-        <Button Alt="$LocLabels:ccrm.opportunity.Button1.Button.Alt" Command="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command" Description="Close As Won - CJN Needed" Id="ccrm.opportunity.Button1.Button" Image32by32="$webresource:ccrm_arupOppoProgressJN_32" Image16by16="$webresource:ccrm_arupOppoProgressJN_16" LabelText="$LocLabels:ccrm.opportunity.Button1.Button.LabelText" Sequence="3" TemplateAlias="o1" ToolTipTitle="$LocLabels:ccrm.opportunity.Button1.Button.ToolTipTitle" />
+        <Button Alt="$LocLabels:ccrm.opportunity.Button1.Button.Alt" Command="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command" Description="Request Confirmed Job" Id="ccrm.opportunity.Button1.Button" Image32by32="$webresource:ccrm_arupOppoProgressJN_32" Image16by16="$webresource:ccrm_arupOppoProgressJN_16" LabelText="$LocLabels:ccrm.opportunity.Button1.Button.LabelText" Sequence="3" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.Button1.Button.ToolTipDescription" />
       </CommandUIDefinition>
     </CustomAction>
     <CustomAction Id="arup.ccrm.opportunity.Button10.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.ExportData.Controls._children" Sequence="25">
@@ -204,6 +204,20 @@
     <CustomAction Id="arup.ccrm.opportunity.CJNPrjMgrDeclne.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="4">
       <CommandUIDefinition>
         <Button Command="ccrm.opportunity.CJNProjMgrDecline.Command" Id="ccrm.opportunity.CJNPrjMgrDeclne.Button" Image32by32="$webresource:ccrm_redcross_32x32" Image16by16="$webresource:ccrm_redcross_16x16" LabelText="$LocLabels:ccrm.opportunity.CJNPrjMgrDeclne.Button.LabelText" Sequence="4" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.CJNPrjMgrDeclne.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.opportunity.FlyoutButton.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="3">
+      <CommandUIDefinition>
+        <FlyoutAnchor Command="Mscrm.Enabled" Id="ccrm.opportunity.FlyoutButton" Image16by16="/_imgs/SFA/MarkAsLost_16.png" Image32by32="/_imgs/SFA/MarkAsLost_32.png" LabelText="$LocLabels:ccrm.opportunity.FlyoutButton.LabelText" Sequence="3" TemplateAlias="o1" ToolTipDescription="$LocLabels:ccrm.opportunity.FlyoutButton.ToolTipDescription">
+          <Menu Id="ccrm.opportunity.FlyoutButton.Menu">
+            <MenuSection Id="ccrm.opportunity.Section1.Section" Sequence="30" DisplayMode="Menu16">
+              <Controls Id="ccrm.opportunity.Section1.Section.Controls">
+                <Button Alt="$LocLabels:ccrm.opportunity.CloseAsWonButton.Alt" Command="Mscrm.Form.opportunity.MarkAsWon" Id="ccrm.opportunity.CloseAsWonButton" Image32by32="/_imgs/SFA/MarkAsWon_32.png" Image16by16="/_imgs/SFA/MarkAsWon_16.png" LabelText="$LocLabels:ccrm.opportunity.CloseAsWonButton.LabelText" Sequence="32" ToolTipTitle="$LocLabels:ccrm.opportunity.CloseAsWonButton.ToolTipTitle" ModernImage="MarkAsWon" />
+                <Button Alt="$LocLabels:ccrm.opportunity.Button30.Button.Alt" Command="Mscrm.Form.opportunity.MarkAsLost" Id="ccrm.opportunity.Button30.Button" Image32by32="/_imgs/SFA/MarkAsLost_32.png" Image16by16="/_imgs/SFA/MarkAsLost_16.png" LabelText="$LocLabels:ccrm.opportunity.Button30.Button.LabelText" Sequence="35" TemplateAlias="o1" ToolTipTitle="$LocLabels:ccrm.opportunity.Button30.Button.ToolTipTitle" ModernImage="MarkAsLost" />
+              </Controls>
+            </MenuSection>
+          </Menu>
+        </FlyoutAnchor>
       </CommandUIDefinition>
     </CustomAction>
     <CustomAction Id="arup.ccrm.opportunity.SimBids.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="37">
@@ -290,24 +304,14 @@
     <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.opportunity.ReopenOpp.Hide" Location="Mscrm.HomepageGrid.opportunity.ReopenOpp" />
     <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.opportunity.Send.Hide" Location="Mscrm.HomepageGrid.opportunity.Send" />
     <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.opportunity.SendDirectEmail.Hide" Location="Mscrm.HomepageGrid.opportunity.SendDirectEmail" />
-    <CustomAction Id="arup.opportunity.AddProjectParticipant.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="33">
+    <CustomAction Id="arup.opportunity.AddProjectParticipant.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="30">
       <CommandUIDefinition>
-        <Button Alt="$LocLabels:arup.opportunity.AddProjectParticipant.Button.Alt" Command="arup.opportunity.AddProjectParticipants.Command" Description="Click to add Project Collaborators for this Opportunity" Id="arup.opportunity.AddProjectParticipant.Button" Image32by32="$webresource:arup_button_icon_addprojectparticipant" Image16by16="$webresource:arup_button_icon_addprojectparticipant16" LabelText="$LocLabels:arup.opportunity.AddProjectParticipant.Button.LabelText" Sequence="33" TemplateAlias="o1" ToolTipDescription="$LocLabels:arup.opportunity.AddProjectParticipant.Button.ToolTipDescription" />
+        <Button Alt="$LocLabels:arup.opportunity.AddProjectParticipant.Button.Alt" Command="arup.opportunity.AddProjectParticipants.Command" Description="Click to add Project Collaborators for this Opportunity" Id="arup.opportunity.AddProjectParticipant.Button" Image32by32="$webresource:arup_button_icon_addprojectparticipant" Image16by16="$webresource:arup_button_icon_addprojectparticipant16" LabelText="$LocLabels:arup.opportunity.AddProjectParticipant.Button.LabelText" Sequence="30" TemplateAlias="o1" ToolTipDescription="$LocLabels:arup.opportunity.AddProjectParticipant.Button.ToolTipDescription" />
       </CommandUIDefinition>
     </CustomAction>
-    <CustomAction Id="arup.opportunity.BidSubmitted.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Management.Controls._children" Sequence="17">
+    <CustomAction Id="arup.opportunity.Button31.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="44">
       <CommandUIDefinition>
-        <Button Alt="$LocLabels:arup.opportunity.BidSubmitted.Button.Alt" Command="arup.opportunity.BidSubmitted.Command" Id="arup.opportunity.BidSubmitted.Button" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:arup.opportunity.BidSubmitted.Button.LabelText" Sequence="17" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.opportunity.BidSubmitted.Button.ToolTipTitle" />
-      </CommandUIDefinition>
-    </CustomAction>
-    <CustomAction Id="arup.opportunity.Button.BidDecisionApproval.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="31">
-      <CommandUIDefinition>
-        <Button Alt="$LocLabels:arup.opportunity.Button.BidDecisionApproval.Alt" Command="arup.opportunity.BidDecisionApproval.Command" Id="arup.opportunity.Button.BidDecisionApproval" Image32by32="$webresource:ccrm_greentick_32x32" Image16by16="$webresource:ccrm_greentick_16x16" LabelText="$LocLabels:arup.opportunity.Button.BidDecisionApproval.LabelText" Sequence="31" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.opportunity.Button.BidDecisionApproval.ToolTipTitle" />
-      </CommandUIDefinition>
-    </CustomAction>
-    <CustomAction Id="arup.opportunity.Button31.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Actions.Controls._children" Sequence="47">
-      <CommandUIDefinition>
-        <Button Alt="$LocLabels:arup.opportunity.Button31.Button.Alt" Command="arup.opportunity.DWBidsSiteRequest.Command" Id="arup.opportunity.Button31.Button" Image32by32="$webresource:arup_request_bid_site_32x32" Image16by16="$webresource:arup_request_bid_site_16x16" LabelText="$LocLabels:arup.opportunity.Button31.Button.LabelText" Sequence="47" TemplateAlias="o1" ToolTipDescription="$LocLabels:arup.opportunity.Button31.Button.ToolTipDescription" />
+        <Button Alt="$LocLabels:arup.opportunity.Button31.Button.Alt" Command="arup.opportunity.DWBidsSiteRequest.Command" Id="arup.opportunity.Button31.Button" Image32by32="$webresource:arup_request_bid_site_32x32" Image16by16="$webresource:arup_request_bid_site_16x16" LabelText="$LocLabels:arup.opportunity.Button31.Button.LabelText" Sequence="44" TemplateAlias="o1" ToolTipDescription="$LocLabels:arup.opportunity.Button31.Button.ToolTipDescription" />
       </CommandUIDefinition>
     </CustomAction>
     <CustomAction Id="arup.opportunity.Button32.Button.CustomAction" Location="Mscrm.HomepageGrid.opportunity.MainTab.Actions.Controls._children" Sequence="18">
@@ -334,21 +338,6 @@
         <Button Alt="$LocLabels:arup.opportunity.Button36.Button.Alt" Command="ccrm.opportunity.ExitForm.Command" Id="arup.opportunity.Button36.Button" Image32by32="$webresource:ccrm_exit_door_out_32_32" Image16by16="$webresource:ccrm_exit_door_out_16_16" LabelText="$LocLabels:arup.opportunity.Button36.Button.LabelText" Sequence="5" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.opportunity.Button36.Button.ToolTipTitle" ToolTipDescription="$LocLabels:arup.opportunity.Button36.Button.ToolTipDescription" />
       </CommandUIDefinition>
     </CustomAction>
-    <CustomAction Id="arup.opportunity.Button45.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="24">
-      <CommandUIDefinition>
-        <Button Alt="$LocLabels:arup.opportunity.Button45.Button.Alt" Command="arup.opportunity.CloseAsLostNoBid.Command" Id="arup.opportunity.Button45.Button" Image32by32="/_imgs/SFA/MarkAsLost_32.png" Image16by16="/_imgs/SFA/MarkAsLost_16.png" LabelText="$LocLabels:arup.opportunity.Button45.Button.LabelText" Sequence="24" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.opportunity.Button45.Button.ToolTipTitle" />
-      </CommandUIDefinition>
-    </CustomAction>
-    <CustomAction Id="arup.opportunity.Button46.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="26">
-      <CommandUIDefinition>
-        <Button Alt="$LocLabels:arup.opportunity.Button46.Button.Alt" Command="ccrm.opportunity.CloseAsLost.Command" Id="arup.opportunity.Button46.Button" Image32by32="/_imgs/SFA/MarkAsLost_32.png" Image16by16="/_imgs/SFA/MarkAsLost_16.png" LabelText="$LocLabels:arup.opportunity.Button46.Button.LabelText" Sequence="26" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.opportunity.Button46.Button.ToolTipTitle" />
-      </CommandUIDefinition>
-    </CustomAction>
-    <CustomAction Id="arup.opportunity.Button47.Button.CustomAction" Location="Mscrm.Form.opportunity.MainTab.Save.Controls._children" Sequence="27">
-      <CommandUIDefinition>
-        <Button Alt="$LocLabels:arup.opportunity.Button47.Button.Alt" Command="arup.opportunity.CloseAsWon.Command" Id="arup.opportunity.Button47.Button" Image32by32="/_imgs/SFA/MarkAsWon_32.png" Image16by16="/_imgs/SFA/MarkAsWon_16.png" LabelText="$LocLabels:arup.opportunity.Button47.Button.LabelText" Sequence="27" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.opportunity.Button47.Button.ToolTipTitle" />
-      </CommandUIDefinition>
-    </CustomAction>
     <HideCustomAction HideActionId="ccrm.Mscrm.Form.opportunity.Assign.Hide" Location="Mscrm.Form.opportunity.Assign" />
     <HideCustomAction HideActionId="ccrm.Mscrm.Form.opportunity.FollowButton.Hide" Location="Mscrm.Form.opportunity.FollowButton" />
     <HideCustomAction HideActionId="ccrm.Mscrm.Form.opportunity.MarkAsLost.Hide" Location="Mscrm.Form.opportunity.MarkAsLost" />
@@ -373,7 +362,6 @@
     <CommandDefinition Id="arup.opportunity.AddProjectParticipants.Command">
       <EnableRules>
         <EnableRule Id="Mscrm.FormStateNotNew" />
-        <EnableRule Id="arup.opportunity.ProjectCollaborator.EnableRule" />
       </EnableRules>
       <DisplayRules>
         <DisplayRule Id="Mscrm.CanWritePrimary" />
@@ -383,53 +371,6 @@
       </DisplayRules>
       <Actions>
         <JavaScriptFunction FunctionName="addProjectParticipant" Library="$webresource:ccrm_opportunity_library_2015" />
-      </Actions>
-    </CommandDefinition>
-    <CommandDefinition Id="arup.opportunity.BidDecisionApproval.Command">
-      <EnableRules>
-        <EnableRule Id="arup.opportunity.BidDecisionApproval.EnableRule" />
-      </EnableRules>
-      <DisplayRules />
-      <Actions>
-        <JavaScriptFunction FunctionName="BidDicisionConfirmation" Library="$webresource:arup_Opportunity_Changes" />
-      </Actions>
-    </CommandDefinition>
-    <CommandDefinition Id="arup.opportunity.BidSubmitted.Command">
-      <EnableRules>
-        <EnableRule Id="arup.opportunity.BidSubmitted.EnableRule" />
-      </EnableRules>
-      <DisplayRules />
-      <Actions>
-        <JavaScriptFunction FunctionName="BidSubmittedClick" Library="$webresource:ccrm_opportunity_library_2015" />
-      </Actions>
-    </CommandDefinition>
-    <CommandDefinition Id="arup.opportunity.CloseAsLostNoBid.Command">
-      <EnableRules>
-        <EnableRule Id="arup.opportunity.CLoseAsLostNoBid.EnableRule" />
-      </EnableRules>
-      <DisplayRules />
-      <Actions>
-        <JavaScriptFunction FunctionName="CloseOpportunity" Library="$webresource:arup_Opportunity_Changes">
-          <StringParameter Value="lost" />
-        </JavaScriptFunction>
-      </Actions>
-    </CommandDefinition>
-    <CommandDefinition Id="arup.opportunity.CloseAsWon.Command">
-      <EnableRules>
-        <EnableRule Id="arup.opportunity.CloseAsWon.EnableRule" />
-      </EnableRules>
-      <DisplayRules />
-      <Actions>
-        <JavaScriptFunction FunctionName="CloseOpportunityConfirmation" Library="$webresource:arup_Opportunity_Changes">
-          <StringParameter Value="won" />
-        </JavaScriptFunction>
-      </Actions>
-    </CommandDefinition>
-    <CommandDefinition Id="arup.opportunity.CloseOpportunity.Command">
-      <EnableRules />
-      <DisplayRules />
-      <Actions>
-        <JavaScriptFunction FunctionName="CloseOpportunity" Library="$webresource:arup_Opportunity_Changes" />
       </Actions>
     </CommandDefinition>
     <CommandDefinition Id="arup.opportunity.DWBidsSiteRequest.Command">
@@ -444,7 +385,6 @@
     <CommandDefinition Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command">
       <EnableRules>
         <EnableRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.EnableRule.ValueRule1" />
-        <EnableRule Id="arup.opportunity.AddSuffix.EnableRule" />
       </EnableRules>
       <DisplayRules>
         <DisplayRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.DisplayRule.OrRule2" />
@@ -648,14 +588,10 @@
       </Actions>
     </CommandDefinition>
     <CommandDefinition Id="ccrm.opportunity.CloseAsLost.Command">
-      <EnableRules>
-        <EnableRule Id="arup.opportunity.CloseAsLost.EnableRule" />
-      </EnableRules>
+      <EnableRules />
       <DisplayRules />
       <Actions>
-        <JavaScriptFunction FunctionName="CloseOpportunity" Library="$webresource:arup_Opportunity_Changes">
-          <StringParameter Value="lost" />
-        </JavaScriptFunction>
+        <JavaScriptFunction FunctionName="CloseOpportunity" Library="$webresource:ccrm_opportunity_library_2015" />
       </Actions>
     </CommandDefinition>
     <CommandDefinition Id="ccrm.opportunity.DWBidsSite.Command">
@@ -865,9 +801,7 @@
       </Actions>
     </CommandDefinition>
     <CommandDefinition Id="ccrm.opportunity.SimilarBid.Command">
-      <EnableRules>
-        <EnableRule Id="arup.opportunity.SimilarBid.EnableRule" />
-      </EnableRules>
+      <EnableRules />
       <DisplayRules />
       <Actions>
         <JavaScriptFunction FunctionName="SimilarBidsDuplicate" Library="$webresource:ccrm_opportunity_library_2015" />
@@ -940,9 +874,7 @@
       </Actions>
     </CommandDefinition>
     <CommandDefinition Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command">
-      <EnableRules>
-        <EnableRule Id="arup.opportunity.CloseAsWonCJNNeeded.EnableRule" />
-      </EnableRules>
+      <EnableRules />
       <DisplayRules>
         <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command.DisplayRule.FormStateRule" />
         <DisplayRule Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Cjn.Command.DisplayRule.ValueRule3" />
@@ -950,9 +882,7 @@
         <DisplayRule Id="arup.opportunity.BasicLicense.DisplayRule" />
       </DisplayRules>
       <Actions>
-        <JavaScriptFunction FunctionName="CloseOpportunityConfirmation" Library="$webresource:arup_Opportunity_Changes">
-          <StringParameter Value="cjn" />
-        </JavaScriptFunction>
+        <JavaScriptFunction FunctionName="requestConfirmJob" Library="$webresource:ccrm_opportunity_library_2015" />
       </Actions>
     </CommandDefinition>
     <CommandDefinition Id="ccrmccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Dtp.Command">
@@ -1057,6 +987,13 @@
           <CrmParameter Value="PrimaryEntityTypeCode" />
         </JavaScriptFunction>
       </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.Enabled">
+      <EnableRules>
+        <EnableRule Id="Mscrm.Enabled" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions />
     </CommandDefinition>
     <CommandDefinition Id="Mscrm.Form.FollowCommand">
       <EnableRules>
@@ -1666,38 +1603,8 @@
       <EnableRule Id="arup.opportunity.AddProjectParticipant.EnableRule">
         <ValueRule Field="arup_projparticipants_reqd" Value="true" InvertResult="false" />
       </EnableRule>
-      <EnableRule Id="arup.opportunity.AddSuffix.EnableRule">
-        <CustomRule FunctionName="hideButtonAddSuffix" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
-      </EnableRule>
-      <EnableRule Id="arup.opportunity.BidDecisionApproval.EnableRule">
-        <CustomRule FunctionName="hideButtonBidDecisionApproval" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
-      </EnableRule>
-      <EnableRule Id="arup.opportunity.BidSubmitted.EnableRule">
-        <CustomRule FunctionName="hideButtonBidSubmitted" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
-      </EnableRule>
       <EnableRule Id="arup.opportunity.CanReopen.EnableRule">
         <CustomRule FunctionName="canReopenOpportunity" Library="$webresource:ccrm_opportunity_library_2015" />
-      </EnableRule>
-      <EnableRule Id="arup.opportunity.CloseAsLost.EnableRule">
-        <CustomRule FunctionName="hideButtonCloseAsLost" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
-      </EnableRule>
-      <EnableRule Id="arup.opportunity.CLoseAsLostNoBid.EnableRule">
-        <CustomRule FunctionName="hideButtonCloseAsLostNoBid" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
-      </EnableRule>
-      <EnableRule Id="arup.opportunity.CloseAsWon.EnableRule">
-        <CustomRule FunctionName="hideButtonCloseAsWonNoCJN" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
-      </EnableRule>
-      <EnableRule Id="arup.opportunity.CloseAsWonCJNNeeded.EnableRule">
-        <CustomRule FunctionName="hideButtonCloseAsWonCJNNeeded" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
-      </EnableRule>
-      <EnableRule Id="arup.opportunity.ProjectCollaborator.EnableRule">
-        <CustomRule FunctionName="hideButtonProjectCollaborator" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
-      </EnableRule>
-      <EnableRule Id="arup.opportunity.RequestBidSite.EnableRule">
-        <CustomRule FunctionName="hideButtonRequestBidSite" Library="$webresource:opportunity_ribbon.js" />
-      </EnableRule>
-      <EnableRule Id="arup.opportunity.SimilarBid.EnableRule">
-        <CustomRule FunctionName="hideButtonSimiliarBids" Library="$webresource:opportunity_ribbon.js" InvertResult="false" />
       </EnableRule>
       <EnableRule Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.AddSuffix.Command.EnableRule.ValueRule">
         <ValueRule Field="statuscode" Value="3" Default="true" />
@@ -1978,36 +1885,6 @@
         <Title description="Click to add Project Collaborators for this Opportunity" languagecode="1033" />
       </Titles>
     </LocLabel>
-    <LocLabel Id="arup.opportunity.BidSubmitted.Button.Alt">
-      <Titles>
-        <Title description="Bid Submitted" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.BidSubmitted.Button.LabelText">
-      <Titles>
-        <Title description="Bid Submitted" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.BidSubmitted.Button.ToolTipTitle">
-      <Titles>
-        <Title description="Bid Submitted" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.Button.BidDecisionApproval.Alt">
-      <Titles>
-        <Title description="Bid Decision Approval" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.Button.BidDecisionApproval.LabelText">
-      <Titles>
-        <Title description="Bid Decision Approval" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.Button.BidDecisionApproval.ToolTipTitle">
-      <Titles>
-        <Title description="Bid Decision Approval" languagecode="1033" />
-      </Titles>
-    </LocLabel>
     <LocLabel Id="arup.opportunity.Button31.Button.Alt">
       <Titles>
         <Title description="Request Bid Site to be provisioned" languagecode="1033" />
@@ -2051,51 +1928,6 @@
     <LocLabel Id="arup.opportunity.Button36.Button.ToolTipTitle">
       <Titles>
         <Title description="Exit opportunity form" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.Button45.Button.Alt">
-      <Titles>
-        <Title description="Close as Lost / No Bid" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.Button45.Button.LabelText">
-      <Titles>
-        <Title description="Close as Lost / No Bid" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.Button45.Button.ToolTipTitle">
-      <Titles>
-        <Title description="Close as Lost / No Bid" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.Button46.Button.Alt">
-      <Titles>
-        <Title description="Close as Lost" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.Button46.Button.LabelText">
-      <Titles>
-        <Title description="Close as Lost" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.Button46.Button.ToolTipTitle">
-      <Titles>
-        <Title description="Close Opportunity as Lost" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.Button47.Button.Alt">
-      <Titles>
-        <Title description="Close as Won - No CJN" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.Button47.Button.LabelText">
-      <Titles>
-        <Title description="Close as Won - No CJN" languagecode="1033" />
-      </Titles>
-    </LocLabel>
-    <LocLabel Id="arup.opportunity.Button47.Button.ToolTipTitle">
-      <Titles>
-        <Title description="Close Opportuntiy as Won" languagecode="1033" />
       </Titles>
     </LocLabel>
     <LocLabel Id="ccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Title">
@@ -2335,17 +2167,17 @@
     </LocLabel>
     <LocLabel Id="ccrm.opportunity.Button1.Button.Alt">
       <Titles>
-        <Title description="Close As Won - CJN Needed" languagecode="1033" />
+        <Title description="Request Confirmed Job" languagecode="1033" />
       </Titles>
     </LocLabel>
     <LocLabel Id="ccrm.opportunity.Button1.Button.LabelText">
       <Titles>
-        <Title description="Close As Won - CJN Needed" languagecode="1033" />
+        <Title description="Request Confirmed Job" languagecode="1033" />
       </Titles>
     </LocLabel>
-    <LocLabel Id="ccrm.opportunity.Button1.Button.ToolTipTitle">
+    <LocLabel Id="ccrm.opportunity.Button1.Button.ToolTipDescription">
       <Titles>
-        <Title description="Close As Won - CJN Needed" languagecode="1033" />
+        <Title description="Click to Request Confirmed Job for this opportunity" languagecode="1033" />
       </Titles>
     </LocLabel>
     <LocLabel Id="ccrm.opportunity.Button10.Button.LabelText">
@@ -2376,6 +2208,21 @@
     <LocLabel Id="ccrm.opportunity.Button3.Button.ToolTipDescription">
       <Titles>
         <Title description="Click this button to create an Exclusivity Request" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button30.Button.Alt">
+      <Titles>
+        <Title description="Close Opportunity as Lost" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button30.Button.LabelText">
+      <Titles>
+        <Title description="Close Opportunity as Lost" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.Button30.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Close Opportunity as Lost" languagecode="1033" />
       </Titles>
     </LocLabel>
     <LocLabel Id="ccrm.opportunity.ccrmReopenOpp.Button.Alt">
@@ -2461,6 +2308,31 @@
     <LocLabel Id="ccrm.opportunity.CJNPrjMgrDeclne.Button.ToolTipDescription">
       <Titles>
         <Title description="Click to decline this opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CloseAsWonButton.Alt">
+      <Titles>
+        <Title description="Close as Won" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CloseAsWonButton.LabelText">
+      <Titles>
+        <Title description="Close as Won without CJN" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.CloseAsWonButton.ToolTipTitle">
+      <Titles>
+        <Title description="Close Opportunity as Won" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.FlyoutButton.LabelText">
+      <Titles>
+        <Title description="Close" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.opportunity.FlyoutButton.ToolTipDescription">
+      <Titles>
+        <Title description="Click to Close this opportunity as Won or Lost" languagecode="1033" />
       </Titles>
     </LocLabel>
     <LocLabel Id="ccrm.opportunity.SimBids.Button.Alt">
