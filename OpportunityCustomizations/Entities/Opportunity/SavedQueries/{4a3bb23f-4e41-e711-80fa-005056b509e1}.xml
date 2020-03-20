@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedquery>
+  <IsCustomizable>1</IsCustomizable>
+  <CanBeDeleted>1</CanBeDeleted>
+  <isquickfindquery>0</isquickfindquery>
+  <isprivate>0</isprivate>
+  <isdefault>0</isdefault>
+  <savedqueryid>{4a3bb23f-4e41-e711-80fa-005056b509e1}</savedqueryid>
+  <layoutxml>
+    <grid name="resultset" jump="name" select="1" preview="1" icon="1">
+      <row name="result" id="opportunityid">
+        <cell name="name" width="200" />
+        <cell name="customerid" width="200" />
+        <cell name="ccrm_estimatedvalue_num" width="100" />
+        <cell name="ccrm_project_transactioncurrencyid" width="125" />
+        <cell name="ccrm_arupbusinessid" width="100" />
+        <cell name="ccrm_arupinternal" width="100" />
+      </row>
+    </grid>
+  </layoutxml>
+  <querytype>0</querytype>
+  <fetchxml>
+    <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+      <entity name="opportunity">
+        <attribute name="customerid" />
+        <attribute name="name" />
+        <attribute name="ccrm_project_transactioncurrencyid" />
+        <attribute name="ccrm_arupbusinessid" />
+        <attribute name="ccrm_estimatedvalue_num" />
+        <attribute name="ccrm_arupinternal" />
+        <order attribute="name" descending="false" />
+        <filter type="and">
+          <filter type="or">
+            <condition attribute="ccrm_bidmanager_userid" operator="eq-userid" />
+            <condition attribute="ccrm_biddirector_userid" operator="eq-userid" />
+            <condition attribute="ccrm_leadoriginator" operator="eq-userid" />
+          </filter>
+          <condition attribute="statecode" operator="eq" value="0" />
+        </filter>
+        <attribute name="opportunityid" />
+      </entity>
+    </fetch>
+  </fetchxml>
+  <IntroducedVersion>1.0.0.0</IntroducedVersion>
+  <LocalizedNames>
+    <LocalizedName description="Dashboard - My Open Opportunities" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="A listing of open opportunities where I am the bid manager, bid director or lead originator." languagecode="1033" />
+  </Descriptions>
+</savedquery>

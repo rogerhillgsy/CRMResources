@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedquery>
+  <IsCustomizable>1</IsCustomizable>
+  <CanBeDeleted>1</CanBeDeleted>
+  <isquickfindquery>0</isquickfindquery>
+  <isprivate>0</isprivate>
+  <isdefault>0</isdefault>
+  <savedqueryid>{792075d8-3711-e611-80e4-005056b55b13}</savedqueryid>
+  <layoutxml>
+    <grid name="resultset" jump="name" select="1" preview="1" icon="1">
+      <row name="result" id="opportunityid">
+        <cell name="name" width="200" />
+        <cell name="ccrm_client" width="200" />
+        <cell name="ccrm_projectdirector_userid" width="125" />
+        <cell name="ccrm_estimatedvalue_num" width="100" />
+        <cell name="ccrm_project_transactioncurrencyid" width="125" />
+        <cell name="closeprobability" width="100" />
+        <cell name="ccrm_probabilityofprojectproceeding" width="100" />
+        <cell name="ccrm_projectlocationid" width="100" />
+        <cell name="ccrm_arupbusinessid" width="100" />
+        <cell name="ccrm_arupgroupid" width="100" />
+        <cell name="ccrm_arupregionid" width="100" />
+        <cell name="statuscode" width="100" />
+        <cell name="ccrm_estarupinvolvementstart" width="100" />
+      </row>
+    </grid>
+  </layoutxml>
+  <querytype>0</querytype>
+  <fetchxml>
+    <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+      <entity name="opportunity">
+        <attribute name="ccrm_projectlocationid" />
+        <attribute name="name" />
+        <attribute name="ccrm_project_transactioncurrencyid" />
+        <attribute name="ccrm_arupbusinessid" />
+        <attribute name="ccrm_estarupinvolvementstart" />
+        <attribute name="ccrm_estimatedvalue_num" />
+        <attribute name="ccrm_projectdirector_userid" />
+        <attribute name="closeprobability" />
+        <attribute name="ccrm_probabilityofprojectproceeding" />
+        <attribute name="ccrm_arupgroupid" />
+        <attribute name="ccrm_arupregionid" />
+        <attribute name="statuscode" />
+        <attribute name="ccrm_client" />
+        <order attribute="ccrm_estarupinvolvementstart" descending="false" />
+        <filter type="and">
+          <condition attribute="name" operator="eq" value="My Active Review/Approve" />
+        </filter>
+        <attribute name="opportunityid" />
+      </entity>
+    </fetch>
+  </fetchxml>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <LocalizedNames>
+    <LocalizedName description="My Active Review/Approve" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="A listing of active opportunities where my approval is required for the opportunity." languagecode="1033" />
+  </Descriptions>
+</savedquery>

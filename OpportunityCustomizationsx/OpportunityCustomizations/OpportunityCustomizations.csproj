@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputType>Library</OutputType>
+    <ProjectGuid>{C0389C5A-773E-4C27-88E0-20292053C446}</ProjectGuid>
+    <ProjectTypeGuids>{4B952A0A-A664-46EC-8D7E-51EBEA2E954D};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpportunityCustomizations.OpportunityCustomizations</RootNamespace>
+    <AssemblyName>OpportunityCustomizations.OpportunityCustomizations</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <SolutionPackagerDir>C:\Work\Tools\SDK8\SDK\Bin</SolutionPackagerDir>
+    <SolutionLocToolsDir>C:\Work\Tools\SDK8\SDK\Bin</SolutionLocToolsDir>
+    <SolutionType>0</SolutionType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!--<None Include="MetadataProjectBinPlace.targets" />-->
+    <ResourceDefinition Include="WebResources.xml" />
+    <None Include="Microsoft.Crm.SolutionProjects.Metadata.targets" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Crm.SolutionProjects.MSBuild">
+      <HintPath>$(SolutionDir)packages\Microsoft.Crm.SolutionMSBuildExtention.1.3.2\lib\net452\Microsoft.Crm.SolutionProjects.MSBuild.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entities\ccrm_bpf_b253053047ef4eddbed29e34f6c23731\Entity.xml" />
+    <Content Include="Entities\ccrm_bpf_b253053047ef4eddbed29e34f6c23731\Formulas\ccrm_bpf_b253053047ef4eddbed29e34f6c23731-bpf_duration.xaml" />
+    <Content Include="Entities\ccrm_bpf_b253053047ef4eddbed29e34f6c23731\FormXml\main\{7ec240c6-5b8e-4513-9e87-dd607898aa11}.xml" />
+    <Content Include="Entities\ccrm_bpf_b253053047ef4eddbed29e34f6c23731\RibbonDiff.xml" />
+    <Content Include="Entities\ccrm_bpf_b253053047ef4eddbed29e34f6c23731\SavedQueries\{07810d71-22c9-e711-8102-005056b509e1}.xml" />
+    <Content Include="Entities\ccrm_bpf_b253053047ef4eddbed29e34f6c23731\SavedQueries\{139eb7d4-7349-4e90-81b6-5328bac28518}.xml" />
+    <Content Include="Entities\ccrm_bpf_b253053047ef4eddbed29e34f6c23731\SavedQueries\{159c4e73-487c-41ea-9729-8531ef8cbd5f}.xml" />
+    <Content Include="Entities\ccrm_bpf_b253053047ef4eddbed29e34f6c23731\SavedQueries\{27d2ded8-c3e1-4cd7-bb08-9a3902f051d5}.xml" />
+    <Content Include="Entities\ccrm_bpf_b253053047ef4eddbed29e34f6c23731\SavedQueries\{741e8cd4-3acf-4ba3-b8ef-44c870f73bcb}.xml" />
+    <Content Include="Entities\ccrm_bpf_b253053047ef4eddbed29e34f6c23731\SavedQueries\{86eae8f0-0d35-4f04-b1d8-7686028fe352}.xml" />
+    <Content Include="Entities\ccrm_bpf_b253053047ef4eddbed29e34f6c23731\SavedQueries\{905db9c9-a85f-42ed-9a81-a9ab0f5b2329}.xml" />
+    <Content Include="Entities\Ccrm_cjnapplication\Entity.xml" />
+    <Content Include="Entities\Ccrm_cjnapplication\FormXml\main\{ff330072-11a0-4bac-9a82-967bd4113c03}.xml" />
+    <Content Include="Entities\Ccrm_cjnapplication\RibbonDiff.xml" />
+    <Content Include="Entities\Ccrm_cjnapplication\SavedQueries\{03015a76-177a-4251-9564-35c8baf3866e}.xml" />
+    <Content Include="Entities\Ccrm_cjnapplication\SavedQueries\{1cf44f97-1077-4efb-a838-b6532ed3a403}.xml" />
+    <Content Include="Entities\Ccrm_cjnapplication\SavedQueries\{3cea989f-1dc1-4a09-b6c2-fc34a67467d0}.xml" />
+    <Content Include="Entities\Ccrm_cjnapplication\SavedQueries\{7af0bd96-df9b-e011-93ca-d8d385b829f8}.xml" />
+    <Content Include="Entities\Ccrm_cjnapplication\SavedQueries\{8e4d9a4c-f556-4b11-a2a0-23f78a564c6c}.xml" />
+    <Content Include="Entities\Ccrm_cjnapplication\SavedQueries\{ad1240d1-aa42-4e59-8251-e4c5d0357d98}.xml" />
+    <Content Include="Entities\Ccrm_cjnapplication\SavedQueries\{c9fdc6d6-f6e1-4eaa-a58d-64f15e82a362}.xml" />
+    <Content Include="Entities\Opportunity\Entity.xml" />
+    <Content Include="Entities\Opportunity\FormXml\main\{c62bd14c-9457-4bd9-99bf-f91e355cb283}.xml" />
+    <Content Include="Entities\Opportunity\FormXml\quickCreate\{e3c588ee-8e11-49da-a5fe-3800f3f683de}.xml" />
+    <Content Include="Entities\Opportunity\RibbonDiff.xml" />
+    <Content Include="Other\Customizations.xml" />
+    <Content Include="Other\EntityMaps.xml" />
+    <Content Include="Other\Relationships.xml" />
+    <Content Include="Other\Relationships\BusinessUnit.xml" />
+    <Content Include="Other\Relationships\Ccrm_arupaccountingcode.xml" />
+    <Content Include="Other\Relationships\Ccrm_arupcompany.xml" />
+    <Content Include="Other\Relationships\Ccrm_project.xml" />
+    <Content Include="Other\Relationships\Opportunity.xml" />
+    <Content Include="Other\Relationships\Organization.xml" />
+    <Content Include="Other\Relationships\Owner.xml" />
+    <Content Include="Other\Relationships\ProcessStage.xml" />
+    <Content Include="Other\Relationships\SystemUser.xml" />
+    <Content Include="Other\Relationships\Team.xml" />
+    <Content Include="Other\Relationships\TransactionCurrency.xml" />
+    <Content Include="Other\Relationships\Workflow.xml" />
+    <Content Include="Other\Solution.xml" />
+    <Content Include="Resources\en-US\resources.en-US.resx" />
+    <Content Include="Resources\template_resources.resx" />
+    <Content Include="WebResources\arup_dynamic_display_of_fieldvalue.jscript">
+      <WebResourceId>90282575-ce1c-ea11-812e-00505690cb20</WebResourceId>
+      <Name>arup_dynamic_display_of_fieldvalue</Name>
+      <DisplayName>dynamic_display_of_fieldvalue</DisplayName>
+      <LanguageCode>1033</LanguageCode>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\arup_Opportunity_Changes.jscript">
+      <WebResourceId>4ffe8c63-4617-ea11-812e-00505690cb20</WebResourceId>
+      <Name>arup_Opportunity_Changes</Name>
+      <DisplayName>Opportunity Changes</DisplayName>
+      <Description>New Opportunity Changes</Description>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\ccrm_opportunity_library_2015.jscript">
+      <WebResourceId>172f9910-585c-e511-80d8-005056b55b13</WebResourceId>
+      <Name>ccrm_opportunity_library_2015</Name>
+      <DisplayName>Opportunity Library 2015</DisplayName>
+      <Description>New opportunity js library </Description>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>3.15.1.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\opportunity_ribbon.js">
+      <WebResourceId>623de6ce-d0b1-e111-a5b9-78e7d1652028</WebResourceId>
+      <Name>opportunity_ribbon.js</Name>
+      <DisplayName>Scripts/opportunity_ribbon.js</DisplayName>
+      <Description>Default Ribbon Library</Description>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="Workflows\2015-BidCosts--ccrm_staffoverheads_numccrm_totalbi-6D3DB8B7-5767-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-BidCosts--ccrm_staffoverheads_numccrm_totalbi-6D3DB8B7-5767-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-BidReviewOutcome-77636D74-5D0C-E611-80E3-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-BidReviewOutcome-77636D74-5D0C-E611-80E3-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-bidstartfinishdatevalidation-6ED6725C-066C-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-bidstartfinishdatevalidation-6ED6725C-066C-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-bidstartreviewdatevalidation-5FFE1F91-066C-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-bidstartreviewdatevalidation-5FFE1F91-066C-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-bidstartsubmissiondatevalidation-2C469A01-076C-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-bidstartsubmissiondatevalidation-2C469A01-076C-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-ChangeStateProvinceRequirementLevel-5DAE9276-F9E4-E511-80E1-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-ChangeStateProvinceRequirementLevel-5DAE9276-F9E4-E511-80E1-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-CharityCommunityBusiness-5E73AB86-00E2-E511-80E1-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-CharityCommunityBusiness-5E73AB86-00E2-E511-80E1-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-CJNAccountingCentreLeaderDelegateApproval-040FAA7F-3961-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-CJNAccountingCentreLeaderDelegateApproval-040FAA7F-3961-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-CJNFinanceApproval-4F285249-4661-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-CJNFinanceApproval-4F285249-4661-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-CJNGroupLeaderApproval-D1015A2F-3A61-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-CJNGroupLeaderApproval-D1015A2F-3A61-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-CJNProjectManagerDirectorApproval-F26E10FB-3761-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-CJNProjectManagerDirectorApproval-F26E10FB-3761-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-ContractLimitofLiability-27780AA2-8477-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\2015-ContractLimitofLiability-27780AA2-8477-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\2015-ContractLimitofLiabilityLimited-2404EE32-8477-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\2015-ContractLimitofLiabilityLimited-2404EE32-8477-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\2015-CrossregionV2-A712C376-E356-E511-80D7-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-CrossregionV2-A712C376-E356-E511-80D7-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-CrossregionV3-BF788917-186C-E511-80D9-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-CrossregionV3-BF788917-186C-E511-80D9-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-Disableenableapprovalcalculatedfields-CE57064C-C25B-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-Disableenableapprovalcalculatedfields-CE57064C-C25B-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-FrameworkAgreements-578E92DB-C357-E511-80D7-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-FrameworkAgreements-578E92DB-C357-E511-80D7-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-LimitofLiabilityAgreed-C1376346-8577-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\2015-LimitofLiabilityAgreed-C1376346-8577-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\2015-LoLAgreed-707DB6A6-F0CD-E611-80F4-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-LoLAgreed-707DB6A6-F0CD-E611-80F4-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-PJNBidDirectorApproval-264CE36A-255F-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-PJNBidDirectorApproval-264CE36A-255F-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-PJNGroupLeaderApproval-ED7B8669-215E-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-PJNGroupLeaderApproval-ED7B8669-215E-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-PJNPracticeLeaderApproval-C8546EDA-005F-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-PJNPracticeLeaderApproval-C8546EDA-005F-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-PJNRegionalCOOApproval-E6900AF3-045F-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-PJNRegionalCOOApproval-E6900AF3-045F-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-PJNRegionalPracticeLeaderApproval-CA65EB06-045F-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-PJNRegionalPracticeLeaderApproval-CA65EB06-045F-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-PJNRequired-6C9A848C-F056-E511-80D7-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-PJNRequired-6C9A848C-F056-E511-80D7-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-projectstartenddatevalidation-5A3AC187-D8A5-E611-80F3-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-projectstartenddatevalidation-5A3AC187-D8A5-E611-80F3-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-projectstartenddatevalidation-B6F88EEA-786B-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-projectstartenddatevalidation-B6F88EEA-786B-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-QuickCreateUKMEA-F260D97B-14F0-E511-80E1-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-QuickCreateUKMEA-F260D97B-14F0-E511-80E1-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-RatioFactoredReturntoNetArupBidcosts-5F0FB83B-E573-E511-80DA-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-RatioFactoredReturntoNetArupBidcosts-5F0FB83B-E573-E511-80DA-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-SetCharitableFlags-A23AAB09-1B56-E511-80D7-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-SetCharitableFlags-A23AAB09-1B56-E511-80D7-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-setDefault-Probabilityproceeding-AB39C433-8167-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-setDefault-Probabilityproceeding-AB39C433-8167-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-setDefault-Probabilitywin-9BC8FD05-8167-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-setDefault-Probabilitywin-9BC8FD05-8167-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\2015-subcontractorfeesgrossexpenses-57440FBB-2569-E511-80D8-005056B55B13.xaml" />
+    <Content Include="Workflows\2015-subcontractorfeesgrossexpenses-57440FBB-2569-E511-80D8-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\Arup-B2530530-47EF-4EDD-BED2-9E34F6C23731.xaml" />
+    <Content Include="Workflows\Arup-B2530530-47EF-4EDD-BED2-9E34F6C23731.xaml.data.xml" />
+    <Content Include="Workflows\BidReviewDateValidation-23FB0A28-034B-E911-811C-00505690CB20.xaml" />
+    <Content Include="Workflows\BidReviewDateValidation-23FB0A28-034B-E911-811C-00505690CB20.xaml.data.xml" />
+    <Content Include="Workflows\CalculateNetArupBidCost-96885B31-7E77-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\CalculateNetArupBidCost-96885B31-7E77-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\CanadaProvinceHide-AC320BAB-D71F-E511-940E-005056B5201F.xaml" />
+    <Content Include="Workflows\CanadaProvinceHide-AC320BAB-D71F-E511-940E-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\CanadaProvinceshow-BF8109DC-D71F-E511-940E-005056B5201F.xaml" />
+    <Content Include="Workflows\CanadaProvinceshow-BF8109DC-D71F-E511-940E-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\CanadaStateMakeVisible-D91B06EF-7677-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\CanadaStateMakeVisible-D91B06EF-7677-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\CJNReadOnly-69A85C61-B381-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\CJNReadOnly-69A85C61-B381-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\ConfidentialOptionsetSync-BF26CBD8-1345-E611-80E6-005056B55B13.xaml" />
+    <Content Include="Workflows\ConfidentialOptionsetSync-BF26CBD8-1345-E611-80E6-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\Copyof2015-Disableenableapprovalcalculatedfields-A1E4D41E-17FA-E611-80F7-005056B55B13.xaml" />
+    <Content Include="Workflows\Copyof2015-Disableenableapprovalcalculatedfields-A1E4D41E-17FA-E611-80F7-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\JointVentureOptionSync-38934E79-E0B5-E411-940B-005056B5201F.xaml" />
+    <Content Include="Workflows\JointVentureOptionSync-38934E79-E0B5-E411-940B-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\JointVentureSyncFieldsBPF-34C84D21-E0B5-E411-940B-005056B5201F.xaml" />
+    <Content Include="Workflows\JointVentureSyncFieldsBPF-34C84D21-E0B5-E411-940B-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\JointVentureSyncFieldsBPF-OptionNo-DA987A2E-10BD-E411-940B-005056B5201F.xaml" />
+    <Content Include="Workflows\JointVentureSyncFieldsBPF-OptionNo-DA987A2E-10BD-E411-940B-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\JointVentureSyncFieldsForm-OptionNo-0264B458-10BD-E411-940B-005056B5201F.xaml" />
+    <Content Include="Workflows\JointVentureSyncFieldsForm-OptionNo-0264B458-10BD-E411-940B-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\K-12visibilityAmericasRegion-925BF610-0CC0-E711-80FF-005056B509E1.xaml" />
+    <Content Include="Workflows\K-12visibilityAmericasRegion-925BF610-0CC0-E711-80FF-005056B509E1.xaml.data.xml" />
+    <Content Include="Workflows\LockDownFeeIncome-C0703A17-E754-EA11-8130-00505690CB20.xaml" />
+    <Content Include="Workflows\LockDownFeeIncome-C0703A17-E754-EA11-8130-00505690CB20.xaml.data.xml" />
+    <Content Include="Workflows\LockPossibleJobNumber-F056150B-39E7-E311-9402-005056B5201F.xaml" />
+    <Content Include="Workflows\LockPossibleJobNumber-F056150B-39E7-E311-9402-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\LockUnlockBisDecisionChair-A4874CDE-2144-EA11-8130-00505690CB20.xaml" />
+    <Content Include="Workflows\LockUnlockBisDecisionChair-A4874CDE-2144-EA11-8130-00505690CB20.xaml.data.xml" />
+    <Content Include="Workflows\OntarioConstructionActApplyVisibilityRequirements-6D87C441-9FD8-E911-812A-00505690CB20.xaml" />
+    <Content Include="Workflows\OntarioConstructionActApplyVisibilityRequirements-6D87C441-9FD8-E911-812A-00505690CB20.xaml.data.xml" />
+    <Content Include="Workflows\OntarioTransitionaryRegimeVisibilityRequirement-B8FE8BB9-A6D8-E911-812A-00505690CB20.xaml" />
+    <Content Include="Workflows\OntarioTransitionaryRegimeVisibilityRequirement-B8FE8BB9-A6D8-E911-812A-00505690CB20.xaml.data.xml" />
+    <Content Include="Workflows\PossibleJobnumberRequired-5158C5E0-76C4-E311-9401-005056B5201F.xaml" />
+    <Content Include="Workflows\PossibleJobnumberRequired-5158C5E0-76C4-E311-9401-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\PossibleJobNumberRequiredNotSet-9B93F177-7677-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\PossibleJobNumberRequiredNotSet-9B93F177-7677-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\ProjectProcurementOTHER-7483F30F-EA49-EA11-8130-00505690CB20.xaml" />
+    <Content Include="Workflows\ProjectProcurementOTHER-7483F30F-EA49-EA11-8130-00505690CB20.xaml.data.xml" />
+    <Content Include="Workflows\SetProjectSectorfromSubBusiness-BFA519CF-E2C2-E711-8100-005056B509E1.xaml" />
+    <Content Include="Workflows\SetProjectSectorfromSubBusiness-BFA519CF-E2C2-E711-8100-005056B509E1.xaml.data.xml" />
+    <Content Include="Workflows\SetRequiredfieldsonDevelopingBidStage-706D7555-ACFF-E811-8117-005056B509E1.xaml" />
+    <Content Include="Workflows\SetRequiredfieldsonDevelopingBidStage-706D7555-ACFF-E811-8117-005056B509E1.xaml.data.xml" />
+    <Content Include="Workflows\SetRequiredLevelOfUltimateClient-FEEAE79C-E41F-EA11-812E-00505690CB20.xaml" />
+    <Content Include="Workflows\SetRequiredLevelOfUltimateClient-FEEAE79C-E41F-EA11-812E-00505690CB20.xaml.data.xml" />
+    <Content Include="Workflows\ShowHidefieldsBasedonArupRegion-B32C9C5D-1F32-EA11-812E-00505690CB20.xaml" />
+    <Content Include="Workflows\ShowHidefieldsBasedonArupRegion-B32C9C5D-1F32-EA11-812E-00505690CB20.xaml.data.xml" />
+    <Content Include="Workflows\ShowHideSubBusiness-134AFBEA-80C3-E711-8100-005056B509E1.xaml" />
+    <Content Include="Workflows\ShowHideSubBusiness-134AFBEA-80C3-E711-8100-005056B509E1.xaml.data.xml" />
+    <Content Include="Workflows\SyncBidDirectorwithProjectDirector-0142DB0C-8977-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\SyncBidDirectorwithProjectDirector-0142DB0C-8977-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\SyncBidManagerwithProjectManager-4C7910E0-8877-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\SyncBidManagerwithProjectManager-4C7910E0-8877-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\SyncCloseProbability-64C272EE-7E77-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\SyncCloseProbability-64C272EE-7E77-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\SyncProbabilityofProceeding-9B3E041D-7F77-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\SyncProbabilityofProceeding-9B3E041D-7F77-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\SyncProjectCurrency-3F845BCF-FB9F-E411-940B-005056B5201F.xaml" />
+    <Content Include="Workflows\SyncProjectCurrency-3F845BCF-FB9F-E411-940B-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\SyncProjectSummaryDescription-AF01592A-8A77-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\SyncProjectSummaryDescription-AF01592A-8A77-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\SyncProjectSummaryDescriptionSync-A7914A44-8A77-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\SyncProjectSummaryDescriptionSync-A7914A44-8A77-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\SyncTransactionCurrency-751C666E-0089-E311-93FE-005056B5201F.xaml" />
+    <Content Include="Workflows\SyncTransactionCurrency-751C666E-0089-E311-93FE-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\UnlockMultiSelectFields-C3652A43-DBEC-E311-9402-005056B5201F.xaml" />
+    <Content Include="Workflows\UnlockMultiSelectFields-C3652A43-DBEC-E311-9402-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\UnlockProbabilities-1048FB96-C993-E311-93FE-005056B5201F.xaml" />
+    <Content Include="Workflows\UnlockProbabilities-1048FB96-C993-E311-93FE-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\UpdateWonReasonfieldfromstatuscode-693549EC-429D-E611-80EF-005056B55B13.xaml" />
+    <Content Include="Workflows\UpdateWonReasonfieldfromstatuscode-693549EC-429D-E611-80EF-005056B55B13.xaml.data.xml" />
+    <Content Include="Workflows\USStateHide-F0B3194B-7777-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\USStateHide-F0B3194B-7777-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\USStateMakeVisible-E63154C3-7677-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\USStateMakeVisible-E63154C3-7677-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\ValueBasedFeeDisable-77D124AF-8C77-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\ValueBasedFeeDisable-77D124AF-8C77-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\ValueBasedFeeEnable-68453C8E-8C77-E311-93FD-005056B5201F.xaml" />
+    <Content Include="Workflows\ValueBasedFeeEnable-68453C8E-8C77-E311-93FD-005056B5201F.xaml.data.xml" />
+    <Content Include="Workflows\VisibilityofCDMPrincipalDesignerISOfields-7E21FD04-7847-EA11-8130-00505690CB20.xaml" />
+    <Content Include="Workflows\VisibilityofCDMPrincipalDesignerISOfields-7E21FD04-7847-EA11-8130-00505690CB20.xaml.data.xml" />
+  </ItemGroup>
+  <Import Project="Microsoft.Crm.SolutionProjects.Metadata.targets" />
+</Project>

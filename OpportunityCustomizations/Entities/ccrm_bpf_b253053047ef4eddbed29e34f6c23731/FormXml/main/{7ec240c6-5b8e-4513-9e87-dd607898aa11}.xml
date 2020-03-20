@@ -1,157 +1,1707 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <systemform>
-    <formid>{7ec240c6-5b8e-4513-9e87-dd607898aa11}</formid>
-    <IntroducedVersion>1.0</IntroducedVersion>
-    <FormPresentation>1</FormPresentation>
-    <FormActivationState>1</FormActivationState>
-    <form>
-      <tabs>
-        <tab verticallayout="true" id="{7f07cd02-5727-4856-8550-539786a57c0a}" IsUserDefined="1">
-          <labels>
-            <label description="General" languagecode="1033" />
-          </labels>
-          <columns>
-            <column width="100%">
-              <sections>
-                <section showlabel="false" showbar="false" IsUserDefined="0" id="{94dc6aaa-3000-4939-91ef-7fac3da04e70}">
-                  <labels>
-                    <label description="General" languagecode="1033" />
-                  </labels>
-                  <rows>
-                    <row>
-                      <cell id="{2ad7a0c3-668c-40ef-a045-4b60a6bcfe0a}">
-                        <labels>
-                          <label description="Name" languagecode="1033" />
-                        </labels>
-                        <control id="bpf_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="bpf_name" />
-                      </cell>
-                    </row>
-                    <row>
-                      <cell id="{920b9389-4d9d-638a-5c20-be5a13761a95}" showlabel="true" locklevel="0">
-                        <labels>
-                          <label description="Active Stage" languagecode="1033" />
-                        </labels>
-                        <control id="activestageid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="activestageid" disabled="false" />
-                      </cell>
-                    </row>
-                    <row>
-                      <cell id="{01297642-053b-b508-ee36-1d14adb05a54}" showlabel="true" locklevel="0">
-                        <labels>
-                          <label description="Active Stage Started On" languagecode="1033" />
-                        </labels>
-                        <control id="activestagestartedon" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="activestagestartedon" disabled="false" />
-                      </cell>
-                    </row>
-                    <row>
-                      <cell id="{453e8c14-5307-ae6d-56b6-a00abde69335}" showlabel="true" locklevel="0">
-                        <labels>
-                          <label description="Completed On" languagecode="1033" />
-                        </labels>
-                        <control id="completedon" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="completedon" disabled="false" />
-                      </cell>
-                    </row>
-                    <row>
-                      <cell id="{05c3e674-32a3-3365-7156-bd00e6863c68}" showlabel="true" locklevel="0">
-                        <labels>
-                          <label description="Created On" languagecode="1033" />
-                        </labels>
-                        <control id="createdon" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="createdon" disabled="false" />
-                      </cell>
-                    </row>
-                    <row>
-                      <cell id="{25c2060d-46c8-6a0e-a77d-34ec9d1e32a0}" showlabel="true" locklevel="0">
-                        <labels>
-                          <label description="Duration" languagecode="1033" />
-                        </labels>
-                        <control id="bpf_duration" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="bpf_duration" disabled="false" />
-                      </cell>
-                    </row>
-                    <row>
-                      <cell id="{d52d7dcc-719b-500c-414c-65aea3a99e8d}" showlabel="true" locklevel="0">
-                        <labels>
-                          <label description="Opportunity" languagecode="1033" />
-                        </labels>
-                        <control id="bpf_opportunityid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="bpf_opportunityid" disabled="false" />
-                      </cell>
-                    </row>
-                    <row>
-                      <cell id="{ab0b8a4b-e2ad-8cd7-132e-64d97ead5154}" showlabel="true" locklevel="0">
-                        <labels>
-                          <label description="Process" languagecode="1033" />
-                        </labels>
-                        <control id="processid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="processid" disabled="false" />
-                      </cell>
-                    </row>
-                    <row>
-                      <cell id="{b2ab93e5-e6a8-89ce-1c56-4d53dea8ecb4}" showlabel="true" locklevel="0">
-                        <labels>
-                          <label description="Status" languagecode="1033" />
-                        </labels>
-                        <control id="statecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="statecode" disabled="false" />
-                      </cell>
-                    </row>
-                    <row>
-                      <cell id="{b0b38a8c-6504-314a-643c-999e83229d5c}" showlabel="true" locklevel="0">
-                        <labels>
-                          <label description="Status Reason" languagecode="1033" />
-                        </labels>
-                        <control id="statuscode" classid="{5D68B988-0661-4db2-BC3E-17598AD3BE6C}" datafieldname="statuscode" disabled="false" />
-                      </cell>
-                    </row>
-                    <row>
-                      <cell id="{8a544d85-271a-5a3c-b6d5-8cbded60ad00}" showlabel="true" locklevel="0">
-                        <labels>
-                          <label description="Traversed Path" languagecode="1033" />
-                        </labels>
-                        <control id="traversedpath" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="traversedpath" disabled="false" />
-                      </cell>
-                    </row>
-                  </rows>
-                </section>
-              </sections>
-            </column>
-          </columns>
-        </tab>
-      </tabs>
-      <Navigation>
-        <NavBar></NavBar>
-        <NavBarAreas>
-          <NavBarArea Id="Info">
-            <Titles>
-              <Title LCID="1033" Text="Common" />
-            </Titles>
-          </NavBarArea>
-          <NavBarArea Id="Sales">
-            <Titles>
-              <Title LCID="1033" Text="Sales" />
-            </Titles>
-          </NavBarArea>
-          <NavBarArea Id="Service">
-            <Titles>
-              <Title LCID="1033" Text="Service" />
-            </Titles>
-          </NavBarArea>
-          <NavBarArea Id="Marketing">
-            <Titles>
-              <Title LCID="1033" Text="Marketing" />
-            </Titles>
-          </NavBarArea>
-          <NavBarArea Id="ProcessCenter">
-            <Titles>
-              <Title LCID="1033" Text="Process Sessions" />
-            </Titles>
-          </NavBarArea>
-        </NavBarAreas>
-      </Navigation>
-    </form>
-    <IsCustomizable>1</IsCustomizable>
-    <CanBeDeleted>1</CanBeDeleted>
-    <LocalizedNames>
-      <LocalizedName description="Information" languagecode="1033" />
-    </LocalizedNames>
-    <Descriptions>
-      <Description description="A form for this entity." languagecode="1033" />
-    </Descriptions>
-  </systemform>
-</forms>
+<systemform>
+  <formid>{7ec240c6-5b8e-4513-9e87-dd607898aa11}</formid>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <FormPresentation>1</FormPresentation>
+  <FormActivationState>1</FormActivationState>
+  <form>
+    <tabs>
+      <tab verticallayout="true" id="{1feea0ee-6ee4-491d-a8ac-0726e8db2d6b}" name="StageStep3" locklevel="0" expanded="true" visible="false" labelid="{97edb186-71a9-4e89-a726-653e1ecdcc73}">
+        <labels>
+          <label description="PRE-BID" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{1feea0ee-6ee4-491d-a8ac-0726e8db2d6b}" name="StageStep3_section1" labelid="{5d725f20-6b40-482f-9feb-809e5bd32520}">
+                <labels>
+                  <label description="PRE-BID" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{746434d1-75fe-4341-973f-5161147c61f9}" showlabel="true" visible="true" labelid="{00a1fbc9-9572-4792-9d78-d6f08656610a}">
+                      <labels>
+                        <label description="Bid Manager" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_bidmanager_userid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_bidmanager_userid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1b5e85dd-5632-44fb-b67c-bcc4e80eb441}" showlabel="true" visible="true" labelid="{1bfbbad1-e30c-4c0f-a2d9-7d526f02d973}">
+                      <labels>
+                        <label description="Bid Director" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_biddirector_userid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_biddirector_userid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ae40365f-5e90-4ba7-881b-ef6fd56091d7}" showlabel="true" visible="true" labelid="{e27de30c-fb8a-43d7-9ee9-12abdac5cb68}">
+                      <labels>
+                        <label description="Bid Decision Chair" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:arup_biddecisionchair" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="arup_biddecisionchair" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{00556a31-6641-4e08-9dbc-3d66ac5d3aeb}" showlabel="true" visible="true" labelid="{4c34aadb-8a95-4b22-ab32-5d9ca3d5b4e3}">
+                      <labels>
+                        <label description="Arup's Role in Project" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_arups_role_in_project" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_arups_role_in_project" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{cd5fe230-acc5-4c53-95c2-3f467eebc8d1}" showlabel="true" visible="true" labelid="{08877d58-689b-49df-8f04-05d53b78c8b2}">
+                      <labels>
+                        <label description="Extent of Arup Services" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_descriptionofextentofarupservices" classid="{e0dece4b-6fc8-4a8f-a065-082708572369}" datafieldname="ccrm_descriptionofextentofarupservices" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{5e3d3aec-8c56-449a-a37f-f037dd7e4df3}" showlabel="true" visible="true" labelid="{2853b0ad-7e69-46db-a08b-da714ee5ab3a}">
+                      <labels>
+                        <label description="Disciplines" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_disciplinesname" classid="{4273edbd-ac1d-40d3-9fb2-095c621b552d}" datafieldname="ccrm_disciplinesname" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{f3ac2cd2-968e-4725-80bb-d84000f0e485}" showlabel="true" visible="true" labelid="{c4e05090-f641-4efa-b5a1-7b4729c066bb}">
+                      <labels>
+                        <label description="Fee Income" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_estimatedvalue_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="ccrm_estimatedvalue_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{7cd9fe4d-1747-4324-8e4b-3bd5528a3644}" showlabel="true" visible="true" labelid="{c12ff30c-eda2-4aa8-9ee6-6e53367490f0}">
+                      <labels>
+                        <label description="Prob Proceeding %" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_probabilityofprojectproceeding" classid="{c6d124ca-7eda-4a60-aea9-7fb8d318b68f}" datafieldname="ccrm_probabilityofprojectproceeding" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{76e37974-f597-4bd7-a7d1-738ddc955a5a}" showlabel="true" visible="true" labelid="{d913a082-f691-44fb-b868-bcb8e863f4d0}">
+                      <labels>
+                        <label description="Prob Win %" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:closeprobability" classid="{c6d124ca-7eda-4a60-aea9-7fb8d318b68f}" datafieldname="closeprobability" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{6d575157-1d14-4fe4-b12f-85a69f535c6a}" showlabel="true" visible="true" labelid="{54e42a42-9ada-47ad-a2a1-2c406dacd4e9}">
+                      <labels>
+                        <label description="Arup Project Start Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_estarupinvolvementstart" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_estarupinvolvementstart" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{45aa37dd-349a-46ba-a5f5-fe193205fb2f}" showlabel="true" visible="true" labelid="{67df34ea-31d8-4be5-af6f-8b7ad6dddf08}">
+                      <labels>
+                        <label description="Arup Project End Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_estarupinvolvementend" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_estarupinvolvementend" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1e28b8a8-dd72-5799-d587-b991574b6817}" showlabel="true" visible="true" labelid="{af3736a1-5fc4-40d2-ad83-2b3f22d34462}">
+                      <labels>
+                        <label description="Arup University/IiA Research Initiative" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_arupuniversityiiaresearchinitiative" classid="{67fac785-cd58-4f9f-abb3-4b7ddc6ed5ed}" datafieldname="ccrm_arupuniversityiiaresearchinitiative" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{7de2ca71-66ef-4c3b-a10b-cad7bfe04c4c}" showlabel="true" visible="true" labelid="{f840c857-42de-47df-806c-53aa05010cdd}">
+                      <labels>
+                        <label description="Arup Bid Start Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_arupbidstartdate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_arupbidstartdate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{9b388eac-04ef-47da-a29b-738b9589cf7f}" showlabel="true" visible="true" labelid="{649447c1-3660-417c-a562-adad0b06a54e}">
+                      <labels>
+                        <label description="Arup Bid Finish Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_arupbidfinishdate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_arupbidfinishdate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{4a9edff7-5aae-4006-82bc-7b6fe5c02725}" showlabel="true" visible="true" labelid="{df36d409-8899-496b-b3dd-9789fea86070}">
+                      <labels>
+                        <label description="Confidential" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_confidentialoptionset" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_confidentialoptionset" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{daedd344-9ed5-8763-2b91-d308caddd9a2}" showlabel="true" visible="true" labelid="{ae70cd8d-e140-4190-8423-28e895048023}">
+                      <labels>
+                        <label description="Region" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_arupregionid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_arupregionid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{b3a7aa50-c079-82c6-1028-445707919792}" showlabel="true" visible="true" labelid="{fa5dbb1e-7836-4d82-95f5-40d3669e0aff}">
+                      <labels>
+                        <label description="Project Country Region" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projectcountryregionid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_projectcountryregionid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{c093a525-8e6e-8031-371c-98b291e52d29}" showlabel="true" visible="true" labelid="{72ca4b7b-736b-42e6-83d9-52d593a2c317}">
+                      <labels>
+                        <label description="Risk Level" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_opportunitytype" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_opportunitytype" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{60d8a93a-c368-9c03-d2d8-c607d2128eeb}" showlabel="true" visible="true" labelid="{2e6b580e-161f-4e64-96b4-15b440f15ce4}">
+                      <labels>
+                        <label description="Possible Job Number Required?" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_possiblejobnumberrequired" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_possiblejobnumberrequired" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{158319fc-b53d-40d8-9d53-94b236d2ec9f}" showlabel="true" visible="true" labelid="{79caa9a5-7d24-49d2-b718-d5ec9dec2321}">
+                      <labels>
+                        <label description="Arup Internal" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_arupinternal" classid="{67fac785-cd58-4f9f-abb3-4b7ddc6ed5ed}" datafieldname="ccrm_arupinternal" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{03b9eb80-d1c8-468c-bf2d-da371067cfb4}" name="StageStep45" locklevel="0" expanded="true" visible="false" labelid="{8ca65c1f-0aab-4d8b-967e-2ae33f3665e8}">
+        <labels>
+          <label description="CROSS REGION" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{03b9eb80-d1c8-468c-bf2d-da371067cfb4}" name="StageStep45_section1" labelid="{8302a72d-3ccf-453e-8272-b0c8a1cf0e26}">
+                <labels>
+                  <label description="CROSS REGION" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{b2ac5237-ea74-4b60-b3ff-b8ed041a7265}" showlabel="true" visible="true" labelid="{e5233712-780f-40d3-b74c-6a17c13640aa}">
+                      <labels>
+                        <label description="Country Manager" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_geographicmanagerid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_geographicmanagerid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ab8e43e7-aa5b-4c79-be08-4075a723072b}" showlabel="true" visible="true" labelid="{6a771719-4f3d-4a49-8e15-60f1d0b27d6f}">
+                      <labels>
+                        <label description="Country Manager/Proxy Consulted?" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_geographicmanagerproxyconsulted2" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_geographicmanagerproxyconsulted2" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{af9e2277-1014-4f3a-aed2-62f9fca3ae3c}" showlabel="true" visible="true" labelid="{af87398a-5201-48ab-af00-e0db11484af7}">
+                      <labels>
+                        <label description="Person Consulted" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_geographicproxyid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_geographicproxyid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{bd5bc283-8ba5-4bb8-bf16-0cfd97904ad8}" showlabel="true" visible="true" labelid="{4141ed76-6d50-456d-89a1-047f113a364a}">
+                      <labels>
+                        <label description="Date Consulted" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_dateconsulted" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_dateconsulted" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{296fb1a5-4e1b-4d20-84d7-6195614a1b28}" showlabel="true" visible="true" labelid="{c26c03b6-b48b-4b9e-8511-10e31833a72f}">
+                      <labels>
+                        <label description="Reason for not consulting Country Manager" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_reasonfornotconsultingcountrymanager" classid="{e0dece4b-6fc8-4a8f-a065-082708572369}" datafieldname="ccrm_reasonfornotconsultingcountrymanager" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{8caafaf5-59b1-4ad7-95cc-2d8ab3aa6e88}" showlabel="true" visible="true" labelid="{a198c49d-14c5-44e1-827e-6bca4ea5c384}">
+                      <labels>
+                        <label description="Region" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_arupregionid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_arupregionid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e1c95e5c-a835-4d26-9b6d-49b033e26f14}" showlabel="true" visible="true" labelid="{954c3009-445f-47fc-8e33-c3f137096833}">
+                      <labels>
+                        <label description="Risk Level" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_opportunitytype" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_opportunitytype" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0a30c93f-0639-48a5-8db7-eb3837ff029b}" showlabel="true" visible="true" labelid="{6cd2f2be-dbdc-45fe-a136-40148294ba2e}">
+                      <labels>
+                        <label description="Possible Job Number Required?" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_possiblejobnumberrequired" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_possiblejobnumberrequired" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{8ed9b0a3-bb97-4c6b-a097-ebb7887551a4}" name="StageStep63" locklevel="0" expanded="true" visible="false" labelid="{74f7917f-d325-4322-9c4d-9d7f725c5005}">
+        <labels>
+          <label description="PJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{8ed9b0a3-bb97-4c6b-a097-ebb7887551a4}" name="StageStep63_section1" labelid="{6e9a84b3-ce96-4f2a-8a16-19d481520c66}">
+                <labels>
+                  <label description="PJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{029ba1aa-4a88-4be1-be84-b8de8a995b4c}" showlabel="true" visible="true" labelid="{0c0b9a83-ff7a-43c8-b231-b3ccc1443374}">
+                      <labels>
+                        <label description="Bid Director Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_biddirectorapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_biddirectorapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{df0c725e-0716-43e9-9597-d1ab33379cd7}" showlabel="true" visible="true" labelid="{32b8f1b6-db27-4e91-a0bb-bc35c6db97af}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_biddirectorapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_biddirectorapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1473c73f-932a-40ca-8824-f5ede3f241ed}" showlabel="true" visible="true" labelid="{c40754d1-7e0e-44af-bf20-c36d8005c2b5}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_biddirectorapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_biddirectorapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{181905e7-f7b5-4da2-97eb-22382e1d9ca9}" name="StageStep71" locklevel="0" expanded="true" visible="false" labelid="{40c086c6-c8f4-4e6f-86ff-49219b6c0703}">
+        <labels>
+          <label description="PJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{181905e7-f7b5-4da2-97eb-22382e1d9ca9}" name="StageStep71_section1" labelid="{965efa5c-9432-4b7d-be34-e3449ea01236}">
+                <labels>
+                  <label description="PJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{8cab7c81-261f-4af8-8566-df9697646a15}" showlabel="true" visible="true" labelid="{e8c4fadf-ab31-43a7-827e-02e5710508cc}">
+                      <labels>
+                        <label description="Group Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_groupleaderapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{68ccdb89-5d31-4d89-9bc6-7fa48c65c11a}" showlabel="true" visible="true" labelid="{45f1535c-7e95-4db6-873f-0233b07e857c}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_groupleaderapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{184b70b8-4be2-4996-b883-3ec9a166a261}" showlabel="true" visible="true" labelid="{eca1f71c-47ec-4420-a785-7fe18a7178de}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_groupleaderapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{2b84bc43-2261-4942-a2f9-be9b8e5f7e89}" name="StageStep79" locklevel="0" expanded="true" visible="false" labelid="{cde5c8e1-f10a-4492-98f6-565ea9edbaea}">
+        <labels>
+          <label description="PJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{2b84bc43-2261-4942-a2f9-be9b8e5f7e89}" name="StageStep79_section1" labelid="{a334db17-4408-498b-8d2f-5229256b6a19}">
+                <labels>
+                  <label description="PJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{0c1b2a9b-fb3e-4746-b182-b4415f98c727}" showlabel="true" visible="true" labelid="{bd534573-3b0e-41b3-8ac3-b55dcb2eecfe}">
+                      <labels>
+                        <label description="Group Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_groupleaderapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{c2bfe504-a80f-4c5d-b188-6bf0734dded8}" showlabel="true" visible="true" labelid="{e269c0f8-2977-4f82-8e5c-afdafcf2bf9f}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_groupleaderapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{f1f07e30-0f01-4780-9d3b-5d5996047464}" showlabel="true" visible="true" labelid="{c5585814-e772-4867-bf5a-b7764acae7f8}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_groupleaderapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{e48293a6-9f4e-4eed-bb9f-17c1dac06611}" name="StageStep87" locklevel="0" expanded="true" visible="false" labelid="{920eb96b-cd8e-4852-a9bc-5d30af40e51d}">
+        <labels>
+          <label description="PJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{e48293a6-9f4e-4eed-bb9f-17c1dac06611}" name="StageStep87_section1" labelid="{ede6a51a-2897-4c1d-a5ff-2dbc92d4423f}">
+                <labels>
+                  <label description="PJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{ef96f598-838d-4de4-a93c-d0c0ca306133}" showlabel="true" visible="true" labelid="{c4ff3c3b-7223-44b4-8945-153aed18d0b4}">
+                      <labels>
+                        <label description="Group Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_groupleaderapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0bdf9f04-46a9-4b09-970a-b48d5a6ee88e}" showlabel="true" visible="true" labelid="{791e2279-0dc6-48d6-9fa1-b23ef0dc4175}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_groupleaderapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{eb9d68e1-1922-4e5d-9259-81a59bd45cf3}" showlabel="true" visible="true" labelid="{5165e80d-6571-4361-a500-86352ae24036}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_groupleaderapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{44dcfac5-6b2d-4e10-b278-87fe6b899bc2}" showlabel="true" visible="true" labelid="{18cf79b4-2347-43e9-9099-536b14722c69}">
+                      <labels>
+                        <label description="Sector Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_practiceleaderapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_practiceleaderapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{63c2e459-84e5-4a5a-a14a-ae720ca6361b}" showlabel="true" visible="true" labelid="{505fa55a-4ace-4eb2-8642-d0d1175a7dfb}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_practiceleaderapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_practiceleaderapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{c13f631d-4058-4746-8c55-39c9b12c518b}" showlabel="true" visible="true" labelid="{46673a29-920d-4741-af08-071c8ee719c0}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_practiceleaderapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_practiceleaderapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{c49cf589-deec-4908-b91b-6a3c4ece9520}" name="StageStep101" locklevel="0" expanded="true" visible="false" labelid="{abdd0e48-e749-4b2d-a278-8a04c1c8930a}">
+        <labels>
+          <label description="PJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{c49cf589-deec-4908-b91b-6a3c4ece9520}" name="StageStep101_section1" labelid="{eaf3ebef-33ea-4fec-84d3-61b352d70e9e}">
+                <labels>
+                  <label description="PJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{fb8b29de-5bd0-452d-aed4-e34d8626adc5}" showlabel="true" visible="true" labelid="{f6274201-6148-42ac-bc88-6329be89efb0}">
+                      <labels>
+                        <label description="Group Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_groupleaderapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{f7066611-2fa8-48b0-bb35-d4c661ebe213}" showlabel="true" visible="true" labelid="{2b136826-e01b-4b3e-80c9-8af6671eddf1}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_groupleaderapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{72c449fd-0c98-4c51-911b-743d9f821df9}" showlabel="true" visible="true" labelid="{114cd87d-8f2b-43cf-b48c-bbfdc2f63b3e}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_groupleaderapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e2e3b6d0-3f63-4363-904c-419add31ab90}" showlabel="true" visible="true" labelid="{02a0a8f2-1a67-42f8-a0db-c2b80d7818b2}">
+                      <labels>
+                        <label description="Regional Sector Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_regionalpracticeleaderapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_regionalpracticeleaderapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{6c33bf26-1188-40f5-9638-0ca043c4d986}" showlabel="true" visible="true" labelid="{29474012-4ce0-45ed-b07b-c58f9f2cbc6f}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_regionalpracticeleaderapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_regionalpracticeleaderapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{d4be9c43-88e6-4a8a-bb2c-a7295ef2f7ca}" showlabel="true" visible="true" labelid="{02b20897-ae0f-4597-87de-fa8a3a124f6d}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_regionalpracticeleaderapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_regionalpracticeleaderapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{cee1d5cf-4b23-453f-9b97-9a649028d35e}" showlabel="true" visible="true" labelid="{90be5323-4b85-48af-8603-fd7e49f5015f}">
+                      <labels>
+                        <label description="Regional COO Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_regioncooapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_regioncooapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1fa9f9af-2b31-499b-8790-696b3f327410}" showlabel="true" visible="true" labelid="{e03ed5b3-4252-4cef-9693-f08a0dd4df3d}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_regioncooapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_regioncooapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ca90cc19-a655-4c63-8928-69ff3a171d58}" showlabel="true" visible="true" labelid="{a76b0418-cf32-4465-b6b0-c5c5fc27f69a}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_regionalcooapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_regionalcooapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{e5d1931a-b0e2-4cb0-bc5d-f5d1cb483955}" name="StageStep121" locklevel="0" expanded="true" visible="false" labelid="{e13ecfad-9146-41bb-bc23-4eeb47dea0c8}">
+        <labels>
+          <label description="PJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{e5d1931a-b0e2-4cb0-bc5d-f5d1cb483955}" name="StageStep121_section1" labelid="{90b5ac67-32af-48e9-8dcf-2acd9ea674d7}">
+                <labels>
+                  <label description="PJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{bd2afe48-ac18-44ee-b70e-27fb8ef441b7}" showlabel="true" visible="true" labelid="{a2392a60-49bb-4ea2-9aa8-49e9a9535942}">
+                      <labels>
+                        <label description="Bid Director Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_biddirectorapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_biddirectorapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{33f830fe-84db-44b8-8155-10558f4d973c}" showlabel="true" visible="true" labelid="{96fce328-c162-4469-b86a-e7567bc8eb31}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_biddirectorapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_biddirectorapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{3a7ab6cc-db33-46cd-9986-bf829750f679}" showlabel="true" visible="true" labelid="{5f2b120b-9998-420d-a520-c1e21b4e7d0e}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_biddirectorapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_biddirectorapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{50cdd767-4d45-4c38-b7f9-ecb640b60ba8}" name="StageStep129" locklevel="0" expanded="true" visible="false" labelid="{3765e3e3-728e-41fc-83a9-3d56b8457ccc}">
+        <labels>
+          <label description="PJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{50cdd767-4d45-4c38-b7f9-ecb640b60ba8}" name="StageStep129_section1" labelid="{2f4b115e-1df3-4019-be94-36d07ad3cb8a}">
+                <labels>
+                  <label description="PJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{43903728-eb46-4f3c-bb02-d3cf1d0d2cc5}" showlabel="true" visible="true" labelid="{21c57e70-6a37-4699-a054-6eee6860db3c}">
+                      <labels>
+                        <label description="Group Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_groupleaderapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{c99c07e2-a68e-48cc-bb63-28dad5d16a00}" showlabel="true" visible="true" labelid="{78e423c3-128f-47ab-b867-3f4a1c488688}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_groupleaderapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{531e98bf-b3b7-4298-8c9f-b30eba3ca0a5}" showlabel="true" visible="true" labelid="{b43cd13e-fce0-4773-94de-747b8ae99380}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_groupleaderapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{35dddae5-d095-4321-8263-7234341037b3}" name="StageStep137" locklevel="0" expanded="true" visible="false" labelid="{9e0affbf-6a17-49e8-9454-404568fe4a64}">
+        <labels>
+          <label description="PJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{35dddae5-d095-4321-8263-7234341037b3}" name="StageStep137_section1" labelid="{f8bc91de-6e17-4816-b4d6-2aff4345b312}">
+                <labels>
+                  <label description="PJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{1e114f21-3250-45ce-8049-5a10ea00743a}" showlabel="true" visible="true" labelid="{554c55ce-55b4-4138-82ed-87ab601528d5}">
+                      <labels>
+                        <label description="Group Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_groupleaderapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{147c0417-6f41-4638-87d3-c6a4d16c19bb}" showlabel="true" visible="true" labelid="{a172cfff-53e5-44e2-8796-8e0990560e51}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_groupleaderapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ceac0950-a3b1-47e6-aedc-437a96115132}" showlabel="true" visible="true" labelid="{7e69e303-c4ec-4e84-8a06-0b832e11bff8}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_groupleaderapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{a826a573-1fd4-4977-be5f-68b67004e159}" name="StageStep145" locklevel="0" expanded="true" visible="false" labelid="{20d2a6b9-268a-44f0-8d02-fedb186ba16c}">
+        <labels>
+          <label description="PJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{a826a573-1fd4-4977-be5f-68b67004e159}" name="StageStep145_section1" labelid="{880874bc-9953-44b8-94e5-38f449f35936}">
+                <labels>
+                  <label description="PJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{55100c60-7e47-43cd-8463-556b9cb97ca2}" showlabel="true" visible="true" labelid="{094e8f83-d3b4-4c40-9ce7-f94ea835159d}">
+                      <labels>
+                        <label description="Group Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_groupleaderapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{6f50b35d-6832-4de6-b119-e6554e2c978d}" showlabel="true" visible="true" labelid="{696c724f-81f4-4460-9295-d664e311d825}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_groupleaderapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{501290b7-715f-4ef1-b9b4-938abae3e9fb}" showlabel="true" visible="true" labelid="{06075266-2a8b-41b1-a133-adcad6a382c7}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_groupleaderapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{98a3b7c0-702c-4091-928f-dd2be60281b3}" showlabel="true" visible="true" labelid="{ef794d8a-9e0c-4ab3-8300-459a5f34579d}">
+                      <labels>
+                        <label description="Sector Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_practiceleaderapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_practiceleaderapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e50cb3e3-2cde-4655-9978-41b28a8486ef}" showlabel="true" visible="true" labelid="{8cf53763-b97d-406a-9f62-b529a7a681fc}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_practiceleaderapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_practiceleaderapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{6594bfec-2cc8-4602-9f45-6ad2d8268c46}" showlabel="true" visible="true" labelid="{f7a70ff0-32fc-464d-9cee-d37dd171e037}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_practiceleaderapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_practiceleaderapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{ecf6b38a-c939-4c8f-8c8a-81accb2926b1}" name="StageStep159" locklevel="0" expanded="true" visible="false" labelid="{a0cd74be-7b18-4543-a154-8b0df7f1e810}">
+        <labels>
+          <label description="PJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{ecf6b38a-c939-4c8f-8c8a-81accb2926b1}" name="StageStep159_section1" labelid="{2a64ed8a-4525-462e-934b-3ebf0bcef666}">
+                <labels>
+                  <label description="PJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{d6571232-9b3b-47f1-82b5-89fb54beb18f}" showlabel="true" visible="true" labelid="{4ede8199-d92e-40b7-ad16-db51b8df0b0a}">
+                      <labels>
+                        <label description="Group Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_groupleaderapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{f6b27bcd-fc6c-4c62-8b50-77735680611a}" showlabel="true" visible="true" labelid="{c2ccddff-6590-42c9-b80a-74f69aed7594}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_groupleaderapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{78aa2b51-2c2d-4af3-92ce-fa91bf427ddf}" showlabel="true" visible="true" labelid="{327c9d5a-6f3c-4e2f-808c-d9133e5cb483}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleaderapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_groupleaderapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{78e6aa41-8e15-42c7-a61c-a6e8ae752439}" showlabel="true" visible="true" labelid="{04f383b1-9e13-4361-87bb-82c003d00fa1}">
+                      <labels>
+                        <label description="Regional Sector Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_regionalpracticeleaderapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_regionalpracticeleaderapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ca554c79-e971-4b6f-b2c0-0b7c9b005ef6}" showlabel="true" visible="true" labelid="{57672e86-1064-4553-9deb-4bcb2e873438}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_regionalpracticeleaderapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_regionalpracticeleaderapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e8a0b2bc-a633-454e-a12c-bb7e9adc560a}" showlabel="true" visible="true" labelid="{9327e78c-94e3-4e96-92e8-1dab50b6940f}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_regionalpracticeleaderapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_regionalpracticeleaderapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{45ac4716-1779-43d3-be4b-5487465dfc3f}" showlabel="true" visible="true" labelid="{4e5d6fd8-00b4-49f4-898b-1ba3104b89ca}">
+                      <labels>
+                        <label description="Regional COO Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_regioncooapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_regioncooapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{c4d694ac-4591-4db7-bb09-06272873da40}" showlabel="true" visible="true" labelid="{6f927137-8cef-45b7-ad77-1f627c30797e}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_regioncooapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_regioncooapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{3344cf0f-7965-4251-b6fc-b2eb255e3fd0}" showlabel="true" visible="true" labelid="{aacd0b33-9f99-4794-81ed-98dd4e7b03ca}">
+                      <labels>
+                        <label description="Approved Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_regionalcooapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_regionalcooapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{011abd87-e117-4bb7-a796-b99a349d5ac3}" name="StageStep179" locklevel="0" expanded="true" visible="false" labelid="{ff872eba-add9-427f-a9ef-748f9b85d3fc}">
+        <labels>
+          <label description="DEVELOPING BID" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{011abd87-e117-4bb7-a796-b99a349d5ac3}" name="StageStep179_section1" labelid="{056d7b33-f30e-4994-92fd-c95bb25c56aa}">
+                <labels>
+                  <label description="DEVELOPING BID" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{1620733a-4778-4795-b460-f4f321d2c4b9}" showlabel="true" visible="true" labelid="{009c82da-6f6a-4078-82a3-c4a7e94bde2a}">
+                      <labels>
+                        <label description="Project Manager" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projectmanager_userid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_projectmanager_userid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{8cc8e4de-2ad2-450e-a17a-498d53bc118f}" showlabel="true" visible="true" labelid="{dd474ff1-3750-49bb-af49-e56a989649d2}">
+                      <labels>
+                        <label description="Project Director" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projectdirector_userid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_projectdirector_userid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a3db6c60-083a-4f5c-b884-803acb88b974}" showlabel="true" visible="true" labelid="{f9ed53a4-d0a9-4a53-83f4-3084d07ad22b}">
+                      <labels>
+                        <label description="Bid Review Chair" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_bidreviewchair_userid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_bidreviewchair_userid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{8c1bdc20-8690-66a9-6930-32d80786e89c}" showlabel="true" visible="true" labelid="{fae6cb4a-00e5-4285-a2b4-c8bf0cba4936}">
+                      <labels>
+                        <label description="Bid Submission Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_bidsubmission" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_bidsubmission" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{4a1ae1b7-9137-4d6c-ac81-b485449cb393}" showlabel="true" visible="true" labelid="{fb79c40d-0f04-4dd6-a0ef-edd275dba28e}">
+                      <labels>
+                        <label description="Bid Review Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_bidreview" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_bidreview" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{523b2ee0-6215-5391-dd58-52122d99c5cd}" showlabel="true" visible="true" labelid="{868a76ba-9a1b-4886-963b-1368986f7520}">
+                      <labels>
+                        <label description="Contract Conditions" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_contractconditions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_contractconditions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{daa01d70-97a8-9d2d-0c6b-63857725ca55}" showlabel="true" visible="true" labelid="{86b95a40-0957-4764-9b2d-4266b58cac6b}">
+                      <labels>
+                        <label description="PI/LoL Currency" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_pi_transactioncurrencyid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_pi_transactioncurrencyid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{13dea2d7-1d21-4520-8a69-2e359ea0891b}" showlabel="true" visible="true" labelid="{31035919-3885-4a2e-83b5-ec27bb62ef26}">
+                      <labels>
+                        <label description="PI Requirement" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_pirequirement" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_pirequirement" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{361320a1-17d0-b1c5-e948-da2becb9c2e9}" showlabel="true" visible="true" labelid="{d0ae6a98-767c-4aab-a453-db91c24c97f4}">
+                      <labels>
+                        <label description="PI Level" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_pilevelmoney_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="ccrm_pilevelmoney_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{c89dc5ad-e563-459f-a6fb-2882c7a58996}" showlabel="true" visible="true" labelid="{b1d1c99c-d677-4cf9-959b-3e1994b90557}">
+                      <labels>
+                        <label description="Limit of Liability?" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_contractlimitofliability" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_contractlimitofliability" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0f5f3301-bbcf-4827-8c2c-d24dc91c4e75}" showlabel="true" visible="true" labelid="{1fdfdfdf-0f8c-429e-9f73-e64ab2aa5985}">
+                      <labels>
+                        <label description="Liability Amount Agreed?" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_limitofliabilityagreement" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_limitofliabilityagreement" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{4302ea43-597a-4038-ac47-397adb0125ac}" showlabel="true" visible="true" labelid="{6c975e02-92e4-4cf1-aeae-1c747492ac22}">
+                      <labels>
+                        <label description="Limit Amount" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_limitamount_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="ccrm_limitamount_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{536bd012-0722-4a76-ba0f-d43f56fa5742}" showlabel="true" visible="true" labelid="{90e571ed-4aff-4679-9178-e940a936d30b}">
+                      <labels>
+                        <label description="ISO19650 BIM Accreditation" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:arup_iso19650bimaccreditation" classid="{67fac785-cd58-4f9f-abb3-4b7ddc6ed5ed}" datafieldname="arup_iso19650bimaccreditation" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{b5a0ef2f-ae7a-4792-a195-c6e2a0560f82}" showlabel="true" visible="true" labelid="{0108ec6e-46c7-4d4c-b3ed-d114d2171ab5}">
+                      <labels>
+                        <label description="ISO44001 Collaboration" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:arup_iso44001collaboration" classid="{67fac785-cd58-4f9f-abb3-4b7ddc6ed5ed}" datafieldname="arup_iso44001collaboration" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{320ef76f-d525-4988-a0dd-3469f0a7dddd}" showlabel="true" visible="true" labelid="{5d6bc581-9530-4810-b40c-e064f83433aa}">
+                      <labels>
+                        <label description="CDM Principal Designer" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:arup_principaldesigner" classid="{67fac785-cd58-4f9f-abb3-4b7ddc6ed5ed}" datafieldname="arup_principaldesigner" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{960226d4-e3d6-0705-1143-0a552b95340a}" showlabel="true" visible="true" labelid="{5b32856c-bbdf-445a-8c15-e055397f92f0}">
+                      <labels>
+                        <label description="Finance Details Captured?" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financedetailscaptured" classid="{4273edbd-ac1d-40d3-9fb2-095c621b552d}" datafieldname="ccrm_financedetailscaptured" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{8a756906-b291-7e20-b70e-d773cc144da2}" name="StageStep213" locklevel="0" expanded="true" visible="false" labelid="{6e79f25a-f70e-4b76-b199-2b367a487bc8}">
+        <labels>
+          <label description="BID REVIEW/SUBMISSION" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{8a756906-b291-7e20-b70e-d773cc144da2}" name="StageStep213_section1" labelid="{1d1d9e61-0def-4fe6-aa6c-3ba2b3d96141}">
+                <labels>
+                  <label description="BID REVIEW/SUBMISSION" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{5876c3b6-b0d9-3ac1-2224-9a10cdce12c4}" showlabel="true" visible="true" labelid="{1972dfb9-41dc-4c19-8009-c37447468050}">
+                      <labels>
+                        <label description="Bid Review Chair" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_bidreviewchair_userid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_bidreviewchair_userid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{8eca4173-8a8d-0481-7600-532dc128c4ea}" showlabel="true" visible="true" labelid="{535a4b69-4ce6-4ca3-8f15-2e4c067c058a}">
+                      <labels>
+                        <label description="Bid Review Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_bidreview" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_bidreview" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{47ce58e2-fef9-4777-b65e-64f4f4c37e4f}" showlabel="true" visible="true" labelid="{86e1673a-9114-43a2-9d45-d26d0928d062}">
+                      <labels>
+                        <label description="Bid Decision Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:arup_biddecisiondate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="arup_biddecisiondate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1e4c211e-3004-32bd-4a22-cadd9ae41e28}" showlabel="true" visible="true" labelid="{cb909279-1bac-4d3b-bddc-14b6850ff7d2}">
+                      <labels>
+                        <label description="Bid Review Outcome" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_bidreviewoutcome" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_bidreviewoutcome" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{7adeebe9-d08d-7091-ac9b-871486650776}" showlabel="true" visible="true" labelid="{5b1c3da7-c738-420f-8b79-9b209289f40f}">
+                      <labels>
+                        <label description="Bid Review Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_bidreviewdecisiondate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_bidreviewdecisiondate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{68b02508-9829-4793-9035-68a52796bf45}" showlabel="true" visible="true" labelid="{aa50e2ce-12ef-4825-9e36-9329066f52f8}">
+                      <labels>
+                        <label description="Bid Response Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:estimatedclosedate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="estimatedclosedate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{f1582151-6025-414f-bcee-ce6bce8acfcf}" showlabel="true" visible="true" labelid="{ce6bdc0a-d1df-4a77-a50d-056ca19c9969}">
+                      <labels>
+                        <label description="Bid Submission Outcome" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:arup_bidsubmissionoutcome" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="arup_bidsubmissionoutcome" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1fb530c1-4183-4272-8441-4633018e9e1c}" showlabel="true" visible="true" labelid="{70d5dfd7-b85f-47b6-9339-eea24cadbd1d}">
+                      <labels>
+                        <label description="Bid Submitted Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:arup_bidsubmitteddate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="arup_bidsubmitteddate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{9e340cde-0a19-1de6-e360-b5a450a092c7}" name="StageStep231" locklevel="0" expanded="true" visible="false" labelid="{370312f1-cd4d-408d-8310-cd41a0341ec4}">
+        <labels>
+          <label description="CONFIRMED JOB - PROJECT" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{9e340cde-0a19-1de6-e360-b5a450a092c7}" name="StageStep231_section1" labelid="{2343e78e-2b8c-4a8e-addb-e7f6eb369aa2}">
+                <labels>
+                  <label description="CONFIRMED JOB - PROJECT" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{363fd6ad-9d40-4286-b66b-9fbb01a78f4a}" showlabel="true" visible="true" labelid="{40a8213b-7de1-4ff0-a1ae-941cd7480677}">
+                      <labels>
+                        <label description="Project Manager" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projectmanager_userid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_projectmanager_userid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1ec526dc-a3f7-47e2-9591-eb56805f6b9e}" showlabel="true" visible="true" labelid="{1d4579ae-56cd-4fa8-8e44-0f438dba5255}">
+                      <labels>
+                        <label description="Project Director" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projectdirector_userid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_projectdirector_userid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{fdad8650-61fb-4a09-b4e8-d44c9baa9fb7}" showlabel="true" visible="true" labelid="{30cd0d62-2da3-4ee5-ad49-474ac836a3aa}">
+                      <labels>
+                        <label description="Disciplines" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_disciplinesname" classid="{4273edbd-ac1d-40d3-9fb2-095c621b552d}" datafieldname="ccrm_disciplinesname" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{cc3257c7-3234-6242-910d-b17a465a194a}" showlabel="true" visible="true" labelid="{a37fd4d6-fce8-479f-9d39-3738dcc4f825}">
+                      <labels>
+                        <label description="Services" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_servicesname" classid="{4273edbd-ac1d-40d3-9fb2-095c621b552d}" datafieldname="ccrm_servicesname" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{326bc09a-721e-abb5-d797-616e8440da54}" showlabel="true" visible="true" labelid="{35f362dc-f770-4e1f-b783-507bff846d4d}">
+                      <labels>
+                        <label description="Project Type" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_theworksname" classid="{4273edbd-ac1d-40d3-9fb2-095c621b552d}" datafieldname="ccrm_theworksname" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1bcbd92a-ab5e-55e0-94d8-ea4433dc2b7e}" showlabel="true" visible="true" labelid="{60619e6e-a912-46be-98b2-a62c47efcecc}">
+                      <labels>
+                        <label description="Project Sector" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projectsectorname" classid="{4273edbd-ac1d-40d3-9fb2-095c621b552d}" datafieldname="ccrm_projectsectorname" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{14fcb9a6-7604-430a-8614-ad82f257f456}" showlabel="true" visible="true" labelid="{2cc6d17d-c0b7-4e65-9608-dd629e20fd5a}">
+                      <labels>
+                        <label description="Arup Project Start Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_estarupinvolvementstart" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_estarupinvolvementstart" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{14018cac-20e6-443b-98f0-156fdcfdb3f6}" showlabel="true" visible="true" labelid="{3e75522c-fe4a-45a0-826f-921d2daa85cc}">
+                      <labels>
+                        <label description="Arup Project End Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_estarupinvolvementend" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_estarupinvolvementend" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{5fbce2e3-0c3c-4594-86e2-ba49bb971a6d}" showlabel="true" visible="true" labelid="{3a832106-79ef-48d1-a858-15e24f466a6d}">
+                      <labels>
+                        <label description="Extent of Arup Services" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_descriptionofextentofarupservices" classid="{e0dece4b-6fc8-4a8f-a065-082708572369}" datafieldname="ccrm_descriptionofextentofarupservices" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{fbeabfd7-5c16-469e-a76b-0385bf8e3695}" showlabel="true" visible="true" labelid="{739c50fc-f92d-4e56-a55d-0dd010681b73}">
+                      <labels>
+                        <label description="Project Summary" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:description" classid="{e0dece4b-6fc8-4a8f-a065-082708572369}" datafieldname="description" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1398242f-91f5-4673-b98b-b880a96f369d}" showlabel="true" visible="true" labelid="{7dc6a149-46c0-48f1-b3e3-67ea64273e9e}">
+                      <labels>
+                        <label description="Overall Project Value" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_estprojectvalue_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="ccrm_estprojectvalue_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{14533fd7-5a47-4daf-b8b9-89dbe5af514d}" showlabel="true" visible="true" labelid="{a349cde3-eae0-4dda-ba07-76d589d6d0dc}">
+                      <labels>
+                        <label description="Project Collaborators?" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:arup_projpartreqd" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="arup_projpartreqd" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{8e975d43-147e-7c19-c944-08a864d69dbe}" name="StageStep257" locklevel="0" expanded="true" visible="false" labelid="{0c90a372-e8f4-4c0e-a0f3-3aee3463e23f}">
+        <labels>
+          <label description="CONFIRMED JOB - COMMERCIAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{8e975d43-147e-7c19-c944-08a864d69dbe}" name="StageStep257_section1" labelid="{2b5611b7-b8e5-4f0d-a9e6-384cb3f4a4d2}">
+                <labels>
+                  <label description="CONFIRMED JOB - COMMERCIAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{756b1191-5e59-b7a2-813e-63143e3bc60c}" showlabel="true" visible="true" labelid="{556f2403-0f53-4ce1-9424-613ff2ef3a73}">
+                      <labels>
+                        <label description="Fee Income" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_estimatedvalue_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="ccrm_estimatedvalue_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{53375a4b-6c6b-396d-7968-c93c78822c6a}" showlabel="true" visible="true" labelid="{f6e26087-0a5f-4605-8c63-e32a63726754}">
+                      <labels>
+                        <label description="Expense Income" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_estexpenseincome_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="ccrm_estexpenseincome_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{6aba311b-4438-c96b-239e-b6547503a17d}" showlabel="true" visible="true" labelid="{74809bc3-5003-4a95-86cd-5d45ef88dc97}">
+                      <labels>
+                        <label description="Total Income" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projecttotalincome_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="ccrm_projecttotalincome_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{f3cdb24d-2704-403f-a17b-957d16d2ac22}" showlabel="true" visible="true" labelid="{58d37140-1304-4a40-9a9a-722d5e010c98}">
+                      <labels>
+                        <label description="Gross Staff Cost" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:arup_grossstaffcost_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="arup_grossstaffcost_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{084e8bda-1ae5-32c1-e50c-49bb66960737}" showlabel="true" visible="true" labelid="{328f1593-fe34-49df-b82a-f2c9ebd0097b}">
+                      <labels>
+                        <label description="Gross Expenses" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_estprojectexpenses_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="ccrm_estprojectexpenses_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{50bc892e-222b-92b4-99ed-80a2c8b55d29}" showlabel="true" visible="true" labelid="{c713ae8d-d002-4c34-8ca4-b130670ce28c}">
+                      <labels>
+                        <label description="Total Cost" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projecttotalcosts_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="ccrm_projecttotalcosts_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{d027257e-5d76-c219-abe5-e1956748d535}" showlabel="true" visible="true" labelid="{14b90880-760a-4372-9fb4-686ae501f191}">
+                      <labels>
+                        <label description="Charging Basis" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_chargingbasis" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_chargingbasis" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{5e132a7c-6e3b-3c62-b138-41cb8ced9500}" showlabel="true" visible="true" labelid="{ac62fecf-0b35-4847-aacd-ccb325ac5fc5}">
+                      <labels>
+                        <label description="Project Profit" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_estprojectprofit_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="ccrm_estprojectprofit_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{4e92a9b0-50eb-bce3-33d8-56da69e1cb4c}" showlabel="true" visible="true" labelid="{d374814e-74e8-4c8f-a6ec-db32451b766c}">
+                      <labels>
+                        <label description="% Profit on Income" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_profitasapercentageoffeedec" classid="{c3efe0c3-0ec6-42be-8349-cbd9079dfd8e}" datafieldname="ccrm_profitasapercentageoffeedec" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{3bc18850-7529-92be-97b8-927300e0140a}" showlabel="true" visible="true" labelid="{44839418-ab48-423d-b29e-ffdf2a7b53df}">
+                      <labels>
+                        <label description="PI/LoL Currency" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_pi_transactioncurrencyid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_pi_transactioncurrencyid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{da63b3e4-7c25-9c33-d2a0-8a360c165bce}" showlabel="true" visible="true" labelid="{379a511e-eff2-49cc-beda-1118ca1511f0}">
+                      <labels>
+                        <label description="PI Requirement" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_pirequirement" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_pirequirement" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{8c9739d6-1526-121e-6c6e-b2b183abe1cc}" showlabel="true" visible="true" labelid="{935b90e9-16fc-4d50-946d-1fb32a949df4}">
+                      <labels>
+                        <label description="PI Level" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_pilevelmoney_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="ccrm_pilevelmoney_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{b23b9515-1f51-467c-9a1c-8aca70670137}" showlabel="true" visible="true" labelid="{0dded875-ab2b-40bc-9d77-948abe267c25}">
+                      <labels>
+                        <label description="Limit of Liability?" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_contractlimitofliability" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_contractlimitofliability" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{505135da-67a3-4fd1-82cb-f3d8e4dcacaf}" showlabel="true" visible="true" labelid="{fa144136-631e-4408-9fba-fa3d864fdca1}">
+                      <labels>
+                        <label description="Liability Amount Agreed?" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_limitofliabilityagreement" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_limitofliabilityagreement" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{07dfe1be-b4ae-483a-a7a3-f35bafea91d5}" showlabel="true" visible="true" labelid="{79c5da40-0f39-434d-af2f-a0cbc8b32dcf}">
+                      <labels>
+                        <label description="Limit Amount" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_limitamount_num" classid="{0d2c745a-e5a8-4c8f-ba63-c6d3bb604660}" datafieldname="ccrm_limitamount_num" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{c8513b3c-4ac3-3562-a0a4-aec6eb4b715a}" showlabel="true" visible="true" labelid="{346d6dec-bca9-493a-bf8e-ab18c05ca586}">
+                      <labels>
+                        <label description="Job Number Progression" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_jobnumberprogression" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_jobnumberprogression" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{56d10223-9b64-c460-b7a2-eca108aa7785}" showlabel="true" visible="true" labelid="{148caaee-50dd-4c02-a4a2-0ead781420dd}">
+                      <labels>
+                        <label description="Region" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_arupregionid" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_arupregionid" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{8e7d1c63-593d-41ed-ab80-dc1af38df3dc}" showlabel="true" visible="true" labelid="{5ae9f645-2854-4af0-ae30-42a5ebdf305c}">
+                      <labels>
+                        <label description="Risk Level" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_opportunitytype" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_opportunitytype" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="false" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{3a4ddcd8-db68-8a8e-9326-cc99ee914ab6}" name="StageStep295" locklevel="0" expanded="true" visible="false" labelid="{6ef2a573-4e72-4507-82dd-b0a48174b287}">
+        <labels>
+          <label description="CJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{3a4ddcd8-db68-8a8e-9326-cc99ee914ab6}" name="StageStep295_section1" labelid="{7d51fc1e-ad94-4690-82eb-288c05d3b3c1}">
+                <labels>
+                  <label description="CJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{baab8ab8-9b9e-835c-9700-01a7681c4ec6}" showlabel="true" visible="true" labelid="{d341018a-22d1-4e8c-8692-1c9b6ab5c445}">
+                      <labels>
+                        <label description="Proj. Manager/Director Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projmgrdirapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_projmgrdirapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{7ea00462-6a18-6cc2-ae16-e0851ee57236}" showlabel="true" visible="true" labelid="{b1f24a4c-9fea-4f8e-8ef6-e1e5d7d60a5c}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projmgrdirapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_projmgrdirapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{db7cb9ee-8102-5933-d5d8-bd0118dbe968}" showlabel="true" visible="true" labelid="{d22369cd-52a1-4cd9-9ed1-ad65f5677571}">
+                      <labels>
+                        <label description="Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projmgrdirapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_projmgrdirapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{674d070e-a6d8-37a4-2771-aed2a24c8444}" showlabel="true" visible="true" labelid="{bb863aa6-da0b-4168-8719-9048496d98b6}">
+                      <labels>
+                        <label description="Group Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleadercjnapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_groupleadercjnapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{3de3d1cd-c189-118a-859b-6eb74493e150}" showlabel="true" visible="true" labelid="{50dc2c86-3360-4d4f-af58-fd22544d1693}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleadercjnapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_groupleadercjnapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{c47dcaee-b88c-5250-a2c3-0150d9e211b2}" showlabel="true" visible="true" labelid="{b826cbd5-bf8b-443d-9af4-64fcc71a7dea}">
+                      <labels>
+                        <label description="Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleadercjnapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_groupleadercjnapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{db350578-b786-19d6-316e-b6a422c0241a}" showlabel="true" visible="true" labelid="{01ff316f-6721-4d88-8331-bfe2db244bf2}">
+                      <labels>
+                        <label description="Finance Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financeapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_financeapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{3b75b5cc-dda9-bdd7-c94c-e11d223e615e}" showlabel="true" visible="true" labelid="{22d53efd-f9b7-44a3-a922-9dea307778ff}">
+                      <labels>
+                        <label description="Approval By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financeapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_financeapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a0b80665-071b-014c-6a4a-21955a5c3d13}" showlabel="true" visible="true" labelid="{3d867935-8a53-41b4-bdb6-bfdd581b569d}">
+                      <labels>
+                        <label description="Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financeapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_financeapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{212288de-0746-cc9c-9d63-8d8b5597a2c4}" name="StageStep315" locklevel="0" expanded="true" visible="false" labelid="{bce95b14-6deb-4f84-b666-d8401c9be386}">
+        <labels>
+          <label description="CJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{212288de-0746-cc9c-9d63-8d8b5597a2c4}" name="StageStep315_section1" labelid="{352bcbe8-464d-4651-b619-9023453ee79d}">
+                <labels>
+                  <label description="CJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{76c83c12-b50c-c6bc-8542-e89d403e9e04}" showlabel="true" visible="true" labelid="{71024d2d-a07d-4a3b-9acb-236a59c72bca}">
+                      <labels>
+                        <label description="Proj. Manager/Director Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projmgrdirapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_projmgrdirapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{328dee20-b19b-4488-a23b-741dad402514}" showlabel="true" visible="true" labelid="{aabaeb12-5dc8-4287-9e37-94f8c7949bc7}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projmgrdirapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_projmgrdirapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{5902e724-5aa0-e677-be28-cd7202e24192}" showlabel="true" visible="true" labelid="{b77b2f93-ef48-471c-8220-9d10c4e3177a}">
+                      <labels>
+                        <label description="Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projmgrdirapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_projmgrdirapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0307ab96-ec35-1d36-ba37-7cb730c5971d}" showlabel="true" visible="true" labelid="{8c4515b6-adb1-4304-84f4-548da4093cbb}">
+                      <labels>
+                        <label description="Accounting Centre Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_acctcentleadapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_acctcentleadapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{d6a3aca4-3a7b-3054-e8a3-1e972390c32a}" showlabel="true" visible="true" labelid="{e2188857-b26d-4d8f-934b-e1b19e460802}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_acctcentleadapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_acctcentleadapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{042109a3-4053-00ed-5149-1c8860e17414}" showlabel="true" visible="true" labelid="{468392ad-ccec-4a4b-8e36-c167ac38c6af}">
+                      <labels>
+                        <label description="Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_acctcentleadapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_acctcentleadapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{b5a76d42-349c-65c5-e8ab-cb53395ee48d}" showlabel="true" visible="true" labelid="{f6c791e3-41a0-4050-a65d-afd7b9fb2597}">
+                      <labels>
+                        <label description="Finance Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financeapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_financeapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ae852a4c-8a7b-4ee0-2ed2-5ea16db3488c}" showlabel="true" visible="true" labelid="{56772c90-d008-406f-ae90-9bc23de6e638}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financeapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_financeapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{91c9c58d-7ae7-3700-7288-7b455031424e}" showlabel="true" visible="true" labelid="{fee1fbd4-e4b2-4cbf-9b49-a1b0b7d0e222}">
+                      <labels>
+                        <label description="Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financeapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_financeapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{b069abdc-b859-7807-43b7-0aa45d255424}" name="StageStep335" locklevel="0" expanded="true" visible="false" labelid="{4c6eda85-facf-4716-8853-101218ba8723}">
+        <labels>
+          <label description="CJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{b069abdc-b859-7807-43b7-0aa45d255424}" name="StageStep335_section1" labelid="{42a403d6-634b-425c-9003-09abc8706649}">
+                <labels>
+                  <label description="CJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{693a03a7-ac6d-46e1-ca4b-552353595aa9}" showlabel="true" visible="true" labelid="{bb453b5f-18ec-4271-b050-c883624d1a08}">
+                      <labels>
+                        <label description="Proj. Manager/Director Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projmgrdirapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_projmgrdirapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{48bce094-8bc3-c350-be10-a563d6bd9c5b}" showlabel="true" visible="true" labelid="{b4be05ef-8a30-4772-9e36-5bed2fecd605}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projmgrdirapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_projmgrdirapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{b59341e3-7490-7138-5a70-065c23307b2c}" showlabel="true" visible="true" labelid="{b5a0e230-3c60-4b9c-b87d-0a62349719ac}">
+                      <labels>
+                        <label description="Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projmgrdirapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_projmgrdirapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{5a72b294-5233-043d-ee57-46ee07cb5993}" showlabel="true" visible="true" labelid="{a87a6cde-f471-4c05-9900-dcbc3f82de65}">
+                      <labels>
+                        <label description="Accounting Centre Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_acctcentleadapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_acctcentleadapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{758e5501-739d-b237-eea7-c65d95c2c800}" showlabel="true" visible="true" labelid="{f2b3c73a-c256-43c8-8fa9-f72cd499c955}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_acctcentleadapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_acctcentleadapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{57267e99-89d1-7469-2b27-d7ede159e5eb}" showlabel="true" visible="true" labelid="{8eec91de-fe99-4823-8fe5-3e164a710b17}">
+                      <labels>
+                        <label description="Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_acctcentleadapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_acctcentleadapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{2ea9ca39-ec5a-a46d-d12b-1c124826d0c9}" showlabel="true" visible="true" labelid="{8e14752d-3a80-4b08-adfe-4dad88645369}">
+                      <labels>
+                        <label description="Finance Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financeapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_financeapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{21e1a4d0-b287-bc37-033e-1aa9eb12d0e4}" showlabel="true" visible="true" labelid="{6a72c4b8-8811-465f-85c3-a15946d7a3de}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financeapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_financeapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{c856e970-e76c-c362-6e24-44c32c0d7dda}" showlabel="true" visible="true" labelid="{ef7ef86d-49ec-49ce-8232-5f0f2dc4a6d2}">
+                      <labels>
+                        <label description="Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financeapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_financeapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab verticallayout="true" id="{5a418793-a782-7164-6b52-386381d51cca}" name="StageStep355" locklevel="0" expanded="true" visible="false" labelid="{222d0c4a-f584-4c50-9c40-c038fd85c13f}">
+        <labels>
+          <label description="CJN APPROVAL" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showbar="false" columns="1" id="{5a418793-a782-7164-6b52-386381d51cca}" name="StageStep355_section1" labelid="{4ab2eb3b-4141-4fb9-ace0-ea99cfba3395}">
+                <labels>
+                  <label description="CJN APPROVAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{a10384db-a277-2465-9572-52bc328842ab}" showlabel="true" visible="true" labelid="{6be78312-fa3a-4cc2-b7a8-200d55dbe34b}">
+                      <labels>
+                        <label description="Proj. Manager/Director Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projmgrdirapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_projmgrdirapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ddced681-b0b4-c232-9c19-67c75b27b6d5}" showlabel="true" visible="true" labelid="{4e0c1187-2a7f-4c52-ba7e-0ba3ad30e699}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projmgrdirapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_projmgrdirapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{b11cd41a-b0cd-b4ae-e2d8-4bb13e570420}" showlabel="true" visible="true" labelid="{79f64312-f436-479e-95ae-1279b0485ebe}">
+                      <labels>
+                        <label description="Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_projmgrdirapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_projmgrdirapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{402a63c6-bcb9-de8d-4e47-56b04d448c6e}" showlabel="true" visible="true" labelid="{60c48269-465d-4891-b959-c33343b102ec}">
+                      <labels>
+                        <label description="Group Leader Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleadercjnapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_groupleadercjnapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{6b18707a-6506-8182-cd75-60acba7d6518}" showlabel="true" visible="true" labelid="{b06674a3-7141-407c-9a73-1bffbb2963f4}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleadercjnapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_groupleadercjnapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0c8b71d8-22b1-22a7-bd07-8bb329be9ddb}" showlabel="true" visible="true" labelid="{d356d988-97df-4f5d-b652-a605e2888eb4}">
+                      <labels>
+                        <label description="Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_groupleadercjnapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_groupleadercjnapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{653b959c-83a2-b0ad-51ae-a12541e74a88}" showlabel="true" visible="true" labelid="{e0189867-928f-4b53-a86d-20ce14426de5}">
+                      <labels>
+                        <label description="Finance Approval" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financeapprovaloptions" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="ccrm_financeapprovaloptions" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{62e51230-a50b-6829-5d41-b0e6ccd22ab8}" showlabel="true" visible="true" labelid="{966d9c6c-5abc-47e3-ba49-917824ddad39}">
+                      <labels>
+                        <label description="Approved By" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financeapproval" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="ccrm_financeapproval" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{db792a68-3701-4dc7-3e4d-3e0d59c174a9}" showlabel="true" visible="true" labelid="{e14e5d22-6227-4271-9d35-d67128368231}">
+                      <labels>
+                        <label description="Approval Date" languagecode="1033" />
+                      </labels>
+                      <control id="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731:ccrm_financeapprovaldate" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="ccrm_financeapprovaldate" relationship="bpf_opportunity_ccrm_bpf_b253053047ef4eddbed29e34f6c23731" isrequired="true" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+    </tabs>
+  </form>
+  <IsCustomizable>1</IsCustomizable>
+  <CanBeDeleted>1</CanBeDeleted>
+  <LocalizedNames>
+    <LocalizedName description="Information" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="A form for this entity." languagecode="1033" />
+  </Descriptions>
+</systemform>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedquery>
+  <IsCustomizable>1</IsCustomizable>
+  <CanBeDeleted>1</CanBeDeleted>
+  <isquickfindquery>0</isquickfindquery>
+  <isprivate>0</isprivate>
+  <isdefault>0</isdefault>
+  <savedqueryid>{5c3028e8-3b8c-e511-80dd-005056b55b13}</savedqueryid>
+  <layoutxml>
+    <grid name="resultset" jump="name" select="1" preview="1" icon="1">
+      <row name="result" id="opportunityid">
+        <cell name="name" width="150" />
+      </row>
+    </grid>
+  </layoutxml>
+  <querytype>0</querytype>
+  <fetchxml>
+    <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+      <entity name="opportunity">
+        <attribute name="name" />
+        <order attribute="name" descending="false" />
+        <filter type="and">
+          <condition attribute="createdon" operator="last-x-months" value="12" />
+          <condition attribute="ccrm_bidsubmission" operator="not-null" />
+        </filter>
+        <attribute name="opportunityid" />
+      </entity>
+    </fetch>
+  </fetchxml>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <LocalizedNames>
+    <LocalizedName description="Created within Last 12 Months and Submitted" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="Opportunity Created within Last 12 Months and Bid Submitted date is specified." languagecode="1033" />
+  </Descriptions>
+</savedquery>

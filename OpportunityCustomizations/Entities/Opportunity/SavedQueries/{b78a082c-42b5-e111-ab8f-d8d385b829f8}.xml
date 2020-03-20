@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedquery>
+  <IsCustomizable>1</IsCustomizable>
+  <CanBeDeleted>1</CanBeDeleted>
+  <isquickfindquery>0</isquickfindquery>
+  <isprivate>0</isprivate>
+  <isdefault>0</isdefault>
+  <savedqueryid>{b78a082c-42b5-e111-ab8f-d8d385b829f8}</savedqueryid>
+  <layoutxml>
+    <grid name="resultset" jump="name" select="1" preview="1" icon="1">
+      <row name="result" id="opportunityid">
+        <cell name="ccrm_reference" width="100" />
+        <cell name="name" width="300" />
+        <cell name="customerid" width="200" />
+        <cell name="ccrm_parentopportunityid" width="200" />
+        <cell name="ccrm_parentproject" width="100" />
+        <cell name="statuscode" width="150" />
+        <cell name="estimatedvalue" width="125" />
+        <cell name="ccrm_projectlocationid" width="100" />
+        <cell name="ccrm_arupregionid" width="125" />
+      </row>
+    </grid>
+  </layoutxml>
+  <querytype>0</querytype>
+  <fetchxml>
+    <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+      <entity name="opportunity">
+        <attribute name="statuscode" />
+        <attribute name="ccrm_arupregionid" />
+        <attribute name="ccrm_reference" />
+        <attribute name="ccrm_projectlocationid" />
+        <attribute name="ccrm_parentproject" />
+        <attribute name="ccrm_parentopportunityid" />
+        <attribute name="estimatedvalue" />
+        <attribute name="customerid" />
+        <attribute name="name" />
+        <order attribute="customerid" descending="false" />
+        <order attribute="ccrm_parentopportunityid" descending="false" />
+        <filter type="and">
+          <condition attribute="statecode" operator="eq" value="0" />
+          <filter type="or">
+            <condition attribute="createdby" operator="eq-userid" />
+            <condition attribute="ccrm_biddirector_userid" operator="eq-userid" />
+            <condition attribute="ccrm_bidmanager_userid" operator="eq-userid" />
+            <condition attribute="ccrm_projectdirector_userid" operator="eq-userid" />
+            <condition attribute="ccrm_projectmanager_userid" operator="eq-userid" />
+            <condition attribute="modifiedby" operator="eq-userid" />
+            <condition attribute="ccrm_bidreviewchair_userid" operator="eq-userid" />
+            <condition attribute="ccrm_businessadministrator_userid" operator="eq-userid" />
+          </filter>
+          <condition attribute="ccrm_parentopportunityid" operator="not-null" />
+        </filter>
+        <attribute name="opportunityid" />
+      </entity>
+    </fetch>
+  </fetchxml>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <LocalizedNames>
+    <LocalizedName description="My Open Sub-Opportunities" languagecode="1033" />
+  </LocalizedNames>
+</savedquery>

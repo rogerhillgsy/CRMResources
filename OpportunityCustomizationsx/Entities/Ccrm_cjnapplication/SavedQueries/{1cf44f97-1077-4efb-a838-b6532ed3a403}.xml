@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{1cf44f97-1077-4efb-a838-b6532ed3a403}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="ccrm_name" select="1" icon="1" preview="1">
+        <row name="result" id="ccrm_cjnapplicationid">
+          <cell name="ccrm_name" width="300" />
+          <cell name="createdon" width="125" />
+        </row>
+      </grid>
+    </layoutxml>
+    <columnsetxml>
+      <columnset>
+        <column>ccrm_name</column>
+        <column>createdon</column>
+        <ascend>ccrm_name</ascend>
+      </columnset>
+    </columnsetxml>
+    <querytype>1</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="ccrm_cjnapplication">
+          <attribute name="ccrm_cjnapplicationid" />
+          <attribute name="ccrm_name" />
+          <attribute name="createdon" />
+          <order attribute="ccrm_name" descending="false" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Confirmed Job Number Application Advanced Find View" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>
