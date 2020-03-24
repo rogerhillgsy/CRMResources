@@ -168,11 +168,11 @@ function contractType_onChange() {
         var contractTypeValue = Xrm.Page.getAttribute("ccrm_contracttype").getValue();
         if (contractTypeValue == '100000015') {
             contractTypeOtherAttr.setVisible(true);
-            Xrm.Page.getAttribute('ccrm_contracttypeother').setRequiredLevel(true);
+            Xrm.Page.getAttribute('ccrm_contracttypeother').setRequiredLevel("required");
         }
         else {
             contractTypeOtherAttr.setVisible(false);
-            Xrm.Page.getAttribute('ccrm_contracttypeother').setRequiredLevel(false);
+            Xrm.Page.getAttribute('ccrm_contracttypeother').setRequiredLevel("none");
         }
     }
 
