@@ -23,35 +23,31 @@ ccrm_userid_onchange = function () {
             Xrm.Page.getAttribute("ccrm_firstname").setValue(nodeFirstName);
             userName += nodeFirstName;
         }
-        else
-        {
-			Xrm.Page.getAttribute("ccrm_firstname").setValue(null);
-		}
+        else {
+            Xrm.Page.getAttribute("ccrm_firstname").setValue(null);
+        }
         //lastname
         if (nodeLastName != null) {
             Xrm.Page.getAttribute("ccrm_lastname").setValue(nodeLastName);
             userName += ' ' + nodeLastName;
         }
-        else
-		{
-			Xrm.Page.getAttribute("ccrm_lastname").setValue(null);
-		}
+        else {
+            Xrm.Page.getAttribute("ccrm_lastname").setValue(null);
+        }
         //telephone
         if (nodeTelephone != null) {
             Xrm.Page.getAttribute("ccrm_phone").setValue(nodeTelephone);
         }
-        else
-		{
-			Xrm.Page.getAttribute("ccrm_phone").setValue(null);
-		}
+        else {
+            Xrm.Page.getAttribute("ccrm_phone").setValue(null);
+        }
         //email
         if (nodeEmail != null) {
             Xrm.Page.getAttribute("ccrm_email").setValue(nodeEmail);
         }
-        else
-		{
-			Xrm.Page.getAttribute("ccrm_email").setValue(null);
-		}
+        else {
+            Xrm.Page.getAttribute("ccrm_email").setValue(null);
+        }
         Xrm.Page.getAttribute("ccrm_name").setValue(userName);
 
     }
@@ -78,7 +74,7 @@ ccrm_userid_onchange = function () {
 }
 
 ccrm_contactid_onchange = function () {
-	var contactName = '';
+    var contactName = '';
     if (Xrm.Page.getAttribute("ccrm_userid").getValue() == null && Xrm.Page.getAttribute("ccrm_contactid").getValue() != null) {
         var dataset = "ContactSet";
         var retrievedreq = CCrm.JSCore.RetrieveRequest(Xrm.Page.getAttribute("ccrm_contactid").getValue()[0].id, dataset);
@@ -93,35 +89,31 @@ ccrm_contactid_onchange = function () {
             Xrm.Page.getAttribute("ccrm_firstname").setValue(nodeFirstName);
             contactName += nodeFirstName;
         }
-        else
-        {
-			Xrm.Page.getAttribute("ccrm_firstname").setValue(null);
-		}
+        else {
+            Xrm.Page.getAttribute("ccrm_firstname").setValue(null);
+        }
         //lastname
         if (nodeLastName != null) {
             Xrm.Page.getAttribute("ccrm_lastname").setValue(nodeLastName);
             contactName += ' ' + nodeLastName;
         }
-        else
-        {
-			Xrm.Page.getAttribute("ccrm_lastname").setValue(null);
-		}
+        else {
+            Xrm.Page.getAttribute("ccrm_lastname").setValue(null);
+        }
         //telephone
         if (nodeTelephone != null) {
             Xrm.Page.getAttribute("ccrm_phone").setValue(nodeTelephone);
         }
-        else
-        {
-			Xrm.Page.getAttribute("ccrm_phone").setValue(null);
-		}
+        else {
+            Xrm.Page.getAttribute("ccrm_phone").setValue(null);
+        }
         //email
         if (nodeEmail != null) {
             Xrm.Page.getAttribute("ccrm_email").setValue(nodeEmail);
         }
-        else
-        {
-			Xrm.Page.getAttribute("ccrm_email").setValue(null);
-		}
+        else {
+            Xrm.Page.getAttribute("ccrm_email").setValue(null);
+        }
         Xrm.Page.getAttribute("ccrm_name").setValue(contactName);
 
     }
@@ -146,13 +138,12 @@ ccrm_contactid_onchange = function () {
     }
 
     if (nodeParentOrgId != null && nodeParentOrgId.Id != null) {
-		//alert(nodeParentOrgId.Id);
+        //alert(nodeParentOrgId.Id);
         getOrganisation(nodeParentOrgId.Id);
     }
-    else
-    {
-		Xrm.Page.getAttribute("ccrm_organisationid").setValue(null);
-	}
+    else {
+        Xrm.Page.getAttribute("ccrm_organisationid").setValue(null);
+    }
 }
 
 getOrganisation = function (nodeParentOrgId) {

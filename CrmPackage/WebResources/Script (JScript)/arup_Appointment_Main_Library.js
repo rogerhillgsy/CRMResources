@@ -7,7 +7,7 @@ function onForm_Load(executionContext) {
     //enddate_onchange();
     filterOnLoad();
     addEventHandler();
-    
+
 }
 
 function onForm_save(executionObj) {
@@ -91,23 +91,23 @@ function markAsCanceled() {
 }
 
 
-function enddate_onchange() {
+//function enddate_onchange() {
 
-    // timeout here is needed to wait till End Date is change by Start Date (if applicable)
-    setTimeout(function () { 
+//    // timeout here is needed to wait till End Date is change by Start Date (if applicable)
+//    setTimeout(function () { 
 
-        var enddate = Xrm.Page.getAttribute("scheduledend").getValue();
-        var today = new Date();
-        var visible = today > enddate;
+//        var enddate = Xrm.Page.getAttribute("scheduledend").getValue();
+//        var today = new Date();
+//        var visible = today > enddate;
 
-        Xrm.Page.getControl('arup_sentiment').setVisible(visible);
-        Xrm.Page.getControl('arup_outcome').setVisible(visible);        
+//        Xrm.Page.getControl('arup_sentiment').setVisible(visible);
+//        Xrm.Page.getControl('arup_outcome').setVisible(visible);        
 
-    }, 1000);
-}
+//    }, 1000);
+//}
 
 function filterOnLoad(executionContext) {
-   
+
     var lookupFor = ['contact', 'systemuser'];
     var fieldList = ['requiredattendees', 'optionalattendees'];
     filterField(fieldList, lookupFor);
@@ -127,7 +127,7 @@ function setOrganisation(fieldname) {
     var members = party.getValue();
     var organisation = Xrm.Page.getAttribute('arup_organisationid').getValue();
     if (organisation != null || members == null) { return };
-    
+
     //loop in reverse to get the vakue of the first contact
     for (var i = members.length - 1; i >= 0; i--) {
 
@@ -137,7 +137,7 @@ function setOrganisation(fieldname) {
         //fetch contact record and get its Current Organisation to pre-populate Organisation field's value
         orgFound = fetchCurrentOrganisation(members[i].id, members[i].name);
         organisation = Xrm.Page.getAttribute('arup_organisationid').getValue();
-            
+
     }
 }
 
@@ -161,7 +161,7 @@ function fetchCurrentOrganisation(contactId, contactName) {
                 var _parentcustomerid_value_lookuplogicalname = result["_parentcustomerid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
                 if (_parentcustomerid_value != null) {
                     setLookupField(_parentcustomerid_value, _parentcustomerid_value_formatted, _parentcustomerid_value_lookuplogicalname, 'arup_organisationid');
-                }                
+                }
             } else {
                 Xrm.Utility.alertDialog(this.statusText);
             }

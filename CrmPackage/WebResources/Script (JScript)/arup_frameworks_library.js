@@ -1,15 +1,15 @@
 ﻿function form_OnLoad() {
 
     setInterval(changeHeaderTileFormat, 1000);
-    
-}    
-
-function form_OnSave() {
-    
 
 }
 
-function changeHeaderTileFormat() {    
+function form_OnSave() {
+
+
+}
+
+function changeHeaderTileFormat() {
 
     //This may not be a supported way to change the header tile width
     var headertiles = window.parent.document.getElementsByClassName("ms-crm-HeaderTileElement");
@@ -37,13 +37,13 @@ function openSecuredFramework() {
 
     var ownerName = Xrm.Page.getAttribute("ownerid").getValue()[0].name;
     var creatorName = Xrm.Page.getAttribute("createdby").getValue()[0].name;
-    var  message = (ownerName == creatorName) ? 'Contact ' + ownerName + ' to request access.' : 'Contact either ' + ownerName + ' or ' + creatorName + ' to request access.';
-   
+    var message = (ownerName == creatorName) ? 'Contact ' + ownerName + ' to request access.' : 'Contact either ' + ownerName + ' or ' + creatorName + ' to request access.';
+
     Alert.show('<font size="6" color="#FF0000"><b>Access Denied</b></font>',
-    '<font size="3" color="#000000">You do not have permission to view Framework details. <br><br>' + message + '</font>',
-    [
-        { label: "<b>OK</b>", setFocus: true },
-    ], "ERROR", 500, 200, '', true);
+        '<font size="3" color="#000000">You do not have permission to view Framework details. <br><br>' + message + '</font>',
+        [
+            { label: "<b>OK</b>", setFocus: true },
+        ], "ERROR", 500, 200, '', true);
 
 }
 
@@ -113,7 +113,7 @@ function exitForm() {
                             if (acctAttributes[i].getRequiredLevel() == 'required') {
                                 highlight = Xrm.Page.getAttribute(acctAttributes[i].getName()).getValue() != null;
                                 if (highlight == false && cansave == true) { cansave = false; }
-                                
+
                             }
                         }
                     }

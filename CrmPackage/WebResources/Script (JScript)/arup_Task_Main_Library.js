@@ -141,8 +141,8 @@ function validateCompletion() {
     //    ' | Credit Check: ' + creditCheck.toString() + ' | Validation Changed? ' + orgValidationChanged.toString() + ' | Credit Check Changed? ' + creditCheckChanged.toString());
 
     if (
-        (organisationValidation == null      && creditCheck == 770000000 && creditCheckChanged) ||
-        (organisationValidation == null      && creditCheck == 770000001) ||
+        (organisationValidation == null && creditCheck == 770000000 && creditCheckChanged) ||
+        (organisationValidation == null && creditCheck == 770000001) ||
         (organisationValidation == 770000002 && creditCheck == 770000000 && creditCheckChanged && orgValidationChanged) ||
         (organisationValidation == 770000002 && creditCheck == 770000001) ||
         (organisationValidation == 770000002 && creditCheck == 770000002) ||
@@ -150,17 +150,14 @@ function validateCompletion() {
         (organisationValidation == 770000000 && creditCheck == 770000001 && creditCheckChanged && orgValidationChanged) ||
         (organisationValidation == 770000000 && creditCheck == 770000002 && orgValidationChanged) ||
         (organisationValidation == 770000001 && creditCheck == 770000002 && orgValidationChanged)
-       ) {
-        Alert.show('<font size="6" color="#2E74B5"><b>Task completed</b></font>',
-                    '<font size="3" color="#000000"></br>The task has been marked as completed.</font>',
-                    [new Alert.Button("<b>OK</b>")], "INFO", 600, 200, '', true);
+    ) {
+
         Xrm.Page.getAttribute('statecode').setValue(1);
         Xrm.Page.getAttribute('statuscode').setValue(5);
         Xrm.Page.getAttribute('percentcomplete').setValue(100);
         Xrm.Page.getAttribute('actualend').setValue(new Date());
 
-        if (organisationValidation == 770000000)
-        {
+        if (organisationValidation == 770000000) {
             Xrm.Page.getAttribute('arup_organisationvalidation').setValue(770000002);
         }
         else if (organisationValidation == 770000001) {
@@ -169,103 +166,118 @@ function validateCompletion() {
         if (creditCheck == 770000000) {
             Xrm.Page.getAttribute('arup_creditcheck').setValue(770000001);
         }
+
+        Alert.show('<font size="6" color="#2E74B5"><b>Task completed</b></font>',
+            '<font size="3" color="#000000"></br>The task has been marked as completed.</font>',
+            [new Alert.Button("<b>OK</b>")], "INFO", 600, 200, '', true);
     }
- }
+}
 
 function markAsComplete(displayError) {
     //run from Mark Complete button
 
+    var originatedFrom = Xrm.Page.getAttribute('arup_originatedfrom').getValue();
     SSCMember = userInSSCTeam();
 
-    var originatedFrom = Xrm.Page.getAttribute('arup_originatedfrom').getValue();
-
     //check if task was created automatically when organisation either requires verification or change was requested or credit check is required */
-    if (!SSCMember) { return; }
+    if (SSCMember || originatedFrom == null) {
 
-    var regionName = Xrm.Page.getAttribute('ccrm_relatedregionid').getValue()[0].name;
-    var organisationValidation = Xrm.Page.getAttribute('arup_organisationvalidation').getValue();
-    var creditCheck = Xrm.Page.getAttribute('arup_creditcheck').getValue();
-    var creditCheckChanged = Xrm.Page.getAttribute('arup_creditcheck').getIsDirty();
-    var orgValidationChanged = Xrm.Page.getAttribute('arup_organisationvalidation').getIsDirty();
-    var errorMessage = null;
+        if (originatedFrom != null) {
 
-    //console.log('Autocomplete Task | Originated from: ' + originatedFrom.toString() + ' | Validation: ' + (organisationValidation == null ? 'Null' : organisationValidation.toString()) +
-    //    ' | Credit Check: ' + creditCheck.toString() + ' | Validation Changed? ' + orgValidationChanged.toString() + ' | Credit Check Changed? ' + creditCheckChanged.toString());
+            var organisationValidation = Xrm.Page.getAttribute('arup_organisationvalidation').getValue();
+            var creditCheck = Xrm.Page.getAttribute('arup_creditcheck').getValue();
+            var errorMessage = null;
 
-    //validate if all data has been entered before marking task as complete */
-    switch (originatedFrom) {
+            //validate if all data has been entered before marking task as complete */
+            switch (originatedFrom) {
 
-        case 770000000: // 1. Opportunity
-        case 770000002: // 3. New Organisation
+                case 770000000: // 1. Opportunity
+                case 770000002: // 3. New Organisation
 
-            if (
-                (organisationValidation == 770000002 && creditCheck == 770000000) ||
-                (organisationValidation == 770000000 && creditCheck == 770000001) ||
-                (organisationValidation == 770000000 && creditCheck == 770000000)
-                ) {
-                errorMessage = 'Organisation must be verified AND credit check must be done before this task can be completed';
+                    if (
+                        (organisationValidation == 770000002 && creditCheck == 770000000) ||
+                        (organisationValidation == 770000000 && creditCheck == 770000001) ||
+                        (organisationValidation == 770000000 && creditCheck == 770000000)
+                    ) {
+                        errorMessage = 'Organisation must be verified AND credit check must be done before this task can be completed';
+                    }
+                    else {
+
+                        if (organisationValidation == 770000000) {
+                            Xrm.Page.getAttribute('arup_organisationvalidation').setValue(770000002);
+                        }
+                        if (creditCheck == 770000000) {
+                            Xrm.Page.getAttribute('arup_creditcheck').setValue(770000001);
+                        }
+                    }
+
+                    break;
+
+                case 770000001: // 2. Organisation Change Request
+
+                    Xrm.Page.getAttribute('arup_organisationvalidation').setValue(770000003);
+                    break;
             }
-            else {
 
-                if (organisationValidation == 770000000) {
-                    Xrm.Page.getAttribute('arup_organisationvalidation').setValue(770000002);
-                }
-                if (creditCheck == 770000000) {
-                    Xrm.Page.getAttribute('arup_creditcheck').setValue(770000001);
-                }
-            }
+        }
 
-            break;
+        // close task as complete if no errors found
+        if (errorMessage == null) {
 
-        case 770000001: // 2. Organisation Change Request
+            Xrm.Page.getAttribute('statecode').setValue(1);
+            Xrm.Page.getAttribute('statuscode').setValue(5);
+            Xrm.Page.getAttribute('ccrm_taskstatus').setValue(2);
+            Xrm.Page.getAttribute('percentcomplete').setValue(100);
+            Xrm.Page.getAttribute('actualend').setValue(new Date());
 
-            Xrm.Page.getAttribute('arup_organisationvalidation').setValue(770000003);
-            Alert.show('<font size="6" color="#2E74B5"><b>Task completed</b></font>',
-            '<font size="3" color="#000000"></br>The task to update Organisation with requested changes has been marked as completed.</font>',
-            [
-                new Alert.Button("<b>OK</b>")
-            ], "INFO", 600, 200, '', true);
-            break;
-    }
+            Xrm.Page.data.save().then(function () { // The save prevents "unsaved"-warning.
 
-    // close task as complete if no errors found
-    if (errorMessage == null) {
+                Alert.show('<font size="6" color="#2E74B5"><b>Task completed</b></font>',
+                    '<font size="3" color="#000000"></br>The task has been marked as completed.</font>',
+                    [
+                        new Alert.Button("<b>OK</b>",
+                            function () { Xrm.Page.ui.close(); }, true, false)
+                    ], "INFO", 600, 200, '', true);
 
-        Xrm.Page.getAttribute('statecode').setValue(1);
-        Xrm.Page.getAttribute('statuscode').setValue(5);
-        Xrm.Page.getAttribute('percentcomplete').setValue(100);
-        Xrm.Page.getAttribute('actualend').setValue(new Date());
+            }, null);
 
-        Xrm.Page.data.save().then(function () { // The save prevents "unsaved"-warning.
-            Xrm.Page.ui.close();
-            //Xrm.Page.data.refresh();
-        }, null);
+        }
+        else if (displayError == true) {
 
-    }
-    else if(displayError == true) {
+            Alert.show('<font size="6" color="#d80303"><b>Error</b></font>',
+                '<font size="3" color="#000000">' + errorMessage + '</font>',
+                [
+                    new Alert.Button("<b>OK</b>")
+                ],
+                "ERROR", 500, 200, '', true);
+        }
 
-        Alert.show('<font size="6" color="#d80303"><b>Error</b></font>',
-               '<font size="3" color="#000000">' + errorMessage + '</font>',
-               [
-                   new Alert.Button("<b>OK</b>")
-               ],
-               "ERROR", 500, 200, '', true);
     }
 
 }
 
 function markAsCanceled() {
 
+    var originatedFrom = Xrm.Page.getAttribute('arup_originatedfrom').getValue();
     SSCMember = userInSSCTeam();
 
-    if (!SSCMember) { return; }
+    //check if task was created automatically when organisation either requires verification or change was requested or credit check is required */
+    if (!SSCMember && originatedFrom != null) { return; }
 
     Xrm.Page.getAttribute('statecode').setValue(2);
     Xrm.Page.getAttribute('statuscode').setValue(6);
+    Xrm.Page.getAttribute('ccrm_taskstatus').setValue(5);
     Xrm.Page.getAttribute('actualend').setValue(new Date());
 
     Xrm.Page.data.save().then(function () { // The save prevents "unsaved"-warning.
-        Xrm.Page.data.refresh();
+
+        Alert.show('<font size="6" color="#2E74B5"><b>Task canceled</b></font>',
+            '<font size="3" color="#000000"></br>The task has been canceled.</font>',
+            [
+                new Alert.Button("<b>OK</b>",
+                    function () { Xrm.Page.ui.close(); }, true, false)
+            ], "INFO", 600, 200, '', true);
+
     }, null);
 
 }

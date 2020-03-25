@@ -13,74 +13,74 @@ function formatBPFMultiSelect(displayField, valueField, b, picklistField, height
     if (b == null)
         b = 9999;
     (Xrm.Page.ui.getFormType() == 1 ||
-            Xrm.Page.ui.getFormType() == 2 ||
-            Xrm.Page.ui.getFormType() == 5 ||
-            Xrm.Page.ui.getFormType() == 6) &&
+        Xrm.Page.ui.getFormType() == 2 ||
+        Xrm.Page.ui.getFormType() == 5 ||
+        Xrm.Page.ui.getFormType() == 6) &&
         $(document)
-        .ready(function () {
+            .ready(function () {
 
-            $("#" + displayField, parent.document)
-                .click(function (e) {
-                    if (!!e.ctrlKey) {
-                        debugger;
-                    }
+                $("#" + displayField, parent.document)
+                    .click(function (e) {
+                        if (!!e.ctrlKey) {
+                            debugger;
+                        }
+                        $("#" + displayField, parent.document).off("focusin");
+                        showHideMultiselectBox(e, displayField, valueField, picklistField, b, height);
+                    });
+                $("#" + displayField, parent.document).focusin(function (e) {
                     $("#" + displayField, parent.document).off("focusin");
                     showHideMultiselectBox(e, displayField, valueField, picklistField, b, height);
+                    //              }
                 });
-            $("#" + displayField, parent.document).focusin(function (e) {
-                $("#" + displayField, parent.document).off("focusin");
-                showHideMultiselectBox(e, displayField, valueField, picklistField, b, height);
-                //              }
-            });
-            $(parent.document).mousedown(function (e) {
-                if (e.target.parentElement.offsetParent != null) {
-                    if (e.target.parentElement.offsetParent.id == displayField) {
-                        //$('#container_header_process_ccrm_disciplinesname',parent.document).length
-                        var len = $('#container_' + displayField, parent.document).length;
-                        if (len != 1) {
-                            $("#" + displayField, parent.document).off("focusin");
-                            showHideMultiselectBox(e, displayField, valueField, picklistField, b, height);
+                $(parent.document).mousedown(function (e) {
+                    if (e.target.parentElement.offsetParent != null) {
+                        if (e.target.parentElement.offsetParent.id == displayField) {
+                            //$('#container_header_process_ccrm_disciplinesname',parent.document).length
+                            var len = $('#container_' + displayField, parent.document).length;
+                            if (len != 1) {
+                                $("#" + displayField, parent.document).off("focusin");
+                                showHideMultiselectBox(e, displayField, valueField, picklistField, b, height);
+                            }
                         }
                     }
-                }
-            });
-           
-           
-            $(parent.document).keydown(function (e) {
-                if (e.target.id == displayField + "_i") {
-                    e.preventDefault();
-                    showHideMultiselectBox(e, displayField, valueField, picklistField, b, height);
-                }
-
-            });
-            cleanMultiselectValues(picklistField, displayField);
-            $(window)
-                .resize(function () {
-                    $("#container_" + displayField, parent.document).width($("#" + displayField, parent.document).width());
-                    $("#" + displayField + "_i", parent.document).width($("#" + displayField, parent.document).width() - 35);
-                    var c = $("#" + displayField, parent.document).width() / 5,
-                        b = $("#" + displayField, parent.document).width(),
-                        e = $("#processControlCollapsibleArea", parent.document).width(),
-                        d = $("#" + displayField, parent.document).offset().left + b + 50;
-                    if (d < e)
-                        c = b + 8;
-                    $("#" + displayField + "popup", parent.document)
-                        .css({
-                            top: -45,
-                            left: c
-                        });
                 });
-            // Hide warning icon
-            $("#" + displayField + "_warn", parent.document).hide();
-        });
+
+
+                $(parent.document).keydown(function (e) {
+                    if (e.target.id == displayField + "_i") {
+                        e.preventDefault();
+                        showHideMultiselectBox(e, displayField, valueField, picklistField, b, height);
+                    }
+
+                });
+                cleanMultiselectValues(picklistField, displayField);
+                $(window)
+                    .resize(function () {
+                        $("#container_" + displayField, parent.document).width($("#" + displayField, parent.document).width());
+                        $("#" + displayField + "_i", parent.document).width($("#" + displayField, parent.document).width() - 35);
+                        var c = $("#" + displayField, parent.document).width() / 5,
+                            b = $("#" + displayField, parent.document).width(),
+                            e = $("#processControlCollapsibleArea", parent.document).width(),
+                            d = $("#" + displayField, parent.document).offset().left + b + 50;
+                        if (d < e)
+                            c = b + 8;
+                        $("#" + displayField + "popup", parent.document)
+                            .css({
+                                top: -45,
+                                left: c
+                            });
+                    });
+                // Hide warning icon
+                $("#" + displayField + "_warn", parent.document).hide();
+            });
 }
 function showHideMultiselectBox(e, displayField, valueField, picklistField, b, height) {
     if ($("#" + displayField + "popup", parent.document).is(":visible") && (e.target.offsetParent.id == displayField || e.target.offsetParent.id == displayField || e.target.offsetParent.textContent == "click to enter")) {
         ProcessBPFSelected(displayField, valueField);
     } else {
-
         //$("#processControlScrollPane",parent.document).css("overflow", "visible");
         renderBPFContent(e.target.id, picklistField, displayField, valueField, b, height);
+        $("#" + displayField + "_c + .processStepLabelMask", parent.document).parent().parent().find(".processStepLabelMask").css("width", "0px");
     }
 }
 function cleanMultiselectValues(picklistField, displayField) {
@@ -117,12 +117,16 @@ function renderBPFContent(clickedFieldId, picklistField, displayField, valueFiel
     var heightS1 = height.toString();
     var heightS2 = (height - 55).toString();
     if (clickedFieldId != "btn" + displayField + "close" && clickedFieldId != "btn" + displayField + "cancel" && clickedFieldId != displayField + "_l" && clickedFieldId != displayField + "_ul" && clickedFieldId.indexOf("chk_" + displayField) == -1 && clickedFieldId.indexOf("lbl_" + displayField) == -1) {
+        $("#" + displayField + " .ms-crm-Inline-Validation", parent.document).remove();
+        $("#" + displayField + " .ms-crm-Inline-ErrorArrowIcon.ms-crm-VerticalFlipMargin", parent.document).remove();
+        $("#" + displayField + " .ms-crm-Inline-ErrorArrowIcon", parent.document).remove();
+
         var k = Xrm.Page.getControl(displayField).getAttribute().getValue() // Xrm.Page.getAttribute(l).getValue()
-          , p = $("#" + displayField, parent.document).parent().parent().parent().width()
-          , b = $("#" + displayField, parent.document).html()
-          , j = true
-          , o = b.substring(b.length, b.length - 8)
-          , f = "";
+            , p = $("#" + displayField, parent.document).parent().parent().parent().width()
+            , b = $("#" + displayField, parent.document).html()
+            , j = true
+            , o = b.substring(b.length, b.length - 8)
+            , f = "";
         if (o.indexOf("span") != -1) {
             j = false;
             b = b.substring(0, b.length - 8);
@@ -197,14 +201,14 @@ function renderBPFContent(clickedFieldId, picklistField, displayField, valueFiel
                 $("#processControlScrollPane", parent.document).css("overflow", "visible");
             }
             else {
-                $("#" +displayField + "popup", parent.document).css("display", "block");
-                $("#" +displayField, parent.document).removeAttr("title");
-                $("#container_" +displayField, parent.document).children().first().css("display", "none");
+                $("#" + displayField + "popup", parent.document).css("display", "block");
+                $("#" + displayField, parent.document).removeAttr("title");
+                $("#container_" + displayField, parent.document).children().first().css("display", "none");
                 $("#" + displayField + "_i", parent.document).parent().css("display", "block");
                 $("#processControlScrollPane", parent.document).css("overflow", "visible");
-                }
             }
-            }
+    }
+}
 
 
 function ProcessBPFSelected(a, b) {
@@ -214,69 +218,69 @@ function ProcessBPFSelected(a, b) {
     if (b.id != null)
         b = b.id;
     var f = Xrm.Page.getAttribute(b).getValue()
-      , c = setBPFMultiSelect(a, b);
-    $("#" +a + "_i", parent.document).value = c.text;
+        , c = setBPFMultiSelect(a, b);
+    $("#" + a + "_i", parent.document).value = c.text;
     $("#" + a + "_i", parent.document).attr("title", c.text);
     $("#" + a, parent.document).attr("title", c.text);
     var targetAttribute = Xrm.Page.getControl(a).getAttribute();
     targetAttribute.setValue(c.text);
     Xrm.Page.getAttribute(b).setValue(c.val);
-    $("#" +b, parent.document).val(c.val);
-    $("#" +a + "popup", parent.document).fadeOut(400);
+    $("#" + b, parent.document).val(c.val);
+    $("#" + a + "popup", parent.document).fadeOut(400);
     if (c.text != "") {
-        $("#container_" +a, parent.document).children().first().text(c.text);
-        $("#container_" +a, parent.document).children().first().removeClass("ms-crm-Inline-EmptyValue");
-        $("#" +a + "_i", parent.document).val(c.text);
-        } else {
-        $("#container_" +a, parent.document).children().first().text("click to enter");
-        $("#container_" +a, parent.document).children().first().addClass("ms-crm-Inline-EmptyValue");
-        $("#" +a + "_i", parent.document).val("");
-        }
-    $("#" +a + "_i", parent.document).parent().css("display", "none");
-    $("#container_" +a, parent.document).children().first().css("display", "block");
+        $("#container_" + a, parent.document).children().first().text(c.text);
+        $("#container_" + a, parent.document).children().first().removeClass("ms-crm-Inline-EmptyValue");
+        $("#" + a + "_i", parent.document).val(c.text);
+    } else {
+        $("#container_" + a, parent.document).children().first().text("click to enter");
+        $("#container_" + a, parent.document).children().first().addClass("ms-crm-Inline-EmptyValue");
+        $("#" + a + "_i", parent.document).val("");
+    }
+    $("#" + a + "_i", parent.document).parent().css("display", "none");
+    $("#container_" + a, parent.document).children().first().css("display", "block");
 
-    $("#" +a, parent.document).mouseenter(function() {
+    $("#" + a, parent.document).mouseenter(function () {
         $("#" + a + "popup", parent.document).css("display") != "block" &&
-            $("#container_" +a, parent.document).children().first().addClass("ms-crm-Inline-EditHintState");
-            });
-    $("#" +a, parent.document).mouseleave(function () {
-        $("#container_" +a, parent.document).children().first().removeClass("ms-crm-Inline-EditHintState");
+            $("#container_" + a, parent.document).children().first().addClass("ms-crm-Inline-EditHintState");
     });
-    $("#" +a + "_c", parent.document).mouseenter(function () {
-        $("#" +a + "popup", parent.document).css("display") != "block" &&
-            $("#" +a, parent.document).children().first().addClass("ms-crm-Inline-EditHintState");
-            });
-    $("#" +a + "_c", parent.document).mouseleave(function () {
-        $("#" +a + "popup", parent.document).css("display") != "block" &&
-            $("#" +a, parent.document).children().first().removeClass("ms-crm-Inline-EditHintState");
-            });
+    $("#" + a, parent.document).mouseleave(function () {
+        $("#container_" + a, parent.document).children().first().removeClass("ms-crm-Inline-EditHintState");
+    });
+    $("#" + a + "_c", parent.document).mouseenter(function () {
+        $("#" + a + "popup", parent.document).css("display") != "block" &&
+            $("#" + a, parent.document).children().first().addClass("ms-crm-Inline-EditHintState");
+    });
+    $("#" + a + "_c", parent.document).mouseleave(function () {
+        $("#" + a + "popup", parent.document).css("display") != "block" &&
+            $("#" + a, parent.document).children().first().removeClass("ms-crm-Inline-EditHintState");
+    });
     var e = Xrm.Page.getAttribute(b).getValue();
     if (f != e) {
         Xrm.Page.getAttribute(b).fireOnChange();
         setParentDispFieldData(a, b, targetAttribute.getName());
     }
-        //New from April Release
-    var otherField, lastLetter = a.substring(a.length -1);
+    //New from April Release
+    var otherField, lastLetter = a.substring(a.length - 1);
     if (lastLetter == "1") {
-        otherField = a.substring(0, a.length -1);
-        }
-        else {
+        otherField = a.substring(0, a.length - 1);
+    }
+    else {
         otherField = a + "1";
     }
-    if ($('#container_' +a, parent.document).children().first().text() != $('#container_' +otherField, parent.document).children().first().text()) {
-        $('#container_' +otherField, parent.document).children().first().text($('#container_' + a, parent.document).children().first().text());
-        $('#' + otherField + '_i', parent.document).val($('#' +a + '_i', parent.document).val());
+    if ($('#container_' + a, parent.document).children().first().text() != $('#container_' + otherField, parent.document).children().first().text()) {
+        $('#container_' + otherField, parent.document).children().first().text($('#container_' + a, parent.document).children().first().text());
+        $('#' + otherField + '_i', parent.document).val($('#' + a + '_i', parent.document).val());
         if (Xrm.Page.getAttribute(b).getValue() == null)
-            $('#container_' +otherField, parent.document).children().first().removeClass("ms-crm-Inline-EmptyValue")
-        var i = Xrm.Page.getAttribute(b).getValue() != null ? Xrm.Page.getAttribute(b).getValue().split(","): "";
-        $('#' + otherField + '_ul li label input', parent.document).each(function() {
+            $('#container_' + otherField, parent.document).children().first().removeClass("ms-crm-Inline-EmptyValue")
+        var i = Xrm.Page.getAttribute(b).getValue() != null ? Xrm.Page.getAttribute(b).getValue().split(",") : "";
+        $('#' + otherField + '_ul li label input', parent.document).each(function () {
             if ($.inArray($(this).val(), i) != -1)
                 $(this).prop("checked", true);
             else
                 $(this).removeAttr("checked");
-                })
-                }
-                }
+        })
+    }
+}
 
 function CancelBPFSelected(a, b) {
     $("#processControlScrollPane", parent.document).css("overflow", "scroll");
@@ -284,108 +288,108 @@ function CancelBPFSelected(a, b) {
         a = a[0].id;
     if (b[0].id != null)
         b = b[0].id;
-    $("#" +a + "popup", parent.document).css("display", "none");
-    var d = Xrm.Page.getAttribute(b).getValue() != null ? Xrm.Page.getAttribute(b).getValue().split(","): "";
-    $("input[name=list_" +a + "]", parent.document).each(function () {
+    $("#" + a + "popup", parent.document).css("display", "none");
+    var d = Xrm.Page.getAttribute(b).getValue() != null ? Xrm.Page.getAttribute(b).getValue().split(",") : "";
+    $("input[name=list_" + a + "]", parent.document).each(function () {
         if ($.inArray(this.value, d) != -1)
             this.checked = "checked";
-            else
+        else
             this.checked = "";
 
-            });
-    $("#" +a, parent.document).attr("title", $("#" +a + "_i", parent.document).value);
+    });
+    $("#" + a, parent.document).attr("title", $("#" + a + "_i", parent.document).value);
     var c = Xrm.Page.getControl(a).getAttribute()
-      , e = $("#" +a + "_i", parent.document).val();
+        , e = $("#" + a + "_i", parent.document).val();
     c.setValue(e);
-    $("#" +a + "_i", parent.document).parent().css("display", "none");
-    $("#container_" +a, parent.document).children().first().css("display", "block");
+    $("#" + a + "_i", parent.document).parent().css("display", "none");
+    $("#container_" + a, parent.document).children().first().css("display", "block");
 
-    }
+}
 function setBPFMultiSelect(d) {
     var b = ""
-      , a = "";
-    $("input[name=list_" +d + "]:checked", parent.document).each(function () {
+        , a = "";
+    $("input[name=list_" + d + "]:checked", parent.document).each(function () {
         b += this.value + ",";
         a += this.nextSibling.data + ", ";
-});
-if(b.substring(b.length -1) == ",")
-    b = b.substring(0, b.length -1);
-if (a.substring(a.length -2) == ", ")
-    a = a.substring(0, a.length - 2);
-var c = { };
-c.text = a;
-c.val = b;
-return c;
+    });
+    if (b.substring(b.length - 1) == ",")
+        b = b.substring(0, b.length - 1);
+    if (a.substring(a.length - 2) == ", ")
+        a = a.substring(0, a.length - 2);
+    var c = {};
+    c.text = a;
+    c.val = b;
+    return c;
 }
 
 function getBPFMultiSelectHTML(picklistField, displayField, valueField, height) {
     var a = Xrm.Page.getAttribute(picklistField).getOptions()
-      , g = "<UL id='" +displayField + "_ul' style='height: " +height + "px; overflow: auto; width: 100%; background-color: white; border: 0px solid #C4C8CE; list-style-type: none; margin: 0; padding-top: 7px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; overflow-x: hidden;'>"
-      , d = 0
-      , f = ""
-      , k = Xrm.Page.getAttribute(picklistField).getUserPrivilege().canCreate;
+        , g = "<UL id='" + displayField + "_ul' style='height: " + height + "px; overflow: auto; width: 100%; background-color: white; border: 0px solid #C4C8CE; list-style-type: none; margin: 0; padding-top: 7px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; overflow-x: hidden;'>"
+        , d = 0
+        , f = ""
+        , k = Xrm.Page.getAttribute(picklistField).getUserPrivilege().canCreate;
     a.sort(function compare(a, b) {
         if (a.text < b.text)
             return -1;
         if (a.text > b.text)
             return 1;
         return 0;
-      });
+    });
     if (Xrm.Page.ui.getFormType() == 1 && !Xrm.Page.getAttribute(picklistField).getUserPrivilege().canCreate)
         f = "disabled";
-        else if ((Xrm.Page.ui.getFormType() == 2 || Xrm.Page.ui.getFormType() == 5 || Xrm.Page.ui.getFormType() == 6) && !Xrm.Page.getAttribute(picklistField).getUserPrivilege().canUpdate)
-            f = "disabled";
-    var i = Xrm.Page.getAttribute(valueField).getValue() != null ? Xrm.Page.getAttribute(valueField).getValue().split(","): "";
+    else if ((Xrm.Page.ui.getFormType() == 2 || Xrm.Page.ui.getFormType() == 5 || Xrm.Page.ui.getFormType() == 6) && !Xrm.Page.getAttribute(picklistField).getUserPrivilege().canUpdate)
+        f = "disabled";
+    var i = Xrm.Page.getAttribute(valueField).getValue() != null ? Xrm.Page.getAttribute(valueField).getValue().split(",") : "";
     for (var c in a)
         if (a[c].value != null && a[c].text != "") {
             if (($.inArray(a[c].value, i) != -1) || ($.inArray(a[c].value.toString(), i) != -1))
-                g += "<LI title='" +a[c].text + "' style='margin: 0; padding: 0;'><LABEL id=lbl_" + displayField + "_" + d + " style='display: block;  background-color: white; margin: 0; padding: 0; width: 100%;' for=chk_" +displayField + "_" + d + "><INPUT " + f + " checked=true id=chk_" +displayField + "_" +d + " name=list_" + displayField + " value=" +a[c].value + " type=checkbox style='width: 20px'>" +a[c].text + "</LABEL> </LI>";
-                else
-                g += "<LI title='" +a[c].text + "' style='margin: 0; padding: 0;'><LABEL id=lbl_" + displayField + "_" +d + " style='display: block;  background-color: white; margin: 0; padding: 0; width: 100%;' for=chk_" +displayField + "_" + d + "><INPUT " + f + " id=chk_" +displayField + "_" +d + " name=list_" + displayField + " value=" + a[c].value + " type=checkbox style='width: 20px'>" +a[c].text + "</LABEL> </LI>";
+                g += "<LI title='" + a[c].text + "' style='margin: 0; padding: 0;'><LABEL id=lbl_" + displayField + "_" + d + " style='display: block;  background-color: white; margin: 0; padding: 0; width: 100%;' for=chk_" + displayField + "_" + d + "><INPUT " + f + " checked=true id=chk_" + displayField + "_" + d + " name=list_" + displayField + " value=" + a[c].value + " type=checkbox style='width: 20px'>" + a[c].text + "</LABEL> </LI>";
+            else
+                g += "<LI title='" + a[c].text + "' style='margin: 0; padding: 0;'><LABEL id=lbl_" + displayField + "_" + d + " style='display: block;  background-color: white; margin: 0; padding: 0; width: 100%;' for=chk_" + displayField + "_" + d + "><INPUT " + f + " id=chk_" + displayField + "_" + d + " name=list_" + displayField + " value=" + a[c].value + " type=checkbox style='width: 20px'>" + a[c].text + "</LABEL> </LI>";
             d++;
-                }
+        }
     g += "</UL>";
     return g;
-                }
+}
 
 function setParentDispFieldData(c, d, a) {
     var b = $("#" + c + "_i", parent.document).val();
     if (b != null && b != "") {
         Xrm.Page.getAttribute(a).setValue(b);
         $("#" + a, parent.document).children().first().text(b);
-        } else {
+    } else {
         Xrm.Page.getAttribute(a).setValue(null);
-        $("#" +a, parent.document).children().first().text("--");
-        }
-    var e = Xrm.Page.getAttribute(d).getValue() != null ? Xrm.Page.getAttribute(d).getValue().split(","): "";
-    $("input[name=list_" +a + "]", parent.document).each(function () {
+        $("#" + a, parent.document).children().first().text("--");
+    }
+    var e = Xrm.Page.getAttribute(d).getValue() != null ? Xrm.Page.getAttribute(d).getValue().split(",") : "";
+    $("input[name=list_" + a + "]", parent.document).each(function () {
         if ($.inArray(this.value, e) != -1)
             this.checked = "checked";
-            else
+        else
             this.checked = "";
-            });
-    $("#" + a, parent.document).attr("title", $("#" +c + "_i", parent.document).val());
-    }
+    });
+    $("#" + a, parent.document).attr("title", $("#" + c + "_i", parent.document).val());
+}
 function clearBPFMultiSelect(a, c, b) {
-    $("#" +a, parent.document).children().first().text("click to enter");
-    $("#" +a + "_i", parent.document).val("");
+    $("#" + a, parent.document).children().first().text("click to enter");
+    $("#" + a + "_i", parent.document).val("");
     Xrm.Page.getAttribute(c).setValue(null);
     Xrm.Page.getAttribute(b).setValue(null);
-    $("input[name=list_" +a + "]", parent.document).each(function() {
+    $("input[name=list_" + a + "]", parent.document).each(function () {
         this.checked = false;
-        });
-        }
+    });
+}
 function setBPFMultiSelectVisible(a, b) {
     if (b)
-        $("#" +a, parent.document).parent().parent().css("display", "none");
-        else
-        $("#" +a, parent.document).parent().parent().css("display", "block");
-    }
+        $("#" + a, parent.document).parent().parent().css("display", "none");
+    else
+        $("#" + a, parent.document).parent().parent().css("display", "block");
+}
 function prePopulateBPFMultiSelect(a, b, d, c) {
-    $("#" +a, parent.document).children().first().text(b);
-    $("#" +a + "_i", parent.document).val(b);
-    $("#container_" +a, parent.document).children().first().text(b);
-    $("#container_" +a, parent.document).children().first().removeClass("ms-crm-Inline-EmptyValue");
+    $("#" + a, parent.document).children().first().text(b);
+    $("#" + a + "_i", parent.document).val(b);
+    $("#container_" + a, parent.document).children().first().text(b);
+    $("#container_" + a, parent.document).children().first().removeClass("ms-crm-Inline-EmptyValue");
     Xrm.Page.getAttribute(d).setValue(c);
-    }
+}
 

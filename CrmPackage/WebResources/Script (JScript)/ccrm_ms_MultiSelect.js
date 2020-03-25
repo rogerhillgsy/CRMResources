@@ -12,69 +12,69 @@ function formatMultiSelect(picklistField, displayField, valueField, b, height, m
     if (b == null)
         b = 9999;
     (Xrm.Page.ui.getFormType() == 1 ||
-            Xrm.Page.ui.getFormType() == 2 ||
-            Xrm.Page.ui.getFormType() == 4 ||
-            Xrm.Page.ui.getFormType() == 5 ||
-            Xrm.Page.ui.getFormType() == 6) &&
+        Xrm.Page.ui.getFormType() == 2 ||
+        Xrm.Page.ui.getFormType() == 4 ||
+        Xrm.Page.ui.getFormType() == 5 ||
+        Xrm.Page.ui.getFormType() == 6) &&
         $(document)
-        .ready(function () {
-            var locked = Xrm.Page.getControl(displayField).getDisabled();
-            if (!locked) {
-                $("#" + previousField, parent.document).keydown(function (e) {
-                    var keyCode = e.keyCode || e.which;
-                    if (keyCode == 9) {
-                        e.preventDefault();
-                        renderContent(displayField, picklistField, displayField, valueField, b, height, maxSelected);
-                    }
-                });
-                $(parent.document).keydown(function (e) {
-                    if (e.target.id == displayField+"_i") {
-                        e.preventDefault();
-                        renderContent(displayField, picklistField, displayField, valueField, b, height, maxSelected);
-                    }
-                    
-                });
-                $(parent.document).mousedown(function (e) {
-                    if (e.target.offsetParent != null) {
-                        if (e.target.offsetParent.id == displayField) {
-                            if (Xrm.Page.ui.getFormType() != 4) {
-                                var lockedAttr = $(e.target.offsetParent).attr("data-controlmode");
-                                if (lockedAttr != "locked") {
-                                    if ($("#" + displayField + "popup", parent.document).is(":visible") && e.target.offsetParent.id == displayField) {
-                                        ProcessSelected(displayField, valueField);
-                                    } else {
-                                        renderContent(e.target.offsetParent.id, picklistField, displayField, valueField, b, height, maxSelected);
+            .ready(function () {
+                var locked = Xrm.Page.getControl(displayField).getDisabled();
+                if (!locked) {
+                    $("#" + previousField, parent.document).keydown(function (e) {
+                        var keyCode = e.keyCode || e.which;
+                        if (keyCode == 9) {
+                            e.preventDefault();
+                            renderContent(displayField, picklistField, displayField, valueField, b, height, maxSelected);
+                        }
+                    });
+                    $(parent.document).keydown(function (e) {
+                        if (e.target.id == displayField + "_i") {
+                            e.preventDefault();
+                            renderContent(displayField, picklistField, displayField, valueField, b, height, maxSelected);
+                        }
+
+                    });
+                    $(parent.document).mousedown(function (e) {
+                        if (e.target.offsetParent != null) {
+                            if (e.target.offsetParent.id == displayField) {
+                                if (Xrm.Page.ui.getFormType() != 4) {
+                                    var lockedAttr = $(e.target.offsetParent).attr("data-controlmode");
+                                    if (lockedAttr != "locked") {
+                                        if ($("#" + displayField + "popup", parent.document).is(":visible") && e.target.offsetParent.id == displayField) {
+                                            ProcessSelected(displayField, valueField);
+                                        } else {
+                                            renderContent(e.target.offsetParent.id, picklistField, displayField, valueField, b, height, maxSelected);
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                });
-                $(window).on("unload", function () {
-                    $(parent.document).off('mousedown');
-                    $(parent.document).off('keydown');
-                });
-            }
-            cleanMultiselectValues(picklistField, displayField);
-            $(window)
-                .resize(function () {
-                    $("#container_" + displayField, parent.document).width($("#" + displayField + "_d").width());
-                    $("#" + displayField + "_i", parent.document).width($("#" + displayField + "_0d1").width() - 35);
-                    var c = $("#" + displayField, parent.document).width() / 5,
-                        b = $("#" + displayField, parent.document).width(),
-                        e = $("#tdAreas", parent.document).width(),
-                        d = $("#" + displayField, parent.document).offset().left + b + 50;
-                    if (d < e)
-                        c = b + 8;
-                    $("#" + displayField + "popup", parent.document)
-                        .css({
-                            top: -45,
-                            left: c
-                        });
-                });
-            // Hide warning icon
-            $("#" + displayField + "_warn", parent.document).hide();
-        });
+                    });
+                    $(window).on("unload", function () {
+                        $(parent.document).off('mousedown');
+                        $(parent.document).off('keydown');
+                    });
+                }
+                cleanMultiselectValues(picklistField, displayField);
+                $(window)
+                    .resize(function () {
+                        $("#container_" + displayField, parent.document).width($("#" + displayField + "_d").width());
+                        $("#" + displayField + "_i", parent.document).width($("#" + displayField + "_0d1").width() - 35);
+                        var c = $("#" + displayField, parent.document).width() / 5,
+                            b = $("#" + displayField, parent.document).width(),
+                            e = $("#tdAreas", parent.document).width(),
+                            d = $("#" + displayField, parent.document).offset().left + b + 50;
+                        if (d < e)
+                            c = b + 8;
+                        $("#" + displayField + "popup", parent.document)
+                            .css({
+                                top: -45,
+                                left: c
+                            });
+                    });
+                // Hide warning icon
+                $("#" + displayField + "_warn", parent.document).hide();
+            });
 }
 
 
@@ -109,7 +109,7 @@ function renderContent(clickedFieldId, picklistField, displayField, valueField, 
     if (clickedFieldId != "btn" + displayField + "close" && clickedFieldId != "btn" + displayField + "cancel") {
         Xrm.Page.getControl(displayField).setFocus();
         var g = Xrm.Page.getAttribute(displayField).getValue()
-          , c = $("#" + displayField + "_d", parent.document).html();
+            , c = $("#" + displayField + "_d", parent.document).html();
         c = c.substring(0, c.length - 6);
         if ($("#" + displayField + "popup", parent.document).css("display") != "block")
             if ($("#" + displayField + "popup", parent.document).length == 0) {
@@ -202,7 +202,7 @@ function ProcessSelected(a, b) {
     if (b.id != null)
         b = b.id;
     var e = Xrm.Page.getAttribute(b).getValue()
-      , c = setMultiSelect(a, b);
+        , c = setMultiSelect(a, b);
     Xrm.Page.getAttribute(a).setValue(c.text);
     $("#" + a, parent.document).val(c.text);
     $("#" + a, parent.document).attr("title", c.text);
@@ -287,7 +287,7 @@ function CancelSelected(a, b) {
 }
 function setMultiSelect(d) {
     var b = ""
-      , a = "";
+        , a = "";
     $("input[name=list_" + d + "]:checked", parent.document).each(function () {
         b += this.value + ",";
         a += this.nextSibling.data + ", "
@@ -304,11 +304,11 @@ function setMultiSelect(d) {
 
 function getMultiSelectHTML(picklistField, displayField, valueField, height) {
     var a = Xrm.Page.getAttribute(picklistField).getOptions()
-      , g = "<UL id='" + displayField + "_ul' style='height: " + height + "px; overflow: auto; width: 100%; background-color: white; border: 0px solid #C4C8CE; list-style-type: none; margin: 0; padding-top: 7px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; overflow-x: hidden;'>"
-      , d = 0
-      , f = ""
-      , j = Xrm.Page.getAttribute(picklistField).getUserPrivilege().canCreate;
-    a.sort(function compare(a, b) {
+        , g = "<UL id='" + displayField + "_ul' style='height: " + height + "px; overflow: auto; width: 100%; background-color: white; border: 0px solid #C4C8CE; list-style-type: none; margin: 0; padding-top: 7px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; overflow-x: hidden;'>"
+        , d = 0
+        , f = ""
+        , j = Xrm.Page.getAttribute(picklistField).getUserPrivilege().canCreate;
+    /*a.sort(function compare(a, b) {
         if (a.text == "Other") return 1;
         if (b.text == "Other") return -1;
         if (a.text < b.text)
@@ -316,7 +316,7 @@ function getMultiSelectHTML(picklistField, displayField, valueField, height) {
         if (a.text > b.text)
             return 1;
         return 0;
-    });
+    });*/
     if (Xrm.Page.ui.getFormType() == 1 && !Xrm.Page.getAttribute(picklistField).getUserPrivilege().canCreate)
         f = "disabled";
     else if ((Xrm.Page.ui.getFormType() == 2 || Xrm.Page.ui.getFormType() == 5 || Xrm.Page.ui.getFormType() == 6) && !Xrm.Page.getAttribute(picklistField).getUserPrivilege().canUpdate)
@@ -336,7 +336,7 @@ function getMultiSelectHTML(picklistField, displayField, valueField, height) {
 
 function setBPFData(d, c, a) {
     var b = Xrm.Page.getAttribute(d).getValue()
-      , e = Xrm.Page.getAttribute(c).getValue() != null ? Xrm.Page.getAttribute(c).getValue().split(",") : "";
+        , e = Xrm.Page.getAttribute(c).getValue() != null ? Xrm.Page.getAttribute(c).getValue().split(",") : "";
     $("input[name=list_" + a + "]").each(function () {
         if ($.inArray(this.value, e) != -1)
             this.checked = "checked";

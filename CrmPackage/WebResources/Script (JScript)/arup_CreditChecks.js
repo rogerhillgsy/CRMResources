@@ -1,11 +1,4 @@
-/*parent.$(document).ready(function () {
-    parent.$( "#WebResource_Credit_Check").height('24px'); 
-    parent.$( "#WebResource_Credit_Check").width('26px'); 
-    parent.$( "#WebResource_Due_Diligence_Check").height('24px'); 
-    parent.$( "#WebResource_Due_Diligence_Check").width('66px'); 
-});*/
-
-function removeDDOptions(){
+function removeDDOptions() {
     Xrm.Page.getControl("arup_duediligencecheck").removeOption(2);
     Xrm.Page.getControl("arup_duediligencecheck").removeOption(4);
     Xrm.Page.getControl("arup_duediligencecheck").removeOption(5);
@@ -19,14 +12,14 @@ function onChangeCheckOrganisationCreditRisk() {
     var targetUrl = "", resource = "", cTitle = "";
     if (creditRisk != null) {
         switch (creditRisk) {
-            case 1:  
+            case 1:
                 resource = "/arup_Green_Light";
                 cTitle = "Low Risk";
-                break;  
-            case 2:  
+                break;
+            case 2:
                 resource = "/arup_Amber_Light";
-                cTitle = "Medium Risk";		     
-                break;  		
+                cTitle = "Medium Risk";
+                break;
             case 3:
                 resource = "/arup_Red_Light";
                 cTitle = "High Risk";
@@ -68,16 +61,16 @@ function onChangeCheckOrganisationCreditRisk() {
                     break;
             }
         }
-        else if(pTitle == "") {
+        else if (pTitle == "") {
             resource = "/arup_Grey_Light";
         }
 
         targetUrl = url.concat(resource);
         Xrm.Page.getControl("WebResource_Credit_Check").setSrc(targetUrl);
         Xrm.Page.getControl("WebResource_Credit_Check").getObject().title = cTitle;
-		
-		var creditRiskIsDirty = Xrm.Page.getAttribute("arup_creditcheck").getIsDirty();
-		
+
+        var creditRiskIsDirty = Xrm.Page.getAttribute("arup_creditcheck").getIsDirty();
+
         if (creditRiskIsDirty || cTitle == pTitle) {
             var today = new Date();
             Xrm.Page.getAttribute("ccrm_lastcreditchecked").setValue(today);
@@ -90,15 +83,15 @@ function onChangeCheckOrganisationCreditRisk() {
     }
 }
 
-function onChangeCheckCreditRisk(){
+function onChangeCheckCreditRisk() {
     var creditRisk = Xrm.Page.getAttribute("arup_creditcheck").getValue();
-	
-    if(creditRisk != null){		
+
+    if (creditRisk != null) {
         var sourceUrl = Xrm.Page.getControl("WebResource_Credit_Check").getSrc();
         var sourceString = sourceUrl.toString();
         var url = sourceString.substring(0, sourceString.lastIndexOf('/'));
         var targetUrl, resource, title = "";
-        switch (creditRisk) {  
+        switch (creditRisk) {
             case 1:
                 resource = "/arup_Green_Light";
                 title = "Low Risk";
@@ -106,31 +99,31 @@ function onChangeCheckCreditRisk(){
             case 2:
                 resource = "/arup_Amber_Light";
                 title = "Medium Risk";
-                break;           
-            case 3:  
+                break;
+            case 3:
                 resource = "/arup_Red_Light";
                 title = "High Risk";
                 break;
-            case 4:  
+            case 4:
                 resource = "/arup_Grey_Light";
                 title = "Credit Check Not Needed";
-                break;  
-            case 5:  
+                break;
+            case 5:
                 resource = "/arup_Border_Light";
                 title = "No Information";
-                break; 		   
-            default: 
-                break;   
-        }   
+                break;
+            default:
+                break;
+        }
         targetUrl = url.concat(resource);
         Xrm.Page.getControl("WebResource_Credit_Check").setSrc(targetUrl);
         Xrm.Page.getControl("WebResource_Credit_Check").getObject().title = title;
-    }	
+    }
 }
 
 function onChangeCheckOrganisationDiligenceRisk() {
     var diligenceRisk = Xrm.Page.getAttribute("arup_duediligencecheck").getValue();
- 
+
     var sourceUrl = Xrm.Page.getControl("WebResource_Due_Diligence_Check").getSrc();
     var sourceString = sourceUrl.toString();
     var url = sourceString.substring(0, sourceString.lastIndexOf('/'));
@@ -159,7 +152,7 @@ function onChangeCheckOrganisationDiligenceRisk() {
             default:
                 break;
         }
-		
+
         if (pTitle != undefined && pTitle != "") {
             switch (pTitle) {
                 case "No Sanctions":
@@ -186,17 +179,17 @@ function onChangeCheckOrganisationDiligenceRisk() {
                     break;
             }
         }
-        else if(pTitle == "") {
+        else if (pTitle == "") {
             resource = "/arup_Grey_Light";
         }
-     
+
         targetUrl = url.concat(resource);
         Xrm.Page.getControl("WebResource_Due_Diligence_Check").setSrc(targetUrl);
         Xrm.Page.getControl("WebResource_Due_Diligence_Check").getObject().title = title;
 
         if (title == pTitle) {
             var today = new Date();
-            Xrm.Page.getAttribute("arup_lastddcheckdate").setValue(today);		
+            Xrm.Page.getAttribute("arup_lastddcheckdate").setValue(today);
         }
     }
     else {
@@ -206,42 +199,42 @@ function onChangeCheckOrganisationDiligenceRisk() {
     }
 }
 
-function onChangeCheckDiligenceRisk(){
+function onChangeCheckDiligenceRisk() {
     var diligenceRisk = Xrm.Page.getAttribute("arup_duediligencecheck").getValue();
-	
-    if(diligenceRisk != null){		
+
+    if (diligenceRisk != null) {
         var sourceUrl = Xrm.Page.getControl("WebResource_Due_Diligence_Check").getSrc();
         var sourceString = sourceUrl.toString();
         var url = sourceString.substring(0, sourceString.lastIndexOf('/'));
         var targetUrl, resource, title = "";
-        switch (diligenceRisk) {  
-            case 1:  
+        switch (diligenceRisk) {
+            case 1:
                 resource = "/arup_Green_Light";
                 title = "No Sanctions";
-                break;  
-            case 2:  
+                break;
+            case 2:
                 resource = "/arup_Amber_Light";
                 title = "Adverse Media";
                 break;
-            case 3:  
+            case 3:
                 resource = "/arup_Red_Light";
                 title = "Sanctioned";
                 break;
-            case 4:  
+            case 4:
                 resource = "/arup_Blue_Light";
                 title = "Check Pending";
-                break;  
-            case 5:  
+                break;
+            case 5:
                 resource = "/arup_Grey_Light";
                 title = "Not Found";
                 break;
-            case 8:  
+            case 8:
                 resource = "/arup_Grey_Light";
                 title = "Manual Check Needed";
                 break;
-            default: 
-                break;   
-        }   
+            default:
+                break;
+        }
         targetUrl = url.concat(resource);
         Xrm.Page.getControl("WebResource_Due_Diligence_Check").setSrc(targetUrl);
         Xrm.Page.getControl("WebResource_Due_Diligence_Check").getObject().title = title;

@@ -104,13 +104,13 @@ function stateRequired(CountryName) {
     CountryName = CountryName.toUpperCase();
 
     var states = (CountryName == "UNITED STATES" ||
-                  CountryName == "UNITED STATES OF AMERICA" ||
-                  CountryName == "CANADA" ||
-                  CountryName == "AUSTRALIA" ||
-                  CountryName == "INDONESIA" ||
-                  CountryName == "NEW ZEALAND" ||
-                  CountryName == "MALAYSIA" ||
-                  CountryName == "SINGAPORE");
+        CountryName == "UNITED STATES OF AMERICA" ||
+        CountryName == "CANADA" ||
+        CountryName == "AUSTRALIA" ||
+        CountryName == "INDONESIA" ||
+        CountryName == "NEW ZEALAND" ||
+        CountryName == "MALAYSIA" ||
+        CountryName == "SINGAPORE");
     return states;
 }
 
@@ -204,7 +204,7 @@ function phoneOnChange(executionContext) {
                 specialNumberDifference = +specialNumberArray[2] - +specialNumberArray[0];
                 specialNumberMax = Math.max(specialNumberArray[0], specialNumberArray[2]);
                 specialNumberMin = Math.min(specialNumberArray[0], specialNumberArray[2]);
-                
+
                 return { max: specialNumberMax, min: specialNumberMin };
             }
 

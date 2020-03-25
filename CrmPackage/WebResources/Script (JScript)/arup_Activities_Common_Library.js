@@ -1,5 +1,5 @@
 function ShowHideFieldOfPlay(organisationIdFieldName, fieldOfPlayFieldName) {
- 
+
     if (Xrm.Page.getAttribute(organisationIdFieldName).getValue() != null) {
         var organisationId = Xrm.Page.getAttribute(organisationIdFieldName).getValue()[0].id.replace('{', '').replace('}', '');
         var req = new XMLHttpRequest();

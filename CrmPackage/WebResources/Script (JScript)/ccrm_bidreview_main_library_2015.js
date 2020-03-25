@@ -20,18 +20,18 @@ ARUP.ccrm_bidreview = {
      *********************************************************
      */
     onLoad: function () {
-        
+
         // remove an option from question B9a
 
         if (Xrm.Page.context.client.getClient() != "Mobile") {
             Xrm.Page.getControl("ccrm_sectionb_data_9_yesno").removeOption(100000002);
             Xrm.Page.getControl("ccrm_sectione_data_3a_new").removeOption(100000002);
-        }        
+        }
 
         bidReviewHappened = disableFormFields();
-        
+
         this.tab_SectionH_onLoad();
-        
+
         if (!bidReviewHappened) {
             //load review Panel 
             if (Xrm.Page.getAttribute("ccrm_reviewpanel").getValue() == null) {
@@ -43,33 +43,33 @@ ARUP.ccrm_bidreview = {
             dataChanged = this.prePopulateFields(dataChanged);
             dataChanged = this.isPartofJV(dataChanged);
         }
-        
+
         if (bidReviewHappened) {
 
             Alert.show('<font size="6" color="#333CFF"><b>Information</b></font>',
-            '<font size="3" color="#000000"></br>Bid review approval has been provided for this opportunity.</br>This Bid Review form will no longer be refreshed for changes made to the opportunity.</font>',
-            [
-                { label: "<b>OK</b>", setFocus: true },
-            ],
-            "INFO",
-            600,
-            250,
-            '',
-            true);
+                '<font size="3" color="#000000"></br>Bid review approval has been provided for this opportunity.</br>This Bid Review form will no longer be refreshed for changes made to the opportunity.</font>',
+                [
+                    { label: "<b>OK</b>", setFocus: true },
+                ],
+                "INFO",
+                600,
+                250,
+                '',
+                true);
 
         }
         else if (!bidReviewHappened && dataChanged) {
 
             Alert.show('<font size="6" color="#333CFF"><b>Information</b></font>',
-            '<font size="3" color="#000000"></br>The bid review form has been refreshed for changes made to the opportunity. </br> You should review the bid review form for any new unanswered questions.</font>',
-            [
-                { label: "<b>OK</b>", setFocus: true },
-            ],
-            "INFO",
-            500,
-            250,
-            '',
-            true);
+                '<font size="3" color="#000000"></br>The bid review form has been refreshed for changes made to the opportunity. </br> You should review the bid review form for any new unanswered questions.</font>',
+                [
+                    { label: "<b>OK</b>", setFocus: true },
+                ],
+                "INFO",
+                500,
+                250,
+                '',
+                true);
 
         }
 
@@ -141,14 +141,14 @@ ARUP.ccrm_bidreview = {
         var dataset = "OpportunitySet";
         var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
         if (retrievereq != null) {
-            if (retrievereq.Ccrm_ArupBiddingasaJointVenture != null) {
+            if (retrievereq.ccrm_Arups_Role_in_Project != null) {
 
-                var changedData = (retrievereq.Ccrm_ArupBiddingasaJointVenture == true && Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() != 1) ||
-                                  (retrievereq.Ccrm_ArupBiddingasaJointVenture == false && Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() != 0);
-                if (retrievereq.Ccrm_ArupBiddingasaJointVenture == true) {
+                var changedData = (retrievereq.ccrm_Arups_Role_in_Project.Value == 4 && Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() != 1) ||
+                    (retrievereq.ccrm_Arups_Role_in_Project.Value != 4 && Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() != 0);
+                if (retrievereq.ccrm_Arups_Role_in_Project.Value == 4) {
                     //set drop down to true 
                     Xrm.Page.getAttribute("ccrm_jvbidding_yesno").setValue(1);
-                } else if (retrievereq.Ccrm_ArupBiddingasaJointVenture == false) {
+                } else if (retrievereq.ccrm_Arups_Role_in_Project.Value != 4) {
                     Xrm.Page.getAttribute("ccrm_jvbidding_yesno").setValue(0);
                 }
                 Xrm.Page.getAttribute("ccrm_jvbidding_yesno").setSubmitMode("always");
@@ -299,7 +299,7 @@ ARUP.ccrm_bidreview = {
                 Xrm.Page.getControl("ccrm_arupcompanyid").setDisabled(true);
             }
 
-            if (retrievereq.ccrm_bid_transactioncurrencyid != null) {                
+            if (retrievereq.ccrm_bid_transactioncurrencyid != null) {
                 var lookupVal = new Array();
                 lookupVal[0] = new Object();
                 lookupVal[0].id = retrievereq.ccrm_bid_transactioncurrencyid.Id;
@@ -520,7 +520,7 @@ ARUP.ccrm_bidreview = {
                     Xrm.Page.getAttribute("ccrm_submission_date").setValue(bidSubmissiondate);
                     Xrm.Page.getAttribute("ccrm_submission_date").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_submission_date").setDisabled(true);               
+                Xrm.Page.getControl("ccrm_submission_date").setDisabled(true);
 
             }
             //Populate Scope of work
@@ -610,7 +610,7 @@ ARUP.ccrm_bidreview = {
         var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
         if (retrievereq == null) return false;
         return retrievereq.Ccrm_PowersofAttorney;
-        
+
     },
     /*
      *********************************************************
@@ -644,7 +644,7 @@ ARUP.ccrm_bidreview = {
                 break;
             case "ccrm_sectione_data_5":
                 this.showhideSection("tab_SectionE", "tab_SectionE_5a", false);
-                this.showhideSection("tab_SectionE", "tab_SectionE_5b", false);                
+                this.showhideSection("tab_SectionE", "tab_SectionE_5b", false);
                 this.showhideSection("tab_SectionE", "tab_SectionE_6", false);
                 this.showhideSection("tab_SectionE", "tab_SectionE_6a", false);
                 this.showhideSection("tab_SectionE", "tab_SectionE_7abc", false);
@@ -667,14 +667,14 @@ ARUP.ccrm_bidreview = {
                         break;
                 }
                 break;
-                //this.showhideSection("tab_SectionE", "tab_SectionE_5b", false);
-                //this.showhideSection("tab_SectionE", "tab_SectionE_5a", false);
-                //if (Xrm.Page.getAttribute(fieldName).getValue() == 100000003) { //Back to Back 
-                //    this.showhideSection("tab_SectionE", "tab_SectionE_5a", true);
-                //} else if (Xrm.Page.getAttribute(fieldName).getValue() == 100000004) { //Other
-                //    this.showhideSection("tab_SectionE", "tab_SectionE_5b", true);
-                //}
-                //break;
+            //this.showhideSection("tab_SectionE", "tab_SectionE_5b", false);
+            //this.showhideSection("tab_SectionE", "tab_SectionE_5a", false);
+            //if (Xrm.Page.getAttribute(fieldName).getValue() == 100000003) { //Back to Back 
+            //    this.showhideSection("tab_SectionE", "tab_SectionE_5a", true);
+            //} else if (Xrm.Page.getAttribute(fieldName).getValue() == 100000004) { //Other
+            //    this.showhideSection("tab_SectionE", "tab_SectionE_5b", true);
+            //}
+            //break;
             //case "ccrm_tcattached_yesno":
             //    this.showhideSection("tab_SectionE", "tab_SectionE_6a", false);
             //    this.showhideSection("tab_SectionE", "tab_SectionE_6b", false);
@@ -834,7 +834,7 @@ ARUP.ccrm_bidreview = {
 
         Xrm.Page.ui.tabs.get("tab_SectionH").sections.get("tab_SectionH_h1").setVisible(h1Option);
         Xrm.Page.ui.tabs.get("tab_SectionH").sections.get("tab_SectionH_h2").setVisible(h2Option);
-        
+
     },
     tab_SectionH_onstatechange: function () {
 
@@ -852,7 +852,7 @@ ARUP.ccrm_bidreview = {
             this.arup_sectioni_questioni2_1_onChange();
 
             this.tab_SectionH_onLoad();
-            
+
         }
     },
     /*
@@ -871,7 +871,7 @@ ARUP.ccrm_bidreview = {
             this.twoOptions_onChange("ccrm_clearbrief_yesno", 0);
             this.arup_sectiond_question9_onChange();
             this.arup_sectiond_question10_onChange();
-            
+
         }
     },
     /*
@@ -945,7 +945,6 @@ ARUP.ccrm_bidreview = {
             var showSection = false;
             if (this.isPowerOfAttorney()) showSection = true;
             this.showhideSection("tab_SectionE", "tab_SectionE_3a", showSection);
-            console.log("Show section? " + showSection.toString());
             this.fieldVisibility_onchange("ccrm_onerousrequirements_yesno", 1, "ccrm_contract_data_4a");
             this.fieldVisibility_onchange("ccrm_sectione_data_16", 100000005, "ccrm_sectione_data16_other");
 

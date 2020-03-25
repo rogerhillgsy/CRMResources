@@ -10,7 +10,7 @@ function onForm_Load(executionContext) {
 
 }
 
-function onForm_save() {    
+function onForm_save() {
 
 }
 
@@ -64,7 +64,7 @@ function markAsComplete() {
             Xrm.Page.getControl('arup_outcome').clearNotification('outcomeerror');
             Xrm.Page.getAttribute('arup_sentiment').setRequiredLevel('none');
             Xrm.Page.getAttribute('arup_outcome').setRequiredLevel('none');
-            
+
         }, 5000);
 
     }

@@ -1278,6 +1278,16 @@
       <UniqueName>arup_Contact</UniqueName>
       <WebResourceType>PNG</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_Opportunity Changes.js">
+      <DisplayName>arup_Opportunity_Changes</DisplayName>
+      <UniqueName>new_arup_Opportunity_Changes</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script (JScript)\arup_dynamic_display_of_fieldvalue.js">
+      <DisplayName>JScript1</DisplayName>
+      <UniqueName>new_JScript1</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_Activities_Common_Library.js">
       <DisplayName>Activities_Common_Library</DisplayName>
       <UniqueName>arup_Activities_Common_Library</UniqueName>
@@ -1440,11 +1450,6 @@
       <UniqueName>arup_Ccrm_cjnapplication_main_library</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_ClientGrouping_main_library">
-      <DisplayName>ccrm_ClientGrouping_main_library</DisplayName>
-      <UniqueName>arup_ccrm_ClientGrouping_main_library</UniqueName>
-      <WebResourceType>NotSupported</WebResourceType>
-    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_ClientGrouping_main_library.js">
       <UniqueName>ccrm_ClientGrouping_main_library</UniqueName>
       <WebResourceType>Script</WebResourceType>
@@ -1521,11 +1526,6 @@
       <UniqueName>arup_ccrm_LessonsLearned_main_library</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_LoadHelp">
-      <DisplayName>ccrm_LoadHelp</DisplayName>
-      <UniqueName>arup_ccrm_LoadHelp</UniqueName>
-      <WebResourceType>NotSupported</WebResourceType>
-    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_LoadHelp.js">
       <DisplayName>ccrm_LoadHelp</DisplayName>
       <UniqueName>ccrm_LoadHelp</UniqueName>
@@ -1560,11 +1560,6 @@
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_MultiEntityLookup.js">
       <DisplayName>ccrm_MultiEntityLookup</DisplayName>
       <UniqueName>arup_ccrm_MultiEntityLookup</UniqueName>
-      <WebResourceType>NotSupported</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_newsfeed">
-      <DisplayName>ccrm_newsfeed</DisplayName>
-      <UniqueName>arup_ccrm_newsfeed</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_newsfeed.js">

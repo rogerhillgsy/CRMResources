@@ -73,6 +73,9 @@ function Form_onload() {
             Xrm.Page.getControl("ccrm_arupaccountingcodeid").setDisabled(true);
         }
 
+        var wonReasons = Xrm.Page.getControl("ccrm_wonreason");
+        wonReasons.removeOption(100000004);
+
         //ccrm_projectid_onchange();        
 
     }
@@ -90,7 +93,6 @@ function Form_onload() {
     }
 
 }
-
 
 function detectBrowser() {
     var g = navigator.userAgent,
@@ -236,15 +238,15 @@ function SetNotificationAlert(errorType, errorMessage, msgID) {
     if (errorType == "INFO") {
         Xrm.Page.ui.setFormNotification(errorMessage, 'INFORMATION', msgID);
     }
-        //warning message
+    //warning message
     else if (errorType == "WARNING") {
         Xrm.Page.ui.setFormNotification(errorMessage, 'WARNING', msgID);
     }
-        //error message
+    //error message
     else if (errorType == "CRITICAL") {
         Xrm.Page.ui.setFormNotification(errorMessage, 'ERROR', msgID);
     }
-        //clear form notifications
+    //clear form notifications
     else {
         Xrm.Page.ui.clearFormNotification(msgID);
     }
@@ -262,7 +264,7 @@ function ccrm_projectsuffixisforintcostmonitoringonly_onChange() {
 
     interfaceInformationIntCostMonitoringBanner(intCostMonitoring, 'IICM');
 
- }
+}
 
 //function to output information banner message for int cost monitoring
 function interfaceInformationIntCostMonitoringBanner(output, msgID) {
@@ -298,7 +300,7 @@ function ccrm_createmethod_onchange() {
     */
 
     createMethod = Xrm.Page.getAttribute("ccrm_createmethod").getValue();
-    
+
     if (createMethod == null) {
 
         Xrm.Page.getControl('ccrm_name').setLabel('Job Number Description');
@@ -312,7 +314,7 @@ function ccrm_createmethod_onchange() {
             createNewProject(true, 'none');
             break;
 
-        case 2:            
+        case 2:
             createNewProject(false, 'required');
             break;
 
@@ -330,7 +332,7 @@ function ccrm_createmethod_onchange() {
 
         Xrm.Page.getAttribute("ccrm_wonreason").setValue(null);
         Xrm.Page.getAttribute("ccrm_wondescription").setValue(null);
-        
+
     }
     else {
         required = 'required';
@@ -339,7 +341,7 @@ function ccrm_createmethod_onchange() {
     Xrm.Page.getControl("ccrm_wonreason").setVisible(newCJN);
     Xrm.Page.getControl("ccrm_wondescription").setVisible(newCJN);
     Xrm.Page.getControl("ccrm_wonreason").setDisabled(!newCJN);
-    Xrm.Page.getControl("ccrm_wondescription").setDisabled(!newCJN);    
+    Xrm.Page.getControl("ccrm_wondescription").setDisabled(!newCJN);
     Xrm.Page.getAttribute("ccrm_wonreason").setRequiredLevel(required);
 
     if (createMethod != 1) {
@@ -347,7 +349,7 @@ function ccrm_createmethod_onchange() {
     }
 
     ccrm_projectsuffixisforintcostmonitoringonly_onChange();
-       
+
 }
 
 function createNewProject(disabled, required) {
@@ -357,14 +359,14 @@ function createNewProject(disabled, required) {
     Xrm.Page.getAttribute("ccrm_projectprefix").setValue(null);
     Xrm.Page.getAttribute("ccrm_parentproject").setValue(null);
     Xrm.Page.getAttribute("ccrm_projectid").setValue(null);
-    Xrm.Page.getAttribute("ccrm_suffixarray").setValue(null);    
-   
-    SetRequiredLevel("ccrm_projectid", required);    
+    Xrm.Page.getAttribute("ccrm_suffixarray").setValue(null);
+
+    SetRequiredLevel("ccrm_projectid", required);
     Xrm.Page.getControl("ccrm_projectid").setDisabled(disabled);
 
     Xrm.Page.getControl("ccrm_createmethod").setDisabled(false);
     Xrm.Page.getAttribute("ccrm_suffix").setValue(1);
-    Xrm.Page.getControl("ccrm_suffix").setDisabled(true);    
+    Xrm.Page.getControl("ccrm_suffix").setDisabled(true);
 
     Xrm.Page.getControl('ccrm_name').setLabel('Job Number Description');
 
@@ -379,11 +381,11 @@ function createNewProject(disabled, required) {
 function createNewSuffixExistingProject() {
 
     //3
-    
+
     Xrm.Page.getControl('ccrm_name').setLabel('Suffix Name (for Ovaview)');
     SetRequiredLevel("ccrm_projectid", "required");
     Xrm.Page.getControl("ccrm_createmethod").setDisabled(false);
-    
+
     //show int cost monitoring
     Xrm.Page.getControl("ccrm_projectsuffixisforintcostmonitoringonly").setVisible(true);
     //set the value of true
@@ -397,7 +399,7 @@ function createNewSuffixExistingProject() {
     if (!newCJN) {
         if (Xrm.Page.getAttribute("ccrm_projectid").getValue() != null) {
             webservice_onchange();
-        }        
+        }
         Xrm.Page.getControl("ccrm_suffix").setDisabled(false);
         Xrm.Page.getControl("ccrm_projectid").setDisabled(arupInternal);
     }
@@ -414,27 +416,27 @@ function createNewSuffixNewPrefix() {
 
     //4
     if (newCJN) {
-       getProject();
+        getProject();
     }
 
     //null values
     Xrm.Page.getAttribute("ccrm_projectprefix").setValue(null);
     Xrm.Page.getAttribute("ccrm_parentproject").setValue(null);
     Xrm.Page.getAttribute("ccrm_suffixarray").setValue(null);
-    
+
     Xrm.Page.getControl("ccrm_projectid").setDisabled(false);
     SetRequiredLevel("ccrm_projectid", "required");
     Xrm.Page.getControl('ccrm_name').setLabel('Suffix Name (for Ovaview)');
-    
+
     Xrm.Page.getControl("ccrm_createmethod").setDisabled(false);
-    
+
     Xrm.Page.getControl("ccrm_suffix").setDisabled(true); //set to false once project is selected
     var option = new Object();
     option.text = "00";
     option.value = 1;
     Xrm.Page.getControl("ccrm_suffix").addOption(option);
     Xrm.Page.getAttribute("ccrm_suffix").setValue(1);
-    
+
     // show int cost monitoring
     Xrm.Page.getControl("ccrm_projectsuffixisforintcostmonitoringonly").setVisible(true);
     //set the value of true
@@ -443,15 +445,15 @@ function createNewSuffixNewPrefix() {
     Xrm.Page.getControl("ccrm_projectsuffixisforintcostmonitoringonly").setDisabled(!newCJN);
     //cancel output int cost monitoring information message
     //interfaceInformationIntCostMonitoringBanner(true, "IICM");
-    
+
 }
 
 function ccrm_projectid_onchange() {
-     
+
     //null fields
     Xrm.Page.getAttribute("ccrm_projectprefix").setValue(null);
     Xrm.Page.getAttribute("ccrm_parentproject").setValue(null);
-    
+
     if (Xrm.Page.getAttribute("ccrm_createmethod").getValue() == 4) return;
     else
         Xrm.Page.getAttribute("ccrm_suffix").setValue(null);
@@ -459,25 +461,25 @@ function ccrm_projectid_onchange() {
     if (Xrm.Page.getAttribute("ccrm_projectid").getValue() != null) {
 
         //if (Xrm.Page.getAttribute("ccrm_createmethod").getValue() != 4) {
-            webservice_onchange();
+        webservice_onchange();
 
+        Xrm.Page.getControl("ccrm_suffix").setDisabled(false);
+
+        var rtnJobNumber = getJobNumber(Xrm.Page.getAttribute("ccrm_projectid").getValue()[0].id);
+        if (rtnJobNumber != null && Xrm.Page.getAttribute("ccrm_suffixarray").getValue() != null) {
+            jobNumber = rtnJobNumber[0];
+            jobNumber = jobNumber.substring(0, 6);
+            jobNumber = jobNumber + "00";
+
+            Xrm.Page.getAttribute("ccrm_projectprefix").setValue(jobNumber.substring(0, 6));
+            Xrm.Page.getAttribute("ccrm_parentproject").setValue(rtnJobNumber[1]);
+            if (Xrm.Page.getAttribute("ccrm_createmethod").getValue() == 2) {
+                callSuffixWebService(jobNumber);
+            }
+        }
+        else {
             Xrm.Page.getControl("ccrm_suffix").setDisabled(false);
-            
-            var rtnJobNumber = getJobNumber(Xrm.Page.getAttribute("ccrm_projectid").getValue()[0].id);
-            if (rtnJobNumber != null && Xrm.Page.getAttribute("ccrm_suffixarray").getValue() != null) {
-                jobNumber = rtnJobNumber[0];
-                jobNumber = jobNumber.substring(0, 6);
-                jobNumber = jobNumber + "00";
-
-                Xrm.Page.getAttribute("ccrm_projectprefix").setValue(jobNumber.substring(0, 6));
-                Xrm.Page.getAttribute("ccrm_parentproject").setValue(rtnJobNumber[1]);
-                if (Xrm.Page.getAttribute("ccrm_createmethod").getValue() == 2) {
-                    callSuffixWebService(jobNumber);
-                }
-            }
-            else {
-                Xrm.Page.getControl("ccrm_suffix").setDisabled(false);
-            }
+        }
         //}
     }
     else {
@@ -546,7 +548,7 @@ function getProject() {
                                                             ccrm_projectid_onchange();
 
                                                         }, false, false),
-                                                        new Alert.Button("Cancel", function () { }, true, false)
+                                                    new Alert.Button("Cancel", function () { }, true, false)
                                                 ], "INFO", 600, 250, '', true);
                                         }
                                     }
@@ -758,5 +760,29 @@ function getServiceURL() {
         case "ArupGroup": //live
             return "https://crmwsp.arup.com/progression.populate/PopulateProgression.asmx"; //UPDATE
             break;
+    }
+}
+
+function exitForm() {
+
+    //see if the form is dirty
+    var ismodified = Xrm.Page.data.entity.getIsDirty();
+    if (ismodified == false || Xrm.Page.ui.getFormType() == 1) {
+        Xrm.Page.ui.close();
+        return;
+    }
+
+    if (ismodified == true && Xrm.Page.getAttribute("statecode").getValue() != 0) {
+        //get list of dirty fields
+        var cjnAttributes = Xrm.Page.data.entity.attributes.get();
+        if (cjnAttributes != null) {
+            for (var i in cjnAttributes) {
+                if (cjnAttributes[i].getIsDirty()) {
+                    Xrm.Page.getAttribute(cjnAttributes[i].getName()).setSubmitMode("never");
+                }
+            }
+            setTimeout(function () { Xrm.Page.ui.close(); }, 1000);
+        }
+        return;
     }
 }
