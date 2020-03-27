@@ -24,6 +24,7 @@ function refreshRibbonOnChange() {
 }
 
 
+/* Nuno Removed for Feb release 2020 no longer needs orgs on the form
 function ShowHideOrganisationSubGrid() {
     var teamCategory = Xrm.Page.getAttribute("arup_teamcategory").getValue();
     if (teamCategory != null && teamCategory == 770000000) {
@@ -36,6 +37,6 @@ function ShowHideOrganisationSubGrid() {
         Xrm.Page.getControl('FieldOfPlay_SubGrid').setVisible(false);
     }
 
-}
+}*/
 
 

@@ -4,44 +4,43 @@ function HideFields() {
 }
 
 
-function myIEVersion()
-{
- var strBuffer = navigator.appVersion;
- var IECodeName = "MSIE";
- var Separator = ";";
- var IECodeNameLocation = strBuffer.indexOf(IECodeName);
- 
- strBuffer = strBuffer.substr(IECodeNameLocation + 5, strBuffer.length - IECodeNameLocation)
+function myIEVersion() {
+    var strBuffer = navigator.appVersion;
+    var IECodeName = "MSIE";
+    var Separator = ";";
+    var IECodeNameLocation = strBuffer.indexOf(IECodeName);
 
- var SeparatorLocation = strBuffer.indexOf(Separator);
- var StringVersion = strBuffer.substr(0,SeparatorLocation);
- return parseFloat(StringVersion);
+    strBuffer = strBuffer.substr(IECodeNameLocation + 5, strBuffer.length - IECodeNameLocation)
+
+    var SeparatorLocation = strBuffer.indexOf(Separator);
+    var StringVersion = strBuffer.substr(0, SeparatorLocation);
+    return parseFloat(StringVersion);
 }
 
 
 function getFetchXml() {
     return ' <fetch distinct="false" mapping="logical" output-format="xml-platform" version="1.0">' +
-                '<entity name="postfollow">' +
-                    '<attribute name="regardingobjectid"/>' +
-                    '<attribute name="ownerid"/>' +
-             '<filter type="and">' +
-                '<condition operator="eq-userid" attribute="ownerid"/>' +
-             '</filter>' +
-             '<link-entity name="contact" alias="a_d44fcc87621f11e0834f1cc1de634cfe" link-type="outer" visible="false" to="regardingobjectid" from="contactid">' +
-                 '<attribute name="emailaddress1"/>' +
-             '</link-entity>' +
-             '</entity>' +
-             '</fetch>';
+        '<entity name="postfollow">' +
+        '<attribute name="regardingobjectid"/>' +
+        '<attribute name="ownerid"/>' +
+        '<filter type="and">' +
+        '<condition operator="eq-userid" attribute="ownerid"/>' +
+        '</filter>' +
+        '<link-entity name="contact" alias="a_d44fcc87621f11e0834f1cc1de634cfe" link-type="outer" visible="false" to="regardingobjectid" from="contactid">' +
+        '<attribute name="emailaddress1"/>' +
+        '</link-entity>' +
+        '</entity>' +
+        '</fetch>';
 }
 
 function getLayoutXml() {
     // grid layout, you can get easily from Customization.xml file
-    return  '<grid name="resultset" object="8003" jump="0" select="1" icon="1" preview="1">' +
-			' <row name="result" id="postfollowid">' +
-			'   <cell name="regardingobjectid" width="350"  />' +
-			'   <cell name="ownerid" width="150"  />' +
-			' </row>' +
-			' </grid>';
+    return '<grid name="resultset" object="8003" jump="0" select="1" icon="1" preview="1">' +
+        ' <row name="result" id="postfollowid">' +
+        '   <cell name="regardingobjectid" width="350"  />' +
+        '   <cell name="ownerid" width="150"  />' +
+        ' </row>' +
+        ' </grid>';
 }
 
 function FetchViewer(iframeId) {
@@ -111,12 +110,12 @@ function FetchViewer(iframeId) {
         vDynamicForm.DefaultAdvFindViewId.value = Instance.QueryId;
         vDynamicForm.ViewType.value = 1039;
         vDynamicForm.submit();
-	
-		if (navigator.appName == "Microsoft Internet Explorer" && myIEVersion() <= 8)	
-			Instance.Iframe.attachEvent("onreadystatechange", OnViewReady);
-		else 
-			Instance.addEventListener("onreadystatechange", OnViewReady);
-			
+
+        if (navigator.appName == "Microsoft Internet Explorer" && myIEVersion() <= 8)
+            Instance.Iframe.attachEvent("onreadystatechange", OnViewReady);
+        else
+            Instance.addEventListener("onreadystatechange", OnViewReady);
+
     }
 
     function OnViewReady() {
@@ -136,17 +135,13 @@ function FetchViewer(iframeId) {
 }
 
 
-function gFocusGrid(tabName, gridName)
-{
+function gFocusGrid(tabName, gridName) {
     var tabState = Xrm.Page.ui.tabs.get(tabName).getDisplayState();
-    if (tabState == 'expanded')
-    {
-        try
-        {
+    if (tabState == 'expanded') {
+        try {
             document.getElementById(gridName).getElementsByTagName('a')[0].focus();
         }
-        catch (err)
-        {
+        catch (err) {
             throw (err.Message());
         }
     }
@@ -174,9 +169,8 @@ function focusGrid(gridName) {
 }
 
 function onHide() {
-	Xrm.Page.ui.controls.get("ownerid").setVisible(false);
+    Xrm.Page.ui.controls.get("ownerid").setVisible(false);
 }
-function newMySubscriptions()
-{
+function newMySubscriptions() {
     Xrm.Utility.openEntityForm("ccrm_crmeventschedule");
 }

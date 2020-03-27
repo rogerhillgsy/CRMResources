@@ -57,7 +57,7 @@ function ValidateUserBelongsToTeam(context) {
 
 function ClearOrganisation() {
     Xrm.Page.getAttribute("arup_organsationid").setValue(null);
-     GetOrganisations() ;
+    GetOrganisations();
 }
 
 function OnLoad() {
@@ -65,9 +65,9 @@ function OnLoad() {
     var source = param["arup_relationshipteamid"];
 
     if (source != undefined) {
-       Xrm.Page.getControl('arup_relationshipteamid').setDisabled(true);
-      GetOrganisations();
-    } 
+        Xrm.Page.getControl('arup_relationshipteamid').setDisabled(true);
+        GetOrganisations();
+    }
 }
 
 function GetOrganisations() {

@@ -1,4 +1,3 @@
-
 var Notify = Notify || {};
 var $ = $ || parent.$;
 
@@ -15,10 +14,10 @@ Notify._crmViewHeaderId = "crmContentPanel"; // And this, but it's cool
 // uniqueId = (optional) unique ID for this notification
 // buttons = (optional) array of objects, each object must have a 'text' attrbute, a 'callback' function attribute, and a 'type' attribute of 'link' or 'button'
 // durationSeconds = (optional) after how long should the notification disappear
-Notify.add = function (message, level, uniqueId, buttons, durationSeconds) {
+Notify.addOpp = function (message, level, uniqueId, buttons, durationSeconds) {
     if (!Notify._initialised) {
         var $notify = $("<div>", { id: "notifyWrapper" });
-        $notify.append($("<div>", { id: "notify", class: "notify", size: "3", maxheight: "51", class: "notify" }).css("display", "block"));
+        $notify.append($("<div>", { id: "notify", class: "notify-confidential", size: "3", maxheight: "51", class: "notify-confidential" }).css("display", "block"));
 
         // Try get the form header
         var $header = $("#" + Notify._crmFormHeaderId);
@@ -98,7 +97,7 @@ Notify.add = function (message, level, uniqueId, buttons, durationSeconds) {
     $("#notifyNotification_" + uniqueId).remove();
 
     // Create all the elements for this notification
-    var $elem = $("<div>", { id: "notifyNotification_" + uniqueId, class: "notify-notification" }).hide().prependTo($("#notify"));
+    var $elem = $("<div>", { id: "notifyNotification_" + uniqueId, class: "notify-confidential" }).hide().prependTo($("#notify"));
     var $table = $("<table>", { cellpadding: "0", cellspacing: "0" }).css("width", "100%").appendTo($elem);
     var $tr = $("<tr>").appendTo($table);
     if (level && ["INFO", "WARNING", "ERROR", "SUCCESS", "QUESTION", "LOADING"].indexOf(level) !== -1) {

@@ -38,7 +38,7 @@ var CrmFetchKit = (function (window, document, undefined) {
 
         this.Id = null;
         this.logicalName = null;
-        this.attributes = { };
+        this.attributes = {};
     }
 
     ///
@@ -109,26 +109,26 @@ var CrmFetchKit = (function (window, document, undefined) {
                 context = getContext();
 
 
-            if ( Xrm.Page.context.getClientUrl !== undefined ) {
+            if (Xrm.Page.context.getClientUrl !== undefined) {
                 // since version SDK 5.0.13 
                 // http://www.magnetismsolutions.com/blog/gayan-pereras-blog/2013/01/07/crm-2011-polaris-new-xrm.page-method
 
                 url = Xrm.Page.context.getClientUrl();
             }
-            else if ( context.isOutlookClient() && !context.isOutlookOnline() ) {
+            else if (context.isOutlookClient() && !context.isOutlookOnline()) {
                 url = localServerUrl;
             }
             else {
                 url = context.getServerUrl();
-                url = url.replace( /^(http|https):\/\/([_a-zA-Z0-9\-\.]+)(:([0-9]{1,5}))?/, localServerUrl );
-                url = url.replace( /\/$/, "" );
+                url = url.replace(/^(http|https):\/\/([_a-zA-Z0-9\-\.]+)(:([0-9]{1,5}))?/, localServerUrl);
+                url = url.replace(/\/$/, "");
             }
 
             SERVER_URL = url;
 
         }
 
-        return SERVER_URL;        
+        return SERVER_URL;
     }
 
     ///
@@ -212,7 +212,7 @@ var CrmFetchKit = (function (window, document, undefined) {
 
             case "a:AliasedValue":
 
-                var aliasValue = getChildNode(xmlnode,'a:Value'),
+                var aliasValue = getChildNode(xmlnode, 'a:Value'),
                     aliasType = getAttribute(aliasValue, 'i:type');
 
                 // recursive call
@@ -246,7 +246,7 @@ var CrmFetchKit = (function (window, document, undefined) {
     ///
     /// Parses "Attribute" nodes of the SOAP-response
     ///
-    function parseAttibutes( attributesNode ) {
+    function parseAttibutes(attributesNode) {
 
         var typedAttrSet = {},
             attrNode = null,
@@ -261,7 +261,7 @@ var CrmFetchKit = (function (window, document, undefined) {
             // Establish the key for the attribute 
             key = getChildNodeText(attrNode, 'b:key');
             value = getChildNode(attrNode, 'b:value');
-            type = getAttribute( value, 'i:type' );
+            type = getAttribute(value, 'i:type');
 
             // populate the object
             typedAttrSet[key] = convertXmlToAttributeObject(type, value);
@@ -276,9 +276,9 @@ var CrmFetchKit = (function (window, document, undefined) {
     function parseSingleEntityNode(entityNode) {
 
         var entity = new BusinessEntity();
-            
+
         entity.Id = getChildNodeText(entityNode, 'a:Id');
-        entity.attributes = parseAttibutes( getChildNode(entityNode, 'a:Attributes') );
+        entity.attributes = parseAttibutes(getChildNode(entityNode, 'a:Attributes'));
         entity.logicalName = getChildNodeText(entityNode, 'a:LogicalName');
 
         // parse the formated values
@@ -357,36 +357,36 @@ var CrmFetchKit = (function (window, document, undefined) {
     ///
     /// retrievs the text-value of the expression
     ///
-    function getChildNodeText(xml, xpathExpression){
-        
-        return getNodeText( getChildNode( xml, xpathExpression ) );
+    function getChildNodeText(xml, xpathExpression) {
+
+        return getNodeText(getChildNode(xml, xpathExpression));
     }
 
     ///
     ///  Get a single child node that matches the specified name.
     /// 
-    function getChildNode( xmlNode, nodeName ) {
+    function getChildNode(xmlNode, nodeName) {
 
-        for ( var i = 0; i < xmlNode.childNodes.length; i++ ) {
+        for (var i = 0; i < xmlNode.childNodes.length; i++) {
 
             var childNode = xmlNode.childNodes[i];
 
-            if ( childNode.nodeName == nodeName ) {
+            if (childNode.nodeName == nodeName) {
                 return childNode;
             }
         }
     }
-    
+
     ///
     /// Get the attribute regardless of the namespace
     ///
-    function getAttribute( xmlNode, attrName ) {
+    function getAttribute(xmlNode, attrName) {
 
-        for ( var i = 0; i < xmlNode.attributes.length; i++ ) {
+        for (var i = 0; i < xmlNode.attributes.length; i++) {
 
             var attr = xmlNode.attributes[i];
 
-            if ( attr.name == attrName ) {
+            if (attr.name == attrName) {
                 return attr.value;
             }
         }
@@ -395,7 +395,7 @@ var CrmFetchKit = (function (window, document, undefined) {
     ///
     /// IE 9/10 and Chrome, Firefox, ... using "textContent" and IE 8 using "text
     ///
-    function getNodeText( node ) {
+    function getNodeText(node) {
 
         return node.text !== undefined
             ? node.text
@@ -409,16 +409,16 @@ var CrmFetchKit = (function (window, document, undefined) {
 
         // "s:Envelope/s:Body/ExecuteResponse/ExecuteResult"
         var executeResult = data.firstChild.firstChild.firstChild.firstChild,
-            resultsNode = getChildNode( executeResult, 'a:Results' ),
-            entityCollection = getChildNode( resultsNode.firstChild, 'b:value' ),
-            resultSet = getChildNode( entityCollection, 'a:Entities' ).childNodes;
+            resultsNode = getChildNode(executeResult, 'a:Results'),
+            entityCollection = getChildNode(resultsNode.firstChild, 'b:value'),
+            resultSet = getChildNode(entityCollection, 'a:Entities').childNodes;
 
         return {
-            entityName: getChildNodeText( entityCollection, 'a:EntityName' ),
-            moreRecords: ( getChildNodeText( entityCollection, 'a:MoreRecords' ) === 'true' ),
-            pagingCookie: getChildNodeText( entityCollection, 'a:PagingCookie' ),
-            totalRecordCount: parseInt( getChildNodeText( entityCollection, 'a:TotalRecordCount' ), 10 ),
-            entities: $.map( resultSet, parseSingleEntityNode )
+            entityName: getChildNodeText(entityCollection, 'a:EntityName'),
+            moreRecords: (getChildNodeText(entityCollection, 'a:MoreRecords') === 'true'),
+            pagingCookie: getChildNodeText(entityCollection, 'a:PagingCookie'),
+            totalRecordCount: parseInt(getChildNodeText(entityCollection, 'a:TotalRecordCount'), 10),
+            entities: $.map(resultSet, parseSingleEntityNode)
         };
     }
 
@@ -467,35 +467,35 @@ var CrmFetchKit = (function (window, document, undefined) {
         opt_asyn = (opt_asyn === false) ? false : true;
 
         var request = ['<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">',
-                        '  <s:Body>',
-                        '    <Execute xmlns=\"http://schemas.microsoft.com/xrm/2011/Contracts/Services\" ',
-                        '           xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">',
-                        '      <request i:type=\"b:AssignRequest\" xmlns:a=\"http://schemas.microsoft.com/xrm/2011/Contracts\" ',
-                        '           xmlns:b=\"http://schemas.microsoft.com/crm/2011/Contracts\">',
-                        '        <a:Parameters xmlns:c=\"http://schemas.datacontract.org/2004/07/System.Collections.Generic\">',
-                        '          <a:KeyValuePairOfstringanyType>',
-                        '            <c:key>Target</c:key>',
-                        '            <c:value i:type=\"a:EntityReference\">',
-                        '              <a:Id>' + id + '</a:Id>',
-                        '              <a:LogicalName>' + entityname + '</a:LogicalName>',
-                        '              <a:Name i:nil=\"true\" />',
-                        '            </c:value>',
-                        '          </a:KeyValuePairOfstringanyType>',
-                        '          <a:KeyValuePairOfstringanyType>',
-                        '            <c:key>Assignee</c:key>',
-                        '            <c:value i:type=\"a:EntityReference\">',
-                        '              <a:Id>' + assigneeid + '</a:Id>',
-                        '              <a:LogicalName>systemuser</a:LogicalName>',
-                        '              <a:Name i:nil=\"true\" />',
-                        '            </c:value>',
-                        '          </a:KeyValuePairOfstringanyType>',
-                        '        </a:Parameters>',
-                        '        <a:RequestId i:nil=\"true\" />',
-                        '        <a:RequestName>Assign</a:RequestName>',
-                        '      </request>',
-                        '    </Execute>',
-                        '  </s:Body>',
-                        '</s:Envelope>'].join('');
+            '  <s:Body>',
+            '    <Execute xmlns=\"http://schemas.microsoft.com/xrm/2011/Contracts/Services\" ',
+            '           xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">',
+            '      <request i:type=\"b:AssignRequest\" xmlns:a=\"http://schemas.microsoft.com/xrm/2011/Contracts\" ',
+            '           xmlns:b=\"http://schemas.microsoft.com/crm/2011/Contracts\">',
+            '        <a:Parameters xmlns:c=\"http://schemas.datacontract.org/2004/07/System.Collections.Generic\">',
+            '          <a:KeyValuePairOfstringanyType>',
+            '            <c:key>Target</c:key>',
+            '            <c:value i:type=\"a:EntityReference\">',
+            '              <a:Id>' + id + '</a:Id>',
+            '              <a:LogicalName>' + entityname + '</a:LogicalName>',
+            '              <a:Name i:nil=\"true\" />',
+            '            </c:value>',
+            '          </a:KeyValuePairOfstringanyType>',
+            '          <a:KeyValuePairOfstringanyType>',
+            '            <c:key>Assignee</c:key>',
+            '            <c:value i:type=\"a:EntityReference\">',
+            '              <a:Id>' + assigneeid + '</a:Id>',
+            '              <a:LogicalName>systemuser</a:LogicalName>',
+            '              <a:Name i:nil=\"true\" />',
+            '            </c:value>',
+            '          </a:KeyValuePairOfstringanyType>',
+            '        </a:Parameters>',
+            '        <a:RequestId i:nil=\"true\" />',
+            '        <a:RequestName>Assign</a:RequestName>',
+            '      </request>',
+            '    </Execute>',
+            '  </s:Body>',
+            '</s:Envelope>'].join('');
 
         return executeRequest(request, opt_asyn);
     }
@@ -511,25 +511,25 @@ var CrmFetchKit = (function (window, document, undefined) {
         // defered object
         var dfd = $.Deferred(),
             request = ['<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">',
-                        ' <s:Body>',
-                        '  <Execute xmlns="http://schemas.microsoft.com/xrm/2011/Contracts/Services">',
-                        '     <request i:type="b:RetrieveMultipleRequest" xmlns:b="http://schemas.microsoft.com/xrm/2011/Contracts" ',
-                        '         xmlns:i="http://www.w3.org/2001/XMLSchema-instance">',
-                        '             <b:Parameters xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.Generic">',
-                        '             <b:KeyValuePairOfstringanyType>',
-                        '                 <c:key>Query</c:key>',
-                        '                 <c:value i:type="b:FetchExpression">',
-                        '                     <b:Query>',
-                        xmlEncode(fetchxml),
-                        '                     </b:Query>',
-                        '                 </c:value>',
-                        '             </b:KeyValuePairOfstringanyType>',
-                        '         </b:Parameters>',
-                        '         <b:RequestId i:nil="true"/>',
-                        '         <b:RequestName>RetrieveMultiple</b:RequestName>',
-                        '     </request>',
-                        ' </Execute>',
-                        '</s:Body></s:Envelope>'].join('');
+                ' <s:Body>',
+                '  <Execute xmlns="http://schemas.microsoft.com/xrm/2011/Contracts/Services">',
+                '     <request i:type="b:RetrieveMultipleRequest" xmlns:b="http://schemas.microsoft.com/xrm/2011/Contracts" ',
+                '         xmlns:i="http://www.w3.org/2001/XMLSchema-instance">',
+                '             <b:Parameters xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.Generic">',
+                '             <b:KeyValuePairOfstringanyType>',
+                '                 <c:key>Query</c:key>',
+                '                 <c:value i:type="b:FetchExpression">',
+                '                     <b:Query>',
+                xmlEncode(fetchxml),
+                '                     </b:Query>',
+                '                 </c:value>',
+                '             </b:KeyValuePairOfstringanyType>',
+                '         </b:Parameters>',
+                '         <b:RequestId i:nil="true"/>',
+                '         <b:RequestName>RetrieveMultiple</b:RequestName>',
+                '     </request>',
+                ' </Execute>',
+                '</s:Body></s:Envelope>'].join('');
 
         executeRequest(request, opt_asyn).then(function (data, status, xhr) {
 
@@ -595,11 +595,11 @@ var CrmFetchKit = (function (window, document, undefined) {
         // defered object
         var dfd = $.Deferred();
 
-        fetchMore( fetchxml, opt_asyn ).then( function ( result ) {
+        fetchMore(fetchxml, opt_asyn).then(function (result) {
 
-            dfd.resolve( result.entities );
-        } )
-        .fail( dfd.reject );
+            dfd.resolve(result.entities);
+        })
+            .fail(dfd.reject);
 
         return dfd.promise();
     }

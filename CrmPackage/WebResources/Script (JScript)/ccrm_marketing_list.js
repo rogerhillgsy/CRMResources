@@ -51,7 +51,7 @@ function form_OnLoad() {
 }
 
 function form_OnSave() {
-       
+
 }
 
 function getUserDetails() {
@@ -80,6 +80,6 @@ function SetLookupField(id, name, entity, field) {
 function errorHandler(error) {
 
     alert("Something went wrong. Please contact CRM Support and note this message: " + error.message);
-   
+
 }
 

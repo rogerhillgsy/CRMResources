@@ -1,7 +1,7 @@
 // UIRecordCounter1.js
 (function ($) {
     Type.registerNamespace('UIRecordCounter1');
-    UIRecordCounter1.Counter = function () {}
+    UIRecordCounter1.Counter = function () { }
     UIRecordCounter1.Counter.displayCount = function (locations) {
         var $0 = Xrm.Page.data.entity.getId();
         if (locations != null && locations.length > 0) {
@@ -31,7 +31,7 @@
             var $1_1 = $p1_2.responseText.indexOf('<b:key>count</b:key><b:value>') + $1_0.length;
             var $1_2 = $p1_2.responseText.indexOf('</b:value>', $1_1);
             var $1_3 = $p1_2.responseText.substring($1_1, $1_2);
-            if ( !! $1_3) {
+            if (!!$1_3) {
                 var $1_4 = Xrm.Page.ui.navigation.items.get($p0);
                 $1_4.setLabel($1_4.getLabel() + ' (' + $1_3 + ')');
             }
