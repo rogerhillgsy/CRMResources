@@ -1151,7 +1151,7 @@
                     </cell>
                   </row>
                   <row>
-                    <cell id="{6a3e1a8e-0228-0468-aee2-2050e5154b17}" showlabel="false">
+                    <cell id="{ec29de37-59e4-b4b5-6549-8c7c02929d67}" showlabel="false">
                       <labels>
                         <label description="" languagecode="1033" />
                       </labels>
@@ -2213,7 +2213,7 @@
                         </parameters>
                       </control>
                     </cell>
-                    <cell id="{300128d5-e395-a5ca-65e5-2b67216b60d0}" showlabel="false">
+                    <cell id="{3cede309-66ea-86c6-307e-bbe697b88c94}" showlabel="false">
                       <labels>
                         <label description="" languagecode="1033" />
                       </labels>
@@ -3017,11 +3017,6 @@
             <Title Text="Competitors" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
-        <NavBarByRelationshipItem Id="navDocument" Area="Info" Sequence="9000" RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navDocument">
-          <Titles>
-            <Title Text="Documents" LCID="1033" />
-          </Titles>
-        </NavBarByRelationshipItem>
         <NavBarByRelationshipItem Id="navConnections" Area="Info" Sequence="9600" RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navConnections">
           <Titles>
             <Title Text="Connections" LCID="1033" />
@@ -3032,19 +3027,14 @@
             <Title Text="Audit History" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
-        <NavBarByRelationshipItem Id="nav_ccrm_opportunity_opportunity_parent" Area="Info" Sequence="10001" RelationshipName="ccrm_opportunity_opportunity_parent">
-          <Titles>
-            <Title Text="Sub-Opportunities" LCID="1033" />
-          </Titles>
-        </NavBarByRelationshipItem>
         <NavBarByRelationshipItem Id="nav_ccrm_opportunity_ccrm_bidreview" Area="Info" Sequence="10001" RelationshipName="ccrm_opportunity_ccrm_bidreview">
           <Titles>
             <Title Text="Bid Review" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
-        <NavBarByRelationshipItem Id="nav_ccrm_projecttitle" Area="Info" Sequence="10002" RelationshipName="ccrm_projecttitle">
+        <NavBarByRelationshipItem Id="nav_ccrm_opportunity_opportunity_parent" Area="Info" Sequence="10001" RelationshipName="ccrm_opportunity_opportunity_parent">
           <Titles>
-            <Title Text="Exclusivity Requests" LCID="1033" />
+            <Title Text="Sub-Opportunities" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
         <NavBarByRelationshipItem Id="nav_ccrm_opportunity_ccrm_cjnapplication" Area="Info" Sequence="10002" RelationshipName="ccrm_opportunity_ccrm_cjnapplication">
@@ -3052,9 +3042,9 @@
             <Title Text="Confirmed Job Number Applications" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
-        <NavBarByRelationshipItem Id="nav_ccrm_opprelationship" Area="Info" Sequence="10003" RelationshipName="ccrm_opprelationship" Show="false">
+        <NavBarByRelationshipItem Id="nav_ccrm_projecttitle" Area="Info" Sequence="10002" RelationshipName="ccrm_projecttitle">
           <Titles>
-            <Title Text="Arup Relationships" LCID="1033" />
+            <Title Text="Exclusivity Requests" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
         <NavBarByRelationshipItem Id="nav_ccrm_opportunity_ccrm_progresshistory" Area="Info" Sequence="10003" RelationshipName="ccrm_opportunity_ccrm_progresshistory">
@@ -3062,14 +3052,19 @@
             <Title Text="Progress Histories" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
-        <NavBarByRelationshipItem Id="nav_ccrm_opportunity_ccrm_opportunityapproval" Area="Info" Sequence="10004" RelationshipName="ccrm_opportunity_ccrm_opportunityapproval">
+        <NavBarByRelationshipItem Id="nav_ccrm_opprelationship" Area="Info" Sequence="10003" RelationshipName="ccrm_opprelationship" Show="false">
           <Titles>
-            <Title Text="Review and Approval" LCID="1033" />
+            <Title Text="Arup Relationships" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
         <NavBarByRelationshipItem Id="nav_ccrm_opportunity_incident_Projectname" Area="Service" Sequence="10004" RelationshipName="ccrm_opportunity_incident_Projectname">
           <Titles>
             <Title Text="Legal Files" LCID="1033" />
+          </Titles>
+        </NavBarByRelationshipItem>
+        <NavBarByRelationshipItem Id="nav_ccrm_opportunity_ccrm_opportunityapproval" Area="Info" Sequence="10004" RelationshipName="ccrm_opportunity_ccrm_opportunityapproval">
+          <Titles>
+            <Title Text="Review and Approval" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
         <NavBarByRelationshipItem Id="navProcessSessions" Area="Info" Sequence="10011" RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navProcessSessions" Show="true">
@@ -3517,7 +3512,7 @@
       </event>
       <event name="onchange" application="false" active="false" attribute="ccrm_parentopportunityid">
         <Handlers>
-          <Handler handlerUniqueId="{54279095-1538-0cad-a40b-b0215109d958}" functionName="ParentOpportunity_Onchange" libraryName="ccrm_opportunity_library_2015" enabled="true" passExecutionContext="false" parameters="&quot;change&quot;" />
+          <Handler functionName="ParentOpportunity_Onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{54279095-1538-0cad-a40b-b0215109d958}" enabled="true" parameters="" passExecutionContext="false" />
         </Handlers>
       </event>
       <event name="onchange" application="false" active="false" attribute="arup_creditcheck">

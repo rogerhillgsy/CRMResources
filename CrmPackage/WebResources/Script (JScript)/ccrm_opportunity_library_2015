@@ -544,7 +544,7 @@ function FormOnload()
 	setup_optionset_size("ccrm_valuebasedfeecategory", 100, 300);
 	setup_optionset_size("ccrm_contractarrangement", 179, 380);
 	// Make sure that BPF area has tooltips.
-	setup_bpf_tooltip("ccrm_arupuniversityiiaresearchinitiative");
+	//setup_bpf_tooltip("ccrm_arupuniversityiiaresearchinitiative"); //commented to fix 70014 bug
 	// Set lead Source tooltips
 	setup_leadsource_tooltips();
 	//set Ontario Construction Act Regime Type tooltips
@@ -2515,8 +2515,8 @@ function StageSelected(args)
 	Xrm.Page.getAttribute('ccrm_stagetoggle').fireOnChange();
 	// text field flag
 	Xrm.Page.getAttribute('ccrm_processflag').setValue(selectedStage.getName());
-	Xrm.Page.getAttribute('ccrm_stagetoggle').setSubmitMode();
-	Xrm.Page.getAttribute('ccrm_processflag').setSubmitMode();
+	Xrm.Page.getAttribute('ccrm_stagetoggle').setSubmitMode('always'); // Added 'always' param to fix 70014 bug
+	Xrm.Page.getAttribute('ccrm_processflag').setSubmitMode('always'); // Added 'always' param to fix 70014 bug
 	setLookupFiltering();
 	hideProcessFields(selectedStage.getName());
 	makeBidReviewApprovalFieldsReadonly();
@@ -5305,7 +5305,7 @@ function hideRibbonButton(field)
 {
 	if (Xrm.Page.getAttribute(field).getValue() == 1)
 	{
-		Xrm.Page.getAttribute(field).setValue(0);
+		Xrm.Page.getAttribute(field).setValue(false);
 		setTimeout(function ()
 		{
 			Xrm.Page.data.entity.save(null);
