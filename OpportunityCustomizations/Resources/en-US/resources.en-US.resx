@@ -2930,6 +2930,10 @@ Eventually including the opportunity entity, CJNA and associated web resources a
     <value>Bid Submission Outcome</value>
     <comment>'Opportunity' : label for cell in Entity FormXml ID: '{2e53c335-e77b-c018-dd6d-05ea8e174cdc}'</comment>
   </data>
+  <data name="1:label,Opportunity{300128d5-e395-a5ca-65e5-2b67216b60d0}" xml:space="preserve">
+    <value />
+    <comment>'Opportunity' : label for cell in Entity FormXml ID: '{300128d5-e395-a5ca-65e5-2b67216b60d0}'</comment>
+  </data>
   <data name="1:label,Opportunity{3089e43e-20a5-e98d-1d7e-34ea7076d862}" xml:space="preserve">
     <value>Arup Internal</value>
     <comment>'Opportunity' : label for cell in Entity FormXml ID: '{3089e43e-20a5-e98d-1d7e-34ea7076d862}'</comment>
@@ -2949,10 +2953,6 @@ Eventually including the opportunity entity, CJNA and associated web resources a
   <data name="1:label,Opportunity{3196b809-38eb-1283-6c6e-52528eb62ed2}" xml:space="preserve">
     <value>Parent Practice</value>
     <comment>'Opportunity' : label for cell in Entity FormXml ID: '{3196b809-38eb-1283-6c6e-52528eb62ed2}'</comment>
-  </data>
-  <data name="1:label,Opportunity{319db614-a76e-cbe7-5c62-ab9041ae219c}" xml:space="preserve">
-    <value>Global Services</value>
-    <comment>'Opportunity' : label for cell in Entity FormXml ID: '{319db614-a76e-cbe7-5c62-ab9041ae219c}'</comment>
   </data>
   <data name="1:label,Opportunity{33857a67-20a9-6110-ab64-2a6e8157a47a}" xml:space="preserve">
     <value>Salary Cost</value>
@@ -3037,10 +3037,6 @@ Eventually including the opportunity entity, CJNA and associated web resources a
   <data name="1:label,Opportunity{3c950864-476c-8266-1922-6815d68e63a5}" xml:space="preserve">
     <value>Valid Contact</value>
     <comment>'Opportunity' : label for cell in Entity FormXml ID: '{3c950864-476c-8266-1922-6815d68e63a5}'</comment>
-  </data>
-  <data name="1:label,Opportunity{3cede309-66ea-86c6-307e-bbe697b88c94}" xml:space="preserve">
-    <value />
-    <comment>'Opportunity' : label for cell in Entity FormXml ID: '{3cede309-66ea-86c6-307e-bbe697b88c94}'</comment>
   </data>
   <data name="1:label,Opportunity{3d0506a3-209c-2b4c-1e00-563c8de88369}" xml:space="preserve">
     <value>Extent of Arup Services</value>
@@ -3453,6 +3449,10 @@ Eventually including the opportunity entity, CJNA and associated web resources a
   <data name="1:label,Opportunity{6a2e5aa1-7edc-01c5-28ac-ae138b334494}" xml:space="preserve">
     <value>Project Details</value>
     <comment>'Opportunity' : label for tab in Entity FormXml ID: '{6a2e5aa1-7edc-01c5-28ac-ae138b334494}'</comment>
+  </data>
+  <data name="1:label,Opportunity{6a3e1a8e-0228-0468-aee2-2050e5154b17}" xml:space="preserve">
+    <value />
+    <comment>'Opportunity' : label for cell in Entity FormXml ID: '{6a3e1a8e-0228-0468-aee2-2050e5154b17}'</comment>
   </data>
   <data name="1:label,Opportunity{6c5605d4-35e7-9214-5a6d-5806a5e43592}" xml:space="preserve">
     <value>Disciplines Value</value>
@@ -4266,10 +4266,6 @@ Eventually including the opportunity entity, CJNA and associated web resources a
     <value>Related Networks &amp; Markets Val</value>
     <comment>'Opportunity' : label for cell in Entity FormXml ID: '{ebd8e627-5055-288b-4431-0ade73d578a3}'</comment>
   </data>
-  <data name="1:label,Opportunity{ec29de37-59e4-b4b5-6549-8c7c02929d67}" xml:space="preserve">
-    <value />
-    <comment>'Opportunity' : label for cell in Entity FormXml ID: '{ec29de37-59e4-b4b5-6549-8c7c02929d67}'</comment>
-  </data>
   <data name="1:LocalizedCollectionName,ccrm_bpf_b253053047ef4eddbed29e34f6c23731entityccrm_bpf_b253053047ef4eddbed29e34f6c23731" xml:space="preserve">
     <value>ARUP BPF 2015</value>
     <comment> 'ccrm_bpf_b253053047ef4eddbed29e34f6c23731' : LocalizedCollectionName for Entity</comment>
@@ -4426,6 +4422,30 @@ Eventually including the opportunity entity, CJNA and associated web resources a
     <value>Click to add Project Collaborators for this Opportunity</value>
     <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.AddProjectParticipant.Button.ToolTipDescription'</comment>
   </data>
+  <data name="1:Title,Opportunityarup.opportunity.BidSubmitted.Button.Alt" xml:space="preserve">
+    <value>Bid Submitted</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.BidSubmitted.Button.Alt'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.BidSubmitted.Button.LabelText" xml:space="preserve">
+    <value>Bid Submitted</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.BidSubmitted.Button.LabelText'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.BidSubmitted.Button.ToolTipTitle" xml:space="preserve">
+    <value>Bid Submitted</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.BidSubmitted.Button.ToolTipTitle'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.Button.BidDecisionApproval.Alt" xml:space="preserve">
+    <value>Bid Decision Approval</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button.BidDecisionApproval.Alt'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.Button.BidDecisionApproval.LabelText" xml:space="preserve">
+    <value>Bid Decision Approval</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button.BidDecisionApproval.LabelText'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.Button.BidDecisionApproval.ToolTipTitle" xml:space="preserve">
+    <value>Bid Decision Approval</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button.BidDecisionApproval.ToolTipTitle'</comment>
+  </data>
   <data name="1:Title,Opportunityarup.opportunity.Button31.Button.Alt" xml:space="preserve">
     <value>Request Bid Site to be provisioned</value>
     <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button31.Button.Alt'</comment>
@@ -4461,6 +4481,42 @@ Eventually including the opportunity entity, CJNA and associated web resources a
   <data name="1:Title,Opportunityarup.opportunity.Button36.Button.ToolTipTitle" xml:space="preserve">
     <value>Exit opportunity form</value>
     <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button36.Button.ToolTipTitle'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.Button45.Button.Alt" xml:space="preserve">
+    <value>Close as Lost / No Bid</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button45.Button.Alt'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.Button45.Button.LabelText" xml:space="preserve">
+    <value>Close as Lost / No Bid</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button45.Button.LabelText'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.Button45.Button.ToolTipTitle" xml:space="preserve">
+    <value>Close as Lost / No Bid</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button45.Button.ToolTipTitle'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.Button46.Button.Alt" xml:space="preserve">
+    <value>Close as Lost</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button46.Button.Alt'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.Button46.Button.LabelText" xml:space="preserve">
+    <value>Close as Lost</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button46.Button.LabelText'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.Button46.Button.ToolTipTitle" xml:space="preserve">
+    <value>Close Opportunity as Lost</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button46.Button.ToolTipTitle'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.Button47.Button.Alt" xml:space="preserve">
+    <value>Close as Won - No CJN</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button47.Button.Alt'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.Button47.Button.LabelText" xml:space="preserve">
+    <value>Close as Won - No CJN</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button47.Button.LabelText'</comment>
+  </data>
+  <data name="1:Title,Opportunityarup.opportunity.Button47.Button.ToolTipTitle" xml:space="preserve">
+    <value>Close Opportuntiy as Won</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'arup.opportunity.Button47.Button.ToolTipTitle'</comment>
   </data>
   <data name="1:Title,Opportunityccrm.Form.opportunity.MainTab.ArupOpportunityProgress.Title" xml:space="preserve">
     <value>Opportunity Progress</value>
@@ -4651,16 +4707,16 @@ Eventually including the opportunity entity, CJNA and associated web resources a
     <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.Button.SectorLeaderApp.ToolTipDescription'</comment>
   </data>
   <data name="1:Title,Opportunityccrm.opportunity.Button1.Button.Alt" xml:space="preserve">
-    <value>Request Confirmed Job</value>
+    <value>Close As Won - CJN Needed</value>
     <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.Button1.Button.Alt'</comment>
   </data>
   <data name="1:Title,Opportunityccrm.opportunity.Button1.Button.LabelText" xml:space="preserve">
-    <value>Request Confirmed Job</value>
+    <value>Close As Won - CJN Needed</value>
     <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.Button1.Button.LabelText'</comment>
   </data>
-  <data name="1:Title,Opportunityccrm.opportunity.Button1.Button.ToolTipDescription" xml:space="preserve">
-    <value>Click to Request Confirmed Job for this opportunity</value>
-    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.Button1.Button.ToolTipDescription'</comment>
+  <data name="1:Title,Opportunityccrm.opportunity.Button1.Button.ToolTipTitle" xml:space="preserve">
+    <value>Close As Won - CJN Needed</value>
+    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.Button1.Button.ToolTipTitle'</comment>
   </data>
   <data name="1:Title,Opportunityccrm.opportunity.Button10.Button.LabelText" xml:space="preserve">
     <value>Follow</value>
@@ -4685,18 +4741,6 @@ Eventually including the opportunity entity, CJNA and associated web resources a
   <data name="1:Title,Opportunityccrm.opportunity.Button3.Button.ToolTipDescription" xml:space="preserve">
     <value>Click this button to create an Exclusivity Request</value>
     <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.Button3.Button.ToolTipDescription'</comment>
-  </data>
-  <data name="1:Title,Opportunityccrm.opportunity.Button30.Button.Alt" xml:space="preserve">
-    <value>Close Opportunity as Lost</value>
-    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.Button30.Button.Alt'</comment>
-  </data>
-  <data name="1:Title,Opportunityccrm.opportunity.Button30.Button.LabelText" xml:space="preserve">
-    <value>Close Opportunity as Lost</value>
-    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.Button30.Button.LabelText'</comment>
-  </data>
-  <data name="1:Title,Opportunityccrm.opportunity.Button30.Button.ToolTipTitle" xml:space="preserve">
-    <value>Close Opportunity as Lost</value>
-    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.Button30.Button.ToolTipTitle'</comment>
   </data>
   <data name="1:Title,Opportunityccrm.opportunity.ccrmReopenOpp.Button.Alt" xml:space="preserve">
     <value>Reopen Opportunity</value>
@@ -4766,26 +4810,6 @@ Eventually including the opportunity entity, CJNA and associated web resources a
     <value>Click to decline this opportunity</value>
     <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.CJNPrjMgrDeclne.Button.ToolTipDescription'</comment>
   </data>
-  <data name="1:Title,Opportunityccrm.opportunity.CloseAsWonButton.Alt" xml:space="preserve">
-    <value>Close as Won</value>
-    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.CloseAsWonButton.Alt'</comment>
-  </data>
-  <data name="1:Title,Opportunityccrm.opportunity.CloseAsWonButton.LabelText" xml:space="preserve">
-    <value>Close as Won without CJN</value>
-    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.CloseAsWonButton.LabelText'</comment>
-  </data>
-  <data name="1:Title,Opportunityccrm.opportunity.CloseAsWonButton.ToolTipTitle" xml:space="preserve">
-    <value>Close Opportunity as Won</value>
-    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.CloseAsWonButton.ToolTipTitle'</comment>
-  </data>
-  <data name="1:Title,Opportunityccrm.opportunity.FlyoutButton.LabelText" xml:space="preserve">
-    <value>Close</value>
-    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.FlyoutButton.LabelText'</comment>
-  </data>
-  <data name="1:Title,Opportunityccrm.opportunity.FlyoutButton.ToolTipDescription" xml:space="preserve">
-    <value>Click to Close this opportunity as Won or Lost</value>
-    <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.FlyoutButton.ToolTipDescription'</comment>
-  </data>
   <data name="1:Title,Opportunityccrm.opportunity.SimBids.Button.Alt" xml:space="preserve">
     <value>Similar Bids</value>
     <comment>'Opportunity' : Title for LocLabel on Entity ID: 'ccrm.opportunity.SimBids.Button.Alt'</comment>
@@ -4845,6 +4869,10 @@ Eventually including the opportunity entity, CJNA and associated web resources a
   <data name="1:Title,OpportunitynavConnections{c62bd14c-9457-4bd9-99bf-f91e355cb283}" xml:space="preserve">
     <value>Connections</value>
     <comment>'Opportunity' : Title for NavBarByRelationshipItem in Entity FormXml ID: 'navConnections'</comment>
+  </data>
+  <data name="1:Title,OpportunitynavDocument{c62bd14c-9457-4bd9-99bf-f91e355cb283}" xml:space="preserve">
+    <value>Documents</value>
+    <comment>'Opportunity' : Title for NavBarByRelationshipItem in Entity FormXml ID: 'navDocument'</comment>
   </data>
   <data name="1:Title,OpportunitynavInvoices{c62bd14c-9457-4bd9-99bf-f91e355cb283}" xml:space="preserve">
     <value>Invoices</value>
