@@ -1283,6 +1283,11 @@
       <UniqueName>new_arup_Opportunity_Changes</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Contact_main_library.js">
+      <DisplayName>Contact_main_library</DisplayName>
+      <UniqueName>arup_Contact_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_dynamic_display_of_fieldvalue.js">
       <DisplayName>JScript1</DisplayName>
       <UniqueName>new_JScript1</UniqueName>

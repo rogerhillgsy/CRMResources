@@ -23,32 +23,31 @@ function RegisterCheckboxClick(attr) {
     }
 }
 
-function form_OnLoad() {
-
-    parentOrg();
-    Xrm.Page.getAttribute("ccrm_legalentityname").setRequiredLevel("none");
-
+function form_OnLoad(executionContext) {
+    var formContext = executionContext.getFormContext();
+    parentOrg(formContext);
+    formContext.getAttribute("ccrm_legalentityname").setRequiredLevel("none");
 }
 
-function form_OnSave() {
-
+function form_OnSave(executionContext) {
+    var formContext = executionContext.getFormContext();
     /copy name to legal entity name/
-    Xrm.Page.getAttribute("ccrm_legalentityname").setValue(Xrm.Page.getAttribute("name").getValue());
+    formContext.getAttribute("ccrm_legalentityname").setValue(formContext.getAttribute("name").getValue());
 }
 
-function clear_state() {
-
-    if (Xrm.Page.getAttribute("ccrm_countryid").getValue() == null || Xrm.Page.getAttribute("ccrm_countryid").getValue() == "undefined") {
-        Xrm.Page.getAttribute("ccrm_countrystate").setValue(null);
-        Xrm.Page.getAttribute("address1_stateorprovince").setValue(null);
+function clear_state(executionContext) {
+    var formContext = executionContext.getFormContext();
+    if (formContext.getAttribute("ccrm_countryid").getValue() == null || formContext.getAttribute("ccrm_countryid").getValue() == "undefined") {
+        formContext.getAttribute("ccrm_countrystate").setValue(null);
+        formContext.getAttribute("address1_stateorprovince").setValue(null);
         return;
     }
 
-    if (stateRequired(Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].name)) {
-        Xrm.Page.getAttribute("ccrm_countrystate").setValue(null);
+    if (stateRequired(formContext.getAttribute("ccrm_countryid").getValue()[0].name)) {
+        formContext.getAttribute("ccrm_countrystate").setValue(null);
     }
     else {
-        Xrm.Page.getAttribute("address1_stateorprovince").setValue(null);
+        formContext.getAttribute("address1_stateorprovince").setValue(null);
     }
 }
 
@@ -72,9 +71,9 @@ DoNotContactMethodsPickList = function () {
         HidePickListItem("preferredcontactmethodcode", "1");
 }
 
-function stateVisibility() {
-
-    countryname = Xrm.Page.getAttribute("ccrm_countryid").getValue() != null ? Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].name : null;
+function stateVisibility(executionContext) {
+    var formContext = executionContext.getFormContext();
+    countryname = formContext.getAttribute("ccrm_countryid").getValue() != null ? formContext.getAttribute("ccrm_countryid").getValue()[0].name : null;
     if (countryname != null) {
 
         var flag;
@@ -92,10 +91,9 @@ function stateVisibility() {
             required = 'none';
         }
 
-        Xrm.Page.getControl("address1_stateorprovince").setVisible(!flag);
-        Xrm.Page.getControl("ccrm_countrystate").setVisible(flag);
-        Xrm.Page.getAttribute("ccrm_countrystate").setRequiredLevel(required);
-
+        formContext.getControl("address1_stateorprovince").setVisible(!flag);
+        formContext.getControl("ccrm_countrystate").setVisible(flag);
+        formContext.getAttribute("ccrm_countrystate").setRequiredLevel(required);
     }
 }
 
@@ -114,9 +112,9 @@ function stateRequired(CountryName) {
     return states;
 }
 
-function parentOrg() {
+function parentOrg(formContext) {
 
-    orgType = Xrm.Page.getAttribute("ccrm_organisationtype").getValue();
+    orgType = formContext.getAttribute("ccrm_organisationtype").getValue();
 
     var flag = false;
     //var required = 'none';
@@ -125,20 +123,15 @@ function parentOrg() {
         flag = true;
         //required = 'required';
     }
-    Xrm.Page.getControl("ccrm_parent2").setVisible(flag)
-    Xrm.Page.getControl("ccrm_parent3").setVisible(flag)
-    //Xrm.Page.getControl("parentaccountid").setVisible(flag);
-    //Xrm.Page.getControl("parentaccountid").setRequiredLevel(required);
-
+    formContext.getControl("ccrm_parent2").setVisible(flag)
+    formContext.getControl("ccrm_parent3").setVisible(flag)
 }
 
 ccrm_countryid_onchange = function () {
     //sync up country with countryid field
     syncCountry()
-
-    ////function to get long state code from short
-    // getUSStateCode();
 }
+
 //function to sync up country with countryid field
 syncCountry = function () {
     if (Xrm.Page.getAttribute("ccrm_countryid").getValue() != null) {
@@ -170,11 +163,11 @@ function ShowAllPickListItems(listID) {
 }
 
 function phoneOnChange(executionContext) {
-
+    var formContext = executionContext.getFormContext();
     var attribute = executionContext.getEventSource();
-    if (Xrm.Page.getAttribute("ccrm_countryid").getValue() != null) {
-        var countryId = Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].id;
-        var countryName = Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].name;
+    if (formContext.getAttribute("ccrm_countryid").getValue() != null) {
+        var countryId = formContext.getAttribute("ccrm_countryid").getValue()[0].id;
+        var countryName = formContext.getAttribute("ccrm_countryid").getValue()[0].name;
 
         var filter = "Ccrm_countryId eq (guid'" + countryId + "')";
         var dataset = "Ccrm_countrySet";
@@ -190,7 +183,6 @@ function phoneOnChange(executionContext) {
 
         if (phoneArray != null) {
             var phoneArraySplit = phoneArray.split(",");
-
 
             var specialNumberArray = [];
             var specialNumberDifference = 0;
@@ -221,10 +213,8 @@ function phoneOnChange(executionContext) {
                 }
             }
 
-            var orgPhone = Xrm.Page.getAttribute(attribute.getName()).getValue();
+            var orgPhone = formContext.getAttribute(attribute.getName()).getValue();
             if (orgPhone != null) {
-                //removes spaces
-                //orgPhone = orgPhone.replace(/\s/g, "");
                 orgPhone = orgPhone.replace(/[^\d\+]/g, '');
 
                 // checks if the plus sign was used, if yes adds up the extra digits for country code in the phoneArray field
@@ -274,7 +264,7 @@ function phoneOnChange(executionContext) {
                             newPhoneFormat += " " + newPhone[i];
 
                         }
-                        Xrm.Page.getAttribute(attribute.getName()).setValue(newPhoneFormat);
+                        formContext.getAttribute(attribute.getName()).setValue(newPhoneFormat);
                     }
 
 
@@ -321,7 +311,7 @@ function phoneOnChange(executionContext) {
                             newPhoneFormat += " " + newPhone[i];
 
                         }
-                        Xrm.Page.getAttribute(attribute.getName()).setValue(newPhoneFormat);
+                        formContext.getAttribute(attribute.getName()).setValue(newPhoneFormat);
 
                     }
                 }
@@ -332,8 +322,7 @@ function phoneOnChange(executionContext) {
     } else {
 
         alert("Please select a country first");
-        Xrm.Page.getAttribute(attribute.getName()).setValue(null);
-
+        formContext.getAttribute(attribute.getName()).setValue(null);
     }
 }
 
