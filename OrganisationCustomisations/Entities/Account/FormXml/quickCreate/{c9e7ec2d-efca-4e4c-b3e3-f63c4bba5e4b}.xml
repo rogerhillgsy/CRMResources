@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<systemform>
+  <formid>{c9e7ec2d-efca-4e4c-b3e3-f63c4bba5e4b}</formid>
+  <IntroducedVersion>6.0.0.0</IntroducedVersion>
+  <FormPresentation>0</FormPresentation>
+  <FormActivationState>1</FormActivationState>
+  <form maxWidth="1900">
+    <tabs>
+      <tab id="{8ca48364-f790-43e4-b753-aa35fa4f9c77}" name="tab_1" expanded="true" locklevel="0" showlabel="false" IsUserDefined="0">
+        <labels>
+          <label description="Tab" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="33%">
+            <sections>
+              <section id="{bcee7abc-6004-49f3-bc27-9eb7d1d3561b}" name="tab_1_column_1_section_1" columns="1" showlabel="true" showbar="false" IsUserDefined="0" locklevel="0" labelwidth="140" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Details" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{7697e89b-cb21-2809-82b3-dc18084c2d6a}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Name" languagecode="1033" />
+                      </labels>
+                      <control id="name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="name" disabled="false" uniqueid="{7232b471-1c82-b0d7-456e-d39cbe789d3b}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{53a24e61-116c-7c33-8734-67a0adc9668a}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Alternative Name" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_alternativename" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_alternativename" disabled="false" uniqueid="{452db20c-15a3-91e6-c755-153450d4de81}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{80e891d1-44ee-575a-1c51-93b0cae26eb7}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Organisation Type" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_organisationtype" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_organisationtype" disabled="false" uniqueid="{62a2d258-4797-4d7a-a7ec-a06b927ca328}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{cd093ac8-40a8-9d45-d0dd-eb4e2330caa7}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Parent Organisation" languagecode="1033" />
+                      </labels>
+                      <control id="parentaccountid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="parentaccountid" disabled="false" uniqueid="{c9a504d8-368b-860b-b588-14306a9d05ee}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{A9AF0AB8-861D-4CFA-92A5-C6281FED7FAB}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{5843cd81-2b7c-d988-151b-9ae4b757a67a}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Parent Organisation 2" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_parent2" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_parent2" disabled="false" uniqueid="{b573b0a1-e930-180a-327a-342c6623a584}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{047e012b-3ea9-06e8-a80c-15367ead3162}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Parent Organisation 3" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_parent3" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_parent3" disabled="false" uniqueid="{c2589ed0-3d2e-33d3-0322-23cb6d9a3541}" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+          <column width="33%">
+            <sections>
+              <section id="{32ff71fb-26e6-4b51-8e93-e94b5780a8ae}" name="tab_1_column_2_section_1" columns="1" showlabel="true" showbar="false" IsUserDefined="0" locklevel="0" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Address" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{53cec445-118a-1580-2a46-d8d32d547772}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Address Type" languagecode="1033" />
+                      </labels>
+                      <control id="address1_addresstypecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="address1_addresstypecode" disabled="false" uniqueid="{2a77aac1-1b81-abe2-ed64-5dd7d6b07d55}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{62E808A5-4DB5-4D56-9620-37EBAC8AFF72}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Street 1" languagecode="1033" />
+                      </labels>
+                      <control id="address1_line1" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="address1_line1" disabled="false" uniqueid="{23133241-4c34-90ab-7230-b51ab6749026}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{15d67056-646a-5918-c6b6-1ac019ec78b7}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Street 2" languagecode="1033" />
+                      </labels>
+                      <control id="address1_line2" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="address1_line2" disabled="false" uniqueid="{3029ba39-ac5b-2296-de2c-d6bd43634198}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a770956e-9de7-3751-9954-90379989ed25}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Street 3" languagecode="1033" />
+                      </labels>
+                      <control id="address1_line3" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="address1_line3" disabled="false" uniqueid="{c67abc4d-049e-ad3d-d35c-8c26b821ee7b}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0794FA63-F298-4831-BD5A-B3F46A91F146}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="City" languagecode="1033" />
+                      </labels>
+                      <control id="address1_city" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="address1_city" disabled="false" uniqueid="{a3d3aa96-08de-06ec-0c3d-120a668d9459}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ba50a267-7ca9-14cb-cdc4-94b5b35b358a}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Country" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_countryid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_countryid" disabled="false" uniqueid="{420d914b-19a4-c58a-dc26-7672982a527e}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{20BC9030-BC6C-44EF-A763-E5997D15B0C1}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{5c1e061e-d917-4944-9092-96ac834d4c64}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="State/County/Province" languagecode="1033" />
+                      </labels>
+                      <control id="address1_stateorprovince" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="address1_stateorprovince" disabled="false" uniqueid="{3a03495b-c465-34c1-eee6-525d65b1e55d}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{73db7133-c69b-2090-3ed3-e9ad46675b24}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="State/Province" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_countrystate" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_countrystate" disabled="false" uniqueid="{7cd88ece-688c-501c-3387-7c05eb92d9d4}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{7C6D2EAE-2FF2-4695-BCEE-F054CC4A293C}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                          <FilterRelationshipName>ccrm_ccrm_country_ccrm_arupusstate</FilterRelationshipName>
+                          <DependentAttributeName>account.ccrm_countryid</DependentAttributeName>
+                          <DependentAttributeType>ccrm_country</DependentAttributeType>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{C5E57D6C-8A9E-4A0D-89ED-D3F5B59B57AA}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="ZIP/Postal Code" languagecode="1033" />
+                      </labels>
+                      <control id="address1_postalcode" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="address1_postalcode" disabled="false" uniqueid="{603d2aa9-60d7-a5db-8224-beb6be95ad35}" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+          <column width="33%">
+            <sections>
+              <section id="{a549aa16-a731-41b7-9181-86710f8feef5}" name="tab_1_column_3_section_1" columns="1" showlabel="false" showbar="false" IsUserDefined="0" locklevel="0" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Description" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{5704e210-3a08-6ea7-832d-6ce2570c0b92}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Department" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_address1attentiondepartment" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_address1attentiondepartment" disabled="false" uniqueid="{157aa11b-9cab-ea06-2334-2292aa242c5e}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1b493db6-167b-6b45-a790-8039e48ba201}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Telephone Number" languagecode="1033" />
+                      </labels>
+                      <control id="telephone1" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="telephone1" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a26d075e-25c6-00ea-7b72-87c210ab9aba}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Web Site" languagecode="1033" />
+                      </labels>
+                      <control id="websiteurl" classid="{71716B6C-711E-476c-8AB8-5D11542BFB47}" datafieldname="websiteurl" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{4b76aee6-8414-a9d0-3066-78ed2ed42eb8}" showlabel="true" locklevel="0" rowspan="4">
+                      <labels>
+                        <label description="Description" languagecode="1033" />
+                      </labels>
+                      <control id="description" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="description" disabled="false" />
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                  <row>
+                    <cell id="{4567ed04-29a6-3c07-dbee-a32c6d1b5bd9}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Legal Client Name" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_legalentityname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_legalentityname" disabled="false" uniqueid="{1d9bd122-bdce-1ab2-1603-7eeae2b6e91b}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ebed5b14-2773-2387-55a3-ae272e01846c}" showlabel="false" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Dupe Check Result" languagecode="1033" />
+                      </labels>
+                      <control id="arup_dupecheckresult" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="arup_dupecheckresult" disabled="false" uniqueid="{090d2804-9371-9c0d-4a81-9a4301a77013}" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+    </tabs>
+    <formLibraries>
+      <Library name="ccrm_DataOperations" libraryUniqueId="{b59d9981-e557-2079-7cd9-c9ca947dc406}" />
+      <Library name="ccrm_Customer_main_library.js" libraryUniqueId="{3027c219-7a57-2b65-3a80-9aaae83e7579}" />
+      <Library name="arup_DuplicateCheck" libraryUniqueId="{66e31057-676b-5e26-04d8-031d72c772d6}" />
+      <Library name="arup_NotifyForQuickCreate.js" libraryUniqueId="{c3ce3eda-23a0-c06e-06a0-95a443933e44}" />
+      <Library name="mag_/js/alert.js" libraryUniqueId="{583a22a8-d5cb-8450-ccb8-83d07785426b}" />
+    </formLibraries>
+    <events>
+      <event name="onchange" application="false" active="false" attribute="telephone1">
+        <Handlers>
+          <Handler functionName="phoneOnChange" libraryName="ccrm_Customer_main_library.js" handlerUniqueId="{aa9260cb-c145-d470-1c21-976de4c4ee9b}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_countryid">
+        <Handlers>
+          <Handler functionName="stateVisibility" libraryName="ccrm_Customer_main_library.js" handlerUniqueId="{59590522-1653-259b-0a29-b3514d36da98}" enabled="true" parameters="" passExecutionContext="false" />
+          <Handler functionName="QuickDupeDetect" libraryName="arup_DuplicateCheck" handlerUniqueId="{a274a73c-ac7d-3315-51a4-cec468ee25d3}" enabled="true" parameters="" passExecutionContext="false" />
+          <Handler functionName="clear_state" libraryName="ccrm_Customer_main_library.js" handlerUniqueId="{401bc54d-3065-e276-0e1d-a8411cd04930}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_organisationtype">
+        <Handlers>
+          <Handler functionName="parentOrg" libraryName="ccrm_Customer_main_library.js" handlerUniqueId="{4ca19bd2-db9d-84d9-6e49-466574497e64}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onload" application="false" active="false">
+        <Handlers>
+          <Handler functionName="form_OnLoad" libraryName="ccrm_Customer_main_library.js" handlerUniqueId="{74486170-e962-a762-ebc8-ddd30334de4a}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onsave" application="false" active="false">
+        <Handlers>
+          <Handler functionName="form_OnSave" libraryName="ccrm_Customer_main_library.js" handlerUniqueId="{50952ca1-c5c8-ad62-b726-20ba8dd34a7d}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="name">
+        <Handlers>
+          <Handler functionName="QuickDupeDetect" libraryName="arup_DuplicateCheck" handlerUniqueId="{b5619522-268e-e037-8a07-ae5e84a80e69}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+    </events>
+    <controlDescriptions />
+    <DisplayConditions FallbackForm="true" Order="2">
+      <Everyone />
+    </DisplayConditions>
+  </form>
+  <LocalizedNames>
+    <LocalizedName description="Account Quick Create" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="Default quick create form for Account" languagecode="1033" />
+  </Descriptions>
+</systemform>

@@ -12,6 +12,9 @@
     <AssemblyName>CRM Web Resources.OrganisationCustomisations</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <SolutionPackagerDir>C:\Work\Tools\SDK8\SDK\Bin</SolutionPackagerDir>
+    <SolutionLocToolsDir>C:\Work\Tools\SDK8\SDK\Bin</SolutionLocToolsDir>
+    <SolutionType>0</SolutionType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,6 +66,59 @@
       <HintPath>$(SolutionDir)packages\Microsoft.Crm.SolutionMSBuildExtention.1.3.2\lib\net452\Microsoft.Crm.SolutionProjects.MSBuild.dll</HintPath>
       <Private>True</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entities\Account\Entity.xml" />
+    <Content Include="Entities\Account\FormXml\main\{8448b78f-8f42-454e-8e2a-f8196b0419af}.xml" />
+    <Content Include="Entities\Account\FormXml\quickCreate\{c9e7ec2d-efca-4e4c-b3e3-f63c4bba5e4b}.xml" />
+    <Content Include="Entities\Account\RibbonDiff.xml" />
+    <Content Include="Other\Customizations.xml" />
+    <Content Include="Other\Relationships.xml" />
+    <Content Include="Other\Solution.xml" />
+    <Content Include="Resources\en-US\resources.en-US.resx" />
+    <Content Include="Resources\template_resources.resx" />
+    <Content Include="WebResources\arup_CreditChecks.jscript">
+      <WebResourceId>3fbdc145-611e-e911-8118-005056b509e1</WebResourceId>
+      <Name>arup_CreditChecks</Name>
+      <DisplayName>Due Diligence and Credit Checks</DisplayName>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\ccrm_account_main_library.js">
+      <WebResourceId>cbcdffb3-8189-e611-80ed-005056b55b13</WebResourceId>
+      <Name>ccrm_account_main_library.js</Name>
+      <DisplayName>Scripts/Account_main_library.js</DisplayName>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\ccrm_Common_library.js">
+      <WebResourceId>6c15a5a6-745c-e111-b7c2-005056af0014</WebResourceId>
+      <Name>ccrm_Common_library.js</Name>
+      <DisplayName>Scripts/Common_library.js</DisplayName>
+      <LanguageCode>1033</LanguageCode>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\ccrm_Customer_main_library.js">
+      <WebResourceId>0c3652db-745c-e111-b7c2-005056af0014</WebResourceId>
+      <Name>ccrm_Customer_main_library.js</Name>
+      <DisplayName>Scripts/Customer.js</DisplayName>
+      <LanguageCode>1033</LanguageCode>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
   </ItemGroup>
   <Import Project="Microsoft.Crm.SolutionProjects.Metadata.targets" />
 </Project>
