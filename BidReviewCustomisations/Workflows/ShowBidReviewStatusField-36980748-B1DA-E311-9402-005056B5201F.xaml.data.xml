@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{36980748-b1da-e311-9402-005056b5201f}" Name="Show Bid Review Status Field">
+  <XamlFileName>/Workflows/ShowBidReviewStatusField-36980748-B1DA-E311-9402-005056B5201F.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <ProcessTriggerFormId>{2ffb4d71-c83c-4aab-aa7c-b2a14dbcc2fd}</ProcessTriggerFormId>
+  <ProcessTriggerScope>1</ProcessTriggerScope>
+  <PrimaryEntity>Ccrm_opportunityapproval</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="Show Bid Review Status Field" />
+  </LocalizedNames>
+</Workflow>
