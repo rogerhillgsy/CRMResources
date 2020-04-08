@@ -4,16 +4,49 @@
   <IntroducedVersion>1.0.0.0</IntroducedVersion>
   <FormPresentation>0</FormPresentation>
   <FormActivationState>1</FormActivationState>
-  <form shownavigationbar="true" showImage="false" maxWidth="1900">
+  <form shownavigationbar="true" showImage="false" maxWidth="1900" headerdensity="Low">
     <tabs>
-      <tab name="tab_1" id="{dd525e3b-509a-b698-81b4-0748e4256e6d}" IsUserDefined="0" locklevel="0" showlabel="false" expanded="true">
+      <tab name="tab_reloppdet" id="{dd525e3b-509a-b698-81b4-0748e4256e6d}" IsUserDefined="0" locklevel="0" showlabel="false" expanded="true">
         <labels>
           <label description="Related Opportunity Details" languagecode="1033" />
         </labels>
         <columns>
-          <column width="50%">
+          <column width="100%">
             <sections>
-              <section name="tab_12_section_1" showlabel="false" showbar="true" locklevel="0" id="{8b7cb849-937e-5145-9a5e-e69a75669d16}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="200" celllabelalignment="Left" celllabelposition="Left">
+              <section name="tab_navigationSection" id="c1f0aeb8-d737-49b0-b535-d99b06625ae0" IsUserDefined="0" locklevel="0" showlabel="false" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Left" columns="1" labelwidth="115">
+                <labels>
+                  <label description="Navigation" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{cc379aac-9eb4-e8c2-1b86-5a4bdb786c16}" showlabel="false" colspan="1" auto="false" rowspan="4">
+                      <labels>
+                        <label description="Navigation" languagecode="1033" />
+                      </labels>
+                      <control id="WebResource_bidReviewNavigationSection" classid="{9FDF5F91-88B1-47f4-AD53-C11EFC01A01D}">
+                        <parameters>
+                          <Url>arup_bidReviewTabs</Url>
+                          <PassParameters>false</PassParameters>
+                          <Security>false</Security>
+                          <Scrolling>auto</Scrolling>
+                          <Border>false</Border>
+                          <ShowOnMobileClient>false</ShowOnMobileClient>
+                          <WebResourceId>{75982516-F773-EA11-A811-002248003E25}</WebResourceId>
+                        </parameters>
+                      </control>
+                      <events>
+                        <event name="onload" application="false">
+                          <dependencies />
+                        </event>
+                      </events>
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                </rows>
+              </section>
+              <section name="tab_12_section_1" showlabel="false" showbar="true" locklevel="0" id="{8b7cb849-937e-5145-9a5e-e69a75669d16}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="200" celllabelalignment="Left" celllabelposition="Left">
                 <labels>
                   <label description="Section" languagecode="1033" />
                 </labels>
@@ -24,6 +57,12 @@
                         <label description="Bid Title:" languagecode="1033" />
                       </labels>
                       <control id="ccrm_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_name" disabled="true" />
+                    </cell>
+                    <cell id="{5108e68c-9db4-028c-79ab-d35b680b7137}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Possible Job Number:" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_possiblejobnumber" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_possiblejobnumber" disabled="true" />
                     </cell>
                   </row>
                   <row>
@@ -42,6 +81,12 @@
                         </parameters>
                       </control>
                     </cell>
+                    <cell id="{32bbe350-64e5-c980-0e38-74006c0b1300}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="CRM Project ID number:" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_projectid_number" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_projectid_number" disabled="true" />
+                    </cell>
                   </row>
                   <row>
                     <cell id="{b4a35ee0-e208-9d16-5d5b-c656718cd4c6}" showlabel="true" locklevel="0">
@@ -59,6 +104,21 @@
                         </parameters>
                       </control>
                     </cell>
+                    <cell id="{7ae9d30a-941d-4690-d773-5626471c0cab}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Bid Director:" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_biddirector_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_biddirector_userid" disabled="true">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
                   </row>
                   <row>
                     <cell id="{5c7332d8-2e83-4d09-a9d0-8885e0eb0b48}" showlabel="true" locklevel="0">
@@ -67,6 +127,21 @@
                       </labels>
                       <control id="ccrm_meetinglocation" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_meetinglocation" disabled="false" />
                     </cell>
+                    <cell id="{32135060-ac09-c7d1-74a4-90ee38a60c89}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Bid Manager:" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_bidmanager_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_bidmanager_userid" disabled="true">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
                   </row>
                   <row>
                     <cell id="{cbcc416c-801a-e97e-e05c-a8d10120d89c}" showlabel="true" locklevel="0">
@@ -74,6 +149,12 @@
                         <label description="Meeting Date:" languagecode="1033" />
                       </labels>
                       <control id="ccrm_meetingdate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_meetingdate" disabled="false" />
+                    </cell>
+                    <cell id="{a3c3068d-e25c-01ac-b40d-db29956a2997}" showlabel="true" locklevel="0" rowspan="1">
+                      <labels>
+                        <label description="Review Panel:" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_reviewpanel" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_reviewpanel" disabled="true" />
                     </cell>
                   </row>
                   <row>
@@ -92,84 +173,92 @@
                         </parameters>
                       </control>
                     </cell>
+                    <cell showlabel="false" locklevel="0" id="{2aa7e1fc-34fe-4007-9934-8e43dd0753f2}">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
                   </row>
                 </rows>
               </section>
-            </sections>
-          </column>
-          <column width="50%">
-            <sections>
-              <section name="tab_1_section_3" showlabel="false" showbar="true" locklevel="0" id="{188b35d8-e804-5d90-76a6-81acc6a91c67}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="200" celllabelalignment="Left" celllabelposition="Left">
+              <section name="tab_1_section_4" id="0e8fb0e7-40e3-4540-ba93-54268a85a711" IsUserDefined="0" locklevel="0" showlabel="true" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Left" columns="1" labelwidth="115">
                 <labels>
-                  <label description="Section" languagecode="1033" />
+                  <label description="New Section" languagecode="1033" />
                 </labels>
                 <rows>
                   <row>
-                    <cell id="{5108e68c-9db4-028c-79ab-d35b680b7137}" showlabel="true" locklevel="0">
+                    <cell id="{621d29cc-c568-4952-ad2b-f2c192c98861}" showlabel="true" locklevel="0">
                       <labels>
-                        <label description="Possible Job Number:" languagecode="1033" />
+                        <label description="Bid Title" languagecode="1033" />
                       </labels>
-                      <control id="ccrm_possiblejobnumber" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_possiblejobnumber" disabled="true" />
+                      <control id="ccrm_name" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="ccrm_name" disabled="false" />
                     </cell>
                   </row>
-                  <row>
-                    <cell id="{32bbe350-64e5-c980-0e38-74006c0b1300}" showlabel="true" locklevel="0">
-                      <labels>
-                        <label description="CRM Project ID number:" languagecode="1033" />
-                      </labels>
-                      <control id="ccrm_projectid_number" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_projectid_number" disabled="true" />
-                    </cell>
-                  </row>
-                  <row>
-                    <cell id="{7ae9d30a-941d-4690-d773-5626471c0cab}" showlabel="true" locklevel="0">
-                      <labels>
-                        <label description="Bid Director:" languagecode="1033" />
-                      </labels>
-                      <control id="ccrm_biddirector_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_biddirector_userid" disabled="true">
-                        <parameters>
-                          <AutoResolve>true</AutoResolve>
-                          <DisableMru>false</DisableMru>
-                          <DisableQuickFind>false</DisableQuickFind>
-                          <DisableViewPicker>false</DisableViewPicker>
-                          <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
-                          <AllowFilterOff>false</AllowFilterOff>
-                        </parameters>
-                      </control>
-                    </cell>
-                  </row>
-                  <row>
-                    <cell id="{32135060-ac09-c7d1-74a4-90ee38a60c89}" showlabel="true" locklevel="0">
-                      <labels>
-                        <label description="Bid Manager:" languagecode="1033" />
-                      </labels>
-                      <control id="ccrm_bidmanager_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_bidmanager_userid" disabled="true">
-                        <parameters>
-                          <AutoResolve>true</AutoResolve>
-                          <DisableMru>false</DisableMru>
-                          <DisableQuickFind>false</DisableQuickFind>
-                          <DisableViewPicker>false</DisableViewPicker>
-                          <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
-                          <AllowFilterOff>false</AllowFilterOff>
-                        </parameters>
-                      </control>
-                    </cell>
-                  </row>
-                  <row>
-                    <cell id="{a3c3068d-e25c-01ac-b40d-db29956a2997}" showlabel="true" locklevel="0" rowspan="2">
-                      <labels>
-                        <label description="Review Panel:" languagecode="1033" />
-                      </labels>
-                      <control id="ccrm_reviewpanel" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_reviewpanel" disabled="true" />
-                    </cell>
-                  </row>
-                  <row></row>
                 </rows>
               </section>
             </sections>
           </column>
         </columns>
       </tab>
-      <tab name="tab_BackgroundInfo_tickboxes" id="{15e4ca32-e45a-5c64-8bb4-54e962276721}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
+      <tab name="tab_RiskFactors" id="{ce0957ce-a851-88ac-0a13-b963c54524d4}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
+        <labels>
+          <label description="B. RISK FACTORS" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section name="tab_12_section_2" showlabel="false" showbar="false" locklevel="0" id="{171198c8-ae64-a697-eae5-71371986dba5}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelalignment="Left" celllabelposition="Left" height="auto">
+                <labels>
+                  <label description="Section B" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{7d198862-6dd1-2e26-b9b8-ed6c7ab84044}" showlabel="false" colspan="1" auto="true" rowspan="20">
+                      <labels>
+                        <label description="SectionB" languagecode="1033" />
+                      </labels>
+                      <control id="WebResource_SectionB" classid="{587CDF98-C1D5-4bde-8473-14A0BC7644A7}">
+                        <parameters>
+                          <Url>arup_Bid_Review_SectionB</Url>
+                          <SizeType>Original</SizeType>
+                          <VerticalAlignment>Top</VerticalAlignment>
+                          <HorizontalAlignment>Left</HorizontalAlignment>
+                          <WebResourceId>{2C532BB8-7C28-E811-810B-005056B509E1}</WebResourceId>
+                        </parameters>
+                      </control>
+                      <events>
+                        <event name="onload" application="0">
+                          <dependencies />
+                        </event>
+                      </events>
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row height="auto" />
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab name="tab_BackgroundInfo_tickboxes" id="{15e4ca32-e45a-5c64-8bb4-54e962276721}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
         <labels>
           <label description="A. BACKGROUND INFORMATION AND SUPPORTING DOCUMENTS (complete or tick boxes below)" languagecode="1033" />
         </labels>
@@ -303,65 +392,7 @@
           </column>
         </columns>
       </tab>
-      <tab name="tab_RiskFactors" id="{ce0957ce-a851-88ac-0a13-b963c54524d4}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
-        <labels>
-          <label description="B. RISK FACTORS" languagecode="1033" />
-        </labels>
-        <columns>
-          <column width="100%">
-            <sections>
-              <section name="tab_12_section_2" showlabel="false" showbar="false" locklevel="0" id="{171198c8-ae64-a697-eae5-71371986dba5}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelalignment="Left" celllabelposition="Left" height="auto">
-                <labels>
-                  <label description="Section B" languagecode="1033" />
-                </labels>
-                <rows>
-                  <row>
-                    <cell id="{7d198862-6dd1-2e26-b9b8-ed6c7ab84044}" showlabel="false" colspan="1" auto="true" rowspan="20">
-                      <labels>
-                        <label description="SectionB" languagecode="1033" />
-                      </labels>
-                      <control id="WebResource_SectionB" classid="{587CDF98-C1D5-4bde-8473-14A0BC7644A7}">
-                        <parameters>
-                          <Url>arup_Bid_Review_SectionB</Url>
-                          <SizeType>Original</SizeType>
-                          <VerticalAlignment>Top</VerticalAlignment>
-                          <HorizontalAlignment>Left</HorizontalAlignment>
-                          <WebResourceId>{2C532BB8-7C28-E811-810B-005056B509E1}</WebResourceId>
-                        </parameters>
-                      </control>
-                      <events>
-                        <event name="onload" application="0">
-                          <dependencies />
-                        </event>
-                      </events>
-                    </cell>
-                  </row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row height="auto"></row>
-                </rows>
-              </section>
-            </sections>
-          </column>
-        </columns>
-      </tab>
-      <tab name="tab_Client" id="{3908c466-5933-955d-7865-58a6aa312e3c}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
+      <tab name="tab_Client" id="{3908c466-5933-955d-7865-58a6aa312e3c}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
         <labels>
           <label description="C. CLIENT" languagecode="1033" />
         </labels>
@@ -443,7 +474,7 @@
                       <control id="ccrm_client_data_2_comments" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_client_data_2_comments" disabled="false" />
                     </cell>
                   </row>
-                  <row></row>
+                  <row />
                 </rows>
               </section>
               <section name="tab_Client_section_3a" showlabel="false" showbar="false" locklevel="0" id="{6c28201e-4bed-984d-ca7e-02245925b506}" IsUserDefined="0" layout="varwidth" columns="111" labelwidth="115" celllabelalignment="Left" celllabelposition="Top">
@@ -465,7 +496,7 @@
                       <control id="ccrm_client_data_3a_comments_new" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_client_data_3a_comments_new" disabled="false" />
                     </cell>
                   </row>
-                  <row></row>
+                  <row />
                 </rows>
               </section>
               <section name="tab_Client_section_9" showlabel="false" showbar="false" locklevel="0" id="{279e671d-8a8a-88b0-547b-e8ac40a106ba}" IsUserDefined="0" layout="varwidth" columns="111" labelwidth="115" celllabelalignment="Left" celllabelposition="Top">
@@ -683,7 +714,7 @@
           </event>
         </events>
       </tab>
-      <tab name="tab_SectionC" id="{ac320473-59ea-c380-2e7a-cca21b936e66}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
+      <tab name="tab_SectionC" id="{ac320473-59ea-c380-2e7a-cca21b936e66}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
         <labels>
           <label description="D. CLIENT'S BRIEF, SCOPE AND TECHNICAL ISSUES" languagecode="1033" />
         </labels>
@@ -1026,7 +1057,7 @@
                       <control id="ccrm_h1project_data_5_comments" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_h1project_data_5_comments" disabled="false" />
                     </cell>
                   </row>
-                  <row></row>
+                  <row />
                   <row>
                     <cell id="{37191c98-c38c-5178-6920-a42ce4ba01bd}" showlabel="false" colspan="2" auto="false" rowspan="1">
                       <labels>
@@ -1372,7 +1403,7 @@
           </event>
         </events>
       </tab>
-      <tab name="tab_SectionD" id="{a0e6b506-8887-4557-c180-ed77290b9bc9}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
+      <tab name="tab_SectionD" id="{a0e6b506-8887-4557-c180-ed77290b9bc9}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
         <labels>
           <label description="E. PROGRAMME (SCHEDULE) OF WORK" languagecode="1033" />
         </labels>
@@ -1620,7 +1651,7 @@
           </event>
         </events>
       </tab>
-      <tab name="tab_SectionE" id="{a470339c-7b29-8ec1-4461-27497153633a}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
+      <tab name="tab_SectionE" id="{a470339c-7b29-8ec1-4461-27497153633a}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
         <labels>
           <label description="F. CONTRACT TERMS, COMMERCIAL ISSUES AND POTENTIAL LIABILITIES" languagecode="1033" />
         </labels>
@@ -2125,7 +2156,7 @@
                       <control id="ccrm_contract_data_4_comments" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_contract_data_4_comments" disabled="false" uniqueid="{6cd92b3d-251e-1d58-ec43-57472782a625}" />
                     </cell>
                   </row>
-                  <row></row>
+                  <row />
                   <row>
                     <cell id="{5da9ad82-d24c-dcb4-b95a-83c12cdc0018}" showlabel="false" colspan="2" auto="false" rowspan="1">
                       <labels>
@@ -2605,7 +2636,7 @@ Speak to Group Treasury for guidance, mandatory Group COO/Regional COO approval 
           </event>
         </events>
       </tab>
-      <tab name="tab_SectionF" id="{ad9951ab-9978-abc9-bc33-8e90a894ca51}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
+      <tab name="tab_SectionF" id="{ad9951ab-9978-abc9-bc33-8e90a894ca51}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
         <labels>
           <label description="G. FEES AND FINANCIAL ASPECTS" languagecode="1033" />
         </labels>
@@ -3853,7 +3884,7 @@ Speak to Group Treasury for guidance, mandatory Group COO/Regional COO approval 
           </event>
         </events>
       </tab>
-      <tab name="tab_SectionG" id="{d2190163-6045-0ea8-1886-3b92844ed757}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
+      <tab name="tab_SectionG" id="{d2190163-6045-0ea8-1886-3b92844ed757}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
         <labels>
           <label description="H. PROJECT TEAM AND RESOURCES" languagecode="1033" />
         </labels>
@@ -4309,7 +4340,7 @@ Please provide details!&amp;Speak with Health &amp; Safety for advice.</Data>
           </event>
         </events>
       </tab>
-      <tab name="tab_SectionH" id="{07ded6c0-4b92-2329-8894-4c5d97311d63}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
+      <tab name="tab_SectionH" id="{07ded6c0-4b92-2329-8894-4c5d97311d63}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
         <labels>
           <label description="I. NON-HOME COUNTRY FACTORS" languagecode="1033" />
         </labels>
@@ -4875,7 +4906,7 @@ Please provide details!&amp;Speak with Health &amp; Safety for advice.</Data>
                       <control id="ccrm_h2project_data_1_comments" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_h2project_data_1_comments" disabled="false" />
                     </cell>
                   </row>
-                  <row></row>
+                  <row />
                 </rows>
               </section>
             </sections>
@@ -4889,7 +4920,7 @@ Please provide details!&amp;Speak with Health &amp; Safety for advice.</Data>
           </event>
         </events>
       </tab>
-      <tab name="tab_11" id="{ac464217-67bb-e5c4-db72-349422086757}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
+      <tab name="tab_11" id="{ac464217-67bb-e5c4-db72-349422086757}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
         <labels>
           <label description="J. CLOSE-OUT" languagecode="1033" />
         </labels>
@@ -4924,15 +4955,15 @@ Please provide details!&amp;Speak with Health &amp; Safety for advice.</Data>
                       </events>
                     </cell>
                   </row>
-                  <row></row>
-                  <row height="auto"></row>
+                  <row />
+                  <row height="auto" />
                 </rows>
               </section>
             </sections>
           </column>
         </columns>
       </tab>
-      <tab name="tab_14" id="{9d7a42e9-4274-2b7a-96ba-91ae19eb5461}" IsUserDefined="0" locklevel="0" showlabel="true" labelid="{d75ea05e-4cf8-42de-b246-de8736e3b003}" expanded="false">
+      <tab name="tab_14" id="{9d7a42e9-4274-2b7a-96ba-91ae19eb5461}" IsUserDefined="0" locklevel="0" showlabel="true" labelid="{d75ea05e-4cf8-42de-b246-de8736e3b003}" expanded="false" visible="false">
         <labels>
           <label description="K. Review Sign-off" languagecode="1033" />
         </labels>
@@ -4956,12 +4987,12 @@ Please provide details!&amp;Speak with Health &amp; Safety for advice.</Data>
                       </control>
                     </cell>
                   </row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row></row>
-                  <row height="auto"></row>
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row height="auto" />
                 </rows>
               </section>
             </sections>
@@ -4987,6 +5018,74 @@ Please provide details!&amp;Speak with Health &amp; Safety for advice.</Data>
               <label description="Owner" languagecode="1033" />
             </labels>
             <control id="header_ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" disabled="false" />
+          </cell>
+        </row>
+        <row>
+          <cell id="{c57a47c2-cca3-c2d0-27db-116d664a54cc}" showlabel="false">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+          <cell id="{5c98877e-cfca-468a-a616-cf25744ca75b}">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+          <cell id="{66a7f0f8-f72d-4d8f-8778-c5c18c0c05e0}">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+        </row>
+        <row>
+          <cell id="{189934de-2a29-1485-6e78-554410769802}" showlabel="false">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+          <cell id="{0e22c5fd-c9eb-4722-8da2-0c45ac7f8bfd}">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+          <cell id="{8e0bc529-19a1-486d-98ca-41c2cea709dc}">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+        </row>
+        <row>
+          <cell id="{1dedce8c-b407-2656-9102-23b195464b9a}" showlabel="false">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+          <cell id="{7d62c024-5c45-4666-a67d-33b19524d884}">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+          <cell id="{bd690de6-c053-46f1-a71b-2ad121f02ff2}">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+        </row>
+        <row>
+          <cell id="{1514e0ab-d0cb-7ed4-66eb-8b6a59da90c1}" showlabel="false">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+          <cell id="{ee185dbd-e22a-45a0-8db5-6cc0b8e7eb44}">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+          <cell id="{dab1522c-d935-4955-b859-e137234af231}">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
           </cell>
         </row>
       </rows>

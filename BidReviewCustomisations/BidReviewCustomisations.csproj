@@ -119,6 +119,16 @@
     <Content Include="Other\Solution.xml" />
     <Content Include="Resources\en-US\resources.en-US.resx" />
     <Content Include="Resources\template_resources.resx" />
+    <Content Include="WebResources\arup_bidReviewTabs.html">
+      <WebResourceId>75982516-f773-ea11-a811-002248003e25</WebResourceId>
+      <Name>arup_bidReviewTabs</Name>
+      <DisplayName>Bid Review Tabs</DisplayName>
+      <WebResourceType>Html</WebResourceType>
+      <IntroducedVersion>1.20.04.01</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
     <Content Include="WebResources\arup_bidreview_icon16.png">
       <WebResourceId>96d89454-8340-e711-80fa-005056b509e1</WebResourceId>
       <Name>arup_bidreview_icon16</Name>
