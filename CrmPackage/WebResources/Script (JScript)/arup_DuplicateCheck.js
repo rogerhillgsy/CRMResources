@@ -1,6 +1,8 @@
 ///<reference path="../Intellisense/Xrm.Page.2013.js"/>
 ///<reference path="../Library/SDK.REST.js"/>
+
 //Call this function on change of source field eg: name in organisation and also on dependent fields.
+// Cannot find Function call - Updated 07/04/2020 
 function DupeDetect(name) {
     dupeChkResOnChange("wait");
     var recordName = Xrm.Page.getAttribute(name).getValue();
@@ -15,6 +17,7 @@ function DupeDetect(name) {
         dupeChkResOnChange("onChange");
     }
 }
+
 var accName = "";
 var inputCtryID = "";
 var inputCity = "";
@@ -25,8 +28,11 @@ var inputBusinessID = "null";
 var ipRecordId = "null";
 var leadFormType = "QC";
 var clientId = "null";
+var globalFormContext;
 
-function QuickDupeDetect() {
+function QuickDupeDetect(executionContext) {
+    var formContext = executionContext.getFormContext();
+    globalFormContext = executionContext.getFormContext();
     //Make sure Global variables are in their intial values.
     accName = "";
     inputCtryID = "";
@@ -37,11 +43,11 @@ function QuickDupeDetect() {
     inputBusinessID = "null";
 
     //Get entity name of the script:
-    entName = Xrm.Page.data.entity.getEntityName();
+    entName = formContext.data.entity.getEntityName();
 
     //Get the form type by checking the client field in present on the form, QC does not contain it.
 
-    leadFormType = Xrm.Page.data.entity.getId() == "" ? "QC" : "Main";
+    leadFormType = formContext.data.entity.getId() == "" ? "QC" : "Main";
 
     //Start Dupe logic
 
@@ -49,20 +55,20 @@ function QuickDupeDetect() {
     var firstName = null;
     var lastName = null;
 
-    if (entName == "account") { recordName = Xrm.Page.getAttribute("name").getValue(); }
+    if (entName == "account") { recordName = formContext.getAttribute("name").getValue(); }
     if (entName == "contact") {
-        firstName = Xrm.Page.getAttribute("firstname").getValue();
-        lastName = Xrm.Page.getAttribute("lastname").getValue();
+        firstName = formContext.getAttribute("firstname").getValue();
+        lastName = formContext.getAttribute("lastname").getValue();
         if (firstName != null && lastName != null) {
             recordName = firstName + " " + lastName;
         }
     }
     if (entName == "lead") {
-        recordName = Xrm.Page.getAttribute("firstname").getValue();
+        recordName = formContext.getAttribute("firstname").getValue();
     }
     if (recordName != null) {
         //Display waiting
-        dispLoadOnQC();
+        dispLoadOnQC(formContext);
     }
     else {
         Notify.remove("dupesn");
@@ -74,13 +80,13 @@ function QuickDupeDetect() {
     var ctryId = "null";
     var ipCity = "null";
     var bussId = "null";
-    var ctry = (entName == "account" || entName == "contact") ? Xrm.Page.getAttribute("ccrm_countryid").getValue()
-        : ((entName == "lead" && leadFormType == "QC") ? Xrm.Page.getAttribute("ccrm_projectcurrency").getValue()
-            : Xrm.Page.getAttribute("ccrm_country").getValue());
+    var ctry = (entName == "account" || entName == "contact") ? formContext.getAttribute("ccrm_countryid").getValue()
+        : ((entName == "lead" && leadFormType == "QC") ? formContext.getAttribute("ccrm_projectcurrency").getValue()
+            : formContext.getAttribute("ccrm_country").getValue());
     if (ctry != null) {
         ctryId = ctry[0].id;
-        ipCity = (entName == "account" || entName == "contact") ? Xrm.Page.getAttribute("address1_city").getValue()
-            : Xrm.Page.getAttribute("ccrm_location").getValue();
+        ipCity = (entName == "account" || entName == "contact") ? formContext.getAttribute("address1_city").getValue()
+            : formContext.getAttribute("ccrm_location").getValue();
         if (ipCity == null) {
             ipCity = "null";
         }
@@ -90,19 +96,19 @@ function QuickDupeDetect() {
     inputCity = ipCity;
 
     //Set the business ID 
-    var buss = (entName == "lead") ? Xrm.Page.getAttribute("ccrm_arupbusiness").getValue() : "null";
+    var buss = (entName == "lead") ? formContext.getAttribute("ccrm_arupbusiness").getValue() : "null";
     if (buss != null && buss != "null") {
         bussId = buss[0].id;
     }
 
     //set the client id
-    var clie = (entName == "lead" && leadFormType != "QC") ? Xrm.Page.getAttribute("ccrm_client").getValue() : "null";
+    var clie = (entName == "lead" && leadFormType != "QC") ? formContext.getAttribute("ccrm_client").getValue() : "null";
     if (clie != null && clie != "null") {
         clientId = clie[0].id;
     }
 
     //set the record ID
-    recordId = (entName == "lead" && leadFormType != "QC") ? Xrm.Page.data.entity.getId() : "null";
+    recordId = (entName == "lead" && leadFormType != "QC") ? formContext.data.entity.getId() : "null";
     ipRecordId = recordId;
 
     if (recordName != null && entName == "account") {
@@ -234,7 +240,7 @@ function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IP
         requestXML += "</s:Envelope>";
     }
 
-    var url = getClientUrl();
+    var url = getClientUrl(globalFormContext);
     if (url.substring(url.length - 1) != "/") {
         url = url + "/";
     }
@@ -276,14 +282,14 @@ function successResponse(responseXml) {
     var jsMsg = ProcessSuccess(responseXml);
     if (jsMsg != "No Duplicates") {
         // SAVE THIS VALUE IN A NEW FIELD ON ACCOUNT ENTITY
-        Xrm.Page.getAttribute("arup_dupecheckresult").setValue(jsMsg);
+        globalFormContext.getAttribute("arup_dupecheckresult").setValue(jsMsg);
         //Call the function dupeChkResOnChange to refresh the web resource
-        Xrm.Page.getAttribute("arup_dupecheckresult").fireOnChange();
+        globalFormContext.getAttribute("arup_dupecheckresult").fireOnChange();
         // var _pp = JSON.parse(JSONMessage);
     }
     else {
-        Xrm.Page.getAttribute("arup_dupecheckresult").setValue(null);
-        Xrm.Page.getAttribute("arup_dupecheckresult").fireOnChange();
+        globalFormContext.getAttribute("arup_dupecheckresult").setValue(null);
+        globalFormContext.getAttribute("arup_dupecheckresult").fireOnChange();
     }
 }
 
@@ -310,11 +316,11 @@ function successQuickResponse(responseXml) {
                 msg = ("We found " + NoOfDupes + " potential similar records. Please fill in or change Client, Project Country, Project City, Arup Business fields to refine or rerun the search.").toString();
             }
         }
-        SetValidField(fieldName1, jsMsg2, msg, "dupes", NoOfDupes);
+        SetValidField(fieldName1, jsMsg2, msg, "dupes", NoOfDupes, globalFormContext);
         // Xrm.Page.ui.setFormNotification("Number of potential similar records found = " + list.length, "INFO", "dupeTest");
     }
     else {
-        SetValidField(fieldName1, null, msg, "dupes", 0);
+        SetValidField(fieldName1, null, msg, "dupes", 0, globalFormContext);
     }
 }
 
@@ -355,19 +361,19 @@ function ProcessSuccess(responseXml) {
     return JSONMessage;
 }
 
-function dispLoadOnQC() {
+function dispLoadOnQC(formContext) {
     var msg = "Searching for similar records...";
     var fielName = "arup_dupecheckresult";
-    SetValidField(fielName, null, msg, "wait", 0);
+    SetValidField(fielName, null, msg, "wait", 0, formContext);
 }
 
-function SetValidField(fieldName, val, warningMsg, warMsgName, lenght) {
-    Xrm.Page.getAttribute(fieldName).setValue(val);
-    Xrm.Page.getAttribute(fieldName).setSubmitMode('always');
-    var crmURL = getClientUrl();
+function SetValidField(fieldName, val, warningMsg, warMsgName, lenght, formContext) {
+    formContext.getAttribute(fieldName).setValue(val);
+    formContext.getAttribute(fieldName).setSubmitMode('always');
+    var crmURL = getClientUrl(formContext);
     if (warningMsg != null && warMsgName == "dupes") {
         if (entName != "lead" && leadFormType == "QC") {
-            Xrm.Page.ui.setFormNotification(warningMsg, 'INFO', warMsgName);
+            formContext.ui.setFormNotification(warningMsg, 'INFO', warMsgName);
         }
         if (lenght <= 0) {
             Notify.add(warningMsg, "INFO", warMsgName + "n", null, 5);
@@ -432,28 +438,22 @@ function SetValidField(fieldName, val, warningMsg, warMsgName, lenght) {
                     }
                 }]);
             Notify.remove("dupesn");
-            //if(leadFormType != "QC")
-            //  {
-            //  Xrm.Page.ui.clearFormNotification("dupes");
-
-            //  }
         }
 
         Notify.remove("wait");
-        Xrm.Page.ui.clearFormNotification("wait");
+        formContext.ui.clearFormNotification("wait");
     }
     else {
         if (warningMsg != null && warMsgName == "wait") {
-            Xrm.Page.ui.setFormNotification(warningMsg, 'INFO', warMsgName);
+            formContext.ui.setFormNotification(warningMsg, 'INFO', warMsgName);
             Notify.add(warningMsg, "LOADING", warMsgName);
             Notify.remove("dupes");
             Notify.remove("dupesn");
         }
         else
-            Xrm.Page.ui.clearFormNotification(warMsgName);
+            formContext.ui.clearFormNotification(warMsgName);
     }
 }
-
 
 //In case of error
 function errorResponse(responseXml) {
@@ -485,8 +485,8 @@ function errorResponse(responseXml) {
 }
 
 // Return CRM path
-function getClientUrl() {
-    var strUrl = Xrm.Page.context.getClientUrl();
+function getClientUrl(formContext) {
+    var strUrl = formContext.context.getClientUrl();
     if (strUrl.substr(strUrl.length - 1) != "/") {
         strUrl += "/";
     }

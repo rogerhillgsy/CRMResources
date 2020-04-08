@@ -1,36 +1,20 @@
-// parent.$(document).ready(function () {
-    // parent.$( "#WebResource_Credit_Check").height('24px'); 
-    // parent.$( "#WebResource_Credit_Check").width('26px'); 
-    // parent.$( "#WebResource_Due_Diligence_Check").height('24px'); 
-    // parent.$( "#WebResource_Due_Diligence_Check").width('66px'); 
-// });
-
-function removeDDOptions(executionContext){
-	var formContext = executionContext.getFormContext();
-    formContext.getControl("arup_duediligencecheck").removeOption(2);
-    formContext.getControl("arup_duediligencecheck").removeOption(4);
-    formContext.getControl("arup_duediligencecheck").removeOption(5);
-} 
-
 function onChangeCheckOrganisationCreditRisk(executionContext) {
-	var formContext = executionContext.getFormContext();
-	parent.$(document).ready(function () {
+    var formContext = executionContext.getFormContext();
     var creditRisk = formContext.getAttribute("arup_creditcheck").getValue();
     var sourceUrl = formContext.getControl("WebResource_Credit_Check").getSrc();
     var sourceString = sourceUrl.toString();
-	debugger;
     var url = sourceString.substring(0, sourceString.lastIndexOf('/'));
     var targetUrl = "", resource = "", cTitle = "";
     if (creditRisk != null) {
         switch (creditRisk) {
-            case 1:  
+            case 1:
                 resource = "/arup_Green_Light";
                 cTitle = "Low Risk";
-                break;  
-            case 2:  
+                break;
+            case 2:
                 resource = "/arup_Amber_Light";
-                cTitle = "Medium Risk";		     
-                break;  		
+                cTitle = "Medium Risk";
+                break;
             case 3:
                 resource = "/arup_Red_Light";
                 cTitle = "High Risk";
@@ -41,7 +25,6 @@ function onChangeCheckOrganisationCreditRisk(executionContext) {
                 break;
             case 6:
                 var pTitle = formContext.getControl("WebResource_Credit_Check").getObject().title;
-				var pTitle = "";
                 break;
             default:
                 break;
@@ -73,7 +56,7 @@ function onChangeCheckOrganisationCreditRisk(executionContext) {
                     break;
             }
         }
-        else if(pTitle == "") {
+        else if (pTitle == "") {
             resource = "/arup_Grey_Light";
         }
 
@@ -81,30 +64,24 @@ function onChangeCheckOrganisationCreditRisk(executionContext) {
         formContext.getControl("WebResource_Credit_Check").setSrc(targetUrl);
         formContext.getControl("WebResource_Credit_Check").getObject().title = cTitle;
 
-        var entity = formContext.data.entity.getEntityName();
-       
-            var creditRiskIsDirty = formContext.getAttribute("arup_creditcheck").getIsDirty();
+        var creditRiskIsDirty = formContext.getAttribute("arup_creditcheck").getIsDirty();
 
-            if (creditRiskIsDirty || cTitle == pTitle) {
-                var today = new Date();
-                formContext.getAttribute("ccrm_lastcreditchecked").setValue(today);
-            }
-        	
+        if (creditRiskIsDirty || cTitle == pTitle) {
+            var today = new Date();
+            formContext.getAttribute("ccrm_lastcreditchecked").setValue(today);
+        }
     }
     else {
         targetUrl = url.concat("/arup_Grey_Light");
-		alert("targetUrl   " + targetUrl);
-        formContext.getControl("WebResource_Credit_Check").setSrc(targetUrl);		
+        formContext.getControl("WebResource_Credit_Check").setSrc(targetUrl);
         formContext.getControl("WebResource_Credit_Check").getObject().title = "Not Performed / No Information";
     }
-	});
 }
 
 function onChangeCheckOrganisationDiligenceRisk(executionContext) {
-	var formContext = executionContext.getFormContext();
-	parent.$(document).ready(function () {
+    var formContext = executionContext.getFormContext();
     var diligenceRisk = formContext.getAttribute("arup_duediligencecheck").getValue();
- 
+
     var sourceUrl = formContext.getControl("WebResource_Due_Diligence_Check").getSrc();
     var sourceString = sourceUrl.toString();
     var url = sourceString.substring(0, sourceString.lastIndexOf('/'));
@@ -127,14 +104,12 @@ function onChangeCheckOrganisationDiligenceRisk(executionContext) {
                 resource = "/arup_Grey_Light";
                 title = "Manual Check Needed";
                 break;
-            case 6:
-                var pTitle = formContext.getControl("WebResource_Due_Diligence_Check").getObject().title;
-				var pTitle = "";
+            case 6: formContext.getControl("WebResource_Due_Diligence_Check").getObject().title;
                 break;
             default:
                 break;
         }
-		
+
         if (pTitle != undefined && pTitle != "") {
             switch (pTitle) {
                 case "No Sanctions":
@@ -161,27 +136,25 @@ function onChangeCheckOrganisationDiligenceRisk(executionContext) {
                     break;
             }
         }
-        else if(pTitle == "") {
+        else if (pTitle == "") {
             resource = "/arup_Grey_Light";
         }
-     
+
         targetUrl = url.concat(resource);
         formContext.getControl("WebResource_Due_Diligence_Check").setSrc(targetUrl);
         formContext.getControl("WebResource_Due_Diligence_Check").getObject().title = title;
-        var entity = formContext.data.entity.getEntityName();
-       
-            if (title == pTitle) {
-                var today = new Date();
-                formContext.getAttribute("arup_lastddcheckdate").setValue(today);
-            }
-        
+
+        if (title == pTitle) {
+            var today = new Date();
+            formContext.getAttribute("arup_lastddcheckdate").setValue(today);
+        }
+
     }
     else {
         targetUrl = url.concat("/arup_Grey_Light");
         formContext.getControl("WebResource_Due_Diligence_Check").setSrc(targetUrl);
         formContext.getControl("WebResource_Due_Diligence_Check").getObject().title = "Not Checked";
     }
-	});
 }
 
 //display icon for the viewcolumn  
@@ -212,10 +185,10 @@ function displayDiligenceIcon(rowData) {
     switch (diligenceRisk) {
         case 1:
             resource = "arup_Green_Light";
-            break;     
+            break;
         case 3:
             resource = "arup_Red_Light";
-            break;      
+            break;
         case 7:
             resource = "arup_Grey_Light";
             break;
@@ -224,16 +197,17 @@ function displayDiligenceIcon(rowData) {
     return resultarray;
 }
 
-function onChangeCheckDiligenceRisk(){
-    var diligenceRisk = Xrm.Page.getAttribute("arup_duediligencecheck").getValue();
-	
-    if(diligenceRisk != null){		
-        var sourceUrl = Xrm.Page.getControl("WebResource_Due_Diligence_Check").getSrc();
+function onChangeCheckDiligenceRisk(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var diligenceRisk = formContext.getAttribute("arup_duediligencecheck").getValue();
+
+    if (diligenceRisk != null) {
+        var sourceUrl = formContext.getControl("WebResource_Due_Diligence_Check").getSrc();
         var sourceString = sourceUrl.toString();
         var url = sourceString.substring(0, sourceString.lastIndexOf('/'));
         var targetUrl, resource, title = "";
-        switch (diligenceRisk) {  
-            case 1:  
+        switch (diligenceRisk) {
+            case 1:
                 resource = "/arup_Green_Light";
                 title = "No Sanctions";
                 break;
@@ -241,32 +215,33 @@ function onChangeCheckDiligenceRisk(){
                 resource = "/arup_Green_Light";
                 title = "No Sanctions (OOL)";
                 break;
-            case 3:  
+            case 3:
                 resource = "/arup_Red_Light";
                 title = "Sanctioned";
                 break;
-            case 8:  
+            case 8:
                 resource = "/arup_Grey_Light";
                 title = "Manual Check Needed";
                 break;
-            default: 
-                break;   
-        }   
+            default:
+                break;
+        }
         targetUrl = url.concat(resource);
-        Xrm.Page.getControl("WebResource_Due_Diligence_Check").setSrc(targetUrl);
-        Xrm.Page.getControl("WebResource_Due_Diligence_Check").getObject().title = title;
+        formContext.getControl("WebResource_Due_Diligence_Check").setSrc(targetUrl);
+        formContext.getControl("WebResource_Due_Diligence_Check").getObject().title = title;
     }
 }
 
-function onChangeCheckCreditRisk(){
-    var creditRisk = Xrm.Page.getAttribute("arup_creditcheck").getValue();
-	
-    if(creditRisk != null){		
-        var sourceUrl = Xrm.Page.getControl("WebResource_Credit_Check").getSrc();
+function onChangeCheckCreditRisk(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var creditRisk = formContext.getAttribute("arup_creditcheck").getValue();
+
+    if (creditRisk != null) {
+        var sourceUrl = formContext.getControl("WebResource_Credit_Check").getSrc();
         var sourceString = sourceUrl.toString();
         var url = sourceString.substring(0, sourceString.lastIndexOf('/'));
         var targetUrl, resource, title = "";
-        switch (creditRisk) {  
+        switch (creditRisk) {
             case 1:
                 resource = "/arup_Green_Light";
                 title = "Low Risk";
@@ -274,24 +249,24 @@ function onChangeCheckCreditRisk(){
             case 2:
                 resource = "/arup_Amber_Light";
                 title = "Medium Risk";
-                break;           
-            case 3:  
+                break;
+            case 3:
                 resource = "/arup_Red_Light";
                 title = "High Risk";
                 break;
-            case 4:  
+            case 4:
                 resource = "/arup_Grey_Light";
                 title = "Credit Check Not Needed";
-                break;  
-            case 5:  
+                break;
+            case 5:
                 resource = "/arup_Border_Light";
                 title = "No Information";
-                break; 		   
-            default: 
-                break;   
-        }   
+                break;
+            default:
+                break;
+        }
         targetUrl = url.concat(resource);
-        Xrm.Page.getControl("WebResource_Credit_Check").setSrc(targetUrl);
-        Xrm.Page.getControl("WebResource_Credit_Check").getObject().title = title;
-    }	
+        formContext.getControl("WebResource_Credit_Check").setSrc(targetUrl);
+        formContext.getControl("WebResource_Credit_Check").getObject().title = title;
+    }
 }

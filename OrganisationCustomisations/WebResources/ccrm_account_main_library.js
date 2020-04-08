@@ -448,7 +448,7 @@ function fnSharePoint() {
 
 //create sharepoint button
 function fnBtnCreateSharePoint(primaryControl) {
-    var formContext = primaryControl; 
+    var formContext = primaryControl;
     alert('Your request to create a Document Store has been sent');
 
     //set the sharepoint flag
@@ -473,7 +473,7 @@ function ccrm_managedclient_onchange() {
 function uselocaladdress_onchange(execContext) {
     var formContext = execContext.getFormContext();
     var isVisible = formContext.getAttribute("ccrm_uselocaladdress").getValue() == true;
-  
+
     var tabObj = formContext.ui.tabs.get('contact_details');
     var sectionObj = tabObj.sections.get('section_LocalAddress');
 
@@ -880,7 +880,7 @@ function sectiondisable(sectionname, disablestatus, formContext) {
 }
 
 function requestChange(primaryControl) {
-    var formContext = primaryControl; 
+    var formContext = primaryControl;
     var orgId = formContext.data.entity.getId().replace(/[{}]/g, "");
     if (orgId != null) {
         var customParameters = encodeURIComponent("orgId=" + orgId);
@@ -1018,7 +1018,7 @@ function toggleSections(formContext) {
 }
 
 function MicrosoftTeams(primaryControl) {
-    var formContext = primaryControl; 
+    var formContext = primaryControl;
     var orgId = formContext.data.entity.getId().replace(/[{}]/g, "");
     var microsoftTeamsUrl = formContext.getAttribute("arup_microsoftteamsurl").getValue();
     if (microsoftTeamsUrl != null) {
@@ -1149,7 +1149,7 @@ function SetDisabledRegisteredAddressFields(sectionname, disablestatus, formCont
 
 function IsRegisteredAddressFromParentRecordOnChange(executionContext) {
     var formContext = executionContext.getFormContext();
-    IsRegisteredAddressFromParentRecord(formContext) 
+    IsRegisteredAddressFromParentRecord(formContext)
 }
 
 function IsRegisteredAddressFromParentRecord(formContext) {
@@ -1255,7 +1255,7 @@ function OpenConnMatrixReport(primaryControl) {
 }
 
 function OpenRelationshipManagement(primaryControl) {
-    var formContext = primaryControl; 
+    var formContext = primaryControl;
     formContext.getAttribute("arup_showrelationshipform").setSubmitMode("never");
 
     formContext.ui.tabs.get("SUMMARY_TAB").setVisible(false);
@@ -1290,7 +1290,7 @@ function OpenRelationshipManagement(primaryControl) {
 }
 
 function OpenOrganisationDetails(primaryControl) {
-    var formContext = primaryControl; 
+    var formContext = primaryControl;
     formContext.getAttribute("arup_showrelationshipform").setSubmitMode("never");
 
     formContext.ui.tabs.get("SUMMARY_TAB").setVisible(true);
@@ -1315,7 +1315,7 @@ function OpenOrganisationDetails(primaryControl) {
 }
 
 function ShowRelatioshipButton(primaryControl) {
-    var formContext = primaryControl; 
+    var formContext = primaryControl;
     var relationshipFormVisible = formContext.ui.tabs.get("tab_Relationship_management").getVisible();
     if (relationshipFormVisible == true) {
         return true;

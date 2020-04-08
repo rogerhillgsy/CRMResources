@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Entity>
+  <Name LocalizedName="Lead" OriginalName="Lead">Lead</Name>
+  <EntityInfo>
+    <entity Name="Lead">
+      <LocalizedNames>
+        <LocalizedName description="Lead" languagecode="1033" />
+      </LocalizedNames>
+      <LocalizedCollectionNames>
+        <LocalizedCollectionName description="Leads" languagecode="1033" />
+      </LocalizedCollectionNames>
+      <Descriptions>
+        <Description description="Prospect or potential sales opportunity. Leads are converted into accounts, contacts, or opportunities when they are qualified. Otherwise, they are deleted or archived." languagecode="1033" />
+      </Descriptions>
+      <attributes />
+      <EntitySetName>leads</EntitySetName>
+      <IsDuplicateCheckSupported>1</IsDuplicateCheckSupported>
+      <IsBusinessProcessEnabled>1</IsBusinessProcessEnabled>
+      <IsRequiredOffline>0</IsRequiredOffline>
+      <IsInteractionCentricEnabled>0</IsInteractionCentricEnabled>
+      <IsCollaboration>0</IsCollaboration>
+      <AutoRouteToOwnerQueue>0</AutoRouteToOwnerQueue>
+      <IsConnectionsEnabled>1</IsConnectionsEnabled>
+      <EntityColor>#0071C5</EntityColor>
+      <IsDocumentManagementEnabled>1</IsDocumentManagementEnabled>
+      <IsOneNoteIntegrationEnabled>1</IsOneNoteIntegrationEnabled>
+      <IsKnowledgeManagementEnabled>0</IsKnowledgeManagementEnabled>
+      <IsSLAEnabled>0</IsSLAEnabled>
+      <IsDocumentRecommendationsEnabled>0</IsDocumentRecommendationsEnabled>
+      <IsBPFEntity>0</IsBPFEntity>
+      <OwnershipTypeMask>UserOwned</OwnershipTypeMask>
+      <EntityMask>ActivityPointer</EntityMask>
+      <IsAuditEnabled>1</IsAuditEnabled>
+      <IsRetrieveAuditEnabled>0</IsRetrieveAuditEnabled>
+      <IsRetrieveMultipleAuditEnabled>0</IsRetrieveMultipleAuditEnabled>
+      <IsActivity>0</IsActivity>
+      <ActivityTypeMask></ActivityTypeMask>
+      <IsActivityParty>1</IsActivityParty>
+      <IsReplicated>1</IsReplicated>
+      <IsReplicationUserFiltered>1</IsReplicationUserFiltered>
+      <IsMailMergeEnabled>1</IsMailMergeEnabled>
+      <IsVisibleInMobile>1</IsVisibleInMobile>
+      <IsVisibleInMobileClient>1</IsVisibleInMobileClient>
+      <IsReadOnlyInMobileClient>0</IsReadOnlyInMobileClient>
+      <IsOfflineInMobileClient>1</IsOfflineInMobileClient>
+      <DaysSinceRecordLastModified>10</DaysSinceRecordLastModified>
+      <MobileOfflineFilters>
+		&lt;fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false"&gt;
+			&lt;entity name="lead"&gt;
+				&lt;filter type="and"&gt;
+					&lt;condition attribute="modifiedon" operator="last-x-days" value="10"/&gt;
+				&lt;/filter&gt;
+			&lt;/entity&gt;
+		&lt;/fetch&gt;
+	</MobileOfflineFilters>
+      <IsMapiGridEnabled>1</IsMapiGridEnabled>
+      <IsReadingPaneEnabled>1</IsReadingPaneEnabled>
+      <IsQuickCreateEnabled>1</IsQuickCreateEnabled>
+      <SyncToExternalSearchIndex>1</SyncToExternalSearchIndex>
+      <IntroducedVersion>5.0.0.0</IntroducedVersion>
+      <EnforceStateTransitions>0</EnforceStateTransitions>
+      <EntityHelpUrlEnabled>0</EntityHelpUrlEnabled>
+      <EntityHelpUrl></EntityHelpUrl>
+      <ChangeTrackingEnabled>1</ChangeTrackingEnabled>
+      <IsEnabledForExternalChannels>0</IsEnabledForExternalChannels>
+      <IsSolutionAware>0</IsSolutionAware>
+      <HasRelatedNotes>True</HasRelatedNotes>
+      <HasRelatedActivities>True</HasRelatedActivities>
+    </entity>
+  </EntityInfo>
+  <FormXml />
+  <RibbonDiffXml />
+  <CustomControlDefaultConfigs>
+    <CustomControlDefaultConfig>
+      <ControlDescriptionXML>
+        <controlDescriptions>
+          <controlDescription>
+            <customControl id="{E7A81278-8635-4d9e-8D4D-59480B391C5B}" formFactor="0">
+              <parameters />
+            </customControl>
+            <customControl id="{E7A81278-8635-4d9e-8D4D-59480B391C5B}" formFactor="1">
+              <parameters />
+            </customControl>
+            <customControl id="{E7A81278-8635-4d9e-8D4D-59480B391C5B}" formFactor="2">
+              <parameters />
+            </customControl>
+            <customControl name="MscrmControls.Grid.GridControl" formFactor="-1">
+              <parameters>
+                <data-set name="Grid">
+                  <columnsDefaultView>
+                    <cell entityName="lead" viewId="{00000000-0000-0000-00AA-000010001005}" attributeName="ccrm_country">
+                      <DefaultViewId>{20BC9030-BC6C-44EF-A763-E5997D15B0C1}</DefaultViewId>
+                      <FilterRelationshipName>ccrm_ccrm_arupregion_ccrm_country</FilterRelationshipName>
+                      <DependentAttributeName>lead.arup_arupregion</DependentAttributeName>
+                      <DependentAttributeType>ccrm_arupregion</DependentAttributeType>
+                      <AllowFilterOff>false</AllowFilterOff>
+                      <DisableQuickFind>false</DisableQuickFind>
+                    </cell>
+                    <cell entityName="lead" viewId="{00000000-0000-0000-00AA-000010001005}" attributeName="ccrm_client">
+                      <DefaultViewId>{A9AF0AB8-861D-4CFA-92A5-C6281FED7FAB}</DefaultViewId>
+                      <DependentAttributeType>competitor</DependentAttributeType>
+                      <AllowFilterOff>false</AllowFilterOff>
+                      <DisableQuickFind>false</DisableQuickFind>
+                    </cell>
+                    <cell entityName="lead" viewId="{00000000-0000-0000-00AA-000010001005}" attributeName="ccrm_arupbusiness">
+                      <DefaultViewId>{4E81B86F-99AF-421E-B021-A673156CE0DE}</DefaultViewId>
+                      <DependentAttributeType>ccrm_arupbusiness</DependentAttributeType>
+                      <AllowFilterOff>false</AllowFilterOff>
+                      <DisableQuickFind>false</DisableQuickFind>
+                    </cell>
+                    <cell entityName="lead" viewId="{00000000-0000-0000-00AA-000010001005}" attributeName="ccrm_accountingcentreid">
+                      <DefaultViewId>{45F07848-C04D-4A72-A9DA-FF0BC11CB822}</DefaultViewId>
+                      <FilterRelationshipName>ccrm_arupaccountingcode_ccrm_arupcompany</FilterRelationshipName>
+                      <DependentAttributeName>lead.ccrm_arupcompanyid</DependentAttributeName>
+                      <DependentAttributeType>ccrm_arupcompany</DependentAttributeType>
+                      <AllowFilterOff>true</AllowFilterOff>
+                      <DisableQuickFind>false</DisableQuickFind>
+                    </cell>
+                  </columnsDefaultView>
+                </data-set>
+                <data-set name="SubGrid">
+                  <ViewId>{00000000-0000-0000-00AA-000010001002}</ViewId>
+                  <IsUserView>false</IsUserView>
+                  <TargetEntityType>account</TargetEntityType>
+                  <SubGridParentId>parentaccountid</SubGridParentId>
+                </data-set>
+                <EnableGroupBy static="true" type="Enum">yes</EnableGroupBy>
+                <EnableEditing static="true" type="Enum">yes</EnableEditing>
+                <ReflowBehavior static="true" type="Enum">GridOnly</ReflowBehavior>
+                <EnableFiltering static="true" type="Enum">yes</EnableFiltering>
+                <HideNestedGridColumnHeader static="true" type="Enum">no</HideNestedGridColumnHeader>
+              </parameters>
+            </customControl>
+          </controlDescription>
+        </controlDescriptions>
+      </ControlDescriptionXML>
+      <IntroducedVersion>5.0</IntroducedVersion>
+      <formLibraries>
+        <Library name="ccrm_lead_library_2015" libraryUniqueId="{77316811-5346-758d-a2ed-eb417c13c8e5}" />
+      </formLibraries>
+      <events>
+        <event name="onchange" application="false" active="false" attribute="ccrm_arupcompanyid" relationship="" control="Grids">
+          <Handlers>
+            <Handler handlerUniqueId="{48632ce5-869d-dc86-15b5-2709a424464a}" functionName="ccrm_arupcompanyid_onchange" libraryName="ccrm_lead_library_2015" enabled="true" passExecutionContext="true" parameters="" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_accountingcentreid" relationship="" control="Grids">
+          <Handlers>
+            <Handler functionName="ccrm_accountingcentreid_onchange" libraryName="ccrm_lead_library_2015" handlerUniqueId="{2557a27c-eb5a-c031-8d18-7101580032ce}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ccrm_country" relationship="" control="Grids">
+          <Handlers>
+            <Handler functionName="projectcountry_onchange" libraryName="ccrm_lead_library_2015" handlerUniqueId="{4664b21e-848a-7c00-3213-e000911b1025}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onrecordselect" application="false" active="false" relationship="" control="Grids">
+          <Handlers>
+            <Handler functionName="setDisabledFields" libraryName="ccrm_lead_library_2015" handlerUniqueId="{6c2e1d42-b6c7-0791-9d27-1583d1277551}" enabled="true" parameters="" passExecutionContext="true" />
+          </Handlers>
+        </event>
+        <event name="onsave" application="false" active="false" relationship="" control="Grids">
+          <Handlers>
+            <Handler functionName="validateOnSaveGrid" libraryName="ccrm_lead_library_2015" handlerUniqueId="{50356dab-8e23-70c3-e407-c53aa8124d30}" enabled="true" parameters="" passExecutionContext="true" />
+          </Handlers>
+        </event>
+      </events>
+    </CustomControlDefaultConfig>
+  </CustomControlDefaultConfigs>
+</Entity>

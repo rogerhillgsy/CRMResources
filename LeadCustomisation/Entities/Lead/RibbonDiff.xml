@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RibbonDiffXml>
+  <CustomActions>
+    <CustomAction Id="arup.ccrm.lead.QualifyLead.CustomAction" Location="Mscrm.Form.lead.MainTab.Actions.Controls._children" Sequence="3">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.lead.QualifyLead.Alt" Command="ccrm.lead.QualifyLead" Id="ccrm.lead.QualifyLead" Image32by32="/_imgs/ribbon/SaveAsCompleted_32.png" Image16by16="/_imgs/ribbon/MarkAsComplete_16.png" LabelText="$LocLabels:ccrm.lead.QualifyLead.LabelText" Sequence="3" TemplateAlias="o1" ToolTipTitle="$LocLabels:ccrm.lead.QualifyLead.ToolTipTitle" ToolTipDescription="$LocLabels:ccrm.lead.QualifyLead.ToolTipDescription" ModernImage="Qualify" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.lead.Button1.Button.CustomAction" Location="Mscrm.HomepageGrid.lead.MainTab.Actions.Controls._children" Sequence="70">
+      <CommandUIDefinition>
+        <SplitButton Command="Mscrm.SendShortcutSelected.AlwaysEnabled" Id="arup.lead.Button1.Button" Image32by32="/_imgs/ribbon/SendShortcut_32.png" Image16by16="/_imgs/ribbon/EmailLink_16.png" LabelText="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Send" Sequence="70" TemplateAlias="o3" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Send" ToolTipDescription="$Resources:Mscrm_HomepageGrid_Other_MainTab_ExportData_Send_ToolTipDescription" ModernImage="EmailLink">
+          <Menu Id="Mscrm.HomepageGrid.lead.Send.Menu">
+            <MenuSection Id="Mscrm.HomepageGrid.lead.Send.MenuSection" Sequence="10" DisplayMode="Menu16">
+              <Controls Id="Mscrm.HomepageGrid.lead.Send.Controls">
+                <Button Command="Mscrm.SendShortcutSelected" Id="Mscrm.HomepageGrid.lead.Send.Selected" Image32by32="/_imgs/ribbon/SendShortcut_32.png" Image16by16="/_imgs/ribbon/EmailLink_16.png" LabelText="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Selected" Sequence="10" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Selected" ToolTipDescription="$Resources:Ribbon.Tooltip.SendShortcut" />
+                <Button Command="Mscrm.SendShortcutView" Id="Mscrm.HomepageGrid.lead.Send.View" Image32by32="/_imgs/ribbon/SendView_32.png" Image16by16="/_imgs/ribbon/SendView_16.png" LabelText="$Resources:Ribbon.HomepageGrid.Record.Shortcut.View" Sequence="20" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Record.Shortcut.View" ToolTipDescription="$Resources:Ribbon.Tooltip.SendShortcut_View" />
+              </Controls>
+            </MenuSection>
+          </Menu>
+        </SplitButton>
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.Mscrm.Form.lead.DisqualifyLeadAs.CustomAction" Location="Mscrm.Form.lead.MainTab.Actions.Controls._children" Sequence="11">
+      <CommandUIDefinition>
+        <FlyoutAnchor Alt="$LocLabels:Mscrm.Form.lead.DisqualifyLeadAs.Alt" Command="Mscrm.Form.Lead.DisqualifyFlyout" Id="Mscrm.Form.lead.DisqualifyLeadAs" Image16by16="/_imgs/SFA/MarkAsLost_16.png" Image32by32="/_imgs/SFA/MarkAsLost_32.png" LabelText="$LocLabels:Mscrm.Form.lead.DisqualifyLeadAs.LabelText" PopulateDynamically="true" PopulateQueryCommand="Mscrm.DynamicMenu.Form.DisqualifyAs" Sequence="11" TemplateAlias="o1" ToolTipTitle="$LocLabels:Mscrm.Form.lead.DisqualifyLeadAs.ToolTipTitle" ToolTipDescription="$LocLabels:Mscrm.Form.lead.DisqualifyLeadAs.ToolTipDescription" ModernImage="Disqualify" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.Mscrm.Form.lead.FollowButton.CustomAction" Location="Mscrm.Form.lead.MainTab.Collaborate.Controls._children" Sequence="1010">
+      <CommandUIDefinition>
+        <Button Command="Mscrm.Form.FollowCommand" Id="Mscrm.Form.lead.FollowButton" Image32by32="/_imgs/ribbon/Entity32_8003.png" Image16by16="/_imgs/ribbon/Entity16_8003.png" LabelText="$LocLabels:Mscrm.Form.lead.FollowButton.LabelText" Sequence="1010" TemplateAlias="o2" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.Mscrm.Form.lead.MainTab.Save.Exit.CustomAction" Location="Mscrm.Form.lead.MainTab.Save.Controls._children" Sequence="90">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:Mscrm.Form.lead.MainTab.Save.Exit.Alt" Command="Mscrm.Form.lead.MainTab.Save.Exit.Command" Id="Mscrm.Form.lead.MainTab.Save.Exit" Image32by32="$webresource:ccrm_exit_door_out_32_32" Image16by16="$webresource:ccrm_exit_door_out_16_16" LabelText="$LocLabels:Mscrm.Form.lead.MainTab.Save.Exit.LabelText" Sequence="90" TemplateAlias="o1" ToolTipTitle="$LocLabels:Mscrm.Form.lead.MainTab.Save.Exit.ToolTipTitle" ToolTipDescription="$LocLabels:Mscrm.Form.lead.MainTab.Save.Exit.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.lead.MBPF.ConvertTo.Hide" Location="Mscrm.HomepageGrid.lead.MBPF.ConvertTo" />
+    <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.lead.Send.Hide" Location="Mscrm.HomepageGrid.lead.Send" />
+    <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.lead.SendDirectEmail.Hide" Location="Mscrm.HomepageGrid.lead.SendDirectEmail" />
+    <HideCustomAction HideActionId="arup.Mscrm.SubGrid.lead.NewRecord.Hide" Location="Mscrm.SubGrid.lead.NewRecord" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.lead.AddToList.Hide" Location="Mscrm.Form.lead.AddToList" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.lead.ConvertLeadAs.Hide" Location="Mscrm.Form.lead.ConvertLeadAs" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.lead.ConvertLeadQuick.Hide" Location="Mscrm.Form.lead.ConvertLeadQuick" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.lead.Permissions.Sharing.Hide" Location="Mscrm.Form.lead.Permissions.Sharing" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.lead.SwitchProcess.Hide" Location="Mscrm.Form.lead.SwitchProcess" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.HomepageGrid.lead.ConvertLeadQuick.Hide" Location="Mscrm.HomepageGrid.lead.ConvertLeadQuick" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.HomepageGrid.lead.DisqualifyLeadAs.Hide" Location="Mscrm.HomepageGrid.lead.DisqualifyLeadAs" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.HomepageGrid.lead.NewRecord.Hide" Location="Mscrm.HomepageGrid.lead.NewRecord" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.HomepageGrid.lead.Sharing.Hide" Location="Mscrm.HomepageGrid.lead.Sharing" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.SubGrid.lead.AddExistingAssoc.Hide" Location="Mscrm.SubGrid.lead.AddExistingAssoc" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.SubGrid.lead.AddExistingStandard.Hide" Location="Mscrm.SubGrid.lead.AddExistingStandard" />
+    <HideCustomAction HideActionId="Mscrm.Form.lead.AddConnection.HideAction" Location="Mscrm.Form.lead.AddConnection" />
+    <HideCustomAction HideActionId="Mscrm.Form.lead.AddToQueue.HideAction" Location="Mscrm.Form.lead.AddToQueue" />
+    <HideCustomAction HideActionId="Mscrm.Form.lead.Assign.HideAction" Location="Mscrm.Form.lead.Assign" />
+    <HideCustomAction HideActionId="Mscrm.Form.lead.CopySelected.HideAction" Location="Mscrm.Form.lead.CopySelected" />
+    <HideCustomAction HideActionId="Mscrm.Form.lead.NewRecord.HideAction" Location="Mscrm.Form.lead.NewRecord" />
+    <HideCustomAction HideActionId="Mscrm.Form.lead.Permissions.HideAction" Location="Mscrm.Form.lead.Permissions" />
+    <HideCustomAction HideActionId="Mscrm.Form.lead.QueueItemDetail.HideAction" Location="Mscrm.Form.lead.QueueItemDetail" />
+    <HideCustomAction HideActionId="Mscrm.Form.lead.SaveAndClose.HideAction" Location="Mscrm.Form.lead.SaveAndClose" />
+    <HideCustomAction HideActionId="Mscrm.Form.lead.ViewHierarchy.HideAction" Location="Mscrm.Form.lead.ViewHierarchy" />
+  </CustomActions>
+  <Templates>
+    <RibbonTemplates Id="Mscrm.Templates"></RibbonTemplates>
+  </Templates>
+  <CommandDefinitions>
+    <CommandDefinition Id="arup.lead.SubGridAdd.Command">
+      <EnableRules>
+        <EnableRule Id="arup.lead.AddNewRecord.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions />
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.lead.QualifyLead">
+      <EnableRules>
+        <EnableRule Id="Mscrm.LeadIsOpen" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CanCreateContact" />
+        <DisplayRule Id="Mscrm.CanWriteLead" />
+        <DisplayRule Id="Mscrm.DynamicMenu.NewRecord.opportunity" />
+        <DisplayRule Id="Mscrm.SingleQualifyStatusCode" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="QualifyLead" Library="$webresource:ccrm_lead_library_2015" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.AddNewRecordFromSubGridStandard">
+      <EnableRules>
+        <EnableRule Id="Mscrm.AppendToPrimary" />
+        <EnableRule Id="Mscrm.EntityFormIsEnabled" />
+        <EnableRule Id="Mscrm.IsEntityAvailableForUserInMocaOffline" />
+        <EnableRule Id="arup.lead.AddNewRecord.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.ShowForOneToManyGrids" />
+        <DisplayRule Id="Mscrm.AppendToPrimary" />
+        <DisplayRule Id="Mscrm.CreateSelectedEntityPermission" />
+        <DisplayRule Id="Mscrm.AppendSelected" />
+        <DisplayRule Id="Mscrm.HideAddNewForChildEntities" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="Mscrm.GridCommandActions.addNewFromSubGridStandard" Library="/_static/_common/scripts/CommandBarActions.js">
+          <CrmParameter Value="SelectedEntityTypeCode" />
+          <CrmParameter Value="PrimaryEntityTypeCode" />
+          <CrmParameter Value="FirstPrimaryItemId" />
+          <CrmParameter Value="PrimaryControl" />
+          <CrmParameter Value="SelectedControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.Form.FollowCommand">
+      <EnableRules>
+        <EnableRule Id="Mscrm.NotOffline" />
+        <EnableRule Id="msdyn.ActivityFeeds.NotNewEnableRule" />
+        <EnableRule Id="msdyn.ActivityFeeds.IsFollowButtonEnabled" />
+        <EnableRule Id="msdyn.ActivityFeeds.Yammer.ShouldEnableFollow" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="msdyn.ActivityFeeds.ShowFollowButton" />
+        <DisplayRule Id="arup.lead.HideButtonforMobile" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="Follow.FollowCommands.followFromForm" Library="$webresource:msdyn_/Follow.Command.js">
+          <CrmParameter Value="FirstPrimaryItemId" />
+          <CrmParameter Value="PrimaryEntityTypeName" />
+          <CrmParameter Value="PrimaryEntityTypeCode" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.Form.lead.MainTab.Save.Exit.Command">
+      <EnableRules />
+      <DisplayRules>
+        <DisplayRule Id="arup.lead.HideButtonforMobile" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="exitForm" Library="$webresource:ccrm_lead_library_2015" />
+      </Actions>
+    </CommandDefinition>
+  </CommandDefinitions>
+  <RuleDefinitions>
+    <TabDisplayRules />
+    <DisplayRules>
+      <DisplayRule Id="arup.lead.HideButtonforMobile">
+        <CommandClientTypeRule Type="Modern" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.AppendSelected">
+        <EntityPrivilegeRule PrivilegeType="Append" PrivilegeDepth="Basic" AppliesTo="SelectedEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.AppendToPrimary">
+        <EntityPrivilegeRule PrivilegeType="AppendTo" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CanCreateAccount">
+        <EntityPrivilegeRule PrivilegeType="Create" PrivilegeDepth="Basic" EntityName="account" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CanCreateContact">
+        <EntityPrivilegeRule PrivilegeType="Create" PrivilegeDepth="Basic" EntityName="contact" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CanWriteLead">
+        <EntityPrivilegeRule PrivilegeType="Write" PrivilegeDepth="Basic" EntityName="lead" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CreateSelectedEntityPermission">
+        <EntityPrivilegeRule PrivilegeType="Create" PrivilegeDepth="Basic" AppliesTo="SelectedEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.DynamicMenu.NewRecord.opportunity">
+        <EntityPrivilegeRule PrivilegeType="Create" PrivilegeDepth="Basic" EntityName="opportunity" />
+        <EntityPrivilegeRule PrivilegeType="Append" PrivilegeDepth="Basic" EntityName="opportunity" />
+        <OrRule>
+          <Or>
+            <EntityPrivilegeRule PrivilegeType="AppendTo" PrivilegeDepth="Basic" EntityName="account" />
+          </Or>
+          <Or>
+            <EntityPrivilegeRule PrivilegeType="AppendTo" PrivilegeDepth="Basic" EntityName="contact" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.HideAddNewForChildEntities">
+        <OrRule>
+          <Or>
+            <EntityPropertyRule AppliesTo="SelectedEntity" PropertyName="IsChildEntity" PropertyValue="false" />
+          </Or>
+          <Or>
+            <RelationshipTypeRule AppliesTo="SelectedEntity" AllowCustomRelationship="false" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.MultipleQualifyStatusCodes">
+        <OptionSetRule OptionSet="lead_statuscode" StateCode="1" ObjectTypeCode="4" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.ShowForOneToManyGrids">
+        <RelationshipTypeRule AppliesTo="SelectedEntity" RelationshipType="OneToMany" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.SingleQualifyStatusCode">
+        <OptionSetRule OptionSet="lead_statuscode" StateCode="1" ObjectTypeCode="4" />
+      </DisplayRule>
+      <DisplayRule Id="msdyn.ActivityFeeds.ShowFollowButton">
+        <EntityRule EntityName="postfollow" AppliesTo="SelectedEntity" Default="true" InvertResult="true" />
+        <EntityPrivilegeRule PrivilegeType="Create" PrivilegeDepth="Basic" EntityName="postfollow" />
+        <EntityPrivilegeRule PrivilegeType="Read" PrivilegeDepth="Basic" EntityName="postfollow" />
+      </DisplayRule>
+    </DisplayRules>
+    <EnableRules>
+      <EnableRule Id="arup.lead.AddNewRecord.EnableRule">
+        <CustomRule FunctionName="hidePlusSign" Library="$webresource:arup_hide_addnewrecord_subgrid" Default="true" InvertResult="false">
+          <StringParameter Value="lead" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="arup.lead.EnableRule5.EnableRule">
+        <EntityRule EntityName="account" Context="SubGridStandard" Default="true" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.AppendToPrimary">
+        <RecordPrivilegeRule PrivilegeType="AppendTo" AppliesTo="PrimaryEntity" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.EntityFormIsEnabled">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.IsEntityAvailableForUserInMocaOffline">
+        <CustomRule FunctionName="XrmCore.Rules.Online.IsEntityAvailableForUserInMocaOffline" Library="$webresource:Main_system_library.js">
+          <CrmParameter Value="SelectedEntityTypeName" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="Mscrm.LeadIsOpen">
+        <FormStateRule State="Existing" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.NotOffline">
+        <CrmOfflineAccessStateRule State="Offline" InvertResult="true" />
+      </EnableRule>
+      <EnableRule Id="msdyn.ActivityFeeds.IsFollowButtonEnabled">
+        <CustomRule FunctionName="Follow.FollowCommands.dummy" Library="$webresource:msdyn_/Follow.Command.js" Default="false" />
+        <CustomRule FunctionName="Follow.FollowCommands.dummy" Library="$webresource:msdyn_/Scripts/PlatformScriptLoader.js" />
+        <CustomRule FunctionName="Follow.FollowCommands.dummy" Library="$webresource:msdyn_/InstalledLocales.js" />
+        <CustomRule FunctionName="Follow.FollowEnabled.dummy" Library="$webresource:msdyn_/ActivityFeeds.Services.js" />
+        <CustomRule FunctionName="Follow.FollowEnabled.isFollowButtonEnabled" Library="$webresource:msdyn_/Follow.Command.js" Default="false">
+          <CrmParameter Value="FirstPrimaryItemId" />
+          <CrmParameter Value="PrimaryEntityTypeName" />
+          <BoolParameter Value="true" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="msdyn.ActivityFeeds.NotNewEnableRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </EnableRule>
+      <EnableRule Id="msdyn.ActivityFeeds.Yammer.ShouldEnableFollow">
+        <CustomRule FunctionName="Follow.FollowEnableYammerCheck.shouldEnableFollow" Library="$webresource:msdyn_/Follow.Command.js" Default="true">
+          <CrmParameter Value="PrimaryEntityTypeCode" />
+          <CrmParameter Value="SelectedEntityTypeCode" />
+        </CustomRule>
+      </EnableRule>
+    </EnableRules>
+  </RuleDefinitions>
+  <LocLabels>
+    <LocLabel Id="ccrm.lead.QualifyLead.Alt">
+      <Titles>
+        <Title description="Progress to Opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.lead.QualifyLead.LabelText">
+      <Titles>
+        <Title description="Progress to Opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.lead.QualifyLead.ToolTipDescription">
+      <Titles>
+        <Title description="Progress to a new opportunity information from this lead. &lt;br&gt;&lt;br&gt;When the lead is progressed, it is saved as progressed in the Closed Leads view." languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.lead.QualifyLead.ToolTipTitle">
+      <Titles>
+        <Title description="Progress to Opportunity" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="Mscrm.Form.lead.DisqualifyLeadAs.Alt">
+      <Titles>
+        <Title description="Close Lead" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="Mscrm.Form.lead.DisqualifyLeadAs.LabelText">
+      <Titles>
+        <Title description="Close Lead" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="Mscrm.Form.lead.DisqualifyLeadAs.ToolTipDescription">
+      <Titles>
+        <Title description="Close the lead &lt;br&gt;&lt;br&gt;When the lead is closed, it is saved as closed in the Closed Leads view." languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="Mscrm.Form.lead.DisqualifyLeadAs.ToolTipTitle">
+      <Titles>
+        <Title description="Close Lead" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="Mscrm.Form.lead.FollowButton.LabelText">
+      <Titles>
+        <Title description="Follow" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="Mscrm.Form.lead.MainTab.Save.Exit.Alt">
+      <Titles>
+        <Title description="Exit" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="Mscrm.Form.lead.MainTab.Save.Exit.LabelText">
+      <Titles>
+        <Title description="Exit" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="Mscrm.Form.lead.MainTab.Save.Exit.ToolTipDescription">
+      <Titles>
+        <Title description="Exit Form" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="Mscrm.Form.lead.MainTab.Save.Exit.ToolTipTitle">
+      <Titles>
+        <Title description="Exit Lead Form" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+  </LocLabels>
+</RibbonDiffXml>
