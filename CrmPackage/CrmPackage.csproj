@@ -1698,6 +1698,11 @@
       <UniqueName>arup_sc_MultiSelect_OnSave</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_bidReviewTabs.html">
+      <DisplayName>Bid Review Tabs</DisplayName>
+      <UniqueName>arup_bidReviewTabs</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_BlankHTML">
       <DisplayName>arup_BlankHTML</DisplayName>
       <UniqueName>arup_arup_BlankHTML</UniqueName>
@@ -1794,7 +1799,7 @@
       <UniqueName>arup_ccrm_CRMSuperUsers</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_CRMTabs">
+    <CRMWebResource Include="WebResources\Web Page (HTML)\ccrm_CRMTabs.html">
       <DisplayName>ccrm_CRMTabs</DisplayName>
       <UniqueName>arup_ccrm_CRMTabs</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>

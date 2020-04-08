@@ -18084,7 +18084,7 @@
       <IsMailMergeEnabled>1</IsMailMergeEnabled>
       <IsVisibleInMobile>1</IsVisibleInMobile>
       <IsVisibleInMobileClient>1</IsVisibleInMobileClient>
-      <IsReadOnlyInMobileClient>1</IsReadOnlyInMobileClient>
+      <IsReadOnlyInMobileClient>0</IsReadOnlyInMobileClient>
       <IsOfflineInMobileClient>0</IsOfflineInMobileClient>
       <DaysSinceRecordLastModified>0</DaysSinceRecordLastModified>
       <MobileOfflineFilters></MobileOfflineFilters>
