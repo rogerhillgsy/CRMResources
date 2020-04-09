@@ -4599,10 +4599,6 @@ Typical high risk factors: Unfamiliarity with the client's business. No evidence
     <value>Status</value>
     <comment>'Ccrm_opportunityapproval' : displayname for Attribute 'statuscode' on Entity</comment>
   </data>
-  <data name="1:label,Bid Review0e8fb0e7-40e3-4540-ba93-54268a85a711" xml:space="preserve">
-    <value>New Section</value>
-    <comment>'Bid Review' : label for section in Entity FormXml ID: '0e8fb0e7-40e3-4540-ba93-54268a85a711'</comment>
-  </data>
   <data name="1:label,Bid Reviewc1f0aeb8-d737-49b0-b535-d99b06625ae0" xml:space="preserve">
     <value>Navigation</value>
     <comment>'Bid Review' : label for section in Entity FormXml ID: 'c1f0aeb8-d737-49b0-b535-d99b06625ae0'</comment>
@@ -5582,10 +5578,6 @@ Typical high risk factors: Unfamiliarity with the client's business. No evidence
   <data name="1:label,Bid Review{61ea604b-cc79-c3a5-bd25-16c01c7e8d1e}" xml:space="preserve">
     <value />
     <comment>'Bid Review' : label for cell in Entity FormXml ID: '{61ea604b-cc79-c3a5-bd25-16c01c7e8d1e}'</comment>
-  </data>
-  <data name="1:label,Bid Review{621d29cc-c568-4952-ad2b-f2c192c98861}" xml:space="preserve">
-    <value>Bid Title</value>
-    <comment>'Bid Review' : label for cell in Entity FormXml ID: '{621d29cc-c568-4952-ad2b-f2c192c98861}'</comment>
   </data>
   <data name="1:label,Bid Review{625d3cba-8518-eae1-2671-99a59053744b}" xml:space="preserve">
     <value>3. Additional notes, reviewers comments, actions required</value>

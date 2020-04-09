@@ -4,7 +4,7 @@
   <IntroducedVersion>1.0.0.0</IntroducedVersion>
   <FormPresentation>0</FormPresentation>
   <FormActivationState>1</FormActivationState>
-  <form shownavigationbar="true" showImage="false" maxWidth="1900" headerdensity="Low">
+  <form shownavigationbar="true" showImage="false" maxWidth="1900" headerdensity="HighWithControls">
     <tabs>
       <tab name="tab_reloppdet" id="{dd525e3b-509a-b698-81b4-0748e4256e6d}" IsUserDefined="0" locklevel="0" showlabel="false" expanded="true">
         <labels>
@@ -13,13 +13,13 @@
         <columns>
           <column width="100%">
             <sections>
-              <section name="tab_navigationSection" id="c1f0aeb8-d737-49b0-b535-d99b06625ae0" IsUserDefined="0" locklevel="0" showlabel="false" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Left" columns="1" labelwidth="115">
+              <section name="tab_navigationSection" id="c1f0aeb8-d737-49b0-b535-d99b06625ae0" IsUserDefined="0" locklevel="0" showlabel="false" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Left" columns="1" labelwidth="115" height="auto">
                 <labels>
                   <label description="Navigation" languagecode="1033" />
                 </labels>
                 <rows>
-                  <row>
-                    <cell id="{cc379aac-9eb4-e8c2-1b86-5a4bdb786c16}" showlabel="false" colspan="1" auto="false" rowspan="4">
+                  <row height="auto">
+                    <cell id="{cc379aac-9eb4-e8c2-1b86-5a4bdb786c16}" showlabel="false" colspan="1" auto="true" rowspan="1">
                       <labels>
                         <label description="Navigation" languagecode="1033" />
                       </labels>
@@ -27,10 +27,10 @@
                         <parameters>
                           <Url>arup_bidReviewTabs</Url>
                           <PassParameters>false</PassParameters>
+                          <ShowOnMobileClient>false</ShowOnMobileClient>
                           <Security>false</Security>
                           <Scrolling>auto</Scrolling>
                           <Border>false</Border>
-                          <ShowOnMobileClient>false</ShowOnMobileClient>
                           <WebResourceId>{75982516-F773-EA11-A811-002248003E25}</WebResourceId>
                         </parameters>
                       </control>
@@ -41,9 +41,6 @@
                       </events>
                     </cell>
                   </row>
-                  <row />
-                  <row />
-                  <row />
                 </rows>
               </section>
               <section name="tab_12_section_1" showlabel="false" showbar="true" locklevel="0" id="{8b7cb849-937e-5145-9a5e-e69a75669d16}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="200" celllabelalignment="Left" celllabelposition="Left">
@@ -181,84 +178,11 @@
                   </row>
                 </rows>
               </section>
-              <section name="tab_1_section_4" id="0e8fb0e7-40e3-4540-ba93-54268a85a711" IsUserDefined="0" locklevel="0" showlabel="true" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Left" columns="1" labelwidth="115">
-                <labels>
-                  <label description="New Section" languagecode="1033" />
-                </labels>
-                <rows>
-                  <row>
-                    <cell id="{621d29cc-c568-4952-ad2b-f2c192c98861}" showlabel="true" locklevel="0">
-                      <labels>
-                        <label description="Bid Title" languagecode="1033" />
-                      </labels>
-                      <control id="ccrm_name" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="ccrm_name" disabled="false" />
-                    </cell>
-                  </row>
-                </rows>
-              </section>
             </sections>
           </column>
         </columns>
       </tab>
-      <tab name="tab_RiskFactors" id="{ce0957ce-a851-88ac-0a13-b963c54524d4}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false">
-        <labels>
-          <label description="B. RISK FACTORS" languagecode="1033" />
-        </labels>
-        <columns>
-          <column width="100%">
-            <sections>
-              <section name="tab_12_section_2" showlabel="false" showbar="false" locklevel="0" id="{171198c8-ae64-a697-eae5-71371986dba5}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelalignment="Left" celllabelposition="Left" height="auto">
-                <labels>
-                  <label description="Section B" languagecode="1033" />
-                </labels>
-                <rows>
-                  <row>
-                    <cell id="{7d198862-6dd1-2e26-b9b8-ed6c7ab84044}" showlabel="false" colspan="1" auto="true" rowspan="20">
-                      <labels>
-                        <label description="SectionB" languagecode="1033" />
-                      </labels>
-                      <control id="WebResource_SectionB" classid="{587CDF98-C1D5-4bde-8473-14A0BC7644A7}">
-                        <parameters>
-                          <Url>arup_Bid_Review_SectionB</Url>
-                          <SizeType>Original</SizeType>
-                          <VerticalAlignment>Top</VerticalAlignment>
-                          <HorizontalAlignment>Left</HorizontalAlignment>
-                          <WebResourceId>{2C532BB8-7C28-E811-810B-005056B509E1}</WebResourceId>
-                        </parameters>
-                      </control>
-                      <events>
-                        <event name="onload" application="0">
-                          <dependencies />
-                        </event>
-                      </events>
-                    </cell>
-                  </row>
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row />
-                  <row height="auto" />
-                </rows>
-              </section>
-            </sections>
-          </column>
-        </columns>
-      </tab>
-      <tab name="tab_BackgroundInfo_tickboxes" id="{15e4ca32-e45a-5c64-8bb4-54e962276721}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
+      <tab name="tab_BackgroundInfo_tickboxes" id="{15e4ca32-e45a-5c64-8bb4-54e962276721}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="true" visible="true">
         <labels>
           <label description="A. BACKGROUND INFORMATION AND SUPPORTING DOCUMENTS (complete or tick boxes below)" languagecode="1033" />
         </labels>
@@ -386,6 +310,64 @@
                       </labels>
                     </cell>
                   </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab name="tab_RiskFactors" id="{ce0957ce-a851-88ac-0a13-b963c54524d4}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
+        <labels>
+          <label description="B. RISK FACTORS" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section name="tab_12_section_2" showlabel="false" showbar="false" locklevel="0" id="{171198c8-ae64-a697-eae5-71371986dba5}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelalignment="Left" celllabelposition="Left" height="auto">
+                <labels>
+                  <label description="Section B" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{7d198862-6dd1-2e26-b9b8-ed6c7ab84044}" showlabel="false" colspan="1" auto="true" rowspan="20">
+                      <labels>
+                        <label description="SectionB" languagecode="1033" />
+                      </labels>
+                      <control id="WebResource_SectionB" classid="{587CDF98-C1D5-4bde-8473-14A0BC7644A7}">
+                        <parameters>
+                          <Url>arup_Bid_Review_SectionB</Url>
+                          <SizeType>Original</SizeType>
+                          <VerticalAlignment>Top</VerticalAlignment>
+                          <HorizontalAlignment>Left</HorizontalAlignment>
+                          <WebResourceId>{2C532BB8-7C28-E811-810B-005056B509E1}</WebResourceId>
+                        </parameters>
+                      </control>
+                      <events>
+                        <event name="onload" application="0">
+                          <dependencies />
+                        </event>
+                      </events>
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row height="auto" />
                 </rows>
               </section>
             </sections>
@@ -1651,14 +1633,14 @@
           </event>
         </events>
       </tab>
-      <tab name="tab_SectionE" id="{a470339c-7b29-8ec1-4461-27497153633a}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
+      <tab name="tab_SectionE" id="{a470339c-7b29-8ec1-4461-27497153633a}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="true" visible="false">
         <labels>
           <label description="F. CONTRACT TERMS, COMMERCIAL ISSUES AND POTENTIAL LIABILITIES" languagecode="1033" />
         </labels>
         <columns>
           <column width="100%">
             <sections>
-              <section name="tab_SectionE_section_3" showlabel="false" showbar="true" locklevel="0" id="{b1a1a96c-91bb-2072-7eac-503bd99455cd}" IsUserDefined="0" layout="varwidth" columns="111" labelwidth="115" celllabelalignment="Left" celllabelposition="Top">
+              <section name="tab_SectionE_section_3" showlabel="false" showbar="true" locklevel="0" id="{b1a1a96c-91bb-2072-7eac-503bd99455cd}" IsUserDefined="0" layout="varwidth" columns="111" labelwidth="200" celllabelalignment="Left" celllabelposition="Top">
                 <labels>
                   <label description="Section" languagecode="1033" />
                 </labels>
@@ -5026,12 +5008,12 @@ Please provide details!&amp;Speak with Health &amp; Safety for advice.</Data>
               <label description="" languagecode="1033" />
             </labels>
           </cell>
-          <cell id="{5c98877e-cfca-468a-a616-cf25744ca75b}">
+          <cell id="{5c98877e-cfca-468a-a616-cf25744ca75b}" showlabel="false">
             <labels>
               <label description="" languagecode="1033" />
             </labels>
           </cell>
-          <cell id="{66a7f0f8-f72d-4d8f-8778-c5c18c0c05e0}">
+          <cell id="{66a7f0f8-f72d-4d8f-8778-c5c18c0c05e0}" showlabel="false">
             <labels>
               <label description="" languagecode="1033" />
             </labels>
@@ -5043,12 +5025,12 @@ Please provide details!&amp;Speak with Health &amp; Safety for advice.</Data>
               <label description="" languagecode="1033" />
             </labels>
           </cell>
-          <cell id="{0e22c5fd-c9eb-4722-8da2-0c45ac7f8bfd}">
+          <cell id="{0e22c5fd-c9eb-4722-8da2-0c45ac7f8bfd}" showlabel="false">
             <labels>
               <label description="" languagecode="1033" />
             </labels>
           </cell>
-          <cell id="{8e0bc529-19a1-486d-98ca-41c2cea709dc}">
+          <cell id="{8e0bc529-19a1-486d-98ca-41c2cea709dc}" showlabel="false">
             <labels>
               <label description="" languagecode="1033" />
             </labels>
@@ -5060,12 +5042,12 @@ Please provide details!&amp;Speak with Health &amp; Safety for advice.</Data>
               <label description="" languagecode="1033" />
             </labels>
           </cell>
-          <cell id="{7d62c024-5c45-4666-a67d-33b19524d884}">
+          <cell id="{7d62c024-5c45-4666-a67d-33b19524d884}" showlabel="false">
             <labels>
               <label description="" languagecode="1033" />
             </labels>
           </cell>
-          <cell id="{bd690de6-c053-46f1-a71b-2ad121f02ff2}">
+          <cell id="{bd690de6-c053-46f1-a71b-2ad121f02ff2}" showlabel="false">
             <labels>
               <label description="" languagecode="1033" />
             </labels>
@@ -5077,12 +5059,12 @@ Please provide details!&amp;Speak with Health &amp; Safety for advice.</Data>
               <label description="" languagecode="1033" />
             </labels>
           </cell>
-          <cell id="{ee185dbd-e22a-45a0-8db5-6cc0b8e7eb44}">
+          <cell id="{ee185dbd-e22a-45a0-8db5-6cc0b8e7eb44}" showlabel="false">
             <labels>
               <label description="" languagecode="1033" />
             </labels>
           </cell>
-          <cell id="{dab1522c-d935-4955-b859-e137234af231}">
+          <cell id="{dab1522c-d935-4955-b859-e137234af231}" showlabel="false">
             <labels>
               <label description="" languagecode="1033" />
             </labels>
