@@ -26,7 +26,7 @@
 			font-family: Segoe UI, Tahoma, Arial;
 			font-size: 12px;
 			padding: 5px 10px 5px 10px;
-			margin: 0px 4px 0px 0px;
+			margin: 0px 4px 4px 0px;
 			width: 240px;
 			text-overflow: ellipsis;
 			display: inline-block;
@@ -126,7 +126,6 @@
             tabStyle = "activeTab";
         }
 
-        // if (/^[A-Z]+\.|All/.test(tab.getLabel()))
         if (  ! pinnedTabs.includes(tab.getName()))
             document.getElementById("tabCtrl").innerHTML = document.getElementById("tabCtrl").innerHTML +
                 "<span class=" +
