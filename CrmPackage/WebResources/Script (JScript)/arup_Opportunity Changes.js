@@ -4,7 +4,7 @@ var cacheValueBD = null;
 
 function onSelectOfStage(selStageId) {
 
-    //debugger;
+    debugger;
     cacheValueBDC = Xrm.Page.getAttribute("arup_biddecisionchair").getValue();
     cacheValueBM = Xrm.Page.getAttribute("ccrm_bidmanager_userid").getValue();
     cacheValueBD = Xrm.Page.getAttribute("ccrm_biddirector_userid").getValue();
@@ -75,6 +75,7 @@ function ShowHideOpportunityTypeAndProjectProcurement() {
 
 //pass opportunity status as Lost/Won from Ribbon Workbench
 function CloseOpportunity(statusCode) {
+    debugger;
     var oppId = Xrm.Page.data.entity.getId().replace(/[{}]/g, "");
     var arupInternal = Xrm.Page.getAttribute("ccrm_arupinternal").getValue();
     var clientUrl = Xrm.Page.context.getClientUrl();
@@ -118,19 +119,49 @@ function CloseOpportunity(statusCode) {
             setTimeout(function () {
                 if (oppDetails != null) {
                     var object = JSON.stringify(oppDetails);
-                    var customParameters = encodeURIComponent("oppId=" + oppId + "&stepName=" + stepName + "&oppDetails=" + object + "&statusCode=" + statusCode);
-                    DialogOption = new Xrm.DialogOptions;
-                    DialogOption.width = 600;
-                    DialogOption.height = 445;
-                    Xrm.Internal.openDialog(Xrm.Page.context.getClientUrl() + "/WebResources/arup_close_Opportunity?Data=" +
-                        customParameters,
-                        DialogOption,
-                        null,
-                        null,
-                        function (returnValue) {
-                            //debugger;
-                            Xrm.Utility.openEntityForm(Xrm.Page.data.entity.getEntityName(), Xrm.Page.data.entity.getId());
-                        });
+                  //  var customParameters = encodeURIComponent("oppId=" + oppId + "&stepName=" + stepName + "&oppDetails=" + object + "&statusCode=" + statusCode);
+                    var customParameters = "oppId=" + oppId + "&stepName=" + stepName + "&oppDetails=" + object + "&statusCode=" + statusCode;
+
+                    var DialogOption = {
+                        width: 500,
+                        height: 500
+                    };
+                    // DialogOption.width = 600;
+                    // DialogOption.height = 445;
+                    //Xrm.Internal.openDialog(Xrm.Page.context.getClientUrl() + "/WebResources/arup_close_Opportunity?Data=" +
+                    //    customParameters,
+                    //    DialogOption,
+                    //    null,
+                    //    null,
+                    //    function (returnValue) {
+                    //        //debugger;
+                    //        Xrm.Utility.openEntityForm(Xrm.Page.data.entity.getEntityName(), Xrm.Page.data.entity.getId());
+                    //    });
+
+                    var pageInput = {
+                        pageType: "webresource",
+                        webresourceName: "arup_close_Opportunity",
+                        data: customParameters
+
+                    };
+                    var navigationOptions = {
+                        target: 2,
+                        width: 600,
+                        height: 445,
+                        position: 1
+                    };
+                    Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
+                        //function success(returnValue) {
+                        //    debugger;
+                        //    Xrm.Utility.openEntityForm(Xrm.Page.data.entity.getEntityName(), Xrm.Page.data.entity.getId());
+                        //},
+                        //function error() {
+                        //    // Handle errors
+                        //}
+                    );
+
+
+
                 }
             }, 1000);
         }
@@ -205,6 +236,7 @@ function getOpportunityReasons(activeStageId, statusCode, arupInternal) {
 }
 
 function CloseOpportunityConfirmation(statusCode) {
+    debugger;
     var client = Xrm.Page.getAttribute("ccrm_client").getValue();
     var arupInternal = (Xrm.Page.getAttribute("ccrm_arupinternal").getValue() == 1) ? true : false;
 
