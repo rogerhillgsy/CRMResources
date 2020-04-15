@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityMaps>
+  <EntityMap>
+    <EntitySource>opportunity</EntitySource>
+    <EntityTarget>ccrm_bidreview</EntityTarget>
+    <AttributeMaps>
+      <AttributeMap>
+        <AttributeSource>ccrm_arupcompanyid</AttributeSource>
+        <AttributeTarget>ccrm_arupcompanyid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_estarupinvolvementend</AttributeSource>
+        <AttributeTarget>ccrm_arupenddate</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_estarupinvolvementstart</AttributeSource>
+        <AttributeTarget>ccrm_arupstartdate</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_estprojectend</AttributeSource>
+        <AttributeTarget>ccrm_projectenddate</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_estprojectstart</AttributeSource>
+        <AttributeTarget>ccrm_projectstartdate</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_pjna</AttributeSource>
+        <AttributeTarget>ccrm_possiblejobnumber</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>name</AttributeSource>
+        <AttributeTarget>ccrm_name</AttributeTarget>
+      </AttributeMap>
+    </AttributeMaps>
+  </EntityMap>
+  <EntityMap>
+    <EntitySource>opportunity</EntitySource>
+    <EntityTarget>ccrm_opportunityapproval</EntityTarget>
+    <AttributeMaps>
+      <AttributeMap>
+        <AttributeSource>ownerid</AttributeSource>
+        <AttributeTarget>ownerid</AttributeTarget>
+      </AttributeMap>
+    </AttributeMaps>
+  </EntityMap>
+</EntityMaps>

@@ -1,0 +1,1071 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <metadata name="Source LCID" xml:space="preserve">
+    <value>1033</value>
+  </metadata>
+  <metadata name="Source file" xml:space="preserve">
+    <value>HoldingSolution.zip</value>
+  </metadata>
+  <metadata name="Source package type" xml:space="preserve">
+    <value>Unmanaged</value>
+  </metadata>
+  <metadata name="SolutionPackager Version" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAEAQAAAA5TeXN0ZW0uVmVyc2lvbgQAAAAGX01ham9yBl9NaW5vcgZfQnVp
+        bGQJX1JldmlzaW9uAAAAAAgICAgIAAAAAAAAAAAAAAAAAAAACw==
+</value>
+  </metadata>
+  <data name="15062:Description,aruparup77000" xml:space="preserve">
+    <value>Arup Publisher</value>
+    <comment> 'arup' : Description for Solution Publisher</comment>
+  </data>
+  <data name="15062:LocalizedName,aruparup77000" xml:space="preserve">
+    <value>Arup</value>
+    <comment> 'arup' : LocalizedName for Solution Publisher</comment>
+  </data>
+  <data name="15062:LocalizedName,LeadCustomisation" xml:space="preserve">
+    <value>LeadCustomisation</value>
+    <comment> 'LeadCustomisation' : LocalizedName for Solution</comment>
+  </data>
+  <data name="1:Description,LeadentityLead" xml:space="preserve">
+    <value>Prospect or potential sales opportunity. Leads are converted into accounts, contacts, or opportunities when they are qualified. Otherwise, they are deleted or archived.</value>
+    <comment> 'Lead' : Description for Entity</comment>
+  </data>
+  <data name="1:Description,Lead{aa7c154f-e2f8-45db-b780-a9a8a96332fe}" xml:space="preserve">
+    <value>Default quick create form for Lead</value>
+    <comment>'Lead' : Description for systemform in Entity FormXml ID: '{aa7c154f-e2f8-45db-b780-a9a8a96332fe}'</comment>
+  </data>
+  <data name="1:Description,Lead{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Updated default Lead form</value>
+    <comment>'Lead' : Description for systemform in Entity FormXml ID: '{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}'</comment>
+  </data>
+  <data name="1:label,Lead{0325e71b-bd1d-89c9-b09e-2207035a5234}" xml:space="preserve">
+    <value>First Visit Timestamp</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{0325e71b-bd1d-89c9-b09e-2207035a5234}'</comment>
+  </data>
+  <data name="1:label,Lead{0588c076-3cb3-72ac-c670-7852ae2589a0}" xml:space="preserve">
+    <value>Google Plus Clicks</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{0588c076-3cb3-72ac-c670-7852ae2589a0}'</comment>
+  </data>
+  <data name="1:label,Lead{05976de0-0988-397a-5349-8dd11b90829a}" xml:space="preserve">
+    <value>Fee Income</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{05976de0-0988-397a-5349-8dd11b90829a}'</comment>
+  </data>
+  <data name="1:label,Lead{05a0b7d9-b602-493b-a773-e0c34e44be3c}" xml:space="preserve">
+    <value>No. of Employees</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{05a0b7d9-b602-493b-a773-e0c34e44be3c}'</comment>
+  </data>
+  <data name="1:label,Lead{05c09d58-73be-8a4d-b1a6-354416d0ec16}" xml:space="preserve">
+    <value>Ultimate/End Client</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{05c09d58-73be-8a4d-b1a6-354416d0ec16}'</comment>
+  </data>
+  <data name="1:label,Lead{0668e070-46f8-4f45-9081-ac7495ece432}" xml:space="preserve">
+    <value>Details</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{0668e070-46f8-4f45-9081-ac7495ece432}'</comment>
+  </data>
+  <data name="1:label,Lead{0809198a-0c54-2223-8b5c-43d4a76dc339}" xml:space="preserve">
+    <value>Arup Internal</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{0809198a-0c54-2223-8b5c-43d4a76dc339}'</comment>
+  </data>
+  <data name="1:label,Lead{0860879a-8cc9-bce4-2ea0-5e26bd054476}" xml:space="preserve">
+    <value>Last Timestamp</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{0860879a-8cc9-bce4-2ea0-5e26bd054476}'</comment>
+  </data>
+  <data name="1:label,Lead{08b4ce70-01e6-da3e-6542-9da6d70b78de}" xml:space="preserve">
+    <value>Supporting Text2</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{08b4ce70-01e6-da3e-6542-9da6d70b78de}'</comment>
+  </data>
+  <data name="1:label,Lead{090d73a6-dcba-e043-a3bd-d55078352cec}" xml:space="preserve">
+    <value>Arup Practice</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{090d73a6-dcba-e043-a3bd-d55078352cec}'</comment>
+  </data>
+  <data name="1:label,Lead{09513d13-bb7d-43b6-ad5c-9598b82b099e}" xml:space="preserve">
+    <value>Source Campaign</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{09513d13-bb7d-43b6-ad5c-9598b82b099e}'</comment>
+  </data>
+  <data name="1:label,Lead{0a222975-24c8-60d2-dd07-db127e201885}" xml:space="preserve">
+    <value>Lead Owner</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{0a222975-24c8-60d2-dd07-db127e201885}'</comment>
+  </data>
+  <data name="1:label,Lead{0ae4070b-aee9-00ce-1d13-133848391cb7}" xml:space="preserve">
+    <value>Qualifying Opportunity</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{0ae4070b-aee9-00ce-1d13-133848391cb7}'</comment>
+  </data>
+  <data name="1:label,Lead{0c5a662a-22ee-9005-01ec-a7e8ba205a51}" xml:space="preserve">
+    <value># Visits</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{0c5a662a-22ee-9005-01ec-a7e8ba205a51}'</comment>
+  </data>
+  <data name="1:label,Lead{0d724c61-2bd2-c935-a8a4-97772cc03c24}" xml:space="preserve">
+    <value>Last Open Date</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{0d724c61-2bd2-c935-a8a4-97772cc03c24}'</comment>
+  </data>
+  <data name="1:label,Lead{0e2daa31-4114-2108-6a4e-7256ae06b1a0}" xml:space="preserve">
+    <value>Address</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{0e2daa31-4114-2108-6a4e-7256ae06b1a0}'</comment>
+  </data>
+  <data name="1:label,Lead{0e4c62c7-d726-6316-6414-b901cbb54d38}" xml:space="preserve">
+    <value>Arup Company</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{0e4c62c7-d726-6316-6414-b901cbb54d38}'</comment>
+  </data>
+  <data name="1:label,Lead{10b75e6c-54f9-4c13-8850-5b90cad35c6f}" xml:space="preserve">
+    <value>Project Summary</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{10b75e6c-54f9-4c13-8850-5b90cad35c6f}'</comment>
+  </data>
+  <data name="1:label,Lead{10eb0c54-15ea-15a3-01e7-241cecac2b92}" xml:space="preserve">
+    <value>Section</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{10eb0c54-15ea-15a3-01e7-241cecac2b92}'</comment>
+  </data>
+  <data name="1:label,Lead{112d63b2-2a36-4d01-4537-e30e3b009560}" xml:space="preserve">
+    <value>Email</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{112d63b2-2a36-4d01-4537-e30e3b009560}'</comment>
+  </data>
+  <data name="1:label,Lead{127c274b-48b9-ac46-137e-1b6acdae3386}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{127c274b-48b9-ac46-137e-1b6acdae3386}'</comment>
+  </data>
+  <data name="1:label,Lead{12886b4b-98d0-078d-371e-5eb331b074de}" xml:space="preserve">
+    <value>Source Data 1</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{12886b4b-98d0-078d-371e-5eb331b074de}'</comment>
+  </data>
+  <data name="1:label,Lead{160828ed-22ce-147b-c3ba-caabdaac78ee}" xml:space="preserve">
+    <value>Is it K-12 School?</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{160828ed-22ce-147b-c3ba-caabdaac78ee}'</comment>
+  </data>
+  <data name="1:label,Lead{177ae0a4-a068-b8ee-06bb-017160015c81}" xml:space="preserve">
+    <value>Other (Please Specify)</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{177ae0a4-a068-b8ee-06bb-017160015c81}'</comment>
+  </data>
+  <data name="1:label,Lead{17b2796d-5aec-c6dd-22d2-54833b65650c}" xml:space="preserve">
+    <value>Project Summary</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{17b2796d-5aec-c6dd-22d2-54833b65650c}'</comment>
+  </data>
+  <data name="1:label,Lead{180cd545-7976-4271-aa97-ef1588f31a58}" xml:space="preserve">
+    <value>Contact Details</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{180cd545-7976-4271-aa97-ef1588f31a58}'</comment>
+  </data>
+  <data name="1:label,Lead{1a4de884-3b04-b301-ba98-43b18e048222}" xml:space="preserve">
+    <value>Regional Currency</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{1a4de884-3b04-b301-ba98-43b18e048222}'</comment>
+  </data>
+  <data name="1:label,Lead{1c24cc86-24d2-d509-19b5-c4b707d8b3e8}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{1c24cc86-24d2-d509-19b5-c4b707d8b3e8}'</comment>
+  </data>
+  <data name="1:label,Lead{1d500da1-342a-ba15-9bda-3e3d96b725e0}" xml:space="preserve">
+    <value>Contract Agreement Ref. Number</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{1d500da1-342a-ba15-9bda-3e3d96b725e0}'</comment>
+  </data>
+  <data name="1:label,Lead{1de26a9a-5756-0709-4777-18183ac88764}" xml:space="preserve">
+    <value>Project City</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{1de26a9a-5756-0709-4777-18183ac88764}'</comment>
+  </data>
+  <data name="1:label,Lead{1de94f13-a476-4765-bd9a-b8ffe2f29ed0}" xml:space="preserve">
+    <value>Follow Email</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{1de94f13-a476-4765-bd9a-b8ffe2f29ed0}'</comment>
+  </data>
+  <data name="1:label,Lead{1e55d67d-028b-1644-d4e8-b6ea4220b32a}" xml:space="preserve">
+    <value>Open</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{1e55d67d-028b-1644-d4e8-b6ea4220b32a}'</comment>
+  </data>
+  <data name="1:label,Lead{211ddb4b-6adc-19c7-a805-9d3db937611b}" xml:space="preserve">
+    <value>Business Phone</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{211ddb4b-6adc-19c7-a805-9d3db937611b}'</comment>
+  </data>
+  <data name="1:label,Lead{22430860-3dec-65c8-624d-d27979eeb30e}" xml:space="preserve">
+    <value>DETAILS</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{22430860-3dec-65c8-624d-d27979eeb30e}'</comment>
+  </data>
+  <data name="1:label,Lead{22caab01-a7a7-4d3a-63d2-465e375518c0}" xml:space="preserve">
+    <value>Global Services</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{22caab01-a7a7-4d3a-63d2-465e375518c0}'</comment>
+  </data>
+  <data name="1:label,Lead{238dc0d1-c7bb-48bf-bd46-81c9358c864b}" xml:space="preserve">
+    <value>Preferred</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{238dc0d1-c7bb-48bf-bd46-81c9358c864b}'</comment>
+  </data>
+  <data name="1:label,Lead{23b1d7c8-3d87-1093-56e9-531a28b5a9e6}" xml:space="preserve">
+    <value>Business Mobile</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{23b1d7c8-3d87-1093-56e9-531a28b5a9e6}'</comment>
+  </data>
+  <data name="1:label,Lead{244b229c-34a4-c1a6-6066-9b9c313dc721}" xml:space="preserve">
+    <value>Created On</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{244b229c-34a4-c1a6-6066-9b9c313dc721}'</comment>
+  </data>
+  <data name="1:label,Lead{248cd990-54d8-226e-d868-732e34155265}" xml:space="preserve">
+    <value>Project Currency</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{248cd990-54d8-226e-d868-732e34155265}'</comment>
+  </data>
+  <data name="1:label,Lead{253db268-9049-c5ed-5e85-2979e0bc760b}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{253db268-9049-c5ed-5e85-2979e0bc760b}'</comment>
+  </data>
+  <data name="1:label,Lead{254b0354-5736-b48d-8d8e-4eab05b5951c}" xml:space="preserve">
+    <value>Project Country</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{254b0354-5736-b48d-8d8e-4eab05b5951c}'</comment>
+  </data>
+  <data name="1:label,Lead{25a7cc50-8507-950d-a0b2-ada13a1a66be}" xml:space="preserve">
+    <value>hubspot_workflow</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{25a7cc50-8507-950d-a0b2-ada13a1a66be}'</comment>
+  </data>
+  <data name="1:label,Lead{25aa6ac2-7a56-159b-ac36-ae2d147c69d8}" xml:space="preserve">
+    <value>Is Lead Qualified</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{25aa6ac2-7a56-159b-ac36-ae2d147c69d8}'</comment>
+  </data>
+  <data name="1:label,Lead{26a943c9-a317-d9c9-6cac-2d1a966e51ca}" xml:space="preserve">
+    <value>HubSpot</value>
+    <comment>'Lead' : label for tab in Entity FormXml ID: '{26a943c9-a317-d9c9-6cac-2d1a966e51ca}'</comment>
+  </data>
+  <data name="1:label,Lead{27cda46c-883e-dae0-d4de-a456bb091b30}" xml:space="preserve">
+    <value>Arup Sub Business</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{27cda46c-883e-dae0-d4de-a456bb091b30}'</comment>
+  </data>
+  <data name="1:label,Lead{27e4c43c-5864-2913-8005-62ca4605e179}" xml:space="preserve">
+    <value>Estimated Project Start Date</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{27e4c43c-5864-2913-8005-62ca4605e179}'</comment>
+  </data>
+  <data name="1:label,Lead{285cd6a8-e70c-c3b8-7b54-d514808b104e}" xml:space="preserve">
+    <value>Section</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{285cd6a8-e70c-c3b8-7b54-d514808b104e}'</comment>
+  </data>
+  <data name="1:label,Lead{30c6228c-3563-c690-a66a-e3ddcb8bd1c5}" xml:space="preserve">
+    <value># Page Views</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{30c6228c-3563-c690-a66a-e3ddcb8bd1c5}'</comment>
+  </data>
+  <data name="1:label,Lead{31352260-4a41-c34c-b845-8deb2ad61cbb}" xml:space="preserve">
+    <value>First Send Date</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{31352260-4a41-c34c-b845-8deb2ad61cbb}'</comment>
+  </data>
+  <data name="1:label,Lead{329d449e-2a71-d292-0315-c0b298082300}" xml:space="preserve">
+    <value>First Open Date</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{329d449e-2a71-d292-0315-c0b298082300}'</comment>
+  </data>
+  <data name="1:label,Lead{32aaae3c-0925-322e-210b-d20bb09a1ec0}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{32aaae3c-0925-322e-210b-d20bb09a1ec0}'</comment>
+  </data>
+  <data name="1:label,Lead{35a61774-d508-3d9e-88a9-eb1ae901084e}" xml:space="preserve">
+    <value>Twitter Bio</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{35a61774-d508-3d9e-88a9-eb1ae901084e}'</comment>
+  </data>
+  <data name="1:label,Lead{36d86b76-4b22-5b36-c20e-4bd0e1c99e8c}" xml:space="preserve">
+    <value>Twitter Profile Photo</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{36d86b76-4b22-5b36-c20e-4bd0e1c99e8c}'</comment>
+  </data>
+  <data name="1:label,Lead{379187ec-19d0-501b-3c14-861934dadbe2}" xml:space="preserve">
+    <value>Global Services</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{379187ec-19d0-501b-3c14-861934dadbe2}'</comment>
+  </data>
+  <data name="1:label,Lead{37bd48e1-73e7-1276-da3e-64909b9d9ebd}" xml:space="preserve">
+    <value>HubSpot Lead Intelligence</value>
+    <comment>'Lead' : label for tab in Entity FormXml ID: '{37bd48e1-73e7-1276-da3e-64909b9d9ebd}'</comment>
+  </data>
+  <data name="1:label,Lead{3b930186-2297-cdda-c7b4-a0ed640533a8}" xml:space="preserve">
+    <value>Overall Project Value</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{3b930186-2297-cdda-c7b4-a0ed640533a8}'</comment>
+  </data>
+  <data name="1:label,Lead{3cc2bc3f-03a3-47f6-a011-e217dd56ff8d}" xml:space="preserve">
+    <value>Annual Revenue</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{3cc2bc3f-03a3-47f6-a011-e217dd56ff8d}'</comment>
+  </data>
+  <data name="1:label,Lead{3cd104ce-89c4-c3ea-1bb4-79a2a2003009}" xml:space="preserve">
+    <value>Lead Owner</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{3cd104ce-89c4-c3ea-1bb4-79a2a2003009}'</comment>
+  </data>
+  <data name="1:label,Lead{3eb2ed0d-bc8c-38b7-a676-6d9abd6db898}" xml:space="preserve">
+    <value>Last Send Date</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{3eb2ed0d-bc8c-38b7-a676-6d9abd6db898}'</comment>
+  </data>
+  <data name="1:label,Lead{3ee865db-5b40-1816-2248-7a7a6407b997}" xml:space="preserve">
+    <value>First Clicked Date</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{3ee865db-5b40-1816-2248-7a7a6407b997}'</comment>
+  </data>
+  <data name="1:label,Lead{409a1b18-8c71-2e58-ee8d-11120e37c002}" xml:space="preserve">
+    <value>First URL</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{409a1b18-8c71-2e58-ee8d-11120e37c002}'</comment>
+  </data>
+  <data name="1:label,Lead{424bbc58-e11c-9b54-8723-a568a6b76936}" xml:space="preserve">
+    <value>Last Visit Timestamp</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{424bbc58-e11c-9b54-8723-a568a6b76936}'</comment>
+  </data>
+  <data name="1:label,Lead{494c6aa2-26f3-413f-bcab-dc093d54b82f}" xml:space="preserve">
+    <value>COMPANY</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{494c6aa2-26f3-413f-bcab-dc093d54b82f}'</comment>
+  </data>
+  <data name="1:label,Lead{4a067895-5c09-703d-04db-6b55e82ccba1}" xml:space="preserve">
+    <value>Project Name</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{4a067895-5c09-703d-04db-6b55e82ccba1}'</comment>
+  </data>
+  <data name="1:label,Lead{4a355838-d456-6401-e5e4-dbaa930558d6}" xml:space="preserve">
+    <value>Dupe Check Result</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{4a355838-d456-6401-e5e4-dbaa930558d6}'</comment>
+  </data>
+  <data name="1:label,Lead{4aee7ccd-251b-a2a2-65b2-d1e62de00215}" xml:space="preserve">
+    <value>Lead Source</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{4aee7ccd-251b-a2a2-65b2-d1e62de00215}'</comment>
+  </data>
+  <data name="1:label,Lead{4b131937-e254-842d-bd1a-98a5e3267847}" xml:space="preserve">
+    <value>Contact First Name</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{4b131937-e254-842d-bd1a-98a5e3267847}'</comment>
+  </data>
+  <data name="1:label,Lead{4cbae1de-acce-3da8-8527-4537dcb3c5c7}" xml:space="preserve">
+    <value>Arup Business</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{4cbae1de-acce-3da8-8527-4537dcb3c5c7}'</comment>
+  </data>
+  <data name="1:label,Lead{510ce17d-3e83-bede-4a5a-680aebd80e88}" xml:space="preserve">
+    <value>Procurement Type</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{510ce17d-3e83-bede-4a5a-680aebd80e88}'</comment>
+  </data>
+  <data name="1:label,Lead{5297183a-a1d6-e3b6-7b44-532eebbc6bb5}" xml:space="preserve">
+    <value>Project City</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{5297183a-a1d6-e3b6-7b44-532eebbc6bb5}'</comment>
+  </data>
+  <data name="1:label,Lead{5693ad37-350f-4f0e-b03a-4212e78c9b6e}" xml:space="preserve">
+    <value>SUMMARY</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{5693ad37-350f-4f0e-b03a-4212e78c9b6e}'</comment>
+  </data>
+  <data name="1:label,Lead{57a1c147-855c-b029-eec9-809add5d76d0}" xml:space="preserve">
+    <value>Other (please specify)</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{57a1c147-855c-b029-eec9-809add5d76d0}'</comment>
+  </data>
+  <data name="1:label,Lead{57a94d58-aa68-152c-8b37-acb76d1ce070}" xml:space="preserve">
+    <value>Project Sector Value</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{57a94d58-aa68-152c-8b37-acb76d1ce070}'</comment>
+  </data>
+  <data name="1:label,Lead{58246c75-3e63-9496-7a7b-2ad6ddbaaba2}" xml:space="preserve">
+    <value>Last Engagement</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{58246c75-3e63-9496-7a7b-2ad6ddbaaba2}'</comment>
+  </data>
+  <data name="1:label,Lead{582ca22b-95e3-4d0e-9d81-e29bc8100e7a}" xml:space="preserve">
+    <value>Website</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{582ca22b-95e3-4d0e-9d81-e29bc8100e7a}'</comment>
+  </data>
+  <data name="1:label,Lead{59061489-46b1-1536-d53c-a01ae7a63b19}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{59061489-46b1-1536-d53c-a01ae7a63b19}'</comment>
+  </data>
+  <data name="1:label,Lead{593d18ec-9d63-91c3-d716-c60bbb007ece}" xml:space="preserve">
+    <value>Project Sector Value</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{593d18ec-9d63-91c3-d716-c60bbb007ece}'</comment>
+  </data>
+  <data name="1:label,Lead{5b1dadb4-c8c2-9980-e21c-e1cd737935b9}" xml:space="preserve">
+    <value>First Referrer</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{5b1dadb4-c8c2-9980-e21c-e1cd737935b9}'</comment>
+  </data>
+  <data name="1:label,Lead{5c1dd6e3-15b6-35d1-2d4c-5214cd0eac1c}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{5c1dd6e3-15b6-35d1-2d4c-5214cd0eac1c}'</comment>
+  </data>
+  <data name="1:label,Lead{5cb04590-c63e-2125-dba0-690db05b91ae}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{5cb04590-c63e-2125-dba0-690db05b91ae}'</comment>
+  </data>
+  <data name="1:label,Lead{60ca81d8-c2d8-3622-8505-85b7b40c0780}" xml:space="preserve">
+    <value>Section</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{60ca81d8-c2d8-3622-8505-85b7b40c0780}'</comment>
+  </data>
+  <data name="1:label,Lead{6172735c-42a8-7231-5411-b1ba5bbc73ad}" xml:space="preserve">
+    <value>Note Text</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{6172735c-42a8-7231-5411-b1ba5bbc73ad}'</comment>
+  </data>
+  <data name="1:label,Lead{642ad7f5-35a7-441c-bce2-c5f7a959bd1c}" xml:space="preserve">
+    <value>Tab</value>
+    <comment>'Lead' : label for tab in Entity FormXml ID: '{642ad7f5-35a7-441c-bce2-c5f7a959bd1c}'</comment>
+  </data>
+  <data name="1:label,Lead{65d8391a-aee8-b79b-a5a2-27b687a4533c}" xml:space="preserve">
+    <value>Additional Information</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{65d8391a-aee8-b79b-a5a2-27b687a4533c}'</comment>
+  </data>
+  <data name="1:label,Lead{676bec67-a3aa-6a60-9305-822a36e1d96e}" xml:space="preserve">
+    <value>Facebook Clicks</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{676bec67-a3aa-6a60-9305-822a36e1d96e}'</comment>
+  </data>
+  <data name="1:label,Lead{6932a08e-c9c8-31cd-dab1-15ca23223c03}" xml:space="preserve">
+    <value>Status</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{6932a08e-c9c8-31cd-dab1-15ca23223c03}'</comment>
+  </data>
+  <data name="1:label,Lead{6ad77050-3e2d-ddae-4b34-b5ba80bc6a55}" xml:space="preserve">
+    <value>Arup Practice</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{6ad77050-3e2d-ddae-4b34-b5ba80bc6a55}'</comment>
+  </data>
+  <data name="1:label,Lead{6b01bc45-9b56-712d-5433-5276b41b6972}" xml:space="preserve">
+    <value>Section</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{6b01bc45-9b56-712d-5433-5276b41b6972}'</comment>
+  </data>
+  <data name="1:label,Lead{6ec290e9-6ee1-91e5-ba52-a029db09ee40}" xml:space="preserve">
+    <value>Arup Company</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{6ec290e9-6ee1-91e5-ba52-a029db09ee40}'</comment>
+  </data>
+  <data name="1:label,Lead{733acd8e-1c03-4411-d174-95a751b58aaa}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{733acd8e-1c03-4411-d174-95a751b58aaa}'</comment>
+  </data>
+  <data name="1:label,Lead{7792dace-232c-b0a4-539b-3b63862aa5c9}" xml:space="preserve">
+    <value>Job Title</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{7792dace-232c-b0a4-539b-3b63862aa5c9}'</comment>
+  </data>
+  <data name="1:label,Lead{78ee7ed5-a312-1142-ea07-bd52ccce2473}" xml:space="preserve">
+    <value>Created By</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{78ee7ed5-a312-1142-ea07-bd52ccce2473}'</comment>
+  </data>
+  <data name="1:label,Lead{7a24041c-0c88-b3b5-9574-88359121c0d8}" xml:space="preserve">
+    <value>Parent Account for Lead</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{7a24041c-0c88-b3b5-9574-88359121c0d8}'</comment>
+  </data>
+  <data name="1:label,Lead{7c1931dd-e155-3ca2-b923-87cdebbedc54}" xml:space="preserve">
+    <value>Is Ineligible</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{7c1931dd-e155-3ca2-b923-87cdebbedc54}'</comment>
+  </data>
+  <data name="1:label,Lead{7da0c9b6-8289-4b50-ab33-b5f0568cadb9}" xml:space="preserve">
+    <value>Lead Owner</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{7da0c9b6-8289-4b50-ab33-b5f0568cadb9}'</comment>
+  </data>
+  <data name="1:label,Lead{7ded754d-42d0-e972-5b94-38961d2438bd}" xml:space="preserve">
+    <value>Klout Score</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{7ded754d-42d0-e972-5b94-38961d2438bd}'</comment>
+  </data>
+  <data name="1:label,Lead{807bb683-5a9b-b4b7-c71c-b6b2105cdc66}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{807bb683-5a9b-b4b7-c71c-b6b2105cdc66}'</comment>
+  </data>
+  <data name="1:label,Lead{80ad715e-e321-9419-2ea5-a07161775210}" xml:space="preserve">
+    <value>Profile URL</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{80ad715e-e321-9419-2ea5-a07161775210}'</comment>
+  </data>
+  <data name="1:label,Lead{80d5ec46-9ce1-06ca-69c0-c768e0ce70c2}" xml:space="preserve">
+    <value>Opt-Out</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{80d5ec46-9ce1-06ca-69c0-c768e0ce70c2}'</comment>
+  </data>
+  <data name="1:label,Lead{8192c46a-9e53-d2c6-a075-1d498d1ee38b}" xml:space="preserve">
+    <value>Estimated Project End Date</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{8192c46a-9e53-d2c6-a075-1d498d1ee38b}'</comment>
+  </data>
+  <data name="1:label,Lead{86185452-683d-4ac1-9798-9fc5280bdae0}" xml:space="preserve">
+    <value>Phone</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{86185452-683d-4ac1-9798-9fc5280bdae0}'</comment>
+  </data>
+  <data name="1:label,Lead{86224178-c224-a8ca-3ada-badc7b17a15c}" xml:space="preserve">
+    <value>Arup Office</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{86224178-c224-a8ca-3ada-badc7b17a15c}'</comment>
+  </data>
+  <data name="1:label,Lead{867d9327-5d4a-aa94-2d16-d3b6d97db692}" xml:space="preserve">
+    <value>LinkedIn Clicks</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{867d9327-5d4a-aa94-2d16-d3b6d97db692}'</comment>
+  </data>
+  <data name="1:label,Lead{86b6bc5a-073d-b488-76a3-7d4449375019}" xml:space="preserve">
+    <value>Section</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{86b6bc5a-073d-b488-76a3-7d4449375019}'</comment>
+  </data>
+  <data name="1:label,Lead{89ed652b-38bc-c616-a196-648a7e4c3362}" xml:space="preserve">
+    <value>Global Services</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{89ed652b-38bc-c616-a196-648a7e4c3362}'</comment>
+  </data>
+  <data name="1:label,Lead{8bddd316-5bbc-0e9e-e767-7d168349e2c3}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{8bddd316-5bbc-0e9e-e767-7d168349e2c3}'</comment>
+  </data>
+  <data name="1:label,Lead{8e1900e6-bd38-5b3c-51dc-c3a0a8cc9109}" xml:space="preserve">
+    <value>Is it K-12 School?</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{8e1900e6-bd38-5b3c-51dc-c3a0a8cc9109}'</comment>
+  </data>
+  <data name="1:label,Lead{8ea791a2-5111-404b-2e32-d8b7b2cb8a99}" xml:space="preserve">
+    <value>Regional Currency</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{8ea791a2-5111-404b-2e32-d8b7b2cb8a99}'</comment>
+  </data>
+  <data name="1:label,Lead{8f704a5d-5f33-462d-b07b-3c29ddacea29}" xml:space="preserve">
+    <value>Currency</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{8f704a5d-5f33-462d-b07b-3c29ddacea29}'</comment>
+  </data>
+  <data name="1:label,Lead{9008acae-4b08-4be6-a5d3-aef9155a7f16}" xml:space="preserve">
+    <value>Additional Lead Details</value>
+    <comment>'Lead' : label for tab in Entity FormXml ID: '{9008acae-4b08-4be6-a5d3-aef9155a7f16}'</comment>
+  </data>
+  <data name="1:label,Lead{908659e4-edd5-1161-2cbb-c01e88c9c83a}" xml:space="preserve">
+    <value>Bounce</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{908659e4-edd5-1161-2cbb-c01e88c9c83a}'</comment>
+  </data>
+  <data name="1:label,Lead{92904e97-d84b-9491-ee51-761d8bee6863}" xml:space="preserve">
+    <value>Global Services (picklist)</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{92904e97-d84b-9491-ee51-761d8bee6863}'</comment>
+  </data>
+  <data name="1:label,Lead{936be097-27a9-c8c2-b1eb-3b022846616b}" xml:space="preserve">
+    <value>Next Action Date</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{936be097-27a9-c8c2-b1eb-3b022846616b}'</comment>
+  </data>
+  <data name="1:label,Lead{93bb851c-4a32-4bab-a4ef-ee0e97226ad9}" xml:space="preserve">
+    <value>Mail</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{93bb851c-4a32-4bab-a4ef-ee0e97226ad9}'</comment>
+  </data>
+  <data name="1:label,Lead{94847e03-1c84-93d1-d745-9368abb87adc}" xml:space="preserve">
+    <value>HubSpot Email Workflow</value>
+    <comment>'Lead' : label for tab in Entity FormXml ID: '{94847e03-1c84-93d1-d745-9368abb87adc}'</comment>
+  </data>
+  <data name="1:label,Lead{94a014a7-68b7-7d14-449d-b2dde4d9bbdd}" xml:space="preserve">
+    <value>Project Currency</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{94a014a7-68b7-7d14-449d-b2dde4d9bbdd}'</comment>
+  </data>
+  <data name="1:label,Lead{960c33c6-a214-9d08-1319-34b4862ca357}" xml:space="preserve">
+    <value>Arup Group</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{960c33c6-a214-9d08-1319-34b4862ca357}'</comment>
+  </data>
+  <data name="1:label,Lead{9769aa55-a1d0-43d7-9d89-9dfccb1efd0d}" xml:space="preserve">
+    <value>Industry</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{9769aa55-a1d0-43d7-9d89-9dfccb1efd0d}'</comment>
+  </data>
+  <data name="1:label,Lead{979dd2b7-5a96-a746-1ab1-3b3e157dad78}" xml:space="preserve">
+    <value>Global Services value</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{979dd2b7-5a96-a746-1ab1-3b3e157dad78}'</comment>
+  </data>
+  <data name="1:label,Lead{983d5951-2433-6e37-0561-1a0c616b41e6}" xml:space="preserve">
+    <value>Revenue</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{983d5951-2433-6e37-0561-1a0c616b41e6}'</comment>
+  </data>
+  <data name="1:label,Lead{9889c420-d073-3300-b854-dbad539753e1}" xml:space="preserve">
+    <value>Arup Region</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{9889c420-d073-3300-b854-dbad539753e1}'</comment>
+  </data>
+  <data name="1:label,Lead{99620785-b92b-dea2-a7bb-b11610355d93}" xml:space="preserve">
+    <value># Event Completions</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{99620785-b92b-dea2-a7bb-b11610355d93}'</comment>
+  </data>
+  <data name="1:label,Lead{9ae60f89-6507-4cd3-8c5a-c26915a7e315}" xml:space="preserve">
+    <value>CONTACT</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{9ae60f89-6507-4cd3-8c5a-c26915a7e315}'</comment>
+  </data>
+  <data name="1:label,Lead{9c463dbe-b27c-d18e-59bd-d00aaa2a8b22}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{9c463dbe-b27c-d18e-59bd-d00aaa2a8b22}'</comment>
+  </data>
+  <data name="1:label,Lead{a07c375d-b446-0273-b7a8-c07266951104}" xml:space="preserve">
+    <value>Project Country</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{a07c375d-b446-0273-b7a8-c07266951104}'</comment>
+  </data>
+  <data name="1:label,Lead{a0b17cd3-65c2-81a7-d382-24e026eb2c77}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{a0b17cd3-65c2-81a7-d382-24e026eb2c77}'</comment>
+  </data>
+  <data name="1:label,Lead{a39c35a4-5393-aede-4408-37d682c9ec2c}" xml:space="preserve">
+    <value>Project State/Province</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{a39c35a4-5393-aede-4408-37d682c9ec2c}'</comment>
+  </data>
+  <data name="1:label,Lead{a479be00-db71-e547-0207-cbd97076419c}" xml:space="preserve">
+    <value>Fee Income</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{a479be00-db71-e547-0207-cbd97076419c}'</comment>
+  </data>
+  <data name="1:label,Lead{a5230208-77c9-427d-a961-c8dc9b94aa5a}" xml:space="preserve">
+    <value>Email</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{a5230208-77c9-427d-a961-c8dc9b94aa5a}'</comment>
+  </data>
+  <data name="1:label,Lead{a5b3e9c6-2cc7-4273-bd86-12fca3a85e4a}" xml:space="preserve">
+    <value>Last Campaign Date</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{a5b3e9c6-2cc7-4273-bd86-12fca3a85e4a}'</comment>
+  </data>
+  <data name="1:label,Lead{a65e007d-ec05-eb67-c7b6-2920aec38db2}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{a65e007d-ec05-eb67-c7b6-2920aec38db2}'</comment>
+  </data>
+  <data name="1:label,Lead{a8331269-73b2-066b-e60b-46023793b6c3}" xml:space="preserve">
+    <value>Client</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{a8331269-73b2-066b-e60b-46023793b6c3}'</comment>
+  </data>
+  <data name="1:label,Lead{a9c7d6aa-44d9-ba18-0104-e56aeed4743c}" xml:space="preserve">
+    <value>Ultimate/End Client</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{a9c7d6aa-44d9-ba18-0104-e56aeed4743c}'</comment>
+  </data>
+  <data name="1:label,Lead{a9ec3a76-952c-ad0e-93a6-ab726e4b93ed}" xml:space="preserve">
+    <value>First Timestamp</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{a9ec3a76-952c-ad0e-93a6-ab726e4b93ed}'</comment>
+  </data>
+  <data name="1:label,Lead{aa56b82b-06d7-1da6-155a-debe575a57b9}" xml:space="preserve">
+    <value>Opportunity Type</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{aa56b82b-06d7-1da6-155a-debe575a57b9}'</comment>
+  </data>
+  <data name="1:label,Lead{aadea7ab-8a10-50bd-cac7-141ee79935d4}" xml:space="preserve">
+    <value>Project Sector (code)</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{aadea7ab-8a10-50bd-cac7-141ee79935d4}'</comment>
+  </data>
+  <data name="1:label,Lead{ac3b3c9e-783b-1cee-9273-8168e1c123b2}" xml:space="preserve">
+    <value>Delivered</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{ac3b3c9e-783b-1cee-9273-8168e1c123b2}'</comment>
+  </data>
+  <data name="1:label,Lead{ac41d6a8-c0a2-8d96-2e30-701d16ad1bc6}" xml:space="preserve">
+    <value>Client</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{ac41d6a8-c0a2-8d96-2e30-701d16ad1bc6}'</comment>
+  </data>
+  <data name="1:label,Lead{ad813525-dd83-06d1-b763-eb8e14481759}" xml:space="preserve">
+    <value>Persona</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{ad813525-dd83-06d1-b763-eb8e14481759}'</comment>
+  </data>
+  <data name="1:label,Lead{ae021e71-329e-855a-32b0-5d5411ace5c2}" xml:space="preserve">
+    <value>Average Page Views</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{ae021e71-329e-855a-32b0-5d5411ace5c2}'</comment>
+  </data>
+  <data name="1:label,Lead{ae368156-6996-d89e-9eb6-393c5778a9b5}" xml:space="preserve">
+    <value>Click</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{ae368156-6996-d89e-9eb6-393c5778a9b5}'</comment>
+  </data>
+  <data name="1:label,Lead{ae61973a-680e-a6c4-8a90-95a9d1393cb2}" xml:space="preserve">
+    <value>Last Email Name</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{ae61973a-680e-a6c4-8a90-95a9d1393cb2}'</comment>
+  </data>
+  <data name="1:label,Lead{aee93c8c-a239-4a6d-bb9b-6962c20dc8a9}" xml:space="preserve">
+    <value>SIC Code</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{aee93c8c-a239-4a6d-bb9b-6962c20dc8a9}'</comment>
+  </data>
+  <data name="1:label,Lead{b206b756-b1ca-71da-a1a9-2640ba09e867}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{b206b756-b1ca-71da-a1a9-2640ba09e867}'</comment>
+  </data>
+  <data name="1:label,Lead{b2d567b1-095d-4836-ba59-338015565ae7}" xml:space="preserve">
+    <value>Personal Information</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{b2d567b1-095d-4836-ba59-338015565ae7}'</comment>
+  </data>
+  <data name="1:label,Lead{b35cc707-e3dc-7e96-1c5d-5e9bd57a66d5}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{b35cc707-e3dc-7e96-1c5d-5e9bd57a66d5}'</comment>
+  </data>
+  <data name="1:label,Lead{b3b4e027-9b0a-e416-0077-ea31641a619b}" xml:space="preserve">
+    <value>Hidden</value>
+    <comment>'Lead' : label for tab in Entity FormXml ID: '{b3b4e027-9b0a-e416-0077-ea31641a619b}'</comment>
+  </data>
+  <data name="1:label,Lead{b3c1094c-725a-7b08-6e06-eed4e94bcda4}" xml:space="preserve">
+    <value>Opportunity Type</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{b3c1094c-725a-7b08-6e06-eed4e94bcda4}'</comment>
+  </data>
+  <data name="1:label,Lead{b5101149-8796-4aed-edc6-2393a4679ed3}" xml:space="preserve">
+    <value>Email Data</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{b5101149-8796-4aed-edc6-2393a4679ed3}'</comment>
+  </data>
+  <data name="1:label,Lead{b75b5c86-3a7b-9141-0bc0-92ddc77ba4e6}" xml:space="preserve">
+    <value>Parent Account for Lead</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{b75b5c86-3a7b-9141-0bc0-92ddc77ba4e6}'</comment>
+  </data>
+  <data name="1:label,Lead{b7756c1d-7d4c-6e26-debe-d057632613eb}" xml:space="preserve">
+    <value>Related Parent Opportunity</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{b7756c1d-7d4c-6e26-debe-d057632613eb}'</comment>
+  </data>
+  <data name="1:label,Lead{b947824e-0322-7a69-a330-8033b19a4122}" xml:space="preserve">
+    <value>Currency</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{b947824e-0322-7a69-a330-8033b19a4122}'</comment>
+  </data>
+  <data name="1:label,Lead{bac826a8-ee3e-412a-828a-f192e6d8dc6e}" xml:space="preserve">
+    <value>ACTIVITIES &amp; NOTES</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{bac826a8-ee3e-412a-828a-f192e6d8dc6e}'</comment>
+  </data>
+  <data name="1:label,Lead{bac9be72-111a-e10e-4110-be829bc95920}" xml:space="preserve">
+    <value>Project Name</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{bac9be72-111a-e10e-4110-be829bc95920}'</comment>
+  </data>
+  <data name="1:label,Lead{bbe784ab-23b6-40a5-8c83-142190b2af1d}" xml:space="preserve">
+    <value>Bulk Email</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{bbe784ab-23b6-40a5-8c83-142190b2af1d}'</comment>
+  </data>
+  <data name="1:label,Lead{bd05ae92-e211-de51-4edb-70c2a4a271bd}" xml:space="preserve">
+    <value>Section</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{bd05ae92-e211-de51-4edb-70c2a4a271bd}'</comment>
+  </data>
+  <data name="1:label,Lead{bd06dcc2-c31e-1931-1cba-115151792a9d}" xml:space="preserve">
+    <value>Project Sector</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{bd06dcc2-c31e-1931-1cba-115151792a9d}'</comment>
+  </data>
+  <data name="1:label,Lead{bdc56e0e-a180-d736-72b6-cab3388e80ac}" xml:space="preserve">
+    <value>Accounting Centre</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{bdc56e0e-a180-d736-72b6-cab3388e80ac}'</comment>
+  </data>
+  <data name="1:label,Lead{be730c00-0bd1-523d-0d70-b05341aa025c}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{be730c00-0bd1-523d-0d70-b05341aa025c}'</comment>
+  </data>
+  <data name="1:label,Lead{c141d780-d1c4-285a-4508-a1b2888ccc2b}" xml:space="preserve">
+    <value>Short Title</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{c141d780-d1c4-285a-4508-a1b2888ccc2b}'</comment>
+  </data>
+  <data name="1:label,Lead{c521dd2d-9920-e734-0a40-3c200de3c321}" xml:space="preserve">
+    <value>Project State/Province</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{c521dd2d-9920-e734-0a40-3c200de3c321}'</comment>
+  </data>
+  <data name="1:label,Lead{c5bd0e1d-4609-3475-90ee-53226dced8b3}" xml:space="preserve">
+    <value>Other (please specify)</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{c5bd0e1d-4609-3475-90ee-53226dced8b3}'</comment>
+  </data>
+  <data name="1:label,Lead{c690a442-0dc3-8067-02e2-ab6e96c9c4b2}" xml:space="preserve">
+    <value>Short Title</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{c690a442-0dc3-8067-02e2-ab6e96c9c4b2}'</comment>
+  </data>
+  <data name="1:label,Lead{c7d9d969-78a3-a849-1e13-7202480be27b}" xml:space="preserve">
+    <value>Arup Region</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{c7d9d969-78a3-a849-1e13-7202480be27b}'</comment>
+  </data>
+  <data name="1:label,Lead{c8b4405e-e6eb-1625-81aa-e8acd5e9ed7e}" xml:space="preserve">
+    <value>Arup Group</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{c8b4405e-e6eb-1625-81aa-e8acd5e9ed7e}'</comment>
+  </data>
+  <data name="1:label,Lead{c9563563-857a-abbd-eb15-26e24334a3c4}" xml:space="preserve">
+    <value>Global Services</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{c9563563-857a-abbd-eb15-26e24334a3c4}'</comment>
+  </data>
+  <data name="1:label,Lead{c9970a03-31ca-95be-2740-4d79766c6069}" xml:space="preserve">
+    <value>Reference ID</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{c9970a03-31ca-95be-2740-4d79766c6069}'</comment>
+  </data>
+  <data name="1:label,Lead{cb8b91ed-9d4c-9533-047c-ce08089384b6}" xml:space="preserve">
+    <value>HubSpot Data</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{cb8b91ed-9d4c-9533-047c-ce08089384b6}'</comment>
+  </data>
+  <data name="1:label,Lead{cc560cb7-1039-60b4-ad38-522120ae0e05}" xml:space="preserve">
+    <value>Twitter Handle</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{cc560cb7-1039-60b4-ad38-522120ae0e05}'</comment>
+  </data>
+  <data name="1:label,Lead{ccbb9817-aa74-580c-14b4-5c3a22623137}" xml:space="preserve">
+    <value>Arup Business</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{ccbb9817-aa74-580c-14b4-5c3a22623137}'</comment>
+  </data>
+  <data name="1:label,Lead{cd47e334-4cd0-2ebd-1111-2a4a602ba8b9}" xml:space="preserve">
+    <value>Project Sector</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{cd47e334-4cd0-2ebd-1111-2a4a602ba8b9}'</comment>
+  </data>
+  <data name="1:label,Lead{cd70ad75-fa8d-491a-a9e6-9164c0274dd8}" xml:space="preserve">
+    <value>Company</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{cd70ad75-fa8d-491a-a9e6-9164c0274dd8}'</comment>
+  </data>
+  <data name="1:label,Lead{cda79545-e70e-e8bb-29e1-54b5606d660a}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{cda79545-e70e-e8bb-29e1-54b5606d660a}'</comment>
+  </data>
+  <data name="1:label,Lead{cdc08d06-0a69-db9b-76c2-09dd001d9078}" xml:space="preserve">
+    <value>Last URL</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{cdc08d06-0a69-db9b-76c2-09dd001d9078}'</comment>
+  </data>
+  <data name="1:label,Lead{d05d5cd8-32ca-4c93-8786-10abeaa14d0c}" xml:space="preserve">
+    <value>Social Data</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{d05d5cd8-32ca-4c93-8786-10abeaa14d0c}'</comment>
+  </data>
+  <data name="1:label,Lead{d1bbe4de-d04e-75dc-1385-4635ad2ddc67}" xml:space="preserve">
+    <value>Section</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{d1bbe4de-d04e-75dc-1385-4635ad2ddc67}'</comment>
+  </data>
+  <data name="1:label,Lead{d296bc70-a4aa-a2dc-2104-d075c8dc9287}" xml:space="preserve">
+    <value>hubspot</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{d296bc70-a4aa-a2dc-2104-d075c8dc9287}'</comment>
+  </data>
+  <data name="1:label,Lead{d3a5f17c-30bb-4d2b-bb7f-4ef968727df7}" xml:space="preserve">
+    <value>Marketing Materials</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{d3a5f17c-30bb-4d2b-bb7f-4ef968727df7}'</comment>
+  </data>
+  <data name="1:label,Lead{d3d02eb4-cc92-d28b-5d48-dcd3238de706}" xml:space="preserve">
+    <value>Contact Last Name</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{d3d02eb4-cc92-d28b-5d48-dcd3238de706}'</comment>
+  </data>
+  <data name="1:label,Lead{d554cea0-a407-06b3-ed30-290b5e50d797}" xml:space="preserve">
+    <value>Last Referrer</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{d554cea0-a407-06b3-ed30-290b5e50d797}'</comment>
+  </data>
+  <data name="1:label,Lead{d65663c6-2295-a3d6-75c7-0c378cca1137}" xml:space="preserve">
+    <value>Dupe Check Result</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{d65663c6-2295-a3d6-75c7-0c378cca1137}'</comment>
+  </data>
+  <data name="1:label,Lead{d6d64420-4411-b588-90bb-7396eea38e16}" xml:space="preserve">
+    <value>Section</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{d6d64420-4411-b588-90bb-7396eea38e16}'</comment>
+  </data>
+  <data name="1:label,Lead{d7427cac-55ee-3a8b-7456-c769725b9e47}" xml:space="preserve">
+    <value>Project Sector (code)</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{d7427cac-55ee-3a8b-7456-c769725b9e47}'</comment>
+  </data>
+  <data name="1:label,Lead{d942377d-033e-b246-c145-30e976894114}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{d942377d-033e-b246-c145-30e976894114}'</comment>
+  </data>
+  <data name="1:label,Lead{da36d012-aa23-3515-5928-7c54e22c831c}" xml:space="preserve">
+    <value>Last Clicked Date</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{da36d012-aa23-3515-5928-7c54e22c831c}'</comment>
+  </data>
+  <data name="1:label,Lead{db7a7c03-aeb7-b4a6-0e88-9cd5cceb3a54}" xml:space="preserve">
+    <value>Twitter Clicks</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{db7a7c03-aeb7-b4a6-0e88-9cd5cceb3a54}'</comment>
+  </data>
+  <data name="1:label,Lead{e1925535-689c-4536-9170-93c752121734}" xml:space="preserve">
+    <value>MARKETING INFORMATION</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{e1925535-689c-4536-9170-93c752121734}'</comment>
+  </data>
+  <data name="1:label,Lead{e28e64ac-6d38-c7c0-82bd-063b0844d5cd}" xml:space="preserve">
+    <value>Procurement Message</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{e28e64ac-6d38-c7c0-82bd-063b0844d5cd}'</comment>
+  </data>
+  <data name="1:label,Lead{e3cd675e-3e95-18e0-592d-de5516a78e3d}" xml:space="preserve">
+    <value>Arup Sub Business</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{e3cd675e-3e95-18e0-592d-de5516a78e3d}'</comment>
+  </data>
+  <data name="1:label,Lead{e409a09c-5ba7-4c92-5544-4c862c05c2c9}" xml:space="preserve">
+    <value>PROCUREMENT</value>
+    <comment>'Lead' : label for section in Entity FormXml ID: '{e409a09c-5ba7-4c92-5544-4c862c05c2c9}'</comment>
+  </data>
+  <data name="1:label,Lead{e53570be-b945-eab5-1389-c8d9698127c8}" xml:space="preserve">
+    <value>Source Data 2</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{e53570be-b945-eab5-1389-c8d9698127c8}'</comment>
+  </data>
+  <data name="1:label,Lead{e572743b-d99e-e8a5-b5c3-76cb6838b5ec}" xml:space="preserve">
+    <value>Project Procurement</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{e572743b-d99e-e8a5-b5c3-76cb6838b5ec}'</comment>
+  </data>
+  <data name="1:label,Lead{e63cb5b0-5d28-1e82-a3b9-308e5381d7b6}" xml:space="preserve">
+    <value>Source</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{e63cb5b0-5d28-1e82-a3b9-308e5381d7b6}'</comment>
+  </data>
+  <data name="1:label,Lead{e66131ed-c60b-4d61-79a5-1962cd14144a}" xml:space="preserve">
+    <value># Broadcast Clicks</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{e66131ed-c60b-4d61-79a5-1962cd14144a}'</comment>
+  </data>
+  <data name="1:label,Lead{e7813d50-273b-6177-b229-34c6b5855e69}" xml:space="preserve">
+    <value>HubSpot Score</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{e7813d50-273b-6177-b229-34c6b5855e69}'</comment>
+  </data>
+  <data name="1:label,Lead{e7ae7089-551b-dd21-e9c2-7737c2a45a82}" xml:space="preserve">
+    <value>Accounting Centre</value>
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{e7ae7089-551b-dd21-e9c2-7737c2a45a82}'</comment>
+  </data>
+  <data name="1:label,Lead{e9ad3183-4209-b726-5024-a0d3956b3549}" xml:space="preserve">
+    <value />
+    <comment>'Lead' : label for cell in Entity FormXml ID: '{e9ad3183-4209-b726-5024-a0d3956b3549}'</comment>
+  </data>
+  <data name="1:label,Lead{f7109214-c3bd-4734-ad5b-4054499a43d6}" xml:space="preserve">
+    <value>Summary</value>
+    <comment>'Lead' : label for tab in Entity FormXml ID: '{f7109214-c3bd-4734-ad5b-4054499a43d6}'</comment>
+  </data>
+  <data name="1:LocalizedCollectionName,LeadentityLead" xml:space="preserve">
+    <value>Leads</value>
+    <comment> 'Lead' : LocalizedCollectionName for Entity</comment>
+  </data>
+  <data name="1:LocalizedName,LeadentityLead" xml:space="preserve">
+    <value>Lead</value>
+    <comment> 'Lead' : LocalizedName for Entity</comment>
+  </data>
+  <data name="1:LocalizedName,Lead{aa7c154f-e2f8-45db-b780-a9a8a96332fe}" xml:space="preserve">
+    <value>Lead Quick Create</value>
+    <comment>'Lead' : LocalizedName for systemform in Entity FormXml ID: '{aa7c154f-e2f8-45db-b780-a9a8a96332fe}'</comment>
+  </data>
+  <data name="1:LocalizedName,Lead{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Lead</value>
+    <comment>'Lead' : LocalizedName for systemform in Entity FormXml ID: '{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}'</comment>
+  </data>
+  <data name="1:Title,Leadccrm.lead.QualifyLead.Alt" xml:space="preserve">
+    <value>Progress to Opportunity</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'ccrm.lead.QualifyLead.Alt'</comment>
+  </data>
+  <data name="1:Title,Leadccrm.lead.QualifyLead.LabelText" xml:space="preserve">
+    <value>Progress to Opportunity</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'ccrm.lead.QualifyLead.LabelText'</comment>
+  </data>
+  <data name="1:Title,Leadccrm.lead.QualifyLead.ToolTipDescription" xml:space="preserve">
+    <value>Progress to a new opportunity information from this lead. &lt;br&gt;&lt;br&gt;When the lead is progressed, it is saved as progressed in the Closed Leads view.</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'ccrm.lead.QualifyLead.ToolTipDescription'</comment>
+  </data>
+  <data name="1:Title,Leadccrm.lead.QualifyLead.ToolTipTitle" xml:space="preserve">
+    <value>Progress to Opportunity</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'ccrm.lead.QualifyLead.ToolTipTitle'</comment>
+  </data>
+  <data name="1:Title,LeadInfo{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Common</value>
+    <comment>'Lead' : Title for NavBarArea in Entity FormXml ID: 'Info'</comment>
+  </data>
+  <data name="1:Title,LeadMarketing{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Marketing</value>
+    <comment>'Lead' : Title for NavBarArea in Entity FormXml ID: 'Marketing'</comment>
+  </data>
+  <data name="1:Title,LeadMscrm.Form.lead.DisqualifyLeadAs.Alt" xml:space="preserve">
+    <value>Close Lead</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'Mscrm.Form.lead.DisqualifyLeadAs.Alt'</comment>
+  </data>
+  <data name="1:Title,LeadMscrm.Form.lead.DisqualifyLeadAs.LabelText" xml:space="preserve">
+    <value>Close Lead</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'Mscrm.Form.lead.DisqualifyLeadAs.LabelText'</comment>
+  </data>
+  <data name="1:Title,LeadMscrm.Form.lead.DisqualifyLeadAs.ToolTipDescription" xml:space="preserve">
+    <value>Close the lead &lt;br&gt;&lt;br&gt;When the lead is closed, it is saved as closed in the Closed Leads view.</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'Mscrm.Form.lead.DisqualifyLeadAs.ToolTipDescription'</comment>
+  </data>
+  <data name="1:Title,LeadMscrm.Form.lead.DisqualifyLeadAs.ToolTipTitle" xml:space="preserve">
+    <value>Close Lead</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'Mscrm.Form.lead.DisqualifyLeadAs.ToolTipTitle'</comment>
+  </data>
+  <data name="1:Title,LeadMscrm.Form.lead.FollowButton.LabelText" xml:space="preserve">
+    <value>Follow</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'Mscrm.Form.lead.FollowButton.LabelText'</comment>
+  </data>
+  <data name="1:Title,LeadMscrm.Form.lead.MainTab.Save.Exit.Alt" xml:space="preserve">
+    <value>Exit</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'Mscrm.Form.lead.MainTab.Save.Exit.Alt'</comment>
+  </data>
+  <data name="1:Title,LeadMscrm.Form.lead.MainTab.Save.Exit.LabelText" xml:space="preserve">
+    <value>Exit</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'Mscrm.Form.lead.MainTab.Save.Exit.LabelText'</comment>
+  </data>
+  <data name="1:Title,LeadMscrm.Form.lead.MainTab.Save.Exit.ToolTipDescription" xml:space="preserve">
+    <value>Exit Form</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'Mscrm.Form.lead.MainTab.Save.Exit.ToolTipDescription'</comment>
+  </data>
+  <data name="1:Title,LeadMscrm.Form.lead.MainTab.Save.Exit.ToolTipTitle" xml:space="preserve">
+    <value>Exit Lead Form</value>
+    <comment>'Lead' : Title for LocLabel on Entity ID: 'Mscrm.Form.lead.MainTab.Save.Exit.ToolTipTitle'</comment>
+  </data>
+  <data name="1:Title,LeadnavActivities{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Activities</value>
+    <comment>'Lead' : Title for NavBarByRelationshipItem in Entity FormXml ID: 'navActivities'</comment>
+  </data>
+  <data name="1:Title,LeadnavAsyncOperations{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Workflows</value>
+    <comment>'Lead' : Title for NavBarByRelationshipItem in Entity FormXml ID: 'navAsyncOperations'</comment>
+  </data>
+  <data name="1:Title,LeadnavAudit{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Audit History</value>
+    <comment>'Lead' : Title for NavBarByRelationshipItem in Entity FormXml ID: 'navAudit'</comment>
+  </data>
+  <data name="1:Title,LeadnavCampaignsInSFA{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Campaigns</value>
+    <comment>'Lead' : Title for NavBarByRelationshipItem in Entity FormXml ID: 'navCampaignsInSFA'</comment>
+  </data>
+  <data name="1:Title,LeadnavConnections{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Connections</value>
+    <comment>'Lead' : Title for NavBarByRelationshipItem in Entity FormXml ID: 'navConnections'</comment>
+  </data>
+  <data name="1:Title,LeadnavDocument{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Documents</value>
+    <comment>'Lead' : Title for NavBarByRelationshipItem in Entity FormXml ID: 'navDocument'</comment>
+  </data>
+  <data name="1:Title,LeadnavLeadCompetitor{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Competitors</value>
+    <comment>'Lead' : Title for NavBarByRelationshipItem in Entity FormXml ID: 'navLeadCompetitor'</comment>
+  </data>
+  <data name="1:Title,LeadnavProcessSessions{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Dialog Sessions</value>
+    <comment>'Lead' : Title for NavBarByRelationshipItem in Entity FormXml ID: 'navProcessSessions'</comment>
+  </data>
+  <data name="1:Title,LeadProcessCenter{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Processes</value>
+    <comment>'Lead' : Title for NavBarArea in Entity FormXml ID: 'ProcessCenter'</comment>
+  </data>
+  <data name="1:Title,LeadSales{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Sales</value>
+    <comment>'Lead' : Title for NavBarArea in Entity FormXml ID: 'Sales'</comment>
+  </data>
+  <data name="1:Title,LeadService{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" xml:space="preserve">
+    <value>Service</value>
+    <comment>'Lead' : Title for NavBarArea in Entity FormXml ID: 'Service'</comment>
+  </data>
+</root>

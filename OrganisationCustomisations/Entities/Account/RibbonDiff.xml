@@ -1,0 +1,928 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RibbonDiffXml>
+  <CustomActions>
+    <CustomAction Id="arup.account.Button1.Button.CustomAction" Location="Mscrm.HomepageGrid.account.MainTab.Collaborate.Controls._children" Sequence="5">
+      <CommandUIDefinition>
+        <SplitButton Command="Mscrm.SendShortcutSelected.AlwaysEnabled" Id="arup.account.Button1.Button" Image32by32="/_imgs/ribbon/SendShortcut_32.png" Image16by16="/_imgs/ribbon/EmailLink_16.png" LabelText="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Send" Sequence="5" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Send" ToolTipDescription="$Resources:Mscrm_HomepageGrid_Other_MainTab_ExportData_Send_ToolTipDescription" ModernImage="EmailLink">
+          <Menu Id="arup.account.Button1.Button.Menu">
+            <MenuSection Id="Mscrm.HomepageGrid.account.Send.MenuSection" Sequence="10" DisplayMode="Menu16">
+              <Controls Id="Mscrm.HomepageGrid.account.Send.MenuSection.Controls">
+                <Button Command="Mscrm.SendShortcutSelected" Id="Mscrm.HomepageGrid.account.Send.Selected" Image32by32="/_imgs/ribbon/SendShortcut_32.png" Image16by16="/_imgs/ribbon/EmailLink_16.png" LabelText="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Selected" Sequence="10" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Selected" ToolTipDescription="$Resources:Ribbon.Tooltip.SendShortcut" />
+                <Button Command="Mscrm.SendShortcutView" Id="Mscrm.HomepageGrid.account.Send.View" Image32by32="/_imgs/ribbon/SendView_32.png" Image16by16="/_imgs/ribbon/SendView_16.png" LabelText="$Resources:Ribbon.HomepageGrid.Record.Shortcut.View" Sequence="20" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Record.Shortcut.View" ToolTipDescription="$Resources:Ribbon.Tooltip.SendShortcut_View" />
+              </Controls>
+            </MenuSection>
+          </Menu>
+        </SplitButton>
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.Button2.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="79">
+      <CommandUIDefinition>
+        <Button Alt="$Resources:Ribbon.Form.MainTab.Save.SaveAsComplete" Command="Mscrm.SavePrimaryActivityAsComplete" Id="arup.account.Button2.Button" Image32by32="/_imgs/ribbon/SaveAsCompleted_32.png" Image16by16="/_imgs/ribbon/MarkAsComplete_16.png" LabelText="$Resources:Ribbon.Form.MainTab.Save.SaveAsComplete" Sequence="79" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.Form.MainTab.Save.SaveAsComplete" ToolTipDescription="$Resources(EntityDisplayName):Ribbon.Tooltip.SaveAsComplete" ModernImage="SaveAsComplete" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.Button3.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="68">
+      <CommandUIDefinition>
+        <Button Alt="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Send" Command="Mscrm.SendShortcutPrimary" Id="arup.account.Button3.Button" Image32by32="/_imgs/ribbon/SendShortcut_32.png" Image16by16="/_imgs/ribbon/SendShortcut_16.png" LabelText="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Send" Sequence="68" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.HomepageGrid.Record.Shortcut.Send" ToolTipDescription="$Resources:Ribbon.Tooltip.SendShortcut" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.Button4.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="68">
+      <CommandUIDefinition>
+        <Button Alt="$Resources:Ribbon.HomepageGrid.account.Record.Status.Deactivate" Command="Mscrm.Form.Deactivate" Id="arup.account.Button4.Button" Image32by32="/_imgs/ribbon/Deactivate_32.png" Image16by16="/_imgs/ribbon/Deactivate_16.png" LabelText="$Resources:Ribbon.HomepageGrid.account.Record.Status.Deactivate" Sequence="68" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.HomepageGrid.account.Record.Status.Deactivate" ToolTipDescription="$Resources(EntityPluralDisplayName):Ribbon.Tooltip.Deactivate" ModernImage="DeActivate" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.Button5.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="68">
+      <CommandUIDefinition>
+        <Button Alt="$Resources:Ribbon.HomepageGrid.account.Record.Status.Activate" Command="Mscrm.Form.Activate" Id="arup.account.Button5.Button" Image32by32="/_imgs/ribbon/Activate_32.png" Image16by16="/_imgs/ribbon/Activate_16.png" LabelText="$Resources:Ribbon.HomepageGrid.account.Record.Status.Activate" Sequence="68" TemplateAlias="o1" ToolTipTitle="$Resources:Ribbon.HomepageGrid.account.Record.Status.Activate" ToolTipDescription="$Resources(EntityPluralDisplayName):Ribbon.Tooltip.Activate" ModernImage="Activate" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.Button6.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="68">
+      <CommandUIDefinition>
+        <Button Alt="$Resources:Ribbon.HomepageGrid.MainTab.Management.Delete" Command="Mscrm.DeletePrimaryRecord" Id="arup.account.Button6.Button" Image32by32="/_imgs/Workplace/remove_32.png" Image16by16="/_imgs/ribbon/delete16.png" LabelText="$Resources:Ribbon.HomepageGrid.MainTab.Management.Delete" Sequence="68" TemplateAlias="o1" ToolTipTitle="$Resources:Mscrm_Form_Other_MainTab_Management_Delete_ToolTipTitle" ToolTipDescription="$Resources(EntityPluralDisplayName):Ribbon.Tooltip.Delete" ModernImage="Remove" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.Button7.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="66">
+      <CommandUIDefinition>
+        <Button Command="arup.arup_account.Command.OpenAttachementWindow" Id="arup.account.Button7.Button" Image32by32="$webresource:arup_folderadd_32x32" Image16by16="$webresource:arup_folderadd_16x16" LabelText="$LocLabels:arup.account.Button7.Button.LabelText" Sequence="66" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.account.Button7.Button.ToolTipTitle" ToolTipDescription="$LocLabels:arup.account.Button7.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.DDCheck.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="65">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.account.DDCheck.Button.Alt" Command="arup.account.DDCheck.Command" Description="Due Diligence Check" Id="arup.account.DDCheck.Button" Image32by32="/_imgs/ribbon/DuplicateDetection_32.png" Image16by16="/_imgs/ribbon/DetectDuplicates_16.png" LabelText="$LocLabels:arup.account.DDCheck.Button.LabelText" Sequence="65" TemplateAlias="o1" ToolTipDescription="$LocLabels:arup.account.DDCheck.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.LockRecord.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="17">
+      <CommandUIDefinition>
+        <Button Command="arup.account.LockRecord.Command" Id="arup.account.LockRecord.Button" Image32by32="/_imgs/ribbon/GrantPermissions_32.png" Image16by16="/_imgs/ribbon/GrantPermissions_16.png" LabelText="$LocLabels:arup.account.LockRecord.Button.LabelText" Sequence="17" TemplateAlias="o1" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.MicrosoftTeams.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="68">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.account.MicrosoftTeams.Button.Alt" Command="arup.account.MicrosoftTeams.Command" Description="Microsoft Teams" Id="arup.account.MicrosoftTeams.Button" Image32by32="$webresource:arup_Microsoft_Office_Teams_32" Image16by16="$webresource:arup_Microsoft_Office_Teams_16" LabelText="$LocLabels:arup.account.MicrosoftTeams.Button.LabelText" Sequence="68" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.account.MicrosoftTeams.Button.ToolTipTitle" ToolTipDescription="$LocLabels:arup.account.MicrosoftTeams.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.OpenClOvReport.Button.CustomAction" Location="Mscrm.HomepageGrid.account.MainTab.Management.Controls._children" Sequence="29">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.account.OpenClOvReport.Button.Alt" Command="arup.account.OpenClientOverviewReport.Command" Id="arup.account.OpenClOvReport.Button" Image32by32="$webresource:arup_/Images/ClientOverviewReportButton.png" Image16by16="$webresource:arup_/Images/ClientOverviewReportButton.png" LabelText="$LocLabels:arup.account.OpenClOvReport.Button.LabelText" Sequence="29" TemplateAlias="o3" ToolTipTitle="$LocLabels:arup.account.OpenClOvReport.Button.ToolTipTitle" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.OrgDetails.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="65">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.account.OrgDetails.Button.Alt" Command="arup.account.OrganisationDetails.Command" Id="arup.account.OrgDetails.Button" Image32by32="$webresource:Sales/_imgs/ribbon/EditForm_32.png" Image16by16="$webresource:Sales/_imgs/ribbon/EditForm_32.png" LabelText="$LocLabels:arup.account.OrgDetails.Button.LabelText" Sequence="65" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.account.OrgDetails.Button.ToolTipTitle" ToolTipDescription="$LocLabels:arup.account.OrgDetails.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.Overview.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="62">
+      <CommandUIDefinition>
+        <FlyoutAnchor Alt="$LocLabels:arup.account.Overview.Button.Alt" Command="Mscrm.Enabled" Id="arup.account.Overview.Button" Image16by16="$webresource:arup_/Images/ClientOverviewReportButton.png" Image32by32="$webresource:arup_/Images/ClientOverviewReportButton.png" LabelText="$LocLabels:arup.account.Overview.Button.LabelText" Sequence="62" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.account.Overview.Button.ToolTipTitle" ToolTipDescription="$LocLabels:arup.account.Overview.Button.ToolTipDescription">
+          <Menu Id="arup.account.Overview.Button.Menu">
+            <MenuSection Id="arup.account.Section13.Section" Sequence="5" DisplayMode="Menu16">
+              <Controls Id="arup.account.Section13.Section.Controls">
+                <Button Alt="$LocLabels:arup.account.ClientOverview.Button.Alt" Command="arup.account.OpenClientOverviewReportForm.Command" Id="arup.account.ClientOverview.Button" Image32by32="$webresource:arup_/Images/ClientOverviewReportButton.png" Image16by16="$webresource:arup_/Images/ClientOverviewReportButton.png" LabelText="$LocLabels:arup.account.ClientOverview.Button.LabelText" Sequence="10" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.account.ClientOverview.Button.ToolTipTitle" ToolTipDescription="$LocLabels:arup.account.ClientOverview.Button.ToolTipDescription" />
+                <Button Alt="$LocLabels:arup.account.ClientConnectionMatrix.Button.Alt" Command="arup.account.OpenClientConnectionMatrix.Command" Id="arup.account.ClientConnectionMatrix.Button" Image32by32="$webresource:arup_/Images/ClientOverviewReportButton.png" Image16by16="$webresource:arup_/Images/ClientOverviewReportButton.png" LabelText="$LocLabels:arup.account.ClientConnectionMatrix.Button.LabelText" Sequence="15" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.account.ClientConnectionMatrix.Button.ToolTipTitle" ToolTipDescription="$LocLabels:arup.account.ClientConnectionMatrix.Button.ToolTipDescription" />
+              </Controls>
+            </MenuSection>
+          </Menu>
+        </FlyoutAnchor>
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.RelationshipMgmt.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="64">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.account.RelationshipMgmt.Button.Alt" Command="arup.account.RelationshipManagement.Command" Id="arup.account.RelationshipMgmt.Button" Image32by32="$webresource:Sales/_imgs/ribbon/EditForm_32.png" Image16by16="$webresource:Sales/_imgs/ribbon/EditForm_32.png" LabelText="$LocLabels:arup.account.RelationshipMgmt.Button.LabelText" Sequence="64" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.account.RelationshipMgmt.Button.ToolTipTitle" ToolTipDescription="$LocLabels:arup.account.RelationshipMgmt.Button.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.RequestChange.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="68">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.account.RequestChange.Button.Alt" Command="arup.account.RequestChange.Command" Id="arup.account.RequestChange.Button" Image32by32="/_imgs/ribbon/edit32.png" Image16by16="/_imgs/ribbon/Edit_16.png" LabelText="$LocLabels:arup.account.RequestChange.Button.LabelText" Sequence="68" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.account.RequestChange.Button.ToolTipTitle" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.account.Unlock.Button.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="18">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:arup.account.Unlock.Button.Alt" Command="arup.account.Unlock.Command" Id="arup.account.Unlock.Button" Image32by32="/_imgs/ribbon/GrantPermissions_32.png" Image16by16="/_imgs/ribbon/GrantPermissions_16.png" LabelText="$LocLabels:arup.account.Unlock.Button.LabelText" Sequence="18" TemplateAlias="o1" ToolTipTitle="$LocLabels:arup.account.Unlock.Button.ToolTipTitle" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.account.Exit.Form.CustomAction" Location="Mscrm.Form.account.MainTab.Save.Controls._children" Sequence="15">
+      <CommandUIDefinition>
+        <Button Alt="$LocLabels:ccrm.account.Exit.Form.Alt" Command="ccrm.account.ExitForm.Command" Id="ccrm.account.Exit.Form" Image32by32="$webresource:arup_exit_button_32x32" Image16by16="$webresource:arup_exit_button_16x16" LabelText="$LocLabels:ccrm.account.Exit.Form.LabelText" Sequence="15" TemplateAlias="o1" ToolTipTitle="$LocLabels:ccrm.account.Exit.Form.ToolTipTitle" ToolTipDescription="$LocLabels:ccrm.account.Exit.Form.ToolTipDescription" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Form.account.MainTab.SharePoint.CustomAction" Location="Mscrm.Form.account.MainTab.Groups._children" Sequence="100">
+      <CommandUIDefinition>
+        <Group Command="Mscrm.Enabled" Description="$LocLabels:ccrm.Form.account.MainTab.SharePoint.Title" Id="ccrm.Form.account.MainTab.SharePoint" Sequence="100" Template="Mscrm.Templates.Flexible2" Title="$LocLabels:ccrm.Form.account.MainTab.SharePoint.Title">
+          <Controls Id="ccrm.Form.account.MainTab.SharePoint.Controls">
+            <Button Command="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command" Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint" Image32by32="$webresource:ccrm_arupSharePoint_32" Image16by16="$webresource:ccrm_arupSharePoint_16" LabelText="$LocLabels:ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.LabelText" Sequence="20" TemplateAlias="o1" ToolTipTitle="$LocLabels:ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.ToolTipTitle" ToolTipDescription="$LocLabels:ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.ToolTipDescription" />
+          </Controls>
+        </Group>
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Form.account.MainTab.SharePoint.MaxSize.CustomAction" Location="Mscrm.Form.account.MainTab.Scaling._children" Sequence="10">
+      <CommandUIDefinition>
+        <MaxSize GroupId="ccrm.Form.account.MainTab.SharePoint" Id="ccrm.Form.account.MainTab.SharePoint.MaxSize" Sequence="10" Size="LargeMedium" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Form.account.MainTab.SharePoint.Scale.Popup.CustomAction" Location="Mscrm.Form.account.MainTab.Scaling._children" Sequence="300">
+      <CommandUIDefinition>
+        <Scale GroupId="ccrm.Form.account.MainTab.SharePoint" Id="ccrm.Form.account.MainTab.SharePoint.Scale.Popup" Sequence="300" Size="Popup" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Mscrm.HomepageGrid.account.MainTab.Group7.CustomAction" Location="Mscrm.HomepageGrid.account.MainTab.Groups._children" Sequence="65">
+      <CommandUIDefinition>
+        <Group Command="Mscrm.Enabled" Description="$LocLabels:ccrm.Mscrm.HomepageGrid.account.MainTab.Group7.Title" Id="ccrm.Mscrm.HomepageGrid.account.MainTab.Group7" Sequence="65" Template="Mscrm.Templates.3" Title="$LocLabels:ccrm.Mscrm.HomepageGrid.account.MainTab.Group7.Title">
+          <Controls Id="ccrm.Mscrm.HomepageGrid.account.MainTab.Group7.Controls" />
+        </Group>
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Mscrm.HomepageGrid.account.MainTab.MaxSize.16.CustomAction" Location="Mscrm.HomepageGrid.account.MainTab.Scaling._children" Sequence="70">
+      <CommandUIDefinition>
+        <MaxSize GroupId="ccrm.Mscrm.HomepageGrid.account.MainTab.Group7" Id="ccrm.Mscrm.HomepageGrid.account.MainTab.MaxSize.16" Sequence="70" Size="Large" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <CustomAction Id="arup.ccrm.Mscrm.HomepageGrid.account.MainTab.Scale.17.CustomAction" Location="Mscrm.HomepageGrid.account.MainTab.Scaling._children" Sequence="180">
+      <CommandUIDefinition>
+        <Scale GroupId="ccrm.Mscrm.HomepageGrid.account.MainTab.Group7" Id="ccrm.Mscrm.HomepageGrid.account.MainTab.Scale.17" Sequence="180" Size="Popup" />
+      </CommandUIDefinition>
+    </CustomAction>
+    <HideCustomAction HideActionId="arup.Mscrm.Form.account.Activate.Hide" Location="Mscrm.Form.account.Activate" />
+    <HideCustomAction HideActionId="arup.Mscrm.Form.account.Deactivate.Hide" Location="Mscrm.Form.account.Deactivate" />
+    <HideCustomAction HideActionId="arup.Mscrm.Form.account.Delete.Hide" Location="Mscrm.Form.account.Delete" />
+    <HideCustomAction HideActionId="arup.Mscrm.Form.account.SaveAsComplete.Hide" Location="Mscrm.Form.account.SaveAsComplete" />
+    <HideCustomAction HideActionId="arup.Mscrm.Form.account.SendSelected.Hide" Location="Mscrm.Form.account.SendSelected" />
+    <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.account.MBPF.ConvertTo.Hide" Location="Mscrm.HomepageGrid.account.MBPF.ConvertTo" />
+    <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.account.Send.Hide" Location="Mscrm.HomepageGrid.account.Send" />
+    <HideCustomAction HideActionId="arup.Mscrm.HomepageGrid.account.SendDirectEmail.Hide" Location="Mscrm.HomepageGrid.account.SendDirectEmail" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.account.AddOtherActivities.Hide" Location="Mscrm.Form.account.AddOtherActivities" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.account.AddToList.Hide" Location="Mscrm.Form.account.AddToList" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.account.Assign.Hide" Location="Mscrm.Form.account.Assign" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.account.FollowButton.Hide" Location="Mscrm.Form.account.FollowButton" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.account.NewRecord.Hide" Location="Mscrm.Form.account.NewRecord" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.account.Permissions.Sharing.Hide" Location="Mscrm.Form.account.Permissions.Sharing" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.account.Relationship.Hide" Location="Mscrm.Form.account.Relationship" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.account.Reports.Hide" Location="Mscrm.Form.account.Reports" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.account.RunScript.Hide" Location="Mscrm.Form.account.RunScript" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.account.RunWorkflow.Hide" Location="Mscrm.Form.account.RunWorkflow" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.Form.account.SaveAndClose.Hide" Location="Mscrm.Form.account.SaveAndClose" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.HomepageGrid.account.NewRecord.Hide" Location="Mscrm.HomepageGrid.account.NewRecord" />
+    <HideCustomAction HideActionId="ccrm.Mscrm.SubGrid.account.AddNewStandard.Hide" Location="Mscrm.SubGrid.account.AddNewStandard" />
+    <HideCustomAction HideActionId="ccrm.Sample.account.MainTab.LaunchURL.Button.Hide" Location="Sample.account.MainTab.LaunchURL.Button" />
+  </CustomActions>
+  <Templates>
+    <RibbonTemplates Id="Mscrm.Templates"></RibbonTemplates>
+  </Templates>
+  <CommandDefinitions>
+    <CommandDefinition Id="arup.account.DDCheck.Command">
+      <EnableRules>
+        <EnableRule Id="arup.account.DDCheck.EnableRule" />
+        <EnableRule Id="arup.account.CheckUserInteams.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="checkDueDiligence" Library="$webresource:ccrm_account_main_library.js" />
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.account.LockRecord.Command">
+      <EnableRules>
+        <EnableRule Id="arup.account.LockButton.EnableRule" />
+        <EnableRule Id="arup.account.CheckUserInteams.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="disableFormFields" Library="$webresource:ccrm_account_main_library.js">
+          <BoolParameter Value="true" />
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.account.MicrosoftTeams.Command">
+      <EnableRules>
+        <EnableRule Id="arup.account.MicrosoftTeam.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="MicrosoftTeams" Library="$webresource:ccrm_account_main_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.account.OpenClientConnectionMatrix.Command">
+      <EnableRules />
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="OpenConnMatrixReport" Library="$webresource:ccrm_account_main_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.account.OpenClientOverviewReport.Command">
+      <EnableRules>
+        <EnableRule Id="arup.account.ClientOverview.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="OpenClientOverviewReport" Library="$webresource:ccrm_account_main_library.js">
+          <CrmParameter Value="FirstSelectedItemId" />
+          <CrmParameter Value="SelectedControlSelectedItemCount" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.account.OpenClientOverviewReportForm.Command">
+      <EnableRules />
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="OpenOverviewReport" Library="$webresource:ccrm_account_main_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.account.OrganisationDetails.Command">
+      <EnableRules>
+        <EnableRule Id="arup.account.Relationship.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="OpenOrganisationDetails" Library="$webresource:ccrm_account_main_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.account.RelationshipManagement.Command">
+      <EnableRules>
+        <EnableRule Id="arup.account.Organisation.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="OpenRelationshipManagement" Library="$webresource:ccrm_account_main_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.account.RequestChange.Command">
+      <EnableRules>
+        <EnableRule Id="arup.account.RequestChangeRule.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="requestChange" Library="$webresource:ccrm_account_main_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.account.Unlock.Command">
+      <EnableRules>
+        <EnableRule Id="arup.account.UnlockButton.EnableRule" />
+        <EnableRule Id="arup.account.CheckUserInteams.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="enableFormFields" Library="$webresource:ccrm_account_main_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="arup.arup_account.Command.OpenAttachementWindow">
+      <EnableRules>
+        <EnableRule Id="arup.account.EnableRule.FormState" />
+        <EnableRule Id="arup.account.UploadDocuments.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="arup.account.DisplayRule.FormState" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="OpenAttachmentPage" Library="$webresource:ccrm_account_main_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrm.account.ExitForm.Command">
+      <EnableRules />
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="exitForm" Library="$webresource:ccrm_account_main_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command">
+      <EnableRules />
+      <DisplayRules>
+        <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.FormStateRule" />
+        <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.FormStateRule2" />
+        <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.FormStateRule3" />
+        <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.FormStateRule4" />
+        <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.ValueRule" />
+        <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.ValueRule2" />
+        <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.ValueRule3" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="fnBtnCreateSharePoint" Library="$webresource:ccrm_account_main_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.AddConnectionToMeForm">
+      <EnableRules />
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="XrmCore.Commands.Add.addConnectionFromForm" Library="$webresource:Main_system_library.js">
+          <CrmParameter Value="FirstPrimaryItemId" />
+          <CrmParameter Value="PrimaryEntityTypeCode" />
+          <CrmParameter Value="PrimaryControl" />
+          <BoolParameter Value="true" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.AddExistingRecordFromSubGridAssociated">
+      <EnableRules>
+        <EnableRule Id="Mscrm.AppendToPrimary" />
+        <EnableRule Id="Mscrm.EntityFormIsEnabled" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.AddExisting" />
+        <DisplayRule Id="Mscrm.ShowForManyToManyGrids" />
+        <DisplayRule Id="Mscrm.AppendToPrimary" />
+        <DisplayRule Id="Mscrm.AppendSelected" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="XrmCore.Commands.AddFromSubGrid.addExistingFromSubGridAssociated" Library="$webresource:Main_system_library.js">
+          <CrmParameter Value="SelectedEntityTypeCode" />
+          <CrmParameter Value="SelectedControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.AddExistingRecordFromSubGridStandard">
+      <EnableRules>
+        <EnableRule Id="Mscrm.AppendToPrimary" />
+        <EnableRule Id="Mscrm.EntityFormIsEnabled" />
+        <EnableRule Id="Mscrm.NotOnMarketingListOrListUnlocked" />
+        <EnableRule Id="Mscrm.NotOnMarketingListOrListActive" />
+        <EnableRule Id="arup.account.AddNewRecord.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.AddExisting" />
+        <DisplayRule Id="Mscrm.ShowForOneToManyForAllAndNonRelationshipBoundForMarketingListGrids" />
+        <DisplayRule Id="Mscrm.AppendToPrimary" />
+        <DisplayRule Id="Mscrm.AppendSelected" />
+        <DisplayRule Id="Mscrm.CanWriteSelected" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="Mscrm.GridRibbonActions.addExistingFromSubGridStandard" Library="/_static/_common/scripts/RibbonActions.js">
+          <CrmParameter Value="SelectedEntityTypeCode" />
+          <CrmParameter Value="SelectedControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.Form.Deactivate">
+      <EnableRules>
+        <EnableRule Id="arup.account.Deactivate.EnableRule" />
+      </EnableRules>
+      <DisplayRules />
+      <Actions>
+        <JavaScriptFunction FunctionName="XrmCore.Commands.ChangeState.changeState" Library="$webresource:Main_system_library.js">
+          <StringParameter Value="deactivate" />
+          <CrmParameter Value="FirstPrimaryItemId" />
+          <CrmParameter Value="PrimaryEntityTypeName" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.NewRecordFromGrid">
+      <EnableRules>
+        <EnableRule Id="Mscrm.IsValidForHierarchyView" />
+        <EnableRule Id="Mscrm.IsEntityAvailableForUserInMocaOffline" />
+        <EnableRule Id="arup.account.AddNewRecord.EnableRule" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CreateSelectedEntityPermission" />
+        <DisplayRule Id="Mscrm.ShowForNonRelationshipBoundGrids" />
+        <DisplayRule Id="Mscrm.PrimaryIsNotActivity" />
+        <DisplayRule Id="Mscrm.HideNewForChildEntities" />
+        <DisplayRule Id="Mscrm.HideAddressEntities" />
+        <DisplayRule Id="Mscrm.NotOnMarketingList" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="XrmCore.Commands.Open.openNewRecord" Library="$webresource:Main_system_library.js">
+          <CrmParameter Value="SelectedEntityTypeName" />
+          <CrmParameter Value="SelectedControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+    <CommandDefinition Id="Mscrm.SaveAndClosePrimary">
+      <EnableRules>
+        <EnableRule Id="Mscrm.IsAutoSaveDisable" />
+        <EnableRule Id="Mscrm.AvailableOnForm" />
+        <EnableRule Id="Mscrm.CanSavePrimary" />
+      </EnableRules>
+      <DisplayRules>
+        <DisplayRule Id="Mscrm.CanSaveAndClosePrimaryEntityType" />
+      </DisplayRules>
+      <Actions>
+        <JavaScriptFunction FunctionName="XrmCore.Commands.Save.saveAndCloseForm" Library="$webresource:Main_system_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </JavaScriptFunction>
+      </Actions>
+    </CommandDefinition>
+  </CommandDefinitions>
+  <RuleDefinitions>
+    <TabDisplayRules />
+    <DisplayRules>
+      <DisplayRule Id="arup.account.DisplayRule.FormState">
+        <FormStateRule State="Create" Default="false" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.FormStateRule">
+        <FormStateRule State="Create" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.FormStateRule2">
+        <FormStateRule State="ReadOnly" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.FormStateRule3">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.FormStateRule4">
+        <FormStateRule State="BulkEdit" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.ValueRule">
+        <ValueRule Field="ccrm_sys_sharepoint_trigger" Value="1" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.ValueRule2">
+        <ValueRule Field="ccrm_sys_sharepoint_status" Value="2" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.Command.DisplayRule.ValueRule3">
+        <ValueRule Field="name" Value="" InvertResult="false" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.AddExisting">
+        <ReferencingAttributeRequiredRule Default="false" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.AppendSelected">
+        <EntityPrivilegeRule PrivilegeType="Append" PrivilegeDepth="Basic" AppliesTo="SelectedEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.AppendToPrimary">
+        <EntityPrivilegeRule PrivilegeType="AppendTo" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CanSaveAndClosePrimaryEntityType">
+        <OrRule>
+          <Or>
+            <EntityPrivilegeRule PrivilegeType="Create" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+          </Or>
+          <Or>
+            <EntityPrivilegeRule PrivilegeType="Write" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CanWritePrimary">
+        <EntityPrivilegeRule PrivilegeType="Write" PrivilegeDepth="Basic" AppliesTo="PrimaryEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CanWriteSelected">
+        <EntityPrivilegeRule PrivilegeType="Write" PrivilegeDepth="Basic" AppliesTo="SelectedEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CreateConnection">
+        <MiscellaneousPrivilegeRule PrivilegeName="CreateConnection" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.CreateSelectedEntityPermission">
+        <EntityPrivilegeRule PrivilegeType="Create" PrivilegeDepth="Basic" AppliesTo="SelectedEntity" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.HideAddressEntities">
+        <EntityRule EntityName="customeraddress" AppliesTo="SelectedEntity" Default="false" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.HideNewForChildEntities">
+        <EntityPropertyRule AppliesTo="SelectedEntity" PropertyName="IsChildEntity" PropertyValue="false" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.HideOnCommandBar">
+        <OrRule>
+          <Or>
+            <CommandClientTypeRule Type="Legacy" />
+          </Or>
+          <Or>
+            <PageRule Address="/userdefined/edit.aspx" />
+          </Or>
+          <Or>
+            <PageRule Address="/advancedfind/advfind.aspx" />
+          </Or>
+          <Or>
+            <PageRule Address="/advancedfind/fetchData.aspx" />
+          </Or>
+          <Or>
+            <PageRule Address="/tools/formeditor/formeditor.aspx" />
+          </Or>
+          <Or>
+            <PageRule Address="/tools/visualizationdesigner/visualizationdesigner.aspx" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.HideOnModern">
+        <CommandClientTypeRule Type="Modern" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.IsConnectionsEnabledPrimary">
+        <EntityPropertyRule AppliesTo="PrimaryEntity" PropertyName="IsConnectionsEnabled" PropertyValue="true" Default="false" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.NotOnMarketingList">
+        <FormEntityContextRule EntityName="list" Default="false" InvertResult="true" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.PrimaryEntityHasStatecode">
+        <EntityPropertyRule AppliesTo="PrimaryEntity" PropertyName="HasStateCode" PropertyValue="true" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.PrimaryIsActive">
+        <FormStateRule State="Existing" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.PrimaryIsNotActivity">
+        <EntityPropertyRule AppliesTo="PrimaryEntity" PropertyName="IsActivity" PropertyValue="false" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.ShowForManyToManyGrids">
+        <RelationshipTypeRule AppliesTo="SelectedEntity" RelationshipType="ManyToMany" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.ShowForNonRelationshipBoundGrids">
+        <RelationshipTypeRule AppliesTo="SelectedEntity" RelationshipType="NoRelationship" />
+      </DisplayRule>
+      <DisplayRule Id="Mscrm.ShowForOneToManyForAllAndNonRelationshipBoundForMarketingListGrids">
+        <OrRule>
+          <Or>
+            <RelationshipTypeRule AppliesTo="SelectedEntity" RelationshipType="OneToMany" />
+          </Or>
+          <Or>
+            <RelationshipTypeRule AppliesTo="SelectedEntity" RelationshipType="NoRelationship" />
+            <FormEntityContextRule EntityName="list" Default="false" />
+          </Or>
+        </OrRule>
+      </DisplayRule>
+    </DisplayRules>
+    <EnableRules>
+      <EnableRule Id="arup.account.AddNewRecord.EnableRule">
+        <CustomRule FunctionName="hidePlusSign" Library="$webresource:arup_hide_addnewrecord_subgrid" Default="true" InvertResult="false">
+          <StringParameter Value="account" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="arup.account.CheckUserInteams.EnableRule">
+        <OrRule>
+          <Or>
+            <CustomRule FunctionName="userInSSCTeam" Library="$webresource:Account_main_library.js" Default="false">
+              <CrmParameter Value="PrimaryControl" />
+            </CustomRule>
+          </Or>
+          <Or>
+            <CustomRule FunctionName="userInTeamCheck" Library="$webresource:Account_main_library.js" Default="false">
+              <StringParameter Value="Global Data Quality" />
+              <CrmParameter Value="PrimaryControl" />
+            </CustomRule>
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="arup.account.ClientOverview.EnableRule">
+        <SelectionCountRule AppliesTo="SelectedEntity" Minimum="1" Maximum="1" />
+      </EnableRule>
+      <EnableRule Id="arup.account.DDCheck.EnableRule">
+        <CustomRule FunctionName="onChange_showrelform" Library="$webresource:ccrm_account_main_library.js" InvertResult="true">
+          <CrmParameter Value="PrimaryControl" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="arup.account.Deactivate.EnableRule">
+        <OrRule>
+          <Or>
+            <CustomRule FunctionName="EnableDeactivateButton" Library="$webresource:ccrm_account_main_library.js" />
+          </Or>
+          <Or>
+            <RecordPrivilegeRule PrivilegeType="Delete" AppliesTo="PrimaryEntity" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="arup.account.EnableRule.FormState">
+        <FormStateRule State="Create" Default="false" InvertResult="true" />
+      </EnableRule>
+      <EnableRule Id="arup.account.LockButton.EnableRule">
+        <ValueRule Field="statuscode" Value="1" Default="true" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="arup.account.MicrosoftTeam.EnableRule">
+        <CustomRule FunctionName="ShowMicrosoftTeams" Library="$webresource:ccrm_account_main_library.js" Default="true">
+          <CrmParameter Value="PrimaryControl" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="arup.account.Organisation.EnableRule">
+        <CustomRule FunctionName="ShowOrganisationButton" Library="$webresource:ccrm_account_main_library.js" Default="true">
+          <CrmParameter Value="PrimaryControl" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="arup.account.Relationship.EnableRule">
+        <CustomRule FunctionName="ShowRelatioshipButton" Library="$webresource:ccrm_account_main_library.js" Default="true">
+          <CrmParameter Value="PrimaryControl" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="arup.account.RequestChangeRule.EnableRule">
+        <ValueRule Field="statuscode" Value="770000000" Default="false" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="arup.account.UnlockButton.EnableRule">
+        <ValueRule Field="statuscode" Value="770000000" Default="true" InvertResult="false" />
+      </EnableRule>
+      <EnableRule Id="arup.account.UploadDocuments.EnableRule">
+        <CustomRule FunctionName="onChange_showrelform" Library="$webresource:ccrm_account_main_library.js">
+          <CrmParameter Value="PrimaryControl" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="Mscrm.AppendToPrimary">
+        <RecordPrivilegeRule PrivilegeType="AppendTo" AppliesTo="PrimaryEntity" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.AvailableOnForm">
+        <EntityRule AppliesTo="PrimaryEntity" Context="Form" Default="false" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.CanSavePrimary">
+        <OrRule>
+          <Or>
+            <RecordPrivilegeRule PrivilegeType="Create" AppliesTo="PrimaryEntity" />
+            <FormStateRule State="Create" />
+          </Or>
+          <Or>
+            <RecordPrivilegeRule PrivilegeType="Write" AppliesTo="PrimaryEntity" />
+            <FormStateRule State="Existing" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="Mscrm.EntityFormIsEnabled">
+        <FormStateRule State="Disabled" InvertResult="true" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.FormStateExistingOrReadOnlyOrDisabled">
+        <OrRule>
+          <Or>
+            <FormStateRule State="ReadOnly" />
+          </Or>
+          <Or>
+            <FormStateRule State="Existing" />
+          </Or>
+          <Or>
+            <FormStateRule State="Disabled" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="Mscrm.IsAutoSaveDisable">
+        <OrRule>
+          <Or>
+            <FormStateRule State="Create" />
+          </Or>
+          <Or>
+            <CustomRule FunctionName="XrmCore.Rules.AutoSave.isAutoSaveEnabled" Library="$webresource:Main_system_library.js" InvertResult="true" />
+          </Or>
+          <Or>
+            <CustomRule FunctionName="XrmCore.Rules.RefreshForm.isRefreshForm" Library="$webresource:Main_system_library.js" InvertResult="true" />
+          </Or>
+        </OrRule>
+      </EnableRule>
+      <EnableRule Id="Mscrm.IsEntityAvailableForUserInMocaOffline">
+        <CustomRule FunctionName="XrmCore.Rules.Online.IsEntityAvailableForUserInMocaOffline" Library="$webresource:Main_system_library.js">
+          <CrmParameter Value="SelectedEntityTypeName" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="Mscrm.IsValidForHierarchyView">
+        <CustomRule FunctionName="XrmCore.Rules.HierarchyView.isValidForHierarchyView" Library="$webresource:Main_system_library.js" />
+      </EnableRule>
+      <EnableRule Id="Mscrm.NotOnMarketingListOrListActive">
+        <CustomRule FunctionName="Mscrm.CommandBarActions.notOnMarketingListOrListActive" Library="/_static/_common/scripts/CommandBarActions.js">
+          <CrmParameter Value="PrimaryEntityTypeCode" />
+        </CustomRule>
+      </EnableRule>
+      <EnableRule Id="Mscrm.NotOnMarketingListOrListUnlocked">
+        <CustomRule FunctionName="Mscrm.CommandBarActions.notOnMarketingListOrListUnlocked" Library="/_static/_common/scripts/CommandBarActions.js">
+          <CrmParameter Value="PrimaryEntityTypeCode" />
+        </CustomRule>
+      </EnableRule>
+    </EnableRules>
+  </RuleDefinitions>
+  <LocLabels>
+    <LocLabel Id="arup.account.Button7.Button.LabelText">
+      <Titles>
+        <Title description="Upload Documents" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.Button7.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to upload documents" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.Button7.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Upload Documents" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.ClientConnectionMatrix.Button.Alt">
+      <Titles>
+        <Title description="Client Connection Matrix" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.ClientConnectionMatrix.Button.LabelText">
+      <Titles>
+        <Title description="Client Connection Matrix" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.ClientConnectionMatrix.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to Open Client Connection Matrix" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.ClientConnectionMatrix.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Client Connection Matrix" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.ClientOverview.Button.Alt">
+      <Titles>
+        <Title description="Client Overview Report" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.ClientOverview.Button.LabelText">
+      <Titles>
+        <Title description="Client Overview Report" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.ClientOverview.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to Open Client Overview Report" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.ClientOverview.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Client Overview Report" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.DDCheck.Button.Alt">
+      <Titles>
+        <Title description="Due Diligence Check" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.DDCheck.Button.LabelText">
+      <Titles>
+        <Title description="Sanctions Check" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.DDCheck.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click this button to check the due didligence for the client." languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.LockRecord.Button.LabelText">
+      <Titles>
+        <Title description="LOCK RECORD" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.MicrosoftTeams.Button.Alt">
+      <Titles>
+        <Title description="Microsoft Teams" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.MicrosoftTeams.Button.LabelText">
+      <Titles>
+        <Title description="Microsoft Teams" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.MicrosoftTeams.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Open Microsoft Teams" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.MicrosoftTeams.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Microsoft Teams" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.OpenClOvReport.Button.Alt">
+      <Titles>
+        <Title description="Client Overview Report" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.OpenClOvReport.Button.LabelText">
+      <Titles>
+        <Title description="Client Overview Report" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.OpenClOvReport.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Click to open Client Overview Report" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.OrgDetails.Button.Alt">
+      <Titles>
+        <Title description="Organisation Details" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.OrgDetails.Button.LabelText">
+      <Titles>
+        <Title description="Organisation Details" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.OrgDetails.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to Open Organisation Details" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.OrgDetails.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Organisation Details" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.Overview.Button.Alt">
+      <Titles>
+        <Title description="Client Overview" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.Overview.Button.LabelText">
+      <Titles>
+        <Title description="Client Overview" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.Overview.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to Open Client Overview Details" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.Overview.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Client Overview" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.RelationshipMgmt.Button.Alt">
+      <Titles>
+        <Title description="Relationship Management" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.RelationshipMgmt.Button.LabelText">
+      <Titles>
+        <Title description="Relationship Management" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.RelationshipMgmt.Button.ToolTipDescription">
+      <Titles>
+        <Title description="Click to Open Relationship Management" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.RelationshipMgmt.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Relationship Management" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.RequestChange.Button.Alt">
+      <Titles>
+        <Title description="REQUEST CHANGE" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.RequestChange.Button.LabelText">
+      <Titles>
+        <Title description="REQUEST CHANGE" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.RequestChange.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Click to Request a change for the Organisation" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.Unlock.Button.Alt">
+      <Titles>
+        <Title description="UNLOCK RECORD" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.Unlock.Button.LabelText">
+      <Titles>
+        <Title description="UNLOCK RECORD" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="arup.account.Unlock.Button.ToolTipTitle">
+      <Titles>
+        <Title description="Click to Unlock the Record" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.account.Exit.Form.Alt">
+      <Titles>
+        <Title description="Exit" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.account.Exit.Form.LabelText">
+      <Titles>
+        <Title description="Exit" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.account.Exit.Form.ToolTipDescription">
+      <Titles>
+        <Title description="Exit form" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.account.Exit.Form.ToolTipTitle">
+      <Titles>
+        <Title description="Exit Organisation Form" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.Form.account.MainTab.SharePoint.Title">
+      <Titles>
+        <Title description="Documents" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrm.Mscrm.HomepageGrid.account.MainTab.Group7.Title">
+      <Titles>
+        <Title description="Group" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.LabelText">
+      <Titles>
+        <Title description="Create Document Store" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.ToolTipDescription">
+      <Titles>
+        <Title description="Click this button to create a store in which to hold documents related to this record" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+    <LocLabel Id="ccrmccrm.Form.account.MainTab.SharePoint.CreateSharePoint.ToolTipTitle">
+      <Titles>
+        <Title description="Create Document Store" languagecode="1033" />
+      </Titles>
+    </LocLabel>
+  </LocLabels>
+</RibbonDiffXml>

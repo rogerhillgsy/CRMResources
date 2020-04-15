@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputType>Library</OutputType>
+    <ProjectGuid>{76930C4F-5069-4756-9878-7C42FCAEAE2A}</ProjectGuid>
+    <ProjectTypeGuids>{4B952A0A-A664-46EC-8D7E-51EBEA2E954D};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LeadCustomisation</RootNamespace>
+    <AssemblyName>CRM Web Resources.LeadCustomisation</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <SolutionPackagerDir>C:\Work\Tools\SDK8\SDK\Bin</SolutionPackagerDir>
+    <SolutionLocToolsDir>C:\Work\Tools\SDK8\SDK\Bin</SolutionLocToolsDir>
+    <SolutionType>0</SolutionType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!--<None Include="MetadataProjectBinPlace.targets" />-->
+    <ResourceDefinition Include="WebResources.xml" />
+    <None Include="Microsoft.Crm.SolutionProjects.Metadata.targets" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Crm.SolutionProjects.MSBuild">
+      <HintPath>$(SolutionDir)packages\Microsoft.Crm.SolutionMSBuildExtention.1.3.2\lib\net452\Microsoft.Crm.SolutionProjects.MSBuild.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entities\Lead\Entity.xml" />
+    <Content Include="Entities\Lead\FormXml\main\{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}.xml" />
+    <Content Include="Entities\Lead\FormXml\quickCreate\{aa7c154f-e2f8-45db-b780-a9a8a96332fe}.xml" />
+    <Content Include="Entities\Lead\RibbonDiff.xml" />
+    <Content Include="Other\Customizations.xml" />
+    <Content Include="Other\Relationships.xml" />
+    <Content Include="Other\Solution.xml" />
+    <Content Include="Resources\en-US\resources.en-US.resx" />
+    <Content Include="Resources\template_resources.resx" />
+    <Content Include="WebResources\arup_dynamic_display_of_fieldvalue.jscript">
+      <WebResourceId>90282575-ce1c-ea11-812e-00505690cb20</WebResourceId>
+      <Name>arup_dynamic_display_of_fieldvalue</Name>
+      <DisplayName>dynamic_display_of_fieldvalue</DisplayName>
+      <LanguageCode>1033</LanguageCode>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\ccrm_lead_library_2015.jscript">
+      <WebResourceId>c8415326-5ce1-e611-80f5-005056b55b13</WebResourceId>
+      <Name>ccrm_lead_library_2015</Name>
+      <DisplayName>Lead Library 2015</DisplayName>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\Lead_main_library.js">
+      <WebResourceId>c2d46bbe-d0b1-e111-a5b9-78e7d1652028</WebResourceId>
+      <Name>Lead_main_library.js</Name>
+      <DisplayName>Scripts/Lead.js</DisplayName>
+      <Description>Default Form User Library</Description>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+    </Content>
+  </ItemGroup>
+  <Import Project="Microsoft.Crm.SolutionProjects.Metadata.targets" />
+</Project>

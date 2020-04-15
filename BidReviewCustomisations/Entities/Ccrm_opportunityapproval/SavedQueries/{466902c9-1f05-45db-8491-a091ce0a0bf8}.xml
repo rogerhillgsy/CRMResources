@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedquery>
+  <IsCustomizable>1</IsCustomizable>
+  <CanBeDeleted>0</CanBeDeleted>
+  <isquickfindquery>1</isquickfindquery>
+  <isprivate>0</isprivate>
+  <isdefault>1</isdefault>
+  <savedqueryid>{466902c9-1f05-45db-8491-a091ce0a0bf8}</savedqueryid>
+  <layoutxml>
+    <grid name="resultset" jump="ccrm_name" select="1" icon="1" preview="1">
+      <row name="result" id="ccrm_opportunityapprovalid">
+        <cell name="ccrm_approvaltype" width="200" />
+        <cell name="ccrm_name" width="300" />
+        <cell name="ccrm_reviewerapprover_userid" width="300" />
+      </row>
+    </grid>
+  </layoutxml>
+  <querytype>4</querytype>
+  <fetchxml>
+    <fetch version="1.0" mapping="logical">
+      <entity name="ccrm_opportunityapproval">
+        <attribute name="ccrm_name" />
+        <order attribute="ccrm_name" descending="false" />
+        <filter type="and">
+          <condition attribute="statecode" operator="eq" value="0" />
+        </filter>
+        <filter type="or" isquickfindfields="1">
+          <condition attribute="ccrm_userrole" operator="like" value="{0}" />
+          <condition attribute="ccrm_name" operator="like" value="{0}" />
+          <condition attribute="ccrm_approvaltype" operator="like" value="{0}" />
+        </filter>
+        <attribute name="ccrm_approvaltype" />
+        <attribute name="ccrm_reviewerapprover_userid" />
+        <attribute name="ccrm_opportunityapprovalid" />
+      </entity>
+    </fetch>
+  </fetchxml>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <LocalizedNames>
+    <LocalizedName description="Quick Find Active Opportunity Approvals" languagecode="1033" />
+  </LocalizedNames>
+</savedquery>

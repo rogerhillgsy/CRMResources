@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<systemform>
+  <formid>{661157fe-2fc9-4eaa-835f-5bfa2f7b64f7}</formid>
+  <IntroducedVersion>6.0.0.0</IntroducedVersion>
+  <FormPresentation>0</FormPresentation>
+  <FormActivationState>1</FormActivationState>
+  <form maxWidth="1900">
+    <tabs>
+      <tab id="{ee019344-2ac2-4ade-b2b8-630ff38801b1}" name="tab_1" showlabel="false" IsUserDefined="0" locklevel="0" expanded="true">
+        <labels>
+          <label description="Tab" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="34%">
+            <sections>
+              <section id="{be7e5181-f67d-4fac-9420-ed9e2ac588fd}" name="tab_1_column_1_section_1" columns="1" showlabel="true" showbar="false" IsUserDefined="0" locklevel="0" labelwidth="130" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Details" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{69c50432-d67b-7370-9b1a-7199c0ea8305}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Contact Type" languagecode="1033" />
+                      </labels>
+                      <control id="arup_contacttype" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="arup_contacttype" disabled="false" uniqueid="{c547d116-5334-0b09-747d-d6bab89cb817}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{6434be68-cad2-6e17-1dd3-119a6478d4ea}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Title" languagecode="1033" />
+                      </labels>
+                      <control id="salutation" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="salutation" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{cc42934a-7770-eace-a535-ca3c4d3e4ca5}" showlabel="false" visible="false" locklevel="0">
+                      <labels>
+                        <label description="Business Card" languagecode="1033" />
+                      </labels>
+                      <control id="businesscard" classid="{F9A8A302-114E-466A-B582-6771B2AE0D92}" datafieldname="businesscard" disabled="false" uniqueid="{0758709b-abec-8c87-786a-56116be5a5de}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a2528d42-720c-9931-81ca-784c1881b8c2}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="First Name" languagecode="1033" />
+                      </labels>
+                      <control id="firstname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="firstname" disabled="false" uniqueid="{468a5be6-d522-8844-e12b-d0685395794a}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{6d9944d7-75ab-c311-2d18-d17e93ce2e26}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Middle Name" languagecode="1033" />
+                      </labels>
+                      <control id="middlename" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="middlename" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{7a7e1043-ea62-1a5d-44c8-68757777c3d0}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Last Name" languagecode="1033" />
+                      </labels>
+                      <control id="lastname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="lastname" disabled="false" uniqueid="{ceb2b82c-08b0-e955-1033-70a8563eb923}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{c7039214-3590-a99c-cce7-e18a7895d74e}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Job Title" languagecode="1033" />
+                      </labels>
+                      <control id="jobtitle" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="jobtitle" disabled="false" uniqueid="{7ca0e5ed-7083-b0c1-ea92-105d49b3d359}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{c15d76dd-60ca-9649-7adc-493e91db528b}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Role" languagecode="1033" />
+                      </labels>
+                      <control id="accountrolecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="accountrolecode" disabled="false" uniqueid="{c167cc28-2923-6317-d7dd-1117be19d363}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{b7b9dde5-9546-4e3d-6545-8644a12114d2}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Business Interest (multiselect)" languagecode="1033" />
+                      </labels>
+                      <control id="arup_businessinterest_ms" classid="{4AA28AB7-9C13-4F57-A73D-AD894D048B5F}" datafieldname="arup_businessinterest_ms" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+          <column width="33%">
+            <sections>
+              <section id="{b5f2a6a1-d1e1-439d-ab76-fbb48f1381d4}" name="tab_1_column_2_section_1" columns="1" showlabel="false" showbar="false" IsUserDefined="0" locklevel="0" labelwidth="130" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Contact Information" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{c0ca4047-07d2-8081-84ad-a9b25613830a}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{64cb3028-1866-28da-8268-c5487ce86317}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Current Organisation" languagecode="1033" />
+                      </labels>
+                      <control id="parentcustomerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="parentcustomerid" disabled="false" uniqueid="{98eb2261-c2bd-2630-0d98-29a62c4d0276}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e179dd07-ca39-6690-5e57-d782226922e2}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Current Organisation" languagecode="1033" />
+                      </labels>
+                      <control id="arup_currentorganisation" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="arup_currentorganisation" disabled="false" uniqueid="{7a392a12-1e54-b242-b536-90612166592c}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a6b833e8-225b-4986-c283-067453a7daa2}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Email" languagecode="1033" />
+                      </labels>
+                      <control id="emailaddress1" classid="{ADA2203E-B4CD-49be-9DDF-234642B43B52}" datafieldname="emailaddress1" disabled="false" uniqueid="{09cd9401-cca6-980b-5d53-d36e6d70033d}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{4301cbdb-44ba-6b5c-c05d-e9d70721b7dc}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Entering on Behalf of" languagecode="1033" />
+                      </labels>
+                      <control id="preferredsystemuserid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="preferredsystemuserid" disabled="false" uniqueid="{c0468d10-07ed-e411-7be6-17ae2d3d5663}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{26B373CD-C7CC-E811-8115-005056B509E1}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                          <AvailableViewIds>{26B373CD-C7CC-E811-8115-005056B509E1}</AvailableViewIds>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{d5a423e7-3536-2052-4e49-5d4b3ce1c0ae}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Business Phone" languagecode="1033" />
+                      </labels>
+                      <control id="telephone1" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="telephone1" disabled="false" uniqueid="{7c3ba1b8-68e5-e979-ce2b-a9ca0c6bdb2c}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{192e5ab2-2129-ee55-cd56-2846649cbe47}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Mobile Phone" languagecode="1033" />
+                      </labels>
+                      <control id="mobilephone" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="mobilephone" disabled="false" uniqueid="{79ed16a3-3d7a-6d87-e655-38086dab3409}" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+          <column width="33%">
+            <sections>
+              <section id="{4e35e9f6-ac81-44cf-b8d6-91149b679634}" name="tab_1_column_3_section_1" columns="1" showlabel="true" showbar="false" IsUserDefined="0" locklevel="0" labelwidth="140" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Address" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{7cb503de-54e5-968d-c067-e557d449612c}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Sync Address?" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_syncaddress" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_syncaddress" disabled="false" uniqueid="{39c8e286-6a5d-97de-13b4-aa10c517eb68}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{3529c94b-4934-9927-8930-7c9668058557}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Address Type" languagecode="1033" />
+                      </labels>
+                      <control id="address1_addresstypecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="address1_addresstypecode" disabled="false" uniqueid="{bacc0ddb-9043-ecb2-bea5-4b98915c98c5}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{9E47DA5C-45B2-4D9B-8C83-2633E2FB68A5}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Street 1" languagecode="1033" />
+                      </labels>
+                      <control id="address1_line1" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="address1_line1" disabled="false" uniqueid="{97cda22d-4028-00c7-886d-7de7c16d6e00}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{67473FA2-07D2-485B-BC63-7B05D02D5230}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Street 2" languagecode="1033" />
+                      </labels>
+                      <control id="address1_line2" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="address1_line2" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{d4c1d25c-270c-7ad2-755b-7c38606bd2e6}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Street 3" languagecode="1033" />
+                      </labels>
+                      <control id="address1_line3" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="address1_line3" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{F43497C8-73CC-4853-9736-964446900C81}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Town/City" languagecode="1033" />
+                      </labels>
+                      <control id="address1_city" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="address1_city" disabled="false" uniqueid="{5eab9c55-76e8-dedd-6860-b6359d88dc8a}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{333a6b52-45bb-e9c5-7764-0ac361184e7a}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Country" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_countryid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_countryid" disabled="false" uniqueid="{387b92cc-9d8d-66dc-0168-beb1e440d8d3}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{20BC9030-BC6C-44EF-A763-E5997D15B0C1}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{aa28dd9a-9c35-7c79-8c18-d22b9e2be789}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="State/Province" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_countrystate" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_countrystate" disabled="false" uniqueid="{de4bb0d8-e1de-be8c-71e9-463b3301a8dd}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{7C6D2EAE-2FF2-4695-BCEE-F054CC4A293C}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                          <FilterRelationshipName>ccrm_ccrm_country_ccrm_arupusstate</FilterRelationshipName>
+                          <DependentAttributeName>contact.ccrm_countryid</DependentAttributeName>
+                          <DependentAttributeType>ccrm_country</DependentAttributeType>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{eb87a611-474d-30ab-42eb-83b6390a00e5}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="State/County/Province" languagecode="1033" />
+                      </labels>
+                      <control id="address1_stateorprovince" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="address1_stateorprovince" disabled="false" uniqueid="{493387e4-13d3-5292-adb2-9e5c53abd8dd}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{2AC67B8F-6335-4448-9E85-1601793BF072}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="ZIP/Postal Code" languagecode="1033" />
+                      </labels>
+                      <control id="address1_postalcode" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="address1_postalcode" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{7174ea89-7e90-189b-1647-710533858024}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Organisation Consent (Canada's ASL)" languagecode="1033" />
+                      </labels>
+                      <control id="arup_organisationconsent" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="arup_organisationconsent" disabled="true" uniqueid="{684c9744-a8ba-9b64-c413-a6db3ca68a95}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{7071d32a-218b-a07d-0e45-369b013189ce}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Express Consent (Canada's ASL)" languagecode="1033" />
+                      </labels>
+                      <control id="arup_expressedconsent" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="arup_expressedconsent" disabled="false" uniqueid="{c81dc7d4-bcab-d45c-976e-6c5e84bcaa23}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{360976b9-8c55-ae97-2a83-8c1ed2a7d702}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Implied Consent (Canada's ASL)" languagecode="1033" />
+                      </labels>
+                      <control id="arup_otherimpliedconsent" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="arup_otherimpliedconsent" disabled="false" uniqueid="{42663b62-a47e-a0b9-aa21-6002d43e9ca0}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{59c7798c-b494-bb89-5520-31cd12a812bc}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Receipt Date (Canada's ASL)" languagecode="1033" />
+                      </labels>
+                      <control id="arup_receiptdate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="arup_receiptdate" disabled="false" uniqueid="{0a182085-942b-5d87-2cc2-37be1b924b6a}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{63a6ea4e-9909-293c-b427-344cce33cd21}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Expiry Date (Canada's ASL)" languagecode="1033" />
+                      </labels>
+                      <control id="arup_expirydate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="arup_expirydate" disabled="true" uniqueid="{10333db8-bb36-0400-b7ca-d5487d79b44d}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a642cee7-eb26-dbd6-7dd0-5a7b67833b02}" showlabel="false" locklevel="0" visible="false" availableforphone="false">
+                      <labels>
+                        <label description="Dupe Check Result" languagecode="1033" />
+                      </labels>
+                      <control id="arup_dupecheckresult" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="arup_dupecheckresult" disabled="false" uniqueid="{9b55a979-bdeb-8ad9-8098-8d7835716c08}" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+    </tabs>
+    <events>
+      <event name="onload" application="false" active="false">
+        <InternalHandlers>
+          <Handler functionName="Sales.Contact.Instance.Quick_Form_onload" libraryName="Sales/Contact/Contact_main_system_library.js" handlerUniqueId="ba2ec2ae-0dd2-48b1-a22a-3c639a02a3ae" enabled="true" passExecutionContext="true" />
+        </InternalHandlers>
+        <Handlers>
+          <Handler functionName="qc_form_onload" libraryName="Contact_main_library.js" handlerUniqueId="{2adcbb93-2c76-3044-8aa8-a151d7666587}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="true" active="true" attribute="businesscard">
+        <InternalHandlers>
+          <Handler functionName="Sales.Contact.Instance.BusinessCard_OnChange" libraryName="Sales/Contact/Contact_main_system_library.js" handlerUniqueId="60d3d793-cff2-4a34-951e-d4d6f7ef4609" enabled="true" passExecutionContext="true" />
+        </InternalHandlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="telephone1">
+        <Handlers>
+          <Handler functionName="phoneOnChange" libraryName="Contact_main_library.js" handlerUniqueId="{45844166-64e1-9069-09ee-428caa5c8468}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="mobilephone">
+        <Handlers>
+          <Handler functionName="phoneOnChange" libraryName="Contact_main_library.js" handlerUniqueId="{847226cc-467e-9667-7917-410a3bace05b}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_countryid">
+        <Handlers>
+          <Handler handlerUniqueId="{661d5ab4-60e7-4183-8e15-13342cc2daad}" functionName="onchange_quick_create_country" libraryName="Contact_main_library.js" enabled="true" passExecutionContext="true" parameters="0" />
+          <Handler functionName="QuickDupeDetect" libraryName="arup_DuplicateCheck" handlerUniqueId="{83a6011d-66e4-e043-2cbb-cc018b654861}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_syncaddress">
+        <Handlers>
+          <Handler functionName="quick_create_sync_addressDetails" libraryName="Contact_main_library.js" handlerUniqueId="{887c1387-7bdb-bad3-d137-e04893ee56c8}" enabled="true" parameters="" passExecutionContext="true" />
+          <Handler functionName="PopulateAddrsOnAddrSync" libraryName="Contact_main_library.js" handlerUniqueId="{a0b786d2-5b04-76b5-337e-477eedde8e2e}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="lastname">
+        <Handlers>
+          <Handler functionName="QuickDupeDetect" libraryName="arup_DuplicateCheck" handlerUniqueId="{5dcc791e-53b8-d35a-5aeb-97deee292b81}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="arup_expressedconsent">
+        <Handlers>
+          <Handler functionName="canadaFieldsRequired" libraryName="Contact_main_library.js" handlerUniqueId="{b0582ba6-3225-d92d-d1e2-b1e2733e2174}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="arup_otherimpliedconsent">
+        <Handlers>
+          <Handler functionName="canadaFieldsRequired" libraryName="Contact_main_library.js" handlerUniqueId="{dd412b9d-195b-de56-3ee9-5b6ca4284811}" enabled="true" parameters="" passExecutionContext="true" />
+          <Handler functionName="onChange_otherImpliedConsent" libraryName="Contact_main_library.js" handlerUniqueId="{6a8c638a-7266-6425-a48c-220ec8919591}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="parentcustomerid">
+        <Handlers>
+          <Handler functionName="PopulateAddrsOnAddrSync" libraryName="Contact_main_library.js" handlerUniqueId="{a0dc0849-0e85-2e40-a276-d86d5dbe9d2d}" enabled="true" parameters="" passExecutionContext="true" />
+          <Handler handlerUniqueId="{491431da-b78b-2e46-da09-16d89511151e}" functionName="onchange_quick_create_country" libraryName="Contact_main_library.js" enabled="true" passExecutionContext="true" parameters="0" />
+          <Handler handlerUniqueId="{24606d24-b302-597a-8079-30e144b635b6}" functionName="quick_create_sync_addressDetails" libraryName="Contact_main_library.js" enabled="true" passExecutionContext="true" parameters="" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="arup_receiptdate">
+        <Handlers>
+          <Handler functionName="onChange_otherImpliedConsent" libraryName="Contact_main_library.js" handlerUniqueId="{e1886940-a9d5-c339-9cb0-946920b94878}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+      <event name="onsave" application="false" active="false">
+        <Handlers>
+          <Handler functionName="Form_onsave" libraryName="Contact_main_library.js" handlerUniqueId="{aa399a47-25dd-1d3e-03b3-de3b00a816da}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="arup_contacttype">
+        <Handlers>
+          <Handler handlerUniqueId="{2a727d2e-3883-64d8-b865-8233b422e901}" functionName="onChange_ContactType" libraryName="Contact_main_library.js" enabled="true" passExecutionContext="true" parameters="" />
+        </Handlers>
+      </event>
+    </events>
+    <clientresources>
+      <internalresources>
+        <clientincludes>
+          <internaljscriptfile src="$webresource:Sales/Contact/Contact_main_system_library.js" />
+        </clientincludes>
+      </internalresources>
+    </clientresources>
+    <controlDescriptions>
+      <controlDescription forControl="{0758709b-abec-8c87-786a-56116be5a5de}">
+        <customControl id="{E0DECE4B-6FC8-4a8f-A065-082708572369}">
+          <parameters>
+            <datafieldname>businesscard</datafieldname>
+          </parameters>
+        </customControl>
+        <customControl formFactor="0" name="Intelligence.BusinessCardReaderControl.BusinessCardReader">
+          <parameters>
+            <value>businesscard</value>
+            <FirstName>firstname</FirstName>
+            <LastName>lastname</LastName>
+            <JobTitle>jobtitle</JobTitle>
+            <Phone1>mobilephone</Phone1>
+            <Phone2>telephone1</Phone2>
+            <Email>emailaddress1</Email>
+            <Website>websiteurl</Website>
+            <AddressStreet>address1_line1</AddressStreet>
+            <AddressCity>address1_city</AddressCity>
+            <AddressPostalCode>address1_postalcode</AddressPostalCode>
+            <AddressCountry>address1_country</AddressCountry>
+            <Department>department</Department>
+            <CleanedImage>businesscard</CleanedImage>
+            <AdvancedCustomization>businesscardattributes</AdvancedCustomization>
+          </parameters>
+        </customControl>
+        <customControl formFactor="1" name="Intelligence.BusinessCardReaderControl.BusinessCardReader">
+          <parameters>
+            <value>businesscard</value>
+            <FirstName>firstname</FirstName>
+            <LastName>lastname</LastName>
+            <JobTitle>jobtitle</JobTitle>
+            <Phone1>mobilephone</Phone1>
+            <Phone2>telephone1</Phone2>
+            <Email>emailaddress1</Email>
+            <Website>websiteurl</Website>
+            <AddressStreet>address1_line1</AddressStreet>
+            <AddressCity>address1_city</AddressCity>
+            <AddressPostalCode>address1_postalcode</AddressPostalCode>
+            <AddressCountry>address1_country</AddressCountry>
+            <Department>department</Department>
+            <CleanedImage>businesscard</CleanedImage>
+            <AdvancedCustomization>businesscardattributes</AdvancedCustomization>
+          </parameters>
+        </customControl>
+        <customControl formFactor="2" name="Intelligence.BusinessCardReaderControl.BusinessCardReader">
+          <parameters>
+            <value>businesscard</value>
+            <FirstName>firstname</FirstName>
+            <LastName>lastname</LastName>
+            <JobTitle>jobtitle</JobTitle>
+            <Phone1>mobilephone</Phone1>
+            <Phone2>telephone1</Phone2>
+            <Email>emailaddress1</Email>
+            <Website>websiteurl</Website>
+            <AddressStreet>address1_line1</AddressStreet>
+            <AddressCity>address1_city</AddressCity>
+            <AddressPostalCode>address1_postalcode</AddressPostalCode>
+            <AddressCountry>address1_country</AddressCountry>
+            <Department>department</Department>
+            <CleanedImage>businesscard</CleanedImage>
+            <AdvancedCustomization>businesscardattributes</AdvancedCustomization>
+          </parameters>
+        </customControl>
+      </controlDescription>
+    </controlDescriptions>
+    <formLibraries>
+      <Library name="ccrm_/JavaScripts/Lib/XrmServiceToolkit.min.js" libraryUniqueId="{d50ea001-7b50-1888-5c7d-c00c47865c5c}" />
+      <Library name="ccrm_DataOperations" libraryUniqueId="{01d135bc-6956-e672-2880-43a503987ed3}" />
+      <Library name="Contact_main_library.js" libraryUniqueId="{a026889e-e871-d18a-661d-eed4d20a476b}" />
+      <Library name="arup_ContactTemp" libraryUniqueId="{122bdc92-3027-a209-68a1-8a9ed2932e29}" />
+      <Library name="arup_DuplicateCheck" libraryUniqueId="{ceb4913c-30ac-5811-5860-02732cd4a72a}" />
+      <Library name="arup_NotifyForQuickCreate.js" libraryUniqueId="{477a4576-30c2-a3d1-92db-dca6c4939de5}" />
+      <Library name="mag_/js/alert.js" libraryUniqueId="{5166a5c9-d6e2-881c-80b1-93ea44002277}" />
+    </formLibraries>
+    <DisplayConditions FallbackForm="true" Order="2">
+      <Everyone />
+    </DisplayConditions>
+  </form>
+  <LocalizedNames>
+    <LocalizedName description="Contact Quick Create" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="Default quick create form for Contact" languagecode="1033" />
+  </Descriptions>
+</systemform>

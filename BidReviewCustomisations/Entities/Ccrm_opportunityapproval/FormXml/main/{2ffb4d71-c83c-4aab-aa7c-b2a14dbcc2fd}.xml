@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<systemform>
+  <formid>{2ffb4d71-c83c-4aab-aa7c-b2a14dbcc2fd}</formid>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <FormPresentation>0</FormPresentation>
+  <FormActivationState>1</FormActivationState>
+  <form shownavigationbar="true" showImage="false" maxWidth="1900">
+    <tabs>
+      <tab verticallayout="true" id="{adbe3774-fafe-4838-b564-1b99d764f302}" IsUserDefined="1" name="tab_General" locklevel="0" expanded="true" showlabel="true">
+        <labels>
+          <label description="General" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showlabel="true" showbar="true" IsUserDefined="0" id="{76da11bf-2082-4c0e-aa54-91b81aaacdb0}" locklevel="0" labelwidth="115" name="section_Approval" columns="11" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Approval" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell auto="false" showlabel="true" locklevel="0" rowspan="1" colspan="1" id="{94094ad0-fdbe-4596-8931-2f35a2074805}">
+                      <labels>
+                        <label description="Reviewer/Approver" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_reviewerapprover_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_reviewerapprover_userid" disabled="false">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                    <cell id="{0bb5a15a-2545-9eb3-4dac-19e39060c58a}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Role" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_userrole" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_userrole" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell auto="false" showlabel="true" locklevel="0" rowspan="1" colspan="1" id="{9311f7a3-6caf-4e81-87ed-f5c09159805a}">
+                      <labels>
+                        <label description="Type" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_type" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_type" disabled="false" />
+                    </cell>
+                    <cell id="{6a26d0a2-181e-7886-72a5-173a7b26610d}" showlabel="false">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+              <section name="section_Status" showlabel="true" showbar="true" locklevel="0" id="{04eadd03-e1c4-7c06-bbdd-b04115851e2c}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Decision" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{48186052-4bc0-3876-e278-d654b6dc7c4d}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Decision" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_bidreviewstatus" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_bidreviewstatus" disabled="false" />
+                    </cell>
+                    <cell id="{7ca195ae-3c05-ddbe-3c12-19b4d3328293}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell auto="false" showlabel="true" locklevel="0" rowspan="1" colspan="1" id="{10d78a76-1274-4c50-8211-902066f0c5a7}">
+                      <labels>
+                        <label description="Decision" languagecode="1033" />
+                      </labels>
+                      <control id="statuscode" classid="{5D68B988-0661-4db2-BC3E-17598AD3BE6C}" datafieldname="statuscode" disabled="false" />
+                    </cell>
+                    <cell auto="false" showlabel="true" locklevel="0" rowspan="1" colspan="1" id="{d6bde989-74ca-48f5-b13f-5282bd9562a4}">
+                      <labels>
+                        <label description="Approved / Declined Date" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_approvaldate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_approvaldate" disabled="true" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell auto="false" showlabel="true" locklevel="0" rowspan="1" colspan="1" id="{ea0f97a5-5b18-4de7-b5e4-c927185b3c82}">
+                      <labels>
+                        <label description="Actioned By" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_actionedby_userid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_actionedby_userid" disabled="true">
+                        <parameters>
+                          <AutoResolve>false</AutoResolve>
+                          <DisableMru>true</DisableMru>
+                          <DisableQuickFind>true</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                    <cell id="{2cc5bc6e-c55a-dc86-de97-dd2a9e02aa11}" showlabel="false">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ea253739-a269-5c4b-aab5-e05c279b3752}" showlabel="true" locklevel="0" colspan="2" rowspan="4">
+                      <labels>
+                        <label description="Decision Reason" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_comment" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_comment" disabled="false" />
+                    </cell>
+                  </row>
+                  <row></row>
+                  <row></row>
+                  <row></row>
+                </rows>
+              </section>
+              <section showlabel="true" showbar="true" locklevel="0" id="{5c78e686-d1a9-df11-9cb1-005056af0e0d}" IsUserDefined="1" layout="varwidth" columns="11" labelwidth="115" name="section_Opportunity" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Opportunity" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell auto="false" showlabel="false" locklevel="0" rowspan="1" colspan="2" id="{9b1c3d75-3d66-46f0-a4be-57535bb8b6fb}">
+                      <labels>
+                        <label description="Opportunity" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_opportunityid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_opportunityid" disabled="false">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>true</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{9EB361B4-67AC-4830-8ABF-2D29EFBAEE2C}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+              <section showlabel="false" showbar="false" locklevel="0" id="{e90b5039-d1a9-df11-9cb1-005056af0e0d}" IsUserDefined="1" layout="varwidth" columns="11" labelwidth="115" name="section_hidden" celllabelalignment="Left" celllabelposition="Left" visible="false">
+                <labels>
+                  <label description="Hidden" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell auto="false" showlabel="true" locklevel="0" rowspan="1" colspan="1" id="{01bcd6cb-7ebb-4fef-8c59-f5556d88b281}">
+                      <labels>
+                        <label description="Bid Manager" languagecode="1033" />
+                      </labels>
+                      <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" disabled="false">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                        </parameters>
+                      </control>
+                    </cell>
+                    <cell auto="false" showlabel="true" locklevel="0" rowspan="1" colspan="1" id="{fbd0a454-4b2a-439c-a0f9-666e67b19a60}">
+                      <labels>
+                        <label description="System Generated" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_systemgenerated" classid="{B0C6723A-8503-4fd7-BB28-C8A06AC933C2}" datafieldname="ccrm_systemgenerated" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell auto="false" showlabel="true" locklevel="0" rowspan="1" colspan="1" id="{3aef2044-6b75-487c-9cb6-694eb6977f3f}">
+                      <labels>
+                        <label description="Nominated Role" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_name" disabled="false" />
+                    </cell>
+                    <cell id="{48768559-c2e9-aa66-776d-b30513a695ea}" showlabel="false">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab id="{d59461da-056a-440a-8fea-a799bdc6a78f}" IsUserDefined="0" expanded="false" name="tab_Notes" locklevel="0" showlabel="true">
+        <labels>
+          <label description="Notes" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section showlabel="false" showbar="false" id="{30e2e5b1-daad-4a44-91df-d2e271838444}" IsUserDefined="0" height="auto">
+                <labels>
+                  <label description="Notes" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell colspan="2" showlabel="false" rowspan="5" auto="true" id="{4f08b0a7-b002-40c2-84f6-94014bc02756}">
+                      <labels>
+                        <label description="Note Text" languagecode="1033" />
+                      </labels>
+                      <control id="notescontrol" classid="{06375649-c143-495e-a496-c962e5b4488e}" />
+                    </cell>
+                  </row>
+                  <row></row>
+                  <row></row>
+                  <row></row>
+                  <row height="auto"></row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+    </tabs>
+    <footer id="{96e6eb6a-f3c3-409b-90e3-9e49231399c6}">
+      <rows>
+        <row>
+          <cell id="{f8f6d8da-a2ca-49d9-86de-658c2b58e751}">
+            <labels>
+              <label description="State" languagecode="1033" />
+            </labels>
+            <control id="footer_statecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="statecode" />
+          </cell>
+        </row>
+      </rows>
+    </footer>
+    <events>
+      <event name="onload" application="false" active="true">
+        <Handlers>
+          <Handler handlerUniqueId="40461b42-f59c-4f0c-ae1a-be9f1b6af8f8" functionName="Form_onload" libraryName="Ccrm_opportunityapproval_main_library.js" enabled="true" passExecutionContext="false" parameters="">
+            <dependencies />
+          </Handler>
+        </Handlers>
+      </event>
+      <event name="onsave" application="false" active="true">
+        <Handlers>
+          <Handler handlerUniqueId="4b6edea8-0c8a-450c-85c7-c65a9a90b0c5" functionName="Form_onsave" libraryName="Ccrm_opportunityapproval_main_library.js" enabled="true" passExecutionContext="true" parameters="">
+            <dependencies />
+          </Handler>
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="statuscode">
+        <Handlers>
+          <Handler handlerUniqueId="{73b0c05e-56ee-5c7b-d403-4d6d7a3062d5}" functionName="statuscode_onchange" libraryName="Ccrm_opportunityapproval_main_library.js" enabled="true" passExecutionContext="false" parameters="" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_userrole">
+        <Handlers>
+          <Handler functionName="type_onchange" libraryName="Ccrm_opportunityapproval_main_library.js" handlerUniqueId="{42d9c95d-0d8b-154a-3a64-4890bbd665e2}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+    </events>
+    <formLibraries>
+      <Library name="Ccrm_opportunityapproval_main_library.js" libraryUniqueId="{a3c4dc1d-e188-4390-a3bf-faee64951b72}" />
+    </formLibraries>
+    <Navigation>
+      <NavBar></NavBar>
+      <NavBarAreas>
+        <NavBarArea Id="Info">
+          <Titles>
+            <Title LCID="1033" Text="Common" />
+          </Titles>
+        </NavBarArea>
+        <NavBarArea Id="Sales">
+          <Titles>
+            <Title LCID="1033" Text="Sales" />
+          </Titles>
+        </NavBarArea>
+        <NavBarArea Id="Service">
+          <Titles>
+            <Title LCID="1033" Text="Service" />
+          </Titles>
+        </NavBarArea>
+        <NavBarArea Id="Marketing">
+          <Titles>
+            <Title LCID="1033" Text="Marketing" />
+          </Titles>
+        </NavBarArea>
+        <NavBarArea Id="ProcessCenter">
+          <Titles>
+            <Title LCID="1033" Text="Processes" />
+          </Titles>
+        </NavBarArea>
+      </NavBarAreas>
+    </Navigation>
+  </form>
+  <IsCustomizable>1</IsCustomizable>
+  <CanBeDeleted>1</CanBeDeleted>
+  <LocalizedNames>
+    <LocalizedName description="Information" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="A form for this entity." languagecode="1033" />
+  </Descriptions>
+</systemform>

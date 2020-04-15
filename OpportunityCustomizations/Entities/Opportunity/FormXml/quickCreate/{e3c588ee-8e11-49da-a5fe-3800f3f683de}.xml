@@ -179,9 +179,9 @@
                       <control id="arup_procurementmessage" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="arup_procurementmessage" disabled="true" uniqueid="{ccd547e5-7138-12eb-7786-29c413858182}" />
                     </cell>
                   </row>
-                  <row />
-                  <row />
-                  <row />
+                  <row></row>
+                  <row></row>
+                  <row></row>
                   <row>
                     <cell id="{872c1410-ac0a-7bee-71b7-21a5b62cdee2}" showlabel="true" locklevel="0">
                       <labels>
@@ -191,15 +191,7 @@
                     </cell>
                   </row>
                   <row>
-                    <cell id="{319db614-a76e-cbe7-5c62-ab9041ae219c}" showlabel="true" locklevel="0">
-                      <labels>
-                        <label description="Global Services" languagecode="1033" />
-                      </labels>
-                      <control id="arup_globalservices" classid="{4AA28AB7-9C13-4F57-A73D-AD894D048B5F}" datafieldname="arup_globalservices" disabled="false" uniqueid="{c8388067-7d7c-d796-015a-78d39d808be1}" />
-                    </cell>
-                  </row>
-                  <row>
-                    <cell id="{1b799b98-858d-eae7-8082-47511c2c0143}" showlabel="true" locklevel="0" visible="false">
+                    <cell id="{1b799b98-858d-eae7-8082-47511c2c0143}" showlabel="true" locklevel="0">
                       <labels>
                         <label description="Global Services" languagecode="1033" />
                       </labels>
@@ -313,9 +305,9 @@
                       <control id="arup_supportingtext2" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="arup_supportingtext2" disabled="true" uniqueid="{d7603168-94ae-1eed-6c17-7d4969e39444}" />
                     </cell>
                   </row>
-                  <row />
-                  <row />
-                  <row />
+                  <row></row>
+                  <row></row>
+                  <row></row>
                   <row>
                     <cell id="{dd3834e1-b55a-5268-ba93-b71a003c6d61}" showlabel="true" locklevel="0">
                       <labels>
@@ -375,8 +367,8 @@
                       <control id="description" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="description" disabled="false" uniqueid="{56eb714e-c9e3-d2cd-a6ba-46db1ea81723}" />
                     </cell>
                   </row>
-                  <row />
-                  <row height="auto" />
+                  <row></row>
+                  <row height="auto"></row>
                   <row>
                     <cell id="{c8a53ee3-bea0-0724-eb08-5bc61619c5e6}" showlabel="false" userspacer="true">
                       <labels>
@@ -737,6 +729,14 @@
         </columns>
       </tab>
     </tabs>
+    <formLibraries>
+      <Library name="ccrm_opportunity_library_2015" libraryUniqueId="{955b1752-e190-277e-0ab7-2d46948bc0a4}" />
+      <Library name="ccrm_jQueryv1102" libraryUniqueId="{5e677ce1-d35e-ac35-7b45-e2b4b793279e}" />
+      <Library name="ccrm_sdk_rest_data_library" libraryUniqueId="{7adc6a78-138d-3c41-aab2-acb4ae839ce2}" />
+      <Library name="ccrm_ms_MultiSelect.js" libraryUniqueId="{e56bb93e-63cc-59c9-5111-52a507875121}" />
+      <Library name="mag_/js/alert.js" libraryUniqueId="{da1c3b56-e543-25aa-a53b-a86bbd1c63b5}" />
+      <Library name="arup_dynamic_display_of_fieldvalue" libraryUniqueId="{52c15ebd-41ee-3ce5-4077-807eeab26427}" />
+    </formLibraries>
     <events>
       <event name="onload" application="false" active="false">
         <Handlers>
@@ -816,7 +816,7 @@
       </event>
       <event name="onchange" application="false" active="false" attribute="ccrm_parentopportunityid">
         <Handlers>
-          <Handler functionName="ParentOpportunity_Onchange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{e11a5234-4b22-c6c2-5475-8c08d81a1b29}" enabled="true" parameters="" passExecutionContext="false" />
+          <Handler handlerUniqueId="{e11a5234-4b22-c6c2-5475-8c08d81a1b29}" functionName="ParentOpportunity_Onchange" libraryName="ccrm_opportunity_library_2015" enabled="true" passExecutionContext="false" parameters="&quot;change&quot;" />
           <Handler functionName="SetUltimateClient" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{5ab43025-53d1-c7a0-5d46-4645c8dede22}" enabled="true" parameters="" passExecutionContext="false" />
         </Handlers>
       </event>
@@ -836,14 +836,6 @@
         </Handlers>
       </event>
     </events>
-    <formLibraries>
-      <Library name="ccrm_opportunity_library_2015" libraryUniqueId="{955b1752-e190-277e-0ab7-2d46948bc0a4}" />
-      <Library name="ccrm_jQueryv1102" libraryUniqueId="{5e677ce1-d35e-ac35-7b45-e2b4b793279e}" />
-      <Library name="ccrm_sdk_rest_data_library" libraryUniqueId="{7adc6a78-138d-3c41-aab2-acb4ae839ce2}" />
-      <Library name="ccrm_ms_MultiSelect.js" libraryUniqueId="{e56bb93e-63cc-59c9-5111-52a507875121}" />
-      <Library name="mag_/js/alert.js" libraryUniqueId="{da1c3b56-e543-25aa-a53b-a86bbd1c63b5}" />
-      <Library name="arup_dynamic_display_of_fieldvalue" libraryUniqueId="{52c15ebd-41ee-3ce5-4077-807eeab26427}" />
-    </formLibraries>
     <controlDescriptions />
     <DisplayConditions FallbackForm="true" Order="2">
       <Everyone />

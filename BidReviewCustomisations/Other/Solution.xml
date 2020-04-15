@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="9.1.0.15631" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SolutionManifest>
+    <UniqueName>BidReviewCustomisations</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="Bid Review Customisations" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="Customisations of Bid Review entity" languagecode="1033" />
+    </Descriptions>
+    <Version>1.20.04.01</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>arup</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="Arup" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="Arup Publisher" languagecode="1033" />
+      </Descriptions>
+      <EMailAddress xsi:nil="true"></EMailAddress>
+      <SupportingWebsiteUrl xsi:nil="true"></SupportingWebsiteUrl>
+      <CustomizationPrefix>arup</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>77000</CustomizationOptionValuePrefix>
+      <Addresses>
+        <Address>
+          <AddressNumber>1</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode>1</ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+        <Address>
+          <AddressNumber>2</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode>1</ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+      </Addresses>
+    </Publisher>
+    <RootComponents>
+      <RootComponent type="1" schemaName="ccrm_bidreview" behavior="0" />
+      <RootComponent type="1" schemaName="ccrm_opportunityapproval" behavior="0" />
+      <RootComponent type="9" schemaName="ccrm_bidreviewoptionset1" behavior="0" />
+      <RootComponent type="9" schemaName="ccrm_bidreviewoptionset2" behavior="0" />
+      <RootComponent type="9" schemaName="ccrm_bidreviewoptionset3" behavior="0" />
+      <RootComponent type="9" schemaName="ccrm_bidreviewoptionset4" behavior="0" />
+      <RootComponent type="9" schemaName="ccrm_bidreviewoptionset5" behavior="0" />
+      <RootComponent type="9" schemaName="ccrm_bidreviewoptionset6" behavior="0" />
+      <RootComponent type="9" schemaName="ccrm_clientperformance" behavior="0" />
+      <RootComponent type="60" id="{b40eb78b-f249-426f-a6bf-0555d6f995db}" behavior="0" />
+      <RootComponent type="61" schemaName="arup_bidReviewTabs" behavior="0" />
+      <RootComponent type="61" schemaName="arup_bidreview_icon16" behavior="0" />
+      <RootComponent type="61" schemaName="arup_bidreview_icon32" behavior="0" />
+      <RootComponent type="61" schemaName="arup_Bid_Review_SectionB" behavior="0" />
+      <RootComponent type="61" schemaName="ccrm_bidreviewjcloseout" behavior="0" />
+      <RootComponent type="61" schemaName="ccrm_BidReview_Label" behavior="0" />
+      <RootComponent type="61" schemaName="Ccrm_bidreview_main_library.js" behavior="0" />
+      <RootComponent type="61" schemaName="ccrm_bidreview_main_library_2015.js" behavior="0" />
+      <RootComponent type="61" schemaName="ccrm_ms_MultiSelect.js" behavior="0" />
+      <RootComponent type="61" schemaName="ccrm_sdk_rest_data_library" behavior="0" />
+    </RootComponents>
+    <MissingDependencies>
+      <MissingDependency>
+        <Required key="0" type="1" schemaName="ccrm_arupcompany" displayName="Arup Company" solution="Active" />
+        <Dependent key="1" type="10" schemaName="ccrm_ccrm_arupcompany_ccrm_bidreview_arupcompanyid" displayName="ccrm_ccrm_arupcompany_ccrm_bidreview_arupcompanyid" parentSchemaName="ccrm_arupcompany" parentDisplayName="Arup Company" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="2" type="1" schemaName="ccrm_country" displayName="Country" solution="Active" />
+        <Dependent key="3" type="10" schemaName="ccrm_ccrm_country_ccrm_bidreview_projectlocationid" displayName="ccrm_ccrm_country_ccrm_bidreview_projectlocationid" parentSchemaName="ccrm_country" parentDisplayName="Country" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="4" type="1" schemaName="opportunity" displayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="5" type="26" schemaName="My Active Bid Reviews" displayName="My Active Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{502a4001-cb07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="4" type="1" schemaName="opportunity" displayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="6" type="26" schemaName="All Bid Reviews" displayName="All Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{eab6dbbc-e916-e811-810a-005056b509e1}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="4" type="1" schemaName="opportunity" displayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="7" type="10" schemaName="ccrm_opportunity_ccrm_opportunityapproval" displayName="ccrm_opportunity_ccrm_opportunityapproval" parentSchemaName="ccrm_opportunityapproval" parentDisplayName="Review and Approval" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="4" type="1" schemaName="opportunity" displayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="8" type="26" schemaName="My Approved Bid Reviews" displayName="My Approved Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{df4bcd95-cf07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="4" type="1" schemaName="opportunity" displayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="9" type="26" schemaName="My Outstanding Review/Approvals" displayName="My Outstanding Review/Approvals" parentSchemaName="ccrm_opportunityapproval" parentDisplayName="Review and Approval" id="{209629ab-dcdf-e111-bdf5-005056af0014}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="4" type="1" schemaName="opportunity" displayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="10" type="26" schemaName="My Bid Reviews" displayName="My Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{b71be142-ce07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="4" type="1" schemaName="opportunity" displayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="11" type="10" schemaName="ccrm_opportunity_ccrm_bidreview" displayName="ccrm_opportunity_ccrm_bidreview" parentSchemaName="opportunity" parentDisplayName="Opportunity" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="12" type="2" schemaName="ccrm_projectdirector_userid" displayName="Project Director" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="8" type="26" schemaName="My Approved Bid Reviews" displayName="My Approved Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{df4bcd95-cf07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="12" type="2" schemaName="ccrm_projectdirector_userid" displayName="Project Director" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="5" type="26" schemaName="My Active Bid Reviews" displayName="My Active Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{502a4001-cb07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="12" type="2" schemaName="ccrm_projectdirector_userid" displayName="Project Director" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="10" type="26" schemaName="My Bid Reviews" displayName="My Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{b71be142-ce07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="13" type="2" schemaName="opportunityid" displayName="Opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="9" type="26" schemaName="My Outstanding Review/Approvals" displayName="My Outstanding Review/Approvals" parentSchemaName="ccrm_opportunityapproval" parentDisplayName="Review and Approval" id="{209629ab-dcdf-e111-bdf5-005056af0014}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="13" type="2" schemaName="opportunityid" displayName="Opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="8" type="26" schemaName="My Approved Bid Reviews" displayName="My Approved Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{df4bcd95-cf07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="13" type="2" schemaName="opportunityid" displayName="Opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="5" type="26" schemaName="My Active Bid Reviews" displayName="My Active Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{502a4001-cb07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="13" type="2" schemaName="opportunityid" displayName="Opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="6" type="26" schemaName="All Bid Reviews" displayName="All Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{eab6dbbc-e916-e811-810a-005056b509e1}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="13" type="2" schemaName="opportunityid" displayName="Opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="11" type="10" schemaName="ccrm_opportunity_ccrm_bidreview" displayName="ccrm_opportunity_ccrm_bidreview" parentSchemaName="opportunity" parentDisplayName="Opportunity" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="13" type="2" schemaName="opportunityid" displayName="Opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="7" type="10" schemaName="ccrm_opportunity_ccrm_opportunityapproval" displayName="ccrm_opportunity_ccrm_opportunityapproval" parentSchemaName="ccrm_opportunityapproval" parentDisplayName="Review and Approval" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="13" type="2" schemaName="opportunityid" displayName="Opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="10" type="26" schemaName="My Bid Reviews" displayName="My Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{b71be142-ce07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="14" type="2" schemaName="ccrm_name" displayName="Arup Company" parentSchemaName="ccrm_arupcompany" parentDisplayName="Arup Company" solution="Active" />
+        <Dependent key="1" type="10" schemaName="ccrm_ccrm_arupcompany_ccrm_bidreview_arupcompanyid" displayName="ccrm_ccrm_arupcompany_ccrm_bidreview_arupcompanyid" parentSchemaName="ccrm_arupcompany" parentDisplayName="Arup Company" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="16" type="2" schemaName="ccrm_arupcompanyid" displayName="Arup Company ID" parentSchemaName="ccrm_arupcompany" parentDisplayName="Arup Company" solution="Active" />
+        <Dependent key="1" type="10" schemaName="ccrm_ccrm_arupcompany_ccrm_bidreview_arupcompanyid" displayName="ccrm_ccrm_arupcompany_ccrm_bidreview_arupcompanyid" parentSchemaName="ccrm_arupcompany" parentDisplayName="Arup Company" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="17" type="2" schemaName="ccrm_countryid" displayName="Country ID" parentSchemaName="ccrm_country" parentDisplayName="Country" solution="Active" />
+        <Dependent key="3" type="10" schemaName="ccrm_ccrm_country_ccrm_bidreview_projectlocationid" displayName="ccrm_ccrm_country_ccrm_bidreview_projectlocationid" parentSchemaName="ccrm_country" parentDisplayName="Country" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="18" type="2" schemaName="owneridtype" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="7" type="10" schemaName="ccrm_opportunity_ccrm_opportunityapproval" displayName="ccrm_opportunity_ccrm_opportunityapproval" parentSchemaName="ccrm_opportunityapproval" parentDisplayName="Review and Approval" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="19" type="2" schemaName="ownerid" displayName="Owner" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="7" type="10" schemaName="ccrm_opportunity_ccrm_opportunityapproval" displayName="ccrm_opportunity_ccrm_opportunityapproval" parentSchemaName="ccrm_opportunityapproval" parentDisplayName="Review and Approval" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="20" type="2" schemaName="ccrm_estarupinvolvementend" displayName="Arup Project End Date" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="11" type="10" schemaName="ccrm_opportunity_ccrm_bidreview" displayName="ccrm_opportunity_ccrm_bidreview" parentSchemaName="opportunity" parentDisplayName="Opportunity" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="21" type="2" schemaName="ccrm_biddirector_userid" displayName="Bid Director" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="8" type="26" schemaName="My Approved Bid Reviews" displayName="My Approved Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{df4bcd95-cf07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="21" type="2" schemaName="ccrm_biddirector_userid" displayName="Bid Director" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="10" type="26" schemaName="My Bid Reviews" displayName="My Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{b71be142-ce07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="21" type="2" schemaName="ccrm_biddirector_userid" displayName="Bid Director" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="5" type="26" schemaName="My Active Bid Reviews" displayName="My Active Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{502a4001-cb07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="22" type="2" schemaName="ccrm_estprojectstart" displayName="Project Start" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="11" type="10" schemaName="ccrm_opportunity_ccrm_bidreview" displayName="ccrm_opportunity_ccrm_bidreview" parentSchemaName="opportunity" parentDisplayName="Opportunity" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="23" type="2" schemaName="ccrm_estarupinvolvementstart" displayName="Arup Project Start Date" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="11" type="10" schemaName="ccrm_opportunity_ccrm_bidreview" displayName="ccrm_opportunity_ccrm_bidreview" parentSchemaName="opportunity" parentDisplayName="Opportunity" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="24" type="2" schemaName="ccrm_bidmanager_userid" displayName="Bid Manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="5" type="26" schemaName="My Active Bid Reviews" displayName="My Active Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{502a4001-cb07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="24" type="2" schemaName="ccrm_bidmanager_userid" displayName="Bid Manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="8" type="26" schemaName="My Approved Bid Reviews" displayName="My Approved Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{df4bcd95-cf07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="24" type="2" schemaName="ccrm_bidmanager_userid" displayName="Bid Manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="10" type="26" schemaName="My Bid Reviews" displayName="My Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{b71be142-ce07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="25" type="2" schemaName="ccrm_bidreviewchair_userid" displayName="Bid Review Chair" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="10" type="26" schemaName="My Bid Reviews" displayName="My Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{b71be142-ce07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="25" type="2" schemaName="ccrm_bidreviewchair_userid" displayName="Bid Review Chair" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="5" type="26" schemaName="My Active Bid Reviews" displayName="My Active Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{502a4001-cb07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="25" type="2" schemaName="ccrm_bidreviewchair_userid" displayName="Bid Review Chair" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="8" type="26" schemaName="My Approved Bid Reviews" displayName="My Approved Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{df4bcd95-cf07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="25" type="2" schemaName="ccrm_bidreviewchair_userid" displayName="Bid Review Chair" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="6" type="26" schemaName="All Bid Reviews" displayName="All Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{eab6dbbc-e916-e811-810a-005056b509e1}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="26" type="2" schemaName="ccrm_pjna" displayName="PJN (Possible Job Number)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="11" type="10" schemaName="ccrm_opportunity_ccrm_bidreview" displayName="ccrm_opportunity_ccrm_bidreview" parentSchemaName="opportunity" parentDisplayName="Opportunity" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="27" type="2" schemaName="ccrm_projectmanager_userid" displayName="Project Manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="10" type="26" schemaName="My Bid Reviews" displayName="My Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{b71be142-ce07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="27" type="2" schemaName="ccrm_projectmanager_userid" displayName="Project Manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="5" type="26" schemaName="My Active Bid Reviews" displayName="My Active Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{502a4001-cb07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="27" type="2" schemaName="ccrm_projectmanager_userid" displayName="Project Manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="8" type="26" schemaName="My Approved Bid Reviews" displayName="My Approved Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{df4bcd95-cf07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="28" type="2" schemaName="name" displayName="Project Name" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="7" type="10" schemaName="ccrm_opportunity_ccrm_opportunityapproval" displayName="ccrm_opportunity_ccrm_opportunityapproval" parentSchemaName="ccrm_opportunityapproval" parentDisplayName="Review and Approval" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="28" type="2" schemaName="name" displayName="Project Name" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="11" type="10" schemaName="ccrm_opportunity_ccrm_bidreview" displayName="ccrm_opportunity_ccrm_bidreview" parentSchemaName="opportunity" parentDisplayName="Opportunity" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="29" type="2" schemaName="ccrm_arupcompanyid" displayName="Arup Company" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="11" type="10" schemaName="ccrm_opportunity_ccrm_bidreview" displayName="ccrm_opportunity_ccrm_bidreview" parentSchemaName="opportunity" parentDisplayName="Opportunity" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="30" type="2" schemaName="ccrm_estprojectend" displayName="Project End" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="11" type="10" schemaName="ccrm_opportunity_ccrm_bidreview" displayName="ccrm_opportunity_ccrm_bidreview" parentSchemaName="opportunity" parentDisplayName="Opportunity" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="31" type="2" schemaName="statecode" displayName="Overall Status" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="5" type="26" schemaName="My Active Bid Reviews" displayName="My Active Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{502a4001-cb07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="31" type="2" schemaName="statecode" displayName="Overall Status" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="9" type="26" schemaName="My Outstanding Review/Approvals" displayName="My Outstanding Review/Approvals" parentSchemaName="ccrm_opportunityapproval" parentDisplayName="Review and Approval" id="{209629ab-dcdf-e111-bdf5-005056af0014}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="32" type="2" schemaName="ccrm_bidreviewoutcome" displayName="Bid Review Outcome" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="8" type="26" schemaName="My Approved Bid Reviews" displayName="My Approved Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{df4bcd95-cf07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="32" type="2" schemaName="ccrm_bidreviewoutcome" displayName="Bid Review Outcome" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="5" type="26" schemaName="My Active Bid Reviews" displayName="My Active Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{502a4001-cb07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="32" type="2" schemaName="ccrm_bidreviewoutcome" displayName="Bid Review Outcome" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="10" type="26" schemaName="My Bid Reviews" displayName="My Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" id="{b71be142-ce07-e611-80e2-005056b55b13}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="33" type="2" schemaName="ccrm_name" displayName="Name" parentSchemaName="ccrm_country" parentDisplayName="Country" solution="Active" />
+        <Dependent key="3" type="10" schemaName="ccrm_ccrm_country_ccrm_bidreview_projectlocationid" displayName="ccrm_ccrm_country_ccrm_bidreview_projectlocationid" parentSchemaName="ccrm_country" parentDisplayName="Country" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="34" type="26" schemaName="Arup Company Lookup View" displayName="Arup Company Lookup View" parentSchemaName="ccrm_arupcompany" parentDisplayName="Arup Company" solution="Active" id="{8b3f3055-0dc8-414e-8d73-68acd251daf4}" />
+        <Dependent key="35" type="60" displayName="New Bid Review Form" parentDisplayName="Bid Review" id="{b40eb78b-f249-426f-a6bf-0555d6f995db}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="36" type="26" schemaName="Opportunity Lookup View" displayName="Opportunity Lookup View" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" id="{9eb361b4-67ac-4830-8abf-2d29efbaee2c}" />
+        <Dependent key="37" type="60" displayName="Information" parentDisplayName="Bid Review" id="{4393099a-bac1-48c7-905b-12ccc8ff97d9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="36" type="26" schemaName="Opportunity Lookup View" displayName="Opportunity Lookup View" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" id="{9eb361b4-67ac-4830-8abf-2d29efbaee2c}" />
+        <Dependent key="38" type="60" displayName="Information" parentDisplayName="Review and Approval" id="{2ffb4d71-c83c-4aab-aa7c-b2a14dbcc2fd}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="36" type="26" schemaName="Opportunity Lookup View" displayName="Opportunity Lookup View" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" id="{9eb361b4-67ac-4830-8abf-2d29efbaee2c}" />
+        <Dependent key="35" type="60" displayName="New Bid Review Form" parentDisplayName="Bid Review" id="{b40eb78b-f249-426f-a6bf-0555d6f995db}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="39" type="26" schemaName="Country Lookup View" displayName="Country Lookup View" parentSchemaName="ccrm_country" parentDisplayName="Country" solution="Active" id="{20bc9030-bc6c-44ef-a763-e5997d15b0c1}" />
+        <Dependent key="35" type="60" displayName="New Bid Review Form" parentDisplayName="Bid Review" id="{b40eb78b-f249-426f-a6bf-0555d6f995db}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="40" type="50" schemaName=":RibbonDiffXml" parentSchemaName="ribboncustomization" parentDisplayName="Application Ribbons" solution="FormPropertiesButton (1.0.0.0)" />
+        <Dependent key="41" type="50" schemaName="ccrm_opportunityapproval:RibbonDiffXml" parentSchemaName="ribboncustomization" parentDisplayName="Application Ribbons" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="42" type="60" displayName="Bid Review Opp Details quick view" parentDisplayName="Opportunity" solution="Active" id="{41684291-4b0d-4922-897e-c9cb6d4e61d6}" />
+        <Dependent key="37" type="60" displayName="Information" parentDisplayName="Bid Review" id="{4393099a-bac1-48c7-905b-12ccc8ff97d9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="43" type="60" displayName="OppBidReviewDetails" parentDisplayName="Opportunity" solution="Active" id="{b3123b3d-713e-4743-9018-f57bb934d7be}" />
+        <Dependent key="37" type="60" displayName="Information" parentDisplayName="Bid Review" id="{4393099a-bac1-48c7-905b-12ccc8ff97d9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="44" type="60" displayName="BidReviewOppBidAlerts" parentDisplayName="Opportunity" solution="Active" id="{9eefc807-4e0d-4717-8354-9b50d9d5c850}" />
+        <Dependent key="37" type="60" displayName="Information" parentDisplayName="Bid Review" id="{4393099a-bac1-48c7-905b-12ccc8ff97d9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="45" type="60" displayName="Bid Review Opp Client quick view" parentDisplayName="Opportunity" solution="Active" id="{934df555-3bfa-486b-89cb-91b8517066cf}" />
+        <Dependent key="37" type="60" displayName="Information" parentDisplayName="Bid Review" id="{4393099a-bac1-48c7-905b-12ccc8ff97d9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="46" type="61" schemaName="ccrm_jQueryv1102" displayName="ccrm_jQueryv1102" solution="ConsultCRMDataOperations (6.1.3.0)" />
+        <Dependent key="35" type="60" displayName="New Bid Review Form" parentDisplayName="Bid Review" id="{b40eb78b-f249-426f-a6bf-0555d6f995db}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="46" type="61" schemaName="ccrm_jQueryv1102" displayName="ccrm_jQueryv1102" solution="ConsultCRMDataOperations (6.1.3.0)" />
+        <Dependent key="37" type="60" displayName="Information" parentDisplayName="Bid Review" id="{4393099a-bac1-48c7-905b-12ccc8ff97d9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="47" type="61" schemaName="arup_icon_review_approval_32" displayName="arup_icon_review_approval_32" solution="Active" />
+        <Dependent key="48" type="1" schemaName="ccrm_opportunityapproval" displayName="Review and Approval" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="49" type="61" schemaName="ccrm_redcross_16x16" displayName="ccrm_redcross_16x16" solution="Active" />
+        <Dependent key="41" type="50" schemaName="ccrm_opportunityapproval:RibbonDiffXml" parentSchemaName="ribboncustomization" parentDisplayName="Application Ribbons" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="50" type="61" schemaName="mag_/js/alert.js" displayName="mag_/js/alert.js" solution="Active" />
+        <Dependent key="35" type="60" displayName="New Bid Review Form" parentDisplayName="Bid Review" id="{b40eb78b-f249-426f-a6bf-0555d6f995db}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="51" type="61" schemaName="IconCcrm_opportunityapprovalSmall" displayName="IconCcrm_opportunityapprovalSmall" solution="Active" />
+        <Dependent key="48" type="1" schemaName="ccrm_opportunityapproval" displayName="Review and Approval" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="52" type="61" schemaName="ccrm_redcross_32x32" displayName="ccrm_redcross_32x32" solution="Active" />
+        <Dependent key="41" type="50" schemaName="ccrm_opportunityapproval:RibbonDiffXml" parentSchemaName="ribboncustomization" parentDisplayName="Application Ribbons" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="53" type="61" schemaName="ccrm_greentick_32x32" displayName="ccrm_greentick_32x32" solution="Active" />
+        <Dependent key="41" type="50" schemaName="ccrm_opportunityapproval:RibbonDiffXml" parentSchemaName="ribboncustomization" parentDisplayName="Application Ribbons" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="54" type="61" schemaName="ccrm_greentick_16x16" displayName="ccrm_greentick_16x16" solution="Active" />
+        <Dependent key="41" type="50" schemaName="ccrm_opportunityapproval:RibbonDiffXml" parentSchemaName="ribboncustomization" parentDisplayName="Application Ribbons" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="55" type="61" schemaName="Ccrm_opportunityapproval_main_library.js" displayName="Ccrm_opportunityapproval_main_library.js" solution="Active" />
+        <Dependent key="38" type="60" displayName="Information" parentDisplayName="Review and Approval" id="{2ffb4d71-c83c-4aab-aa7c-b2a14dbcc2fd}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="55" type="61" schemaName="Ccrm_opportunityapproval_main_library.js" displayName="Ccrm_opportunityapproval_main_library.js" solution="Active" />
+        <Dependent key="41" type="50" schemaName="ccrm_opportunityapproval:RibbonDiffXml" parentSchemaName="ribboncustomization" parentDisplayName="Application Ribbons" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="56" type="61" schemaName="ccrm_DataOperations" displayName="ccrm_DataOperations" solution="ConsultCRMDataOperations (6.1.3.0)" />
+        <Dependent key="37" type="60" displayName="Information" parentDisplayName="Bid Review" id="{4393099a-bac1-48c7-905b-12ccc8ff97d9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="56" type="61" schemaName="ccrm_DataOperations" displayName="ccrm_DataOperations" solution="ConsultCRMDataOperations (6.1.3.0)" />
+        <Dependent key="35" type="60" displayName="New Bid Review Form" parentDisplayName="Bid Review" id="{b40eb78b-f249-426f-a6bf-0555d6f995db}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="56" type="61" schemaName="ccrm_DataOperations" displayName="ccrm_DataOperations" solution="ConsultCRMDataOperations (6.1.3.0)" />
+        <Dependent key="57" type="50" schemaName="ccrm_bidreview:RibbonDiffXml" parentSchemaName="ribboncustomization" parentDisplayName="Application Ribbons" />
+      </MissingDependency>
+    </MissingDependencies>
+  </SolutionManifest>
+</ImportExportXml>
