@@ -284,7 +284,7 @@ function fnForceSubmit() {
     Xrm.Page.getAttribute("ccrm_projectid").setSubmitMode("always");
     Xrm.Page.getAttribute("ccrm_createmethod").setSubmitMode("always");
     Xrm.Page.getAttribute("ccrm_opportunitystate").setSubmitMode("always");
-    Xrm.Page.getAttribute("ccrm_wonreason").setSubmitMode("awlays");
+    Xrm.Page.getAttribute("ccrm_wonreason").setSubmitMode("always");
     Xrm.Page.getAttribute("ccrm_wondescription").setSubmitMode("always");
     Xrm.Page.getAttribute("ccrm_opportunityid").setSubmitMode("always");
     Xrm.Page.getAttribute("ccrm_suffixarray").setSubmitMode("always");

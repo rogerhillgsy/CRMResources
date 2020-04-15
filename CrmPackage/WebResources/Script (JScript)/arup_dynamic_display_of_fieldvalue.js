@@ -5,7 +5,7 @@ var isOptionSetSelectedValueValid = false;
 var optionsetSelectedValue;
 
 function GetDependentOptionSetFieldValues(mainOptionsetFieldName, dependentOptionsetFieldName) {
-
+    debugger;
     //var attribute = executionContext.getEventSource();
     //var mainOptionsetFieldName = attribute.getName();
     var mainOptionSetFieldValue = Xrm.Page.getAttribute(mainOptionsetFieldName).getValue();
@@ -30,12 +30,12 @@ function GetDependentOptionSetFieldValues(mainOptionsetFieldName, dependentOptio
                     OptionSetAddRemove(dependentOptionsetFieldName, results);
 
                     if (setDefaultValue == true) {
-                        Xrm.Page.getAttribute(dependentOptionsetFieldName).setValue(optionsetDefaultValue);
+                        Xrm.Page.getAttribute(dependentOptionsetFieldName).setValue(parseInt(optionsetDefaultValue));
                     }
                     else if (isOptionSetSelectedValueValid)
                         Xrm.Page.getAttribute(dependentOptionsetFieldName).setValue(optionsetSelectedValue);
 
-                    if (Xrm.Page.getAttribute("statecode") == null || Xrm.Page.getAttribute("statecode").getValue() == 0)
+                    if (Xrm.Page.getAttribute("statecode").getValue() == 0)
                         Xrm.Page.getControl(dependentOptionsetFieldName).setDisabled(optionsetReadOnly);
                 }
             } else {
@@ -135,5 +135,6 @@ function GetDependentFieldValues(executionContext) {
     };
     req.send();
 }
+
 
 
