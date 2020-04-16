@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{a1e4d41e-17fa-e611-80f7-005056b55b13}" Name="Copy of 2015 - Disable/enable approval &amp; calculated fields" Description="Click to add description">
+  <XamlFileName>/Workflows/Copyof2015-Disableenableapprovalcalculatedfields-A1E4D41E-17FA-E611-80F7-005056B55B13.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>4.17.03.01</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <ProcessTriggerScope>1</ProcessTriggerScope>
+  <PrimaryEntity>Opportunity</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="Copy of 2015 - Disable/enable approval &amp; calculated fields" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1033" description="Click to add description" />
+  </Descriptions>
+</Workflow>

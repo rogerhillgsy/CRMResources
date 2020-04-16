@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{b6f88eea-786b-e511-80d8-005056b55b13}" Name="2015 - project start/end date validation">
+  <XamlFileName>/Workflows/2015-projectstartenddatevalidation-B6F88EEA-786B-E511-80D8-005056B55B13.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <ProcessTriggerScope>1</ProcessTriggerScope>
+  <PrimaryEntity>Opportunity</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="2015 - project start/end date validation" />
+  </LocalizedNames>
+  <labels>
+    <steplabels id="{08cabcb0-6853-d304-dac1-03875eb3e91d}">
+      <label languagecode="1033" description="You must specify the Overall Project End Date that happens after the Overall Project Start Date." />
+    </steplabels>
+  </labels>
+</Workflow>

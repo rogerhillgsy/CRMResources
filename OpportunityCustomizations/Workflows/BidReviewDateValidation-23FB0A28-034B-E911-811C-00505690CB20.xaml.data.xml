@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{23fb0a28-034b-e911-811c-00505690cb20}" Name="Bid Review Date Validation" Description="Bid Review Date Validation check">
+  <XamlFileName>/Workflows/BidReviewDateValidation-23FB0A28-034B-E911-811C-00505690CB20.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>0</StateCode>
+  <StatusCode>1</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>1.0.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <BusinessProcessType>0</BusinessProcessType>
+  <ProcessTriggerScope>1</ProcessTriggerScope>
+  <PrimaryEntity>Opportunity</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="Bid Review Date Validation" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1033" description="Bid Review Date Validation check" />
+  </Descriptions>
+  <labels>
+    <steplabels id="{13c2d6f7-3b0d-4bf2-8d99-7679c9e7fcb8}">
+      <label languagecode="1033" description="Bid Review date cannot be greater than Bid Review Approval date" />
+    </steplabels>
+  </labels>
+</Workflow>

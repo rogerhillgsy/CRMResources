@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{706d7555-acff-e811-8117-005056b509e1}" Name="Set Required fields on Developing Bid Stage" Description="Click to add description">
+  <XamlFileName>/Workflows/SetRequiredfieldsonDevelopingBidStage-706D7555-ACFF-E811-8117-005056B509E1.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>0</StateCode>
+  <StatusCode>1</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <BusinessProcessType>0</BusinessProcessType>
+  <ProcessTriggerFormId>{c62bd14c-9457-4bd9-99bf-f91e355cb283}</ProcessTriggerFormId>
+  <ProcessTriggerScope>1</ProcessTriggerScope>
+  <PrimaryEntity>Opportunity</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="Set Required fields on Developing Bid Stage" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1033" description="Click to add description" />
+  </Descriptions>
+</Workflow>

@@ -1,9 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityMaps>
   <EntityMap>
+    <EntitySource>account</EntitySource>
+    <EntityTarget>opportunity</EntityTarget>
+    <AttributeMaps>
+      <AttributeMap>
+        <AttributeSource>ccrm_countryofcoregistrationid</AttributeSource>
+        <AttributeTarget>ccrm_countryofclientregistrationid</AttributeTarget>
+      </AttributeMap>
+    </AttributeMaps>
+  </EntityMap>
+  <EntityMap>
     <EntitySource>lead</EntitySource>
     <EntityTarget>opportunity</EntityTarget>
     <AttributeMaps>
+      <AttributeMap>
+        <AttributeSource>arup_arupgroup</AttributeSource>
+        <AttributeTarget>ccrm_arupgroupid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>arup_arupofficeid</AttributeSource>
+        <AttributeTarget>ccrm_arupofficeid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>arup_arupregion</AttributeSource>
+        <AttributeTarget>ccrm_arupregionid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>arup_arupsubbusiness</AttributeSource>
+        <AttributeTarget>arup_arupsubbusiness</AttributeTarget>
+      </AttributeMap>
       <AttributeMap>
         <AttributeSource>arup_k12school</AttributeSource>
         <AttributeTarget>arup_k12school</AttributeTarget>
@@ -21,6 +47,10 @@
         <AttributeTarget>ccrm_estprojectvalue_num</AttributeTarget>
       </AttributeMap>
       <AttributeMap>
+        <AttributeSource>arup_parentopportunityid</AttributeSource>
+        <AttributeTarget>ccrm_parentopportunityid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
         <AttributeSource>arup_projectsectorname</AttributeSource>
         <AttributeTarget>ccrm_projectsectorname</AttributeTarget>
       </AttributeMap>
@@ -33,12 +63,36 @@
         <AttributeTarget>ccrm_projectsectorvalue</AttributeTarget>
       </AttributeMap>
       <AttributeMap>
+        <AttributeSource>arup_subbusiness</AttributeSource>
+        <AttributeTarget>arup_subbusiness</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>arup_ultimateclient</AttributeSource>
+        <AttributeTarget>ccrm_ultimateendclientid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_accountingcentreid</AttributeSource>
+        <AttributeTarget>ccrm_accountingcentreid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
         <AttributeSource>ccrm_agreementnumber</AttributeSource>
         <AttributeTarget>ccrm_agreementnumber</AttributeTarget>
       </AttributeMap>
       <AttributeMap>
+        <AttributeSource>ccrm_arupbusiness</AttributeSource>
+        <AttributeTarget>ccrm_arupbusinessid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_arupcompanyid</AttributeSource>
+        <AttributeTarget>ccrm_arupcompanyid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
         <AttributeSource>ccrm_arupinternal</AttributeSource>
         <AttributeTarget>ccrm_arupinternal</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_arupusstateid</AttributeSource>
+        <AttributeTarget>ccrm_arupusstateid</AttributeTarget>
       </AttributeMap>
       <AttributeMap>
         <AttributeSource>ccrm_ccrm_othernetworksdisp</AttributeSource>
@@ -51,6 +105,10 @@
       <AttributeMap>
         <AttributeSource>ccrm_countrycategory</AttributeSource>
         <AttributeTarget>ccrm_countrycategory</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_country</AttributeSource>
+        <AttributeTarget>ccrm_projectlocationid</AttributeTarget>
       </AttributeMap>
       <AttributeMap>
         <AttributeSource>ccrm_estarupinvolvementend</AttributeSource>
@@ -81,6 +139,14 @@
         <AttributeTarget>ccrm_otherprocurementtypedetails</AttributeTarget>
       </AttributeMap>
       <AttributeMap>
+        <AttributeSource>ccrm_projectcurrency</AttributeSource>
+        <AttributeTarget>ccrm_proj_sync_transactioncurrencyid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_projectcurrency</AttributeSource>
+        <AttributeTarget>ccrm_project_transactioncurrencyid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
         <AttributeSource>ccrm_shorttitle</AttributeSource>
         <AttributeTarget>ccrm_shorttitle</AttributeTarget>
       </AttributeMap>
@@ -90,7 +156,15 @@
       </AttributeMap>
       <AttributeMap>
         <AttributeSource>ownerid</AttributeSource>
+        <AttributeTarget>ccrm_leadoriginator</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ownerid</AttributeSource>
         <AttributeTarget>ownerid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>parentaccountid</AttributeSource>
+        <AttributeTarget>ccrm_client</AttributeTarget>
       </AttributeMap>
     </AttributeMaps>
   </EntityMap>
@@ -153,8 +227,20 @@
     <EntityTarget>opportunity</EntityTarget>
     <AttributeMaps>
       <AttributeMap>
+        <AttributeSource>ccrm_accountingcentreid</AttributeSource>
+        <AttributeTarget>ccrm_accountingcentreid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_arupbusinessid</AttributeSource>
+        <AttributeTarget>ccrm_arupbusinessid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
         <AttributeSource>ccrm_arupcompanyexchangerate</AttributeSource>
         <AttributeTarget>ccrm_arupcompanyexchangerate</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_arupcompanyid</AttributeSource>
+        <AttributeTarget>ccrm_arupcompanyid</AttributeTarget>
       </AttributeMap>
       <AttributeMap>
         <AttributeSource>ccrm_arupgroup</AttributeSource>
@@ -165,8 +251,28 @@
         <AttributeTarget>ccrm_arupgroupcode</AttributeTarget>
       </AttributeMap>
       <AttributeMap>
+        <AttributeSource>ccrm_arupgroupid</AttributeSource>
+        <AttributeTarget>ccrm_arupgroupid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_arupofficeid</AttributeSource>
+        <AttributeTarget>ccrm_arupofficeid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_arupregionid</AttributeSource>
+        <AttributeTarget>ccrm_arupregionid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_bid_transactioncurrencyid</AttributeSource>
+        <AttributeTarget>ccrm_bid_transactioncurrencyid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
         <AttributeSource>ccrm_bidbusinessoverheadsrate</AttributeSource>
         <AttributeTarget>ccrm_bidbusinessoverheadsrate</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_businessregionid</AttributeSource>
+        <AttributeTarget>ccrm_businessregionid</AttributeTarget>
       </AttributeMap>
       <AttributeMap>
         <AttributeSource>ccrm_countrycategory</AttributeSource>
@@ -181,6 +287,22 @@
         <AttributeTarget>ccrm_estprojectstaffoverheadsrate</AttributeTarget>
       </AttributeMap>
       <AttributeMap>
+        <AttributeSource>ccrm_limit_transactioncurrencyid</AttributeSource>
+        <AttributeTarget>ccrm_limit_transactioncurrencyid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_marketregionid</AttributeSource>
+        <AttributeTarget>ccrm_marketregionid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_notificationlistid</AttributeSource>
+        <AttributeTarget>ccrm_notificationlistid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_pi_transactioncurrencyid</AttributeSource>
+        <AttributeTarget>ccrm_pi_transactioncurrencyid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
         <AttributeSource>ccrm_practice</AttributeSource>
         <AttributeTarget>ccrm_practice</AttributeTarget>
       </AttributeMap>
@@ -189,8 +311,32 @@
         <AttributeTarget>ccrm_practicecode</AttributeTarget>
       </AttributeMap>
       <AttributeMap>
+        <AttributeSource>ccrm_practiceleaderid</AttributeSource>
+        <AttributeTarget>ccrm_practiceleaderid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_proj_sync_transactioncurrencyid</AttributeSource>
+        <AttributeTarget>ccrm_proj_sync_transactioncurrencyid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_project_transactioncurrencyid</AttributeSource>
+        <AttributeTarget>ccrm_project_transactioncurrencyid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_projectlocationid</AttributeSource>
+        <AttributeTarget>ccrm_projectlocationid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_regionalbusinessleader_userid</AttributeSource>
+        <AttributeTarget>ccrm_regionalbusinessleader_userid</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
         <AttributeSource>ccrm_staffoverheadspercent</AttributeSource>
         <AttributeTarget>ccrm_staffoverheadspercent</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>ccrm_subaccountingcentreid</AttributeSource>
+        <AttributeTarget>ccrm_subaccountingcentreid</AttributeTarget>
       </AttributeMap>
       <AttributeMap>
         <AttributeSource>ccrm_subpractice</AttributeSource>
@@ -199,6 +345,10 @@
       <AttributeMap>
         <AttributeSource>ccrm_subpracticecode</AttributeSource>
         <AttributeTarget>ccrm_subpracticecode</AttributeTarget>
+      </AttributeMap>
+      <AttributeMap>
+        <AttributeSource>customerid</AttributeSource>
+        <AttributeTarget>customerid</AttributeTarget>
       </AttributeMap>
     </AttributeMaps>
   </EntityMap>

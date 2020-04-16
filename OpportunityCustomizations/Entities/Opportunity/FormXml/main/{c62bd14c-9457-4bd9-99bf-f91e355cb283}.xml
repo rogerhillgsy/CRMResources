@@ -175,27 +175,11 @@
                     </cell>
                   </row>
                   <row>
-                    <cell id="{97c1cba5-bca2-801a-55d0-517b6bc5548e}" locklevel="0" showlabel="true" labelid="{7d0922a4-1f6a-49a6-827a-3ccca19ed57a}">
+                    <cell id="{1cda005a-9474-472d-5950-bc623a64813a}" showlabel="true" locklevel="0">
                       <labels>
                         <label description="Global Services" languagecode="1033" />
                       </labels>
-                      <control disabled="false" id="ccrm_othernetworksdisp" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_othernetworksdisp" uniqueid="{65e09b63-9899-ca1e-1d39-72c51802a611}" />
-                    </cell>
-                  </row>
-                  <row>
-                    <cell id="{393d3aa3-d110-c1b7-b959-0d1be9a95dbc}" locklevel="0" showlabel="true" labelid="{0443d635-f1c1-4a13-a225-2369adfec852}" visible="false">
-                      <labels>
-                        <label description="Global Services (code)" languagecode="1033" />
-                      </labels>
-                      <control disabled="false" id="ccrm_othernetworks" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_othernetworks" uniqueid="{385dbcb6-8a68-54eb-05ba-9d426eb73e29}" />
-                    </cell>
-                  </row>
-                  <row>
-                    <cell id="{a4500ba6-c80d-c048-cb3d-c1b4e8181ac9}" locklevel="0" showlabel="true" labelid="{44785119-ab7f-4421-bdfb-305187873515}" visible="false">
-                      <labels>
-                        <label description="Global Services (value)" languagecode="1033" />
-                      </labels>
-                      <control disabled="false" id="ccrm_othernetworksval" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_othernetworksval" uniqueid="{51c91e68-758a-8c85-d691-81052077abd2}" />
+                      <control id="arup_globalservices" classid="{4AA28AB7-9C13-4F57-A73D-AD894D048B5F}" datafieldname="arup_globalservices" disabled="false" uniqueid="{8c3b967c-983a-3356-ad2b-d237c476b5b0}" />
                     </cell>
                   </row>
                   <row>
@@ -203,7 +187,7 @@
                       <labels>
                         <label description="Other (please specify)" languagecode="1033" />
                       </labels>
-                      <control disabled="false" id="ccrm_othernetworkdetails" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_othernetworkdetails" />
+                      <control disabled="false" id="ccrm_othernetworkdetails" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_othernetworkdetails" uniqueid="{369dd00a-d14e-9961-6a13-56e47a472610}" />
                     </cell>
                   </row>
                   <row>
@@ -902,11 +886,11 @@
                 </labels>
                 <rows>
                   <row>
-                    <cell id="{678c5027-d07e-bb6c-1b3d-c7260b042276}" showlabel="true" locklevel="0">
+                    <cell id="{d006459e-ba11-57c9-4a6d-d849cc0dc6b9}" showlabel="true" locklevel="0">
                       <labels>
                         <label description="Disciplines" languagecode="1033" />
                       </labels>
-                      <control id="ccrm_disciplinesname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_disciplinesname" disabled="false" uniqueid="{23949845-6c67-ce48-7e7a-e3092d380068}" />
+                      <control id="arup_disciplines" classid="{4AA28AB7-9C13-4F57-A73D-AD894D048B5F}" datafieldname="arup_disciplines" disabled="false" />
                     </cell>
                   </row>
                 </rows>
@@ -1578,12 +1562,32 @@
                       </labels>
                       <control disabled="false" id="ccrm_charitablework" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_charitablework" />
                     </cell>
+                    <cell id="{75e05b45-ad93-1430-7d84-b97eb7b238e6}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Project Type (multiselect)" languagecode="1033" />
+                      </labels>
+                      <control id="arup_projecttype" classid="{4AA28AB7-9C13-4F57-A73D-AD894D048B5F}" datafieldname="arup_projecttype" disabled="false" uniqueid="{c2e2e09d-31a4-15b7-a7a9-0bcd40b4c26c}" />
+                    </cell>
+                    <cell id="{24da3e7b-b041-ea8a-e483-d3b65470b9e4}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Project Sector" languagecode="1033" />
+                      </labels>
+                      <control id="arup_projectsector" classid="{4AA28AB7-9C13-4F57-A73D-AD894D048B5F}" datafieldname="arup_projectsector" disabled="false" uniqueid="{926ba771-b38c-e32d-7405-e4a1a8cb9358}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ea89741c-7640-610d-237c-c1a9cc892687}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Services (multiselect)" languagecode="1033" />
+                      </labels>
+                      <control id="arup_services" classid="{4AA28AB7-9C13-4F57-A73D-AD894D048B5F}" datafieldname="arup_services" disabled="false" uniqueid="{59b5c263-dd6d-5482-bed7-1983be853339}" />
+                    </cell>
                     <cell id="{045a3304-acda-8c80-d2ee-e937c7a5275a}" showlabel="false" userspacer="true">
                       <labels>
                         <label description="" languagecode="1033" />
                       </labels>
                     </cell>
-                    <cell id="{7cc2075d-5d7c-592a-47ea-d35ad5e33716}" showlabel="false">
+                    <cell id="{ece92dca-d710-e563-85b3-b279d6526e48}" showlabel="false">
                       <labels>
                         <label description="" languagecode="1033" />
                       </labels>
@@ -1863,70 +1867,20 @@
                 </labels>
                 <rows>
                   <row>
-                    <cell id="{75313b26-e8c2-3dbe-0542-90eae27d2b82}" locklevel="0" showlabel="true" labelid="{f50e928d-cb1c-43c6-b21d-cd709f5cb544}" colspan="3" rowspan="2">
-                      <labels>
-                        <label description="Project Description" languagecode="1033" />
-                      </labels>
-                      <control disabled="false" id="ccrm_projectsummarydescription_sync" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ccrm_projectsummarydescription_sync" />
-                    </cell>
-                  </row>
-                  <row />
-                  <row>
-                    <cell id="{cd0d62c3-5255-724b-393b-531846866b2d}" locklevel="0" showlabel="true" labelid="{c44d232a-c5f1-44da-92ef-b8ef5fcb5ea0}" visible="false">
-                      <labels>
-                        <label description="Services Value" languagecode="1033" />
-                      </labels>
-                      <control disabled="false" id="ccrm_servicesvalue" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_servicesvalue" uniqueid="{6a951824-75b6-9536-b957-6b56b5070e49}" />
-                    </cell>
-                    <cell id="{3d68db42-761a-80b6-6237-9eabd072c51d}" locklevel="0" showlabel="true" labelid="{5f280863-7baa-4016-9c08-c4d23f37d131}" visible="false">
-                      <labels>
-                        <label description="Services (code)" languagecode="1033" />
-                      </labels>
-                      <control disabled="false" id="ccrm_servicespicklist" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_servicespicklist" uniqueid="{2cc04a7a-945c-877a-822e-0687761471d7}" />
-                    </cell>
-                    <cell id="{20a6acb9-c10e-03de-8790-444751d14c33}" locklevel="0" showlabel="true" labelid="{239b6601-fd05-4451-9a34-33091c275ad9}" visible="false">
-                      <labels>
-                        <label description="Project Sector (code)" languagecode="1033" />
-                      </labels>
-                      <control disabled="false" id="ccrm_projectsectorpicklist" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_projectsectorpicklist" uniqueid="{79605cc7-6699-1360-d33d-0ba5ae1a813b}" />
-                    </cell>
-                  </row>
-                  <row>
-                    <cell id="{d9a0781a-c390-95bc-2da0-c14c5ce2523c}" locklevel="0" showlabel="true" labelid="{9a52781e-cf73-4d44-873f-0bbb7002c38b}" visible="false">
-                      <labels>
-                        <label description="Project Type_Picklist" languagecode="1033" />
-                      </labels>
-                      <control disabled="false" id="ccrm_theworkspicklist" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_theworkspicklist" uniqueid="{71e793a8-c2a7-67c8-cb81-e0412c21420e}" />
-                    </cell>
-                    <cell id="{cec18d47-ec95-73e2-db47-866b26c15e1b}" locklevel="0" showlabel="true" labelid="{3c8dea12-6132-44d0-be86-973ef3ba271c}" visible="false">
-                      <labels>
-                        <label description="The Works Value" languagecode="1033" />
-                      </labels>
-                      <control disabled="false" id="ccrm_theworksvalue" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_theworksvalue" uniqueid="{282288b5-2501-8382-9117-9041de77e9b8}" />
-                    </cell>
-                    <cell id="{850ec197-a45c-28e3-5c41-e7acaa779e01}" locklevel="0" showlabel="true" labelid="{5afa9c4c-0c19-4b0b-9ecc-dcfb92365f8b}" visible="false">
-                      <labels>
-                        <label description="Project Sector Value" languagecode="1033" />
-                      </labels>
-                      <control disabled="false" id="ccrm_projectsectorvalue" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_projectsectorvalue" uniqueid="{465deaa3-4da2-7bc9-7064-7506878715c2}" />
-                    </cell>
-                  </row>
-                  <row>
-                    <cell id="{144d4813-5d4c-6724-50e5-90c92e0903d2}" showlabel="false">
+                    <cell id="{d3ecb62d-266b-48da-0c6e-7e83b4abc1e1}" showlabel="false">
                       <labels>
                         <label description="" languagecode="1033" />
                       </labels>
                     </cell>
-                    <cell id="{701ec34c-8d14-4315-78eb-cb09da89e2d1}" showlabel="false">
+                    <cell id="{e6726b2d-8a20-2b67-7e97-33e0698d5d3b}" showlabel="false">
                       <labels>
                         <label description="" languagecode="1033" />
                       </labels>
                     </cell>
-                    <cell id="{9b4356b7-95ec-7502-72a8-49e2d0eee2cb}" locklevel="0" showlabel="true">
+                    <cell id="{1505be72-ebad-a334-2dd6-c32b7018a877}" showlabel="false">
                       <labels>
-                        <label description="Project Sector" languagecode="1033" />
+                        <label description="" languagecode="1033" />
                       </labels>
-                      <control id="ccrm_projectsectorname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_projectsectorname" uniqueid="{54ea982c-ce28-d4bc-d2b0-cd04c7616928}" />
                     </cell>
                   </row>
                 </rows>
@@ -1977,11 +1931,11 @@
                     </cell>
                   </row>
                   <row>
-                    <cell id="{28967061-e1e0-6bd5-46cc-6a967304da4b}" locklevel="0" showlabel="true" labelid="{3245a51a-54d7-48a1-9893-134aa8eef271}" visible="false">
+                    <cell id="{01cb3a19-dc6c-8704-9a06-8db6cadd14d6}" showlabel="true" locklevel="0">
                       <labels>
-                        <label description="Opportunity Type" languagecode="1033" />
+                        <label description="Opportunity Type (PJN)" languagecode="1033" />
                       </labels>
-                      <control disabled="false" id="ccrm_pjn_opportunitytype" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_pjn_opportunitytype" uniqueid="{8b9c7e65-2c99-13e6-8450-9b898de99568}" />
+                      <control id="ccrm_pjn_opportunitytype" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_pjn_opportunitytype" disabled="false" />
                     </cell>
                     <cell id="{8183cb41-480c-d697-e4aa-a059a5503a13}" showlabel="true" locklevel="0">
                       <labels>
@@ -2157,44 +2111,17 @@
                     </cell>
                   </row>
                   <row>
-                    <cell id="{97a56ed7-3e96-2c4e-babe-eba5591baa0c}" showlabel="true" locklevel="0" visible="false">
-                      <labels>
-                        <label description="Disciplines Picklist" languagecode="1033" />
-                      </labels>
-                      <control id="ccrm_disciplinespicklist" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_disciplinespicklist" disabled="false" uniqueid="{c465987d-dc1d-2153-845d-412725e6c27e}" />
-                    </cell>
-                    <cell id="{59c8be15-c12c-40a8-9059-6e1744d876b6}" locklevel="0" showlabel="true" labelid="{25a151b2-1c7a-4d55-b65f-ca89845761a1}">
-                      <labels>
-                        <label description="Confidential" languagecode="1033" />
-                      </labels>
-                      <control disabled="false" id="ccrm_confidentialoptionset" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_confidentialoptionset" uniqueid="{156cc772-d842-b7b1-719d-4ea83865a945}" />
-                    </cell>
-                  </row>
-                  <row>
-                    <cell id="{6c5605d4-35e7-9214-5a6d-5806a5e43592}" showlabel="true" locklevel="0" visible="false">
-                      <labels>
-                        <label description="Disciplines Value" languagecode="1033" />
-                      </labels>
-                      <control id="ccrm_disciplinesvalue" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_disciplinesvalue" disabled="false" uniqueid="{76e2d697-04d0-9b17-590d-34203dabe963}" />
-                    </cell>
-                    <cell id="{2e53c335-e77b-c018-dd6d-05ea8e174cdc}" showlabel="true" locklevel="0" visible="false">
-                      <labels>
-                        <label description="Bid Submission Outcome" languagecode="1033" />
-                      </labels>
-                      <control id="arup_bidsubmissionoutcome" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="arup_bidsubmissionoutcome" disabled="false" uniqueid="{952c3125-ea5b-326c-9c97-0be18e29a9d4}" />
-                    </cell>
-                  </row>
-                  <row>
                     <cell id="{7aae7800-26cd-c874-9b95-ded8404adbca}" showlabel="true" locklevel="0">
                       <labels>
                         <label description="Arup Internal" languagecode="1033" />
                       </labels>
                       <control id="ccrm_arupinternal" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_arupinternal" disabled="false" uniqueid="{305147a6-a1b4-ec0c-3519-5b90395b56c7}" />
                     </cell>
-                    <cell id="{77299ae2-44c1-cc5d-66cd-b6c2c8d99779}" showlabel="false">
+                    <cell id="{59c8be15-c12c-40a8-9059-6e1744d876b6}" locklevel="0" showlabel="true" labelid="{25a151b2-1c7a-4d55-b65f-ca89845761a1}">
                       <labels>
-                        <label description="" languagecode="1033" />
+                        <label description="Confidential" languagecode="1033" />
                       </labels>
+                      <control disabled="false" id="ccrm_confidentialoptionset" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_confidentialoptionset" uniqueid="{156cc772-d842-b7b1-719d-4ea83865a945}" />
                     </cell>
                   </row>
                   <row>
@@ -2213,10 +2140,52 @@
                         </parameters>
                       </control>
                     </cell>
-                    <cell id="{300128d5-e395-a5ca-65e5-2b67216b60d0}" showlabel="false">
+                    <cell id="{2e53c335-e77b-c018-dd6d-05ea8e174cdc}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Bid Submission Outcome" languagecode="1033" />
+                      </labels>
+                      <control id="arup_bidsubmissionoutcome" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="arup_bidsubmissionoutcome" disabled="false" uniqueid="{952c3125-ea5b-326c-9c97-0be18e29a9d4}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{54b2b505-e833-eaec-c251-e8b854c1b468}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Disciplines" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_disciplinesname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_disciplinesname" disabled="false" />
+                    </cell>
+                    <cell id="{287a9428-2191-6407-4b46-103b89d3d487}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Project Sector Value" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_projectsectorvalue" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_projectsectorvalue" disabled="false" uniqueid="{776b6b0b-ea62-079a-7b53-9631946cd08b}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{21b3d0a0-1650-be58-b0db-690bad76109c}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Project Sector" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_projectsectorname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_projectsectorname" disabled="false" />
+                    </cell>
+                    <cell id="{9c586299-4beb-241b-627c-8219686e6741}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Services" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_servicesname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_servicesname" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{7c6eb42b-657d-da87-3925-67201d5aab62}" showlabel="false">
                       <labels>
                         <label description="" languagecode="1033" />
                       </labels>
+                    </cell>
+                    <cell id="{7a4214c9-a597-e68e-542b-0782d9a4beb4}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Global Services" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_othernetworksdisp" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_othernetworksdisp" disabled="false" uniqueid="{53644522-9aad-aba4-cdd5-630c03616744}" />
                     </cell>
                   </row>
                 </rows>
@@ -3017,11 +2986,6 @@
             <Title Text="Competitors" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
-        <NavBarByRelationshipItem Id="navDocument" Area="Info" Sequence="9000" RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navDocument">
-          <Titles>
-            <Title Text="Documents" LCID="1033" />
-          </Titles>
-        </NavBarByRelationshipItem>
         <NavBarByRelationshipItem Id="navConnections" Area="Info" Sequence="9600" RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navConnections">
           <Titles>
             <Title Text="Connections" LCID="1033" />
@@ -3032,19 +2996,14 @@
             <Title Text="Audit History" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
-        <NavBarByRelationshipItem Id="nav_ccrm_opportunity_opportunity_parent" Area="Info" Sequence="10001" RelationshipName="ccrm_opportunity_opportunity_parent">
-          <Titles>
-            <Title Text="Sub-Opportunities" LCID="1033" />
-          </Titles>
-        </NavBarByRelationshipItem>
         <NavBarByRelationshipItem Id="nav_ccrm_opportunity_ccrm_bidreview" Area="Info" Sequence="10001" RelationshipName="ccrm_opportunity_ccrm_bidreview">
           <Titles>
             <Title Text="Bid Review" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
-        <NavBarByRelationshipItem Id="nav_ccrm_projecttitle" Area="Info" Sequence="10002" RelationshipName="ccrm_projecttitle">
+        <NavBarByRelationshipItem Id="nav_ccrm_opportunity_opportunity_parent" Area="Info" Sequence="10001" RelationshipName="ccrm_opportunity_opportunity_parent">
           <Titles>
-            <Title Text="Exclusivity Requests" LCID="1033" />
+            <Title Text="Sub-Opportunities" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
         <NavBarByRelationshipItem Id="nav_ccrm_opportunity_ccrm_cjnapplication" Area="Info" Sequence="10002" RelationshipName="ccrm_opportunity_ccrm_cjnapplication">
@@ -3052,9 +3011,9 @@
             <Title Text="Confirmed Job Number Applications" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
-        <NavBarByRelationshipItem Id="nav_ccrm_opprelationship" Area="Info" Sequence="10003" RelationshipName="ccrm_opprelationship" Show="false">
+        <NavBarByRelationshipItem Id="nav_ccrm_projecttitle" Area="Info" Sequence="10002" RelationshipName="ccrm_projecttitle">
           <Titles>
-            <Title Text="Arup Relationships" LCID="1033" />
+            <Title Text="Exclusivity Requests" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
         <NavBarByRelationshipItem Id="nav_ccrm_opportunity_ccrm_progresshistory" Area="Info" Sequence="10003" RelationshipName="ccrm_opportunity_ccrm_progresshistory">
@@ -3062,14 +3021,19 @@
             <Title Text="Progress Histories" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
-        <NavBarByRelationshipItem Id="nav_ccrm_opportunity_ccrm_opportunityapproval" Area="Info" Sequence="10004" RelationshipName="ccrm_opportunity_ccrm_opportunityapproval">
+        <NavBarByRelationshipItem Id="nav_ccrm_opprelationship" Area="Info" Sequence="10003" RelationshipName="ccrm_opprelationship" Show="false">
           <Titles>
-            <Title Text="Review and Approval" LCID="1033" />
+            <Title Text="Arup Relationships" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
         <NavBarByRelationshipItem Id="nav_ccrm_opportunity_incident_Projectname" Area="Service" Sequence="10004" RelationshipName="ccrm_opportunity_incident_Projectname">
           <Titles>
             <Title Text="Legal Files" LCID="1033" />
+          </Titles>
+        </NavBarByRelationshipItem>
+        <NavBarByRelationshipItem Id="nav_ccrm_opportunity_ccrm_opportunityapproval" Area="Info" Sequence="10004" RelationshipName="ccrm_opportunity_ccrm_opportunityapproval">
+          <Titles>
+            <Title Text="Review and Approval" LCID="1033" />
           </Titles>
         </NavBarByRelationshipItem>
         <NavBarByRelationshipItem Id="navProcessSessions" Area="Info" Sequence="10011" RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navProcessSessions" Show="true">
@@ -3150,23 +3114,23 @@
           </Handler>
         </InternalHandlers>
         <Handlers>
-          <Handler functionName="formatMultiSelect" libraryName="ccrm_ms_MultiSelect.js" handlerUniqueId="{a4c6a275-0d08-048c-e6db-2d9eed48e995}" enabled="true" passExecutionContext="false" parameters="&quot;ccrm_othernetworks&quot;,&quot;ccrm_othernetworksdisp&quot;,&quot;ccrm_othernetworksval&quot;,null,250,3" />
-          <Handler functionName="formatMultiSelect" libraryName="ccrm_ms_MultiSelect.js" handlerUniqueId="{78907a21-53ae-40c1-596b-aab6d310003c}" enabled="true" passExecutionContext="false" parameters="&quot;ccrm_disciplinespicklist&quot;,&quot;ccrm_disciplinesname&quot;,&quot;ccrm_disciplinesvalue&quot;,null,400" />
-          <Handler functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" handlerUniqueId="{ed4b95dd-7664-cc7b-76b8-b571bb9d0d33}" enabled="true" passExecutionContext="false" parameters="&quot;header_process_ccrm_disciplinesname&quot;,&quot;ccrm_disciplinesvalue&quot;,&quot;9999&quot;,&quot;ccrm_disciplinespicklist&quot;,400" />
-          <Handler functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" handlerUniqueId="{7e4eeadb-105d-cc85-56c9-55b9d2071c7d}" enabled="true" passExecutionContext="false" parameters="&quot;header_process_ccrm_servicesname&quot;,&quot;ccrm_servicesvalue&quot;,&quot;9999&quot;,&quot;ccrm_servicespicklist&quot;,400" />
-          <Handler functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" handlerUniqueId="{02793acb-ae6c-6852-9373-7cecd9686149}" enabled="true" passExecutionContext="false" parameters="&quot;header_process_ccrm_theworksname&quot;,&quot;ccrm_theworksvalue&quot;,&quot;9990&quot;,&quot;ccrm_theworkspicklist&quot;,350" />
-          <Handler functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" handlerUniqueId="{29ec436a-833b-363c-4123-79e0954ba769}" enabled="true" passExecutionContext="false" parameters="&quot;header_process_ccrm_projectsectorname&quot;,&quot;ccrm_projectsectorvalue&quot;,&quot;9970&quot;,&quot;ccrm_projectsectorpicklist&quot;,300" />
-          <Handler functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" handlerUniqueId="{192b5dcb-2906-aa5d-95c2-582d3c56823c}" enabled="true" parameters="&quot;header_process_ccrm_disciplinesname_1&quot;,&quot;ccrm_disciplinesvalue&quot;,&quot;9999&quot;,&quot;ccrm_disciplinespicklist&quot;,400" passExecutionContext="false" />
-          <Handler functionName="FormOnload" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{6a6ab98a-08b5-2c25-66de-a41aa2097c66}" enabled="true" passExecutionContext="true" parameters="" />
+          <Handler functionName="formatMultiSelect" libraryName="ccrm_ms_MultiSelect.js" handlerUniqueId="{a4c6a275-0d08-048c-e6db-2d9eed48e995}" enabled="false" passExecutionContext="false" parameters="&quot;ccrm_othernetworks&quot;,&quot;ccrm_othernetworksdisp&quot;,&quot;ccrm_othernetworksval&quot;,null,250,3" />
+          <Handler functionName="formatMultiSelect" libraryName="ccrm_ms_MultiSelect.js" handlerUniqueId="{78907a21-53ae-40c1-596b-aab6d310003c}" enabled="false" passExecutionContext="false" parameters="&quot;ccrm_disciplinespicklist&quot;,&quot;ccrm_disciplinesname&quot;,&quot;ccrm_disciplinesvalue&quot;,null,400" />
+          <Handler functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" handlerUniqueId="{ed4b95dd-7664-cc7b-76b8-b571bb9d0d33}" enabled="false" passExecutionContext="false" parameters="&quot;header_process_ccrm_disciplinesname&quot;,&quot;ccrm_disciplinesvalue&quot;,&quot;9999&quot;,&quot;ccrm_disciplinespicklist&quot;,400" />
+          <Handler functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" handlerUniqueId="{7e4eeadb-105d-cc85-56c9-55b9d2071c7d}" enabled="false" passExecutionContext="false" parameters="&quot;header_process_ccrm_servicesname&quot;,&quot;ccrm_servicesvalue&quot;,&quot;9999&quot;,&quot;ccrm_servicespicklist&quot;,400" />
+          <Handler functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" handlerUniqueId="{02793acb-ae6c-6852-9373-7cecd9686149}" enabled="false" passExecutionContext="false" parameters="&quot;header_process_ccrm_theworksname&quot;,&quot;ccrm_theworksvalue&quot;,&quot;9990&quot;,&quot;ccrm_theworkspicklist&quot;,350" />
+          <Handler functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" handlerUniqueId="{29ec436a-833b-363c-4123-79e0954ba769}" enabled="false" passExecutionContext="false" parameters="&quot;header_process_ccrm_projectsectorname&quot;,&quot;ccrm_projectsectorvalue&quot;,&quot;9970&quot;,&quot;ccrm_projectsectorpicklist&quot;,300" />
+          <Handler functionName="formatBPFMultiSelect" libraryName="ccrm_ms_BPF_MultiSelect.js" handlerUniqueId="{192b5dcb-2906-aa5d-95c2-582d3c56823c}" enabled="false" parameters="&quot;header_process_ccrm_disciplinesname_1&quot;,&quot;ccrm_disciplinesvalue&quot;,&quot;9999&quot;,&quot;ccrm_disciplinespicklist&quot;,400" passExecutionContext="false" />
+          <Handler functionName="FormOnload" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{6a6ab98a-08b5-2c25-66de-a41aa2097c66}" enabled="true" passExecutionContext="false" parameters="" />
           <Handler functionName="SuppressDirtyFields" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{a438c435-2be7-6910-024e-4ca6e1e02825}" enabled="true" passExecutionContext="false" parameters="" />
           <Handler functionName="clearSpace" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{1b0db680-8e92-c955-ba87-5a773180c481}" enabled="true" parameters="" passExecutionContext="false" />
           <Handler functionName="onSelectOfStage" libraryName="arup_Opportunity_Changes" handlerUniqueId="{288d2483-02e9-8bda-6778-9a92b86ccc03}" enabled="true" parameters="" passExecutionContext="false" />
-          <Handler functionName="GetDependentOptionSetFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{93e61cdd-651b-1da8-4367-10b860cbadeb}" enabled="true" parameters="&quot;arup_opportunitytype&quot;,&quot;ccrm_contractarrangement&quot;" passExecutionContext="false" />
-          <Handler functionName="GetDependentOptionSetFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{4c7d80b0-dc67-e690-545b-48d996759942}" enabled="true" parameters="&quot;arup_opportunitytype&quot;,&quot;ccrm_leadsource&quot;" passExecutionContext="false" />
-          <Handler functionName="setBidDecisionChairRequired" libraryName="arup_Opportunity_Changes" handlerUniqueId="{0ead9930-2e97-dd6b-172c-dde5e5721506}" enabled="true" parameters="" passExecutionContext="false" />
+          <Handler functionName="GetDependentOptionSetFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{93e61cdd-651b-1da8-4367-10b860cbadeb}" enabled="false" parameters="&quot;arup_opportunitytype&quot;,&quot;ccrm_contractarrangement&quot;" passExecutionContext="false" />
+          <Handler functionName="GetDependentOptionSetFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{4c7d80b0-dc67-e690-545b-48d996759942}" enabled="false" parameters="&quot;arup_opportunitytype&quot;,&quot;ccrm_leadsource&quot;" passExecutionContext="false" />
+          <Handler functionName="setBidDecisionChairRequired" libraryName="arup_Opportunity_Changes" handlerUniqueId="{0ead9930-2e97-dd6b-172c-dde5e5721506}" enabled="false" parameters="" passExecutionContext="false" />
           <Handler functionName="opportunityType_onChange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{a17328b4-5de4-2bbb-5a48-cd32c213e6bd}" enabled="true" parameters="" passExecutionContext="false" />
-          <Handler functionName="retreiveOrganisationChecks" libraryName="arup_Opportunity_Changes" handlerUniqueId="{ab9c8725-4810-a058-ede0-54abee331580}" enabled="true" parameters="" passExecutionContext="false" />
-          <Handler functionName="setupArupInternal" libraryName="arup_Opportunity_Changes" handlerUniqueId="{67c549a0-c63e-4d65-9714-b32a2b8dd9dd}" enabled="true" parameters="" passExecutionContext="false" />
+          <Handler functionName="retreiveOrganisationChecks" libraryName="arup_Opportunity_Changes" handlerUniqueId="{ab9c8725-4810-a058-ede0-54abee331580}" enabled="false" parameters="" passExecutionContext="false" />
+          <Handler functionName="setupArupInternal" libraryName="arup_Opportunity_Changes" handlerUniqueId="{67c549a0-c63e-4d65-9714-b32a2b8dd9dd}" enabled="false" parameters="" passExecutionContext="false" />
         </Handlers>
       </event>
       <event name="onchange" application="true" active="true" attribute="isrevenuesystemcalculated">
@@ -3469,8 +3433,8 @@
       </event>
       <event name="onchange" application="false" active="false" attribute="arup_opportunitytype">
         <Handlers>
-          <Handler functionName="GetDependentOptionSetFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{a05c15bb-d0da-8ada-1617-2c29e5176ca6}" enabled="true" parameters="&quot;arup_opportunitytype&quot;,&quot;ccrm_contractarrangement&quot;" passExecutionContext="false" />
-          <Handler functionName="GetDependentOptionSetFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{dd456ca9-4652-09dd-962a-bb6458755573}" enabled="true" parameters="&quot;arup_opportunitytype&quot;,&quot;ccrm_leadsource&quot;" passExecutionContext="false" />
+          <Handler functionName="GetDependentOptionSetFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{a05c15bb-d0da-8ada-1617-2c29e5176ca6}" enabled="true" parameters="&quot;arup_opportunitytype&quot;,&quot;ccrm_contractarrangement&quot;" passExecutionContext="true" />
+          <Handler functionName="GetDependentOptionSetFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{dd456ca9-4652-09dd-962a-bb6458755573}" enabled="true" parameters="&quot;arup_opportunitytype&quot;,&quot;ccrm_leadsource&quot;" passExecutionContext="true" />
           <Handler functionName="opportunityType_onChange" libraryName="ccrm_opportunity_library_2015" handlerUniqueId="{b71db36d-905a-c775-ccd9-915c5e01868a}" enabled="true" parameters="&quot;change&quot;" passExecutionContext="false" />
           <Handler handlerUniqueId="{388b7288-a735-c6e4-b9d9-ab92804bc4c2}" functionName="ShowHideFrameworkFields" libraryName="ccrm_opportunity_library_2015" enabled="false" passExecutionContext="false" parameters="" />
           <Handler functionName="GetDependentFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{2c4bb276-dc72-a37e-b3a4-4d76e6d5db93}" enabled="true" parameters="" passExecutionContext="true" />

@@ -44,9 +44,6 @@
     <steplabels id="{cd5fe230-acc5-4c53-95c2-3f467eebc8d1}">
       <label languagecode="1033" description="Extent of Arup Services" />
     </steplabels>
-    <steplabels id="{5e3d3aec-8c56-449a-a37f-f037dd7e4df3}">
-      <label languagecode="1033" description="Disciplines" />
-    </steplabels>
     <steplabels id="{f3ac2cd2-968e-4725-80bb-d84000f0e485}">
       <label languagecode="1033" description="Fee Income" />
     </steplabels>
@@ -376,18 +373,6 @@
     </steplabels>
     <steplabels id="{1ec526dc-a3f7-47e2-9591-eb56805f6b9e}">
       <label languagecode="1033" description="Project Director" />
-    </steplabels>
-    <steplabels id="{fdad8650-61fb-4a09-b4e8-d44c9baa9fb7}">
-      <label languagecode="1033" description="Disciplines" />
-    </steplabels>
-    <steplabels id="{cc3257c7-3234-6242-910d-b17a465a194a}">
-      <label languagecode="1033" description="Services" />
-    </steplabels>
-    <steplabels id="{326bc09a-721e-abb5-d797-616e8440da54}">
-      <label languagecode="1033" description="Project Type" />
-    </steplabels>
-    <steplabels id="{1bcbd92a-ab5e-55e0-94d8-ea4433dc2b7e}">
-      <label languagecode="1033" description="Project Sector" />
     </steplabels>
     <steplabels id="{14fcb9a6-7604-430a-8614-ad82f257f456}">
       <label languagecode="1033" description="Arup Project Start Date" />

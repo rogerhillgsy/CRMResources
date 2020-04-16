@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{5f0fb83b-e573-e511-80da-005056b55b13}" Name="2015 - Ratio Factored Return to Net Arup Bid costs">
+  <XamlFileName>/Workflows/2015-RatioFactoredReturntoNetArupBidcosts-5F0FB83B-E573-E511-80DA-005056B55B13.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>0</StateCode>
+  <StatusCode>1</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <ProcessTriggerScope>1</ProcessTriggerScope>
+  <PrimaryEntity>Opportunity</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="2015 - Ratio Factored Return to Net Arup Bid costs" />
+  </LocalizedNames>
+  <labels>
+    <steplabels id="{953da234-c2ba-cd74-c767-208e249e3505}">
+      <label languagecode="1033" description="The ratio of Factored Net Arup Return to the Bid Costs must be more than 1 for the project to be profitable." />
+    </steplabels>
+  </labels>
+</Workflow>

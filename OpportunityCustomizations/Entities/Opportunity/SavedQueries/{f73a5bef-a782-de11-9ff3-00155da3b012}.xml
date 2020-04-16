@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedquery>
+  <isquickfindquery>0</isquickfindquery>
+  <isprivate>0</isprivate>
+  <isdefault>0</isdefault>
+  <savedqueryid>{f73a5bef-a782-de11-9ff3-00155da3b012}</savedqueryid>
+  <queryapi></queryapi>
+  <layoutxml>
+    <grid name="resultset" jump="name" select="1" preview="1" icon="1">
+      <row name="result" id="opportunityid">
+        <cell name="ccrm_arupregionid" width="100" />
+        <cell name="ccrm_projectlocationid" width="100" />
+        <cell name="ccrm_arupbusinessid" width="100" />
+        <cell name="ccrm_arupgroupid" width="100" />
+        <cell name="ccrm_pjna" width="150" />
+        <cell name="ccrm_jna" width="200" />
+        <cell name="name" width="300" />
+        <cell name="ccrm_client" width="150" />
+        <cell name="statuscode" width="150" />
+        <cell name="ccrm_estimatedvalue_num" width="100" />
+        <cell name="ccrm_project_transactioncurrencyid" width="100" />
+        <cell name="ccrm_projectdirector_userid" width="100" />
+        <cell name="ccrm_projectmanager_userid" width="100" />
+        <cell name="ccrm_estarupinvolvementstart" width="125" />
+        <cell name="ccrm_estarupinvolvementend" width="125" />
+        <cell name="estimatedvalue_base" width="125" />
+      </row>
+    </grid>
+  </layoutxml>
+  <querytype>0</querytype>
+  <fetchxml>
+    <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+      <entity name="opportunity">
+        <order attribute="name" descending="true" />
+        <filter type="and">
+          <condition attribute="statecode" operator="eq" value="1" />
+        </filter>
+        <attribute name="name" />
+        <attribute name="statuscode" />
+        <attribute name="ccrm_arupregionid" />
+        <attribute name="ccrm_project_transactioncurrencyid" />
+        <attribute name="ccrm_projectlocationid" />
+        <attribute name="ccrm_estimatedvalue_num" />
+        <attribute name="ccrm_arupbusinessid" />
+        <attribute name="ccrm_estarupinvolvementstart" />
+        <attribute name="ccrm_arupgroupid" />
+        <attribute name="ccrm_projectdirector_userid" />
+        <attribute name="ccrm_pjna" />
+        <attribute name="ccrm_jna" />
+        <attribute name="ccrm_projectmanager_userid" />
+        <attribute name="ccrm_estarupinvolvementend" />
+        <attribute name="estimatedvalue_base" />
+        <attribute name="ccrm_client" />
+        <attribute name="opportunityid" />
+      </entity>
+    </fetch>
+  </fetchxml>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <LocalizedNames>
+    <LocalizedName description="All Won Opportunities" languagecode="1033" />
+  </LocalizedNames>
+</savedquery>
