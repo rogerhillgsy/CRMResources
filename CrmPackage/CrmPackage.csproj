@@ -1733,6 +1733,11 @@
       <UniqueName>arup_arup_lead_detailssection_html</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_opportunitybuttons.html">
+      <DisplayName>Opportunity Buttons</DisplayName>
+      <UniqueName>arup_opportunitybuttons</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_Relationship_Interactions">
       <DisplayName>arup_Relationship_Interactions</DisplayName>
       <UniqueName>arup_arup_Relationship_Interactions</UniqueName>
