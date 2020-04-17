@@ -27,104 +27,171 @@
                 background-color: #ff3020;
             }
 
+        .tabButtons {
+            text-align: center;
+        }
+
+        body {
+            text-align: center;
+        }
     </style>
 
     <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
     <script src="ccrm_ms_jQuery1102" type="text/javascript"></script>
-    <script>
-
-
-
-
-        function activateTab(tab) {
-
-            parent.Xrm.Page.ui.tabs.get(tab).setFocus();
-            parent.Xrm.Page.ui.tabs.get(tab).setDisplayState("expanded");
-
-            var tabCtrl = document.getElementById('tabCtrl');
-            var tabToActivate = document.getElementById(tab);
-            for (var i = 0; i < tabCtrl.childNodes.length; i++) {
-                var node = tabCtrl.childNodes[i];
-                if (node.nodeType == 1) {
-                    node.className = (node == tabToActivate) ? "activeTab" : "inactiveTab";
-                }
-            }
-
-            loopTabs(tab, staticTabs.concat(tab), true, null);
-
-        }
-
-        function loopTabs(tab, tabArray, visibility, state) {
-
-            var selectedTabs = null;
-            var oppState = null;
-            if (state == 'collapsed') {
-                oppState = 'expanded';
-            } else if (state == 'expanded') {
-                oppState = 'collapsed';
-            };
-
-            var tabs = parent.Xrm.Page.ui.tabs.get();
-            for (var i in tabs) {
-                var tabProcessed = tabs[i];
-
-                if (visibility != null) {
-                    if (tabArray.indexOf(tabProcessed.getName()) > -1) {
-                        parent.Xrm.Page.ui.tabs.get(tabProcessed.getName()).setVisible(visibility);
-                    } else {
-                        parent.Xrm.Page.ui.tabs.get(tabProcessed.getName()).setVisible(!visibility);
-                    }
-                }
-                if (state != null) {
-                    if (tabArray.indexOf(tabProcessed.getName()) > -1) {
-                        parent.Xrm.Page.ui.tabs.get(tabProcessed.getName()).setDisplayState(state);
-                    } else {
-                        parent.Xrm.Page.ui.tabs.get(tabProcessed.getName()).setDisplayState(oppState);
-                    }
-                }
-            }
-        }
-    </script>
-    <meta>
-    <meta>
-    <meta>
-    <meta>
-    <meta>
-    <meta>
-    <meta>
 </head>
 
 <body style="word-wrap: break-word;">
     <div id="tabButtons"></div>
 
     <script>
-        staticTabs = ['PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab', 'Bid_Details_Tab', 'Bid_Development_Tab_External'];
+        function DisplayTab(tabName) {
+            var tab = parent.Xrm.Page.ui.tabs.get(tabName);
+            tab.setDisplayState("expanded");
+            tab.setVisible(true);
+            tab.setFocus();
+            tabToDisplay = tabName;
+            // Do we need to trigger the arup_opportunitybuttons.html web resource to update?
+        }
 
+        var tabToDisplay = null;
+
+        staticTabs = ['tab_testing', 'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab', 'Bid_Details_Tab', 'Bid_Development_Tab_External'];
+        debugger;
         var Log = function(s) { console.log(s) };
 
         buttonConfigs = {
-            'tab_prebid': [
+            'Prebid_tab': [
                 {
                     'label': 'Approve Decision to Bid',
-                    'action': function () {
+                    'action': function() {
                         Log("Approving bid decision");
                         parent.Xrm.Page.Arup.BidDicisionConfirmation();
                     }
                 },
                 {
                     'label': 'Move to Next Stage',
-                    'action': function () {
+                    'action': function() {
                         Log("Move next stage");
                         parent.Xrm.Page.Arup.BPFMoveNext();
                     }
                 }
-            ]
+            ],
+            'Cross_Region_Tab': [
+                {
+                    'label': 'Move to Next Stage',
+                    'action': function() {
+                        Log("Move next stage");
+                        parent.Xrm.Page.Arup.BPFMoveNext();
+                    }
+                }
+            ],
+            'Developing_Bid_tab': [
+                {
+                    'label': 'Update Financial Details',
+                    'action': function() {
+                        Log("Updae Financial Details");
+                        // Visit Project Financials?
+                        parent.Xrm.Page.Arup.UpdateFinancialDetails();
+                    }
+                },
+                {
+                    'label': 'Move to Next Stage',
+                    'action': function() {
+                        Log("Move next stage");
+                        parent.Xrm.Page.Arup.BPFMoveNext();
+                    }
+                }
+            ],
+            'Bid_Review_Submission_tab': [
+                {
+                    'label': 'Approve Bid Review',
+                    'action': function() {
+                        Log("Approve Bid Review");
+                        parent.Xrm.Page.Arup.BPFMoveNext();
+                        $('#next_stage_button').show();
+                        debugger;
+                        this.hide(); // ?? How do we do this?
+                    }
+                },
+                {
+                    'id': 'next_stage_button',
+                    'label': 'Move to Next Stage',
+                    'action': function() {
+                        Log("Move next stage");
+                        parent.Xrm.Page.Arup.BPFMoveNext();
+                    },
+                    'hidden': true
+                }
+            ],
+            'Confirmed_Job_Project_Tab': [
+                {
+                    'label': 'Move to Next Stage',
+                    'action': function() {
+                        Log("Move next stage");
+                        parent.Xrm.Page.Arup.BPFMoveNext();
+                    }
+                }
+            ],
+            'Confirmed_Job_commercial_Tab': [
+                {
+                    'label': 'Request Confirmed Job Number',
+                    'action': function() {
+                        Log("Request CJN");
+                        parent.Xrm.Page.Arup.RequestCJN();
+                    }
+                }
+            ],
+            'PJN_Costs_Tab': [
+                {
+                    // TOD: return to active stage
+                    'label': 'Return to: Required Fields - Pre-Bid',
+                    'action': function() {
+                        Log("Move next stage");
+                        DisplayTab("Prebid_tab");
+                    }
+                }
+            ],
+            'Project_Financials_Tab': [
+                {
+                    'label': 'Return to: Required Fields - Developing Bid tab',
+                    'action': function() {
+                        Log("Move next stage");
+                        DisplayTab("Developing_Bid_tab");
+                    }
+                }
+            ],
+            'PJN_Approval_tab': [
+                {
+                    'label': 'Approve PJN Group Leader',
+                    'action': function() {
+                        Log("Move next stage");
+                        parent.Xrm.Page.Arup.PJNApproveGroupLeader("");
+                    }
+                },
+                {
+                    'label': 'Approve PJN Sector Leader',
+                    'action': function() {
+                        Log("Move next stage");
+                        parent.Xrm.Page.Arup.PJNApproveSectorLeader("");
+                    }
+                },
+                {
+                    'label': 'Approve Regional COO',
+                    'action': function () {
+                        Log("Move next stage");
+                        parent.Xrm.Page.Arup.PJNApproveRegionalCOO("");
+                    }
+                }
+            ],
+            'tab_testing': [
+                ]
         };
 
         // When loaded
         // - Work out which tab is currently active.
         var tabs = parent.Xrm.Page.ui.tabs.get();
-        var activeTab = null;
+        var activeTab = tabToDisplay;
+        tabToDisplay = null;
         for (var t in tabs) {
             var tab = tabs[t];
             if (tab.getDisplayState() == "expanded") {
@@ -136,6 +203,17 @@
                     tab.setVisible(false);
                 }
             }
+            // If (testing) add buttons linking to all of the tabs to the test tab.
+                var tabName = tab.getName();
+                buttonConfigs['tab_testing'].push({
+                    'label': tab.getLabel(),
+                    'action': function (name) {
+                        return function() {
+                            debugger;
+                            DisplayTab(name);
+                        };
+                    }(tabName)
+                });
         }
 
         // - generate buttons appropriate to the active tab.
@@ -147,11 +225,18 @@
                 for (buttonNum in buttonConfig) {
                     var button = buttonConfig[buttonNum];
                     var span = document.createElement("span");
-                    span.id = "button" + id++;
+                    if (button.id != null) {
+                        span.id = button.id;
+                    } else {
+                        span.id = "button" + id++;
+                    }
                     span.onclick = button.action;
                     span.innerHTML = button.label;
                     span.className = "mainButton";
                     $("#tabButtons")[0].appendChild(span);
+                    if (button.hidden) {
+                        span.hidden = true;
+                    }
                 }
             }
         }
