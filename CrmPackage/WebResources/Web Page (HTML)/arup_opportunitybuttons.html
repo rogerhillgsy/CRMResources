@@ -8,40 +8,13 @@
             margin: 0px;
         }
 
-        .inactiveTab:hover {
-            cursor: hand;
-        }
-
-        .activeTab:hover {
-            cursor: hand;
-        }
-
-        .inactiveTab:hover {
-            background-color: #C2C2C2;
-        }
-
-        .inactiveTab {
-            background-color: #F3F3F3;
-            color: #000000;
-            font-family: Segoe UI, Tahoma, Arial;
-            font-size: 12px;
-            padding: 5px 10px 5px 10px;
-            margin: 0px 4px 4px 0px;
-            width: 240px;
-            text-overflow: ellipsis;
-            display: inline-block;
-            text-align: center;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .activeTab {
-            background-color: #7A7A7A;
+        .mainButton {
+            background-color: #fc1303;
             color: #FFFFFF;
             font-family: Segoe UI, Tahoma, Arial;
             font-size: 12px;
             padding: 5px 10px 5px 10px;
-            margin: 0px 4px 0px 0px;
+            margin: 4px 4px 0px 0px;
             width: 240px;
             text-overflow: ellipsis;
             display: inline-block;
@@ -49,27 +22,17 @@
             overflow: hidden;
             white-space: nowrap;
         }
+
+            .mainButton:hover {
+                background-color: #ff3020;
+            }
+
     </style>
 
     <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
+    <script src="ccrm_ms_jQuery1102" type="text/javascript"></script>
     <script>
 
-        staticTabs = ['tab_pjncosts', 'tab_summary', 'tab_projfinacials', 'tab_biddetails', 'tab_biddevelopment'];
-
-        buttonConfigs = {
-            'tab_prebid': [
-                {
-                    'id': "btnApprove",
-                    'label': 'Approve Decision to Bid',
-                    'action': 'alert("Approve decisionto Bid")'
-                },
-                {
-                    'id': "btnNextStage",
-                    'label': 'Move to Next Stage',
-                    'action': 'alert("Move to next stage")'
-                }
-            ]
-        };
 
 
 
@@ -135,6 +98,28 @@
     <div id="tabButtons"></div>
 
     <script>
+        staticTabs = ['PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab', 'Bid_Details_Tab', 'Bid_Development_Tab_External'];
+
+        var Log = function(s) { console.log(s) };
+
+        buttonConfigs = {
+            'tab_prebid': [
+                {
+                    'label': 'Approve Decision to Bid',
+                    'action': function () {
+                        Log("Approving bid decision");
+                        parent.Xrm.Page.Arup.BidDicisionConfirmation();
+                    }
+                },
+                {
+                    'label': 'Move to Next Stage',
+                    'action': function () {
+                        Log("Move next stage");
+                        parent.Xrm.Page.Arup.BPFMoveNext();
+                    }
+                }
+            ]
+        };
 
         // When loaded
         // - Work out which tab is currently active.
@@ -145,52 +130,32 @@
             if (tab.getDisplayState() == "expanded") {
                 activeTab = t;
             } else {
-                if (staticTabs.includes(t)) {
+                if (staticTabs.includes(tab.getName())) {
                     tab.setVisible(true);
                 } else {
                     tab.setVisible(false);
                 }
             }
         }
-        // - generate buttons appropriate to that tab.
-        var buttonConfig = buttonConfigs[tab.getName()];
-        if (buttonConfigs != null) {
-            // Generate buttons listed in buttonConfig.
-            for (button in buttonConfig) {
-                document.getElementById("tabButtons").innerHTML = document.getElementById("tabButtons").innerHTML +
-                    "<span class=activeTab" +
-                    " id=\"" +
-                    tab.id +
-                    "\" onclick=\"" + button.action +
-                    ";\">" +
-                    button.label
-                "</span>";
-            }
-        }
 
-        //if (parent.Xrm.Page.ui.getFormType() != 1) {
-
-        if (0) {
-            for (var t in tabs) {
-                var tab = tabs[t];
-                var tabStyle = "inactiveTab";
-                if (t == 0) {
-                    tabStyle = "activeTab";
+        // - generate buttons appropriate to the active tab.
+        if (activeTab != null) {
+            var buttonConfig = buttonConfigs[tabs[activeTab].getName()];
+            if (buttonConfigs != null) {
+                // Generate buttons listed in buttonConfig.
+                var id = 1;
+                for (buttonNum in buttonConfig) {
+                    var button = buttonConfig[buttonNum];
+                    var span = document.createElement("span");
+                    span.id = "button" + id++;
+                    span.onclick = button.action;
+                    span.innerHTML = button.label;
+                    span.className = "mainButton";
+                    $("#tabButtons")[0].appendChild(span);
                 }
-
-                if (!staticTabs.includes(tab.getName()))
-                    document.getElementById("tabButtons").innerHTML = document.getElementById("tabButtons").innerHTML +
-                        "<span class=" +
-                        tabStyle +
-                        " id=\"" +
-                        tab.getName() +
-                        "\" onclick=\"activateTab('" +
-                        tab.getName() +
-                        "');\">" +
-                        tab.getLabel() +
-                        "</span>";
             }
         }
+
     </script>
 </body>
 </html>

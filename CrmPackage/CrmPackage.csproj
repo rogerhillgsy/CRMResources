@@ -1283,6 +1283,11 @@
       <UniqueName>new_arup_Opportunity_Changes</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_opportunitybuttoncommands.js">
+      <DisplayName>Opportunity Button Commands</DisplayName>
+      <UniqueName>arup_opportunitybuttoncommands.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Contact_main_library.js">
       <DisplayName>Contact_main_library</DisplayName>
       <UniqueName>arup_Contact_main_library</UniqueName>
@@ -1735,7 +1740,7 @@
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_opportunitybuttons.html">
       <DisplayName>Opportunity Buttons</DisplayName>
-      <UniqueName>arup_opportunitybuttons</UniqueName>
+      <UniqueName>arup_opportunitybuttons.html</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_Relationship_Interactions">

@@ -1150,9 +1150,6 @@ function getArupRegionName(opportunityFieldName) {
 }
 
 function addUserLookupFilter(opportunityFieldName, lookupFieldName, filterChkFieldName) {
-
-    debugger;
-
     var arupRegionData = getArupRegionName(opportunityFieldName);
     var region;
     var arupRegionName;
@@ -1386,7 +1383,6 @@ function FormOnSave(args) {
         //the line below doesn't work for some reason
         Xrm.Page.getAttribute("ccrm_estimatedvalue_num").fireOnChange();
     }
-    //debugger;
     if (moveToNextTrigger == true) { // move to next stage logic
         moveToNextTrigger = false;
         setTimeout(function () {
@@ -5255,9 +5251,6 @@ function BidReviewApprovalValidation(showmsg) {
 }
 
 function CheckMandatoryFields() {
-
-    debugger;
-
     var result = true;
     var arupInternal = Xrm.Page.getAttribute('ccrm_arupinternal').getValue();
 
