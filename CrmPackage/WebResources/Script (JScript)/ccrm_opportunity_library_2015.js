@@ -523,7 +523,7 @@ function FormOnload() {
     }
 
     // Ensure that when the "Related Networks & Markets" field is set to "Other" that the "Other Network Details" field is made visible and mandatory.
-    setup_display_other_field("ccrm_othernetworksval", "ccrm_othernetworkdetails", "100000003");
+    setup_display_other_field("arup_globalservices", "ccrm_othernetworkdetails", "100000003");
 
     //uncommented the line below to fix the bug 64054
     if (!Xrm.Page.getAttribute("ccrm_arupinternal").getValue())
@@ -808,28 +808,29 @@ function setup_display_other_field(otherNetworksVal, otherNetworksDetail, otherC
 }
 
 function display_other_field(otherNetworksVal, otherNetworksDetail, isOtherFieldRequired, isToBeHidden) {
-
+    debugger;
     var value = Xrm.Page.getAttribute(otherNetworksVal).getValue();
     var notApplicable = false;
     var otherNetworkDetails = Xrm.Page.getControl(otherNetworksDetail);
 
-    if (otherNetworksVal == 'ccrm_othernetworksval' && value != null) {
-        notApplicable = value.indexOf('770000000') >= 0;
+    if (otherNetworksVal == 'arup_globalservices' && value != null) {
+        notApplicable = value.indexOf(770000000) >= 0;
     }
 
     if (!!otherNetworkDetails) {
 
-        if (otherNetworksVal == 'ccrm_othernetworksval') {
+        if (otherNetworksVal == 'arup_globalservices') {
 
-            if (!!value && isOtherFieldRequired(value) && !notApplicable) {
-
+            //if (!!value && isOtherFieldRequired(value) && !notApplicable) {
+            if (!!value && value.indexOf(100000003) >= 0 && !notApplicable) {
                 otherNetworkDetails.getAttribute().setRequiredLevel("required");
                 otherNetworkDetails.setVisible(true);
                 return;
             } else if (notApplicable) {
 
-                Xrm.Page.getAttribute("ccrm_othernetworksdisp").setValue('Not Applicable');
-                Xrm.Page.getAttribute("ccrm_othernetworksval").setValue('770000000');
+                //Xrm.Page.getAttribute("ccrm_othernetworksdisp").setValue('Not Applicable');
+                //Xrm.Page.getAttribute("ccrm_othernetworksval").setValue('770000000');
+                Xrm.Page.getAttribute("arup_globalservices").setValue([770000000]);
             }
 
             Xrm.Page.getControl("ccrm_othernetworkdetails").setVisible(false);
@@ -1315,9 +1316,11 @@ function addUserLookupFilter(opportunityFieldName, lookupFieldName, filterChkFie
 }
 
 function EAAccreditaionLevRequired() {
+    debugger;
     var qualLevs = "";
     var procType = Xrm.Page.getAttribute("ccrm_contractarrangement").getValue();
-    var disciplines = Xrm.Page.getAttribute("ccrm_disciplinesname").getValue();
+    // var disciplines = Xrm.Page.getAttribute("ccrm_disciplinesname").getValue();
+    var disciplines = Xrm.Page.getAttribute("arup_disciplines").getValue();
     var feeIncomeValue = Xrm.Page.getAttribute("estimatedvalue_base").getValue();
     var projCurr = Xrm.Page.getAttribute("ccrm_project_transactioncurrencyid").getValue();
     if (projCurr != null) {
@@ -1887,9 +1890,9 @@ function ccrm_arupbusinessid_onChange(valueChanged) {
 }
 
 function addEnergy_ProjectSector(currentBusinessValue) {
-    // debugger;
-    var projectSectorCode = Xrm.Page.getAttribute('ccrm_projectsectorvalue').getValue();
-    var projectSectorValue = Xrm.Page.getAttribute('ccrm_projectsectorname').getValue();
+ 
+        var projectSectorCode = Xrm.Page.getAttribute('arup_projectsector').getValue();
+        var projectSectorValue = Xrm.Page.getAttribute('arup_projectsector').getText();
 
     //check if project sector already has Energy option in it or value of Arup Business hasn't changed
     if (ArupBusinessSaved == currentBusinessValue) {
@@ -1897,44 +1900,72 @@ function addEnergy_ProjectSector(currentBusinessValue) {
     }
 
     //check to see if Arup Business used to be Energy and Project Sector has the Energy Project Sector option selected, then it needs to be removed
-    if (ArupBusinessSaved == 'Energy' && projectSectorCode != null && projectSectorCode.indexOf('13') != -1) {
+    if (ArupBusinessSaved == 'Energy' && projectSectorCode != null && projectSectorCode.indexOf(13) != -1) {
 
         //first remove the value
-        projectSectorCode = projectSectorCode.split(',');
-        projectSectorValue = projectSectorValue.split(', ');
-        var entryNum = projectSectorCode.indexOf('13');
-        var value = removeFromList(Xrm.Page.getAttribute('ccrm_projectsectorvalue').getValue(), '13', ',');
-        Xrm.Page.getAttribute('ccrm_projectsectorvalue').setValue(value);
-        value = removeFromList(Xrm.Page.getAttribute('ccrm_projectsectorname').getValue(), 'Energy Project Sector', ', ')
-        Xrm.Page.getAttribute("ccrm_projectsectorname").setValue(value);
+        //projectSectorCode = projectSectorCode.split(',');
+        //projectSectorValue = projectSectorValue.split(', ');
+        //var entryNum = projectSectorCode.indexOf('13');
+        //var value = removeFromList(Xrm.Page.getAttribute('arup_projectsector').getValue(), '13', ',');
+        //Xrm.Page.getAttribute('arup_projectsector').setValue(value);
+        //value = removeFromList(Xrm.Page.getAttribute('arup_projectsector').getValue(), 'Energy Project Sector', ', ')
+        //Xrm.Page.getAttribute("arup_projectsector").setValue(value);
 
+        var updatedValues =  RemoveFromArray(projectSectorCode,[13]);
+        Xrm.Page.getAttribute("arup_projectsector").setValue(updatedValues);
     }
 
     //check to see if Arup Business has been changed to Energy and Project Sector doesn't have the Energy Project Sector option selected already
-    else if (currentBusinessValue == 'Energy' && (projectSectorCode == null || projectSectorCode.indexOf('13') == -1)) {
+    else if (currentBusinessValue == 'Energy' && (projectSectorCode == null || projectSectorCode.indexOf(13) == -1)) {
 
         //check to see if multi-select is empty. In this case just push the values into *name & *code fields
         if (projectSectorCode == null) {
-            Xrm.Page.getAttribute('ccrm_projectsectorvalue').setValue('13');
-            Xrm.Page.getAttribute('ccrm_projectsectorname').setValue('Energy Project Sector');
+            Xrm.Page.getAttribute('arup_projectsector').setValue([13]);
+         //   Xrm.Page.getAttribute('arup_projectsector').setValue('Energy Project Sector');
         }
         else {
             //need to add to the existing values
-            Xrm.Page.getAttribute('ccrm_projectsectorvalue').setValue(projectSectorCode + ',13');
-            Xrm.Page.getAttribute('ccrm_projectsectorname').setValue(Xrm.Page.getAttribute('ccrm_projectsectorname').getValue() + ', Energy Project Sector');
+            var updatedValues = ConcatArrays(projectSectorCode, [13]);
+            Xrm.Page.getAttribute('arup_projectsector').setValue(updatedValues);
+          //  Xrm.Page.getAttribute('arup_projectsector').setValue(Xrm.Page.getAttribute('arup_projectsector').getValue() + ', Energy Project Sector');
         }
 
     }
-
-    if (Xrm.Page.ui.getFormType() != 1) {
-        Xrm.Page.getControl('header_process_ccrm_projectsectorname').getAttribute().setValue(Xrm.Page.getAttribute('ccrm_projectsectorname').getValue());
-    }
-    Xrm.Page.getAttribute('ccrm_projectsectorvalue').setSubmitMode("always");
-    Xrm.Page.getAttribute('ccrm_projectsectorname').setSubmitMode("always");
+    //Shruti: Project sector is not on BPF. hence commented below code
+    //if (Xrm.Page.ui.getFormType() != 1) {
+    //    Xrm.Page.getControl('header_process_arup_projectsector').getAttribute().setValue(Xrm.Page.getAttribute('arup_projectsector').getValue());
+    //}
+   // Xrm.Page.getAttribute('arup_projectsector').setSubmitMode("always");
+    Xrm.Page.getAttribute('arup_projectsector').setSubmitMode("always");
     if (Xrm.Page.getAttribute("ccrm_arupbusinessid").getValue != null)
         ArupBusinessSaved = Xrm.Page.getAttribute("ccrm_arupbusinessid").getValue()[0].name;
 }
 
+
+function RemoveFromArray(existingValues, removeValues) {
+    if (existingValues === null || Array.isArray(existingValues) === false) {
+        return removeValues;
+    }
+
+    if (removeValues === null || Array.isArray(removeValues) === false) {
+        return existingValues;
+    }
+
+    return existingValues.filter(function (value, index) {
+        return removeValues.indexOf(value) == -1;
+    })
+}
+
+function ConcatArrays(existingValues, newValues) {
+    if (existingValues === null || Array.isArray(existingValues) === false) {
+        return newValues;
+    }
+
+    if (newValues === null || Array.isArray(newValues) === false) {
+        return existingValues;
+    }
+    return existingValues.concat(newValues);
+}
 function removeFromList(list, value, separator) {
 
     separator = separator || ",";
@@ -2521,6 +2552,7 @@ function IsFormValid(IsPJNRequest) {
     var v17 = Xrm.Page.getAttribute('ccrm_accountingcentreid').getValue();
     var v18 = Xrm.Page.getAttribute('ccrm_arupcompanyid').getValue();
     // var v19 = Xrm.Page.getAttribute('ccrm_disciplinesname').getValue();
+    var v19 = Xrm.Page.getAttribute('arup_disciplines').getValue();
     var v25 = Xrm.Page.getAttribute('ccrm_contractarrangement').getValue();
     // form fields
     var v20 = Xrm.Page.getAttribute('description').getValue();
@@ -2543,7 +2575,8 @@ function IsFormValid(IsPJNRequest) {
     var v31 = Xrm.Page.getAttribute('ccrm_contractarrangement').getValue();
     var v32 = Xrm.Page.getAttribute('ccrm_bid_transactioncurrencyid').getValue();
     //   var v33 = Xrm.Page.getAttribute('ccrm_othernetworksdisp').getValue();
-    //  var v34 = Xrm.Page.getAttribute('ccrm_othernetworkdetails').getValue();
+    var v33 = Xrm.Page.getAttribute('arup_globalservices').getValue();
+    var v34 = Xrm.Page.getAttribute('ccrm_othernetworkdetails').getValue();
     var v35 = Xrm.Page.getAttribute('arup_subbusiness').getValue();
 
     var arupInternal = Xrm.Page.getAttribute("ccrm_arupinternal").getValue();
@@ -2573,7 +2606,7 @@ function IsFormValid(IsPJNRequest) {
             v16 == null ||
             v17 == null ||
             v18 == null ||
-            //      v19 == null ||
+            v19 == null ||
             v20 == null ||
             v21 == null ||
             v22 == null ||
@@ -2582,9 +2615,9 @@ function IsFormValid(IsPJNRequest) {
             v28 == null ||
             v31 == null ||
             v32 == null ||
-            v35 == null) // ||
-            //    v33 == null ||
-            //   (/Other/.test(v33) && v34 == null)
+            v35 == null ||
+            v33 == null ||
+            (/Other/.test(v33) && v34 == null))
 
             mandatoryfieldflag = false;
     } else if (IsPJNRequest == 'BDA') {
@@ -2604,16 +2637,16 @@ function IsFormValid(IsPJNRequest) {
             v16 == null ||
             v17 == null ||
             v18 == null ||
-            // v19 == null ||
+            v19 == null ||
             v20 == null ||
             v21 == null ||
             v22 == null ||
             v23 == null ||
             v24 == null ||
             v31 == null ||
-            v35 == null)// ||
-            // v33 == null ||
-            // (/Other/.test(v33) && v34 == null)
+            v35 == null ||
+            v33 == null ||
+            (/Other/.test(v33) && v34 == null))
             mandatoryfieldflag = false;
     } else {
         if (v1 == 0 || v3 == 0)
@@ -2631,16 +2664,16 @@ function IsFormValid(IsPJNRequest) {
             v16 == null ||
             v17 == null ||
             v18 == null ||
-            //   v19 == null ||
+            v19 == null ||
             v20 == null ||
             v21 == null ||
             v22 == null ||
             v23 == null ||
             v24 == null ||
             v31 == null ||
-            v35 == null)//||
-            //   v33 == null ||
-            //   (/Other/.test(v33) && v34 == null)
+            v35 == null ||
+            v33 == null ||
+            (/Other/.test(v33) && v34 == null))
             mandatoryfieldflag = false;
     }
     if (v26 == 0)
@@ -2677,7 +2710,7 @@ function IsFormValid(IsPJNRequest) {
             v16,
             v17,
             v18,
-            // v19,
+            v19,
             v20,
             v21,
             v22,
@@ -2688,8 +2721,8 @@ function IsFormValid(IsPJNRequest) {
             v28,
             v30,
             v32,
-            //  v33,
-            //   v34,
+            v33,
+            v34,
             v35,
             (IsPJNRequest == null || IsPJNRequest != 'PJN') ? false : true); {
             return false;
@@ -2710,7 +2743,7 @@ function IsFormValid(IsPJNRequest) {
             v16,
             v17,
             v18,
-            //  v19,
+            v19,
             v20,
             v21,
             v22,
@@ -2721,8 +2754,8 @@ function IsFormValid(IsPJNRequest) {
             v28,
             v30,
             v32,
-            //  v33,
-            //  v34,
+            v33,
+            v34,
             v35,
             (IsPJNRequest == null || IsPJNRequest != 'PJN') ? false : true);
     }
@@ -2738,7 +2771,7 @@ function moveToDevBid(stageid) {
     Xrm.Page.getAttribute('ccrm_possiblejobnumberrequired').setValue(1);
     Xrm.Page.getAttribute('ccrm_possiblejobnumberrequired').fireOnChange();
     Xrm.Page.getAttribute('ccrm_possiblejobnumberrequired').setSubmitMode("always");
-    hideRibbonButton('ccrm_showpjnbutton',false);
+    hideRibbonButton('ccrm_showpjnbutton', false);
     if ((stageid == ArupStages.Lead || stageid == ArupStages.CrossRegion) && (arupRegion == ArupRegionName.Australasia.toLowerCase() || arupRegion == ArupRegionName.EastAsia.toLowerCase() || arupRegion == ArupRegionName.Malaysia.toLowerCase())) {
         moveToNextTrigger = true;
     }
@@ -2761,7 +2794,7 @@ function HighlightFields(v4,
     v16,
     v17,
     v18,
-    // v19,
+    v19,
     v20,
     v21,
     v22,
@@ -2772,8 +2805,8 @@ function HighlightFields(v4,
     v28,
     v30,
     v32,
-    // v33,
-    // v34,
+    v33,
+    v34,
     v35,
     IsPJNRequest) {
     // highlight incomplete fields 
@@ -2814,15 +2847,15 @@ function HighlightFields(v4,
             highlightField(null, '#ccrm_leadsource', (v16 != null) ? true : false);
             highlightField('#header_process_ccrm_accountingcentreid', '#ccrm_accountingcentreid', (v17 != null) ? true : false);
             highlightField('#header_process_ccrm_arupcompanyid', '#ccrm_arupcompanyid', (v18 != null) ? true : false);
-            //  highlightField('#header_process_ccrm_disciplinesname', '#ccrm_disciplinesname', (v19 != null) ? true : false);
+            highlightField(null, '#arup_disciplines', (v19 != null) ? true : false);
             highlightField(null, "#description", (v20 != null) ? true : false);
             highlightField(null, "#ccrm_projectlocationid", (v21 != null) ? true : false);
             highlightField(null, "#ccrm_arupbusinessid", (v22 != null) ? true : false);
             highlightField(null, "#name", (v23 != null) ? true : false);
             highlightField(null, "#customerid", (v24 != null) ? true : false);
             highlightField(null, '#ccrm_contractarrangement', (v25 != null) ? true : false);
-            //  highlightField("#header_process_ccrm_othernetworksdisp", "#ccrm_othernetworksdisp", v33 != null);
-            //  highlightField("#header_process_ccrm_othernetworkdetails", "#ccrm_othernetworkdetails", v33 != null && v34 != null);
+            highlightField(null, "#arup_globalservices", v33 != null);
+            highlightField("#header_process_ccrm_othernetworkdetails", "#ccrm_othernetworkdetails", v33 != null && v34 != null);
             highlightField(null, "#arup_subbusiness", (v35 != null) ? true : false);
         });
 }
@@ -4631,9 +4664,9 @@ function setRequiredFields_BidSubmitted() {
     Xrm.Page.getAttribute("ccrm_estarupinvolvementstart").setRequiredLevel("required"); //arup start date
     Xrm.Page.getAttribute("ccrm_estarupinvolvementend").setRequiredLevel("required"); //arup end date    
     Xrm.Page.getAttribute("ccrm_descriptionofextentofarupservices").setRequiredLevel("required"); //Extent of Arup Services
-    Xrm.Page.getAttribute("ccrm_servicesname").setRequiredLevel(reqLevel); //Services    
-    Xrm.Page.getAttribute("ccrm_theworksname").setRequiredLevel(reqLevel); //The Works    
-    Xrm.Page.getAttribute("ccrm_projectsectorname").setRequiredLevel(reqLevel); //Project Sector
+    Xrm.Page.getAttribute("arup_services").setRequiredLevel(reqLevel); //Services    
+    Xrm.Page.getAttribute("arup_projecttype").setRequiredLevel(reqLevel); //The Works    
+    Xrm.Page.getAttribute("arup_projectsector").setRequiredLevel(reqLevel); //Project Sector
 }
 
 function checkOrganisationData() {
@@ -4734,10 +4767,10 @@ function stageNotifications() {
         regionName = Xrm.Page.getAttribute("ccrm_arupregionid").getValue()[0].name.toLowerCase();
 
     if (regionName == ArupRegionName.EastAsia.toLowerCase() || regionName == ArupRegionName.Australasia.toLowerCase() || regionName == ArupRegionName.Malaysia.toLowerCase()) {
-        if (arupInternal) { hideRibbonButton('ccrm_showpjnbutton',false); }
+        if (arupInternal) { hideRibbonButton('ccrm_showpjnbutton', false); }
         if (stageid == ArupStages.Lead || stageid == ArupStages.CrossRegion) {
             if (!pjnrequested && !arupInternal) {
-                showRibbonButton('ccrm_showpjnbutton',true);
+                showRibbonButton('ccrm_showpjnbutton', true);
             } else if (pjnrequested && (Xrm.Page.getAttribute("ccrm_pjna").getValue() == "" || Xrm.Page.getAttribute("ccrm_pjna").getValue() == null)) {
                 setTimeout(function () { Xrm.Page.ui.clearFormNotification("PJNRiskChsnge"); }, 500);
                 setTimeout(function () {
@@ -4749,7 +4782,7 @@ function stageNotifications() {
             if (stageid == ArupStages.BidDevelopment) {
                 if (!pjnrequested) {
 
-                    hideRibbonButton('ccrm_showpjnbutton',false); //Added to hide PJN ribbon button
+                    hideRibbonButton('ccrm_showpjnbutton', false); //Added to hide PJN ribbon button
                     Xrm.Page.ui.setFormNotification(pjnMsg, "WARNING", "PJNPPendingMsg");
                     setTimeout(function () { Xrm.Page.ui.clearFormNotification("PJNPPendingMsg"); }, 10000);
                 }
@@ -4764,9 +4797,9 @@ function stageNotifications() {
                     stageid == ArupStages.BidSubmitted)
                 && (!arupInternal || regionName == ArupRegionName.UKMEA.toLowerCase())
             )
-                showRibbonButton('ccrm_showpjnbutton',true);
+                showRibbonButton('ccrm_showpjnbutton', true);
             else
-                hideRibbonButton('ccrm_showpjnbutton',false); //Added to hide PJN ribbon button
+                hideRibbonButton('ccrm_showpjnbutton', false); //Added to hide PJN ribbon button
         }
 
         if (stageid == ArupStages.Lead) {
@@ -4781,14 +4814,14 @@ function stageNotifications() {
     }
     if (stageid != ArupStages.BidReviewApproval) // bid riview approval
     {
-        hideRibbonButton('ccrm_shwbidreviewappbtn',0);
+        hideRibbonButton('ccrm_shwbidreviewappbtn', 0);
     } else if (stageid == ArupStages.BidReviewApproval) // bid riview approval
     {
         if (pjnrequested)
             MoveToBidDevelopment(true);
         makeBidReviewApprovalFieldsReadonly();
         if (Xrm.Page.getAttribute("ccrm_bidreviewoutcome").getValue() != 100000002)
-            showRibbonButton('ccrm_shwbidreviewappbtn',1);
+            showRibbonButton('ccrm_shwbidreviewappbtn', 1);
         //setTimeout(function () { Xrm.Page.data.entity.save(null); }, 2);
         setCurrentApproversAsync();
     }
@@ -4937,7 +4970,7 @@ function resetAndSetVal(fields) {
     bid = null;
 }
 //SP_09_04_202 : value added as argument because for optionset , it is 0 or 1 and for two options it is true or false
-function hideRibbonButton(field,value) {
+function hideRibbonButton(field, value) {
     if (Xrm.Page.getAttribute(field).getValue() == 1) {
         Xrm.Page.getAttribute(field).setValue(value);
         setTimeout(function () { Xrm.Page.data.entity.save(); }, 500);
@@ -4945,7 +4978,7 @@ function hideRibbonButton(field,value) {
     }
 }
 
-function showRibbonButton(field,value) {
+function showRibbonButton(field, value) {
     if (Xrm.Page.getAttribute(field).getValue() == 0 || Xrm.Page.getAttribute(field).getValue() == null) {
         Xrm.Page.getAttribute(field).setValue(value);
         //setTimeout(function () { Xrm.Page.data.entity.save(null); }, 500);
@@ -5113,10 +5146,10 @@ function hideProcessFields(selectedStage) {
             break;
         case "CONFIRMED JOB - PROJECT":
             if (arupInternal) {
-                hideBPFFields("ccrm_servicesname", "ccrm_theworksname", "ccrm_projectsectorname", "ccrm_estprojectvalue_num", "arup_projpartreqd");
+                hideBPFFields("arup_services", "arup_projecttype", "arup_projectsector", "ccrm_estprojectvalue_num", "arup_projpartreqd");
                 setRequiredLevelOfBPFField("ccrm_estarupinvolvementstart_1", "ccrm_estarupinvolvementend_1");
             } else {
-                setRequiredLevelOfBPFField("ccrm_servicesname", "ccrm_theworksname", "ccrm_projectsectorname", "arup_projpartreqd");
+                setRequiredLevelOfBPFField("arup_services", "arup_projecttype", "arup_projectsector", "arup_projpartreqd");
             }
             break;
         case "CONFIRMED JOB - COMMERCIAL":
@@ -5882,9 +5915,9 @@ function requestConfirmJob() {
     var v14 = Xrm.Page.getAttribute('ccrm_profitasapercentageoffeedec').getValue();
     var v19 = Xrm.Page.getAttribute('ccrm_shorttitle').getValue();
     // the fields below should only be mandatory for external opporutnities for CJN's
-    //var v15 = Xrm.Page.getAttribute('ccrm_theworksvalue').getValue();
-    //var v16 = Xrm.Page.getAttribute('ccrm_servicesvalue').getValue();
-    //var v17 = Xrm.Page.getAttribute('ccrm_projectsectorvalue').getValue();
+    var v15 = Xrm.Page.getAttribute('arup_projecttype').getValue();
+    var v16 = Xrm.Page.getAttribute('arup_services').getValue();
+    var v17 = Xrm.Page.getAttribute('arup_projectsector').getValue();
     var v18 = Xrm.Page.getAttribute('ccrm_pilevelmoney_num').getValue();
     var v21 = Xrm.Page.getAttribute('ccrm_pirequirement').getValue();
 
@@ -5910,12 +5943,9 @@ function requestConfirmJob() {
         v14 == null ||
         v19 == null) incompleteData = true;
 
-    //Shruti:Need to replace below line once v15/v16/v17 is set up
-    if (!arupInternal && !incompleteData && ((v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
+  
+    if (!arupInternal && !incompleteData && (v15 == null || v16 == null || v17 == null || (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
         incompleteData = true;
-
-    //if (!arupInternal && !incompleteData && (v15 == null || v16 == null || v17 == null || (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
-    //    incompleteData = true;
 
     if (v20 == 0) { }
     else if (incompleteData) {
@@ -5941,9 +5971,9 @@ function requestConfirmJob() {
         Xrm.Page.getAttribute("ccrm_shorttitle").setRequiredLevel("required");
 
         if (!arupInternal) {
-            highlightField('#header_process_ccrm_theworksname', '', (v15 != null) ? true : false);
-            highlightField('#header_process_ccrm_servicesname', '', (v16 != null) ? true : false);
-            highlightField('#header_process_ccrm_projectsectorname', '', (v17 != null) ? true : false);
+            highlightField('#header_process_arup_projecttype', '', (v15 != null) ? true : false);
+            highlightField('#header_process_arup_services', '', (v16 != null) ? true : false);
+            highlightField('#header_process_arup_projectsector', '', (v17 != null) ? true : false);
             highlightField('#header_process_ccrm_pilevelmoney_num1', '#ccrm_pilevelmoney_num', (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null) ? true : false);
         }
     } else {
@@ -6954,7 +6984,7 @@ function PullDetailsFromParentOpportunity(parentOpportunity, event) {
         };
         req.send();
     } else {
-        EnableFields("arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement", "ccrm_estarupinvolvementend", "ccrm_estarupinvolvementstart", "ccrm_leadsource", "ccrm_location", "ccrm_othernetworksdisp", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
+        EnableFields("arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement", "ccrm_estarupinvolvementend", "ccrm_estarupinvolvementstart", "ccrm_leadsource", "ccrm_location", "arup_globalservices", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
     }
 }
 function UpdateField(field, fieldName, fieldValueFromParent, lookUpText, entityName, isOverRide) {
@@ -7071,11 +7101,6 @@ function UpdateDetailsFromParentOpportunity(result, event) {
         UpdateFieldFromParentOpportunity("ccrm_leadsource", result["ccrm_leadsource"]);
 
     UpdateFieldFromParentOpportunity("ccrm_location", result["ccrm_location"]);
-    //UpdateFieldFromParentOpportunity("ccrm_othernetworks", result["ccrm_othernetworks"]);
-    //UpdateFieldFromParentOpportunity("ccrm_othernetworksdisp", result["ccrm_othernetworksdisp"]);
-    //UpdateFieldFromParentOpportunity("ccrm_othernetworksval", result["ccrm_othernetworksval"]);
-    //setup_display_other_field("ccrm_othernetworksval", "ccrm_othernetworkdetails", "100000003");
-    //UpdateFieldFromParentOpportunity("ccrm_othernetworkdetails", result["ccrm_othernetworkdetails"]);
     UpdateFieldFromParentOpportunity("ccrm_probabilityofprojectproceeding", result["ccrm_probabilityofprojectproceeding"]);
     UpdateFieldFromParentOpportunity("closeprobability", result["closeprobability"]);
     UpdateFieldFromParentOpportunity("ccrm_arupbusinessid", result["_ccrm_arupbusinessid_value"], result["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupbusinessid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
@@ -7648,8 +7673,8 @@ function IsDependentFieldValueValid(mainOptionsetFieldName, mainOptionSetFieldVa
 
 function arupInternal_Onchange() {
     if (Xrm.Page.getAttribute("ccrm_parentopportunityid").getValue() != null) {
-        ClearFields("ccrm_parentopportunityid", "arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement", "ccrm_estarupinvolvementend", "ccrm_estarupinvolvementstart", "ccrm_leadsource", "ccrm_location", "ccrm_othernetworksdisp", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
-        EnableFields("arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement", "ccrm_estarupinvolvementend", "ccrm_estarupinvolvementstart", "ccrm_leadsource", "ccrm_location", "ccrm_othernetworksdisp", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
+        ClearFields("ccrm_parentopportunityid", "arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement", "ccrm_estarupinvolvementend", "ccrm_estarupinvolvementstart", "ccrm_leadsource", "ccrm_location", "arup_globalservices", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
+        EnableFields("arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement", "ccrm_estarupinvolvementend", "ccrm_estarupinvolvementstart", "ccrm_leadsource", "ccrm_location", "arup_globalservices", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
     }
     ParentOpportunityFilter();
 }
