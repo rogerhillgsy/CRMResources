@@ -4,7 +4,6 @@ var cacheValueBD = null;
 
 function onSelectOfStage(selStageId) {
 
-    debugger;
     cacheValueBDC = Xrm.Page.getAttribute("arup_biddecisionchair").getValue();
     cacheValueBM = Xrm.Page.getAttribute("ccrm_bidmanager_userid").getValue();
     cacheValueBD = Xrm.Page.getAttribute("ccrm_biddirector_userid").getValue();
@@ -15,36 +14,37 @@ function onSelectOfStage(selStageId) {
     var bidDevTabToHide = !arupInternal ? "Bid_Development_Tab_Internal" : "Bid_Development_Tab_External";
     var isPJNApprovalStage = IsPJNApprovalStage(selStageId);
 
-    switch (selStageId) {
-        case ArupStages.BidReviewApproval:
-            Xrm.Page.ui.tabs.get("Project_Details_Tab").setDisplayState("collapsed");
-            Xrm.Page.ui.tabs.get("Summary").setDisplayState("expanded");
-            break;
-        case ArupStages.BidSubmitted:
-            Xrm.Page.ui.tabs.get("Summary").setDisplayState("collapsed");
-            Xrm.Page.ui.tabs.get("Project_Details_Tab").setDisplayState("expanded");
-            break;
-        case ArupStages.ConfirmJob:
-            Xrm.Page.ui.tabs.get("Summary").setDisplayState("expanded");
-            Xrm.Page.ui.tabs.get("Project_Details_Tab").setDisplayState("collapsed");
-            break;
-    }
+    // TODO: - This section needs to be re-examined in the light of the new Opportunity form structure.
+    //switch (selStageId) {
+    //    case ArupStages.BidReviewApproval:
+    //        Xrm.Page.ui.tabs.get("Project_Details_Tab").setDisplayState("collapsed");
+    //        Xrm.Page.ui.tabs.get("Summary").setDisplayState("expanded");
+    //        break;
+    //    case ArupStages.BidSubmitted:
+    //        Xrm.Page.ui.tabs.get("Summary").setDisplayState("collapsed");
+    //        Xrm.Page.ui.tabs.get("Project_Details_Tab").setDisplayState("expanded");
+    //        break;
+    //    case ArupStages.ConfirmJob:
+    //        Xrm.Page.ui.tabs.get("Summary").setDisplayState("expanded");
+    //        Xrm.Page.ui.tabs.get("Project_Details_Tab").setDisplayState("collapsed");
+    //        break;
+    //}
 
-    if (arupInternal) {
+    //if (arupInternal) {
 
-        if (opptype == '770000004') {
-            Xrm.Page.ui.tabs.get(bidDevTabToShow).setVisible(true);
-        }
+    //    if (opptype == '770000004') {
+    //        Xrm.Page.ui.tabs.get(bidDevTabToShow).setVisible(true);
+    //    }
 
-        Xrm.Page.ui.tabs.get("Bid_Details_Tab").sections.get("Bid_Details_Tab_section_7").setVisible(false);
-        Xrm.Page.ui.tabs.get("Bid_Details_Tab").sections.get("tab_6_section_3").setVisible(false);
-        Xrm.Page.ui.tabs.get("Bid_Details_Tab").sections.get("tab_7_section_5").setVisible(false);
-        Xrm.Page.ui.tabs.get("Summary").sections.get("Organisation_Checks_Section").setVisible(false);
-    }
+    //    Xrm.Page.ui.tabs.get("Bid_Details_Tab").sections.get("Bid_Details_Tab_section_7").setVisible(false);
+    //    Xrm.Page.ui.tabs.get("Bid_Details_Tab").sections.get("tab_6_section_3").setVisible(false);
+    //    Xrm.Page.ui.tabs.get("Bid_Details_Tab").sections.get("tab_7_section_5").setVisible(false);
+    //    Xrm.Page.ui.tabs.get("Summary").sections.get("Organisation_Checks_Section").setVisible(false);
+    //}
 
-    if (Xrm.Page.ui.tabs.get(bidDevTabToHide).getVisible() == true) {
-        Xrm.Page.ui.tabs.get(bidDevTabToHide).setVisible(false);
-    }
+    //if (Xrm.Page.ui.tabs.get(bidDevTabToHide).getVisible() == true) {
+    //    Xrm.Page.ui.tabs.get(bidDevTabToHide).setVisible(false);
+    //}
 
     setBidDecisionChairRequired();
 }

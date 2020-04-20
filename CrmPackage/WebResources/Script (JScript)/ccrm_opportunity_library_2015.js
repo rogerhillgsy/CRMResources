@@ -372,203 +372,256 @@ function OnChangeToDirtyField(a) {
 }
 
 function FormOnload() {
-    debugger;
     if (Xrm.Page.getAttribute("statecode") != null && Xrm.Page.getAttribute("statecode") != "undefined") {
-        var state = Xrm.Page.getAttribute("statecode").getValue();
-        var bpfStatus = Xrm.Page.data.process.getStatus();
-        if (state == 1 && bpfStatus == 'active') {
-            if (currentStage == ArupStages.ConfirmJobApproval || currentStage == ArupStages.ConfirmJobApproval1 || currentStage == ArupStages.ConfirmJobApproval2 || currentStage == ArupStages.ConfirmJobApproval3) {
-                Xrm.Page.data.process.setStatus('finished');
+        if (Xrm.Page.getAttribute("statecode") != null && Xrm.Page.getAttribute("statecode") != "undefined") {
+            var state = Xrm.Page.getAttribute("statecode").getValue();
+            var bpfStatus = Xrm.Page.data.process.getStatus();
+            if (state == 1 && bpfStatus == 'active') {
+                if (currentStage == ArupStages.ConfirmJobApproval ||
+                    currentStage == ArupStages.ConfirmJobApproval1 ||
+                    currentStage == ArupStages.ConfirmJobApproval2 ||
+                    currentStage == ArupStages.ConfirmJobApproval3) {
+                    Xrm.Page.data.process.setStatus('finished');
+                } else {
+                    Xrm.Page.data.process.setStatus('aborted');
+                }
             }
-            else {
-                Xrm.Page.data.process.setStatus('aborted');
+            if (state == 2) {
+                if (bpfStatus == 'active') {
+                    Xrm.Page.data.process.setStatus('aborted');
+                }
             }
-        }
-        if (state == 2) {
-            if (bpfStatus == 'active') {
-                Xrm.Page.data.process.setStatus('aborted');
-            }
-        }
-        if (state == 0) {
-            //var bpfStatus = Xrm.Page.data.process.getStatus();
-            if (bpfStatus != 'active') {
-                Xrm.Page.data.process.setStatus('active');
-            }
-        }
-    }
-
-    currUserData = getCurrentUserDetails(Xrm.Page.context.getUserId());
-    var opportunityType = Xrm.Page.getAttribute("arup_opportunitytype").getValue();
-
-    if (Xrm.Page.ui.getFormType() == 1) {
-
-        if (Xrm.Page.getAttribute("customerid").getValue() == null) {
-            setDefaultClientUnassigned();
-        }
-
-        Xrm.Page.getAttribute("ccrm_accountingcentreid").setRequiredLevel('recommended');
-        Xrm.Page.getAttribute("ccrm_arupcompanyid").setRequiredLevel('recommended');
-        SetLookupField(currUserData.arupcompanyid, currUserData.arupcompanyname, 'ccrm_arupcompany', 'ccrm_arupcompanyid');
-        SetLookupField(Xrm.Page.context.getUserId(), Xrm.Page.context.getUserName(), 'systemuser', 'ccrm_leadoriginator');
-        SetLookupField(Xrm.Page.context.getUserId(), Xrm.Page.context.getUserName(), 'systemuser', 'ccrm_businessadministrator_userid');
-        Xrm.Page.getAttribute("ccrm_arupcompanyid").fireOnChange();
-        SetLookupField(currUserData.ccrm_accountingcentreid, currUserData.ccrm_accountingcentrename, 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid');
-        Xrm.Page.getAttribute("ccrm_accountingcentreid").fireOnChange();
-        ccrm_arupbusinessid_onChange(false);
-
-    } else if (Xrm.Page.ui.getFormType() != 1) {
-
-        //set internal opportunity banner
-        if (Xrm.Page.getAttribute("ccrm_arupinternal").getValue() == true) { Xrm.Page.ui.setFormNotification("INTERNAL OPPORTUNITY", "INFO", "InternalOpportunity"); }
-
-        //save Arup Business
-        if (Xrm.Page.getAttribute("ccrm_arupbusinessid").getValue() != null) {
-            ArupBusinessSaved = Xrm.Page.getAttribute("ccrm_arupbusinessid").getValue()[0].name;
-        }
-
-        //set scroll bar height
-        $('#processControlScrollbar').children().height(20);
-        customerid_onChange();
-        //ccrm_contractlimitofliability_OnChange();
-
-        feeIncomeCheck();
-
-        projectcountry_onchange('formonload'); // apply filter to state field   
-
-        setCurrentApprovers();
-
-        stageNotifications();
-
-        calcFactoredNetReturnToArup();
-
-        ccrm_arupbusinessid_onChange(false);
-
-        ccrm_confidential_onchange(0);
-
-        ccrm_bidreviewoutcome_onChange();
-
-        //client
-        checkHighRiskClient(Xrm.Page.getAttribute('ccrm_client').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_client').getValue()[0].id, '', false, false);
-        //ultimate/end client
-        checkHighRiskClient(Xrm.Page.getAttribute('ccrm_ultimateendclientid').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_ultimateendclientid').getValue()[0].id, 'Ultimate/End ', false, false);
-
-        //make sure the current stage process fields are hidden/shown
-        if (!!Xrm.Page.data.process) {
-            hideProcessFields(Xrm.Page.data.process.getSelectedStage().getName());
-        }
-
-        oldBidReviewChair = Xrm.Page.getAttribute("ccrm_bidreviewchair_userid").getValue();
-
-        currentStage = getStageId();
-
-        //ensure that the stage toggle flag is set to something other than 2
-        if (Xrm.Page.getAttribute("ccrm_stagetoggle").getValue() != 0) {
-            Xrm.Page.getAttribute("ccrm_stagetoggle").setValue(0);
-            Xrm.Page.getAttribute("ccrm_stagetoggle").setSubmitMode("always");
-            Xrm.Page.getAttribute("ccrm_stagetoggle").fireOnChange();
-        }
-
-        if (getStageId() == ArupStages.ConfirmJob) { // runs when coming from CJNA form
-            if (Xrm.Page.getAttribute("ccrm_jobnumberprogression").getValue() == 100009005) {
-                Xrm.Page.getAttribute("ccrm_systemcjnarequesttrigger").setValue(false);
-                moveToNextTrigger = true;
-                Xrm.Page.data.save();
-            }
-        }
-
-        if (getStageId() == ArupStages.BidReviewApproval) {
-            if (Xrm.Page.getAttribute("ccrm_bidreviewchair_userid").getValue() != null &&
-                Xrm.Page.getAttribute("ccrm_currentbidreviewchair").getValue() != null) {
-                if (Xrm.Page.getAttribute("ccrm_bidreviewchair_userid").getValue()[0].id !=
-                    Xrm.Page.getAttribute("ccrm_currentbidreviewchair").getValue()[0].id) {
-                    updateBidReviewForm();
+            if (state == 0) {
+                //var bpfStatus = Xrm.Page.data.process.getStatus();
+                if (bpfStatus != 'active') {
+                    Xrm.Page.data.process.setStatus('active');
                 }
             }
         }
 
-        if (currentStage == ArupStages.ConfirmJobApproval || currentStage == ArupStages.ConfirmJobApproval1 || currentStage == ArupStages.ConfirmJobApproval2 || currentStage == ArupStages.ConfirmJobApproval3) {
-            addEventToProjPartGrid();
+        currUserData = getCurrentUserDetails(Xrm.Page.context.getUserId());
+        var opportunityType = Xrm.Page.getAttribute("arup_opportunitytype").getValue();
+
+        if (Xrm.Page.ui.getFormType() == 1) {
+
+            if (Xrm.Page.getAttribute("customerid").getValue() == null) {
+                setDefaultClientUnassigned();
+            }
+
+            Xrm.Page.getAttribute("ccrm_accountingcentreid").setRequiredLevel('recommended');
+            Xrm.Page.getAttribute("ccrm_arupcompanyid").setRequiredLevel('recommended');
+            SetLookupField(currUserData.arupcompanyid,
+                currUserData.arupcompanyname,
+                'ccrm_arupcompany',
+                'ccrm_arupcompanyid');
+            SetLookupField(Xrm.Page.context.getUserId(),
+                Xrm.Page.context.getUserName(),
+                'systemuser',
+                'ccrm_leadoriginator');
+            SetLookupField(Xrm.Page.context.getUserId(),
+                Xrm.Page.context.getUserName(),
+                'systemuser',
+                'ccrm_businessadministrator_userid');
+            Xrm.Page.getAttribute("ccrm_arupcompanyid").fireOnChange();
+            SetLookupField(currUserData.ccrm_accountingcentreid,
+                currUserData.ccrm_accountingcentrename,
+                'ccrm_arupaccountingcode',
+                'ccrm_accountingcentreid');
+            Xrm.Page.getAttribute("ccrm_accountingcentreid").fireOnChange();
+            ccrm_arupbusinessid_onChange(false);
+
+        } else if (Xrm.Page.ui.getFormType() != 1) {
+
+            //set internal opportunity banner
+            if (Xrm.Page.getAttribute("ccrm_arupinternal").getValue() == true) {
+                Xrm.Page.ui.setFormNotification("INTERNAL OPPORTUNITY", "INFO", "InternalOpportunity");
+            }
+
+            //save Arup Business
+            if (Xrm.Page.getAttribute("ccrm_arupbusinessid").getValue() != null) {
+                ArupBusinessSaved = Xrm.Page.getAttribute("ccrm_arupbusinessid").getValue()[0].name;
+            }
+
+            //set scroll bar height
+            $('#processControlScrollbar').children().height(20);
+            customerid_onChange();
+            //ccrm_contractlimitofliability_OnChange();
+
+            feeIncomeCheck();
+
+            projectcountry_onchange('formonload'); // apply filter to state field   
+
+            setCurrentApprovers();
+
+            stageNotifications();
+
+            calcFactoredNetReturnToArup();
+
+            ccrm_arupbusinessid_onChange(false);
+
+            ccrm_confidential_onchange(0);
+
+            ccrm_bidreviewoutcome_onChange();
+
+            //client
+            checkHighRiskClient(Xrm.Page.getAttribute('ccrm_client').getValue() == null
+                ? null
+                : Xrm.Page.getAttribute('ccrm_client').getValue()[0].id,
+                '',
+                false,
+                false);
+            //ultimate/end client
+            checkHighRiskClient(
+                Xrm.Page.getAttribute('ccrm_ultimateendclientid').getValue() == null
+                ? null
+                : Xrm.Page.getAttribute('ccrm_ultimateendclientid').getValue()[0].id,
+                'Ultimate/End ',
+                false,
+                false);
+
+            //make sure the current stage process fields are hidden/shown
+            if (!!Xrm.Page.data.process) {
+                hideProcessFields(Xrm.Page.data.process.getSelectedStage().getName());
+            }
+
+            oldBidReviewChair = Xrm.Page.getAttribute("ccrm_bidreviewchair_userid").getValue();
+
+            currentStage = getStageId();
+
+            //ensure that the stage toggle flag is set to something other than 2
+            if (Xrm.Page.getAttribute("ccrm_stagetoggle").getValue() != 0) {
+                Xrm.Page.getAttribute("ccrm_stagetoggle").setValue(0);
+                Xrm.Page.getAttribute("ccrm_stagetoggle").setSubmitMode("always");
+                Xrm.Page.getAttribute("ccrm_stagetoggle").fireOnChange();
+            }
+
+            if (getStageId() == ArupStages.ConfirmJob) { // runs when coming from CJNA form
+                if (Xrm.Page.getAttribute("ccrm_jobnumberprogression").getValue() == 100009005) {
+                    Xrm.Page.getAttribute("ccrm_systemcjnarequesttrigger").setValue(false);
+                    moveToNextTrigger = true;
+                    Xrm.Page.data.save();
+                }
+            }
+
+            if (getStageId() == ArupStages.BidReviewApproval) {
+                if (Xrm.Page.getAttribute("ccrm_bidreviewchair_userid").getValue() != null &&
+                    Xrm.Page.getAttribute("ccrm_currentbidreviewchair").getValue() != null) {
+                    if (Xrm.Page.getAttribute("ccrm_bidreviewchair_userid").getValue()[0].id !=
+                        Xrm.Page.getAttribute("ccrm_currentbidreviewchair").getValue()[0].id) {
+                        updateBidReviewForm();
+                    }
+                }
+            }
+
+            if (currentStage == ArupStages.ConfirmJobApproval ||
+                currentStage == ArupStages.ConfirmJobApproval1 ||
+                currentStage == ArupStages.ConfirmJobApproval2 ||
+                currentStage == ArupStages.ConfirmJobApproval3) {
+                addEventToProjPartGrid();
+            }
+
+            //lock down Bid Costs fields if either PJN or CJN has been issued or internal opportunities not in UKIMEA region
+            setTimeout(function() {
+
+                    lockDownBidCosts((Xrm.Page.getAttribute("ccrm_pjna").getValue() != null ||
+                            Xrm.Page.getAttribute("ccrm_jna").getValue() != null ||
+                            opportunityType == 770000005 ||
+                            (Xrm.Page.getAttribute("ccrm_arupinternal").getValue() == true &&
+                                Xrm.Page.getAttribute("ccrm_arupregionid").getValue() != null &&
+                                Xrm.Page.getAttribute("ccrm_arupregionid").getValue()[0].name.toUpperCase() !=
+                                'UKIMEA REGION'))
+                        ? true
+                        : false);
+
+                    //if (Xrm.Page.getAttribute("ccrm_pjna").getValue() != null || Xrm.Page.getAttribute("ccrm_jna").getValue() != null) {
+                    //    lockDownBidCosts(true);
+                    //}
+                    //else if (Xrm.Page.getAttribute("ccrm_arupinternal").getValue() == true && Xrm.Page.getAttribute("ccrm_arupregionid").getValue() != null && Xrm.Page.getAttribute("ccrm_arupregionid").getValue()[0].name.toUpperCase() != 'UKIMEA REGION') {
+                    //    lockDownBidCosts(true);
+                    //}
+                    //else {
+                    //    lockDownBidCosts(false);
+                    //}
+                },
+                1000);
+
+            cachefields['ccrm_contractarrangement'] = Xrm.Page.getAttribute("ccrm_contractarrangement").getValue();
+            cachefields['arup_opportunitytype'] = Xrm.Page.getAttribute("arup_opportunitytype").getValue();
+
+            //Xrm.Page.getAttribute("arup_opportunitytype").fireOnChange();
+
+            if (Xrm.Page.getAttribute("ccrm_arupinternal").getValue() &&
+                Xrm.Page.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
+                ParentOpportunity_Onchange("load");
+            }
+            onSelectOfStage(currentStage);
+            ShowHideOpportunityTypeAndProjectProcurement();
+            if (!!Xrm.Page.data.process) {
+                Xrm.Page.data.process.addOnStageSelected(StageSelected);
+                Xrm.Page.data.process.addOnStageChange(StageChange_event);
+            }
         }
 
-        //lock down Bid Costs fields if either PJN or CJN has been issued or internal opportunities not in UKIMEA region
-        setTimeout(function () {
+        // Ensure that when the "Related Networks & Markets" field is set to "Other" that the "Other Network Details" field is made visible and mandatory.
+        setup_display_other_field("arup_globalservices", "ccrm_othernetworkdetails", "100000003");
 
-            lockDownBidCosts((Xrm.Page.getAttribute("ccrm_pjna").getValue() != null || Xrm.Page.getAttribute("ccrm_jna").getValue() != null || opportunityType == 770000005 || (Xrm.Page.getAttribute("ccrm_arupinternal").getValue() == true && Xrm.Page.getAttribute("ccrm_arupregionid").getValue() != null && Xrm.Page.getAttribute("ccrm_arupregionid").getValue()[0].name.toUpperCase() != 'UKIMEA REGION')) ? true : false);
+        //uncommented the line below to fix the bug 64054
+        if (!Xrm.Page.getAttribute("ccrm_arupinternal").getValue())
+            setup_display_other_field("ccrm_pirequirement",
+                "header_process_ccrm_pilevelmoney_num",
+                function(v) { return v != 2 },
+                false);
+        setup_display_other_field("ccrm_pirequirement",
+            "header_process_ccrm_pilevelmoney_num1",
+            function(v) { return v != 2 },
+            false);
 
-            //if (Xrm.Page.getAttribute("ccrm_pjna").getValue() != null || Xrm.Page.getAttribute("ccrm_jna").getValue() != null) {
-            //    lockDownBidCosts(true);
-            //}
-            //else if (Xrm.Page.getAttribute("ccrm_arupinternal").getValue() == true && Xrm.Page.getAttribute("ccrm_arupregionid").getValue() != null && Xrm.Page.getAttribute("ccrm_arupregionid").getValue()[0].name.toUpperCase() != 'UKIMEA REGION') {
-            //    lockDownBidCosts(true);
-            //}
-            //else {
-            //    lockDownBidCosts(false);
-            //}
-        }, 1000);
+        // Resize certain option set fields so that they display more options when open.
+        setup_optionset_size("header_process_ccrm_contractconditions", 100, 280);
+        setup_optionset_size("ccrm_contractarrangement", 179, 380);
 
-        cachefields['ccrm_contractarrangement'] = Xrm.Page.getAttribute("ccrm_contractarrangement").getValue();
-        cachefields['arup_opportunitytype'] = Xrm.Page.getAttribute("arup_opportunitytype").getValue();
+        // Make sure that BPF area has tooltips.
+        //setup_bpf_tooltip("ccrm_arupuniversityiiaresearchinitiative");
 
-        //Xrm.Page.getAttribute("arup_opportunitytype").fireOnChange();
+        //    // Set lead Source tooltips
+        //    setup_leadsource_tooltips();
 
-        if (Xrm.Page.getAttribute("ccrm_arupinternal").getValue() && Xrm.Page.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
-            ParentOpportunity_Onchange("load");
+        // Look for the notification warning us that a new process flow has been assigned, and if we see it, suppress the BPF.
+        // (For historic opportunities there is no BPF)
+        var newProcessWarning = $("span.processWarningBar-Text").attr("title");
+        if (!!newProcessWarning) {
+            Xrm.Page.ui.process.setVisible(false);
+            Xrm.Page.ui.setFormNotification(
+                "This opportunity is historic does not have any business process flow associated with it",
+                "WARNING",
+                "HistoricOppWarning");
         }
-        onSelectOfStage(currentStage);
-        ShowHideOpportunityTypeAndProjectProcurement();
-        if (!!Xrm.Page.data.process) {
-            Xrm.Page.data.process.addOnStageSelected(StageSelected);
-            Xrm.Page.data.process.addOnStageChange(StageChange_event);
-        }
-    }
 
-    // Ensure that when the "Related Networks & Markets" field is set to "Other" that the "Other Network Details" field is made visible and mandatory.
-    setup_display_other_field("arup_globalservices", "ccrm_othernetworkdetails", "100000003");
+        show_hiddenrow("ccrm_limitofliabilityagreement");
+        show_hiddenrow("ccrm_limitamount_num");
+        if (Xrm.Page.ui.getFormType() != 1)
+            checkAccountingCentre();
 
-    //uncommented the line below to fix the bug 64054
-    if (!Xrm.Page.getAttribute("ccrm_arupinternal").getValue())
-        setup_display_other_field("ccrm_pirequirement", "header_process_ccrm_pilevelmoney_num", function (v) { return v != 2 }, false);
-    setup_display_other_field("ccrm_pirequirement", "header_process_ccrm_pilevelmoney_num1", function (v) { return v != 2 }, false);
+        //Added code below for D365 upgrade to update the text on BPF
+        if (!isCrmForMobile) {
+            if (parent.document.getElementById("processDuration") != null &&
+                parent.document.getElementById("processDuration") != "undefined") {
+                var processText = parent.document.getElementById("processDuration").innerText;
 
-    // Resize certain option set fields so that they display more options when open.
-    setup_optionset_size("header_process_ccrm_contractconditions", 100, 280);
-    setup_optionset_size("ccrm_contractarrangement", 179, 380);
-
-    // Make sure that BPF area has tooltips.
-    //setup_bpf_tooltip("ccrm_arupuniversityiiaresearchinitiative");
-
-    //    // Set lead Source tooltips
-    //    setup_leadsource_tooltips();
-
-    // Look for the notification warning us that a new process flow has been assigned, and if we see it, suppress the BPF.
-    // (For historic opportunities there is no BPF)
-    var newProcessWarning = $("span.processWarningBar-Text").attr("title");
-    if (!!newProcessWarning) {
-        Xrm.Page.ui.process.setVisible(false);
-        Xrm.Page.ui.setFormNotification("This opportunity is historic does not have any business process flow associated with it", "WARNING", "HistoricOppWarning");
-    }
-
-    show_hiddenrow("ccrm_limitofliabilityagreement");
-    show_hiddenrow("ccrm_limitamount_num");
-    if (Xrm.Page.ui.getFormType() != 1)
-        checkAccountingCentre();
-
-    //Added code below for D365 upgrade to update the text on BPF
-    if (!isCrmForMobile) {
-        if (parent.document.getElementById("processDuration") != null && parent.document.getElementById("processDuration") != "undefined") {
-            var processText = parent.document.getElementById("processDuration").innerText;
-
-            if (processText != null && processText != undefined) {
-                if (processText.indexOf("Aborted") !== -1) {
-                    var newProcessText = processText.replace("Aborted", "Completed");
-                    parent.document.getElementById("processDuration").textContent = newProcessText;
+                if (processText != null && processText != undefined) {
+                    if (processText.indexOf("Aborted") !== -1) {
+                        var newProcessText = processText.replace("Aborted", "Completed");
+                        parent.document.getElementById("processDuration").textContent = newProcessText;
+                    }
                 }
             }
         }
-    }
 
-    if (Xrm.Page.ui.getFormType() == 1) { Xrm.Page.getControl('ccrm_leadoriginator').setFocus(); }
-    clearSpace();
+        if (Xrm.Page.ui.getFormType() == 1) {
+            Xrm.Page.getControl('ccrm_leadoriginator').setFocus();
+        }
+        clearSpace();
+    }
 }
 
 function arupSubBusiness_onChange_qc() {
@@ -808,7 +861,6 @@ function setup_display_other_field(otherNetworksVal, otherNetworksDetail, otherC
 }
 
 function display_other_field(otherNetworksVal, otherNetworksDetail, isOtherFieldRequired, isToBeHidden) {
-    debugger;
     var value = Xrm.Page.getAttribute(otherNetworksVal).getValue();
     var notApplicable = false;
     var otherNetworkDetails = Xrm.Page.getControl(otherNetworksDetail);
@@ -2534,7 +2586,7 @@ function IsFormValid(IsPJNRequest) {
 
     var v4 = Xrm.Page.getAttribute('ccrm_bidmanager_userid').getValue();
     var v5 = Xrm.Page.getAttribute('ccrm_biddirector_userid').getValue();
-    var v6 = Xrm.Page.getControl('header_ccrm_project_transactioncurrencyid').getAttribute().getValue();
+    var v6 = Xrm.Page.getControl('ccrm_project_transactioncurrencyid').getAttribute().getValue();
     var v7 = Xrm.Page.getAttribute('ccrm_estarupinvolvementstart').getValue();
     var v8 = Xrm.Page.getAttribute('ccrm_estarupinvolvementend').getValue();
     var v9 = Xrm.Page.getAttribute('ccrm_estimatedvalue_num').getValue();
@@ -2814,7 +2866,6 @@ function HighlightFields(v4,
             highlightField(null, "#ccrm_arupusstateid", (Xrm.Page.getControl('ccrm_arupusstateid').getVisible() && v30 != null) ? true : false);
             highlightField('#header_process_ccrm_bidmanager_userid', '#ccrm_bidmanager_userid', (v4 != null) ? true : false);
             highlightField('#header_process_ccrm_biddirector_userid', '#ccrm_biddirector_userid', (v5 != null) ? true : false);
-            highlightField(null, '#header_ccrm_project_transactioncurrencyid', (v6 != null) ? true : false);
             highlightField(null, '#ccrm_project_transactioncurrencyid', (v6 != null) ? true : false);
 
             //CRM 2016-Bug 34819, 34884
@@ -4741,8 +4792,6 @@ function HideApprovalButtonForRiskChange(regionName) {
 }
 
 function stageNotifications() {
-    debugger;
-
     setLookupFiltering(); // appy filter to user fields
 
     var pjnrequested = false;
@@ -7663,7 +7712,7 @@ function IsDependentFieldValueValid(mainOptionsetFieldName, mainOptionSetFieldVa
 
     return isDependentFieldValueValid;
 }
-
+    
 function arupInternal_Onchange() {
     if (Xrm.Page.getAttribute("ccrm_parentopportunityid").getValue() != null) {
         ClearFields("ccrm_parentopportunityid", "arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement", "ccrm_estarupinvolvementend", "ccrm_estarupinvolvementstart", "ccrm_leadsource", "ccrm_location", "arup_globalservices", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
@@ -7681,4 +7730,5 @@ function ClearFields(fieldName) {
             control.setValue(null);
         }
     }
-}
+    }
+    

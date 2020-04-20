@@ -45,11 +45,11 @@
 
     <script>
         function DisplayTab(tabName) {
-            var tab = parent.Xrm.Page.ui.tabs.get(tabName);
-            tab.setDisplayState("expanded");
-            tab.setVisible(true);
-            tab.setFocus();
-            tabToDisplay = tabName;
+            //var tab = parent.Xrm.Page.ui.tabs.get(tabName);
+            //tab.setDisplayState("expanded");
+            //tab.setVisible(true);
+            //tab.setFocus();
+            tabToDisplay = Xrm.Page.Arup.displayTab(tabName);
             // Do we need to trigger the arup_opportunitybuttons.html web resource to update?
         }
 
@@ -61,6 +61,14 @@
 
         buttonConfigs = {
             'Prebid_tab': [
+                {
+                    'label': 'Request PJN',
+                    'action': function() {
+                        Log("Requesting PJN");
+                        parent.Xrm.Page.Arup.RequestPossibleJob();
+                    },
+                    'hidden': !parent.Xrm.Page.Arup.RequestPossibleJobEnabled(parent.Xrm.Page)
+                },
                 {
                     'label': 'Approve Decision to Bid',
                     'action': function() {
@@ -187,38 +195,49 @@
                 ]
         };
 
+        var testTabLoaded = false;
         // When loaded
-        // - Work out which tab is currently active.
+        // - Work out which tab is currently active. 
         var tabs = parent.Xrm.Page.ui.tabs.get();
         var activeTab = tabToDisplay;
+
+        // And the active BPF stage
+        var activeStageName = parent.Xrm.Page.data.process.getActiveStage();
+        activeStageName = activeStageName == null ? null : activeStageName.getName();
+        activeStageName = Xrm.Page.Arup.stageToTabMapping[activeStageName];
+
         tabToDisplay = null;
         for (var t in tabs) {
             var tab = tabs[t];
             if (tab.getDisplayState() == "expanded") {
                 activeTab = t;
             } else {
-                if (staticTabs.includes(tab.getName())) {
+                if (staticTabs.includes(tab.getName()) || tab.getName() == activeStageName) {
                     tab.setVisible(true);
                 } else {
                     tab.setVisible(false);
                 }
             }
+
             // If (testing) add buttons linking to all of the tabs to the test tab.
-                var tabName = tab.getName();
-                buttonConfigs['tab_testing'].push({
-                    'label': tab.getLabel(),
-                    'action': function (name) {
-                        return function() {
-                            debugger;
-                            DisplayTab(name);
-                        };
-                    }(tabName)
-                });
+            var tabName = tab.getName();
+            buttonConfigs['tab_testing'].push({
+                'label': tab.getLabel(),
+                'action': function(name) {
+                    return function() {
+                        debugger;
+                        DisplayTab(name);
+                    };
+                }(tabName)
+            });
         }
 
+
+        console.log(  "Active tab number "  +activeTab );
         // - generate buttons appropriate to the active tab.
         if (activeTab != null) {
             var buttonConfig = buttonConfigs[tabs[activeTab].getName()];
+            console.log("Active tab name " + tabs[activeTab].getName() );
             if (buttonConfigs != null) {
                 // Generate buttons listed in buttonConfig.
                 var id = 1;
@@ -240,6 +259,8 @@
                 }
             }
         }
+
+        Xrm.Page.Arup.displayActiveTabForStage(parent.Xrm.Page);
 
     </script>
 </body>

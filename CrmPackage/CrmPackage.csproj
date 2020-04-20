@@ -1279,9 +1279,10 @@
       <WebResourceType>PNG</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\arup_Opportunity Changes.js">
-      <DisplayName>arup_Opportunity_Changes</DisplayName>
-      <UniqueName>new_arup_Opportunity_Changes</UniqueName>
+      <DisplayName>Opportunity Changes</DisplayName>
+      <UniqueName>arup_Opportunity_Changes</UniqueName>
       <WebResourceType>Script</WebResourceType>
+      <Description>New Opportunity Changes</Description>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\arup_opportunitybuttoncommands.js">
       <DisplayName>Opportunity Button Commands</DisplayName>
@@ -1615,7 +1616,7 @@
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_opportunity_library_2015.js">
       <DisplayName>ccrm_opportunity_library_2015</DisplayName>
-      <UniqueName>arup_ccrm_opportunity_library_2015</UniqueName>
+      <UniqueName>ccrm_opportunity_library_2015</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_Opportunity_QuickCreate_Main_Library.js">
