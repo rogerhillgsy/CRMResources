@@ -66,6 +66,16 @@ var DirtyFields = {};
 if (typeof (FORM_TYPE) === "undefined") FORM_TYPE = { CREATE: 1, UPDATE: 2, QUICK_CREATE: 5, BULK_EDIT: 6 };
 if (typeof (PI_REQUIREMENT) === "undefined") PI_REQUIREMENT = { MIN_COVER: 1 };
 
+function HideTabForm() {
+    Xrm.Page.ui.tabs.get("tab_9").setVisible(false);
+    Xrm.Page.ui.tabs.get("tab_8").setVisible(true);
+}
+
+function HideTab8() {
+    Xrm.Page.ui.tabs.get("tab_9").setVisible(true);
+    Xrm.Page.ui.tabs.get("tab_8").setVisible(false);
+}
+
 // runs on Exit button
 function exitForm() {
 
@@ -155,9 +165,12 @@ function SetLookupField(id, name, entity, field) {
 
 function getStageId() {
 
-    if (Xrm.Page.getAttribute("stageid") != null && Xrm.Page.getAttribute("stageid") != undefined) {
-        return Xrm.Page.getAttribute("stageid").getValue();
-    }
+    //if (Xrm.Page.getAttribute("stageid") != null && Xrm.Page.getAttribute("stageid") != undefined) {
+    //    return Xrm.Page.getAttribute("stageid").getValue();
+    //}
+
+    var activeStage = Xrm.Page.data.process.getActiveStage();
+    return activeStage.getId();
 
 }
 
@@ -359,7 +372,7 @@ function OnChangeToDirtyField(a) {
 }
 
 function FormOnload() {
-
+    debugger;
     if (Xrm.Page.getAttribute("statecode") != null && Xrm.Page.getAttribute("statecode") != "undefined") {
         var state = Xrm.Page.getAttribute("statecode").getValue();
         var bpfStatus = Xrm.Page.data.process.getStatus();
@@ -457,7 +470,7 @@ function FormOnload() {
 
         if (getStageId() == ArupStages.ConfirmJob) { // runs when coming from CJNA form
             if (Xrm.Page.getAttribute("ccrm_jobnumberprogression").getValue() == 100009005) {
-                Xrm.Page.getAttribute("ccrm_systemcjnarequesttrigger").setValue(0);
+                Xrm.Page.getAttribute("ccrm_systemcjnarequesttrigger").setValue(false);
                 moveToNextTrigger = true;
                 Xrm.Page.data.save();
             }
@@ -522,10 +535,10 @@ function FormOnload() {
     setup_optionset_size("ccrm_contractarrangement", 179, 380);
 
     // Make sure that BPF area has tooltips.
-    setup_bpf_tooltip("ccrm_arupuniversityiiaresearchinitiative");
+    //setup_bpf_tooltip("ccrm_arupuniversityiiaresearchinitiative");
 
-    // Set lead Source tooltips
-    setup_leadsource_tooltips();
+    //    // Set lead Source tooltips
+    //    setup_leadsource_tooltips();
 
     // Look for the notification warning us that a new process flow has been assigned, and if we see it, suppress the BPF.
     // (For historic opportunities there is no BPF)
@@ -1125,7 +1138,8 @@ function filterBPFUserLookup(lookupFieldName) {
 
     var bpfelementname = lookupFieldName + "_i";
     if (!isCrmForMobile) {
-        parent.document.getElementById(bpfelementname).setAttribute("disableViewPicker", "1");
+        if (parent.document.getElementById(bpfelementname) != null)
+            parent.document.getElementById(bpfelementname).setAttribute("disableViewPicker", "1");
         //parent.document.getElementById("bpfelementname").attributes.disableviewpicker.value = "1"
     }
 }
@@ -1714,7 +1728,7 @@ function customerid_onChange(strSave) {
     var tab = Xrm.Page.ui.tabs.get("Project_Details_Tab");
     var arupInternal = Xrm.Page.getAttribute("ccrm_arupinternal").getValue();
     if (Xrm.Page.getAttribute("customerid").getValue() == null)
-        SetValidField(fieldName, 0, warnMsg, warnMsgName);
+        SetValidField(fieldName, false, warnMsg, warnMsgName);
     else if (Xrm.Page.getAttribute("customerid").getValue()[0].name == 'Unassigned' && arupInternal != true) {
         //if (!!tab) {
         //    var section = tab.sections.get("tab_7_section_1");
@@ -1723,9 +1737,9 @@ function customerid_onChange(strSave) {
         //    }
         //}
         if (strSave)
-            SetValidField(fieldName, 1, warnMsg, warnMsgName);
+            SetValidField(fieldName, true, warnMsg, warnMsgName);
         else
-            SetValidField(fieldName, 0, warnMsg, warnMsgName);
+            SetValidField(fieldName, false, warnMsg, warnMsgName);
         result = true;
     } else {
         //if (!!tab) {
@@ -1734,7 +1748,7 @@ function customerid_onChange(strSave) {
         //        section.setVisible(false);
         //    }
         //}
-        SetValidField(fieldName, 1, null, warnMsgName);
+        SetValidField(fieldName, true, null, warnMsgName);
         highlightField(null, '#ccrm_client', true);
     }
     return result;
@@ -1869,7 +1883,7 @@ function ccrm_arupbusinessid_onChange(valueChanged) {
 }
 
 function addEnergy_ProjectSector(currentBusinessValue) {
-
+    // debugger;
     var projectSectorCode = Xrm.Page.getAttribute('ccrm_projectsectorvalue').getValue();
     var projectSectorValue = Xrm.Page.getAttribute('ccrm_projectsectorname').getValue();
 
@@ -1939,11 +1953,11 @@ function ccrm_opportunitytype_onchange() {
     //add extra validation for Lead Progression 
     if (Xrm.Page.getAttribute("ccrm_opportunitytype").getValue() == '200000' && Xrm.Page.getAttribute("ccrm_validopportunitytrack").getValue() != 0) {
         //set the isValid flag to false        
-        SetValidField('ccrm_validopportunitytrack', 0, 'Opportunity Track needs to be set for Opportunity Progression', 'opportunitytrack');
+        SetValidField('ccrm_validopportunitytrack', false, 'Opportunity Track needs to be set for Opportunity Progression', 'opportunitytrack');
         //[RS-08/05/2017] - changed the message above to say Opportunity instead of Lead
     } else if (Xrm.Page.getAttribute("ccrm_validopportunitytrack").getValue() != 1) {
         //set the isValid flag to true 
-        SetValidField('ccrm_validopportunitytrack', 1, null, 'opportunitytrack');
+        SetValidField('ccrm_validopportunitytrack', true, null, 'opportunitytrack');
     }
 
     if (Xrm.Page.getAttribute("ccrm_possiblejobnumberrequired").getValue() == 1) {
@@ -2022,7 +2036,7 @@ function validateAccCenter(checkOHRate) {
     if (acctCentreInvalid != null) {
 
         if (acctCentreInvalid == true) {
-            SetValidField(validFieldName, 0, warnMsg, warnMsgName);
+            SetValidField(validFieldName, false, warnMsg, warnMsgName);
             if (Xrm.Page.ui.getFormType() == 1) {
                 //    //SetLookupField(null, null, 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid');
                 Xrm.Page.getAttribute("ccrm_accountingcentreid").setValue(null);
@@ -2030,10 +2044,10 @@ function validateAccCenter(checkOHRate) {
                 //    //Xrm.Page.getAttribute("ccrm_accountingcentreid").setSubmitMode("always");               
             }
         } else {
-            SetValidField(validFieldName, 1, null, warnMsgName);
+            SetValidField(validFieldName, true, null, warnMsgName);
         }
     } else {
-        SetValidField(validFieldName, 1, null, warnMsgName);
+        SetValidField(validFieldName, true, null, warnMsgName);
     }
     setTimeout(function () { Xrm.Page.ui.clearFormNotification("accountingcentre"); }, 10000);
 }
@@ -2286,8 +2300,8 @@ function StageSelected(args) {
     Xrm.Page.getAttribute('ccrm_stagetoggle').fireOnChange();
     // text field flag
     Xrm.Page.getAttribute('ccrm_processflag').setValue(selectedStage.getName());
-    Xrm.Page.getAttribute('ccrm_stagetoggle').setSubmitMode();
-    Xrm.Page.getAttribute('ccrm_processflag').setSubmitMode();
+    Xrm.Page.getAttribute('ccrm_stagetoggle').setSubmitMode('always');
+    Xrm.Page.getAttribute('ccrm_processflag').setSubmitMode('always');
 
     setLookupFiltering();
     hideProcessFields(selectedStage.getName());
@@ -2456,7 +2470,7 @@ function requestPossibleJob() {
 }
 
 function denyArupCompanyPJN(companyID) {
-
+    debugger;
     if (companyID == null) { return false };
 
     SDK.REST.retrieveRecord(companyID, "Ccrm_arupcompany", 'Ccrm_AccCentreLookupCode', null,
@@ -2473,7 +2487,7 @@ function denyArupCompanyPJN(companyID) {
 
 function IsFormValid(IsPJNRequest) {
 
-    //debugger;
+    debugger;
 
     /// <summary>Check various mandatory fields on the form to check if they have been filled in. Highlight fields that are not valid.</summary>
     /// <param name="IsPJNRequest">Flag to indicate whether we are in the process of requesting a PJN, in which case certain fields such as the Bid Salary Cost and Bid Gross Expenses need to be mandatory.</param>
@@ -2502,7 +2516,7 @@ function IsFormValid(IsPJNRequest) {
     var v16 = Xrm.Page.getAttribute('ccrm_leadsource').getValue();
     var v17 = Xrm.Page.getAttribute('ccrm_accountingcentreid').getValue();
     var v18 = Xrm.Page.getAttribute('ccrm_arupcompanyid').getValue();
-    var v19 = Xrm.Page.getAttribute('ccrm_disciplinesname').getValue();
+    // var v19 = Xrm.Page.getAttribute('ccrm_disciplinesname').getValue();
     var v25 = Xrm.Page.getAttribute('ccrm_contractarrangement').getValue();
     // form fields
     var v20 = Xrm.Page.getAttribute('description').getValue();
@@ -2524,8 +2538,8 @@ function IsFormValid(IsPJNRequest) {
     var v30 = Xrm.Page.getAttribute('ccrm_arupusstateid').getValue();
     var v31 = Xrm.Page.getAttribute('ccrm_contractarrangement').getValue();
     var v32 = Xrm.Page.getAttribute('ccrm_bid_transactioncurrencyid').getValue();
-    var v33 = Xrm.Page.getAttribute('ccrm_othernetworksdisp').getValue();
-    var v34 = Xrm.Page.getAttribute('ccrm_othernetworkdetails').getValue();
+    //   var v33 = Xrm.Page.getAttribute('ccrm_othernetworksdisp').getValue();
+    //  var v34 = Xrm.Page.getAttribute('ccrm_othernetworkdetails').getValue();
     var v35 = Xrm.Page.getAttribute('arup_subbusiness').getValue();
 
     var arupInternal = Xrm.Page.getAttribute("ccrm_arupinternal").getValue();
@@ -2555,7 +2569,7 @@ function IsFormValid(IsPJNRequest) {
             v16 == null ||
             v17 == null ||
             v18 == null ||
-            v19 == null ||
+            //      v19 == null ||
             v20 == null ||
             v21 == null ||
             v22 == null ||
@@ -2564,9 +2578,10 @@ function IsFormValid(IsPJNRequest) {
             v28 == null ||
             v31 == null ||
             v32 == null ||
-            v35 == null ||
-            v33 == null ||
-            (/Other/.test(v33) && v34 == null))
+            v35 == null) // ||
+            //    v33 == null ||
+            //   (/Other/.test(v33) && v34 == null)
+
             mandatoryfieldflag = false;
     } else if (IsPJNRequest == 'BDA') {
 
@@ -2585,16 +2600,16 @@ function IsFormValid(IsPJNRequest) {
             v16 == null ||
             v17 == null ||
             v18 == null ||
-            v19 == null ||
+            // v19 == null ||
             v20 == null ||
             v21 == null ||
             v22 == null ||
             v23 == null ||
             v24 == null ||
             v31 == null ||
-            v35 == null ||
-            v33 == null ||
-            (/Other/.test(v33) && v34 == null))
+            v35 == null)// ||
+            // v33 == null ||
+            // (/Other/.test(v33) && v34 == null)
             mandatoryfieldflag = false;
     } else {
         if (v1 == 0 || v3 == 0)
@@ -2612,16 +2627,16 @@ function IsFormValid(IsPJNRequest) {
             v16 == null ||
             v17 == null ||
             v18 == null ||
-            v19 == null ||
+            //   v19 == null ||
             v20 == null ||
             v21 == null ||
             v22 == null ||
             v23 == null ||
             v24 == null ||
             v31 == null ||
-            v35 == null ||
-            v33 == null ||
-            (/Other/.test(v33) && v34 == null))
+            v35 == null)//||
+            //   v33 == null ||
+            //   (/Other/.test(v33) && v34 == null)
             mandatoryfieldflag = false;
     }
     if (v26 == 0)
@@ -2658,7 +2673,7 @@ function IsFormValid(IsPJNRequest) {
             v16,
             v17,
             v18,
-            v19,
+            // v19,
             v20,
             v21,
             v22,
@@ -2669,8 +2684,8 @@ function IsFormValid(IsPJNRequest) {
             v28,
             v30,
             v32,
-            v33,
-            v34,
+            //  v33,
+            //   v34,
             v35,
             (IsPJNRequest == null || IsPJNRequest != 'PJN') ? false : true); {
             return false;
@@ -2691,7 +2706,7 @@ function IsFormValid(IsPJNRequest) {
             v16,
             v17,
             v18,
-            v19,
+            //  v19,
             v20,
             v21,
             v22,
@@ -2702,8 +2717,8 @@ function IsFormValid(IsPJNRequest) {
             v28,
             v30,
             v32,
-            v33,
-            v34,
+            //  v33,
+            //  v34,
             v35,
             (IsPJNRequest == null || IsPJNRequest != 'PJN') ? false : true);
     }
@@ -2719,7 +2734,7 @@ function moveToDevBid(stageid) {
     Xrm.Page.getAttribute('ccrm_possiblejobnumberrequired').setValue(1);
     Xrm.Page.getAttribute('ccrm_possiblejobnumberrequired').fireOnChange();
     Xrm.Page.getAttribute('ccrm_possiblejobnumberrequired').setSubmitMode("always");
-    hideRibbonButton('ccrm_showpjnbutton');
+    hideRibbonButton('ccrm_showpjnbutton',false);
     if ((stageid == ArupStages.Lead || stageid == ArupStages.CrossRegion) && (arupRegion == ArupRegionName.Australasia.toLowerCase() || arupRegion == ArupRegionName.EastAsia.toLowerCase() || arupRegion == ArupRegionName.Malaysia.toLowerCase())) {
         moveToNextTrigger = true;
     }
@@ -2742,7 +2757,7 @@ function HighlightFields(v4,
     v16,
     v17,
     v18,
-    v19,
+    // v19,
     v20,
     v21,
     v22,
@@ -2753,8 +2768,8 @@ function HighlightFields(v4,
     v28,
     v30,
     v32,
-    v33,
-    v34,
+    // v33,
+    // v34,
     v35,
     IsPJNRequest) {
     // highlight incomplete fields 
@@ -2795,15 +2810,15 @@ function HighlightFields(v4,
             highlightField(null, '#ccrm_leadsource', (v16 != null) ? true : false);
             highlightField('#header_process_ccrm_accountingcentreid', '#ccrm_accountingcentreid', (v17 != null) ? true : false);
             highlightField('#header_process_ccrm_arupcompanyid', '#ccrm_arupcompanyid', (v18 != null) ? true : false);
-            highlightField('#header_process_ccrm_disciplinesname', '#ccrm_disciplinesname', (v19 != null) ? true : false);
+            //  highlightField('#header_process_ccrm_disciplinesname', '#ccrm_disciplinesname', (v19 != null) ? true : false);
             highlightField(null, "#description", (v20 != null) ? true : false);
             highlightField(null, "#ccrm_projectlocationid", (v21 != null) ? true : false);
             highlightField(null, "#ccrm_arupbusinessid", (v22 != null) ? true : false);
             highlightField(null, "#name", (v23 != null) ? true : false);
             highlightField(null, "#customerid", (v24 != null) ? true : false);
             highlightField(null, '#ccrm_contractarrangement', (v25 != null) ? true : false);
-            highlightField("#header_process_ccrm_othernetworksdisp", "#ccrm_othernetworksdisp", v33 != null);
-            highlightField("#header_process_ccrm_othernetworkdetails", "#ccrm_othernetworkdetails", v33 != null && v34 != null);
+            //  highlightField("#header_process_ccrm_othernetworksdisp", "#ccrm_othernetworksdisp", v33 != null);
+            //  highlightField("#header_process_ccrm_othernetworkdetails", "#ccrm_othernetworkdetails", v33 != null && v34 != null);
             highlightField(null, "#arup_subbusiness", (v35 != null) ? true : false);
         });
 }
@@ -4693,7 +4708,7 @@ function HideApprovalButtonForRiskChange(regionName) {
 }
 
 function stageNotifications() {
-    //debugger;
+    debugger;
 
     setLookupFiltering(); // appy filter to user fields
 
@@ -4715,10 +4730,10 @@ function stageNotifications() {
         regionName = Xrm.Page.getAttribute("ccrm_arupregionid").getValue()[0].name.toLowerCase();
 
     if (regionName == ArupRegionName.EastAsia.toLowerCase() || regionName == ArupRegionName.Australasia.toLowerCase() || regionName == ArupRegionName.Malaysia.toLowerCase()) {
-        if (arupInternal) { hideRibbonButton('ccrm_showpjnbutton'); }
+        if (arupInternal) { hideRibbonButton('ccrm_showpjnbutton',false); }
         if (stageid == ArupStages.Lead || stageid == ArupStages.CrossRegion) {
             if (!pjnrequested && !arupInternal) {
-                showRibbonButton('ccrm_showpjnbutton');
+                showRibbonButton('ccrm_showpjnbutton',true);
             } else if (pjnrequested && (Xrm.Page.getAttribute("ccrm_pjna").getValue() == "" || Xrm.Page.getAttribute("ccrm_pjna").getValue() == null)) {
                 setTimeout(function () { Xrm.Page.ui.clearFormNotification("PJNRiskChsnge"); }, 500);
                 setTimeout(function () {
@@ -4730,7 +4745,7 @@ function stageNotifications() {
             if (stageid == ArupStages.BidDevelopment) {
                 if (!pjnrequested) {
 
-                    hideRibbonButton('ccrm_showpjnbutton'); //Added to hide PJN ribbon button
+                    hideRibbonButton('ccrm_showpjnbutton',false); //Added to hide PJN ribbon button
                     Xrm.Page.ui.setFormNotification(pjnMsg, "WARNING", "PJNPPendingMsg");
                     setTimeout(function () { Xrm.Page.ui.clearFormNotification("PJNPPendingMsg"); }, 10000);
                 }
@@ -4745,9 +4760,9 @@ function stageNotifications() {
                     stageid == ArupStages.BidSubmitted)
                 && (!arupInternal || regionName == ArupRegionName.UKMEA.toLowerCase())
             )
-                showRibbonButton('ccrm_showpjnbutton');
+                showRibbonButton('ccrm_showpjnbutton',true);
             else
-                hideRibbonButton('ccrm_showpjnbutton'); //Added to hide PJN ribbon button
+                hideRibbonButton('ccrm_showpjnbutton',false); //Added to hide PJN ribbon button
         }
 
         if (stageid == ArupStages.Lead) {
@@ -4762,14 +4777,14 @@ function stageNotifications() {
     }
     if (stageid != ArupStages.BidReviewApproval) // bid riview approval
     {
-        hideRibbonButton('ccrm_shwbidreviewappbtn');
+        hideRibbonButton('ccrm_shwbidreviewappbtn',0);
     } else if (stageid == ArupStages.BidReviewApproval) // bid riview approval
     {
         if (pjnrequested)
             MoveToBidDevelopment(true);
         makeBidReviewApprovalFieldsReadonly();
         if (Xrm.Page.getAttribute("ccrm_bidreviewoutcome").getValue() != 100000002)
-            showRibbonButton('ccrm_shwbidreviewappbtn');
+            showRibbonButton('ccrm_shwbidreviewappbtn',1);
         //setTimeout(function () { Xrm.Page.data.entity.save(null); }, 2);
         setCurrentApproversAsync();
     }
@@ -4810,8 +4825,8 @@ function stageNotifications() {
             jobnoprogval == 100009003 ||
             jobnoprogval == 100009004 ||
             jobnoprogval == null) {
-            Xrm.Page.getAttribute("ccrm_sys_confirmedjob_buttonhide").setValue(0);
-            Xrm.Page.getAttribute("ccrm_systemcjnarequesttrigger").setValue(1);
+            Xrm.Page.getAttribute("ccrm_sys_confirmedjob_buttonhide").setValue(false);
+            Xrm.Page.getAttribute("ccrm_systemcjnarequesttrigger").setValue(true);
             triggerSave = true;
         }
         if (triggerSave) {
@@ -4917,18 +4932,18 @@ function resetAndSetVal(fields) {
     });
     bid = null;
 }
-
-function hideRibbonButton(field) {
+//SP_09_04_202 : value added as argument because for optionset , it is 0 or 1 and for two options it is true or false
+function hideRibbonButton(field,value) {
     if (Xrm.Page.getAttribute(field).getValue() == 1) {
-        Xrm.Page.getAttribute(field).setValue(0);
+        Xrm.Page.getAttribute(field).setValue(value);
         setTimeout(function () { Xrm.Page.data.entity.save(); }, 500);
         //Xrm.Page.data.entity.save();
     }
 }
 
-function showRibbonButton(field) {
+function showRibbonButton(field,value) {
     if (Xrm.Page.getAttribute(field).getValue() == 0 || Xrm.Page.getAttribute(field).getValue() == null) {
-        Xrm.Page.getAttribute(field).setValue(1);
+        Xrm.Page.getAttribute(field).setValue(value);
         //setTimeout(function () { Xrm.Page.data.entity.save(null); }, 500);
         Xrm.Page.data.entity.save();
     }
@@ -4944,6 +4959,7 @@ function BPFMoveNext() {
 }
 
 function StageChange_event(args) {
+    debugger;
     var stageid = getStageId();
     var error = false;
 
@@ -5042,16 +5058,16 @@ function checkAccountingCentre() {
             //  if (Xrm.Page.ui.getFormType() == 1) {
             //    //SetLookupField(null, null, 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid');
             Xrm.Page.getAttribute("ccrm_accountingcentreid").setValue(null);
-            SetValidField(validFieldName, 0, warnMsg, warnMsgName);
+            SetValidField(validFieldName, false, warnMsg, warnMsgName);
             //Xrm.Page.data.process.movePrevious(onMovePrevious)
             //SetLookupField(0, "", 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid');
             //    //Xrm.Page.getAttribute("ccrm_accountingcentreid").setSubmitMode("always");               
             //  }
         } else {
-            SetValidField(validFieldName, 1, null, warnMsgName);
+            SetValidField(validFieldName, true, null, warnMsgName);
         }
     } else {
-        SetValidField(validFieldName, 1, null, warnMsgName);
+        SetValidField(validFieldName, true, null, warnMsgName);
     }
     setTimeout(function () { Xrm.Page.ui.clearFormNotification("accountingcentre"); }, 10000);
 }
@@ -5859,9 +5875,9 @@ function requestConfirmJob() {
     var v14 = Xrm.Page.getAttribute('ccrm_profitasapercentageoffeedec').getValue();
     var v19 = Xrm.Page.getAttribute('ccrm_shorttitle').getValue();
     // the fields below should only be mandatory for external opporutnities for CJN's
-    var v15 = Xrm.Page.getAttribute('ccrm_theworksvalue').getValue();
-    var v16 = Xrm.Page.getAttribute('ccrm_servicesvalue').getValue();
-    var v17 = Xrm.Page.getAttribute('ccrm_projectsectorvalue').getValue();
+    //var v15 = Xrm.Page.getAttribute('ccrm_theworksvalue').getValue();
+    //var v16 = Xrm.Page.getAttribute('ccrm_servicesvalue').getValue();
+    //var v17 = Xrm.Page.getAttribute('ccrm_projectsectorvalue').getValue();
     var v18 = Xrm.Page.getAttribute('ccrm_pilevelmoney_num').getValue();
     var v21 = Xrm.Page.getAttribute('ccrm_pirequirement').getValue();
 
@@ -5887,8 +5903,12 @@ function requestConfirmJob() {
         v14 == null ||
         v19 == null) incompleteData = true;
 
-    if (!arupInternal && !incompleteData && (v15 == null || v16 == null || v17 == null || (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
+    //Shruti:Need to replace below line once v15/v16/v17 is set up
+    if (!arupInternal && !incompleteData && ((v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
         incompleteData = true;
+
+    //if (!arupInternal && !incompleteData && (v15 == null || v16 == null || v17 == null || (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
+    //    incompleteData = true;
 
     if (v20 == 0) { }
     else if (incompleteData) {
@@ -6160,7 +6180,7 @@ function Syncbiddirector_userid() {
 }
 
 function ProvisionDWBidsSite() {
-
+    debugger;
     if (Xrm.Page.getAttribute("arup_bidsiterequested").getValue() != true) {
         var oppId = Xrm.Page.data.entity.getId().replace(/[{}]/g, "");
         if (!isFormValidForBidSite()) {
@@ -6187,7 +6207,7 @@ function ProvisionDWBidsSite() {
                         parameters.bidsite = true;
 
                         var req = new XMLHttpRequest();
-                        req.open("POST", Xrm.Page.context.getClientUrl() + "/api/data/v8.2/opportunities(" + oppId + ")/Microsoft.Dynamics.CRM.arup_RequestBidSite", false);
+                        req.open("POST", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities(" + oppId + ")/Microsoft.Dynamics.CRM.arup_RequestBidSite", false);
                         req.setRequestHeader("OData-MaxVersion", "4.0");
                         req.setRequestHeader("OData-Version", "4.0");
                         req.setRequestHeader("Accept", "application/json");
@@ -7556,7 +7576,7 @@ function onCancelButtonClick() {
 
 function BidSubmittedClick() {
     Xrm.Page.getAttribute("arup_bidsubmitteddate").setValue(new Date());
-    Xrm.Page.getAttribute("arup_bidsubmissionoutcome").setValue('770000001');
+    Xrm.Page.getAttribute("arup_bidsubmissionoutcome").setValue(770000001);
     Xrm.Page.data.entity.save();
 }
 
