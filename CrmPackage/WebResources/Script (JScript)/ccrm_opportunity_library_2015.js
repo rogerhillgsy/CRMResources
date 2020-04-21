@@ -1365,7 +1365,6 @@ function addUserLookupFilter(opportunityFieldName, lookupFieldName, filterChkFie
 }
 
 function EAAccreditaionLevRequired() {
-    debugger;
     var qualLevs = "";
     var procType = Xrm.Page.getAttribute("ccrm_contractarrangement").getValue();
     // var disciplines = Xrm.Page.getAttribute("ccrm_disciplinesname").getValue();
@@ -2457,9 +2456,6 @@ function highlightField(headerfield, formfield, clear) {
 }
 
 function requestPossibleJob() {
-
-    //debugger;
-
     // set focus to avoid issues with in progress changes.
     Xrm.Page.getControl("ccrm_reference").setFocus();
     customerid_onChange();
@@ -2553,7 +2549,6 @@ function requestPossibleJob() {
 }
 
 function denyArupCompanyPJN(companyID) {
-    debugger;
     if (companyID == null) { return false };
 
     SDK.REST.retrieveRecord(companyID, "Ccrm_arupcompany", 'Ccrm_AccCentreLookupCode', null,
@@ -2569,9 +2564,6 @@ function denyArupCompanyPJN(companyID) {
 }
 
 function IsFormValid(IsPJNRequest) {
-
-    debugger;
-
     /// <summary>Check various mandatory fields on the form to check if they have been filled in. Highlight fields that are not valid.</summary>
     /// <param name="IsPJNRequest">Flag to indicate whether we are in the process of requesting a PJN, in which case certain fields such as the Bid Salary Cost and Bid Gross Expenses need to be mandatory.</param>
     var v1 = Xrm.Page.getAttribute('ccrm_validcontact').getValue(); //needs to be 1
@@ -2811,7 +2803,6 @@ function IsFormValid(IsPJNRequest) {
 }
 
 function moveToDevBid(stageid) {
-    //debugger;
     var arupRegion = Xrm.Page.getAttribute('ccrm_arupregionid').getValue();
     if (arupRegion != null) {
         arupRegion = arupRegion[0].name.toLowerCase();
@@ -4078,7 +4069,6 @@ function calcBidCosts() {
 
 //function to calculate ProfitAsPercentageFee
 function calcEstProjectProfit() {
-    //debugger;
     var totalEstProjectProfit = 0;
     var Projectfee = Xrm.Page.getAttribute("ccrm_estimatedvalue_num").getValue();
     var Expenses = Xrm.Page.getAttribute("ccrm_estprojectexpenses_num").getValue();
@@ -5041,7 +5031,6 @@ function BPFMoveNext() {
 }
 
 function StageChange_event(args) {
-    debugger;
     var stageid = getStageId();
     var error = false;
 
@@ -5066,7 +5055,6 @@ function StageChange_event(args) {
 
     var isPJNApprovalStage = IsPJNApprovalStage(stageid);
 
-    //debugger;
     var opportunitytype = Xrm.Page.getAttribute("arup_opportunitytype").getValue();
     if (stageid == ArupStages.CrossRegion || stageid == ArupStages.BidDevelopment || isPJNApprovalStage) {
 
@@ -5155,7 +5143,6 @@ function checkAccountingCentre() {
 }
 
 function hideProcessFields(selectedStage) {
-    // debugger;
     /// <summary>Hide fields that are required by the Bbusiness Process Flow, but which we do not want the user to see.</summary>
     var arupInternal = Xrm.Page.getAttribute("ccrm_arupinternal").getValue();
 
@@ -5906,7 +5893,6 @@ function resetSysFlags() {
 }
 
 function moveNext(currentStage) {
-    //debugger;
     var pollingAttemptsRemaining = 10;
     var intervalId;
     //Cycle through code every 2 seconds for dirty check
@@ -6259,7 +6245,6 @@ function Syncbiddirector_userid() {
 }
 
 function ProvisionDWBidsSite() {
-    debugger;
     if (Xrm.Page.getAttribute("arup_bidsiterequested").getValue() != true) {
         var oppId = Xrm.Page.data.entity.getId().replace(/[{}]/g, "");
         if (!isFormValidForBidSite()) {

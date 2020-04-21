@@ -6,6 +6,7 @@
 
         body {
             margin: 0px;
+            vertical-align: middle;
         }
          
         .mainButton {
@@ -16,6 +17,7 @@
             padding: 5px 10px 5px 10px;
             margin: 4px 4px 0px 0px;
             width: 240px;
+            min-width: 60%;
             text-overflow: ellipsis;
             display: inline-block;
             text-align: center;
@@ -43,176 +45,41 @@
 <body style="word-wrap: break-word;">
     <div id="tabButtons"></div>
 
-    <script>
-        function DisplayTab(tabName) {
-            //var tab = parent.Xrm.Page.ui.tabs.get(tabName);
-            //tab.setDisplayState("expanded");
-            //tab.setVisible(true);
-            //tab.setFocus();
-            tabToDisplay = Xrm.Page.Arup.displayTab(tabName);
-            // Do we need to trigger the arup_opportunitybuttons.html web resource to update?
-        }
+<script>
+    function ReturnToActiveTab() {
+        DisplayTab(activeStageName);
+    }
 
-        var tabToDisplay = null;
+    parent.Xrm.Page.Arup.SetOnProcessStageChange(parent.Xrm.Page, function() {
+        setupNavigationButtons();
+    });
 
-        staticTabs = ['tab_testing', 'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab', 'Bid_Details_Tab', 'Bid_Development_Tab_External'];
-        debugger;
-        var Log = function(s) { console.log(s) };
+    function MoveNext() {
+        parent.Xrm.Page.Arup.BPFMoveNext(parent.Xrm.Page, function() {
+//            Xrm.Page.Arup.displayActiveTabForStage2(Xrm.Page);
+  //          setupNavigationButtons();
+        });
+    }
 
-        buttonConfigs = {
-            'Prebid_tab': [
-                {
-                    'label': 'Request PJN',
-                    'action': function() {
-                        Log("Requesting PJN");
-                        parent.Xrm.Page.Arup.RequestPossibleJob();
-                    },
-                    'hidden': !parent.Xrm.Page.Arup.RequestPossibleJobEnabled(parent.Xrm.Page)
-                },
-                {
-                    'label': 'Approve Decision to Bid',
-                    'action': function() {
-                        Log("Approving bid decision");
-                        parent.Xrm.Page.Arup.BidDicisionConfirmation();
-                    }
-                },
-                {
-                    'label': 'Move to Next Stage',
-                    'action': function() {
-                        Log("Move next stage");
-                        parent.Xrm.Page.Arup.BPFMoveNext();
-                    }
-                }
-            ],
-            'Cross_Region_Tab': [
-                {
-                    'label': 'Move to Next Stage',
-                    'action': function() {
-                        Log("Move next stage");
-                        parent.Xrm.Page.Arup.BPFMoveNext();
-                    }
-                }
-            ],
-            'Developing_Bid_tab': [
-                {
-                    'label': 'Update Financial Details',
-                    'action': function() {
-                        Log("Updae Financial Details");
-                        // Visit Project Financials?
-                        parent.Xrm.Page.Arup.UpdateFinancialDetails();
-                    }
-                },
-                {
-                    'label': 'Move to Next Stage',
-                    'action': function() {
-                        Log("Move next stage");
-                        parent.Xrm.Page.Arup.BPFMoveNext();
-                    }
-                }
-            ],
-            'Bid_Review_Submission_tab': [
-                {
-                    'label': 'Approve Bid Review',
-                    'action': function() {
-                        Log("Approve Bid Review");
-                        parent.Xrm.Page.Arup.BPFMoveNext();
-                        $('#next_stage_button').show();
-                        debugger;
-                        this.hide(); // ?? How do we do this?
-                    }
-                },
-                {
-                    'id': 'next_stage_button',
-                    'label': 'Move to Next Stage',
-                    'action': function() {
-                        Log("Move next stage");
-                        parent.Xrm.Page.Arup.BPFMoveNext();
-                    },
-                    'hidden': true
-                }
-            ],
-            'Confirmed_Job_Project_Tab': [
-                {
-                    'label': 'Move to Next Stage',
-                    'action': function() {
-                        Log("Move next stage");
-                        parent.Xrm.Page.Arup.BPFMoveNext();
-                    }
-                }
-            ],
-            'Confirmed_Job_commercial_Tab': [
-                {
-                    'label': 'Request Confirmed Job Number',
-                    'action': function() {
-                        Log("Request CJN");
-                        parent.Xrm.Page.Arup.RequestCJN();
-                    }
-                }
-            ],
-            'PJN_Costs_Tab': [
-                {
-                    // TOD: return to active stage
-                    'label': 'Return to: Required Fields - Pre-Bid',
-                    'action': function() {
-                        Log("Move next stage");
-                        DisplayTab("Prebid_tab");
-                    }
-                }
-            ],
-            'Project_Financials_Tab': [
-                {
-                    'label': 'Return to: Required Fields - Developing Bid tab',
-                    'action': function() {
-                        Log("Move next stage");
-                        DisplayTab("Developing_Bid_tab");
-                    }
-                }
-            ],
-            'PJN_Approval_tab': [
-                {
-                    'label': 'Approve PJN Group Leader',
-                    'action': function() {
-                        Log("Move next stage");
-                        parent.Xrm.Page.Arup.PJNApproveGroupLeader("");
-                    }
-                },
-                {
-                    'label': 'Approve PJN Sector Leader',
-                    'action': function() {
-                        Log("Move next stage");
-                        parent.Xrm.Page.Arup.PJNApproveSectorLeader("");
-                    }
-                },
-                {
-                    'label': 'Approve Regional COO',
-                    'action': function () {
-                        Log("Move next stage");
-                        parent.Xrm.Page.Arup.PJNApproveRegionalCOO("");
-                    }
-                }
-            ],
-            'tab_testing': [
-                ]
-        };
+    function DisplayTab(tabName) {
+        //var tab = parent.Xrm.Page.ui.tabs.get(tabName);
+        //tab.setDisplayState("expanded");
+        //tab.setVisible(true);
+        //tab.setFocus();
+        tabToDisplay = Xrm.Page.Arup.displayTab(tabName, parent.Xrm.Page );
+        // Do we need to trigger the arup_opportunitybuttons.html web resource to update?
+    }
 
-        var testTabLoaded = false;
-        // When loaded
-        // - Work out which tab is currently active. 
+    function setVisibleTabs(tabList) {
         var tabs = parent.Xrm.Page.ui.tabs.get();
-        var activeTab = tabToDisplay;
-
-        // And the active BPF stage
-        var activeStageName = parent.Xrm.Page.data.process.getActiveStage();
-        activeStageName = activeStageName == null ? null : activeStageName.getName();
-        activeStageName = Xrm.Page.Arup.stageToTabMapping[activeStageName];
-
         tabToDisplay = null;
         for (var t in tabs) {
             var tab = tabs[t];
+            var tabName = tab.getName();
             if (tab.getDisplayState() == "expanded") {
                 activeTab = t;
             } else {
-                if (staticTabs.includes(tab.getName()) || tab.getName() == activeStageName) {
+                if (tabList.indexOf(tabName) > -1) {
                     tab.setVisible(true);
                 } else {
                     tab.setVisible(false);
@@ -220,10 +87,20 @@
             }
 
             // If (testing) add buttons linking to all of the tabs to the test tab.
+        }
+
+        return activeTab != null ? parseInt(activeTab) : null;
+    };
+
+    function setupTestTabButtons() {
+        var tabs = parent.Xrm.Page.ui.tabs.get();
+        for (var t in tabs) {
+            var tab = tabs[t];
             var tabName = tab.getName();
             buttonConfigs['tab_testing'].push({
                 'label': tab.getLabel(),
                 'action': function(name) {
+                    // ensure we capture the value of 'name' rather than a variable reference.
                     return function() {
                         debugger;
                         DisplayTab(name);
@@ -231,17 +108,19 @@
                 }(tabName)
             });
         }
+    }
 
-
-        console.log(  "Active tab number "  +activeTab );
+    function setupButtonsForCurrentActiveTab(activeTab) {
+        var tabs = parent.Xrm.Page.ui.tabs.get();
         // - generate buttons appropriate to the active tab.
         if (activeTab != null) {
             var buttonConfig = buttonConfigs[tabs[activeTab].getName()];
-            console.log("Active tab name " + tabs[activeTab].getName() );
+            Log("Active tab name " + tabs[activeTab].getName());
             if (buttonConfigs != null) {
                 // Generate buttons listed in buttonConfig.
+                $("#tabButtons").empty();
                 var id = 1;
-                for (buttonNum in buttonConfig) {
+                for (var buttonNum in buttonConfig) {
                     var button = buttonConfig[buttonNum];
                     var span = document.createElement("span");
                     if (button.id != null) {
@@ -254,14 +133,192 @@
                     span.className = "mainButton";
                     $("#tabButtons")[0].appendChild(span);
                     if (button.hidden) {
-                        span.hidden = true;
+                        span.style.display = "none";
                     }
                 }
             }
         }
+    }
 
-        Xrm.Page.Arup.displayActiveTabForStage(parent.Xrm.Page);
+    var Log = function (s) { console.log(s) };
+    buttonConfigs = {
+        'Prebid_tab': [
+            {
+                'label': 'Request PJN',
+                'action': function() {
+                    Log("Requesting PJN");
+                    parent.Xrm.Page.Arup.RequestPossibleJob();
+                },
+                'hidden': !parent.Xrm.Page.Arup.RequestPossibleJobEnabled(parent.Xrm.Page)
+            },
+            {
+                'label': 'Click Here for PJN Costs',
+                'action': function () {
+                    DisplayTab("PJN_Costs_Tab");
+                },
+            },
+            {
+                'label': 'Approve Decision to Bid',
+                'action': function() {
+                    Log("Approving bid decision");
+                    parent.Xrm.Page.Arup.BidDicisionConfirmation();
+                }
+            },
+            {
+                'label': 'Move to Next Stage',
+                'action': function() {
+                    Log("Move next stage");
+                    MoveNext();
+                }
+            }
+        ],
+        'Cross_Region_Tab': [
+            {
+                'label': 'Move to Next Stage',
+                'action': function() {
+                    Log("Move next stage");
+                    MoveNext();
+                }
+            }
+        ],
+        'Developing_Bid_tab': [
+            {
+                'label': 'Move to Next Stage',
+                'action': function () {
+                    Log("Move next stage");
+                    MoveNext();
+                }
+            },
+            {
+                'label': 'Update Financial Details',
+                'action': function() {
+                    Log("Update Financial Details");
+                    // Visit Project Financials?
+                    DisplayTab("Project_Financials_Tab");
+                }
+            },
+        ],
+        'Bid_Review_Submission_tab': [
+            {
+                'label': 'Approve Bid Review',
+                'action': function() {
+                    Log("Approve Bid Review");
+                    parent.Xrm.Page.Arup.ApproveBidReview(parent.Xrm.Page);
+                    //setupButtonsForCurrentActiveTab();
+                    this.hidden = true;
+                    buttonConfigs['Bid_Review_Submission_tab'][1].hidden = false;
+                    setupButtonsForCurrentActiveTab(activeTab);
+                },
+                'hidden': false // parent.Xrm.Page.Arup.IsBidReviewApproved(parent.Xrm.Page)
+            },
+            {
+                'id': 'next_stage_button',
+                'label': 'Move to Next Stage',
+                'action': function() {
+                    Log("Move next stage");
+                    MoveNext();
+                },
+                'hidden': true
+            }
+        ],
+        'Confirmed_Job_Project_Tab': [
+            {
+                'label': 'Move to Next Stage',
+                'action': function() {
+                    Log("Move next stage");
+                    MoveNext();
+                }
+            }
+        ],
+        'Confirmed_Job_commercial_Tab': [
+            {
+                'label': 'Request Confirmed Job Number',
+                'action': function() {
+                    Log("Request CJN");
+                    parent.Xrm.Page.Arup.RequestCJN();
+                }
+            }
+        ],
+        'PJN_Costs_Tab': [
+            {
+                // TOD: return to active stage
+                'label': 'Back to the active stage tab',
+                'action': function () {
+                    ReturnToActiveTab();
+                }
+            }
+        ],
+        'Project_Financials_Tab': [
+            {
+                'label': 'Return to: Required Fields - Developing Bid tab',
+                'action': function() {
+                    ReturnToActiveTab();
+                }
+            }
+        ],
+        'PJN_Approval_tab': [
+            {
+                'label': 'Approve PJN Group Leader',
+                'action': function() {
+                    Log("Move next stage");
+                    parent.Xrm.Page.Arup.PJNApproveGroupLeader("");
+                }
+            },
+            {
+                'label': 'Approve PJN Sector Leader',
+                'action': function() {
+                    Log("Move next stage");
+                    parent.Xrm.Page.Arup.PJNApproveSectorLeader("");
+                }
+            },
+            {
+                'label': 'Approve Regional COO',
+                'action': function () {
+                    Log("Move next stage");
+                    parent.Xrm.Page.Arup.PJNApproveRegionalCOO("");
+                }
+            }
+        ],
+        'tab_testing': [
+        ]
+    };
 
-    </script>
+    staticTabs = [
+        'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
+        'Bid_Details_Tab', 'Bid_Development_Tab_External'
+    ];
+
+    var tabToDisplay = null;
+    var activeStageName;
+    var activeTab;
+    var activeTabName;
+
+    function setupNavigationButtons() {
+        // And the active BPF stage
+        debugger;
+        activeStageName = parent.Xrm.Page.data.process.getActiveStage();
+        activeStageName = activeStageName == null ? null : activeStageName.getName();
+        activeStageName = parent.Xrm.Page.Arup.stageToTabMapping[activeStageName];
+
+        // Decide which tabs should be visible.
+        activeTab = setVisibleTabs(staticTabs.concat([activeStageName]));
+        if (activeTab != null) {
+            activeTabName = Xrm.Page.ui.tabs.get()[activeTab].getName();
+        } else {
+            activeTabName= tabToDisplay;
+        }
+
+        if (activeTab == 'tab_testing') {
+            setupTestTabButtons();
+        }
+
+        Log("Active tab name:  " + activeTabName);
+
+        setupButtonsForCurrentActiveTab(activeTab);
+    }
+
+    setupNavigationButtons();
+
+</script>
 </body>
 </html>

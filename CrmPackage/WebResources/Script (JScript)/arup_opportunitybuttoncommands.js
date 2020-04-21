@@ -4,77 +4,130 @@
 // Normally javascript functions are not visible from the Web resource in an iframe.
 // By attaching them to Xrm.Page, they are then visible and callable from within the iframe.
 
-Xrm.Page.Arup = {};
 
-Xrm.Page.Arup.BidDicisionConfirmation = function() {
-    BidDicisionConfirmation();
-}
-
-Xrm.Page.Arup.BPFMoveNext= function () {
-    BPFMoveNext();
-}
-
-
-Xrm.Page.Arup.RequestPossibleJob = function () {
-    requestPossibleJob();
-}
-
-Xrm.Page.Arup.RequestPossibleJobEnabled = function ( formContext ) {
-    // ccrm_possiblejobnumberrequired = 1
-    // Not in create state
-    // ccrm_showpjnbutton != 0
-    // statuscode != 3
-    // statecode != disabled (1)
-    // Has write access to opportunity.
-
-    var pjnrequired = formContext.getAttribute("ccrm_possiblejobnumberrequired");
-    pjnrequired = pjnrequired == null ? 0 : pjnrequired.getValue();
-
-    var isCreate = formContext.ui.getFormType() == 1;
-
-    var showPJNButton = formContext.getAttribute("ccrm_showpjnbutton");
-    showPJNButton = showPJNButton == null ? 0 : showPJNButton.getValue();
-
-    var statuscode = formContext.getAttribute("statuscode");
-    statuscode = statuscode == null ? null : statuscode.getValue();
-
-    var statecode = formContext.getAttribute("statecode");
-    statecode = statecode == null ? null : statecode.getValue();
-
-    return pjnrequired == 1 && !isCreate && showPJNButton == 1 && statuscode != 3 && statecode != 1;
-}
+var GetAttribute = function(formContext, attrName) {
+    var attr = formContext.getAttribute(attrName);
+    if (attr != null) {
+        attr = attr.getValue();
+    }
+    return attr;
+};
 
 
-Xrm.Page.Arup.stageToTabMapping = {
-    "PRE-BID": "Prebid_tab",
-    "CROSS REGION": "Cross_Region_Tab",
-    "PJN APPROVAL": "PJN_Approval_tab",
-    "DEVELOPING BID": "Developing_Bid_tab",
-    "BID REVIEW/SUBMISSION": "Bid_Review_Submission_tab",
-    "CONFIRMED JOB - PROJECT": "Confirmed_Job_Project_Tab",
-    "CONFIRMED JOB - COMMERCIAL": "Confirmed_Job_commercial_Tab",
-    "CJN APPROVAL": "PJN_Approval_tab",
-}
-
-// Display the active tab according to the current stage.
-Xrm.Page.Arup.displayActiveTabForStage = function (executionContext) {
-    var formContext = executionContext.getFormContext();
-    var activeStageName =  formContext.data.process.getActiveStage();
-    activeStageName = activeStageName == null ? null : activeStageName.getName();
+Xrm.Page.Arup = {
+    BidDicisionConfirmation: function() {
+        BidDicisionConfirmation();
+    },
 
     
-    if (Xrm.Page.Arup.stageToTabMapping[activeStageName] != null) {
-        console.log("Displaying tabs for process stage " + activeStageName + " / " + Xrm.Page.Arup.stageToTabMapping[activeStageName]);
-        Xrm.Page.Arup.displayTab(Xrm.Page.Arup.stageToTabMapping[activeStageName], formContext);
+    SetOnProcessStageChange : function( formContext, callback) {
+        formContext.data.process.addOnStageChange(callback);
+    },
+
+    BPFMoveNext: function(formContext, successCallback ) {
+        // BPFMoveNext(); -- existing function does not seem relevant to V9
+        var opportunityType = GetAttribute(formContext, "arup_opportunitytype");
+        if (opportunityType == '770000005') {
+            return;
+        }
+
+        // Make sure form is saved.
+      //  formContext.data.entity.save();
+      formContext.data.save().then(
+          function success(status) {
+              debugger;
+              console.log("success status" + status);
+              var process = Xrm.Page.data.process;
+              if (process != null) {
+                  process.moveNext(
+                      function(result) {
+                          console.log("result is " + result);
+                          if (result == "success") {
+                              successCallback();
+                          }
+                      });
+              }
+          },
+          function(status) {
+              console.log("failure status" + status);
+
+          });
+
+      // Get v9 BPF process object.
+    },
+
+    RequestPossibleJob: function() {
+        requestPossibleJob();
+    },
+
+    RequestPossibleJobEnabled: function(formContext) {
+        // ccrm_possiblejobnumberrequired = 1
+        // Not in create state
+        // ccrm_showpjnbutton != 0
+        // statuscode != 3
+        // statecode != disabled (1)
+        // Has write access to opportunity.
+
+        var pjnrequired = GetAttribute(formContext, "ccrm_possiblejobnumberrequired");
+
+        var isCreate = formContext.ui.getFormType() == 1;
+
+        var showPJNButton = GetAttribute(formContext, "ccrm_showpjnbutton");
+
+        var statuscode = GetAttribute(formContext, "statuscode");
+
+        var statecode = GetAttribute(formContext, "statecode");
+
+        return pjnrequired == 1 && !isCreate && showPJNButton == 1 && statuscode != 3 && statecode != 1;
+    },
+
+    bidReviewApproved: false, //need to work out which attributes control Bid review 
+    ApproveBidReview : function(formContext) {
+        alert("Approving bid review");
+        this.bidReviewApproved = true;
+    },
+
+    IsBidReviewApproved: function(formContext) {
+        return this.bidReviewApproved;
+    },
+
+    stageToTabMapping: {
+        "PRE-BID": "Prebid_tab",
+        "CROSS REGION": "Cross_Region_Tab",
+        "PJN APPROVAL": "PJN_Approval_tab",
+        "DEVELOPING BID": "Developing_Bid_tab",
+        "BID REVIEW/SUBMISSION": "Bid_Review_Submission_tab",
+        "CONFIRMED JOB - PROJECT": "Confirmed_Job_Project_Tab",
+        "CONFIRMED JOB - COMMERCIAL": "Confirmed_Job_commercial_Tab",
+        "CJN APPROVAL": "PJN_Approval_tab",
+    },
+
+    displayTab : function (tabName, formContext) {
+        var tab = formContext.ui.tabs.get(tabName);
+        tab.setDisplayState("expanded");
+        tab.setVisible(true);
+        tab.setFocus();
+        return tabName;
+    },
+
+    // Display the active tab according to the current stage.
+    displayActiveTabForStage: function (executionContext) {
+        var formContext = executionContext.getFormContext();
+        debugger;
+        this.displayActiveTabForStage2(formContext);
+    },
+    displayActiveTabForStage2: function (formContext) {
+        var activeStageName = formContext.data.process.getActiveStage();
+        activeStageName = activeStageName == null ? null : activeStageName.getName();
+
+        var activeTabName = Xrm.Page.Arup.stageToTabMapping[activeStageName];
+        if (activeTabName != null) {
+            console.log("Displaying tabs for process stage " + activeStageName + " / " + activeTabName);
+            Xrm.Page.Arup.displayTab(activeTabName, formContext);
+        }
     }
-}
+};
 
 
 
-Xrm.Page.Arup.displayTab = function(tabName, formContext) {
-    var tab = formContext.ui.tabs.get(tabName);
-    tab.setDisplayState("expanded");
-    tab.setVisible(true);
-    tab.setFocus();
-    return tabName;
-}
+
