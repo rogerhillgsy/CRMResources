@@ -125,7 +125,20 @@ Xrm.Page.Arup = {
             console.log("Displaying tabs for process stage " + activeStageName + " / " + activeTabName);
             Xrm.Page.Arup.displayTab(activeTabName, formContext);
         }
+    },
+
+    PJNApproveGroupLeader : function(formContext) {
+        formContext.getAttribute("ccrm_groupleaderapprovaloptions").setValue(100000001);
+    },
+
+    PJNApproveSectorLeader : function(formContext) {
+        formContext.getAttribute("ccrm_sectorleaderapprovaloptions").setValue(100000001);
+    },
+
+    PJNApproveRegionalCOO : function(formContext) {
+        formContext.getAttribute("ccrm_regioncooapprovaloptions").setValue(100000001);
     }
+
 };
 
 

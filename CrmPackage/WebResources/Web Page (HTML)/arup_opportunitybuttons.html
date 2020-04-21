@@ -205,7 +205,7 @@
                     Log("Approve Bid Review");
                     parent.Xrm.Page.Arup.ApproveBidReview(parent.Xrm.Page);
                     //setupButtonsForCurrentActiveTab();
-                    this.hidden = true;
+                    buttonConfigs['Bid_Review_Submission_tab'][0].hidden = true;
                     buttonConfigs['Bid_Review_Submission_tab'][1].hidden = false;
                     setupButtonsForCurrentActiveTab(activeTab);
                 },
@@ -261,22 +261,31 @@
                 'label': 'Approve PJN Group Leader',
                 'action': function() {
                     Log("Move next stage");
-                    parent.Xrm.Page.Arup.PJNApproveGroupLeader("");
+                    parent.Xrm.Page.Arup.PJNApproveGroupLeader(parent.Xrm.Page);
+                    buttonConfigs['PJN_Approval_tab'][0].hidden = true;
+                    buttonConfigs['PJN_Approval_tab'][1].hidden = false;
+                    setupButtonsForCurrentActiveTab(activeTab);
                 }
             },
             {
                 'label': 'Approve PJN Sector Leader',
                 'action': function() {
                     Log("Move next stage");
-                    parent.Xrm.Page.Arup.PJNApproveSectorLeader("");
-                }
+                    parent.Xrm.Page.Arup.PJNApproveSectorLeader(parent.Xrm.Page);
+                    buttonConfigs['PJN_Approval_tab'][1].hidden = true;
+                    buttonConfigs['PJN_Approval_tab'][2].hidden = false;
+                    setupButtonsForCurrentActiveTab(activeTab);
+
+                },
+                'hidden'  : true
             },
             {
                 'label': 'Approve Regional COO',
                 'action': function () {
                     Log("Move next stage");
-                    parent.Xrm.Page.Arup.PJNApproveRegionalCOO("");
-                }
+                    parent.Xrm.Page.Arup.PJNApproveRegionalCOO(parent.Xrm.Page);
+                },
+                'hidden'  : true
             }
         ],
         'tab_testing': [
@@ -285,7 +294,7 @@
 
     staticTabs = [
         'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
-        'Bid_Details_Tab', 'Bid_Development_Tab_External'
+        'Bid_Details_Tab', 'Bid_Development_Tab_External','PJN_Approval_tab'
     ];
 
     var tabToDisplay = null;
