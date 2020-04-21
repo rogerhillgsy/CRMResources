@@ -1956,38 +1956,6 @@
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ContactCustomisation\ContactCustomisation.csproj">
-      <Name>ContactCustomisation</Name>
-      <Project>{936e103d-ed9e-4eb4-9f60-6f88d479dbb1}</Project>
-      <Private>True</Private>
-      <SilverlightApplication>False</SilverlightApplication>
-    </ProjectReference>
-    <ProjectReference Include="..\LeadCustomisation\LeadCustomisation.csproj">
-      <Name>LeadCustomisation</Name>
-      <Project>{76930c4f-5069-4756-9878-7c42fcaeae2a}</Project>
-      <Private>True</Private>
-      <SilverlightApplication>False</SilverlightApplication>
-    </ProjectReference>
-    <ProjectReference Include="..\BidReviewCustomisations\BidReviewCustomisations.csproj">
-      <Name>BidReviewCustomisations</Name>
-      <Project>{f5f3bcd5-5f9d-4ca4-afad-5432d1dd455b}</Project>
-      <Private>True</Private>
-      <SilverlightApplication>False</SilverlightApplication>
-    </ProjectReference>
-    <ProjectReference Include="..\OpportunityCustomizations\OpportunityCustomizations.csproj">
-      <Name>OpportunityCustomizations</Name>
-      <Project>{76903b4a-63b0-4e0e-a3dd-aa3e6552b1dd}</Project>
-      <Private>True</Private>
-      <SilverlightApplication>False</SilverlightApplication>
-    </ProjectReference>
-    <ProjectReference Include="..\OrganisationCustomisations\OrganisationCustomisations.csproj">
-      <Name>OrganisationCustomisations</Name>
-      <Project>{c064a39b-a8c6-41e0-8c87-9d948d5c8942}</Project>
-      <Private>True</Private>
-      <SilverlightApplication>False</SilverlightApplication>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\CRM\Microsoft.CrmDeveloperTools.12.targets" />-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -129,14 +129,22 @@ Xrm.Page.Arup = {
 
     PJNApproveGroupLeader : function(formContext) {
         formContext.getAttribute("ccrm_groupleaderapprovaloptions").setValue(100000001);
+        this.SetNow(formContext,"ccrm_groupleaderapprovaldate");
     },
 
     PJNApproveSectorLeader : function(formContext) {
-        formContext.getAttribute("ccrm_sectorleaderapprovaloptions").setValue(100000001);
+        formContext.getAttribute("ccrm_regionalpracticeleaderapprovaloptions").setValue(100000001);
+        this.SetNow(formContext, "ccrm_regionalpracticeleaderapprovaldate");
     },
 
     PJNApproveRegionalCOO : function(formContext) {
         formContext.getAttribute("ccrm_regioncooapprovaloptions").setValue(100000001);
+        this.SetNow(formContext, "ccrm_regionalcooapprovaldate");
+    },
+    SetNow : function(formContext, attr) {
+        var now = new Date();
+        var attr = formContext.getAttribute(attr);
+        if (attr != null ) attr.setValue(now);
     }
 
 };
