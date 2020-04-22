@@ -1235,7 +1235,8 @@ function OpenOverviewReport(primaryControl) {
     }
 
     var customParameters = encodeURIComponent("accountID=" + accId + "&parentAccID=" + parentaccountid);
-    Xrm.Navigation.openWebResource('ccrm_/HTML/ClientOverViewReport.html', customParameters, 1100, 800);
+    var windowOptions = { openInNewWindow: true, height: 800, width: 1100 };
+    Xrm.Navigation.openWebResource('ccrm_/HTML/ClientOverViewReport.html', windowOptions, customParameters);
 }
 
 function OpenConnMatrixReport(primaryControl) {
