@@ -8,26 +8,53 @@
             margin: 0px;
             vertical-align: middle;
         }
-         
+
         .mainButton {
-            background-color: #fc1303;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 5px;
             color: #FFFFFF;
-            font-family: Segoe UI, Tahoma, Arial;
-            font-size: 12px;
-            padding: 5px 10px 5px 10px;
-            margin: 4px 4px 0px 0px;
-            width: 240px;
-            min-width: 60%;
-            text-overflow: ellipsis;
+            font-family: Arial;
+            min-width: 410px;
+            width: 80%;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 5px 10px 10px 5px;
+            background-color: #F44336;
+            box-shadow: 1px 1px 2px 2px #ab918f;
+            -webkit-box-shadow: 1px 1px 2px 2px #ab918f;
+            -moz-box-shadow: 1px 1px 2px 2px #ab918f;
+            text-shadow: 2px 4px 10px #000000;
+            border: solid #FFFFFF 1px;
+            text-decoration: none;
             display: inline-block;
+            cursor: pointer;
             text-align: center;
-            overflow: hidden;
-            white-space: nowrap;
+            margin: 4px ;
         }
 
-            .mainButton:hover {
-                background-color: #ff3020;
-            }
+        .mainButton:hover {
+            background: #E43326;
+            border: solid #FFFFFF 1px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .mainButton:active {
+            background: #D42316;
+            border: solid #FFFFFF 3px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+            text-decoration: none;
+            box-shadow: 1px 1px 2px 2px #ab918f;
+            -webkit-box-shadow: 2px 2px 4px 4px #9b817f;
+            -moz-box-shadow: 1px 1px 2px 2px #ab918f;
+            margin: 6px 4px 0px 4px;
+            -webkit-transform: translate(0, 5px); 
+        }
 
         .tabButtons {
             text-align: center;
@@ -46,6 +73,8 @@
     <div id="tabButtons"></div>
 
 <script>
+    var formContext = parent.Xrm.Page;
+
     function ReturnToActiveTab() {
         DisplayTab(activeStageName);
     }
@@ -57,7 +86,7 @@
     function MoveNext() {
         parent.Xrm.Page.Arup.BPFMoveNext(parent.Xrm.Page, function() {
 //            Xrm.Page.Arup.displayActiveTabForStage2(Xrm.Page);
-  //          setupNavigationButtons();
+            //          setupNavigationButtons();
         });
     }
 
@@ -236,7 +265,8 @@
                 'action': function() {
                     Log("Request CJN");
                     parent.Xrm.Page.Arup.RequestCJN();
-                }
+                },
+                'hidden': false// parent.Xrm.Page.Arup.IsRequestCJNEnabled(formContext)
             }
         ],
         'PJN_Costs_Tab': [
@@ -326,6 +356,7 @@
         setupButtonsForCurrentActiveTab(activeTab);
     }
 
+    // Called from onStateChange anyway
     setupNavigationButtons();
 
 </script>

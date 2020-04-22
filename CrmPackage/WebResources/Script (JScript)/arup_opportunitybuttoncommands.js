@@ -35,7 +35,6 @@ Xrm.Page.Arup = {
       //  formContext.data.entity.save();
       formContext.data.save().then(
           function success(status) {
-              debugger;
               console.log("success status" + status);
               var process = Xrm.Page.data.process;
               if (process != null) {
@@ -69,15 +68,10 @@ Xrm.Page.Arup = {
         // Has write access to opportunity.
 
         var pjnrequired = GetAttribute(formContext, "ccrm_possiblejobnumberrequired");
-
         var isCreate = formContext.ui.getFormType() == 1;
-
         var showPJNButton = GetAttribute(formContext, "ccrm_showpjnbutton");
-
         var statuscode = GetAttribute(formContext, "statuscode");
-
         var statecode = GetAttribute(formContext, "statecode");
-
         return pjnrequired == 1 && !isCreate && showPJNButton == 1 && statuscode != 3 && statecode != 1;
     },
 
@@ -113,7 +107,6 @@ Xrm.Page.Arup = {
     // Display the active tab according to the current stage.
     displayActiveTabForStage: function (executionContext) {
         var formContext = executionContext.getFormContext();
-        debugger;
         this.displayActiveTabForStage2(formContext);
     },
     displayActiveTabForStage2: function (formContext) {
@@ -127,9 +120,14 @@ Xrm.Page.Arup = {
         }
     },
 
-    PJNApproveGroupLeader : function(formContext) {
-        formContext.getAttribute("ccrm_groupleaderapprovaloptions").setValue(100000001);
-        this.SetNow(formContext,"ccrm_groupleaderapprovaldate");
+    PJNApproveGroupLeader: function (formContext) {
+        CJNApprovalButtonClick("Approve",
+            "GroupLeaderApproval",
+            "ccrm_groupleadercjnapprovaloptions",
+            "ccrm_groupleadercjnapproval",
+            "ccrm_groupleadercjnapprovaldate");
+        //formContext.getAttribute("ccrm_groupleaderapprovaloptions").setValue(100000001);
+        //this.SetNow(formContext,"ccrm_groupleaderapprovaldate");
     },
 
     PJNApproveSectorLeader : function(formContext) {
@@ -145,6 +143,27 @@ Xrm.Page.Arup = {
         var now = new Date();
         var attr = formContext.getAttribute(attr);
         if (attr != null ) attr.setValue(now);
+    },
+
+    // CJN Request button.
+    IsRequestCJNEnabled: function(formContext) {
+        // Formstate == Existing
+        // ccrm_sys_confirmedjob_buttonhide != 1
+        // ccrm_systemcjnarequesttrigger == 1
+        var formType = formContext.ui.getFormType();
+        var cjnButtonhide = GetAttribute(formContext, "ccrm_sys_confirmedjob_buttonhide");
+        cjnButtonhide = cjnButtonhide.getValue();
+
+        var cjnRequestTrigger = GetAttribute(formContext, "ccrm_systemcjnarequesttrigger");
+        cjnRequestTrigger = cjnRequestTrigger.getValue();
+
+        return formType != 0 &&
+            formType != 1 && // undefined or creating
+            cjnButtonhide != 1 &&
+            cjnRequestTrigger == 1;
+    },
+    RequestCJN: function(formContext) {
+        requestConfirmJob();
     }
 
 };
