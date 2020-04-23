@@ -15,14 +15,14 @@
             border-radius: 5px;
             color: #FFFFFF;
             font-family: Arial;
-            min-width: 410px;
+            min-width: 280px;
             width: 80%;
             font-size: 16px;
             font-weight: 400;
             padding: 5px 10px 10px 5px;
             background-color: #F44336;
             box-shadow: 1px 1px 2px 2px #ab918f;
-            -webkit-box-shadow: 1px 1px 2px 2px #ab918f;
+            -webkit-box-shadow: 1px 5px 5px 1px #ab918f;
             -moz-box-shadow: 1px 1px 2px 2px #ab918f;
             text-shadow: 2px 4px 10px #000000;
             border: solid #FFFFFF 1px;
@@ -31,6 +31,7 @@
             cursor: pointer;
             text-align: center;
             margin: 4px ;
+            cursor: pointer;
         }
 
         .mainButton:hover {
@@ -42,19 +43,18 @@
             text-decoration: none;
         }
 
-        .mainButton:active {
-            background: #D42316;
-            border: solid #FFFFFF 3px;
-            -webkit-border-radius: 6px;
-            -moz-border-radius: 6px;
-            border-radius: 6px;
-            text-decoration: none;
+            .mainButton:active {
+                background: #D42316;
+                box-shadow: 1px 1px 2px 2px #ab918f;
+                -webkit-box-shadow: 1px 1px 1px 1px #ab918f;
+                -moz-box-shadow: 1px 1px 2px 2px #ab918f;
+                /*   border: solid #FFFFFF 3px;
             box-shadow: 1px 1px 2px 2px #ab918f;
             -webkit-box-shadow: 2px 2px 4px 4px #9b817f;
             -moz-box-shadow: 1px 1px 2px 2px #ab918f;
-            margin: 6px 4px 0px 4px;
-            -webkit-transform: translate(0, 5px); 
-        }
+            margin: 6px 4px 0px 4px;*/
+                -webkit-transform: translate(4px, 4px);
+            }
 
         .tabButtons {
             text-align: center;
@@ -79,28 +79,43 @@
         DisplayTab(activeStageName);
     }
 
-    parent.Xrm.Page.Arup.SetOnProcessStageChange(parent.Xrm.Page, function() {
-        setupNavigationButtons();
-    });
-
     function MoveNext() {
-        parent.Xrm.Page.Arup.BPFMoveNext(parent.Xrm.Page, function() {
-//            Xrm.Page.Arup.displayActiveTabForStage2(Xrm.Page);
-            //          setupNavigationButtons();
+        formContext.Arup.BPFMoveNext(formContext, function() {
+            setupNavigationButtons( true );
         });
     }
 
+    // This seems problematic - 
     function DisplayTab(tabName) {
-        //var tab = parent.Xrm.Page.ui.tabs.get(tabName);
-        //tab.setDisplayState("expanded");
-        //tab.setVisible(true);
-        //tab.setFocus();
-        tabToDisplay = Xrm.Page.Arup.displayTab(tabName, parent.Xrm.Page );
+        console.log("Display tab:" + tabName);
+        tabToDisplay = Xrm.Page.Arup.displayTab(tabName, formContext);
+        //setupButtonsForTab(tabNum);
+        //setTimeout(function () {
+        //    var tabNum = GetTabNumber(tabName);
+        //    console.log("Setting up buttons for " + tabName + " / " + tabNum);
+        //    setupButtonsForTab(tabNum);
+        //}, 1000);
+
         // Do we need to trigger the arup_opportunitybuttons.html web resource to update?
+     //  formContext.data.refresh(false).then(function() { setupNavigationButtons(); }, function() { alert("Unexpected failure") });
+//        setupNavigationButtons();
+    }
+
+    // Get tab number from tab name.
+    function GetTabNumber( tabName ) {
+        var tabs = formContext.ui.tabs.get();
+        var tabNum;
+        for (var t in tabs) {
+            var tab = tabs[t];
+            if (tab.getName() == tabName) {
+                tabNum = t;
+            }
+        }
+        return tabNum;
     }
 
     function setVisibleTabs(tabList) {
-        var tabs = parent.Xrm.Page.ui.tabs.get();
+        var tabs = formContext.ui.tabs.get();
         tabToDisplay = null;
         for (var t in tabs) {
             var tab = tabs[t];
@@ -121,26 +136,9 @@
         return activeTab != null ? parseInt(activeTab) : null;
     };
 
-    function setupTestTabButtons() {
-        var tabs = parent.Xrm.Page.ui.tabs.get();
-        for (var t in tabs) {
-            var tab = tabs[t];
-            var tabName = tab.getName();
-            buttonConfigs['tab_testing'].push({
-                'label': tab.getLabel(),
-                'action': function(name) {
-                    // ensure we capture the value of 'name' rather than a variable reference.
-                    return function() {
-                        debugger;
-                        DisplayTab(name);
-                    };
-                }(tabName)
-            });
-        }
-    }
-
-    function setupButtonsForCurrentActiveTab(activeTab) {
-        var tabs = parent.Xrm.Page.ui.tabs.get();
+    function setupButtonsForTab(activeTab) {
+        console.log("Display buttons for " + activeTab);
+        var tabs = formContext.ui.tabs.get();
         // - generate buttons appropriate to the active tab.
         if (activeTab != null) {
             var buttonConfig = buttonConfigs[tabs[activeTab].getName()];
@@ -161,8 +159,16 @@
                     span.innerHTML = button.label;
                     span.className = "mainButton";
                     $("#tabButtons")[0].appendChild(span);
-                    if (button.hidden) {
-                        span.style.display = "none";
+
+                    // Check for static or dynamic value for hidden.
+                    if (button.hidden instanceof Function) {
+                        if (button.hidden()) {
+                            span.style.display = "none";
+                        }
+                    } else {
+                        if (button.hidden) {
+                            span.style.display = "none";
+                        }
                     }
                 }
             }
@@ -176,21 +182,21 @@
                 'label': 'Request PJN',
                 'action': function() {
                     Log("Requesting PJN");
-                    parent.Xrm.Page.Arup.RequestPossibleJob();
+                    formContext.Arup.RequestPossibleJob();
                 },
-                'hidden': !parent.Xrm.Page.Arup.RequestPossibleJobEnabled(parent.Xrm.Page)
+                'hidden': a => !formContext.Arup.RequestPossibleJobEnabled(formContext)
             },
             {
                 'label': 'Click Here for PJN Costs',
-                'action': function () {
+                'action': function() {
                     DisplayTab("PJN_Costs_Tab");
-                },
+                }
             },
             {
                 'label': 'Approve Decision to Bid',
                 'action': function() {
                     Log("Approving bid decision");
-                    parent.Xrm.Page.Arup.BidDicisionConfirmation();
+                    formContext.Arup.BidDicisionConfirmation();
                 }
             },
             {
@@ -213,7 +219,7 @@
         'Developing_Bid_tab': [
             {
                 'label': 'Move to Next Stage',
-                'action': function () {
+                'action': function() {
                     Log("Move next stage");
                     MoveNext();
                 }
@@ -232,13 +238,13 @@
                 'label': 'Approve Bid Review',
                 'action': function() {
                     Log("Approve Bid Review");
-                    parent.Xrm.Page.Arup.ApproveBidReview(parent.Xrm.Page);
-                    //setupButtonsForCurrentActiveTab();
+                    formContext.Arup.ApproveBidReview(formContext);
+                    //setupButtonsForTab();
                     buttonConfigs['Bid_Review_Submission_tab'][0].hidden = true;
                     buttonConfigs['Bid_Review_Submission_tab'][1].hidden = false;
-                    setupButtonsForCurrentActiveTab(activeTab);
+                    setupButtonsForTab(activeTab);
                 },
-                'hidden': false // parent.Xrm.Page.Arup.IsBidReviewApproved(parent.Xrm.Page)
+                'hidden': f => formContext.Arup.IsApproveBidReviewEnabled(formContext)
             },
             {
                 'id': 'next_stage_button',
@@ -247,7 +253,7 @@
                     Log("Move next stage");
                     MoveNext();
                 },
-                'hidden': true
+                'hidden': formContext.Arup.IsApproveBidReviewApproved(formContext)
             }
         ],
         'Confirmed_Job_Project_Tab': [
@@ -264,16 +270,16 @@
                 'label': 'Request Confirmed Job Number',
                 'action': function() {
                     Log("Request CJN");
-                    parent.Xrm.Page.Arup.RequestCJN();
+                    formContext.Arup.RequestCJN();
                 },
-                'hidden': false// parent.Xrm.Page.Arup.IsRequestCJNEnabled(formContext)
+                'hidden': false // formContext.Arup.IsRequestCJNEnabled(formContext)
             }
         ],
         'PJN_Costs_Tab': [
             {
                 // TOD: return to active stage
                 'label': 'Back to the active stage tab',
-                'action': function () {
+                'action': function() {
                     ReturnToActiveTab();
                 }
             }
@@ -291,31 +297,25 @@
                 'label': 'Approve PJN Group Leader',
                 'action': function() {
                     Log("Move next stage");
-                    parent.Xrm.Page.Arup.PJNApproveGroupLeader(parent.Xrm.Page);
-                    buttonConfigs['PJN_Approval_tab'][0].hidden = true;
-                    buttonConfigs['PJN_Approval_tab'][1].hidden = false;
-                    setupButtonsForCurrentActiveTab(activeTab);
-                }
+                    formContext.Arup.ApproveGroupLeader(formContext);
+                },
+                hidden: f => formContext.Arup.IsGroupLeaderApprovalEnabled(formContext)
             },
             {
                 'label': 'Approve PJN Sector Leader',
                 'action': function() {
                     Log("Move next stage");
-                    parent.Xrm.Page.Arup.PJNApproveSectorLeader(parent.Xrm.Page);
-                    buttonConfigs['PJN_Approval_tab'][1].hidden = true;
-                    buttonConfigs['PJN_Approval_tab'][2].hidden = false;
-                    setupButtonsForCurrentActiveTab(activeTab);
-
+                    formContext.Arup.ApproveSectorLeader(formContext);
                 },
-                'hidden'  : true
+                hidden: f => formContext.Arup.IsSectorLeaderApprovalEnabled(formContext)
             },
             {
                 'label': 'Approve Regional COO',
-                'action': function () {
+                'action': function() {
                     Log("Move next stage");
-                    parent.Xrm.Page.Arup.PJNApproveRegionalCOO(parent.Xrm.Page);
+                    formContext.Arup.ApproveRegionalCOO(formContext);
                 },
-                'hidden'  : true
+                hidden: f => formContext.Arup.IsRegionalCOOApprovalEnabled(formContext)
             }
         ],
         'tab_testing': [
@@ -324,7 +324,7 @@
 
     staticTabs = [
         'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
-        'Bid_Details_Tab', 'Bid_Development_Tab_External','PJN_Approval_tab'
+        'Bid_Details_Tab', 'Bid_Development_Tab_External'
     ];
 
     var tabToDisplay = null;
@@ -332,12 +332,11 @@
     var activeTab;
     var activeTabName;
 
-    function setupNavigationButtons() {
+    function setupNavigationButtons(setFromStage) {
         // And the active BPF stage
-        debugger;
-        activeStageName = parent.Xrm.Page.data.process.getActiveStage();
+        activeStageName = formContext.data.process.getActiveStage();
         activeStageName = activeStageName == null ? null : activeStageName.getName();
-        activeStageName = parent.Xrm.Page.Arup.stageToTabMapping[activeStageName];
+        activeStageName = formContext.Arup.stageToTabMapping[activeStageName];
 
         // Decide which tabs should be visible.
         activeTab = setVisibleTabs(staticTabs.concat([activeStageName]));
@@ -347,17 +346,26 @@
             activeTabName= tabToDisplay;
         }
 
-        if (activeTab == 'tab_testing') {
-            setupTestTabButtons();
-        }
-
         Log("Active tab name:  " + activeTabName);
-
-        setupButtonsForCurrentActiveTab(activeTab);
+        if (setFromStage) {
+            setupButtonsForTab(GetTabNumber(activeStageName));
+        } else {
+            setupButtonsForTab(activeTab);
+        }
     }
 
     // Called from onStateChange anyway
-    setupNavigationButtons();
+    setupNavigationButtons(true);
+
+    console.log(" oppo button web resource loaded for: " + activeTabName + " on stage name: " + activeStageName);
+    formContext.Arup.AddTabChangeCallback( formContext, function(e) {
+        var source = e.getEventSource();
+        if (source.getDisplayState() == "expanded") {
+            var tabName = source.getName();
+            console.log("Tab expanded :" + tabName);
+            setupButtonsForTab(GetTabNumber(tabName));
+        }
+    });
 
 </script>
 </body>

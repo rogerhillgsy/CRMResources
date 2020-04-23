@@ -15,51 +15,16 @@ var GetAttribute = function(formContext, attrName) {
 
 
 Xrm.Page.Arup = {
-    BidDicisionConfirmation: function() {
-        BidDicisionConfirmation();
+    ButtonState : {
+        ActiveTab : "Summary"
     },
 
-    
-    SetOnProcessStageChange : function( formContext, callback) {
-        formContext.data.process.addOnStageChange(callback);
-    },
-
-    BPFMoveNext: function(formContext, successCallback ) {
-        // BPFMoveNext(); -- existing function does not seem relevant to V9
-        var opportunityType = GetAttribute(formContext, "arup_opportunitytype");
-        if (opportunityType == '770000005') {
-            return;
-        }
-
-        // Make sure form is saved.
-      //  formContext.data.entity.save();
-      formContext.data.save().then(
-          function success(status) {
-              console.log("success status" + status);
-              var process = Xrm.Page.data.process;
-              if (process != null) {
-                  process.moveNext(
-                      function(result) {
-                          console.log("result is " + result);
-                          if (result == "success") {
-                              successCallback();
-                          }
-                      });
-              }
-          },
-          function(status) {
-              console.log("failure status" + status);
-
-          });
-
-      // Get v9 BPF process object.
-    },
-
-    RequestPossibleJob: function() {
+    // Functions related to specific buttons ---------------------
+    RequestPossibleJob: function () {
         requestPossibleJob();
     },
 
-    RequestPossibleJobEnabled: function(formContext) {
+    RequestPossibleJobEnabled: function (formContext) {
         // ccrm_possiblejobnumberrequired = 1
         // Not in create state
         // ccrm_showpjnbutton != 0
@@ -75,14 +40,151 @@ Xrm.Page.Arup = {
         return pjnrequired == 1 && !isCreate && showPJNButton == 1 && statuscode != 3 && statecode != 1;
     },
 
-    bidReviewApproved: false, //need to work out which attributes control Bid review 
-    ApproveBidReview : function(formContext) {
-        alert("Approving bid review");
-        this.bidReviewApproved = true;
+    BidDicisionConfirmation: function () {
+        BidDicisionConfirmation();
     },
 
-    IsBidReviewApproved: function(formContext) {
-        return this.bidReviewApproved;
+
+
+    IsGroupLeaderApprovalEnabled : function(formContext) {
+        // statecode = 0
+        //    (
+        //          ccrm_groupleaderapprovaloptions == 100000000  // Awaiting response
+        //       or ccrm_groupleaderapprovaloptions == 100000002  // declined
+        //     )
+        var statecode = GetAttribute(formContext, "statecode");
+        var grpApprovalOptions = GetAttribute(formContext, "ccrm_groupleaderapprovaloptions");
+
+        return statecode == 0 && (grpApprovalOptions == 100000000 || grpApprovalOptions == 100000002);
+    },
+
+    ApproveGroupLeader: function (formContext) {
+        CJNApprovalButtonClick("Approve",
+            "GroupLeader",
+            "ccrm_groupleadercjnapprovaloptions",
+            "ccrm_groupleadercjnapproval",
+            "ccrm_groupleadercjnapprovaldate");
+    },
+
+    IsSectorLeaderApprovalEnabled: function (formContext) {
+        // ccrm_opportunitytype = 200002 - Risk Level 2
+        // statecode = 0 (active)
+        //    (
+        //          ccrm_practiceleaderapprovaloptions == 100000000  // Awaiting response
+        //       or ccrm_practiceleaderapprovaloptions == 100000002  // declined
+        //     )
+        var statecode = GetAttribute(formContext, "statecode");
+        var sectorApprovalOptions = GetAttribute(formContext, "ccrm_practiceleaderapprovaloptions");
+        var oppType = GetAttribute(formContext, "ccrm_opportunitytype");
+
+        return statecode == 0 && oppType == 200002 && (sectorApprovalOptions == 100000000 || sectorApprovalOptions == 100000002);
+    },
+
+    ApproveSectorLeader: function (formContext) {
+        CJNApprovalButtonClick("Approve",
+            "PracticeLeader",
+            "ccrm_practiceleaderapprovaloptions",
+            "ccrm_practiceleaderapproval",
+            "ccrm_practiceleaderapprovaldate");
+    },
+
+    IsRegionalCOOApprovalEnabled: function (formContext) {
+        // ccrm_opportunitytype = 200003 - Risk Level 3
+        // statecode = 0 (active)
+        //    (
+        //          ccrm_regioncooapprovaloptions == 100000000  // Awaiting response
+        //       or ccrm_regioncooapprovaloptions == 100000002  // declined
+        //     )
+        var statecode = GetAttribute(formContext, "statecode");
+        var cooApprovalOptions = GetAttribute(formContext, "ccrm_regioncooapprovaloptions");
+        var oppType = GetAttribute(formContext, "ccrm_opportunitytype");
+
+        return statecode == 0 && oppType == 200003 && (cooApprovalOptions == 100000000 || cooApprovalOptions == 100000002);
+    },
+
+    ApproveRegionalCOO : function(formContext) {
+        CJNApprovalButtonClick("Approve",
+            "RegionalCOO",
+            "ccrm_regioncooapprovaloptions",
+            "ccrm_regioncooapproval",
+            "ccrm_regionalcooapprovaldate");
+    },
+
+    IsApproveBidReviewEnabled : function(formContext) {
+        // ccrm_shwbidreviewappbtn = 1 (Yes)
+        // statecode = 0 (active)
+    },
+
+    IsApproveBidReviewApproved: function (formContext) {
+        // statecode = 0 (active)
+        // ccrm_bidreviewoutcome == 100000002
+    },
+
+    ApproveBidReview: function (formContext) {
+        BidReviewApprovalClick("Approve");
+    },
+
+    // CJN Request button.
+    IsRequestCJNEnabled: function(formContext) {
+        // Formstate == Existing
+        // ccrm_sys_confirmedjob_buttonhide != 1
+        // ccrm_systemcjnarequesttrigger == 1
+        // And has write privilege on opportunity???
+        var formType = formContext.ui.getFormType();
+        var cjnButtonhide = GetAttribute(formContext, "ccrm_sys_confirmedjob_buttonhide");
+        cjnButtonhide = cjnButtonhide.getValue();
+
+        var cjnRequestTrigger = GetAttribute(formContext, "ccrm_systemcjnarequesttrigger");
+        cjnRequestTrigger = cjnRequestTrigger.getValue();
+
+        return formType != 0 &&
+            formType != 1 && // undefined or creating
+            cjnButtonhide != 1 &&
+            cjnRequestTrigger == 1;
+    },
+    RequestCJN: function(formContext) {
+        requestConfirmJob();
+    },
+
+
+
+    // General Utility functions ----------------------
+    SetOnProcessStageChange: function (formContext, callback) {
+        formContext.data.process.addOnStageChange(callback);
+    },
+
+    BPFMoveNext: function (formContext, successCallback) {
+        // BPFMoveNext(); -- existing function does not seem relevant to V9
+        var opportunityType = GetAttribute(formContext, "arup_opportunitytype");
+        if (opportunityType == '770000005') {
+            return;
+        }
+
+        // Make sure form is saved.
+        //  formContext.data.entity.save();
+        formContext.data.save().then(
+            function success(status) {
+                console.log("success status" + status);
+                var process = Xrm.Page.data.process;
+                if (process != null) {
+                    process.moveNext(
+                        function (result) {
+                            console.log("result is " + result);
+                            if (result == "success") {
+                                successCallback();
+                            }
+                        });
+                }
+            },
+            function (status) {
+                console.log("failure status " + status);
+            });
+    },
+
+    SetNow: function (formContext, attr) {
+        var now = new Date();
+        var attr = formContext.getAttribute(attr);
+        if (attr != null) attr.setValue(now);
     },
 
     stageToTabMapping: {
@@ -96,11 +198,23 @@ Xrm.Page.Arup = {
         "CJN APPROVAL": "PJN_Approval_tab",
     },
 
-    displayTab : function (tabName, formContext) {
+    AddTabChangeCallback: function (formContext, callback) {
+        console.log(" add change callbacks");
+        var tabs = formContext.ui.tabs.get();
+        for (var t in tabs) {
+            tab = tabs[t];
+            tab.addTabStateChange(callback);
+        }
+    },
+
+    displayTab: function (tabName, formContext, callback) {
         var tab = formContext.ui.tabs.get(tabName);
-        tab.setDisplayState("expanded");
-        tab.setVisible(true);
         tab.setFocus();
+        tab.setVisible(true);
+        tab.setDisplayState("expanded");
+        if (callback != null) {
+            debugger;
+        }
         return tabName;
     },
 
@@ -119,52 +233,6 @@ Xrm.Page.Arup = {
             Xrm.Page.Arup.displayTab(activeTabName, formContext);
         }
     },
-
-    PJNApproveGroupLeader: function (formContext) {
-        CJNApprovalButtonClick("Approve",
-            "GroupLeaderApproval",
-            "ccrm_groupleadercjnapprovaloptions",
-            "ccrm_groupleadercjnapproval",
-            "ccrm_groupleadercjnapprovaldate");
-        //formContext.getAttribute("ccrm_groupleaderapprovaloptions").setValue(100000001);
-        //this.SetNow(formContext,"ccrm_groupleaderapprovaldate");
-    },
-
-    PJNApproveSectorLeader : function(formContext) {
-        formContext.getAttribute("ccrm_regionalpracticeleaderapprovaloptions").setValue(100000001);
-        this.SetNow(formContext, "ccrm_regionalpracticeleaderapprovaldate");
-    },
-
-    PJNApproveRegionalCOO : function(formContext) {
-        formContext.getAttribute("ccrm_regioncooapprovaloptions").setValue(100000001);
-        this.SetNow(formContext, "ccrm_regionalcooapprovaldate");
-    },
-    SetNow : function(formContext, attr) {
-        var now = new Date();
-        var attr = formContext.getAttribute(attr);
-        if (attr != null ) attr.setValue(now);
-    },
-
-    // CJN Request button.
-    IsRequestCJNEnabled: function(formContext) {
-        // Formstate == Existing
-        // ccrm_sys_confirmedjob_buttonhide != 1
-        // ccrm_systemcjnarequesttrigger == 1
-        var formType = formContext.ui.getFormType();
-        var cjnButtonhide = GetAttribute(formContext, "ccrm_sys_confirmedjob_buttonhide");
-        cjnButtonhide = cjnButtonhide.getValue();
-
-        var cjnRequestTrigger = GetAttribute(formContext, "ccrm_systemcjnarequesttrigger");
-        cjnRequestTrigger = cjnRequestTrigger.getValue();
-
-        return formType != 0 &&
-            formType != 1 && // undefined or creating
-            cjnButtonhide != 1 &&
-            cjnRequestTrigger == 1;
-    },
-    RequestCJN: function(formContext) {
-        requestConfirmJob();
-    }
 
 };
 
