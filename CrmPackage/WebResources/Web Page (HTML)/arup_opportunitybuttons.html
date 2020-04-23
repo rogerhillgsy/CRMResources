@@ -76,7 +76,8 @@
     var formContext = parent.Xrm.Page;
 
     function ReturnToActiveTab() {
-        DisplayTab(activeStageName);
+        var previousTab = formContext.Arup.PreviousTab;
+        DisplayTab(previousTab);
     }
 
     function MoveNext() {
@@ -88,17 +89,8 @@
     // This seems problematic - 
     function DisplayTab(tabName) {
         console.log("Display tab:" + tabName);
+        formContext.Arup.PreviousTab = tabName;
         tabToDisplay = Xrm.Page.Arup.displayTab(tabName, formContext);
-        //setupButtonsForTab(tabNum);
-        //setTimeout(function () {
-        //    var tabNum = GetTabNumber(tabName);
-        //    console.log("Setting up buttons for " + tabName + " / " + tabNum);
-        //    setupButtonsForTab(tabNum);
-        //}, 1000);
-
-        // Do we need to trigger the arup_opportunitybuttons.html web resource to update?
-     //  formContext.data.refresh(false).then(function() { setupNavigationButtons(); }, function() { alert("Unexpected failure") });
-//        setupNavigationButtons();
     }
 
     // Get tab number from tab name.
@@ -239,12 +231,8 @@
                 'action': function() {
                     Log("Approve Bid Review");
                     formContext.Arup.ApproveBidReview(formContext);
-                    //setupButtonsForTab();
-                    buttonConfigs['Bid_Review_Submission_tab'][0].hidden = true;
-                    buttonConfigs['Bid_Review_Submission_tab'][1].hidden = false;
-                    setupButtonsForTab(activeTab);
                 },
-                'hidden': f => formContext.Arup.IsApproveBidReviewEnabled(formContext)
+                'hidden': f => !formContext.Arup.IsApproveBidReviewEnabled(formContext)
             },
             {
                 'id': 'next_stage_button',
@@ -253,7 +241,7 @@
                     Log("Move next stage");
                     MoveNext();
                 },
-                'hidden': formContext.Arup.IsApproveBidReviewApproved(formContext)
+                'hidden': f => !formContext.Arup.IsApproveBidReviewApproved(formContext)
             }
         ],
         'Confirmed_Job_Project_Tab': [
@@ -281,7 +269,8 @@
                 'label': 'Back to the active stage tab',
                 'action': function() {
                     ReturnToActiveTab();
-                }
+                },
+                hidden: f => formContext.Arup.PreviousTab == null
             }
         ],
         'Project_Financials_Tab': [
@@ -355,17 +344,52 @@
     }
 
     // Called from onStateChange anyway
-    setupNavigationButtons(true);
+    //setupNavigationButtons(true);
 
-    console.log(" oppo button web resource loaded for: " + activeTabName + " on stage name: " + activeStageName);
-    formContext.Arup.AddTabChangeCallback( formContext, function(e) {
-        var source = e.getEventSource();
-        if (source.getDisplayState() == "expanded") {
-            var tabName = source.getName();
-            console.log("Tab expanded :" + tabName);
-            setupButtonsForTab(GetTabNumber(tabName));
+    //console.log(" oppo button web resource loaded for: " + activeTabName + " on stage name: " + activeStageName);
+    //formContext.Arup.AddTabChangeCallback( formContext, function(e) {
+    //    var source = e.getEventSource();
+    //    if (source.getDisplayState() == "expanded") {
+    //        var tabName = source.getName();
+    //        console.log("Tab expanded :" + tabName);
+    //        setupButtonsForTab(GetTabNumber(tabName));
+    //    }
+    //});
+
+
+            //var thisTab;
+            //var thisTabName;
+            //var tabs = formContext.ui.tabs.get();
+            //tabToDisplay = null;
+            //for (var t in tabs) {
+            //    var tab = tabs[t];
+            //    var tabName = tab.getName();
+            //    if (tab.getDisplayState() == "expanded") {
+            //        thisTab = t;
+            //        console.log("Active tab is " + t);
+            //        thisTabName = tabName;
+            //    }
+            //}
+
+            ////the event occurred
+            //setupButtonsForTab(thisTab);
+
+            //var tabName;
+    var tabName;
+    var tabNumber;
+        document.onreadystatechange = function() {
+            if (document.readyState == "complete") {
+                if (location.search == "") {
+                    console.error("No tab name given");
+                } else {
+                    tabName = location.search.split("=")[1];
+                    tabNumber = GetTabNumber(tabName);
+                    console.log("Setup for tab " + tabName);
+                    setupButtonsForTab(tabNumber);
+                }
+            }
         }
-    });
+
 
 </script>
 </body>
