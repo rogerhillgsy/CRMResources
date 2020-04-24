@@ -18,7 +18,6 @@ function () {
     };
 
     var ButtonChangeCallbacks = { };
-    var TabChangeCallbackRegistered = false;
 
 
     var rv = {
@@ -231,6 +230,9 @@ function () {
             if (callback != null) {
                 debugger;
             }
+            if (ButtonChangeCallbacks[tabName] != null) {
+                ButtonChangeCallbacks[tabName]();
+            }
             return tabName;
         },
 
@@ -250,22 +252,9 @@ function () {
             }
         },
 
-        RegisterResourceForTab: function(formContext, tab, tabName, callback) {
+        OnDisplayingTab: function(formContext, tabName, callback) {
             ButtonChangeCallbacks[tabName] = callback;
-            if (!TabChangeCallbackRegistered) {
-                tab.addTabStateChange(function(e) {
-                    var source = e.getEventSource();
-                    if (source.getDisplayState() == "expanded") {
-                        var tabName = source.getName();
-                        if (ButtonChangeCallbacks[tabName] != null) {
-                            console.log("Found callback for :" + tabName);
-                            ButtonChangeCallbacks[tabName](e);
-                        }
-                    }
-                });
-                TabChangeCallbackRegistered = true;
-            };
-        }
+        }   
     };
     return rv;
 })();

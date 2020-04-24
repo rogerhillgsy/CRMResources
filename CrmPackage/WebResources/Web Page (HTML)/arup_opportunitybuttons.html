@@ -386,11 +386,13 @@
                     tabNumber = GetTabNumber(tabName);
                     console.log("Setup for tab " + tabName);
                     setupButtonsForTab(tabNumber);
+                    formContext.Arup.OnDisplayingTab(formContext, tabName,
+                        function() {
+                            setupButtonsForTab(tabNumber);
+                        });
                 }
             }
         }
-
-
 </script>
 </body>
 </html>
