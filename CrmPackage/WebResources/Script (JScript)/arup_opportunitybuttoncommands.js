@@ -4,9 +4,6 @@
 // Normally javascript functions are not visible from the Web resource in an iframe.
 // By attaching them to Xrm.Page, they are then visible and callable from within the iframe.
 
-
-
-
 Xrm.Page.Arup = ( 
 function () {
     function GetAttribute(formContext, attrName) {
@@ -17,15 +14,18 @@ function () {
         return attr;
     };
 
-    var ButtonChangeCallbacks = { };
+    var buttonChangeCallbacks = {};
+    var tabStateChangeCallbackAdded = false;
 
 
-    var rv = {
+    var obj = {
         ButtonState: {
             ActiveTab: "Summary"
         },
 
+        //
         // Functions related to specific buttons ---------------------
+        //
         RequestPossibleJob: function() {
             requestPossibleJob();
         },
@@ -165,8 +165,44 @@ function () {
 
 
         // General Utility functions ----------------------
-        SetOnProcessStageChange: function(formContext, callback) {
-            formContext.data.process.addOnStageChange(callback);
+        //SetOnProcessStageChange: function(formContext, callback) {
+        //    formContext.data.process.addOnStageChange(callback);
+        //},
+        SetupTabsForStage: function(formContext) {
+            // And the active BPF stage
+            var activeStageName = formContext.data.process.getActiveStage();
+            activeStageName = activeStageName == null ? null : activeStageName.getName();
+            activeStageName = formContext.Arup.stageToTabMapping[activeStageName];
+
+            // Decide which tabs should be visible.
+            setVisibleTabs(formContext, staticTabs.concat([activeStageName]));
+
+            DisplayTab(formContext.Arup.GetTabNumber(formContext, activeStageName),formContext);
+        },
+
+        setVisibleTabs : function(formContext, tabList) {
+            var tabs = formContext.ui.tabs.get();
+            for (var t in tabs) {
+                var tab = tabs[t];
+                var tabName = tab.getName();
+                if (tabList.indexOf(tabName) > -1) {
+                    tab.setVisible(true);
+                } else {
+                    tab.setVisible(false);
+                }
+            }
+        },
+
+        GetTabNumber : function(formContext, tabName) {
+            var tabs = formContext.ui.tabs.get();
+            var tabNum = null;
+            for (var t in tabs) {
+                var tab = tabs[t];
+                if (tab.getName() == tabName) {
+                    tabNum = t;
+                }
+            }
+            return tabNum;
         },
 
         BPFMoveNext: function(formContext, successCallback) {
@@ -181,12 +217,13 @@ function () {
             formContext.data.save().then(
                 function success(status) {
                     console.log("success status" + status);
-                    var process = Xrm.Page.data.process;
+                    var process = formContext.data.process;
                     if (process != null) {
                         process.moveNext(
                             function(result) {
                                 console.log("result is " + result);
                                 if (result == "success") {
+                                    obj.DisplayActiveTabForStage2(formContext);
                                     successCallback();
                                 }
                             });
@@ -197,11 +234,11 @@ function () {
                 });
         },
 
-        SetNow: function(formContext, attr) {
-            var now = new Date();
-            var attr = formContext.getAttribute(attr);
-            if (attr != null) attr.setValue(now);
-        },
+        //SetNow: function(formContext, attr) {
+        //    var now = new Date();
+        //    var attr = formContext.getAttribute(attr);
+        //    if (attr != null) attr.setValue(now);
+        //},
 
         stageToTabMapping: {
             "PRE-BID": "Prebid_tab",
@@ -214,49 +251,75 @@ function () {
             "CJN APPROVAL": "PJN_Approval_tab",
         },
 
-        AddTabChangeCallback: function(formContext, callback) {
-            console.log(" add change callbacks");
-            var tabs = formContext.ui.tabs.get();
-            for (var t in tabs) {
-                tab = tabs[t];
+        staticTabs: [
+            'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
+            'Bid_Details_Tab', 'Bid_Development_Tab_External'
+        ],
+        //AddTabChangeCallback: function(formContext, callback) {
+        //    console.log(" add change callbacks");
+        //    var tabs = formContext.ui.tabs.get();
+        //    for (var t in tabs) {
+        //        tab = tabs[t];
+        //    }
+        //},
+
+        // Entry point from the form properties.
+        // This is set up as en event handler to be called from the main CRM opportunity form.
+        // Display the active tab according to the current stage.
+        displayActiveTabForStage: function(executionContext) {
+            var formContext = executionContext.getFormContext();
+            this.DisplayActiveTabForStage2(formContext);
+        },
+
+        // Follow up function that takes the formContext rather than the execution context.
+        DisplayActiveTabForStage2: function(formContext) {
+            var activeStageName = formContext.data.process.getActiveStage();
+            activeStageName = activeStageName == null ? null : activeStageName.getName();
+
+            var activeTabName = formContext.Arup.stageToTabMapping[activeStageName];
+            if (activeTabName != null) {
+                console.log("Displaying tabs for process stage " + activeStageName + " / " + activeTabName);
+                formContext.Arup.DisplayTab(activeTabName, formContext);
             }
         },
 
-        displayTab: function(tabName, formContext, callback) {
+        DisplayTab: function(tabName, formContext) {
             var tab = formContext.ui.tabs.get(tabName);
             tab.setFocus();
             tab.setVisible(true);
             tab.setDisplayState("expanded");
-            if (callback != null) {
-                debugger;
-            }
-            if (ButtonChangeCallbacks[tabName] != null) {
-                ButtonChangeCallbacks[tabName]();
+            if (buttonChangeCallbacks[tabName] != null) {
+                buttonChangeCallbacks[tabName]();
             }
             return tabName;
         },
 
-        // Display the active tab according to the current stage.
-        displayActiveTabForStage: function(executionContext) {
-            var formContext = executionContext.getFormContext();
-            this.displayActiveTabForStage2(formContext);
-        },
-        displayActiveTabForStage2: function(formContext) {
-            var activeStageName = formContext.data.process.getActiveStage();
-            activeStageName = activeStageName == null ? null : activeStageName.getName();
-
-            var activeTabName = Xrm.Page.Arup.stageToTabMapping[activeStageName];
-            if (activeTabName != null) {
-                console.log("Displaying tabs for process stage " + activeStageName + " / " + activeTabName);
-                Xrm.Page.Arup.displayTab(activeTabName, formContext);
-            }
-        },
-
         OnDisplayingTab: function(formContext, tabName, callback) {
-            ButtonChangeCallbacks[tabName] = callback;
-        }   
+            buttonChangeCallbacks[tabName] = callback;
+            if (!tabStateChangeCallbackAdded) {
+                tabStateChangeCallbackAdded = true;
+                var tabs = formContext.ui.tabs.get();
+                for (var t in tabs) {
+                    var tab = tabs[t];
+                    tab.addTabStateChange(OnTabStateChange);
+                }
+            }
+
+        }
     };
-    return rv;
+
+    function OnTabStateChange(e) {
+        var source = e.getEventSource();
+        if (source.getDisplayState() == "expanded") {
+            var tabName = source.getName();
+            console.log("Tab expanded :" + tabName);
+            if (buttonChangeCallbacks[tabName] != null) {
+                buttonChangeCallbacks[tabName]();
+            }
+        }
+    }
+
+    return obj;
 })();
 
 
