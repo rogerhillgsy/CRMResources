@@ -256,7 +256,7 @@
                     Log("Move next stage");
                     formContext.Arup.ApproveGroupLeader(formContext);
                 },
-                hidden: f => formContext.Arup.IsGroupLeaderApprovalEnabled(formContext)
+                hidden: f => !formContext.Arup.IsGroupLeaderApprovalEnabled(formContext)
             },
             {
                 'label': 'Approve PJN Sector Leader',
@@ -264,7 +264,7 @@
                     Log("Move next stage");
                     formContext.Arup.ApproveSectorLeader(formContext);
                 },
-                hidden: f => formContext.Arup.IsSectorLeaderApprovalEnabled(formContext)
+                hidden: f => !formContext.Arup.IsSectorLeaderApprovalEnabled(formContext)
             },
             {
                 'label': 'Approve Regional COO',
@@ -272,7 +272,7 @@
                     Log("Move next stage");
                     formContext.Arup.ApproveRegionalCOO(formContext);
                 },
-                hidden: f => formContext.Arup.IsRegionalCOOApprovalEnabled(formContext)
+                hidden: f => !formContext.Arup.IsRegionalCOOApprovalEnabled(formContext)
             }
         ],
         'tab_testing': [
@@ -282,7 +282,7 @@
     //var tabName;
     var tabName;
     var tabNumber;
-    parent.document.onreadystatechange = function() {
+    document.onreadystatechange = function() {
         if (document.readyState == "complete") {
             if (location.search == "") {
                 console.error("No tab name given");

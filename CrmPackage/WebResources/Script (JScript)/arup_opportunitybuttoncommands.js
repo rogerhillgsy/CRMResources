@@ -179,6 +179,8 @@ Xrm.Page.Arup = (
                 obj.setVisibleTabs(formContext, obj.staticTabs.concat([activeTabName]));
                 if (buttonChangeCallbacks[activeTabName] != null) {
                     buttonChangeCallbacks[activeTabName]();
+                } else {
+                    buttonChangeCallbacks[activeTabName] = "setup needed";
                 }
             }
         },
@@ -230,7 +232,8 @@ Xrm.Page.Arup = (
                                     successCallback();
                                 } else {
                                     Xrm.Navigation.openAlertDialog({
-                                        message: "Unable to move to next stage: " + result
+                                        title : "Process error",
+                                        text: "Unable to move to next stage: " + result
                                     });
                                 }
                             });
@@ -265,7 +268,6 @@ Xrm.Page.Arup = (
             formContext.data.process.addOnStageChange(function (executionContext) {
                 Log("Process stage Change");
                 var formContext = executionContext.getFormContext();
-                debugger; 
                 obj.SetupTabsForStage(formContext);
             });
         },
