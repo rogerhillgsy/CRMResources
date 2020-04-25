@@ -95,61 +95,6 @@
         });
     }
 
-    //function setupNavigationButtonsForStage(setFromStage) {
-    //    // And the active BPF stage
-    //    activeStageName = formContext.data.process.getActiveStage();
-    //    activeStageName = activeStageName == null ? null : activeStageName.getName();
-    //    activeStageName = formContext.Arup.stageToTabMapping[activeStageName];
-
-    //    // Decide which tabs should be visible.
-    //    activeTab = setVisibleTabs(staticTabs.concat([activeStageName]));
-    //    if (activeTab != null) {
-    //        activeTabName = Xrm.Page.ui.tabs.get()[activeTab].getName();
-    //    } else {
-    //        activeTabName= tabToDisplay;
-    //    }
-
-    //    Log("Active tab name:  " + activeTabName);
-    //    if (setFromStage) {
-    //        setupButtonsForTab(GetTabNumber(activeStageName));
-    //    } else {
-    //        setupButtonsForTab(activeTab);
-    //    }
-    //}
-
-    // Get tab number from tab name.
-    //function GetTabNumber( tabName ) {
-    //    var tabs = formContext.ui.tabs.get();
-    //    var tabNum = null;
-    //    for (var t in tabs) {
-    //        var tab = tabs[t];
-    //        if (tab.getName() == tabName) {
-    //            tabNum = t;
-    //        }
-    //    }
-    //    return tabNum;
-    //}
-
-    //function setVisibleTabs(tabList) {
-    //    var tabs = formContext.ui.tabs.get();
-    //    tabToDisplay = null;
-    //    for (var t in tabs) {
-    //        var tab = tabs[t];
-    //        var tabName = tab.getName();
-    //        if (tab.getDisplayState() == "expanded") {
-    //            activeTab = t;
-    //        } else {
-    //            if (tabList.indexOf(tabName) > -1) {
-    //                tab.setVisible(true);
-    //            } else {
-    //                tab.setVisible(false);
-    //            }
-    //        }
-    //    }
-
-    //    return activeTab != null ? parseInt(activeTab) : null;
-    //};
-
     function setupButtonsForTab(activeTabNum) {
         console.log("Display buttons for " + activeTabNum);
         var tabs = formContext.ui.tabs.get();
@@ -333,17 +278,11 @@
         'tab_testing': [
         ]
     };
-
-    //staticTabs = [
-    //    'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
-    //    'Bid_Details_Tab', 'Bid_Development_Tab_External'
-    //];
-
  
     //var tabName;
     var tabName;
     var tabNumber;
-    document.onreadystatechange = function() {
+    parent.document.onreadystatechange = function() {
         if (document.readyState == "complete") {
             if (location.search == "") {
                 console.error("No tab name given");

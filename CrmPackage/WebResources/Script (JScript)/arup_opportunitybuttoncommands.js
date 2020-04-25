@@ -4,21 +4,22 @@
 // Normally javascript functions are not visible from the Web resource in an iframe.
 // By attaching them to Xrm.Page, they are then visible and callable from within the iframe.
 
-Xrm.Page.Arup = ( 
-function () {
-    function GetAttribute(formContext, attrName) {
-        var attr = formContext.getAttribute(attrName);
-        if (attr != null) {
-            attr = attr.getValue();
-        }
-        return attr;
-    };
+Xrm.Page.Arup = (
+    function() {
+        function GetAttribute(formContext, attrName) {
+            var attr = formContext.getAttribute(attrName);
+            if (attr != null) {
+                attr = attr.getValue();
+            }
+            return attr;
+        };
+    
+    function Log(s) { console.log(s);};
+        var tabStateChangeCallbackAdded = false;
+        var buttonChangeCallbacks = {};
 
-    var buttonChangeCallbacks = {};
-    var tabStateChangeCallbackAdded = false;
 
-
-    var obj = {
+        var obj = {
         ButtonState: {
             ActiveTab: "Summary"
         },
@@ -165,19 +166,21 @@ function () {
 
 
         // General Utility functions ----------------------
-        //SetOnProcessStageChange: function(formContext, callback) {
-        //    formContext.data.process.addOnStageChange(callback);
-        //},
         SetupTabsForStage: function(formContext) {
             // And the active BPF stage
             var activeStageName = formContext.data.process.getActiveStage();
             activeStageName = activeStageName == null ? null : activeStageName.getName();
-            activeStageName = formContext.Arup.stageToTabMapping[activeStageName];
+            var activeTabName = obj.stageToTabMapping[activeStageName];
 
-            // Decide which tabs should be visible.
-            setVisibleTabs(formContext, staticTabs.concat([activeStageName]));
-
-            DisplayTab(formContext.Arup.GetTabNumber(formContext, activeStageName),formContext);
+            if (activeStageName != null) {
+                // Decide which tabs should be visible.
+                Log("Displaying tabs for process stage " + activeStageName + " / " + activeTabName);
+                obj.DisplayTab(activeTabName, formContext);
+                obj.setVisibleTabs(formContext, obj.staticTabs.concat([activeTabName]));
+                if (buttonChangeCallbacks[activeTabName] != null) {
+                    buttonChangeCallbacks[activeTabName]();
+                }
+            }
         },
 
         setVisibleTabs : function(formContext, tabList) {
@@ -216,29 +219,27 @@ function () {
             //  formContext.data.entity.save();
             formContext.data.save().then(
                 function success(status) {
-                    console.log("success status" + status);
+                    Log("success status" + status);
                     var process = formContext.data.process;
                     if (process != null) {
                         process.moveNext(
                             function(result) {
-                                console.log("result is " + result);
+                                Log("result is " + result);
                                 if (result == "success") {
-                                    obj.DisplayActiveTabForStage2(formContext);
+                                    obj.SetupTabsForStage(formContext);
                                     successCallback();
+                                } else {
+                                    Xrm.Navigation.openAlertDialog({
+                                        message: "Unable to move to next stage: " + result
+                                    });
                                 }
                             });
                     }
                 },
                 function(status) {
-                    console.log("failure status " + status);
+                    Log("failure status " + status);
                 });
         },
-
-        //SetNow: function(formContext, attr) {
-        //    var now = new Date();
-        //    var attr = formContext.getAttribute(attr);
-        //    if (attr != null) attr.setValue(now);
-        //},
 
         stageToTabMapping: {
             "PRE-BID": "Prebid_tab",
@@ -255,32 +256,18 @@ function () {
             'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
             'Bid_Details_Tab', 'Bid_Development_Tab_External'
         ],
-        //AddTabChangeCallback: function(formContext, callback) {
-        //    console.log(" add change callbacks");
-        //    var tabs = formContext.ui.tabs.get();
-        //    for (var t in tabs) {
-        //        tab = tabs[t];
-        //    }
-        //},
-
         // Entry point from the form properties.
         // This is set up as en event handler to be called from the main CRM opportunity form.
         // Display the active tab according to the current stage.
         displayActiveTabForStage: function(executionContext) {
             var formContext = executionContext.getFormContext();
-            this.DisplayActiveTabForStage2(formContext);
-        },
-
-        // Follow up function that takes the formContext rather than the execution context.
-        DisplayActiveTabForStage2: function(formContext) {
-            var activeStageName = formContext.data.process.getActiveStage();
-            activeStageName = activeStageName == null ? null : activeStageName.getName();
-
-            var activeTabName = formContext.Arup.stageToTabMapping[activeStageName];
-            if (activeTabName != null) {
-                console.log("Displaying tabs for process stage " + activeStageName + " / " + activeTabName);
-                formContext.Arup.DisplayTab(activeTabName, formContext);
-            }
+            obj.SetupTabsForStage(formContext);
+            formContext.data.process.addOnStageChange(function (executionContext) {
+                Log("Process stage Change");
+                var formContext = executionContext.getFormContext();
+                debugger; 
+                obj.SetupTabsForStage(formContext);
+            });
         },
 
         DisplayTab: function(tabName, formContext) {
@@ -288,7 +275,7 @@ function () {
             tab.setFocus();
             tab.setVisible(true);
             tab.setDisplayState("expanded");
-            if (buttonChangeCallbacks[tabName] != null) {
+            if ( buttonChangeCallbacks[tabName] != null) {
                 buttonChangeCallbacks[tabName]();
             }
             return tabName;
@@ -312,7 +299,7 @@ function () {
         var source = e.getEventSource();
         if (source.getDisplayState() == "expanded") {
             var tabName = source.getName();
-            console.log("Tab expanded :" + tabName);
+            Log("Tab expanded :" + tabName);
             if (buttonChangeCallbacks[tabName] != null) {
                 buttonChangeCallbacks[tabName]();
             }
