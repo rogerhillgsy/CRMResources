@@ -179,8 +179,6 @@ Xrm.Page.Arup = (
                 obj.setVisibleTabs(formContext, obj.staticTabs.concat([activeTabName]));
                 if (buttonChangeCallbacks[activeTabName] != null) {
                     buttonChangeCallbacks[activeTabName]();
-                } else {
-                    buttonChangeCallbacks[activeTabName] = "setup needed";
                 }
             }
         },
