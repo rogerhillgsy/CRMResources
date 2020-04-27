@@ -3,6 +3,15 @@
 //
 // Normally javascript functions are not visible from the Web resource in an iframe.
 // By attaching them to Xrm.Page, they are then visible and callable from within the iframe.
+//
+// The main entry points to the button functionality that are important in this file are: -
+// - displayActiveTabForStage
+// - OnTabStateChange
+//
+// displayActiveTabForStage will ensure that the opportunity form only displays the tab(s) apropriate to the current BFP stage.
+// This is called when the page first loads (FormOnLoad, as defined in the form properties)
+// OnTabStateChange is called when the displayed BPF stage change. It is called to refresh 
+//  any buttons that may be displayed are updated(to change visibility, etc.)
 
 Xrm.Page.Arup = (
     function() {
@@ -80,7 +89,7 @@ Xrm.Page.Arup = (
             //       or ccrm_practiceleaderapprovaloptions == 100000002  // declined
             //     )
             var statecode = GetAttribute(formContext, "statecode");
-            var sectorApprovalOptions = GetAttribute(formContext, "ccrm_practiceleaderapprovaloptions");
+            var sectorApprovalOptions = GetAttribute(formContext, "ccrm_regionalpracticeleaderapprovaloptions");
             var oppType = GetAttribute(formContext, "ccrm_opportunitytype");
 
             return statecode == 0 &&
