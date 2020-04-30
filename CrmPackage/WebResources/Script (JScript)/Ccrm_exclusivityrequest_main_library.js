@@ -1,11 +1,9 @@
 function Form_onload() {
     //start functions
-    if (Xrm.Page.getAttribute("ccrm_requeststatus").getValue() == 1 && Xrm.Page.ui.getFormType() != 1)
-    {
+    if (Xrm.Page.getAttribute("ccrm_requeststatus").getValue() == 1 && Xrm.Page.ui.getFormType() != 1) {
         Xrm.Page.ui.setFormNotification("Please click on the Submit Exclusivity Request button to proceed with the submission of this request", "INFO", "DraftExclReq");
     }
-    else
-    {
+    else {
         Xrm.Page.ui.clearFormNotification('DraftExclReq');
     }
 
@@ -24,7 +22,7 @@ function Form_onload() {
         Xrm.Page.getAttribute("ccrm_exclusivityreason").setRequiredLevel("required");
         //set state to requested
         Xrm.Page.getAttribute("ccrm_draft").setValue(false);
-        Xrm.Page.getAttribute("ccrm_requeststatus").setValue("2");
+        Xrm.Page.getAttribute("ccrm_requeststatus").setValue(2);
         Xrm.Page.getAttribute("ccrm_requeststatus").setSubmitMode("always");
         if (Xrm.Page.getAttribute("ccrm_exclusivityreason").getValue() != null) {
             alert('Your request for Exclusivity has been submitted');
@@ -53,8 +51,7 @@ function Form_onload() {
     }
 }
 
-function ccrm_requeststatus_onchange()
-{
+function ccrm_requeststatus_onchange() {
     if (Xrm.Page.getAttribute("ccrm_requeststatus").getValue() == 1 && Xrm.Page.ui.getFormType() != 1) {
         Xrm.Page.ui.setFormNotification("Please click on the Submit Exclusivity Request button to proceed with the submission of this request", "INFO", "DraftExclReq");
     }

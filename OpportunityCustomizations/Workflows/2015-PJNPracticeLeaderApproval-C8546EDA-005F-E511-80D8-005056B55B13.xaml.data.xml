@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{c8546eda-005f-e511-80d8-005056b55b13}" Name="2015 - PJN Practice Leader Approval" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{c8546eda-005f-e511-80d8-005056b55b13}" Name="2015 - PJN Practice Leader Approval">
   <XamlFileName>/Workflows/2015-PJNPracticeLeaderApproval-C8546EDA-005F-E511-80D8-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

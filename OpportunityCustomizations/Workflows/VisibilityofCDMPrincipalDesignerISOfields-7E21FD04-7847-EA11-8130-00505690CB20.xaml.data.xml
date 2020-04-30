@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{7e21fd04-7847-ea11-8130-00505690cb20}" Name="Visibility of CDM Principal Designer &amp; ISO fields" Description="Click to add description" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{7e21fd04-7847-ea11-8130-00505690cb20}" Name="Visibility of CDM Principal Designer &amp; ISO fields" Description="Click to add description">
   <XamlFileName>/Workflows/VisibilityofCDMPrincipalDesignerISOfields-7E21FD04-7847-EA11-8130-00505690CB20.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

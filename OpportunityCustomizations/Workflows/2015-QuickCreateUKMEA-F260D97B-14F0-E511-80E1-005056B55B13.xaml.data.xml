@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{f260d97b-14f0-e511-80e1-005056b55b13}" Name="2015 - Quick Create UKMEA" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{f260d97b-14f0-e511-80e1-005056b55b13}" Name="2015 - Quick Create UKMEA">
   <XamlFileName>/Workflows/2015-QuickCreateUKMEA-F260D97B-14F0-E511-80E1-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

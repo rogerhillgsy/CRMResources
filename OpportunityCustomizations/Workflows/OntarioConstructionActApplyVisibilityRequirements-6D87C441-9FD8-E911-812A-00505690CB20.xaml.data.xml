@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{6d87c441-9fd8-e911-812a-00505690cb20}" Name="Ontario Construction Act Apply Visibility/Requirements" Description="Click to add description" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{6d87c441-9fd8-e911-812a-00505690cb20}" Name="Ontario Construction Act Apply Visibility/Requirements" Description="Click to add description">
   <XamlFileName>/Workflows/OntarioConstructionActApplyVisibilityRequirements-6D87C441-9FD8-E911-812A-00505690CB20.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

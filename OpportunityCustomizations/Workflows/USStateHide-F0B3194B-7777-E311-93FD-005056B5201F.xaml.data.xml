@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{f0b3194b-7777-e311-93fd-005056b5201f}" Name="US State Hide" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{f0b3194b-7777-e311-93fd-005056b5201f}" Name="US State Hide">
   <XamlFileName>/Workflows/USStateHide-F0B3194B-7777-E311-93FD-005056B5201F.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

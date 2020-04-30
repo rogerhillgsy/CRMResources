@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{64c272ee-7e77-e311-93fd-005056b5201f}" Name="Sync Close Probability" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{64c272ee-7e77-e311-93fd-005056b5201f}" Name="Sync Close Probability">
   <XamlFileName>/Workflows/SyncCloseProbability-64C272EE-7E77-E311-93FD-005056B5201F.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

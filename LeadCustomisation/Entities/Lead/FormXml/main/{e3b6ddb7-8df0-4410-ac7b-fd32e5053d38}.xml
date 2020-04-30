@@ -1,0 +1,1669 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<systemform>
+  <formid>{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}</formid>
+  <IntroducedVersion>5.0.0.0</IntroducedVersion>
+  <FormPresentation>1</FormPresentation>
+  <FormActivationState>1</FormActivationState>
+  <form showImage="false" shownavigationbar="true" maxWidth="1900">
+    <ancestor id="{e3b6ddb7-8df0-4410-ac7b-fd32e5053d38}" />
+    <hiddencontrols>
+      <data id="fullname" datafieldname="fullname" classid="{5546E6CD-394C-4bee-94A8-4425E17EF6C6}" />
+      <data id="parentaccountid" datafieldname="parentaccountid" classid="{5546E6CD-394C-4bee-94A8-4425E17EF6C6}" />
+      <data id="parentcontactid" datafieldname="parentcontactid" classid="{5546E6CD-394C-4bee-94A8-4425E17EF6C6}" />
+    </hiddencontrols>
+    <tabs>
+      <tab name="Summary" verticallayout="true" id="{f7109214-c3bd-4734-ad5b-4054499a43d6}" IsUserDefined="0" locklevel="0" expanded="true" showlabel="false">
+        <labels>
+          <label description="Summary" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="34%">
+            <sections>
+              <section name="tab_8_section_1" showlabel="true" showbar="true" locklevel="0" id="{e409a09c-5ba7-4c92-5544-4c862c05c2c9}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="165" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="PROCUREMENT" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{0809198a-0c54-2223-8b5c-43d4a76dc339}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Arup Internal" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_arupinternal" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_arupinternal" disabled="false" uniqueid="{39d7702c-ab9e-0185-08dc-59309567cb6d}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{aa56b82b-06d7-1da6-155a-debe575a57b9}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Opportunity Type" languagecode="1033" />
+                      </labels>
+                      <control id="arup_opportunitytype" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="arup_opportunitytype" disabled="false" uniqueid="{8ab08b72-31ec-c444-8880-be3308db377a}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e572743b-d99e-e8a5-b5c3-76cb6838b5ec}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Project Procurement" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_contractarrangement" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_contractarrangement" disabled="false" uniqueid="{7b05ce9d-4bed-d06b-9080-4c5d209cc254}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{4aee7ccd-251b-a2a2-65b2-d1e62de00215}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Lead Source" languagecode="1033" />
+                      </labels>
+                      <control id="leadsourcecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="leadsourcecode" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{b7756c1d-7d4c-6e26-debe-d057632613eb}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Related Parent Opportunity" languagecode="1033" />
+                      </labels>
+                      <control id="arup_parentopportunityid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="arup_parentopportunityid" disabled="false" uniqueid="{6443b50b-2346-e018-2941-b6ca75cc81e7}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{9EB361B4-67AC-4830-8ABF-2D29EFBAEE2C}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+              <section name="Details_1" showlabel="true" showbar="true" id="{5693ad37-350f-4f0e-b03a-4212e78c9b6e}" IsUserDefined="0" columns="1" locklevel="0" labelwidth="165" celllabelposition="Left" celllabelalignment="Left">
+                <labels>
+                  <label description="SUMMARY" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{4a067895-5c09-703d-04db-6b55e82ccba1}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Project Name" languagecode="1033" />
+                      </labels>
+                      <control id="firstname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="firstname" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a8331269-73b2-066b-e60b-46023793b6c3}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Client" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_client" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_client" disabled="false" uniqueid="{30370c3c-2dca-5de0-dd2c-3991380259ba}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{A9AF0AB8-861D-4CFA-92A5-C6281FED7FAB}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a9c7d6aa-44d9-ba18-0104-e56aeed4743c}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Ultimate/End Client" languagecode="1033" />
+                      </labels>
+                      <control id="arup_ultimateclient" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="arup_ultimateclient" disabled="false" uniqueid="{a29937cd-388e-ed99-5269-ce48ea9c49a9}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{A9AF0AB8-861D-4CFA-92A5-C6281FED7FAB}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a07c375d-b446-0273-b7a8-c07266951104}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Project Country" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_country" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_country" disabled="false" uniqueid="{57cc009b-c161-d856-4c3b-ed0944d96581}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{20BC9030-BC6C-44EF-A763-E5997D15B0C1}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a39c35a4-5393-aede-4408-37d682c9ec2c}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Project State/Province" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_arupusstateid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_arupusstateid" disabled="false" uniqueid="{7479c09b-17be-42a8-1e67-4ba5b8da2d4d}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{7C6D2EAE-2FF2-4695-BCEE-F054CC4A293C}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                          <AvailableViewIds>{7C6D2EAE-2FF2-4695-BCEE-F054CC4A293C}</AvailableViewIds>
+                          <FilterRelationshipName>ccrm_ccrm_country_ccrm_arupusstate</FilterRelationshipName>
+                          <DependentAttributeName>lead.ccrm_country</DependentAttributeName>
+                          <DependentAttributeType>ccrm_country</DependentAttributeType>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1de26a9a-5756-0709-4777-18183ac88764}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Project City" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_location" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_location" disabled="false" uniqueid="{cd1a2d49-5072-d02b-a6aa-1b5652489adc}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{5c1dd6e3-15b6-35d1-2d4c-5214cd0eac1c}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{4cbae1de-acce-3da8-8527-4537dcb3c5c7}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Arup Business" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_arupbusiness" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_arupbusiness" disabled="false" uniqueid="{06b7959e-c4c1-9d56-cc8e-4710882340b4}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>true</DisableViewPicker>
+                          <DefaultViewId>{4E81B86F-99AF-421E-B021-A673156CE0DE}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                          <AvailableViewIds>{4E81B86F-99AF-421E-B021-A673156CE0DE}</AvailableViewIds>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e3cd675e-3e95-18e0-592d-de5516a78e3d}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Arup Sub Business" languagecode="1033" />
+                      </labels>
+                      <control id="arup_subbusiness" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="arup_subbusiness" disabled="false" uniqueid="{998dc0c1-181c-4bc0-274d-6415756dae07}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>true</DisableViewPicker>
+                          <DefaultViewId>{83A5F3B8-B2EA-42D0-82B1-21659B1A2768}</DefaultViewId>
+                          <FilterRelationshipName>arup_ccrm_arupbusiness_arup_subbusiness_business</FilterRelationshipName>
+                          <DependentAttributeName>lead.ccrm_arupbusiness</DependentAttributeName>
+                          <DependentAttributeType>ccrm_arupbusiness</DependentAttributeType>
+                          <AllowFilterOff>false</AllowFilterOff>
+                          <AvailableViewIds>{83A5F3B8-B2EA-42D0-82B1-21659B1A2768}</AvailableViewIds>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{160828ed-22ce-147b-c3ba-caabdaac78ee}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Is it K-12 School?" languagecode="1033" />
+                      </labels>
+                      <control id="arup_k12school" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="arup_k12school" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{89ed652b-38bc-c616-a196-648a7e4c3362}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Global Services" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_ccrm_othernetworksdisp" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_ccrm_othernetworksdisp" disabled="false" uniqueid="{0b9311e7-194d-1421-ea60-9e79e28e1369}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{57a1c147-855c-b029-eec9-809add5d76d0}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Other (please specify)" languagecode="1033" />
+                      </labels>
+                      <control id="arup_othernetworkdetails" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="arup_othernetworkdetails" disabled="false" uniqueid="{002b8141-5c97-740c-6607-3c739014a022}" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+              <section name="Summary_section_5" showlabel="true" showbar="true" locklevel="0" id="{22430860-3dec-65c8-624d-d27979eeb30e}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelalignment="Left" celllabelposition="Top">
+                <labels>
+                  <label description="DETAILS" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{10b75e6c-54f9-4c13-8850-5b90cad35c6f}" showlabel="true" locklevel="0" rowspan="4">
+                      <labels>
+                        <label description="Project Summary" languagecode="1033" />
+                      </labels>
+                      <control id="description" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="description" disabled="false" uniqueid="{196a05ce-83a0-80c8-7e36-e1ab981a8b80}" />
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                  <row>
+                    <cell id="{65d8391a-aee8-b79b-a5a2-27b687a4533c}" showlabel="true" locklevel="0" rowspan="4">
+                      <labels>
+                        <label description="Additional Information" languagecode="1033" />
+                      </labels>
+                      <control id="arup_additionalinformation" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="arup_additionalinformation" disabled="false" uniqueid="{90475ea4-1415-c832-6761-11ea7195d715}" />
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                </rows>
+              </section>
+            </sections>
+          </column>
+          <column width="33%">
+            <sections>
+              <section name="Summary_section_8" showlabel="false" showbar="false" locklevel="0" id="{d1bbe4de-d04e-75dc-1385-4635ad2ddc67}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" height="auto">
+                <labels>
+                  <label description="Section" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{cda79545-e70e-e8bb-29e1-54b5606d660a}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e28e64ac-6d38-c7c0-82bd-063b0844d5cd}" showlabel="false" locklevel="0" rowspan="3" auto="true">
+                      <labels>
+                        <label description="Procurement Message" languagecode="1033" />
+                      </labels>
+                      <control id="arup_procurementmessage" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="arup_procurementmessage" disabled="true" uniqueid="{c83626bc-125b-e70d-55c5-7cc0cea58ab6}" />
+                    </cell>
+                  </row>
+                  <row />
+                  <row height="auto" />
+                  <row>
+                    <cell id="{59061489-46b1-1536-d53c-a01ae7a63b19}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{9c463dbe-b27c-d18e-59bd-d00aaa2a8b22}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{be730c00-0bd1-523d-0d70-b05341aa025c}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+              <section name="Summary_section_4" showlabel="false" showbar="false" locklevel="0" id="{bd05ae92-e211-de51-4edb-70c2a4a271bd}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="165" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Section" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{a479be00-db71-e547-0207-cbd97076419c}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Fee Income" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_estimatedvalue_num" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="ccrm_estimatedvalue_num" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{94a014a7-68b7-7d14-449d-b2dde4d9bbdd}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Project Currency" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_projectcurrency" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_projectcurrency" disabled="false">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{CD5625B0-DDA8-4EE2-B13F-B9331E027C8A}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{3b930186-2297-cdda-c7b4-a0ed640533a8}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Overall Project Value" languagecode="1033" />
+                      </labels>
+                      <control id="arup_overallprojectvalue" classid="{0D2C745A-E5A8-4c8f-BA63-C6D3BB604660}" datafieldname="arup_overallprojectvalue" disabled="false" uniqueid="{4a763411-db5e-e1c6-70a9-ec9490a9a139}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{807bb683-5a9b-b4b7-c71c-b6b2105cdc66}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{6ec290e9-6ee1-91e5-ba52-a029db09ee40}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Arup Company" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_arupcompanyid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_arupcompanyid" disabled="false" uniqueid="{d38a9214-ce58-6c41-38de-5e7b9a355cd5}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{8B3F3055-0DC8-414E-8D73-68ACD251DAF4}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{bdc56e0e-a180-d736-72b6-cab3388e80ac}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Accounting Centre" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_accountingcentreid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_accountingcentreid" disabled="false" uniqueid="{9818a4ba-4a8a-eb32-3c8a-484015ee7a05}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{45F07848-C04D-4A72-A9DA-FF0BC11CB822}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{733acd8e-1c03-4411-d174-95a751b58aaa}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{27e4c43c-5864-2913-8005-62ca4605e179}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Estimated Project Start Date" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_estarupinvolvementstart" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_estarupinvolvementstart" disabled="false" uniqueid="{41603234-4ba2-ae5a-5b12-150988233358}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{8192c46a-9e53-d2c6-a075-1d498d1ee38b}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Estimated Project End Date" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_estarupinvolvementend" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ccrm_estarupinvolvementend" disabled="false" uniqueid="{0e8c014d-6a8d-890e-4a8c-24451cab7d57}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0ae4070b-aee9-00ce-1d13-133848391cb7}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Qualifying Opportunity" languagecode="1033" />
+                      </labels>
+                      <control id="qualifyingopportunityid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="qualifyingopportunityid" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+          <column width="33%">
+            <sections>
+              <section name="Summary_section_7" showlabel="false" showbar="false" locklevel="0" id="{6b01bc45-9b56-712d-5433-5276b41b6972}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" height="auto">
+                <labels>
+                  <label description="Section" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{253db268-9049-c5ed-5e85-2979e0bc760b}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{08b4ce70-01e6-da3e-6542-9da6d70b78de}" showlabel="false" locklevel="0" rowspan="3">
+                      <labels>
+                        <label description="Supporting Text2" languagecode="1033" />
+                      </labels>
+                      <control id="arup_supportingtext2" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="arup_supportingtext2" disabled="true" uniqueid="{59bcc448-6b50-d22e-6409-6e24034b6562}" />
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row>
+                    <cell id="{32aaae3c-0925-322e-210b-d20bb09a1ec0}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{8bddd316-5bbc-0e9e-e767-7d168349e2c3}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e9ad3183-4209-b726-5024-a0d3956b3549}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+              <section name="SOCIAL_PANE" showlabel="false" showbar="false" locklevel="0" id="{bac826a8-ee3e-412a-828a-f192e6d8dc6e}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelposition="Left" celllabelalignment="Left">
+                <labels>
+                  <label description="ACTIVITIES &amp; NOTES" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{3cd104ce-89c4-c3ea-1bb4-79a2a2003009}" showlabel="true" locklevel="1">
+                      <labels>
+                        <label description="Lead Owner" languagecode="1033" />
+                      </labels>
+                      <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" disabled="false" uniqueid="{41b39725-9027-88b0-1088-c916e0d8b330}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{936be097-27a9-c8c2-b1eb-3b022846616b}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Next Action Date" languagecode="1033" />
+                      </labels>
+                      <control id="arup_nextactiondate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="arup_nextactiondate" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{127c274b-48b9-ac46-137e-1b6acdae3386}" showlabel="false" userspacer="true">
+                      <labels>
+                        <label description="" languagecode="1033" />
+                      </labels>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{6172735c-42a8-7231-5411-b1ba5bbc73ad}" showlabel="false" rowspan="20" auto="false" colspan="1" locklevel="0">
+                      <labels>
+                        <label description="Note Text" languagecode="1033" />
+                      </labels>
+                      <control id="notescontrol" classid="{06375649-c143-495e-a496-c962e5b4488e}" disabled="false" uniqueid="{8c5e24c0-b7c0-54b9-7539-40d78752e507}">
+                        <parameters>
+                          <DefaultTabId>ActivitiesTab</DefaultTabId>
+                          <ShowArticleTab>false</ShowArticleTab>
+                          <SelectDefaultLanguage>00000000-0000-0000-0000-000000000000</SelectDefaultLanguage>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab name="tab_7" id="{b3b4e027-9b0a-e416-0077-ea31641a619b}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="true" visible="false">
+        <labels>
+          <label description="Hidden" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="50%">
+            <sections>
+              <section name="tab_7_section_1" showlabel="false" showbar="false" locklevel="0" id="{d6d64420-4411-b588-90bb-7396eea38e16}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115">
+                <labels>
+                  <label description="Section" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{960c33c6-a214-9d08-1319-34b4862ca357}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Arup Group" languagecode="1033" />
+                      </labels>
+                      <control id="arup_arupgroup" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="arup_arupgroup" disabled="false" uniqueid="{266d46c6-d470-7ae1-2487-89ca8da8be0b}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{2EBA8051-83CE-4B17-B1FF-900B146DE59A}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{9889c420-d073-3300-b854-dbad539753e1}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Arup Region" languagecode="1033" />
+                      </labels>
+                      <control id="arup_arupregion" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="arup_arupregion" disabled="false" uniqueid="{ca8d175c-c6e2-5699-5213-c5d870113550}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{179B1A07-010C-4173-B03D-7D27055382B9}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{6ad77050-3e2d-ddae-4b34-b5ba80bc6a55}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Arup Practice" languagecode="1033" />
+                      </labels>
+                      <control id="arup_aruppracticeid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="arup_aruppracticeid" disabled="false" uniqueid="{b8d40cd2-946e-346c-b8d8-8097de26140c}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{8ea791a2-5111-404b-2e32-d8b7b2cb8a99}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Regional Currency" languagecode="1033" />
+                      </labels>
+                      <control id="arup_regionalcurrency" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="arup_regionalcurrency" disabled="false" uniqueid="{9c036d74-c161-ae90-2c8d-75e98509d7ae}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{CD5625B0-DDA8-4EE2-B13F-B9331E027C8A}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{b75b5c86-3a7b-9141-0bc0-92ddc77ba4e6}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Parent Account for Lead" languagecode="1033" />
+                      </labels>
+                      <control id="parentaccountid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="parentaccountid" disabled="false">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{A9AF0AB8-861D-4CFA-92A5-C6281FED7FAB}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{c690a442-0dc3-8067-02e2-ab6e96c9c4b2}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Short Title" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_shorttitle" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_shorttitle" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+              <section name="tab_7_section_3" showlabel="false" showbar="false" locklevel="0" id="{60ca81d8-c2d8-3622-8505-85b7b40c0780}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="115">
+                <labels>
+                  <label description="Section" languagecode="1033" />
+                </labels>
+                <rows></rows>
+              </section>
+            </sections>
+          </column>
+          <column width="50%">
+            <sections>
+              <section name="tab_7_section_2" showlabel="false" showbar="false" locklevel="0" id="{10eb0c54-15ea-15a3-01e7-241cecac2b92}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115">
+                <labels>
+                  <label description="Section" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{379187ec-19d0-501b-3c14-861934dadbe2}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Global Services" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_othernetworks" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_othernetworks" disabled="false" uniqueid="{e14e9ee4-90ad-0a66-a7a3-dc0b0639d68d}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{22caab01-a7a7-4d3a-63d2-465e375518c0}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Global Services" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_othernetworksval" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_othernetworksval" disabled="false" uniqueid="{e04a8056-d378-005b-b200-6e914ba3066e}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{8f704a5d-5f33-462d-b07b-3c29ddacea29}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Currency" languagecode="1033" />
+                      </labels>
+                      <control id="transactioncurrencyid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="transactioncurrencyid" disabled="false">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{CD5625B0-DDA8-4EE2-B13F-B9331E027C8A}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{25aa6ac2-7a56-159b-ac36-ae2d147c69d8}" showlabel="true" locklevel="0" visible="false">
+                      <labels>
+                        <label description="Is Lead Qualified" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_isleadqualified" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ccrm_isleadqualified" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{d65663c6-2295-a3d6-75c7-0c378cca1137}" showlabel="false" locklevel="0" visible="false" availableforphone="false">
+                      <labels>
+                        <label description="Dupe Check Result" languagecode="1033" />
+                      </labels>
+                      <control id="arup_dupecheckresult" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="arup_dupecheckresult" disabled="false" uniqueid="{45258098-751b-c9d0-b05b-63ae313a2e49}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{bd06dcc2-c31e-1931-1cba-115151792a9d}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Project Sector" languagecode="1033" />
+                      </labels>
+                      <control id="arup_projectsectorname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="arup_projectsectorname" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{aadea7ab-8a10-50bd-cac7-141ee79935d4}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Project Sector (code)" languagecode="1033" />
+                      </labels>
+                      <control id="arup_projectsectorpicklist" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="arup_projectsectorpicklist" disabled="false" uniqueid="{06275246-0381-cd1b-2500-d8e57d6539e7}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{593d18ec-9d63-91c3-d716-c60bbb007ece}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Project Sector Value" languagecode="1033" />
+                      </labels>
+                      <control id="arup_projectsectorvalue" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="arup_projectsectorvalue" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab name="details_tab" id="{9008acae-4b08-4be6-a5d3-aef9155a7f16}" IsUserDefined="0" locklevel="0" showlabel="true" visible="false" expanded="true">
+        <labels>
+          <label description="Additional Lead Details" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="33%">
+            <sections>
+              <section name="lead_information" showlabel="true" showbar="false" id="{494c6aa2-26f3-413f-bcab-dc093d54b82f}" IsUserDefined="0" columns="1" locklevel="0" labelwidth="115" celllabelposition="Left" height="auto" celllabelalignment="Left">
+                <labels>
+                  <label description="COMPANY" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{cd70ad75-fa8d-491a-a9e6-9164c0274dd8}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Company" languagecode="1033" />
+                      </labels>
+                      <control id="companyname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="companyname" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0e2daa31-4114-2108-6a4e-7256ae06b1a0}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Address" languagecode="1033" />
+                      </labels>
+                      <control id="address1_composite" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="address1_composite" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{582ca22b-95e3-4d0e-9d81-e29bc8100e7a}">
+                      <labels>
+                        <label description="Website" languagecode="1033" />
+                      </labels>
+                      <control id="websiteurl" classid="{71716B6C-711E-476c-8AB8-5D11542BFB47}" datafieldname="websiteurl" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{9769aa55-a1d0-43d7-9d89-9dfccb1efd0d}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Industry" languagecode="1033" />
+                      </labels>
+                      <control id="industrycode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="industrycode" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{3cc2bc3f-03a3-47f6-a011-e217dd56ff8d}">
+                      <labels>
+                        <label description="Annual Revenue" languagecode="1033" />
+                      </labels>
+                      <control id="revenue" classid="{533B9E00-756B-4312-95A0-DC888637AC78}" datafieldname="revenue" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{05a0b7d9-b602-493b-a773-e0c34e44be3c}">
+                      <labels>
+                        <label description="No. of Employees" languagecode="1033" />
+                      </labels>
+                      <control id="numberofemployees" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="numberofemployees" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{aee93c8c-a239-4a6d-bb9b-6962c20dc8a9}">
+                      <labels>
+                        <label description="SIC Code" languagecode="1033" />
+                      </labels>
+                      <control id="sic" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="sic" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+          <column width="33%">
+            <sections>
+              <section name="marketing_information" showlabel="true" showbar="false" locklevel="0" id="{9ae60f89-6507-4cd3-8c5a-c26915a7e315}" IsUserDefined="0" layout="varheight" columns="1" labelwidth="115" celllabelposition="Left" celllabelalignment="Left">
+                <labels>
+                  <label description="CONTACT" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{4b131937-e254-842d-bd1a-98a5e3267847}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Contact First Name" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_contactfirstname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_contactfirstname" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{d3d02eb4-cc92-d28b-5d48-dcd3238de706}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Contact Last Name" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_contactlastname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ccrm_contactlastname" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{7792dace-232c-b0a4-539b-3b63862aa5c9}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Job Title" languagecode="1033" />
+                      </labels>
+                      <control id="jobtitle" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="jobtitle" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{112d63b2-2a36-4d01-4537-e30e3b009560}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Email" languagecode="1033" />
+                      </labels>
+                      <control id="emailaddress1" classid="{ADA2203E-B4CD-49be-9DDF-234642B43B52}" datafieldname="emailaddress1" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{211ddb4b-6adc-19c7-a805-9d3db937611b}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Business Phone" languagecode="1033" />
+                      </labels>
+                      <control id="telephone1" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="telephone1" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{23b1d7c8-3d87-1093-56e9-531a28b5a9e6}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Business Mobile" languagecode="1033" />
+                      </labels>
+                      <control id="mobilephone" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="mobilephone" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+          <column width="33%">
+            <sections>
+              <section name="contact_methods" showlabel="true" showbar="false" id="{e1925535-689c-4536-9170-93c752121734}" IsUserDefined="0" columns="1" locklevel="0" labelwidth="115" celllabelposition="Left" celllabelalignment="Left">
+                <labels>
+                  <label description="MARKETING INFORMATION" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell showlabel="true" locklevel="0" id="{09513d13-bb7d-43b6-ad5c-9598b82b099e}">
+                      <labels>
+                        <label description="Source Campaign" languagecode="1033" />
+                      </labels>
+                      <control id="campaignid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="campaignid" disabled="false">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{0E76DC73-2052-484E-8C00-A760F8D522EC}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell showlabel="true" locklevel="0" id="{d3a5f17c-30bb-4d2b-bb7f-4ef968727df7}">
+                      <labels>
+                        <label description="Marketing Materials" languagecode="1033" />
+                      </labels>
+                      <control id="donotsendmm" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="donotsendmm" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell showlabel="true" locklevel="0" id="{a5b3e9c6-2cc7-4273-bd86-12fca3a85e4a}">
+                      <labels>
+                        <label description="Last Campaign Date" languagecode="1033" />
+                      </labels>
+                      <control id="lastusedincampaign" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="lastusedincampaign" disabled="true" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1de94f13-a476-4765-bd9a-b8ffe2f29ed0}">
+                      <labels>
+                        <label description="Follow Email" languagecode="1033" />
+                      </labels>
+                      <control id="followemail" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="followemail" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{238dc0d1-c7bb-48bf-bd46-81c9358c864b}">
+                      <labels>
+                        <label description="Preferred" languagecode="1033" />
+                      </labels>
+                      <control id="preferredcontactmethodcode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="preferredcontactmethodcode" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a5230208-77c9-427d-a961-c8dc9b94aa5a}">
+                      <labels>
+                        <label description="Email" languagecode="1033" />
+                      </labels>
+                      <control id="donotemail" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="donotemail" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{bbe784ab-23b6-40a5-8c83-142190b2af1d}">
+                      <labels>
+                        <label description="Bulk Email" languagecode="1033" />
+                      </labels>
+                      <control id="donotbulkemail" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="donotbulkemail" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{86185452-683d-4ac1-9798-9fc5280bdae0}">
+                      <labels>
+                        <label description="Phone" languagecode="1033" />
+                      </labels>
+                      <control id="donotphone" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="donotphone" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{93bb851c-4a32-4bab-a4ef-ee0e97226ad9}">
+                      <labels>
+                        <label description="Mail" languagecode="1033" />
+                      </labels>
+                      <control id="donotpostalmail" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="donotpostalmail" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab name="HubSpot" id="{26a943c9-a317-d9c9-6cac-2d1a966e51ca}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
+        <labels>
+          <label description="HubSpot" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="28%">
+            <sections>
+              <section name="HubSpot Data" showlabel="true" showbar="true" locklevel="0" id="{cb8b91ed-9d4c-9533-047c-ce08089384b6}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="HubSpot Data" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{e7813d50-273b-6177-b229-34c6b5855e69}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="HubSpot Score" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_hubspotscore" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_hubspotscore" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{409a1b18-8c71-2e58-ee8d-11120e37c002}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="First URL" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_firsturl" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="scribe_firsturl" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{5b1dadb4-c8c2-9980-e21c-e1cd737935b9}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="First Referrer" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_firstreferrer" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="scribe_firstreferrer" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a9ec3a76-952c-ad0e-93a6-ab726e4b93ed}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="First Timestamp" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_firsttimestamp" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scribe_firsttimestamp" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0325e71b-bd1d-89c9-b09e-2207035a5234}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="First Visit Timestamp" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_firstvisittimestamp" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scribe_firstvisittimestamp" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{cdc08d06-0a69-db9b-76c2-09dd001d9078}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Last URL" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_lasturl" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="scribe_lasturl" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{d554cea0-a407-06b3-ed30-290b5e50d797}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Last Referrer" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_lastreferrer" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="scribe_lastreferrer" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0860879a-8cc9-bce4-2ea0-5e26bd054476}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Last Timestamp" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_lasttimestamp" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scribe_lasttimestamp" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{424bbc58-e11c-9b54-8723-a568a6b76936}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Last Visit Timestamp" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_lastvisittimestamp" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scribe_lastvisittimestamp" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ae021e71-329e-855a-32b0-5d5411ace5c2}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Average Page Views" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_averagepageviews" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="scribe_averagepageviews" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{99620785-b92b-dea2-a7bb-b11610355d93}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="# Event Completions" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_numbereventcompletions" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_numbereventcompletions" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{30c6228c-3563-c690-a66a-e3ddcb8bd1c5}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="# Page Views" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_numberpageviews" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_numberpageviews" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0c5a662a-22ee-9005-01ec-a7e8ba205a51}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="# Visits" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_numbervisits" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_numbervisits" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ad813525-dd83-06d1-b763-eb8e14481759}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Persona" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_persona" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="scribe_persona" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{80ad715e-e321-9419-2ea5-a07161775210}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Profile URL" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_profileurl" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="scribe_profileurl" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{983d5951-2433-6e37-0561-1a0c616b41e6}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Revenue" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_revenue" classid="{C3EFE0C3-0EC6-42be-8349-CBD9079DFD8E}" datafieldname="scribe_revenue" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e63cb5b0-5d28-1e82-a3b9-308e5381d7b6}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Source" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_source" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="scribe_source" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{12886b4b-98d0-078d-371e-5eb331b074de}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Source Data 1" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_sourcedata1" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="scribe_sourcedata1" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e53570be-b945-eab5-1389-c8d9698127c8}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Source Data 2" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_sourcedata2" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="scribe_sourcedata2" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+          <column width="44%">
+            <sections>
+              <section name="Email Data" showlabel="true" showbar="true" locklevel="0" id="{b5101149-8796-4aed-edc6-2393a4679ed3}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Email Data" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{80d5ec46-9ce1-06ca-69c0-c768e0ce70c2}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Opt-Out" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emailoptout" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="scribe_emailoptout" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{7c1931dd-e155-3ca2-b923-87cdebbedc54}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Is Ineligible" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emailisineligible" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="scribe_emailisineligible" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{1e55d67d-028b-1644-d4e8-b6ea4220b32a}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Open" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emailopen" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_emailopen" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ae368156-6996-d89e-9eb6-393c5778a9b5}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Click" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emailclick" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_emailclick" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ac3b3c9e-783b-1cee-9273-8168e1c123b2}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Delivered" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emaildelivered" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_emaildelivered" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{908659e4-edd5-1161-2cbb-c01e88c9c83a}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Bounce" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emailbounce" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_emailbounce" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{31352260-4a41-c34c-b845-8deb2ad61cbb}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="First Send Date" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emailfirstsenddate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scribe_emailfirstsenddate" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{329d449e-2a71-d292-0315-c0b298082300}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="First Open Date" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emailfirstopendate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scribe_emailfirstopendate" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{3ee865db-5b40-1816-2248-7a7a6407b997}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="First Clicked Date" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emailfirstclickeddate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scribe_emailfirstclickeddate" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{ae61973a-680e-a6c4-8a90-95a9d1393cb2}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Last Email Name" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emaillastemailname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="scribe_emaillastemailname" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{3eb2ed0d-bc8c-38b7-a676-6d9abd6db898}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Last Send Date" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emaillastsenddate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scribe_emaillastsenddate" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0d724c61-2bd2-c935-a8a4-97772cc03c24}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Last Open Date" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emaillastopendate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scribe_emaillastopendate" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{da36d012-aa23-3515-5928-7c54e22c831c}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Last Clicked Date" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_emaillastclickeddate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scribe_emaillastclickeddate" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+          <column width="28%">
+            <sections>
+              <section name="Social Data" showlabel="true" showbar="true" locklevel="0" id="{d05d5cd8-32ca-4c93-8786-10abeaa14d0c}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Social Data" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{58246c75-3e63-9496-7a7b-2ad6ddbaaba2}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Last Engagement" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_lastsocialengagement" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scribe_lastsocialengagement" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e66131ed-c60b-4d61-79a5-1962cd14144a}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="# Broadcast Clicks" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_numberbroadcastclicks" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_numberbroadcastclicks" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{676bec67-a3aa-6a60-9305-822a36e1d96e}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Facebook Clicks" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_facebookclicks" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_facebookclicks" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{0588c076-3cb3-72ac-c670-7852ae2589a0}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Google Plus Clicks" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_googleplusclicks" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_googleplusclicks" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{867d9327-5d4a-aa94-2d16-d3b6d97db692}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="LinkedIn Clicks" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_linkedinclicks" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_linkedinclicks" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{db7a7c03-aeb7-b4a6-0e88-9cd5cceb3a54}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Twitter Clicks" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_twitterclicks" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_twitterclicks" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{7ded754d-42d0-e972-5b94-38961d2438bd}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Klout Score" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_kloutscore" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="scribe_kloutscore" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{cc560cb7-1039-60b4-ad38-522120ae0e05}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Twitter Handle" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_twitterhandle" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="scribe_twitterhandle" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{36d86b76-4b22-5b36-c20e-4bd0e1c99e8c}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Twitter Profile Photo" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_twitterprofilephoto" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="scribe_twitterprofilephoto" disabled="false" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{35a61774-d508-3d9e-88a9-eb1ae901084e}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Twitter Bio" languagecode="1033" />
+                      </labels>
+                      <control id="scribe_twitterbio" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="scribe_twitterbio" disabled="false" />
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab name="HubSpot Lead Intelligence" id="{37bd48e1-73e7-1276-da3e-64909b9d9ebd}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
+        <labels>
+          <label description="HubSpot Lead Intelligence" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section name="tab_4_section_1" showlabel="false" showbar="false" locklevel="0" id="{86b6bc5a-073d-b488-76a3-7d4449375019}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115">
+                <labels>
+                  <label description="Section" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{d296bc70-a4aa-a2dc-2104-d075c8dc9287}" showlabel="false" colspan="1" auto="false" rowspan="6">
+                      <labels>
+                        <label description="hubspot" languagecode="1033" />
+                      </labels>
+                      <control id="IFRAME_hubspot" classid="{FD2A7985-3187-444e-908D-6624B21F69C0}">
+                        <parameters>
+                          <Url>http://www.hubspot.com/</Url>
+                          <PassParameters>false</PassParameters>
+                          <Security>false</Security>
+                          <Scrolling>auto</Scrolling>
+                          <Border>true</Border>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab name="HubSpot Email Workflow" id="{94847e03-1c84-93d1-d745-9368abb87adc}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="false" visible="false">
+        <labels>
+          <label description="HubSpot Email Workflow" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section name="tab_5_section_1" showlabel="false" showbar="false" locklevel="0" id="{285cd6a8-e70c-c3b8-7b54-d514808b104e}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115">
+                <labels>
+                  <label description="Section" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{25a7cc50-8507-950d-a0b2-ada13a1a66be}" showlabel="false" colspan="1" auto="false" rowspan="6">
+                      <labels>
+                        <label description="hubspot_workflow" languagecode="1033" />
+                      </labels>
+                      <control id="IFRAME_hubspot_workflow" classid="{FD2A7985-3187-444e-908D-6624B21F69C0}">
+                        <parameters>
+                          <Url>http://www.hubspot.com/</Url>
+                          <PassParameters>false</PassParameters>
+                          <Security>true</Security>
+                          <Scrolling>auto</Scrolling>
+                          <Border>true</Border>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+    </tabs>
+    <events>
+      <event name="onload" application="false" active="false">
+        <Handlers>
+          <Handler functionName="updateHubspotIFrame" libraryName="scribe_HubSpot_Jscript" handlerUniqueId="{296dc549-4d39-be23-9537-d4d852929069}" enabled="false" parameters="" passExecutionContext="false" />
+          <Handler functionName="updateHubspotworkflowIFrame" libraryName="scribe_HubSpot_Jscript" handlerUniqueId="{eb90520e-d797-0dc3-a9ea-6b96e8a5a37e}" enabled="false" parameters="" passExecutionContext="false" />
+          <Handler functionName="FormOnload" libraryName="ccrm_lead_library_2015" handlerUniqueId="{788dd5d6-20ac-e261-7120-ba2c0abd0b06}" enabled="true" parameters="" passExecutionContext="false" />
+          <Handler functionName="formatMultiSelect" libraryName="ccrm_ms_MultiSelect.js" handlerUniqueId="{de4a681a-3429-ad3b-0042-02a734298eb7}" enabled="true" parameters="&quot;ccrm_othernetworks&quot;, &quot;ccrm_ccrm_othernetworksdisp&quot;, &quot;ccrm_othernetworksval&quot;, null,189,3" passExecutionContext="false" />
+          <Handler functionName="ccrm_accountingcentreid_onchange" libraryName="ccrm_lead_library_2015" handlerUniqueId="{53561c53-3a76-e50a-0e19-187b37c61b54}" enabled="true" parameters="" passExecutionContext="false" />
+          <Handler functionName="fireOnFormLoad" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{5ecd817a-e344-a3d9-9c62-4e94078d126a}" enabled="true" parameters="'ccrm_arupinternal'" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onsave" application="false" active="false">
+        <Handlers>
+          <Handler handlerUniqueId="{b0ca9b67-7727-e832-8e17-ba24007e1b5c}" functionName="FormOnSave" libraryName="ccrm_lead_library_2015" enabled="true" passExecutionContext="false" parameters="" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="firstname">
+        <Handlers>
+          <Handler functionName="changeShortTitle" libraryName="ccrm_lead_library_2015" handlerUniqueId="{a2765a5d-7dde-e8ab-063d-0dd06817237d}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_country">
+        <Handlers>
+          <Handler functionName="projectcountry_onchange" libraryName="ccrm_lead_library_2015" handlerUniqueId="{3b857260-71c1-c326-e6c5-684d418aa5bb}" enabled="true" parameters="" passExecutionContext="false" />
+          <Handler functionName="QuickDupeDetect" libraryName="arup_DuplicateCheck" handlerUniqueId="{3aeb90c3-7c3a-3835-5aba-35da9039d38c}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_arupcompanyid">
+        <Handlers>
+          <Handler functionName="ccrm_arupcompanyid_onchange" libraryName="ccrm_lead_library_2015" handlerUniqueId="{42849697-a0c1-655d-738a-93e5d902e051}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_accountingcentreid">
+        <Handlers>
+          <Handler functionName="ccrm_accountingcentreid_onchange" libraryName="ccrm_lead_library_2015" handlerUniqueId="{0c235ccc-72a0-82ed-7289-e852b094ca00}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ownerid">
+        <Handlers>
+          <Handler functionName="setLeadOwnerDetails" libraryName="ccrm_lead_library_2015" handlerUniqueId="{7270a4e7-5d6c-75d9-c5d4-1272c7e16d72}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_client">
+        <Handlers>
+          <Handler functionName="QuickDupeDetect" libraryName="arup_DuplicateCheck" handlerUniqueId="{4eeeadcd-8ce4-e16b-3de7-56d0a3214213}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_arupbusiness">
+        <Handlers>
+          <Handler functionName="QuickDupeDetect" libraryName="arup_DuplicateCheck" handlerUniqueId="{3923a82e-b392-5a0a-aead-3a0dc9abc59d}" enabled="true" parameters="" passExecutionContext="false" />
+          <Handler handlerUniqueId="{982357e2-964e-0c40-7c5e-3b45b1c01db5}" functionName="ccrm_arupbusiness_onChange" libraryName="ccrm_lead_library_2015" enabled="true" passExecutionContext="false" parameters="true" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_contractarrangement">
+        <Handlers>
+          <Handler functionName="procurement_type_onchange" libraryName="ccrm_lead_library_2015" handlerUniqueId="{8b66a034-b88b-63dd-53b6-a05580e4a1e9}" enabled="false" parameters="" passExecutionContext="false" />
+          <Handler functionName="GetDependentFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{20b0a947-de5e-69e5-96ab-b7d587aeb440}" enabled="true" parameters="" passExecutionContext="true" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_arupinternal">
+        <Handlers>
+          <Handler functionName="GetDependentFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{8a083945-5519-ddc8-2848-689c6ee1d711}" enabled="true" parameters="" passExecutionContext="true" />
+          <Handler functionName="ParentOpportunityFilter" libraryName="ccrm_lead_library_2015" handlerUniqueId="{d270eb0e-2cd5-d3b2-20b5-64e0e441abe3}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="ccrm_arupusstateid">
+        <Handlers>
+          <Handler functionName="projectState_onChange" libraryName="ccrm_lead_library_2015" handlerUniqueId="{067552a4-3156-e495-c109-90b218ece5a8}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="arup_opportunitytype">
+        <Handlers>
+          <Handler functionName="GetDependentFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{d2b68d96-0d06-413d-c141-c783c9aecdc1}" enabled="true" parameters="" passExecutionContext="true" />
+          <Handler functionName="GetDependentOptionSetFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{43c33266-cad2-b26c-8491-963eb422a2d3}" enabled="true" parameters="&quot;arup_opportunitytype&quot;,&quot;ccrm_contractarrangement&quot;" passExecutionContext="false" />
+          <Handler functionName="GetDependentOptionSetFieldValues" libraryName="arup_dynamic_display_of_fieldvalue" handlerUniqueId="{916b872d-1222-9190-6061-6b77de2c2689}" enabled="true" parameters="&quot;arup_opportunitytype&quot;,&quot;leadsourcecode&quot;" passExecutionContext="false" />
+          <Handler functionName="opportunityType_onChange" libraryName="ccrm_lead_library_2015" handlerUniqueId="{e142ee5a-ee10-4c2d-7d3a-a2659a588a2e}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="arup_parentopportunityid">
+        <Handlers>
+          <Handler functionName="ParentOpportunity_Onchange" libraryName="ccrm_lead_library_2015" handlerUniqueId="{36e726de-8d1b-2c08-e358-9db6ed56d533}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="arup_arupregion">
+        <Handlers>
+          <Handler functionName="ArupRegion_OnChange" libraryName="ccrm_lead_library_2015" handlerUniqueId="{c3006a57-db4d-970d-41c7-6e8da06886b0}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+    </events>
+    <header id="{af5017db-93b9-4316-8323-de1d83b41d58}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+      <rows>
+        <row>
+          <cell id="{7da0c9b6-8289-4b50-ab33-b5f0568cadb9}" showlabel="true" locklevel="0" visible="false">
+            <labels>
+              <label description="Lead Owner" languagecode="1033" />
+            </labels>
+            <control id="header_ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" uniqueid="{cba5e514-4466-e381-d9e1-c275a341b419}" disabled="false">
+              <parameters>
+                <AutoResolve>true</AutoResolve>
+                <DisableMru>false</DisableMru>
+              </parameters>
+            </control>
+          </cell>
+          <cell id="{d942377d-033e-b246-c145-30e976894114}" showlabel="false">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+          <cell id="{c9970a03-31ca-95be-2740-4d79766c6069}" showlabel="true" locklevel="0">
+            <labels>
+              <label description="Reference ID" languagecode="1033" />
+            </labels>
+            <control id="header_arup_referenceid" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="arup_referenceid" disabled="true" uniqueid="{d5c76d42-1b75-7942-8491-aeb6738c7416}" />
+          </cell>
+        </row>
+      </rows>
+    </header>
+    <Navigation>
+      <NavBar>
+        <NavBarByRelationshipItem RelationshipName="Lead_ActivityPointers" Id="navActivities" Icon="/_imgs/ico_18_act.gif" Sequence="10" Area="Info">
+          <Privileges>
+            <Privilege Entity="" Privilege="ReadActivity" />
+          </Privileges>
+          <Titles>
+            <Title LCID="1033" Text="Activities" />
+          </Titles>
+        </NavBarByRelationshipItem>
+        <NavBarByRelationshipItem RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navCampaignsInSFA" Sequence="20" Area="Marketing" Id="navCampaignsInSFA" Show="false">
+          <Titles>
+            <Title LCID="1033" Text="Campaigns" />
+          </Titles>
+        </NavBarByRelationshipItem>
+        <NavBarByRelationshipItem RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navConnections" Id="navConnections" Sequence="9000" Area="Info">
+          <Titles>
+            <Title LCID="1033" Text="Connections" />
+          </Titles>
+        </NavBarByRelationshipItem>
+        <NavBarByRelationshipItem RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navDocument" Area="Info" Id="navDocument" Sequence="9001">
+          <Titles>
+            <Title LCID="1033" Text="Documents" />
+          </Titles>
+        </NavBarByRelationshipItem>
+        <NavBarByRelationshipItem RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navAsyncOperations" Sequence="9500" Area="ProcessCenter" Id="navAsyncOperations" Show="false">
+          <Titles>
+            <Title LCID="1033" Text="Workflows" />
+          </Titles>
+        </NavBarByRelationshipItem>
+        <NavBarByRelationshipItem RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navAudit" Sequence="9600" Area="Info" Id="navAudit">
+          <Titles>
+            <Title LCID="1033" Text="Audit History" />
+          </Titles>
+        </NavBarByRelationshipItem>
+        <NavBarByRelationshipItem RelationshipName="hardcoded_{B7196B13-6B9D-42CD-BD58-B19A3953126F}navProcessSessions" Sequence="9700" Area="ProcessCenter" Id="navProcessSessions" Show="false">
+          <Titles>
+            <Title LCID="1033" Text="Dialog Sessions" />
+          </Titles>
+        </NavBarByRelationshipItem>
+        <NavBarByRelationshipItem RelationshipName="leadcompetitors_association" Id="navLeadCompetitor" Area="Sales" Icon="/_imgs/ico_18_123.gif" Sequence="40" Show="false">
+          <Privileges>
+            <Privilege Entity="" Privilege="ReadCompetitor" />
+          </Privileges>
+          <Titles>
+            <Title LCID="1033" Text="Competitors" />
+          </Titles>
+        </NavBarByRelationshipItem>
+      </NavBar>
+      <NavBarAreas>
+        <NavBarArea Id="Sales">
+          <Titles>
+            <Title LCID="1033" Text="Sales" />
+          </Titles>
+        </NavBarArea>
+        <NavBarArea Id="Service">
+          <Titles>
+            <Title LCID="1033" Text="Service" />
+          </Titles>
+        </NavBarArea>
+        <NavBarArea Id="Marketing">
+          <Titles>
+            <Title LCID="1033" Text="Marketing" />
+          </Titles>
+        </NavBarArea>
+        <NavBarArea Id="ProcessCenter">
+          <Titles>
+            <Title LCID="1033" Text="Processes" />
+          </Titles>
+        </NavBarArea>
+        <NavBarArea Id="Info">
+          <Titles>
+            <Title LCID="1033" Text="Common" />
+          </Titles>
+        </NavBarArea>
+      </NavBarAreas>
+    </Navigation>
+    <DisplayConditions FallbackForm="true" Order="2">
+      <Everyone />
+    </DisplayConditions>
+    <controlDescriptions />
+    <formLibraries>
+      <Library name="scribe_HubSpot_Jscript" libraryUniqueId="{1c3418ae-d8cd-282a-9735-80978c41e38a}" />
+      <Library name="scribe_HubSpot_Workflow" libraryUniqueId="{cc51d0cc-21c2-6117-e272-85b2a165809b}" />
+      <Library name="mag_/jquery1.8.3.min.js" libraryUniqueId="{6ca21451-15dd-ae7e-e005-2627d3a57a12}" />
+      <Library name="ccrm_sdk_rest_data_library" libraryUniqueId="{d5197e45-8147-a301-50bc-e59c42ce4db8}" />
+      <Library name="ccrm_library/SDK.REST.js" libraryUniqueId="{290cdc1b-a803-3bec-9352-aee4cbb79334}" />
+      <Library name="ccrm_lead_library_2015" libraryUniqueId="{1e1ed763-8422-577e-8d4c-053cd2bbeeb9}" />
+      <Library name="mag_/js/alert.js" libraryUniqueId="{e8c04764-2b1c-a228-507b-11558093a34d}" />
+      <Library name="ccrm_ms_MultiSelect.js" libraryUniqueId="{4704921b-c165-90d7-e280-87bb6513ca64}" />
+      <Library name="arup_DuplicateCheck" libraryUniqueId="{0702d71c-496b-4e25-5399-a62c09c03356}" />
+      <Library name="mag_/js/alert.js" libraryUniqueId="{9ec7bdda-62ab-dbe4-8934-72a98d657721}" />
+      <Library name="mag_/js/notify.js" libraryUniqueId="{6ab338c3-bc39-5481-5a4b-54e53eea6452}" />
+      <Library name="arup_dynamic_display_of_fieldvalue" libraryUniqueId="{1ac11460-4de4-b5cd-4102-c32eadace806}" />
+    </formLibraries>
+    <footer id="{322e53e6-9b19-412a-b57b-c645459dc196}" columns="111">
+      <rows>
+        <row>
+          <cell id="{6932a08e-c9c8-31cd-dab1-15ca23223c03}" showlabel="true" locklevel="0">
+            <labels>
+              <label description="Status" languagecode="1033" />
+            </labels>
+            <control id="footer_statuscode" classid="{5D68B988-0661-4db2-BC3E-17598AD3BE6C}" datafieldname="statuscode" disabled="true" uniqueid="{9178ad6e-6b15-24ac-3c2b-cc8788e18c38}" />
+          </cell>
+          <cell id="{78ee7ed5-a312-1142-ea07-bd52ccce2473}" showlabel="true" locklevel="0">
+            <labels>
+              <label description="Created By" languagecode="1033" />
+            </labels>
+            <control id="footer_createdby" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="createdby" disabled="true" />
+          </cell>
+          <cell id="{244b229c-34a4-c1a6-6066-9b9c313dc721}" showlabel="true" locklevel="0">
+            <labels>
+              <label description="Created On" languagecode="1033" />
+            </labels>
+            <control id="footer_createdon" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="createdon" disabled="true" />
+          </cell>
+        </row>
+      </rows>
+    </footer>
+  </form>
+  <LocalizedNames>
+    <LocalizedName description="Lead" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="Updated default Lead form" languagecode="1033" />
+  </Descriptions>
+</systemform>

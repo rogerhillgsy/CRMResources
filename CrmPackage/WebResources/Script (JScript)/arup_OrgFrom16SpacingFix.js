@@ -153,6 +153,6 @@ function clearSpace() {
     var corTabP20 = window.parent.document.getElementsByName("tab_Openleads")[0];
     if (corTabP20 != undefined) {
         window.parent.document.getElementsByName("tab_Openleads")[0].style.padding = "0px";
-		window.parent.document.getElementsByName("tab_Openleads")[0].style.marginTop = "0px";
+        window.parent.document.getElementsByName("tab_Openleads")[0].style.marginTop = "0px";
     }
 }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{27780aa2-8477-e311-93fd-005056b5201f}" Name="2015 - Contract Limit of Liability" Description="Click to add description" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{27780aa2-8477-e311-93fd-005056b5201f}" Name="2015 - Contract Limit of Liability" Description="Click to add description">
   <XamlFileName>/Workflows/2015-ContractLimitofLiability-27780AA2-8477-E311-93FD-005056B5201F.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

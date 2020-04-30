@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{693549ec-429d-e611-80ef-005056b55b13}" Name="Update Won Reason field from statuscode" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{693549ec-429d-e611-80ef-005056b55b13}" Name="Update Won Reason field from statuscode">
   <XamlFileName>/Workflows/UpdateWonReasonfieldfromstatuscode-693549EC-429D-E611-80EF-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

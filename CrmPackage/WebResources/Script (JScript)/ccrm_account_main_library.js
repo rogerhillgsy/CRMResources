@@ -1,66 +1,73 @@
 ///<reference path="../Intellisense/Xrm.Page.2013.js"/>
-///<reference path="../Library/ccrm_ms_MultiSelect.js"/>
 
 parent.validateUrlProtocol = function () { return 1; }
 var globalDQTeam = false;
 var cgExists = false;
 var parentOrgType;
 var SSCTeam = false;
+var currUserData;
 
-function Form_onload(execContext) {
+var ArupRegionName = {
+    'Americas': 'Americas Region',
+    'Australasia': 'Australasia Region',
+    'CorporateServices': 'Corporate Services',
+    'DigitalTechnology': 'Digital Technology',
+    'EastAsia': 'East Asia Region',
+    'Europe': 'Europe',
+    'GroupBoard': 'Group Board',
+    'SouthernAfrica': 'Southern Africa Sub-Region',
+    'UKMEA': 'UKIMEA Region',
+    'Malaysia': 'Malaysia Region'
+};
 
-    if (Xrm.Page.context.client.getClient() == "Mobile") {
-        Xrm.Page.ui.tabs.get("ClientOverview").setVisible(false);
+function Form_onload(executionContext) {
+    var formContext = executionContext.getFormContext();
+    if (formContext.context.client.getClient() == "Mobile") {
+        formContext.ui.tabs.get("ClientOverview").setVisible(false);
     }
 
     //function for local language
-    uselocaladdress_onchange(execContext);
+    uselocaladdress_onchange(formContext);
 
-    //var SSCTeams = ['Shared Services Centre Team - Americas', 'Shared Services Centre Team - Australasia', 'Shared Services Centre Team - East Asia (Client Verification)',
-    //                'Shared Services Centre Team - East Asia (Credit Checks)', 'Shared Services Centre Team - Europe', 'Shared Services Centre Team - Global', 'Shared Services Centre Team - UKIMEA'];
-    //for (var i = 0; i < SSCTeams.length; i++) {
-    //    SSCTeam = userInTeamCheck(SSCTeams[i]);
-    //    if (SSCTeam == true) { break; }
-    //}
+    SSCTeam = isUserInSSCTeam(formContext);
 
-    SSCTeam = userInSSCTeam();
+    globalDQTeam = isUserInTeamCheck('Global Data Quality', formContext);
 
-    globalDQTeam = userInTeamCheck('Global Data Quality');
+    setCGFields(formContext);
 
-    setCGFields();
+    //formContext.ui.tabs.get("tab_Relationship_management").setVisible(false);
 
-    //function for managed account fields
-    //ccrm_managedclient_onchange();
-
-    //Xrm.Page.ui.tabs.get("tab_client_management").setVisible(false);
-    Xrm.Page.ui.tabs.get("tab_Relationship_management").setVisible(false);
-
-    if (Xrm.Page.data.entity.attributes.get("ccrm_legalentityname").getValue() == null) {
-        copyNameToLEN();
+    if (formContext.data.entity.attributes.get("ccrm_legalentityname").getValue() == null) {
+        copyNameToLEN(formContext);
     }
 
-    // this function will change the width of the header tile. It may not be supported
-    changeHeaderTileFormat();
+    if (formContext.ui.getFormType() != 1) {
 
-    //disable form if organisation name is 'unasigned'
-    if (Xrm.Page.getAttribute("name").getValue() == 'Unassigned') {
-        disableFormFields();
-    }
+        //disable form if organisation name is 'unasigned'
+        if (formContext.getAttribute("name").getValue() == 'Unassigned') {
+            onLoaddisableFormFields(formContext);
+        }
 
-    if (Xrm.Page.ui.getFormType() != 1) {
-        //  filterOpportunitiesGrid();
-        arup_highriskclient_onchange();
-        filterLeadsGrid();
+        // this function will change the width of the header tile. It may not be supported
+        changeHeaderTileFormat();
+
+        arup_highriskclient_onchange(formContext);
+        filterLeadsGrid(formContext);
+        country_onChange(formContext);
+        IsRegisteredAddressFromParentRecord(formContext);
+        currUserData = GetCurrentUserDetails(formContext.context.getUserId());
+        DisplayCOVID19Section(currUserData, formContext);
+        toggleSections(formContext);
     }
 }
 
 // runs on Exit button
-function exitForm() {
-
+function exitForm(primaryControl) {
+    var formContext = primaryControl;
     //see if the form is dirty
-    var ismodified = Xrm.Page.data.entity.getIsDirty();
+    var ismodified = formContext.data.entity.getIsDirty();
     if (ismodified == false) {
-        Xrm.Page.ui.close();
+        formContext.ui.close();
         return;
     }
 
@@ -70,19 +77,18 @@ function exitForm() {
             {
                 label: "<b>Save and Exit</b>",
                 callback: function () {
-                    var acctAttributes = Xrm.Page.data.entity.attributes.get();
+                    var acctAttributes = formContext.data.entity.attributes.get();
                     var highlight = true;
                     var cansave = true;
                     if (acctAttributes != null) {
                         for (var i in acctAttributes) {
                             if (acctAttributes[i].getRequiredLevel() == 'required') {
-                                highlight = Xrm.Page.getAttribute(acctAttributes[i].getName()).getValue() != null;
+                                highlight = formContext.getAttribute(acctAttributes[i].getName()).getValue() != null;
                                 if (highlight == false && cansave == true) { cansave = false; }
-                                //highlightField(null, '#' + acctAttributes[i].getName(), highlight);
                             }
                         }
                     }
-                    if (cansave) { Xrm.Page.data.entity.save("saveandclose"); }
+                    if (cansave) { formContext.data.entity.save("saveandclose"); }
                 },
                 setFocus: true,
                 preventClose: false
@@ -91,14 +97,14 @@ function exitForm() {
                 label: "<b>Exit Only</b>",
                 callback: function () {
                     //get list of dirty fields
-                    var acctAttributes = Xrm.Page.data.entity.attributes.get();
+                    var acctAttributes = formContext.data.entity.attributes.get();
                     if (acctAttributes != null) {
                         for (var i in acctAttributes) {
                             if (acctAttributes[i].getIsDirty()) {
-                                Xrm.Page.getAttribute(acctAttributes[i].getName()).setSubmitMode("never");
+                                formContext.getAttribute(acctAttributes[i].getName()).setSubmitMode("never");
                             }
                         }
-                        setTimeout(function () { Xrm.Page.ui.close(); }, 1000);
+                        setTimeout(function () { formContext.ui.close(); }, 1000);
                     }
                 },
                 setFocus: false,
@@ -108,57 +114,82 @@ function exitForm() {
         'Warning', 600, 250, '', true);
 }
 
-function disableFormFields() {
-
+function onLoaddisableFormFields(formContext) {
     if (!globalDQTeam) {
 
-        Xrm.Page.data.entity.attributes.forEach(function (attribute, index) {
-            var control = Xrm.Page.getControl(attribute.getName());
+        formContext.data.entity.attributes.forEach(function (attribute, index) {
+            var control = formContext.getControl(attribute.getName());
             if (control) {
                 control.setDisabled(true)
             }
         });
 
-        if (Xrm.Page.getControl('header_ccrm_clienttype')) {
-            Xrm.Page.getControl('header_ccrm_clienttype').setDisabled(true);
+        if (formContext.getControl('header_ccrm_clienttype')) {
+            formContext.getControl('header_ccrm_clienttype').setDisabled(true);
         }
-        if (Xrm.Page.getControl('header_ccrm_clientgroupingid')) {
-            Xrm.Page.getControl('header_ccrm_clientgroupingid').setDisabled(true);
+        if (formContext.getControl('header_ccrm_keyaccounttype')) {
+            formContext.getControl('header_ccrm_keyaccounttype').setDisabled(true);
         }
-        if (Xrm.Page.getControl('header_ccrm_keyaccounttype')) {
-            Xrm.Page.getControl('header_ccrm_keyaccounttype').setDisabled(true);
-        }
-        if (Xrm.Page.getControl('header_statuscode')) {
-            Xrm.Page.getControl('header_statuscode').setDisabled(true);
+        if (formContext.getControl('header_statuscode')) {
+            formContext.getControl('header_statuscode').setDisabled(true);
         }
 
-
-        Xrm.Page.ui.setFormNotification("This form has been locked down for editing. Please contact Global Data Quality Team to make changes to this record.", "INFORMATION", "UNASSIGNEDLOCKED");
-        setTimeout(function () { Xrm.Page.ui.clearFormNotification("UNASSIGNEDLOCKED"); }, 15000);
+        formContext.ui.setFormNotification("This form has been locked down for editing. Please contact Global Data Quality Team to make changes to this record.", "INFORMATION", "UNASSIGNEDLOCKED");
+        setTimeout(function () { formContext.ui.clearFormNotification("UNASSIGNEDLOCKED"); }, 15000);
     }
 }
 
+function userInTeamCheck(TeamName, primaryControl) {
+    var formContext = primaryControl;
+    isUserInTeamCheck(TeamName, formContext);
+}
+
 //Param - teamm name . This function checks whether the logged in user is a member of the team. Returns true if he/ she is a member.
-function userInTeamCheck(TeamName) {
-
+function isUserInTeamCheck(TeamName, formContext) {
     var IsPresentInTeam = false;
-
     try {
-        var filter = "SystemUserId eq (guid'" + Xrm.Page.context.getUserId() + "')";
-        var dataset = "TeamMembershipSet";
-        var retrievedMultiple = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);
-        var results = retrievedMultiple.results;
+        Xrm.WebApi.online.retrieveMultipleRecords("teammembership", "?$select=systemuserid,teamid&$filter=systemuserid eq " + formContext.context.getUserId() + "").then(
+            function success(results) {
+                for (var i = 0; i < results.entities.length; i++) {
+                    var teamid = results.entities[i]["teamid"];
 
-        for (i = 0; i < results.length; i++) {
-            var filterTeam = "TeamId eq (guid'" + results[i].TeamId + "')";
-            var datasetTeam = "TeamSet";
-            var retrievedMultipleTeam = ConsultCrm.Sync.RetrieveMultipleRequest(datasetTeam, filterTeam);
-            var resultsTeam = retrievedMultipleTeam.results;
-            if (resultsTeam[0].Name == TeamName) {
-                IsPresentInTeam = true;
-                break;
+                    Xrm.WebApi.online.retrieveMultipleRecords("team", "?$select=name,teamid&$filter=teamid eq " + teamid +"").then(
+                        function success(results) {
+                            for (var i = 0; i < results.entities.length; i++) {
+                                var name = results.entities[i]["name"];
+
+                                if (name == TeamName) {
+                                    IsPresentInTeam = true;
+                                    break;
+                                }
+                            }
+                        },
+                        function (error) {
+                            Xrm.Utility.alertDialog(error.message);
+                        }
+                    );
+                }
+            },
+            function (error) {
+                Xrm.Utility.alertDialog(error.message);
             }
-        }
+        );
+
+        //var filter = "SystemUserId eq (guid'" + formContext.context.getUserId() + "')";
+        //var dataset = "TeamMembershipSet";
+        //var retrievedMultiple = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);
+        //var results = retrievedMultiple.results;
+
+        //for (i = 0; i < results.length; i++) {
+        //    var filterTeam = "TeamId eq (guid'" + results[i].TeamId + "')";
+        //    var datasetTeam = "TeamSet";
+        //    var retrievedMultipleTeam = ConsultCrm.Sync.RetrieveMultipleRequest(datasetTeam, filterTeam);
+        //    var resultsTeam = retrievedMultipleTeam.results;
+        //    if (resultsTeam[0].Name == TeamName) {
+        //        IsPresentInTeam = true;
+        //        break;
+        //    }
+        //}
     }
     catch (err) {
         console.log('Team Error: ' + err.message);
@@ -166,13 +197,16 @@ function userInTeamCheck(TeamName) {
     return IsPresentInTeam;
 }
 
+function userInSSCTeam(primaryControl) {
+    var formContext = primaryControl;
+    isUserInSSCTeam(formContext);
+}
 
-function userInSSCTeam() {
-
+function isUserInSSCTeam(formContext) {
     var req = new XMLHttpRequest();
-    var userid = Xrm.Page.context.getUserId().replace('{', '').replace('}', '');
+    var userid = formContext.context.getUserId().replace('{', '').replace('}', '');
     var userExists = false;
-    req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v8.2/teammemberships?$filter=systemuserid eq " + userid + " and (teamid eq 01886278-29CF-E911-8128-00505690CB20 or teamid eq F469F99A-29CF-E911-8128-00505690CB20 or teamid eq 0F61DA8A-29CF-E911-8128-00505690CB20 or teamid eq 8D568D76-48E5-E911-812B-00505690CB20 or teamid eq A7E35C81-29CF-E911-8128-00505690CB20 or teamid eq 12129B56-29CF-E911-8128-00505690CB20 or teamid eq 2247756B-29CF-E911-8128-00505690CB20)", false);
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/teammemberships?$filter=systemuserid eq " + userid + " and (teamid eq 01886278-29CF-E911-8128-00505690CB20 or teamid eq F469F99A-29CF-E911-8128-00505690CB20 or teamid eq 0F61DA8A-29CF-E911-8128-00505690CB20 or teamid eq 8D568D76-48E5-E911-812B-00505690CB20 or teamid eq A7E35C81-29CF-E911-8128-00505690CB20 or teamid eq 12129B56-29CF-E911-8128-00505690CB20 or teamid eq 2247756B-29CF-E911-8128-00505690CB20)", false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -185,12 +219,94 @@ function userInSSCTeam() {
                 var results = JSON.parse(this.response);
                 userExists = results.value.length > 0;
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
     req.send();
     return userExists;
+}
+
+function country_onChange(formContext) {
+
+    canada_visibility(formContext);
+    //clear_state();
+    established_government_client_visibility(formContext);
+}
+
+function countryID_onChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    country_onChange(formContext);
+}
+
+function canada_visibility(formContext) {
+
+    if (formContext.getAttribute("ccrm_countryid").getValue() != null && formContext.getAttribute("ccrm_countryid").getValue() != "undefined") {
+        var isVisible = formContext.getAttribute("ccrm_countryid").getValue()[0].name == 'Canada';
+
+        formContext.ui.tabs.get("SUMMARY_TAB").sections.get("canada_privacy").setVisible(isVisible);
+    }
+}
+
+//function clear_state() {
+
+//    if (Xrm.Page.getAttribute("ccrm_countryid").getValue() == null || Xrm.Page.getAttribute("ccrm_countryid").getValue() == "undefined") {
+//        Xrm.Page.getAttribute("ccrm_countrystate").setValue(null);
+//        Xrm.Page.getAttribute("address1_stateorprovince").setValue(null);
+//        return;
+//    }
+
+//    if (stateRequired(Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].name)) {
+
+//        Xrm.Page.getAttribute("ccrm_countrystate").setValue(null);
+//    }
+//    else {
+//        Xrm.Page.getAttribute("address1_stateorprovince").setValue(null);
+//    }
+//}
+
+function established_government_client_visibility(formContext) {
+
+    var countryID = formContext.getAttribute('ccrm_countryid').getValue();
+    if (countryID == null) {
+        if (globalDQTeam) {
+            formContext.getAttribute('arup_governmentclient').setValue(false);
+        }
+        return;
+    }
+
+    countryID = countryID[0].id.replace('{', '').replace('}', '');
+    var isVisible = false;
+    if (countryID != null) {
+
+        var req = new XMLHttpRequest();
+        req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_countries?$select=_ccrm_arupregionid_value&$expand=ccrm_arupregionid($select=ccrm_arupregioncode)&$filter=ccrm_countryid eq " + countryID, true);
+        req.setRequestHeader("OData-MaxVersion", "4.0");
+        req.setRequestHeader("OData-Version", "4.0");
+        req.setRequestHeader("Accept", "application/json");
+        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+        req.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 200) {
+                    var results = JSON.parse(this.response);
+                    for (var i = 0; i < results.value.length; i++) {
+                        var _ccrm_arupregionid_value_formatted = results.value[i]["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
+                        if (_ccrm_arupregionid_value_formatted != null) {
+                            _ccrm_arupregionid_value_formatted = _ccrm_arupregionid_value_formatted.toUpperCase();
+                            isVisible = _ccrm_arupregionid_value_formatted.includes('AUSTRALASIA') || _ccrm_arupregionid_value_formatted.includes('MALAYSIA');
+                        }
+                        formContext.getControl('arup_governmentclient').setVisible(isVisible);
+                        if (!isVisible && formContext.getAttribute('arup_governmentclient').getValue() == true && globalDQTeam) { formContext.getAttribute('arup_governmentclient').setValue(false); }
+                    }
+                } else {
+                    Xrm.Navigation.openAlertDialog(this.statusText);
+                }
+            }
+        };
+        req.send();
+    }
 }
 
 function changeHeaderTileFormat() {
@@ -201,31 +317,6 @@ function changeHeaderTileFormat() {
         for (var i = 0; i < headertiles.length; i++) {
             headertiles[i].style.width = "350px";
         }
-    }
-}
-
-function canada_visibility() {
-
-    if (Xrm.Page.getAttribute("ccrm_countryid").getValue() != null && Xrm.Page.getAttribute("ccrm_countryid").getValue() != "undefined") {
-        var isVisible = Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].name == 'Canada';
-
-        Xrm.Page.ui.tabs.get("SUMMARY_TAB").sections.get("canada_privacy").setVisible(isVisible);
-    }
-}
-
-function clear_state() {
-
-    if (Xrm.Page.getAttribute("ccrm_countryid").getValue() == null || Xrm.Page.getAttribute("ccrm_countryid").getValue() == "undefined") {
-        Xrm.Page.getAttribute("ccrm_countrystate").setValue(null);
-        Xrm.Page.getAttribute("address1_stateorprovince").setValue(null);
-        return;
-    }
-
-    if (stateRequired(Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].name)) {
-        Xrm.Page.getAttribute("ccrm_countrystate").setValue(null);
-    }
-    else {
-        Xrm.Page.getAttribute("address1_stateorprovince").setValue(null);
     }
 }
 
@@ -299,7 +390,7 @@ function filterOpportunitiesGrid() {
     }
 }
 
-function filterLeadsGrid() {
+function filterLeadsGrid(formContext) {
     //get the subgrid 
     var objSubGrid = window.parent.document.getElementById("Leads");
 
@@ -310,7 +401,7 @@ function filterLeadsGrid() {
     }
     else {
         //when subgrid is loaded, get GUID
-        var GUIDvalue = Xrm.Page.data.entity.getId();
+        var GUIDvalue = formContext.data.entity.getId();
 
         //Create FetchXML for sub grid to filter records based on GUID
         var FetchXml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
@@ -381,98 +472,40 @@ function fnSharePoint() {
 }
 
 //create sharepoint button
-function fnBtnCreateSharePoint() {
+function fnBtnCreateSharePoint(primaryControl) {
+    var formContext = primaryControl;
     alert('Your request to create a Document Store has been sent');
 
     //set the sharepoint flag
-    Xrm.Page.getAttribute("ccrm_sys_sharepoint_trigger").setValue(true);
-    Xrm.Page.getAttribute("ccrm_sys_sharepoint_status").setValue(1);
+    formContext.getAttribute("ccrm_sys_sharepoint_trigger").setValue(true);
+    formContext.getAttribute("ccrm_sys_sharepoint_status").setValue(1);
     //force submit
-    Xrm.Page.getAttribute("ccrm_sys_sharepoint_trigger").setSubmitMode("always");
-    Xrm.Page.getAttribute("ccrm_sys_sharepoint_status").setSubmitMode("always");
+    formContext.getAttribute("ccrm_sys_sharepoint_trigger").setSubmitMode("always");
+    formContext.getAttribute("ccrm_sys_sharepoint_status").setSubmitMode("always");
     //force save
-    Xrm.Page.data.entity.save();
-}
-
-//function to make fields in Client Management section visible
-function ccrm_managedclient_onchange() {
-
-    var isVisibile = Xrm.Page.getAttribute("ccrm_keyaccount").getValue() == true;
-
-    Xrm.Page.ui.tabs.get("SUMMARY_TAB").sections.get("client_management_tab").setVisible(isVisibile);
-
-    //arup_highriskclient_onchange();
-
+    formContext.data.entity.save();
 }
 
 //function to make local language fields visible
-function uselocaladdress_onchange(execContext) {
-
-    var isVisible = Xrm.Page.getAttribute("ccrm_uselocaladdress").getValue() == true;
-    var formContext = execContext.getFormContext();
+function uselocaladdress_onchange(formContext) {
+    var isVisible = formContext.getAttribute("ccrm_uselocaladdress").getValue() == true;
     var tabObj = formContext.ui.tabs.get('contact_details');
     var sectionObj = tabObj.sections.get('section_LocalAddress');
-
     sectionObj.setVisible(isVisible);
-
-    //Xrm.Page.ui.tabs.get("contact_details").sections.get("section_LocalAddress").setVisible(isVisible);
-
 }
 
-function arup_highriskclient_onchange() {
-
-    //var managedClient = Xrm.Page.getAttribute("ccrm_keyaccount").getValue();
-    var relationshipManager = Xrm.Page.getAttribute("ccrm_keyaccountmanagerid").getValue() == null ? 'Relationship Manager for this client.' : Xrm.Page.getAttribute("ccrm_keyaccountmanagerid").getValue()[0].name + ', the Client Relationship manager.';
-
-    //if (managedClient != true || Xrm.Page.getAttribute("ccrm_keyaccountmanagerid").getValue() == null || !globalDQTeam) {
-
-    //    Xrm.Page.getAttribute("arup_highriskclient").setValue(false);
-    //    Xrm.Page.getControl('arup_highriskclient').setDisabled(true);
-
-    //}
-    //else if (managedClient == true && Xrm.Page.getAttribute("ccrm_keyaccountmanagerid").getValue() != null && globalDQTeam) {
-
-    //    Xrm.Page.getControl('arup_highriskclient').setDisabled(false);
-
-    //}
-
-    var highRisk = Xrm.Page.getAttribute("arup_highriskclient").getValue();
-
+function arup_highriskclient_onchange(formContext) {
+    var relationshipManager = formContext.getAttribute("ccrm_keyaccountmanagerid").getValue() == null ? 'Relationship Manager for this client.' : formContext.getAttribute("ccrm_keyaccountmanagerid").getValue()[0].name + ', the Client Relationship manager.';
+    var highRisk = formContext.getAttribute("arup_highriskclient").getValue();
     if (highRisk) {
         Notify.addOpp("<span style='font-weight:bold; color: white'>Before pursuing any opportunities with this client, please contact " + relationshipManager + " </span>", "WARNING", "highriskclient");
     }
     else { Notify.remove("highriskclient"); }
-
-}
-
-// Gloogle map url constructor
-function tabMap_onclick() {
-
-    DrawMap();
-}
-
-//NOT USED
-//// Loads map into iframe when called //
-function DrawMap() {
-    if (Xrm.Page.ui.getFormType() != 1) {
-        // Build the address for google maps 
-        var mapUrl = "";
-        if (Xrm.Page.getAttribute("address1_line1").getValue() != null) { mapUrl = mapUrl + Xrm.Page.getAttribute("address1_line1").getValue() + "+"; }
-        if (Xrm.Page.getAttribute("address1_line2").getValue() != null) { mapUrl = mapUrl + Xrm.Page.getAttribute("address1_line3").getValue() + "+"; }
-        if (Xrm.Page.getAttribute("address1_line3").getValue() != null) { mapUrl = mapUrl + Xrm.Page.getAttribute("address1_line3").getValue() + "+"; }
-        if (Xrm.Page.getAttribute("address1_city").getValue() != null) { mapUrl = mapUrl + Xrm.Page.getAttribute("address1_city").getValue() + "+"; }
-        if (Xrm.Page.getAttribute("address1_country").getValue() != null) { mapUrl = mapUrl + Xrm.Page.getAttribute("address1_country").getValue(); }
-
-        //Check if there's no address information
-        if (mapUrl != "") {
-            mapUrl = "http://maps.google.com/?q=" + mapUrl + "&output=embed&t=m";
-            // mapiframe.src = mapUrl;
-            Xrm.Page.getControl("IFRAME_GoogleMap").setSrc(mapUrl);
-        }
-    }
 }
 
 function setDate(date) {
+    debugger;
+    alert("Set Date function is called");
     var field = Xrm.Page.data.entity.attributes.get("ccrm_lastvalidatedbyid").getValue();
 
     if (field != null) {
@@ -481,34 +514,39 @@ function setDate(date) {
     }
 }
 
-function copyNameToLEN() {
-    var validated = Xrm.Page.data.entity.attributes.get("ccrm_lastvalidatedbyid").getValue();
-    var clientName = Xrm.Page.data.entity.attributes.get("name").getValue();
+function copyNameToLegal(execContext) {
+    var formContext = execContext.getFormContext();
+    copyNameToLEN(formContext);
+}
+
+function copyNameToLEN(formContext) {
+    var validated = formContext.data.entity.attributes.get("ccrm_lastvalidatedbyid").getValue();
+    var clientName = formContext.data.entity.attributes.get("name").getValue();
     if (validated == null && clientName != null) {
-        Xrm.Page.data.entity.attributes.get("ccrm_legalentityname").setValue(clientName);
+        formContext.data.entity.attributes.get("ccrm_legalentityname").setValue(clientName);
     }
 }
 
-function setCGFields() {
-
-    var validated = Xrm.Page.getAttribute("ccrm_lastvalidatedbyid");
+function setCGFields(formContext) {
+    var validated = formContext.getAttribute("ccrm_lastvalidatedbyid");
     if (!validated || !validated.getValue()) { return; }
 
-    Xrm.Page.getControl("ccrm_legalentityname").setDisabled(!SSCTeam);//Took off this part after clarification !globalDQTeam &&
-    Xrm.Page.getControl("ccrm_clienttype").setDisabled(!globalDQTeam);
-    Xrm.Page.getControl("header_ccrm_clienttype").setDisabled(!globalDQTeam);
-    Xrm.Page.getControl("ccrm_clientsectorpicklistname").setDisabled(!globalDQTeam);
-    Xrm.Page.getControl("arup_highriskclient").setDisabled(!globalDQTeam);
+    formContext.getControl("ccrm_legalentityname").setDisabled(!SSCTeam);//Took off this part after clarification !globalDQTeam &&
+    formContext.getControl("ccrm_clienttype").setDisabled(!globalDQTeam);
+    formContext.getControl("header_ccrm_clienttype").setDisabled(!globalDQTeam);
+    formContext.getControl("ccrm_clientsectorpicklistname").setDisabled(!globalDQTeam);
+    formContext.getControl("arup_highriskclient").setDisabled(!globalDQTeam);
 
     if (!globalDQTeam) {
-        Xrm.Page.ui.setFormNotification("Some of the fields on this form have been locked down. Please contact Global Data Quality Team to make changes to these fields.", "INFORMATION", "DQLOCKED");
-        setTimeout(function () { Xrm.Page.ui.clearFormNotification("DQLOCKED"); }, 15000);
+        formContext.ui.setFormNotification("Some of the fields on this form have been locked down. Please contact Global Data Quality Team to make changes to these fields.", "INFORMATION", "DQLOCKED");
+        setTimeout(function () { formContext.ui.clearFormNotification("DQLOCKED"); }, 15000);
     }
 }
 
 //Date - 04/04/2016 
 //Below function will be executed on save event whenever status changed. 
 // if parent Account id associated then will be copy to parent account copy field on deactivation
+// Cannot find Function in the Org Form - Updated on 06/04/2020
 function Form_onsave(prmContext) {
 
     //if parent Org field changed or it's a brand new record that has parent Org
@@ -547,16 +585,24 @@ function checkParentClientGrouping(parentFieldName) {
     var orgID = org[0].id;
     if (orgID == null) { return false; }
 
-    SDK.REST.retrieveRecord(orgID, 'Account', "ccrm_ClientGroupings", null, retrieveCG, errorHandler, false);
+    //SDK.REST.retrieveRecord(orgID, 'Account', "ccrm_ClientGroupings", null, retrieveCG, errorHandler, false);
 
+    Xrm.WebApi.online.retrieveRecord("account", orgID, "?$select=_ccrm_clientgroupings_value").then(
+        function success(result) {
+            cgExists = result["_ccrm_clientgroupings_value@OData.Community.Display.V1.FormattedValue"] != null;
+        },
+        function (error) {
+            Xrm.Utility.alertDialog(error.message);
+        }
+    );
 }
 
-function retrieveCG(account) {
+//function retrieveCG(account) {
 
-    if (account != null) {
-        cgExists = account.ccrm_ClientGroupings.Name != null;
-    }
-}
+//    if (account != null) {
+//        cgExists = account.ccrm_ClientGroupings.Name != null;
+//    }
+//}
 
 function errorHandler(error) {
     alert(error.message);
@@ -574,12 +620,9 @@ function removeParents(saveMode) {
 }
 
 function removeParentOrg(activationMode) {
-
     // record is being activated
     if (activationMode == 6) {
-
         getLookupValue(activationMode, 'ccrm_parentaccountcopy', 'parentaccountid');
-
     }
 }
 
@@ -601,15 +644,12 @@ function getLookupValue(activationMode, fieldNameFrom, fieldNameTo) {
                 return;
 
         }
-
         // copy the value
         setLookupValue(entityId, entityType, entityName, fieldNameTo);
 
         // set the value of the current field to null
         setLookupNull(fieldNameFrom);
-
     }
-
 }
 
 function setLookupValue(id, type, name, fieldName) {
@@ -672,24 +712,22 @@ function OpenOrgOverviewReport() {
 
 
 function OpenClientOverviewReport(accountID, selectedRecCount) {
-    //debugger;
     if (selectedRecCount > 1) {
-        Xrm.Utility.alertDialog('Please select only one record.');
+        Xrm.Navigation.openAlertDialog('Please select only one record.');
         return;
     }
     else if (selectedRecCount < 1) {
-        Xrm.Utility.alertDialog('Please select a organization record first and then click.');
+        Xrm.Navigation.openAlertDialog('Please select a organization record first and then click.');
         return;
     }
-    //alert(accountID);
     var parentAccId = '{00000000-0000-0000-0000-000000000000}';
     accountID = accountID.substr(1, accountID.length - 2);
     var customParameters = encodeURIComponent("accountID=" + accountID + "&parentAccID=" + parentAccId);
-    Xrm.Utility.openWebResource('ccrm_/HTML/ClientOverViewReport.html', customParameters, 1100, 800);
-
+    Xrm.Navigation.openWebResource('ccrm_/HTML/ClientOverViewReport.html', customParameters, 1100, 800);
 }
 
-function checkDueDiligence() {
+function checkDueDiligence(primaryControl) {
+    var formContext = primaryControl;
     //Update to this field will trigger the DD check plugin
     Alert.show('<font size="6" color="#FF9B1E"><b>Due Diligence Check</b></font>',
         '<font size="3" color="#000000"></br>You are about to request for a Due Diligence check for the organisation.\n Do you want to Continue? </br></br>Click "Proceed Sanctions Check" to confirm, or "Do Not Check" to cancel.</font>',
@@ -697,8 +735,8 @@ function checkDueDiligence() {
             {
                 label: "<b>Proceed Sanctions Check</b>",
                 callback: function () {
-                    Xrm.Page.getAttribute("arup_checkduediligencetrigger").setValue(1);
-                    Xrm.Page.data.save();
+                    formContext.getAttribute("arup_checkduediligencetrigger").setValue(1);
+                    formContext.data.save();
                 },
                 setFocus: false,
                 preventClose: false
@@ -713,44 +751,65 @@ function checkDueDiligence() {
 
 }
 
-function checkOrganisationStatus() {
+function checkOrganisationStatusOnLoad(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var orgStatus = formContext.getAttribute("statuscode").getValue();
+    if (orgStatus != null && orgStatus == 770000000) {
+        disableOrgFormFields(false, formContext);
+    }
+}
 
+function checkOrganisationStatus() {
     var orgStatus = Xrm.Page.getAttribute("statuscode").getValue();
     if (orgStatus != null && orgStatus == 770000000) {
-        var checkDD = false;
-        disableFormFields(checkDD);
+        disableOrgFormFields(false, formContext);
     } else {
         enableFormFields();
     }
 }
 
-function disableFormFields(checkDD) {
+function disableFormFields(checkDD, primaryControl) {
+    var formContext = primaryControl;
+    disableOrgFormFields(checkDD, formContext);
+}
 
-    var tabs = Xrm.Page.ui.tabs.get();
-    var checkAddressFields = CheckRegisteredAddressFields();
+function disableOrgFormFields(checkDD, formContext) {
+    var tabs = formContext.ui.tabs.get();
+    var checkAddressFields = CheckRegisteredAddressFields(formContext);
     if (checkAddressFields) {
         for (var tab in tabs) {
             var tabName = tabs[tab].getName();
             if (tabName == "SUMMARY_TAB" || tabName == "contact_details" || tabName == "tab_Address" || tabName == "tab_Company_Registration") {
-                tab = Xrm.Page.ui.tabs.get(tabName);
+                tab = formContext.ui.tabs.get(tabName);
                 var tabsections = tab.sections.get();
                 for (var i in tabsections) {
                     if (tabsections[i].getVisible() == true) {
                         var secname = tabsections[i].getName();
-                        sectiondisable(secname, true);
+                        sectiondisable(secname, true, formContext);
                     }
                 }
             }
         }
 
-        if (Xrm.Page.getAttribute("statuscode").getValue() != 770000000) {
-            Xrm.Page.getAttribute("statuscode").setValue(770000000);
+        if (formContext.getAttribute("statuscode").getValue() != 770000000) {
+            formContext.getAttribute("statuscode").setValue(770000000);
         }
         if (checkDD) {
-            Xrm.Page.getAttribute("arup_checkduediligencetrigger").setValue(1);
+            formContext.getAttribute("arup_checkduediligencetrigger").setValue(1);
+
+            formContext.getAttribute("ccrm_lastvalidatedbyid").setValue([
+                {
+                    id: formContext.context.getUserId(),
+                    name: formContext.context.getUserName(),
+                    entityType: "systemuser",
+                }
+            ]);
+
+            formContext.getAttribute("ccrm_lastvalidateddate").setValue(new Date());
         }
-        Xrm.Page.data.entity.save();
-        Xrm.Page.ui.setFormNotification("The Organisation form has been locked by the Shared Service Centre Team. To request any changes on the form, please click on 'Request Change' button on the ribbon menu.", "INFORMATION", "1");
+
+        formContext.data.entity.save();
+        formContext.ui.setFormNotification("The Organisation form has been locked by the Shared Service Centre Team. To request any changes on the form, please click on 'Request Change' button on the ribbon menu.", "INFORMATION", "1");
     }
     else {
         Alert.show('<font size="6" color="#FF9B1E"><b>Registered Address Details</b></font>',
@@ -758,7 +817,7 @@ function disableFormFields(checkDD) {
             [
                 {
                     label: "OK", callback: function () {
-                        Xrm.Page.getControl("ccrm_countryofcoregistrationid").setFocus();
+                        formContext.getControl("ccrm_countryofcoregistrationid").setFocus();
                     }
                 }
             ],
@@ -766,33 +825,33 @@ function disableFormFields(checkDD) {
     }
 }
 
-function enableFormFields() {
-
-    var tabs = Xrm.Page.ui.tabs.get();
+function enableFormFields(primaryControl) {
+    var formContext = primaryControl;
+    var tabs = formContext.ui.tabs.get();
     for (var tab in tabs) {
         var tabName = tabs[tab].getName();
         if (tabName == "SUMMARY_TAB" || tabName == "contact_details" || tabName == "tab_Address" || tabName == "tab_Company_Registration") {
-            tab = Xrm.Page.ui.tabs.get(tabName);
+            tab = formContext.ui.tabs.get(tabName);
             var tabsections = tab.sections.get();
             for (var i in tabsections) {
                 if (tabsections[i].getVisible() == true) {
                     var secname = tabsections[i].getName();
-                    sectiondisable(secname, false);
+                    sectiondisable(secname, false, formContext);
                 }
             }
         }
     }
 
-    Xrm.Page.ui.clearFormNotification("1");
-    if (Xrm.Page.getAttribute("statuscode").getValue() != 1) {
-        Xrm.Page.getAttribute("statuscode").setValue(1);
-        Xrm.Page.data.entity.save();
+    formContext.ui.clearFormNotification("1");
+    if (formContext.getAttribute("statuscode").getValue() != 1) {
+        formContext.getAttribute("statuscode").setValue(1);
+        formContext.data.entity.save();
     }
 }
 
-function sectiondisable(sectionname, disablestatus) {
+function sectiondisable(sectionname, disablestatus, formContext) {
 
-    var ctrlName = Xrm.Page.ui.controls.get();
+    var ctrlName = formContext.ui.controls.get();
     for (var j in ctrlName) {
         var ctrl = ctrlName[j];
         var controlType = ctrl.getControlType();
@@ -803,104 +862,118 @@ function sectiondisable(sectionname, disablestatus) {
                 if (defaultElements.indexOf(ctrl.getName()) == -1) {
                     ctrl.setDisabled(disablestatus);
                 }
+                if (disablestatus) {
+                    formContext.getControl("ccrm_legalentityname").setDisabled(disablestatus);
+                } else {
+                    formContext.getControl("ccrm_legalentityname").setDisabled(!SSCTeam);
+                }
             }
         }
     }
 }
 
-function requestChange() {
-
-    var orgId = Xrm.Page.data.entity.getId().replace(/[{}]/g, "");
-    var clientUrl = Xrm.Page.context.getClientUrl();
+function requestChange(primaryControl) {
+    var formContext = primaryControl;
+    var orgId = formContext.data.entity.getId().replace(/[{}]/g, "");
     if (orgId != null) {
         var customParameters = encodeURIComponent("orgId=" + orgId);
         DialogOption = new Xrm.DialogOptions;
         DialogOption.width = 700;
         DialogOption.height = 400;
-        Xrm.Internal.openDialog(Xrm.Page.context.getClientUrl() +
+        Xrm.Internal.openDialog(formContext.context.getClientUrl() +
             "/WebResources/arup_organisationrequestchange?Data=" +
             customParameters,
             DialogOption,
             null,
             null,
             function (returnValue) {
-                Xrm.Page.getAttribute("arup_requestchange").setValue(returnValue);
-                Xrm.Page.data.entity.save();
+                formContext.getAttribute("arup_requestchange").setValue(returnValue);
+                formContext.data.entity.save();
             });
     }
 }
 
-function OpenAttachmentPage() {
-
-    var url = "WebResources/arup_UploadAttachments?id=" + Xrm.Page.data.entity.getId() + "&typename=account&data=Documents";
+function OpenAttachmentPage(primaryControl) {
+    var formContext = primaryControl;
+    var url = "WebResources/arup_UploadAttachments?id=" + formContext.data.entity.getId() + "&typename=account&data=Documents";
     window.open(url, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=400");
 
 }
 
-function onChange_showrelform() {
-
-    var staterel = Xrm.Page.getAttribute("arup_showrelationshipform").getValue();
+function onChange_showrelform(primaryControl) {
+    var formContext = primaryControl;
+    var staterel = formContext.getAttribute("arup_showrelationshipform").getValue();
     return staterel == null ? false : staterel;
 }
 
-
 //function to call on 'Pull Data from Parent Record' checkbox
-function GetCountryOfCompanyRegistartion() {
-   if (Xrm.Page.getAttribute("arup_pulldatafromparentrecord").getValue() == "1") {
-        var legalClientName = Xrm.Page.getAttribute("ccrm_legalentityname").getValue();
-        formatLegalClientName = legalClientName.replace("'", "''");
-        var req = new XMLHttpRequest();
-        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v8.2/accounts?$select=_ccrm_countryofcoregistrationid_value,_ccrm_lastvalidatedbyid_value,arup_address3street1,arup_address3street2,arup_address3street3,arup_address3towncity,arup_address3zippostalcode,_arup_address3stateprovince_value,arup_address3statecountyprovince&$orderby=_parentaccountid_value asc&$filter=(name eq '" + formatLegalClientName + "')", true);
-        req.setRequestHeader("OData-MaxVersion", "4.0");
-        req.setRequestHeader("OData-Version", "4.0");
-        req.setRequestHeader("Accept", "application/json");
-        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-        req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-        req.onreadystatechange = function () {
-            if (this.readyState === 4) {
-                req.onreadystatechange = null;
-                if (this.status === 200) {
-                    var results = JSON.parse(this.response);
-                    AssignRegistrationDetails(results, legalClientName);
-                } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+function GetCountryOfCompanyRegistartion(executionContext) {
+    var formContext = executionContext.getFormContext();
+    if (formContext.getAttribute("arup_pulldatafromparentrecord").getValue() == "1") {
+        var legalClientName = formContext.getAttribute("ccrm_legalentityname").getValue();
+        if (legalClientName != null) {
+            formatLegalClientName = legalClientName.replace("'", "''");
+            var req = new XMLHttpRequest();
+            req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/accounts?$select=_ccrm_countryofcoregistrationid_value,_ccrm_lastvalidatedbyid_value,arup_address3street1,arup_address3street2,arup_address3street3,arup_address3towncity,arup_address3zippostalcode,_arup_address3stateprovince_value,arup_address3statecountyprovince,ccrm_organisationid&$orderby=_parentaccountid_value asc&$filter=(ccrm_legalentityname eq '" + formatLegalClientName + "' and statecode eq 0 and _ccrm_countryofcoregistrationid_value ne null and _ccrm_lastvalidatedbyid_value ne null)", true);
+            req.setRequestHeader("OData-MaxVersion", "4.0");
+            req.setRequestHeader("OData-Version", "4.0");
+            req.setRequestHeader("Accept", "application/json");
+            req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            req.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    req.onreadystatechange = null;
+                    if (this.status === 200) {
+                        var results = JSON.parse(this.response);
+                        AssignRegistrationDetails(results, legalClientName, formContext);
+                    } else {
+                        Xrm.Navigation.openAlertDialog(this.statusText);
+                    }
                 }
-            }
-        };
-        req.send();
+            };
+            req.send();
+        }
+        else {
+            Alert.show('<font size="6" color="#ca0000"><b>Country of Company Registration</b></font>',
+                '<font size="3" color="#000000"></br>Legal Client Name should be filled in to pull registration address</font>',
+                [
+                    new Alert.Button("<b>OK</b>")
+                ],
+                "ERROR", 600, 200, '', true);
+            formContext.getAttribute("arup_pulldatafromparentrecord").setValue(0);
+        }
     }
 }
 
-function AssignRegistrationDetails(results, legalClientName) {
+function AssignRegistrationDetails(results, legalClientName, formContext) {
 
     if (results.value.length > 0) {
         var _ccrm_countryofcoregistrationid_value = results.value[0]["_ccrm_countryofcoregistrationid_value"];
         var _ccrm_countryofcoregistrationid_value_formatted = results.value[0]["_ccrm_countryofcoregistrationid_value@OData.Community.Display.V1.FormattedValue"];
 
-        var _ccrm_lastvalidatedbyid_value = results.value[0]["_ccrm_lastvalidatedbyid_value"];
-
         var _arup_address3stateprovince_value = results.value[0]["_arup_address3stateprovince_value"];
         var _arup_address3stateprovince_value_formatted = results.value[0]["_arup_address3stateprovince_value@OData.Community.Display.V1.FormattedValue"];
 
-        if (_ccrm_countryofcoregistrationid_value != null && _ccrm_lastvalidatedbyid_value != null) {
-            Xrm.Page.getAttribute("ccrm_countryofcoregistrationid").setValue([
+        if (_ccrm_countryofcoregistrationid_value != null) {
+            formContext.getAttribute("ccrm_countryofcoregistrationid").setValue([
                 {
                     id: _ccrm_countryofcoregistrationid_value,
                     name: _ccrm_countryofcoregistrationid_value_formatted,
                     entityType: "ccrm_country"
                 }
             ]);
-            Xrm.Page.getAttribute("ccrm_countryofcoregistrationid").fireOnChange();
+            formContext.getAttribute("ccrm_countryofcoregistrationid").fireOnChange();
 
-            Xrm.Page.getAttribute("arup_address3street1").setValue(results.value[0]["arup_address3street1"]);
-            Xrm.Page.getAttribute("arup_address3street2").setValue(results.value[0]["arup_address3street2"]);
-            Xrm.Page.getAttribute("arup_address3street3").setValue(results.value[0]["arup_address3street3"]);
-            Xrm.Page.getAttribute("arup_address3towncity").setValue(results.value[0]["arup_address3towncity"]);
-            Xrm.Page.getAttribute("arup_address3zippostalcode").setValue(results.value[0]["arup_address3zippostalcode"]);
-            Xrm.Page.getAttribute("arup_address3statecountyprovince").setValue(results.value[0]["arup_address3statecountyprovince"]);
+            formContext.getAttribute("arup_address3street1").setValue(results.value[0]["arup_address3street1"]);
+            formContext.getAttribute("arup_address3street2").setValue(results.value[0]["arup_address3street2"]);
+            formContext.getAttribute("arup_address3street3").setValue(results.value[0]["arup_address3street3"]);
+            formContext.getAttribute("arup_address3towncity").setValue(results.value[0]["arup_address3towncity"]);
+            formContext.getAttribute("arup_address3zippostalcode").setValue(results.value[0]["arup_address3zippostalcode"]);
+            formContext.getAttribute("arup_address3statecountyprovince").setValue(results.value[0]["arup_address3statecountyprovince"]);
+            formContext.getAttribute("arup_parentorganisationid").setValue(results.value[0]["ccrm_organisationid"]);
 
             if (_arup_address3stateprovince_value != null) {
-                Xrm.Page.getAttribute("arup_address3stateprovince").setValue([
+                formContext.getAttribute("arup_address3stateprovince").setValue([
                     {
                         id: _arup_address3stateprovince_value,
                         name: _arup_address3stateprovince_value_formatted,
@@ -909,51 +982,38 @@ function AssignRegistrationDetails(results, legalClientName) {
                 ]);
             }
         }
-        else {
-            if (_ccrm_countryofcoregistrationid_value == null) {
-                Alert.show('<font size="6" color="#2E74B5"><b>Country Of Company Registration</b></font>',
-                    '<font size="3" color="#000000"></br>There is no country of company registration associated with legal client name <b>' + legalClientName + ' </b> </font>',
-                    [
-                        new Alert.Button("<b>OK</b>")
-                    ],
-                    "INFO", 600, 200, '', true);
-            }
-            if (_ccrm_lastvalidatedbyid_value == null) {
-                Alert.show('<font size="6" color="#2E74B5"><b>Country Of Company Registration</b></font>',
-                    '<font size="3" color="#000000"></br>Parent data is not validated for organisation with legal client name <b>' + legalClientName + ' </b> </font>',
-                    [
-                        new Alert.Button("<b>OK</b>")
-                    ],
-                    "INFO", 600, 200, '', true);
-            }
-            Xrm.Page.getAttribute("arup_pulldatafromparentrecord").setValue(0);
-        }
     } else {
-        Alert.show('<font size="6" color="#2E74B5"><b>Country Of Company Registration</b></font>',
-            '<font size="3" color="#000000"></br>There is no organisation associated with legal client name <b>' + legalClientName + ' </b> </font>',
+        Alert.show('<font size="6" color="#2E74B5"><b>Country of Company Registration</b></font>',
+            '<font size="3" color="#000000"></br>There is no active organisation that has been validated with legal client name <b>' + legalClientName + ' </b> </font>',
             [
                 new Alert.Button("<b>OK</b>")
             ],
             "INFO", 600, 200, '', true);
-        Xrm.Page.getAttribute("arup_pulldatafromparentrecord").setValue(0);
+        formContext.getAttribute("arup_pulldatafromparentrecord").setValue(0);
     }
 }
 
-function toggleSections() {
-    var staterel = Xrm.Page.getAttribute("ccrm_enablerelationship").getValue();
+function toggleSectionsOnChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    toggleSections(formContext);
+}
+
+function toggleSections(formContext) {
+    var staterel = formContext.getAttribute("ccrm_enablerelationship").getValue();
     if (staterel) {
-        Xrm.Page.ui.tabs.get("tab_Activites").setVisible(true);
-        Xrm.Page.ui.tabs.get("Interactions").setVisible(true);
+        formContext.ui.tabs.get("tab_Activites").setVisible(true);
+        formContext.ui.tabs.get("Interactions").setVisible(true);
     }
     else {
-        Xrm.Page.ui.tabs.get("tab_Activites").setVisible(false);
-        Xrm.Page.ui.tabs.get("Interactions").setVisible(false);
+        formContext.ui.tabs.get("tab_Activites").setVisible(false);
+        formContext.ui.tabs.get("Interactions").setVisible(false);
     }
 }
 
-function MicrosoftTeams() {
-    var orgId = Xrm.Page.data.entity.getId().replace(/[{}]/g, "");
-    var microsoftTeamsUrl = Xrm.Page.getAttribute("arup_microsoftteamsurl").getValue();
+function MicrosoftTeams(primaryControl) {
+    var formContext = primaryControl;
+    var orgId = formContext.data.entity.getId().replace(/[{}]/g, "");
+    var microsoftTeamsUrl = formContext.getAttribute("arup_microsoftteamsurl").getValue();
     if (microsoftTeamsUrl != null) {
         window.open(microsoftTeamsUrl, null, 800, 600, true, false, null);
     } else {
@@ -962,22 +1022,23 @@ function MicrosoftTeams() {
             DialogOption = new Xrm.DialogOptions;
             DialogOption.width = 700;
             DialogOption.height = 400;
-            Xrm.Internal.openDialog(Xrm.Page.context.getClientUrl() +
+            Xrm.Internal.openDialog(formContext.context.getClientUrl() +
                 "/WebResources/arup_MicrosoftTeams?Data=" +
                 customParameters,
                 DialogOption,
                 null,
                 null,
                 function (returnValue) {
-                    Xrm.Page.getAttribute("arup_microsoftteamsurl").setValue(returnValue);
-                    Xrm.Page.data.entity.save();
+                    formContext.getAttribute("arup_microsoftteamsurl").setValue(returnValue);
+                    formContext.data.entity.save();
                 });
         }
     }
 }
 
-function ShowMicrosoftTeams() {
-    var relationshipFormVisible = Xrm.Page.ui.tabs.get("tab_Relationship_management").getVisible();
+function ShowMicrosoftTeams(primaryControl) {
+    var formContext = primaryControl;
+    var relationshipFormVisible = formContext.ui.tabs.get("tab_Relationship_management").getVisible();
     if (relationshipFormVisible == true) {
         return true;
     }
@@ -986,14 +1047,13 @@ function ShowMicrosoftTeams() {
     }
 }
 
-function CheckRegisteredAddressFields() {
-    var country = Xrm.Page.getAttribute("ccrm_countryofcoregistrationid").getValue();
-    Xrm.Page.getAttribute("ccrm_countryofcoregistrationid").setRequiredLevel('required');
-    var town = Xrm.Page.getAttribute("arup_address3towncity").getValue();
-    Xrm.Page.getAttribute("arup_address3towncity").setRequiredLevel('required');
-    var street1 = Xrm.Page.getAttribute("arup_address3street1").getValue();
-    Xrm.Page.getAttribute("arup_address3street1").setRequiredLevel('required');
-
+function CheckRegisteredAddressFields(formContext) {
+    var country = formContext.getAttribute("ccrm_countryofcoregistrationid").getValue();
+    formContext.getAttribute("ccrm_countryofcoregistrationid").setRequiredLevel('required');
+    var town = formContext.getAttribute("arup_address3towncity").getValue();
+    formContext.getAttribute("arup_address3towncity").setRequiredLevel('required');
+    var street1 = formContext.getAttribute("arup_address3street1").getValue();
+    formContext.getAttribute("arup_address3street1").setRequiredLevel('required');
 
     if (country && town && street1) {
         return true;
@@ -1001,7 +1061,6 @@ function CheckRegisteredAddressFields() {
     else {
         return false;
     }
-
 }
 
 function EnableDeactivateButton() {
@@ -1012,3 +1071,195 @@ function EnableDeactivateButton() {
         return false;
     }
 }
+
+function AssignOrganisationAddressToRegisteredAddress(formContext) {
+    var ccrm_countryid = formContext.getAttribute("ccrm_countryid");
+    if (ccrm_countryid != null) {
+        var ccrm_countryidvalue = ccrm_countryid.getValue();
+        if (ccrm_countryidvalue != null) {
+            formContext.getAttribute("ccrm_countryofcoregistrationid").setValue([
+                {
+                    id: ccrm_countryidvalue[0].id,
+                    name: ccrm_countryidvalue[0].name,
+                    entityType: ccrm_countryidvalue[0].entityType
+                }
+            ]);
+        }
+    }
+
+    formContext.getAttribute("ccrm_countryofcoregistrationid").fireOnChange();
+    formContext.getAttribute("arup_address3street1").setValue(Xrm.Page.getAttribute("address1_line1").getValue());
+    formContext.getAttribute("arup_address3street2").setValue(Xrm.Page.getAttribute("address1_line2").getValue());
+    formContext.getAttribute("arup_address3street3").setValue(Xrm.Page.getAttribute("address1_line3").getValue());
+    formContext.getAttribute("arup_address3towncity").setValue(Xrm.Page.getAttribute("address1_city").getValue());
+    formContext.getAttribute("arup_address3zippostalcode").setValue(Xrm.Page.getAttribute("address1_postalcode").getValue());
+    formContext.getAttribute("arup_address3statecountyprovince").setValue(Xrm.Page.getAttribute("address1_stateorprovince").getValue());
+
+    var ccrm_countrystate = formContext.getAttribute("ccrm_countrystate");
+    if (ccrm_countrystate != null) {
+        var ccrm_countrystatevalue = ccrm_countrystate.getValue();
+        if (ccrm_countrystatevalue != null) {
+            formContext.getAttribute("arup_address3stateprovince").setValue([
+                {
+                    id: ccrm_countrystatevalue[0].id,
+                    name: ccrm_countrystatevalue[0].name,
+                    entityType: ccrm_countrystatevalue[0].entityType
+                }
+            ]);
+        }
+    }
+}
+
+function CopyOrganisationDetails(executionContext) {
+    var formContext = executionContext.getFormContext();
+    if (formContext.getAttribute("arup_pulldatafromparentrecord").getValue() != "1" && formContext.getAttribute("arup_copyorganisationaddress").getValue() == "1") {
+        AssignOrganisationAddressToRegisteredAddress(formContext);
+        SetDisabledRegisteredAddressFields('tab_Address_section_2', true, formContext);
+    } else {
+        SetDisabledRegisteredAddressFields('tab_Address_section_2', false, formContext);
+    }
+}
+
+function SetDisabledRegisteredAddressFields(sectionname, disablestatus, formContext) {
+    var ctrlName = formContext.ui.controls.get();
+    for (var j in ctrlName) {
+        var ctrl = ctrlName[j];
+        var controlType = ctrl.getControlType();
+        if (controlType != "iframe" && controlType != "webresource" && controlType != "subgrid" && ctrl.getParent() != null) {
+            var ctrlSection = ctrl.getParent().getName();
+            if (ctrlSection == sectionname) {
+                var defaultElements = ["arup_copyorganisationaddress"];
+                if (defaultElements.indexOf(ctrl.getName()) == -1) {
+                    ctrl.setDisabled(disablestatus);
+                }
+            }
+        }
+    }
+}
+
+function IsRegisteredAddressFromParentRecordOnChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    IsRegisteredAddressFromParentRecord(formContext);
+}
+
+function IsRegisteredAddressFromParentRecord(formContext) {
+    if (formContext.getAttribute("arup_pulldatafromparentrecord").getValue() == "1") {
+        formContext.getAttribute("arup_copyorganisationaddress").setValue(false);//0
+        formContext.getControl("arup_copyorganisationaddress").setDisabled(true);
+        SetDisabledRegisteredAddressFields('tab_Address_section_2', false, formContext);
+    } else {
+        formContext.getControl("arup_copyorganisationaddress").setDisabled(false);
+    }
+}
+
+function setCovidValues(executionContext, attrName, dateAttrName, userAttrName) {
+    var formContext = executionContext.getFormContext();
+    attrValue = formContext.getAttribute(attrName).getValue();
+    makeCovid19FieldsRequired(attrName, userAttrName, formContext);
+    if (attrValue == 0) {
+        formContext.getAttribute(dateAttrName).setValue(null);
+        formContext.getAttribute(userAttrName).setValue(null);
+        return;
+    }
+    formContext.getAttribute(dateAttrName).setValue(new Date());
+    formContext.getAttribute(userAttrName).setValue(
+        [
+            {
+                id: formContext.context.getUserId(),
+                name: formContext.context.getUserName(),
+                entityType: "systemuser",
+            }
+        ]
+    );
+
+    Alert.show('<font size="6" color="#2E74B5"><b>COVID-19 Business Continuity</b></font>',
+        '<font size="3" color="#000000"></br>You are required to add a Note, including attaching a copy of the Business Continuity approved communication regarding Arup protocol in response to COVID-19 issued / or the communication received regarding the client’s protocol in response to Covid-19. </br> <b>Please do this now!</b></font>',
+        [
+            new Alert.Button("<b>OK</b>")
+        ], "INFO", 600, 300, '', true);
+}
+
+//get Region lookup - from the current user
+function GetCurrentUserDetails(userId) {
+    var result = new Object();
+    Xrm.WebApi.online.retrieveRecord("systemuser", userId, "?$select=_ccrm_arupregionid_value,fullname").then(
+        function success(result) {
+            result.userRegionID = result["_ccrm_arupregionid_value"];
+            result.userRegionName = result["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
+            result.FullName = result["fullname"];
+        },
+        function (error) {
+            Xrm.Utility.alertDialog(error.message);
+        }
+    );
+
+    //SDK.REST.retrieveRecord(userId, "SystemUser", 'Ccrm_ArupRegionId,', null,
+    //    function (retrievedreq) {
+    //        if (retrievedreq != null) {
+    //            result.FullName = retrievedreq.FullName;
+    //            if (retrievedreq.Ccrm_ArupRegionId != null) {
+
+    //                result.userRegionID = retrievedreq.Ccrm_ArupRegionId.Id;
+    //                result.userRegionName = retrievedreq.Ccrm_ArupRegionId.Name;
+    //            }
+
+    //        }
+    //    }, errorHandler, false);
+    return result;
+}
+
+function DisplayCOVID19Section(currUserData, formContext) {
+    formContext.ui.tabs.get("SUMMARY_TAB").sections.get("covid19_bc").setVisible(currUserData.userRegionName == ArupRegionName.Australasia || currUserData.userRegionName == ArupRegionName.Malaysia || currUserData.userRegionName == ArupRegionName.UKMEA);
+
+    if (formContext.ui.tabs.get("SUMMARY_TAB").sections.get("covid19_bc").getVisible() == false) { return; }
+
+    makeCovid19FieldsRequired('arup_arupscovid19bcadvised', 'arup_arupscovid19bcadviseduser', formContext);
+    makeCovid19FieldsRequired('arup_clientscovid19bcadvised', 'arup_clientscovid19bcadviseduser', formContext);
+}
+
+function makeCovid19FieldsRequired(checkboxfield, usernamefield, formContext) {
+    var requiredLevel = formContext.getAttribute(checkboxfield).getValue() == true ? 'required' : 'none';
+    formContext.getAttribute(usernamefield).setRequiredLevel(requiredLevel);
+}
+
+function OpenOverviewReport(primaryControl) {
+    var formContext = primaryControl;
+    var accId, parentaccountid;
+    if (formContext.data != null) {
+        accId = formContext.data.entity.getId().replace('{', '').replace('}', '');
+        parentaccountid = formContext.getAttribute("parentaccountid").getValue() != undefined ? formContext.getAttribute("parentaccountid").getValue()[0].id.replace('{', '').replace('}', '') : accId;
+    }
+    else {
+        accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
+        parentaccountid = accId;
+    }
+
+    var customParameters = encodeURIComponent("accountID=" + accId + "&parentAccID=" + parentaccountid);
+    Xrm.Navigation.openWebResource('ccrm_/HTML/ClientOverViewReport.html', customParameters, 1100, 800);
+}
+
+function OpenConnMatrixReport(primaryControl) {
+    var formContext = primaryControl;
+    var accId, parentaccountid;
+    if (formContext.data != null) {
+        accId = formContext.data.entity.getId().replace('{', '').replace('}', '');
+        parentaccountid = formContext.getAttribute("parentaccountid").getValue() != undefined ? formContext.getAttribute("parentaccountid").getValue()[0].id.replace('{', '').replace('}', '') : accId;
+    }
+    else {
+        accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
+        parentaccountid = accId;
+    }
+
+    var customParameters = encodeURIComponent("accountID=" + accId + "&parentAccID=" + parentaccountid);
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
+    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer, return version number
+    {
+        Xrm.Navigation.openWebResource('ccrm_/HTML/ConnectionMatrix_old.html', customParameters, 1200, 800);
+    }
+    else  // If another browser, return 0
+    {
+        Xrm.Navigation.openWebResource('ccrm_/HTML/ConnectionMatrix.html', customParameters, 1200, 800);
+    }
+}
+

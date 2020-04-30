@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{5a3ac187-d8a5-e611-80f3-005056b55b13}" Name="2015 - project start/end date validation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{5a3ac187-d8a5-e611-80f3-005056b55b13}" Name="2015 - project start/end date validation">
   <XamlFileName>/Workflows/2015-projectstartenddatevalidation-5A3AC187-D8A5-E611-80F3-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

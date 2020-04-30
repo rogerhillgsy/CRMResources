@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{925bf610-0cc0-e711-80ff-005056b509e1}" Name="K-12 visibility (Americas Region)" Description="Click to add description" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{925bf610-0cc0-e711-80ff-005056b509e1}" Name="K-12 visibility (Americas Region)" Description="Click to add description">
   <XamlFileName>/Workflows/K-12visibilityAmericasRegion-925BF610-0CC0-E711-80FF-005056B509E1.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

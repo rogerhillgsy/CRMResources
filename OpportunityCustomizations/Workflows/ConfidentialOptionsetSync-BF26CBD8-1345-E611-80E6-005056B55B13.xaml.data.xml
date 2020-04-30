@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{bf26cbd8-1345-e611-80e6-005056b55b13}" Name="Confidential Optionset Sync" Description="Click to add description" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{bf26cbd8-1345-e611-80e6-005056b55b13}" Name="Confidential Optionset Sync" Description="Click to add description">
   <XamlFileName>/Workflows/ConfidentialOptionsetSync-BF26CBD8-1345-E611-80E6-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

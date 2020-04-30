@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{a712c376-e356-e511-80d7-005056b55b13}" Name="2015 - Cross region V2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{a712c376-e356-e511-80d7-005056b55b13}" Name="2015 - Cross region V2">
   <XamlFileName>/Workflows/2015-CrossregionV2-A712C376-E356-E511-80D7-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

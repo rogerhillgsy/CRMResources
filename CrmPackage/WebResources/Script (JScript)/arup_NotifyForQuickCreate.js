@@ -31,7 +31,7 @@ Notify.add = function (message, level, uniqueId, buttons, durationSeconds) {
             if ($header.length > 0) {
                 var $parHead = $header.parent('div');
                 $("#crmNotifications").remove();
-              
+
                 //$header.append($notify);
                 $parHead.prepend($notify);
             }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{f26e10fb-3761-e511-80d8-005056b55b13}" Name="2015 - CJN Project Manager/Director Approval" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{f26e10fb-3761-e511-80d8-005056b55b13}" Name="2015 - CJN Project Manager/Director Approval">
   <XamlFileName>/Workflows/2015-CJNProjectManagerDirectorApproval-F26E10FB-3761-E511-80D8-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

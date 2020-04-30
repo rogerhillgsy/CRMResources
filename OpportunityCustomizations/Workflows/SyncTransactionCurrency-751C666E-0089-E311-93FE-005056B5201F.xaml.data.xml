@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{751c666e-0089-e311-93fe-005056b5201f}" Name="Sync Transaction Currency" Description="Updated the Project Currency when the Project Currency (Sync) field is updated." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{751c666e-0089-e311-93fe-005056b5201f}" Name="Sync Transaction Currency" Description="Updated the Project Currency when the Project Currency (Sync) field is updated.">
   <XamlFileName>/Workflows/SyncTransactionCurrency-751C666E-0089-E311-93FE-005056B5201F.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

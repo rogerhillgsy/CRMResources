@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{5158c5e0-76c4-e311-9401-005056b5201f}" Name="Possible Job number Required" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{5158c5e0-76c4-e311-9401-005056b5201f}" Name="Possible Job number Required">
   <XamlFileName>/Workflows/PossibleJobnumberRequired-5158C5E0-76C4-E311-9401-005056B5201F.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

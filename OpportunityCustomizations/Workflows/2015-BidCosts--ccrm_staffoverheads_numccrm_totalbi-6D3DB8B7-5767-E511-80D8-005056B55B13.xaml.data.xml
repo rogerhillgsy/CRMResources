@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{6d3db8b7-5767-e511-80d8-005056b55b13}" Name="2015 - Bid Costs --&gt; ccrm_staffoverheads_num &amp; ccrm_totalbidcost_num" Description="BR to set the Staff Overheads value based on  Salary Costs and Staff Overhead Rate %" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{6d3db8b7-5767-e511-80d8-005056b55b13}" Name="2015 - Bid Costs --&gt; ccrm_staffoverheads_num &amp; ccrm_totalbidcost_num" Description="BR to set the Staff Overheads value based on  Salary Costs and Staff Overhead Rate %">
   <XamlFileName>/Workflows/2015-BidCosts--ccrm_staffoverheads_numccrm_totalbi-6D3DB8B7-5767-E511-80D8-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

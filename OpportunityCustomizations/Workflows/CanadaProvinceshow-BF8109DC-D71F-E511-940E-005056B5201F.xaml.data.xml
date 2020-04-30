@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{bf8109dc-d71f-e511-940e-005056b5201f}" Name="Canada Province show" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{bf8109dc-d71f-e511-940e-005056b5201f}" Name="Canada Province show">
   <XamlFileName>/Workflows/CanadaProvinceshow-BF8109DC-D71F-E511-940E-005056B5201F.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

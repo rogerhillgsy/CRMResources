@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{264ce36a-255f-e511-80d8-005056b55b13}" Name="2015 - PJN Bid Director Approval" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{264ce36a-255f-e511-80d8-005056b55b13}" Name="2015 - PJN Bid Director Approval">
   <XamlFileName>/Workflows/2015-PJNBidDirectorApproval-264CE36A-255F-E511-80D8-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

@@ -20,8 +20,8 @@ function Form_onload() {
         lookupItem.entityType = 'systemuser';
         lookupData[0] = lookupItem;
         Xrm.Page.getAttribute('ccrm_assignedtosync_userid').setValue(lookupData);
-             
-        
+
+
         //set sharepoint parameters
         //setSharePointParameters();
 
@@ -54,21 +54,21 @@ function Form_onload() {
     onChangeArupJointVenture();
     onChangeClientJointVenture();
     onChangeSubcontractors();
-    
+
     //set enquiryType, contractStatus, procurementRoute visibility
     enquiryType();
     tabBehaviour();
-    
+
     oldClient = Xrm.Page.getAttribute("customerid").getValue();
-    
+
     oldArupCompany = Xrm.Page.getAttribute("ccrm_contractingarupcompany").getValue();
-    
+
     //fn to prevent users from putting legal to confid and back again quickly
     confidentialFlag();
-    
+
     contractType_onChange();
     //Project ID is locked
-    
+
 }
 
 function Form_onsave(executionObj) {
@@ -396,17 +396,52 @@ function calculateTotalBudget() {
     var budgetAllowance03 = Xrm.Page.getAttribute("ccrm_budgetallowance03").getValue();
     var budgetAllowance50 = Xrm.Page.getAttribute("ccrm_budgetallowance50").getValue();
     var liabilityProvision = Xrm.Page.getAttribute("ccrm_claimvalueprobable").getValue();
+    var coverageCosts = Xrm.Page.getAttribute("arup_05coveragecostsprovisions").getValue();
+    var otherCosts = Xrm.Page.getAttribute("arup_06to98othercostsprovisions").getValue();
 
-    if (budgetAllowance02 == null) { budgetAllowance02 = 0; }
-    if (budgetAllowance03 == null) { budgetAllowance03 = 0; }
-    if (budgetAllowance50 == null) { budgetAllowance50 = 0; }
-    if (liabilityProvision == null) { liabilityProvision = 0; }
+    var settlementInsurer = Xrm.Page.getAttribute("arup_settlementsumpaidbyinsurers").getValue();
+    var defenceInsurer = Xrm.Page.getAttribute("arup_defencecostspaidbyinsurers").getValue();
+    var costsInsurer = Xrm.Page.getAttribute("arup_totalcostspaidbyinsurers").getValue();
 
-    result = budgetAllowance02 + budgetAllowance03 + budgetAllowance50 + liabilityProvision;
+    if (budgetAllowance02 == null) {
+        budgetAllowance02 = Xrm.Page.getAttribute("ccrm_budgetallowance02").setValue(0);
+        budgetAllowance02 = 0;
+    }
+    if (budgetAllowance03 == null) {
+        budgetAllowance03 = Xrm.Page.getAttribute("ccrm_budgetallowance03").setValue(0);
+        budgetAllowance03 = 0;
+    }
+    if (budgetAllowance50 == null) {
+        budgetAllowance50 = Xrm.Page.getAttribute("ccrm_budgetallowance50").setValue(0);
+        budgetAllowance50 = 0;
+    }
+    if (liabilityProvision == null) {
+        liabilityProvision = Xrm.Page.getAttribute("ccrm_claimvalueprobable").setValue(0);
+        liabilityProvision = 0;
+    }
+    if (coverageCosts == null) {
+        coverageCosts = Xrm.Page.getAttribute("arup_05coveragecostsprovisions").setValue(0);
+        coverageCosts = 0;
+    }
+    if (otherCosts == null) {
+        otherCosts = Xrm.Page.getAttribute("arup_06to98othercostsprovisions").setValue(0);
+        otherCosts = 0;
+    }
+
+    result = budgetAllowance02 + budgetAllowance03 + budgetAllowance50 + liabilityProvision + coverageCosts + otherCosts;
     //set total
     Xrm.Page.getAttribute("ccrm_totalbudget").setValue(result);
     Xrm.Page.getAttribute("ccrm_totalbudget").setSubmitMode("always");
 
+    if (settlementInsurer == null) {
+        settlementInsurer = Xrm.Page.getAttribute("arup_settlementsumpaidbyinsurers").setValue(0);
+    }
+    if (defenceInsurer == null) {
+        defenceInsurer = Xrm.Page.getAttribute("arup_defencecostspaidbyinsurers").setValue(0);
+    }
+    if (costsInsurer == null) {
+        costsInsurer = Xrm.Page.getAttribute("arup_totalcostspaidbyinsurers").setValue(0);
+    }
     calcuTotalForecast();
 
 }
@@ -414,35 +449,87 @@ function calculateTotalBudget() {
 function calcuTotalForecast() {
 
     //Budget Remaining will be the total in “Total Budget (Old)” minus the combination of  
-    //01-Settlement Sum; 
-    //02-Internal (Business) Costs to Date; 
-    //03-External (Legal) Costs to Date; 
-    //04-Costs to Date (what the existing fields do at the moment).
-
     var result = 0;
     var totalBudget = Xrm.Page.getAttribute("ccrm_totalbudget").getValue();
+
     var settlementCost = Xrm.Page.getAttribute("ccrm_01settlementsum").getValue();
     var internalCostBusiness = Xrm.Page.getAttribute("ccrm_02internalcosttodate").getValue();
     var externalCostLegal = Xrm.Page.getAttribute("ccrm_03externalcosttodate").getValue();
     var externalCostOther = Xrm.Page.getAttribute("ccrm_50internallegalcoststodate").getValue();
+    var coverageCosts = Xrm.Page.getAttribute("arup_05coveragecostsincurred").getValue();
+    var otherCosts = Xrm.Page.getAttribute("arup_06to98othercostsincurred").getValue();
 
     if (totalBudget == null) { totalBudget = 0; }
     if (internalCostBusiness == null) { internalCostBusiness = 0; }
     if (externalCostLegal == null) { externalCostLegal = 0; }
     if (externalCostOther == null) { externalCostOther = 0; }
     if (settlementCost == null) { settlementCost = 0; }
+    if (coverageCosts == null) { coverageCosts = 0; }
+    if (otherCosts == null) { otherCosts = 0; }
 
-    //if (totalBudget != 0) {
+    result = settlementCost + internalCostBusiness + externalCostLegal + externalCostOther + coverageCosts + otherCosts;
+    //set total
+    Xrm.Page.getAttribute("ccrm_externalcosttodate_other").setValue(result);
+    Xrm.Page.getAttribute("ccrm_externalcosttodate_other").setSubmitMode("always");
 
-        result = settlementCost + internalCostBusiness + externalCostLegal + externalCostOther;
-        //set total
-        Xrm.Page.getAttribute("ccrm_externalcosttodate_other").setValue(result);
-        Xrm.Page.getAttribute("ccrm_externalcosttodate_other").setSubmitMode("always");
-        //set budget remaining 
-        Xrm.Page.getAttribute("ccrm_totalforecast").setValue(totalBudget - result);
-        Xrm.Page.getAttribute("ccrm_totalforecast").setSubmitMode("always");
+    var liabilityProvision = Xrm.Page.getAttribute("ccrm_claimvalueprobable").getValue();
+    var budgetAllowance02 = Xrm.Page.getAttribute("ccrm_budgetallowance02").getValue();
+    var budgetAllowance03 = Xrm.Page.getAttribute("ccrm_budgetallowance03").getValue();
+    var budgetAllowance50 = Xrm.Page.getAttribute("ccrm_budgetallowance50").getValue();
+    var coverageProCosts = Xrm.Page.getAttribute("arup_05coveragecostsprovisions").getValue();
+    var otherProCosts = Xrm.Page.getAttribute("arup_06to98othercostsprovisions").getValue();
 
-   //}
+    // set 01
+    if (liabilityProvision == null || liabilityProvision == 0) {
+        Xrm.Page.getAttribute("arup_01settlementremainingcosts").setValue(0);
+    } else {
+        Xrm.Page.getAttribute("arup_01settlementremainingcosts").setValue(liabilityProvision - settlementCost);
+    }
+
+    //set 02
+    if (budgetAllowance02 == null || budgetAllowance02 == 0) {
+        Xrm.Page.getAttribute("arup_02internalbusinessremainingcosts").setValue(0);
+    } else {
+        Xrm.Page.getAttribute("arup_02internalbusinessremainingcosts").setValue(budgetAllowance02 - internalCostBusiness);
+    }
+
+    //set 03	
+    if (budgetAllowance03 == null || budgetAllowance03 == 0) {
+        Xrm.Page.getAttribute("arup_03externallegalremainingcosts").setValue(0);
+    } else {
+        Xrm.Page.getAttribute("arup_03externallegalremainingcosts").setValue(budgetAllowance03 - externalCostLegal);
+    }
+
+    //set 04
+    if (budgetAllowance50 == null || budgetAllowance50 == 0) {
+        Xrm.Page.getAttribute("arup_04internalrecoverableremainingcosts").setValue(0);
+    } else {
+        Xrm.Page.getAttribute("arup_04internalrecoverableremainingcosts").setValue(budgetAllowance50 - externalCostOther);
+    }
+
+    //set 05
+    if (coverageProCosts == null || coverageProCosts == 0) {
+        Xrm.Page.getAttribute("arup_05coverageremainingcosts").setValue(0);
+    } else {
+        Xrm.Page.getAttribute("arup_05coverageremainingcosts").setValue(coverageProCosts - coverageCosts);
+    }
+
+    //set 06
+    if (otherProCosts == null || otherProCosts == 0) {
+        Xrm.Page.getAttribute("arup_06to98otherremainingcosts").setValue(0);
+    } else {
+        Xrm.Page.getAttribute("arup_06to98otherremainingcosts").setValue(otherProCosts - otherCosts);
+    }
+
+    //set budget remaining 
+    Xrm.Page.getAttribute("ccrm_totalforecast").setValue(totalBudget - result);
+    Xrm.Page.getAttribute("ccrm_totalforecast").setSubmitMode("always");
+    Xrm.Page.getAttribute("arup_01settlementremainingcosts").setSubmitMode("always");
+    Xrm.Page.getAttribute("arup_02internalbusinessremainingcosts").setSubmitMode("always");
+    Xrm.Page.getAttribute("arup_03externallegalremainingcosts").setSubmitMode("always");
+    Xrm.Page.getAttribute("arup_04internalrecoverableremainingcosts").setSubmitMode("always");
+    Xrm.Page.getAttribute("arup_05coverageremainingcosts").setSubmitMode("always");
+    Xrm.Page.getAttribute("arup_06to98otherremainingcosts").setSubmitMode("always");
 }
 
 function assignedToSync() {
@@ -475,7 +562,7 @@ function fnSharePoint() {
         Xrm.Page.ui.tabs.get("tab_Documents").setVisible(true);
 
         //display the iframe redirect to sharepoint url
-        
+
         Xrm.Page.getControl("IFRAME_SharePointURL").setSrc(sharepointUrl);
     }
     else {

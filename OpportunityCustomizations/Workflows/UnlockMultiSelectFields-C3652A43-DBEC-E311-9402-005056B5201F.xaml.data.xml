@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{c3652a43-dbec-e311-9402-005056b5201f}" Name="Unlock Multi Select Fields" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{c3652a43-dbec-e311-9402-005056b5201f}" Name="Unlock Multi Select Fields">
   <XamlFileName>/Workflows/UnlockMultiSelectFields-C3652A43-DBEC-E311-9402-005056B5201F.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{a23aab09-1b56-e511-80d7-005056b55b13}" Name="2015 - Set Charitable Flags" Description="Click to add description" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{a23aab09-1b56-e511-80d7-005056b55b13}" Name="2015 - Set Charitable Flags" Description="Click to add description">
   <XamlFileName>/Workflows/2015-SetCharitableFlags-A23AAB09-1B56-E511-80D7-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

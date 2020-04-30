@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{4c7910e0-8877-e311-93fd-005056b5201f}" Name="Sync Bid Manager with Project Manager" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{4c7910e0-8877-e311-93fd-005056b5201f}" Name="Sync Bid Manager with Project Manager">
   <XamlFileName>/Workflows/SyncBidManagerwithProjectManager-4C7910E0-8877-E311-93FD-005056B5201F.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

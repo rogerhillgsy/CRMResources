@@ -23,32 +23,31 @@ function RegisterCheckboxClick(attr) {
     }
 }
 
-function form_OnLoad() {
-
-    parentOrg();
-    Xrm.Page.getAttribute("ccrm_legalentityname").setRequiredLevel("none");
-
+function form_OnLoad(executionContext) {
+    var formContext = executionContext.getFormContext();
+    parentOrg(formContext);
+    formContext.getAttribute("ccrm_legalentityname").setRequiredLevel("none");
 }
 
-function form_OnSave() {
-
+function form_OnSave(executionContext) {
+    var formContext = executionContext.getFormContext();
     /copy name to legal entity name/
-    Xrm.Page.getAttribute("ccrm_legalentityname").setValue(Xrm.Page.getAttribute("name").getValue());
+    formContext.getAttribute("ccrm_legalentityname").setValue(formContext.getAttribute("name").getValue());
 }
 
-function clear_state() {
-
-    if (Xrm.Page.getAttribute("ccrm_countryid").getValue() == null || Xrm.Page.getAttribute("ccrm_countryid").getValue() == "undefined") {
-        Xrm.Page.getAttribute("ccrm_countrystate").setValue(null);
-        Xrm.Page.getAttribute("address1_stateorprovince").setValue(null);
+function clear_state(executionContext) {
+    var formContext = executionContext.getFormContext();
+    if (formContext.getAttribute("ccrm_countryid").getValue() == null || formContext.getAttribute("ccrm_countryid").getValue() == "undefined") {
+        formContext.getAttribute("ccrm_countrystate").setValue(null);
+        formContext.getAttribute("address1_stateorprovince").setValue(null);
         return;
     }
 
-    if (stateRequired(Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].name)) {
-        Xrm.Page.getAttribute("ccrm_countrystate").setValue(null);
+    if (stateRequired(formContext.getAttribute("ccrm_countryid").getValue()[0].name)) {
+        formContext.getAttribute("ccrm_countrystate").setValue(null);
     }
     else {
-        Xrm.Page.getAttribute("address1_stateorprovince").setValue(null);
+        formContext.getAttribute("address1_stateorprovince").setValue(null);
     }
 }
 
@@ -72,9 +71,9 @@ DoNotContactMethodsPickList = function () {
         HidePickListItem("preferredcontactmethodcode", "1");
 }
 
-function stateVisibility() {
-
-    countryname = Xrm.Page.getAttribute("ccrm_countryid").getValue() != null ? Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].name : null;
+function stateVisibility(executionContext) {
+    var formContext = executionContext.getFormContext();
+    countryname = formContext.getAttribute("ccrm_countryid").getValue() != null ? formContext.getAttribute("ccrm_countryid").getValue()[0].name : null;
     if (countryname != null) {
 
         var flag;
@@ -92,10 +91,9 @@ function stateVisibility() {
             required = 'none';
         }
 
-        Xrm.Page.getControl("address1_stateorprovince").setVisible(!flag);
-        Xrm.Page.getControl("ccrm_countrystate").setVisible(flag);
-        Xrm.Page.getAttribute("ccrm_countrystate").setRequiredLevel(required);
-
+        formContext.getControl("address1_stateorprovince").setVisible(!flag);
+        formContext.getControl("ccrm_countrystate").setVisible(flag);
+        formContext.getAttribute("ccrm_countrystate").setRequiredLevel(required);
     }
 }
 
@@ -104,19 +102,19 @@ function stateRequired(CountryName) {
     CountryName = CountryName.toUpperCase();
 
     var states = (CountryName == "UNITED STATES" ||
-                  CountryName == "UNITED STATES OF AMERICA" ||
-                  CountryName == "CANADA" ||
-                  CountryName == "AUSTRALIA" ||
-                  CountryName == "INDONESIA" ||
-                  CountryName == "NEW ZEALAND" ||
-                  CountryName == "MALAYSIA" ||
-                  CountryName == "SINGAPORE");
+        CountryName == "UNITED STATES OF AMERICA" ||
+        CountryName == "CANADA" ||
+        CountryName == "AUSTRALIA" ||
+        CountryName == "INDONESIA" ||
+        CountryName == "NEW ZEALAND" ||
+        CountryName == "MALAYSIA" ||
+        CountryName == "SINGAPORE");
     return states;
 }
 
-function parentOrg() {
+function parentOrg(formContext) {
 
-    orgType = Xrm.Page.getAttribute("ccrm_organisationtype").getValue();
+    orgType = formContext.getAttribute("ccrm_organisationtype").getValue();
 
     var flag = false;
     //var required = 'none';
@@ -125,20 +123,15 @@ function parentOrg() {
         flag = true;
         //required = 'required';
     }
-    Xrm.Page.getControl("ccrm_parent2").setVisible(flag)
-    Xrm.Page.getControl("ccrm_parent3").setVisible(flag)
-    //Xrm.Page.getControl("parentaccountid").setVisible(flag);
-    //Xrm.Page.getControl("parentaccountid").setRequiredLevel(required);
-
+    formContext.getControl("ccrm_parent2").setVisible(flag)
+    formContext.getControl("ccrm_parent3").setVisible(flag)
 }
 
 ccrm_countryid_onchange = function () {
     //sync up country with countryid field
     syncCountry()
-
-    ////function to get long state code from short
-    // getUSStateCode();
 }
+
 //function to sync up country with countryid field
 syncCountry = function () {
     if (Xrm.Page.getAttribute("ccrm_countryid").getValue() != null) {
@@ -170,170 +163,181 @@ function ShowAllPickListItems(listID) {
 }
 
 function phoneOnChange(executionContext) {
-
+    var formContext = executionContext.getFormContext();
     var attribute = executionContext.getEventSource();
-    if (Xrm.Page.getAttribute("ccrm_countryid").getValue() != null) {
-        var countryId = Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].id;
-        var countryName = Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].name;
+    if (formContext.getAttribute("ccrm_countryid").getValue() != null) {
+        var countryId = formContext.getAttribute("ccrm_countryid").getValue()[0].id;
+        var countryName = formContext.getAttribute("ccrm_countryid").getValue()[0].name;
 
-        var filter = "Ccrm_countryId eq (guid'" + countryId + "')";
-        var dataset = "Ccrm_countrySet";
-        var retrievedMultiple = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);
-        var results = retrievedMultiple.results;
+        //var filter = "Ccrm_countryId eq (guid'" + countryId + "')";
+        //var dataset = "Ccrm_countrySet";
+        //var retrievedMultiple = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);
+        //var results = retrievedMultiple.results;
 
-        var phoneArray;
-        if (attribute.getName().indexOf("mobile") > -1) {
-            phoneArray = results[0].ccrm_mobilearray
-        } else {
-            phoneArray = results[0].ccrm_phonearray;
-        }
+        Xrm.WebApi.online.retrieveMultipleRecords("ccrm_country", "?$select=ccrm_mobilearray,ccrm_mobiledisplay,ccrm_mobileformat,ccrm_phonearray,ccrm_phonedisplay,ccrm_phoneformat&$filter=ccrm_countryid eq " + countryId + "").then(
+            function success(results) {
+                for (var i = 0; i < results.entities.length; i++) {
+                    var ccrm_mobilearray = results.entities[i]["ccrm_mobilearray"];
+                    var ccrm_mobiledisplay = results.entities[i]["ccrm_mobiledisplay"];
+                    var ccrm_mobileformat = results.entities[i]["ccrm_mobileformat"];
+                    var ccrm_phonearray = results.entities[i]["ccrm_phonearray"];
+                    var ccrm_phonedisplay = results.entities[i]["ccrm_phonedisplay"];
+                    var ccrm_phoneformat = results.entities[i]["ccrm_phoneformat"];
 
-        if (phoneArray != null) {
-            var phoneArraySplit = phoneArray.split(",");
-
-
-            var specialNumberArray = [];
-            var specialNumberDifference = 0;
-            var specialNumberMax = 0;
-            var specialNumberMin = 0;
-
-            function returnMaxMin(phoneArraySplit, index) {
-
-                specialNumberArray = phoneArraySplit[index];
-                specialNumberArray.split("-");
-                specialNumberDifference = +specialNumberArray[2] - +specialNumberArray[0];
-                specialNumberMax = Math.max(specialNumberArray[0], specialNumberArray[2]);
-                specialNumberMin = Math.min(specialNumberArray[0], specialNumberArray[2]);
-                
-                return { max: specialNumberMax, min: specialNumberMin };
-            }
-
-            var phoneArraySize = 0;
-            var phoneArraySizeMin = 0;
-
-            for (i = 1; i < phoneArraySplit.length; i++) {
-                if (phoneArraySplit[i].indexOf("-") > -1) {
-                    phoneArraySize = +phoneArraySize + +returnMaxMin(phoneArraySplit, i).max;
-                    phoneArraySizeMin = +phoneArraySizeMin + +returnMaxMin(phoneArraySplit, i).min;
-                } else {
-                    phoneArraySize = +phoneArraySplit[i] + +phoneArraySize;
-                    phoneArraySizeMin = +phoneArraySplit[i] + +phoneArraySizeMin;
-                }
-            }
-
-            var orgPhone = Xrm.Page.getAttribute(attribute.getName()).getValue();
-            if (orgPhone != null) {
-                //removes spaces
-                //orgPhone = orgPhone.replace(/\s/g, "");
-                orgPhone = orgPhone.replace(/[^\d\+]/g, '');
-
-                // checks if the plus sign was used, if yes adds up the extra digits for country code in the phoneArray field
-                if (orgPhone.indexOf("+") > -1) {
-                    phoneArraySize = +phoneArraySize + phoneArraySplit[0].length;
-                    phoneArraySizeMin = +phoneArraySizeMin + phoneArraySplit[0].length;
-
-
-                    if (orgPhone.length < phoneArraySizeMin) {
-                        if (attribute.getName().indexOf("mobile") > -1) {
-                            phoneErrorMessage(1, countryName, results[0].ccrm_mobileformat, results[0].ccrm_mobiledisplay);
-                        } else {
-                            phoneErrorMessage(1, countryName, results[0].ccrm_phoneformat, results[0].ccrm_phonedisplay);
-                        }
-                    } else if (orgPhone.length > phoneArraySize) {
-                        if (attribute.getName().indexOf("mobile") > -1) {
-                            phoneErrorMessage(2, countryName, results[0].ccrm_mobileformat, results[0].ccrm_mobiledisplay);
-                        } else {
-                            phoneErrorMessage(2, countryName, results[0].ccrm_phoneformat, results[0].ccrm_phonedisplay);
-
-                        }
+                    var phoneArray;
+                    if (attribute.getName().indexOf("mobile") > -1) {
+                        phoneArray = ccrm_mobilearray;
                     } else {
+                        phoneArray = ccrm_phonearray
+                    }
 
-                        var countryCode = phoneArraySplit[0];
-                        var newPhone = [];
+                    if (phoneArray != null) {
+                        var phoneArraySplit = phoneArray.split(",");
 
-                        var p = phoneArraySplit[0].length;
+                        var specialNumberArray = [];
+                        var specialNumberDifference = 0;
+                        var specialNumberMax = 0;
+                        var specialNumberMin = 0;
+
+                        function returnMaxMin(phoneArraySplit, index) {
+
+                            specialNumberArray = phoneArraySplit[index];
+                            specialNumberArray.split("-");
+                            specialNumberDifference = +specialNumberArray[2] - +specialNumberArray[0];
+                            specialNumberMax = Math.max(specialNumberArray[0], specialNumberArray[2]);
+                            specialNumberMin = Math.min(specialNumberArray[0], specialNumberArray[2]);
+
+                            return { max: specialNumberMax, min: specialNumberMin };
+                        }
+
+                        var phoneArraySize = 0;
+                        var phoneArraySizeMin = 0;
+
                         for (i = 1; i < phoneArraySplit.length; i++) {
-
                             if (phoneArraySplit[i].indexOf("-") > -1) {
-                                if (orgPhone.length <= phoneArraySize) {
-                                    newPhone[i] = orgPhone.slice(p, +returnMaxMin(phoneArraySplit, i).max + +p);
-                                    p = +p + +returnMaxMin(phoneArraySplit, i).max;
-                                } else {
-                                    newPhone[i] = orgPhone.slice(p, +returnMaxMin(phoneArraySplit, i).min + +p);
-                                    p = +p + +returnMaxMin(phoneArraySplit, i).min;
-                                }
+                                phoneArraySize = +phoneArraySize + +returnMaxMin(phoneArraySplit, i).max;
+                                phoneArraySizeMin = +phoneArraySizeMin + +returnMaxMin(phoneArraySplit, i).min;
                             } else {
-                                newPhone[i] = orgPhone.slice(p, +phoneArraySplit[i] + +p);
-                                p = +p + +phoneArraySplit[i];
+                                phoneArraySize = +phoneArraySplit[i] + +phoneArraySize;
+                                phoneArraySizeMin = +phoneArraySplit[i] + +phoneArraySizeMin;
                             }
                         }
 
-                        var newPhoneFormat = countryCode;
-                        for (i = 1; i < newPhone.length; i++) {
+                        var orgPhone = formContext.getAttribute(attribute.getName()).getValue();
+                        if (orgPhone != null) {
+                            orgPhone = orgPhone.replace(/[^\d\+]/g, '');
 
-                            newPhoneFormat += " " + newPhone[i];
+                            // checks if the plus sign was used, if yes adds up the extra digits for country code in the phoneArray field
+                            if (orgPhone.indexOf("+") > -1) {
+                                phoneArraySize = +phoneArraySize + phoneArraySplit[0].length;
+                                phoneArraySizeMin = +phoneArraySizeMin + phoneArraySplit[0].length;
 
-                        }
-                        Xrm.Page.getAttribute(attribute.getName()).setValue(newPhoneFormat);
-                    }
 
+                                if (orgPhone.length < phoneArraySizeMin) {
+                                    if (attribute.getName().indexOf("mobile") > -1) {
+                                        phoneErrorMessage(1, countryName, ccrm_mobileformat, ccrm_mobiledisplay);
+                                    } else {
+                                        phoneErrorMessage(1, countryName, ccrm_phoneformat, ccrm_phonedisplay);
+                                    }
+                                } else if (orgPhone.length > phoneArraySize) {
+                                    if (attribute.getName().indexOf("mobile") > -1) {
+                                        phoneErrorMessage(2, countryName, ccrm_mobileformat, ccrm_mobiledisplay);
+                                    } else {
+                                        phoneErrorMessage(2, countryName, ccrm_phoneformat, ccrm_phonedisplay);
 
-                } else {
-
-                    if (orgPhone.length < phoneArraySizeMin) {
-                        if (attribute.getName().indexOf("mobile") > -1) {
-                            phoneErrorMessage(1, countryName, results[0].ccrm_mobileformat, results[0].ccrm_mobiledisplay);
-                        } else {
-                            phoneErrorMessage(1, countryName, results[0].ccrm_phoneformat, results[0].ccrm_phonedisplay);
-                        }
-                    } else if (orgPhone.length > phoneArraySize) {
-                        if (attribute.getName().indexOf("mobile") > -1) {
-                            phoneErrorMessage(2, countryName, results[0].ccrm_mobileformat, results[0].ccrm_mobiledisplay);
-                        } else {
-                            phoneErrorMessage(2, countryName, results[0].ccrm_phoneformat, results[0].ccrm_phonedisplay);
-
-                        }
-                    } else {
-
-                        var countryCode = phoneArraySplit[0];
-                        var newPhone = [];
-
-                        var p = 0;
-                        for (i = 1; i < phoneArraySplit.length; i++) {
-
-                            if (phoneArraySplit[i].indexOf("-") > -1) {
-                                if (orgPhone.length > phoneArraySizeMin) {
-                                    newPhone[i] = orgPhone.slice(p, +returnMaxMin(phoneArraySplit, i).max + +p);
-                                    p = +p + +returnMaxMin(phoneArraySplit, i).max;
+                                    }
                                 } else {
-                                    newPhone[i] = orgPhone.slice(p, +returnMaxMin(phoneArraySplit, i).min + +p);
-                                    p = +p + +returnMaxMin(phoneArraySplit, i).min;
+
+                                    var countryCode = phoneArraySplit[0];
+                                    var newPhone = [];
+
+                                    var p = phoneArraySplit[0].length;
+                                    for (i = 1; i < phoneArraySplit.length; i++) {
+
+                                        if (phoneArraySplit[i].indexOf("-") > -1) {
+                                            if (orgPhone.length <= phoneArraySize) {
+                                                newPhone[i] = orgPhone.slice(p, +returnMaxMin(phoneArraySplit, i).max + +p);
+                                                p = +p + +returnMaxMin(phoneArraySplit, i).max;
+                                            } else {
+                                                newPhone[i] = orgPhone.slice(p, +returnMaxMin(phoneArraySplit, i).min + +p);
+                                                p = +p + +returnMaxMin(phoneArraySplit, i).min;
+                                            }
+                                        } else {
+                                            newPhone[i] = orgPhone.slice(p, +phoneArraySplit[i] + +p);
+                                            p = +p + +phoneArraySplit[i];
+                                        }
+                                    }
+
+                                    var newPhoneFormat = countryCode;
+                                    for (i = 1; i < newPhone.length; i++) {
+
+                                        newPhoneFormat += " " + newPhone[i];
+
+                                    }
+                                    formContext.getAttribute(attribute.getName()).setValue(newPhoneFormat);
                                 }
+
+
                             } else {
-                                newPhone[i] = orgPhone.slice(p, +phoneArraySplit[i] + +p);
-                                p = +p + +phoneArraySplit[i];
+
+                                if (orgPhone.length < phoneArraySizeMin) {
+                                    if (attribute.getName().indexOf("mobile") > -1) {
+                                        phoneErrorMessage(1, countryName, ccrm_mobileformat, ccrm_mobiledisplay);
+                                    } else {
+                                        phoneErrorMessage(1, countryName, ccrm_phoneformat, ccrm_phonedisplay);
+                                    }
+                                } else if (orgPhone.length > phoneArraySize) {
+                                    if (attribute.getName().indexOf("mobile") > -1) {
+                                        phoneErrorMessage(2, countryName, ccrm_mobileformat, ccrm_mobiledisplay);
+                                    } else {
+                                        phoneErrorMessage(2, countryName, ccrm_phoneformat, ccrm_phonedisplay);
+
+                                    }
+                                } else {
+
+                                    var countryCode = phoneArraySplit[0];
+                                    var newPhone = [];
+
+                                    var p = 0;
+                                    for (i = 1; i < phoneArraySplit.length; i++) {
+
+                                        if (phoneArraySplit[i].indexOf("-") > -1) {
+                                            if (orgPhone.length > phoneArraySizeMin) {
+                                                newPhone[i] = orgPhone.slice(p, +returnMaxMin(phoneArraySplit, i).max + +p);
+                                                p = +p + +returnMaxMin(phoneArraySplit, i).max;
+                                            } else {
+                                                newPhone[i] = orgPhone.slice(p, +returnMaxMin(phoneArraySplit, i).min + +p);
+                                                p = +p + +returnMaxMin(phoneArraySplit, i).min;
+                                            }
+                                        } else {
+                                            newPhone[i] = orgPhone.slice(p, +phoneArraySplit[i] + +p);
+                                            p = +p + +phoneArraySplit[i];
+                                        }
+                                    }
+
+                                    var newPhoneFormat = countryCode;
+                                    for (i = 1; i < newPhone.length; i++) {
+
+                                        newPhoneFormat += " " + newPhone[i];
+
+                                    }
+                                    formContext.getAttribute(attribute.getName()).setValue(newPhoneFormat);
+
+                                }
                             }
                         }
 
-                        var newPhoneFormat = countryCode;
-                        for (i = 1; i < newPhone.length; i++) {
-
-                            newPhoneFormat += " " + newPhone[i];
-
-                        }
-                        Xrm.Page.getAttribute(attribute.getName()).setValue(newPhoneFormat);
-
                     }
                 }
+            },
+            function (error) {
+                Xrm.Utility.alertDialog(error.message);
             }
-
-        }
-
+        );
     } else {
 
         alert("Please select a country first");
-        Xrm.Page.getAttribute(attribute.getName()).setValue(null);
-
+        formContext.getAttribute(attribute.getName()).setValue(null);
     }
 }
 

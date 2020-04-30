@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedquery>
+  <IsCustomizable>1</IsCustomizable>
+  <CanBeDeleted>0</CanBeDeleted>
+  <isquickfindquery>0</isquickfindquery>
+  <isprivate>0</isprivate>
+  <isdefault>1</isdefault>
+  <savedqueryid>{e5f0a607-0dd7-4296-8950-5ae17e900ae6}</savedqueryid>
+  <layoutxml>
+    <grid name="ccrm_opportunityapprovals" jump="ccrm_name" select="1" icon="1" preview="1">
+      <row name="ccrm_opportunityapproval" id="ccrm_opportunityapprovalid">
+        <cell name="ccrm_type" width="150" />
+        <cell name="ccrm_reviewerapprover_userid" width="150" />
+        <cell name="ccrm_name" width="125" />
+        <cell name="statuscode" width="150" />
+        <cell name="ccrm_actionedby_userid" width="150" />
+      </row>
+    </grid>
+  </layoutxml>
+  <querytype>2</querytype>
+  <fetchxml>
+    <fetch distinct="false" no-lock="false" mapping="logical">
+      <entity name="ccrm_opportunityapproval">
+        <attribute name="ccrm_type" />
+        <attribute name="ccrm_reviewerapprover_userid" />
+        <attribute name="ccrm_actionedby_userid" />
+        <attribute name="ccrm_name" />
+        <attribute name="statuscode" />
+        <attribute name="ccrm_opportunityapprovalid" />
+        <filter type="and">
+          <condition attribute="statecode" operator="eq" value="0" />
+        </filter>
+        <order attribute="ccrm_type" descending="false" />
+      </entity>
+    </fetch>
+  </fetchxml>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <LocalizedNames>
+    <LocalizedName description="Opportunity Approval Associated View" languagecode="1033" />
+  </LocalizedNames>
+</savedquery>

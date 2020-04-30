@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{9bc8fd05-8167-e511-80d8-005056b55b13}" Name="2015 - set Default - Probability win" Description="Click to add description" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{9bc8fd05-8167-e511-80d8-005056b55b13}" Name="2015 - set Default - Probability win" Description="Click to add description">
   <XamlFileName>/Workflows/2015-setDefault-Probabilitywin-9BC8FD05-8167-E511-80D8-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

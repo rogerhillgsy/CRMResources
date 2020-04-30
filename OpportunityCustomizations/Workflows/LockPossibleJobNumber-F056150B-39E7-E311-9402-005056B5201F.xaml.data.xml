@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{f056150b-39e7-e311-9402-005056b5201f}" Name="Lock Possible Job Number" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{f056150b-39e7-e311-9402-005056b5201f}" Name="Lock Possible Job Number">
   <XamlFileName>/Workflows/LockPossibleJobNumber-F056150B-39E7-E311-9402-005056B5201F.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

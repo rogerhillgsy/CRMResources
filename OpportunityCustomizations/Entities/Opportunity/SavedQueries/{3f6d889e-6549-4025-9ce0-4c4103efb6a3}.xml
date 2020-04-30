@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedquery>
+  <isquickfindquery>1</isquickfindquery>
+  <isprivate>0</isprivate>
+  <isdefault>1</isdefault>
+  <savedqueryid>{3f6d889e-6549-4025-9ce0-4c4103efb6a3}</savedqueryid>
+  <queryapi></queryapi>
+  <layoutxml>
+    <grid name="resultset" jump="name" select="1" icon="1" preview="1">
+      <row name="result" id="opportunityid">
+        <cell name="ccrm_pjna" width="100" />
+        <cell name="ccrm_jna" width="100" />
+        <cell name="name" width="200" />
+        <cell name="ccrm_client" width="200" />
+        <cell name="statecode" width="100" />
+        <cell name="ccrm_sys_phasename" width="150" imageproviderfunctionname="" imageproviderwebresource="$webresource:" />
+        <cell name="ccrm_estimatedvalue_num" width="100" />
+        <cell name="ccrm_project_transactioncurrencyid" width="100" />
+        <cell name="ccrm_estarupinvolvementstart" width="100" />
+        <cell name="ccrm_biddirector_userid" width="100" />
+        <cell name="ccrm_bidmanager_userid" width="100" />
+        <cell name="ccrm_arupinternal" width="100" />
+        <cell name="ccrm_arupgroupid" width="150" imageproviderfunctionname="" imageproviderwebresource="$webresource:" />
+        <cell name="ccrm_projectlocationid" width="100" />
+      </row>
+    </grid>
+  </layoutxml>
+  <querytype>4</querytype>
+  <fetchxml>
+    <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+      <entity name="opportunity">
+        <attribute name="name" />
+        <order attribute="name" descending="false" />
+        <filter type="and">
+          <condition attribute="statecode" operator="in">
+            <value>0</value>
+            <value>1</value>
+            <value>2</value>
+          </condition>
+        </filter>
+        <filter type="or" isquickfindfields="1">
+          <condition attribute="ccrm_ultimateendclientid" operator="like" value="{0}" />
+          <condition attribute="name" operator="like" value="{0}" />
+          <condition attribute="ccrm_location" operator="like" value="{0}" />
+          <condition attribute="ccrm_reference" operator="like" value="{0}" />
+          <condition attribute="ccrm_projectlocationid" operator="like" value="{0}" />
+          <condition attribute="ccrm_pjna" operator="like" value="{0}" />
+          <condition attribute="ccrm_jna" operator="like" value="{0}" />
+          <condition attribute="customerid" operator="like" value="{0}" />
+          <condition attribute="ccrm_bidmanager_userid" operator="like" value="{0}" />
+          <condition attribute="ccrm_biddirector_userid" operator="like" value="{0}" />
+        </filter>
+        <attribute name="ccrm_project_transactioncurrencyid" />
+        <attribute name="ccrm_projectlocationid" />
+        <attribute name="ccrm_estimatedvalue_num" />
+        <attribute name="ccrm_estarupinvolvementstart" />
+        <attribute name="ccrm_pjna" />
+        <attribute name="ccrm_jna" />
+        <attribute name="statecode" />
+        <attribute name="ccrm_bidmanager_userid" />
+        <attribute name="ccrm_biddirector_userid" />
+        <attribute name="ccrm_arupinternal" />
+        <attribute name="ccrm_client" />
+        <attribute name="ccrm_arupgroupid" />
+        <attribute name="ccrm_sys_phasename" />
+        <attribute name="opportunityid" />
+      </entity>
+    </fetch>
+  </fetchxml>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <LocalizedNames>
+    <LocalizedName description="Quick Find Open Opportunities" languagecode="1033" />
+  </LocalizedNames>
+</savedquery>

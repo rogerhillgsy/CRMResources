@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{6c9a848c-f056-e511-80d7-005056b55b13}" Name="2015 - PJN Required (***)" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{6c9a848c-f056-e511-80d7-005056b55b13}" Name="2015 - PJN Required (***)" Description="Click to add description">
   <XamlFileName>/Workflows/2015-PJNRequired-6C9A848C-F056-E511-80D7-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>
@@ -22,4 +22,7 @@
   <LocalizedNames>
     <LocalizedName languagecode="1033" description="2015 - PJN Required (***)" />
   </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1033" description="Click to add description" />
+  </Descriptions>
 </Workflow>

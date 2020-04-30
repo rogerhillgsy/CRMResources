@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{a4874cde-2144-ea11-8130-00505690cb20}" Name="Lock/Unlock Bis Decision Chair" Description="Click to add description" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{a4874cde-2144-ea11-8130-00505690cb20}" Name="Lock/Unlock Bis Decision Chair" Description="Click to add description">
   <XamlFileName>/Workflows/LockUnlockBisDecisionChair-A4874CDE-2144-EA11-8130-00505690CB20.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

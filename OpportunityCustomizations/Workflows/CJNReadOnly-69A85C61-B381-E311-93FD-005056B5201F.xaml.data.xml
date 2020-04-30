@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{69a85c61-b381-e311-93fd-005056b5201f}" Name="CJN ReadOnly" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{69a85c61-b381-e311-93fd-005056b5201f}" Name="CJN ReadOnly">
   <XamlFileName>/Workflows/CJNReadOnly-69A85C61-B381-E311-93FD-005056B5201F.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

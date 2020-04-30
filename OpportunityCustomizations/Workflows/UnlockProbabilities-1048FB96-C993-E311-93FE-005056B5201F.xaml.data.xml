@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{1048fb96-c993-e311-93fe-005056b5201f}" Name="Unlock Probabilities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{1048fb96-c993-e311-93fe-005056b5201f}" Name="Unlock Probabilities">
   <XamlFileName>/Workflows/UnlockProbabilities-1048FB96-C993-E311-93FE-005056B5201F.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

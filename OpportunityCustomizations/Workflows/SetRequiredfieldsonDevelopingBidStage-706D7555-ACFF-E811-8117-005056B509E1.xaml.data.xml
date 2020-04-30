@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{706d7555-acff-e811-8117-005056b509e1}" Name="Set Required fields on Developing Bid Stage" Description="Click to add description" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{706d7555-acff-e811-8117-005056b509e1}" Name="Set Required fields on Developing Bid Stage" Description="Click to add description">
   <XamlFileName>/Workflows/SetRequiredfieldsonDevelopingBidStage-706D7555-ACFF-E811-8117-005056B509E1.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

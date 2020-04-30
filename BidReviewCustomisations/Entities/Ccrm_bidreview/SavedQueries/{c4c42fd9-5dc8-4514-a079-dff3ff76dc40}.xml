@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedquery>
+  <IsCustomizable>1</IsCustomizable>
+  <CanBeDeleted>0</CanBeDeleted>
+  <isquickfindquery>0</isquickfindquery>
+  <isprivate>0</isprivate>
+  <isdefault>1</isdefault>
+  <savedqueryid>{c4c42fd9-5dc8-4514-a079-dff3ff76dc40}</savedqueryid>
+  <layoutxml>
+    <grid name="ccrm_bidreviews" jump="ccrm_name" select="1" icon="1" preview="1">
+      <row name="ccrm_bidreview" id="ccrm_bidreviewid">
+        <cell name="ccrm_name" width="300" />
+        <cell name="createdon" width="150" />
+        <cell name="createdby" width="200" />
+        <cell name="modifiedon" width="150" />
+        <cell name="modifiedby" width="200" />
+      </row>
+    </grid>
+  </layoutxml>
+  <querytype>2</querytype>
+  <fetchxml>
+    <fetch distinct="false" no-lock="false" mapping="logical">
+      <entity name="ccrm_bidreview">
+        <attribute name="modifiedon" />
+        <attribute name="createdon" />
+        <attribute name="ccrm_name" />
+        <attribute name="createdby" />
+        <attribute name="modifiedby" />
+        <attribute name="ccrm_bidreviewid" />
+        <filter type="and">
+          <condition attribute="statecode" operator="eq" value="0" />
+        </filter>
+        <order attribute="ccrm_name" descending="false" />
+      </entity>
+    </fetch>
+  </fetchxml>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <LocalizedNames>
+    <LocalizedName description="Bid Review Associated View" languagecode="1033" />
+  </LocalizedNames>
+</savedquery>

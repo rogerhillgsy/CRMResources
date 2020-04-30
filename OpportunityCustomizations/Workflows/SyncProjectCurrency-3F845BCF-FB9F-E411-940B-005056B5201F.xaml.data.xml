@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{3f845bcf-fb9f-e411-940b-005056b5201f}" Name="Sync Project Currency" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{3f845bcf-fb9f-e411-940b-005056b5201f}" Name="Sync Project Currency">
   <XamlFileName>/Workflows/SyncProjectCurrency-3F845BCF-FB9F-E411-940B-005056B5201F.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

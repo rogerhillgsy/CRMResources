@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RibbonDiffXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<RibbonDiffXml>
   <CustomActions>
     <CustomAction Id="arup.ccrm_cjnapplication.Exit.Button.CustomAction" Location="Mscrm.Form.ccrm_cjnapplication.MainTab.Save.Controls._children" Sequence="15">
       <CommandUIDefinition>

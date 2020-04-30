@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{707db6a6-f0cd-e611-80f4-005056b55b13}" Name="2015 - LoL Agreed" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{707db6a6-f0cd-e611-80f4-005056b55b13}" Name="2015 - LoL Agreed">
   <XamlFileName>/Workflows/2015-LoLAgreed-707DB6A6-F0CD-E611-80F4-005056B55B13.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

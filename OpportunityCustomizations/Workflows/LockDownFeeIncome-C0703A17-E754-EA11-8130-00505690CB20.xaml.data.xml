@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{c0703a17-e754-ea11-8130-00505690cb20}" Name="Lock Down Fee Income" Description="Click to add description" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{c0703a17-e754-ea11-8130-00505690cb20}" Name="Lock Down Fee Income" Description="Click to add description">
   <XamlFileName>/Workflows/LockDownFeeIncome-C0703A17-E754-EA11-8130-00505690CB20.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

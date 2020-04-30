@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{bfa519cf-e2c2-e711-8100-005056b509e1}" Name="Set Project Sector from Sub Business" Description="Click to add description" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{bfa519cf-e2c2-e711-8100-005056b509e1}" Name="Set Project Sector from Sub Business" Description="Click to add description">
   <XamlFileName>/Workflows/SetProjectSectorfromSubBusiness-BFA519CF-E2C2-E711-8100-005056B509E1.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>

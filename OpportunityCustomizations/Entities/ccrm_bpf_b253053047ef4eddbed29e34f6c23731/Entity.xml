@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Entity>
   <Name LocalizedName="ARUP BPF 2015" OriginalName="ARUP BPF 2015">ccrm_bpf_b253053047ef4eddbed29e34f6c23731</Name>
   <EntityInfo>
     <entity Name="ccrm_bpf_b253053047ef4eddbed29e34f6c23731">
