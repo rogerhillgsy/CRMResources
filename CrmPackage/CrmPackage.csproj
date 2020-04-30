@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="WebResources\Cascading Stylesheet %28CSS%29\" />
     <Folder Include="WebResources\GIF format\" />
     <Folder Include="WebResources\ICO format\" />
     <Folder Include="WebResources\PNG format\" />
@@ -48,6 +49,16 @@
     <Folder Include="WebResources" />
   </ItemGroup>
   <ItemGroup>
+    <CRMWebResource Include="WebResources\Cascading Stylesheet %28CSS%29\arup_OppoWiz.css">
+      <DisplayName>Opportunity Wizard css</DisplayName>
+      <UniqueName>arup_OppoWiz.css</UniqueName>
+      <WebResourceType>CascadingStylesheet</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Cascading Stylesheet %28CSS%29\Test.css">
+      <DisplayName>Test</DisplayName>
+      <UniqueName>arup_Test</UniqueName>
+      <WebResourceType>CascadingStylesheet</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\GIF format\arup_ProcessingLoader">
       <DisplayName>arup_ProcessingLoader</DisplayName>
       <UniqueName>arup_arup_ProcessingLoader</UniqueName>
@@ -1289,6 +1300,16 @@
       <UniqueName>arup_opportunitybuttoncommands.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_OppoWiz.js">
+      <DisplayName>Opportunity Wizard JS</DisplayName>
+      <UniqueName>arup_OppoWiz.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_OppoWiz.MSWorkerClass.js">
+      <DisplayName>Opportunity Wizard MS worker class</DisplayName>
+      <UniqueName>arup_OppoWiz.MSWorkerClass.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Contact_main_library.js">
       <DisplayName>Contact_main_library</DisplayName>
       <UniqueName>arup_Contact_main_library</UniqueName>
@@ -1744,6 +1765,16 @@
       <UniqueName>arup_opportunitybuttons.html</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_homepage.html">
+      <DisplayName>ccrm_homepage</DisplayName>
+      <UniqueName>arup_ccrm_homepage</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page (HTML)\arup_OppoWiz.html">
+      <DisplayName>Opportunity Wizard HTML</DisplayName>
+      <UniqueName>arup_OppoWiz.html</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_Relationship_Interactions">
       <DisplayName>arup_Relationship_Interactions</DisplayName>
       <UniqueName>arup_arup_Relationship_Interactions</UniqueName>
@@ -1844,11 +1875,6 @@
       <DisplayName>ccrm_headerriskdesc01</DisplayName>
       <UniqueName>arup_ccrm_headerriskdesc01</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_homepage.html">
-      <DisplayName>ccrm_homepage</DisplayName>
-      <UniqueName>arup_ccrm_homepage</UniqueName>
-      <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_marketingviewer">
       <DisplayName>ccrm_marketingviewer</DisplayName>
