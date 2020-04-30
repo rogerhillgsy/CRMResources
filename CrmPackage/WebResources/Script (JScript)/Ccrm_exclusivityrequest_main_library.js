@@ -22,7 +22,7 @@ function Form_onload() {
         Xrm.Page.getAttribute("ccrm_exclusivityreason").setRequiredLevel("required");
         //set state to requested
         Xrm.Page.getAttribute("ccrm_draft").setValue(false);
-        Xrm.Page.getAttribute("ccrm_requeststatus").setValue("2");
+        Xrm.Page.getAttribute("ccrm_requeststatus").setValue(2);
         Xrm.Page.getAttribute("ccrm_requeststatus").setSubmitMode("always");
         if (Xrm.Page.getAttribute("ccrm_exclusivityreason").getValue() != null) {
             alert('Your request for Exclusivity has been submitted');
