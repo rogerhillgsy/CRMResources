@@ -876,6 +876,7 @@
     <CRMWebResource Include="WebResources\PNG format\arup_FeeExtIcon16.png">
       <UniqueName>arup_FeeExtIcon16</UniqueName>
       <WebResourceType>PNG</WebResourceType>
+      <DisplayName>arup_FeeExtIcon16</DisplayName>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\PNG format\arup_FeeExtIcon32">
       <DisplayName>arup_FeeExtIcon32</DisplayName>
@@ -1448,6 +1449,7 @@
       <UniqueName>ccrm_ClientGrouping_main_library</UniqueName>
       <WebResourceType>Script</WebResourceType>
       <WebResourceLanguage>English (United States)</WebResourceLanguage>
+      <DisplayName>ccrm_ClientGrouping_main_library</DisplayName>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Common_library.js">
       <DisplayName>ccrm_Common_library</DisplayName>
