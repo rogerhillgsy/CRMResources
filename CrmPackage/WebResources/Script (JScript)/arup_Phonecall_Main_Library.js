@@ -126,7 +126,7 @@ function addFilter() {
 function changeLookFor(fieldName) {
 
     var control = Xrm.Page.getControl(fieldName);
-    control.getAttribute().setLookupTypes(['contact']);
+    control.setEntityTypes(['contact']);
 }
 
 function filterOnLoad(executionContext) {
@@ -152,7 +152,7 @@ function filterField(fieldList, lookupFor) {
 
     fieldList.forEach(
         function (item, index) {
-            Xrm.Page.getAttribute(item).setLookupTypes(lookupFor);
+            Xrm.Page.getControl(item).setEntityTypes(lookupFor);
         })
 }
 
