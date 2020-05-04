@@ -955,7 +955,6 @@ function getUsers(input) {
 
 function saveOpportunity() 
 {
-debugger;
     var attrs = getAttributes();
     CreateOpportunity(attrs);
 }
@@ -963,34 +962,88 @@ debugger;
 function getAttributes() {
     var attrs = {};
     attrs.name = $("#project_name").val();
-    attrs.OpportunityType = $("#opportunityType").val();
+    attrs.arup_opportunitytype = $("#opportunityType").val();
+    attrs.ccrm_parentopportunityid = $("#opportunities option[value='" + $('#relatedopportunity').val() + "']").attr("data-value");
+ 
+    attrs.ccrm_leadsource = $("#leadSource").val();
+    attrs.ccrm_contractarrangement = $("#contractarrangement").val();
+
+    attrs["ccrm_projectlocationid@odata.bind"] = "/ccrm_countries(" +  $("#countries option[value='" + $('#project_country').val() + "']").attr("data-value") + ")";
+    attrs.ccrm_arupusstateid = $("#states option[value='" + $('#project_state').val() + "']").attr("data-value");
+    attrs.ccrm_location = $("#project_city").val();
+    attrs["ccrm_arupbusinessid@odata.bind"]= "/ccrm_arupbusinesses(" + $("#businesses option[value='" + $('#arup_business').val() + "']").attr("data-value") + ")";
+    attrs["arup_subbusiness@odata.bind"] = "/arup_subbusinesses(" +$("#subbusinesses option[value='" + $('#arup_subbusiness').val() + "']").attr("data-value") + ")";
+    attrs["ccrm_arupcompanyid@odata.bind"] = "/ccrm_arupcompanies(" + $("#companies option[value='" + $('#arup_company').val() + "']").attr("data-value") + ")";
+    attrs["ccrm_accountingcentreid@odata.bind"] = "/ccrm_arupaccountingcodes(" + $("#accountingcentres option[value='" + $('#accountingcentre').val() + "']").attr("data-value") + ")";
+    attrs["ccrm_client@odata.bind"] =  "/accounts(" +  $("#clients option[value='" + $('#client').val() + "']").attr("data-value") + ")";
+    attrs["ccrm_ultimateendclientid@odata.bind"] = "/accounts(" + $("#endclients option[value='" + $('#endclient').val() + "']").attr("data-value") + ")";
+    attrs["ccrm_leadoriginator@odata.bind"] = "/systemusers(" + $("#users option[value='" + $('#opporigin').val() + "']").attr("data-value") + ")";
+    var globalServices = [];
+    document.querySelectorAll("#WC [name='global_services[]']:checked").forEach(
+        function (s) {
+            if (s.value != "770000000") // Not applicable.
+                globalServices.push(s.value);
+        });
+    attrs.arup_globalservices = globalServices.join(",");
+    attrs.description = $("#description").val();
     return attrs;
 }
 
 function CreateOpportunity(attributes) {
     var entity = {};
-    entity.name = attributes.name;
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities",
-        data: JSON.stringify(entity),
-        beforeSend: function (XMLHttpRequest) {
-            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-            XMLHttpRequest.setRequestHeader("Accept", "application/json");
-            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-        },
-        async: true,
-        success: function (data, textStatus, xhr) {
-            var uri = xhr.getResponseHeader("OData-EntityId");
-            var regExp = /\(([^)]+)\)/;
-            var matches = regExp.exec(uri);
-            var newEntityId = matches[1];
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-        }
-    });
+    for (var attr in attributes) {
+        if (attributes.hasOwnProperty(attr)) entity[attr] = attributes[attr];
+    }
+    var impersonateUserId;
+    Xrm.WebApi.retrieveMultipleRecords("ccrm_arupinterfacesetting",
+            "?$select=ccrm_setting&$filter=ccrm_name eq ('Arup.CreateOpportunity.UserId')")
+        .then(function(result) {
+            debugger;
+            if (result.entities.length != 1) {
+                Xrm.Navigation.openErrorDialog(
+                    { message: "CreateOpportunity Userid not defined in Arup Interface Settings" }
+                );
+                return;
+            }
+                impersonateUserId = result.entities[0].ccrm_setting;
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities",
+                    data: JSON.stringify(entity),
+                    beforeSend: function(XMLHttpRequest) {
+                        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                        XMLHttpRequest.setRequestHeader("MSCRMCallerID", impersonateUserId);
+                    },
+                    async: true,
+                    success: function(data, textStatus, xhr) {
+                        var uri = xhr.getResponseHeader("OData-EntityId");
+                        var regExp = /\(([^)]+)\)/;
+                        var matches = regExp.exec(uri);
+                        var newEntityId = matches[1];
+                        Xrm.Navigation.openAlertDialog({
+                            text: "Opportunity " + attributes.name + " has been created",
+                            title: "Opportunity Created"
+                        });
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                       Xrm.Navigation.openErrorDialog({
+                            details: xhr.responseJSON.error.message,
+                            errorCode: xhr.status,
+                            message: "Error trying to save opportunity"
+
+                        });
+                    }
+                });
+            },
+            function(e) {
+                Xrm.Navigation.openErrorDialog(
+                    { details: e.message }
+                );
+            });
+
 }
