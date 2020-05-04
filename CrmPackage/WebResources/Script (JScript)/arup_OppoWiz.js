@@ -686,6 +686,7 @@ function getCountries(input) {
 
 function getStates() {
     var input = $("#countries option[value='" + $('#project_country').val() + "']").attr("data-value");
+    if (input === undefined) return; // Autocompletion can cause this.
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
@@ -758,6 +759,7 @@ function getBusinesses() {
 
 function getSubBusinesses() {
     var input = $("#businesses option[value='" + $('#arup_business').val() + "']").attr("data-value");
+    if (input === undefined) return;
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
@@ -856,10 +858,10 @@ function getAccountingCentres() {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupaccountingcodes?$select=ccrm_arupaccountingcodeid,ccrm_arupcompanycode,ccrm_name&$filter=ccrm_arupcompanycode" + encodeURIComponent(" eq "+input+" and  statuscode eq 1"),
+        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupaccountingcodes?$select=ccrm_arupaccountingcodeid,ccrm_arupcompanycode,ccrm_name&$filter=ccrm_arupcompanycode" + encodeURIComponent(" eq '"+input+"' and  statuscode eq 1"),
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");''
             XMLHttpRequest.setRequestHeader("Accept", "application/json");
             XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=50");
         },
@@ -944,6 +946,48 @@ function getUsers(input) {
                 users += '<option value="' + fullname + '" data-value="' + systemuserid + '" > ' + fullname + '</option > ';
             }
             document.getElementById('users').innerHTML = users;
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+        }
+    });
+}
+
+function saveOpportunity() 
+{
+debugger;
+    var attrs = getAttributes();
+    CreateOpportunity(attrs);
+}
+
+function getAttributes() {
+    var attrs = {};
+    attrs.name = $("#project_name").val();
+    attrs.OpportunityType = $("#opportunityType").val();
+    return attrs;
+}
+
+function CreateOpportunity(attributes) {
+    var entity = {};
+    entity.name = attributes.name;
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        datatype: "json",
+        url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities",
+        data: JSON.stringify(entity),
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+            XMLHttpRequest.setRequestHeader("Accept", "application/json");
+            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+        },
+        async: true,
+        success: function (data, textStatus, xhr) {
+            var uri = xhr.getResponseHeader("OData-EntityId");
+            var regExp = /\(([^)]+)\)/;
+            var matches = regExp.exec(uri);
+            var newEntityId = matches[1];
         },
         error: function (xhr, textStatus, errorThrown) {
             Xrm.Utility.alertDialog(textStatus + " " + errorThrown);

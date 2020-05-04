@@ -556,7 +556,13 @@ function GetURsAndDef(crmUsID)
         }
     };
     //Execute request passing the input parameter of the action 
-    req.send(window.JSON.stringify(data));
+    // TODO: This does not work here -so commented out.
+//    req.send(window.JSON.stringify(data));
+// Skip the request to the server, as this is not needed for the opportunity
+    $("#UR").show();
+    $('.wizard-buttons').show();
+    $("#wait").remove();
+    $("#waitmsg").remove();
 }
 
 function prepareURPage(DefURsJSON) {

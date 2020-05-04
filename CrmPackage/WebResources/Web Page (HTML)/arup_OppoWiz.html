@@ -1,17 +1,18 @@
 ﻿<html>
 <head>
+    <title>New Opportunity Wizard</title>
 </head>
-<body onfocusout="parent.setEmailRange();" style="overflow-wrap: break-word;">
+<body  style="overflow-wrap: break-word;" >
     ﻿
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>New Opportunity Wizard</title>
+
 
     <link rel="stylesheet" href="arup_BootStrapCSS">
     <link rel="stylesheet" href="arup_BootStrap_ThemeCSS">
-    <link rel="stylesheet" href="arup_OppoWiz">
+    <link rel="stylesheet" href="arup_OppoWiz.css">
     <link rel="stylesheet" href="arup_Bootstrap_TableCSS">
     <link rel="stylesheet" href="arup_Bootstrap_MultiselectCSS">
     <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -20,8 +21,8 @@
     <script type="text/javascript" src="arup_BootStrap.min"></script>
     <script type="text/javascript" src="arup_Bootstrap_TableJS"></script>
     <script type="text/javascript" src="arup_Bootstrap_MultiselectJS"></script>
-    <script type="text/javascript" src="arup_OppoWizJS"></script>
-    <script type="text/javascript" src="arup_MSWorkerClasssOPPWiz"></script>
+    <script type="text/javascript" src="arup_OppoWiz.js"></script>
+    <script type="text/javascript" src="arup_OppoWiz.MSWorkerClass.js"></script>
     <script type="text/javascript" src="mag_/js/alert.js"></script>
     <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
     <script src="arup_SDK.WebAPI_min.js" type="text/javascript"></script>
@@ -37,12 +38,13 @@
             $("#mysub").wizard({
                 exitText: 'exit',
                 onfinish: function (e) {
-                    window.close();
+                    saveOpportunity().then(() => window.close());
                 }
             });
             //displayWaiting();
 
             getCRMUser();
+//            var userSettings = parent.Xrm.Utility.getGlobalContext().userSettings;
             $('.multiselect-item .caret-container').click();
         });
 
@@ -336,7 +338,7 @@
                     <form class="">
                         <div class="form-group">
                             <label for="opportunityType">Opportunity Type:</label>
-                            <select id="opportunityType" class="form-control" onchange="onOpportunityTypeChange(this.value)" title="Select Opportunity Type">
+                            <select id="opportunityType" class="form-control" onchange="onOpportunityTypeChange(this.value)" title="Select Opportunity Type" autofocus>
                                 <option value="">Select Opportunity Type</option>
                                 <option value="770000000" title="New Opportunity">New Opportunity</option>
                                 <option value="770000001" title="Project extension - existing contract">Project extension - existing contract</option>
@@ -426,37 +428,37 @@
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="project_country">Project Country:</label>
-                        <input list="countries" id="project_country" class="form-control input-form" name="project_country" onkeyup="getCountries(this.value);" onchange="getStates();" title="Input project country" />
+                        <input list="countries" id="project_country" class="form-control input-form" name="project_country" onkeyup="getCountries(this.value);" onchange="getStates();" title="Input project country" autocomplete="countries"/>
                         <datalist id="countries">
                         </datalist>
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="project_state">Project State/Province:</label>
-                        <input list="states" id="project_state" class="form-control input-form" name="project_state" title="Input project state" />
+                        <input list="states" id="project_state" class="form-control input-form" name="project_state" title="Input project state" autocomplete="state-province"/>
                         <datalist id="states">
                         </datalist>
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="project_city">Project Town/City:</label>
-                        <input list="cities" id="project_city" class="form-control input-form" name="project_city" title="Input project city" />
+                        <input list="cities" id="project_city" class="form-control input-form" name="project_city" title="Input project city" autocomplete="city"/>
                         <datalist id="cities">
                         </datalist>
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="arup_business">Arup Business:</label>
-                        <input list="businesses" id="arup_business" class="form-control input-form" name="arup_business" onclick="getBusinesses();" onchange="getSubBusinesses()" title="Input arup business" />
+                        <input list="businesses" id="arup_business" class="form-control input-form" name="arup_business" onclick="getBusinesses();" onchange="getSubBusinesses()" title="Input arup business" autocomplete="arup-business"/>
                         <datalist id="businesses">
                         </datalist>
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="arup_subbusiness">Arup Sub Business:</label>
-                        <input list="subbusinesses" id="arup_subbusiness" class="form-control input-form" name="arup_subbusiness" title="Input arup sub business" />
+                        <input list="subbusinesses" id="arup_subbusiness" class="form-control input-form" name="arup_subbusiness" title="Input arup sub business" autocomplete="arup-subbusiness"/>
                         <datalist id="subbusinesses">
                         </datalist>
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="arup_company">Arup Company:</label>
-                        <input list="companies" id="arup_company" class="form-control input-form" name="arup_company" onchange="getAccountingCentres();" title="Input Company" />
+                        <input list="companies" id="arup_company" class="form-control input-form" name="arup_company" onchange="getAccountingCentres();" title="Input Company" autocomplete="arup-company"/>
                         <datalist id="companies">
                         </datalist>
                     </div>
@@ -468,19 +470,19 @@
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="client">Client:</label>
-                        <input list="clients" id="client" class="form-control input-form" name="client" onkeyup="getClients(this.value, true);" title="Input Client" />
+                        <input list="clients" id="client" class="form-control input-form" name="client" onkeyup="getClients(this.value, true);" title="Input Client" autocomplete="client"/>
                         <datalist id="clients">
                         </datalist>
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="endclient">Ultimate/End Client:</label>
-                        <input list="endclients" id="endclient" class="form-control input-form" name="endclient" onkeyup="getClients(this.value, false);" title="Input End Client" />
+                        <input list="endclients" id="endclient" class="form-control input-form" name="endclient" onkeyup="getClients(this.value, false);" title="Input End Client" autocomplete="client" />
                         <datalist id="endclients">
                         </datalist>
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="opporigin">Opportunity Originator:</label>
-                        <input list="users" id="opporigin" class="form-control input-form" name="opporigin" onkeyup="getUsers(this.value);" title="Input Staff name" />
+                        <input list="users" id="opporigin" class="form-control input-form" name="opporigin" onkeyup="getUsers(this.value);" title="Input Staff name" autocomplete="originator"/>
                         <datalist id="users">
                         </datalist>
                     </div>
