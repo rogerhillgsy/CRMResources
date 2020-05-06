@@ -7,25 +7,63 @@ Arup.validateOppWiz = function() {
 // Define constraints using validate.js
     var page4constraints = {
         project_name: {
-            presence: { message: "Enter a name for the project" }
-        },
-        project_city: {
-            presence: { message: "Enter a city name" }
+            presence: { message: "- a name is required" }
         },
         project_country: {
-            presence: { message: "Enter a city name" }
-        }
+            presence: { message: "- select a value" }
+        },
+        project_state: {
+            presence: { message: "- select a value" }
+        },
+        project_city: {
+            presence: { message: "- enter name" }
+        },
+        arup_business: {
+            presence: { message: "- select values" }
+        },
+        arup_subbusiness: {
+            presence: { message: "- select value" }
+        },
+        arup_company: {
+            presence: { message: "- select value" }
+        },
+        accountingcentre: {
+            presence: { message: "- select value" }
+        },
+        client: {
+            presence: { message: "- select value" }
+        },
+        endclient: {
+            presence: { message: "- select value" }
+        },
+        opporigin: {
+            presence: { message: "- enter name" }
+        },
+        global_services: {
+            presence: { message: "- select one" }
+        },
+        description: {
+            presence: { message: "- enter text" }
+        },
+    };
+
+    function arupValidator(value, options, key, attributes) {
+        debugger;
     }
 
     function ValidateForm(form) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
+            if (!!validate && !!validate.validators && typeof(validate.validators.arupAutocomplete) === 'undefined') {
+                validate.validators.arupAutocomplete = arupValidator;
+            }
+            debugger;
             var errors = validate(form, page4constraints);
             // then we update the form to reflect the results
             showErrors(form, errors || {});
             if (!errors) {
                 resolve();
             } else {
-                reject();
+                reject(errors);
             }
         });
     }
@@ -45,7 +83,7 @@ Arup.validateOppWiz = function() {
         var formGroup = closestParent(input.parentNode, "form-group")
             // Find where the error messages will be insert into
             ,
-            messages = formGroup.querySelector(".messages");
+            label = formGroup.querySelector("label");
         // First we remove any old messages and resets the classes
         resetFormGroup(formGroup);
         // If we have errors
@@ -55,7 +93,7 @@ Arup.validateOppWiz = function() {
             // then we append all the errors
             _.each(errors,
                 function(error) {
-                    addError(messages, error);
+                    addError(label, error);
                 });
         } else {
             // otherwise we simply mark it as success
@@ -89,12 +127,12 @@ Arup.validateOppWiz = function() {
 
 // Adds the specified error with the following markup
 // <p class="help-block error">[message]</p>
-    function addError(messages, error) {
-        var block = document.createElement("p");
+    function addError(label, error) {
+        var block = document.createElement("span");
         block.classList.add("help-block");
         block.classList.add("error");
         block.innerText = error;
-        messages.appendChild(block);
+        label.parentNode.insertBefore(block, label.nextSibling);
     }
 
 //
