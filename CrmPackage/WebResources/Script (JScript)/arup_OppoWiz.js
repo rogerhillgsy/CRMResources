@@ -658,7 +658,7 @@ function getCountries(input) {
             type: "GET",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
-            url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_countries?$select=ccrm_arupcountrycode,ccrm_name&$filter=" + encodeURIComponent("statuscode eq 1 and ") + "contains(ccrm_name,'" + input + "')",
+            url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_countries?$select=ccrm_arupcountrycode,ccrm_name&$filter=" + encodeURIComponent("statuscode eq 1 and ") + "contains(ccrm_name,'" + input + "')" + "&$orderby=ccrm_name asc",
             beforeSend: function (XMLHttpRequest) {
                 XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                 XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -677,10 +677,8 @@ function getCountries(input) {
                 }
                 document.getElementById('countries').innerHTML = countries;
             },
-            error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-            }
-        });
+            error: restQueryErrorDialog("Unable to get countryList")
+            });
     }
 }
 
@@ -691,7 +689,7 @@ function getStates() {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupusstates?$select=ccrm_arupusstatecode,ccrm_arupusstateid,ccrm_name,ccrm_usstatecode,statecode&$filter=_ccrm_countryid_value" + encodeURIComponent(" eq ") + input,
+        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupusstates?$select=ccrm_arupusstatecode,ccrm_arupusstateid,ccrm_name,ccrm_usstatecode,statecode&$filter=_ccrm_countryid_value" + encodeURIComponent(" eq ") + input + "&$orderby=ccrm_name asc",
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
             XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -714,9 +712,7 @@ function getStates() {
             }
             document.getElementById('states').innerHTML = states;
         },
-        error: function (xhr, textStatus, errorThrown) {
-            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-        }
+        error: restQueryErrorDialog("Unable to get States List")
     });
 }
 
@@ -726,7 +722,7 @@ function getBusinesses() {
             type: "GET",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
-            url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupbusinesses?$select=ccrm_arupbusinesscode,ccrm_arupbusinessid,_ccrm_arupmarketid_value,ccrm_name&$filter=statuscode" + encodeURIComponent(" eq 1"),
+            url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupbusinesses?$select=ccrm_arupbusinesscode,ccrm_arupbusinessid,_ccrm_arupmarketid_value,ccrm_name&$filter=statuscode" + encodeURIComponent(" eq 1") + "&$orderby=ccrm_name asc",
             beforeSend: function (XMLHttpRequest) {
                 XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                 XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -750,9 +746,7 @@ function getBusinesses() {
                 document.getElementById('businesses').innerHTML = businesses;
                 onceload = false;
             },
-            error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-            }
+            error: restQueryErrorDialog("Unable to get Arup business list")
         });
     }
 }
@@ -764,7 +758,7 @@ function getSubBusinesses() {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/arup_subbusinesses?$select=arup_name,arup_subbusinessid,statecode,statuscode&$filter=_arup_business_value" + encodeURIComponent(" eq " + input + " and statuscode eq 1"),
+        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/arup_subbusinesses?$select=arup_name,arup_subbusinessid,statecode,statuscode&$filter=_arup_business_value" + encodeURIComponent(" eq " + input + " and statuscode eq 1") + "&$orderby=arup_name asc",
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
             XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -785,9 +779,7 @@ function getSubBusinesses() {
             }
             document.getElementById('subbusinesses').innerHTML = subbusinesses;
         },
-        error: function (xhr, textStatus, errorThrown) {
-            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-        }
+        error: restQueryErrorDialog("Unable to get Arup sub-business list")
     });
 
 }
@@ -798,7 +790,7 @@ function getUserCompany() {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupcompanies?$select=ccrm_acccentrelookupcode,ccrm_arupcompanycode,ccrm_arupcompanyid,ccrm_name&$filter=statuscode" + encodeURIComponent(" eq 1"),
+        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupcompanies?$select=ccrm_acccentrelookupcode,ccrm_arupcompanycode,ccrm_arupcompanyid,ccrm_name&$filter=statuscode" + encodeURIComponent(" eq 1") + "&$orderby=ccrm_name asc",
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
             XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -818,9 +810,7 @@ function getUserCompany() {
             }
             document.getElementById('companies').innerHTML = companies;
         },
-        error: function (xhr, textStatus, errorThrown) {
-            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-        }
+        error: restQueryErrorDialog("Unable to get Arup Companies list")
     });
 
     $.ajax({
@@ -836,19 +826,17 @@ function getUserCompany() {
         },
         async: true,
         success: function (data, textStatus, xhr) {
-            var result = data;
-            var _ccrm_arupcompanyid_value = result["_ccrm_arupcompanyid_value"];
-            var _ccrm_arupcompanyid_value_formatted = result["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"];
-            var _ccrm_arupcompanyid_value_lookuplogicalname = result["_ccrm_arupcompanyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
-            var fullname = results.value[i]["fullname"];
-            var systemuserid = results.value[i]["systemuserid"];
+            var results = data;
+            var _ccrm_arupcompanyid_value = results["_ccrm_arupcompanyid_value"];
+            var _ccrm_arupcompanyid_value_formatted = results["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"];
+            var _ccrm_arupcompanyid_value_lookuplogicalname = results["_ccrm_arupcompanyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+            var fullname = results["fullname"];
+            var systemuserid = results["systemuserid"];
             document.getElementById("arup_company").value = _ccrm_arupcompanyid_value_formatted;
             document.getElementById('users').innerHTML = '<option value="' + fullname + '" data-value="' + systemuserid + '" > ' + fullname + '</option > ';
             document.getElementById("opporigin").value = fullname;
         },
-        error: function (xhr, textStatus, errorThrown) {
-            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-        }
+        error: restQueryErrorDialog("Unable to get User list")
     });
 }
 
@@ -858,7 +846,7 @@ function getAccountingCentres() {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupaccountingcodes?$select=ccrm_arupaccountingcodeid,ccrm_arupcompanycode,ccrm_name&$filter=ccrm_arupcompanycode" + encodeURIComponent(" eq '"+input+"' and  statuscode eq 1"),
+        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupaccountingcodes?$select=ccrm_arupaccountingcodeid,ccrm_arupcompanycode,ccrm_name&$filter=ccrm_arupcompanycode" + encodeURIComponent(" eq '" + input + "' and  statuscode eq 1 " + "&$orderby=ccrm_name asc"),
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
             XMLHttpRequest.setRequestHeader("OData-Version", "4.0");''
@@ -878,9 +866,7 @@ function getAccountingCentres() {
             }
             document.getElementById('accountingcentres').innerHTML = acc;
         },
-        error: function (xhr, textStatus, errorThrown) {
-            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-        }
+        error: restQueryErrorDialog("Unable to get Accounting Centre list")
     });
 }
 
@@ -889,7 +875,7 @@ function getClients(input, flag) {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/accounts?$select=accountid,name&$filter=contains(name,'" + encodeURIComponent(input) + "')" + encodeURIComponent(" and statecode eq 1"),
+        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/accounts?$select=accountid,name,address1_city&$filter=contains(name,'" + encodeURIComponent(input) + "')" + encodeURIComponent(" and statecode eq 1") + "&$orderby=name asc,address1_city asc",
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
             XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -907,19 +893,18 @@ function getClients(input, flag) {
             for (var i = 0; i < results.value.length; i++) {
                 var accountid = results.value[i]["accountid"];
                 var name = results.value[i]["name"];
+                var city = results.value[i]["address1_city"];
                 if (flag)
-                    clients += '<option value="' + name + '" data-value="' + accountid + '" > ' + name + '</option > ';
+                    clients += '<option value="' + name + '" data-value="' + accountid + '" > ' + name + ' - ' +  city + '</option > ';
                 else
-                    endclients += '<option value="' + name + '" data-value="' + accountid + '" > ' + name + '</option > ';
+                    endclients += '<option value="' + name + '" data-value="' + accountid + '" > ' + name + ' - ' + city +'</option > ';
             }
             if (flag)
                 document.getElementById('clients').innerHTML = clients;
             else
                 document.getElementById('endclients').innerHTML = endclients;
         },
-        error: function (xhr, textStatus, errorThrown) {
-            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-        }
+        error: restQueryErrorDialog("Unable to get client list")
     });
 }
 
@@ -928,7 +913,7 @@ function getUsers(input) {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/systemusers?$select=ccrm_staffid,fullname,systemuserid&$filter=contains(fullname,'" + encodeURIComponent(input) + "')" + encodeURIComponent(" and  isdisabled eq false"),
+        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/systemusers?$select=ccrm_staffid,fullname,systemuserid&$filter=contains(fullname,'" + encodeURIComponent(input) + "')" + encodeURIComponent(" and  isdisabled eq false") + "&$orderby=fullname asc",
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
             XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -947,16 +932,14 @@ function getUsers(input) {
             }
             document.getElementById('users').innerHTML = users;
         },
-        error: function (xhr, textStatus, errorThrown) {
-            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-        }
+        error: restQueryErrorDialog("Unable to get User list")
     });
 }
 
 function saveOpportunity() 
 {
     var attrs = getAttributes();
-    CreateOpportunity(attrs);
+    return CreateOpportunity(attrs);
 }
 
 function getAttributes() {
@@ -969,7 +952,7 @@ function getAttributes() {
     attrs.ccrm_contractarrangement = $("#contractarrangement").val();
 
     attrs["ccrm_projectlocationid@odata.bind"] = "/ccrm_countries(" +  $("#countries option[value='" + $('#project_country').val() + "']").attr("data-value") + ")";
-    attrs.ccrm_arupusstateid = $("#states option[value='" + $('#project_state').val() + "']").attr("data-value");
+    attrs["ccrm_arupusstateid@odata.bind"] = "/ccrm_arupusstates(" + $("#states option[value='" + $('#project_state').val() + "']").attr("data-value") + ")";
     attrs.ccrm_location = $("#project_city").val();
     attrs["ccrm_arupbusinessid@odata.bind"]= "/ccrm_arupbusinesses(" + $("#businesses option[value='" + $('#arup_business').val() + "']").attr("data-value") + ")";
     attrs["arup_subbusiness@odata.bind"] = "/arup_subbusinesses(" +$("#subbusinesses option[value='" + $('#arup_subbusiness').val() + "']").attr("data-value") + ")";
@@ -992,58 +975,75 @@ function getAttributes() {
 function CreateOpportunity(attributes) {
     var entity = {};
     for (var attr in attributes) {
-        if (attributes.hasOwnProperty(attr)) entity[attr] = attributes[attr];
+        if (attributes.hasOwnProperty(attr)
+            && !!attributes[attr]
+            && ! /\/.*?\(undefined\)/.test(attributes[attr]))
+            entity[attr] = attributes[attr];
     }
     var impersonateUserId;
-    Xrm.WebApi.retrieveMultipleRecords("ccrm_arupinterfacesetting",
-            "?$select=ccrm_setting&$filter=ccrm_name eq ('Arup.CreateOpportunity.UserId')")
-        .then(function(result) {
-            debugger;
-            if (result.entities.length != 1) {
-                Xrm.Navigation.openErrorDialog(
-                    { message: "CreateOpportunity Userid not defined in Arup Interface Settings" }
-                );
-                return;
-            }
-                impersonateUserId = result.entities[0].ccrm_setting;
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    datatype: "json",
-                    url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities",
-                    data: JSON.stringify(entity),
-                    beforeSend: function(XMLHttpRequest) {
-                        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                        XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-                        XMLHttpRequest.setRequestHeader("MSCRMCallerID", impersonateUserId);
-                    },
-                    async: true,
-                    success: function(data, textStatus, xhr) {
-                        var uri = xhr.getResponseHeader("OData-EntityId");
-                        var regExp = /\(([^)]+)\)/;
-                        var matches = regExp.exec(uri);
-                        var newEntityId = matches[1];
-                        Xrm.Navigation.openAlertDialog({
-                            text: "Opportunity " + attributes.name + " has been created",
-                            title: "Opportunity Created"
-                        });
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                       Xrm.Navigation.openErrorDialog({
-                            details: xhr.responseJSON.error.message,
-                            errorCode: xhr.status,
-                            message: "Error trying to save opportunity"
 
-                        });
+    var promise = new Promise(function (resolve, reject) {
+        Xrm.WebApi.retrieveMultipleRecords("ccrm_arupinterfacesetting",
+                "?$select=ccrm_setting&$filter=ccrm_name eq ('Arup.CreateOpportunity.UserId')")
+            .then(function(result) {
+                    debugger;
+                    if (result.entities.length != 1) {
+                        reject(
+                            { message: "CreateOpportunity Userid not defined in Arup Interface Settings" }
+                        );
+                        return;
                     }
+                    impersonateUserId = result.entities[0].ccrm_setting;
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        datatype: "json",
+                        url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities",
+                        data: JSON.stringify(entity),
+                        beforeSend: function(XMLHttpRequest) {
+                            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                            XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                            XMLHttpRequest.setRequestHeader("MSCRMCallerID", impersonateUserId);
+                        },
+                        async: true,
+                        success: function(data, textStatus, xhr) {
+                            var uri = xhr.getResponseHeader("OData-EntityId");
+                            var regExp = /\(([^)]+)\)/;
+                            var matches = regExp.exec(uri);
+                            var newEntityId = matches[1];
+                            resolve({ name: attributes.name, newEntityid: newEntityId }, xhr);
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            reject({
+                                details: xhr.responseJSON.error.message,
+                                errorCode: xhr.status,
+                                message: "Error trying to save opportunity"
+                            }, xhr);
+                        }
+                    });
+                },
+                function(e) {
+                    reject(
+                        { details: e.message }
+                    );
                 });
-            },
-            function(e) {
-                Xrm.Navigation.openErrorDialog(
-                    { details: e.message }
-                );
-            });
+    });
 
+    return promise;
 }
+
+function restQueryErrorDialog(message) {
+    return function (xhr, textStatus, errorThrown) {
+        var errorDetail = {
+            details: message + (!!url ? "\r\nQuery: " + url : "") + "\r\n" +   xhr.responseJSON.error.message,
+            errorCode: xhr.status,
+            message: message
+    }
+        Xrm.Navigation.openErrorDialog(errorDetail);
+    }
+}
+
+// Fix issue with error generated by CRM framework in NPSTelemetry.js.
+window.Xrm.Page.getUrl = parent.Xrm.page.getClientUrl;

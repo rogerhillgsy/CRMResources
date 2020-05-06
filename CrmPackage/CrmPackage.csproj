@@ -40,6 +40,8 @@
     <Folder Include="WebResources\ICO format\" />
     <Folder Include="WebResources\PNG format\" />
     <Folder Include="WebResources\Script %28JScript%29\" />
+    <Folder Include="WebResources\Script %28JScript%29\libraries" />
+    <Folder Include="WebResources\Style Sheet %28CSS%29\" />
     <Folder Include="WebResources\Web Page %28HTML%29\" />
     <RegisterPlugin Include="RegisterFile.crmregister">
       <DisplayName>RegisterFile</DisplayName>
@@ -49,6 +51,11 @@
     <Folder Include="WebResources" />
   </ItemGroup>
   <ItemGroup>
+    <CRMWebResource Include="WebResources\Cascading Stylesheet (CSS)\arup_BootStrap.css">
+      <DisplayName>BootStrapCSS</DisplayName>
+      <UniqueName>arup_BootStrapCSS</UniqueName>
+      <WebResourceType>CascadingStylesheet</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Cascading Stylesheet %28CSS%29\arup_OppoWiz.css">
       <DisplayName>Opportunity Wizard css</DisplayName>
       <UniqueName>arup_OppoWiz.css</UniqueName>
@@ -1310,6 +1317,11 @@
       <UniqueName>arup_OppoWiz.MSWorkerClass.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_OppoWizValidate.js">
+      <DisplayName>Opportunity Wizard Validation</DisplayName>
+      <UniqueName>arup_OppoWizValidate.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Contact_main_library.js">
       <DisplayName>Contact_main_library</DisplayName>
       <UniqueName>arup_Contact_main_library</UniqueName>
@@ -1724,6 +1736,11 @@
       <DisplayName>sc_MultiSelect_OnSave</DisplayName>
       <UniqueName>arup_sc_MultiSelect_OnSave</UniqueName>
       <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Style Sheet %28CSS%29\arup_BootStrapCSS.css">
+      <DisplayName>BootStrapCSS</DisplayName>
+      <UniqueName>arup_BootStrapCSS</UniqueName>
+      <WebResourceType>CascadingStylesheet</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_bidReviewTabs.html">
       <DisplayName>Bid Review Tabs</DisplayName>
