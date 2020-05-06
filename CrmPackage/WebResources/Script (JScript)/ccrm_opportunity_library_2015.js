@@ -2040,7 +2040,10 @@ function removeFromList(list, value, separator) {
     }
     return list;
 }
-
+function ccrm_opportunitytype_onchange_ec(executionContext) {
+    var formContext = executionContext.getFormContext();
+    ccrm_opportunitytype_onchange(formContext)
+}
 // Set Valid Opp Track Code --  Starts
 function ccrm_opportunitytype_onchange(formContext) {
     //refresh ribbon when track is small oppo
@@ -2474,8 +2477,9 @@ function highlightField(headerfield, formfield, clear) {
     if (formfield)
         window.parent.$(formfield).css('background-color', bgcolor);
 }
-
+//This function is called from Ribbon button 'Request Possible JOb' and crmparameter 'prmarycontrol' from the ribbon is the formContext
 function requestPossibleJob(formContext) {
+    debugger;
     // set focus to avoid issues with in progress changes.
     formContext.getControl("ccrm_reference").setFocus();
     customerid_onChange(formContext);
@@ -3469,7 +3473,7 @@ function UserNameCheck(fullName) {
 }
 
 function ValidateApproval(formContext,msg, approvaltype) {
-
+    debugger;
     var output = new Object();
 
     output.differentUser = false;
@@ -3492,7 +3496,7 @@ function ValidateApproval(formContext,msg, approvaltype) {
 
         case 'GroupLeader':
 
-            var tmp = getGroupLeaderApprovers(formContext.getAttribute("ccrm_arupgroupid").getValue()[0].id, formContext.getAttribute('ccrm_arupcompanyid').getValue()[0].id);
+            var tmp = getGroupLeaderApprovers(formContext,formContext.getAttribute("ccrm_arupgroupid").getValue()[0].id, formContext.getAttribute('ccrm_arupcompanyid').getValue()[0].id);
             return tmp;
             break;
 
@@ -3501,7 +3505,7 @@ function ValidateApproval(formContext,msg, approvaltype) {
             // limit this approval to Group Leader or nominated delegates or approvers for the relevant Arup company
             var groupLeaderApprovalNeeded = checkGroupLeaderApprovalNeeded(formContext);
             if (groupLeaderApprovalNeeded == true) {
-                var temp = getGroupLeaderApprovers(formContext.getAttribute("ccrm_arupgroupid").getValue()[0].id, formContext.getAttribute('ccrm_arupcompanyid').getValue()[0].id);
+                var temp = getGroupLeaderApprovers(formContext,formContext.getAttribute("ccrm_arupgroupid").getValue()[0].id, formContext.getAttribute('ccrm_arupcompanyid').getValue()[0].id);
                 return temp;
             }
 
@@ -3736,8 +3740,9 @@ function SetApproverID(formContext,approverIDs) {
     });
 }
 
-// Ribbon Approval Btn click events 
+// Ribbon Approval Btn click events , formCOntext is primaryControl crmparamter passed from ribbon
 function ApprovalButtonClick(formContext,type, approvalType, statusField, userField, dateField) {
+    debugger;
     var ackMsg = ApprovalConfirmationMessage(approvalType);
     var alertType;
     if (IsFormValid(formContext)) {
@@ -3763,7 +3768,7 @@ function ApprovalButtonClick(formContext,type, approvalType, statusField, userFi
                     callback: function () {
                         var msg = 'You are about to approve a Bid where you are not listed as approver. \n Do you want to Continue ?';
                         var output = ValidateApproval(formContext,msg, approvalType);
-                        approveCallbackAction(approvalType);
+                        approveCallbackAction(formContext,approvalType);
                         cancelAsnycApprovalNotification();
                         formContext.ui.clearFormNotification('CurrentApprovers');
                         setCurrentApproversAsync(formContext);
@@ -4347,7 +4352,8 @@ function sync_values_onchange(formContext,sourceField, destField) {
     formContext.getAttribute(destField).setValue(formContext.getAttribute(sourceField).getValue());
 }
 
-function SimilarBidsDuplicate() {
+// Similar Bid button,
+function SimilarBidsDuplicate(formContext) {
     var paramstr = '&business=';
     paramstr += (formContext.getAttribute('ccrm_arupbusinessid').getValue() != null)
         ? formContext.getAttribute('ccrm_arupbusinessid').getValue()[0].id
@@ -4619,8 +4625,8 @@ function ccrm_arupcompanyid_onchange(executionContext) {
                 }
             }, errorHandler, false);
 
-        formContext.getControl('ccrm_accountingcentreid').addPreSearch(function () {
-            AccCentreAddLookupFilter(formcontext,accCenterFilterCode);
+        formContext.getControl('ccrm_accountingcentreid').addPreSearch(function (formcontext) {
+            AccCentreAddLookupFilter(accCenterFilterCode);
         });
         if (formContext.ui.getFormType() != 1)
             setTransactionCurrency(formContext,companyval[0].id);
@@ -5278,7 +5284,7 @@ function setRequiredLevelOfBPFField(formContext,fieldName) {
 }
 
 // Bid Review Approval -  ribbon button click - starts
-function BidReviewApprovalClick() {
+function BidReviewApprovalClick(formContext) {
 
     if (!IsFormValid(formContext)) { return; }
 
@@ -5744,7 +5750,7 @@ function ValidatePJNGrpLdr() {
         }
     }
 }
-
+//This function is called from Ribbon :ccrm.opportunity.SectorLeaderApproval.Command
 function CJNApprovalButtonClick(formContext,type, approvalType, statusField, userField, dateField) {
 
     if (!IsFormValid(formContext)) { return };
@@ -5789,7 +5795,7 @@ function CJNApprovalButtonClick(formContext,type, approvalType, statusField, use
                     {
                         label: "<b>Yes</b>", setFocus: false, callback: function () {
 
-                            approveCallbackAction(approvalType);
+                            approveCallbackAction(formContext,approvalType);
                             formContext.getAttribute(statusField).fireOnChange();
                             formContext.ui.clearFormNotification('CurrentApprovers');
 
@@ -5829,7 +5835,7 @@ function CJNApprovalButtonClick(formContext,type, approvalType, statusField, use
                     label: "<b>Proceed with Approval</b>",
                     callback: function () {
 
-                        approveCallbackAction(approvalType);
+                        approveCallbackAction(formContext,approvalType);
                         formContext.getAttribute(statusField).fireOnChange();
                         formContext.ui.clearFormNotification('CurrentApprovers');
 
@@ -5855,8 +5861,8 @@ function CJNApprovalButtonClick(formContext,type, approvalType, statusField, use
 }
 
 //function for the oppo progress button 
-possibleJNRequired_onChange = function () {
-
+possibleJNRequired_onChange = function (formContext) {
+    debugger;
     // Job required = true - we will simulate the get job number button 
 
     if (formContext.getAttribute("ccrm_possiblejobnumberrequired").getValue() == 1) {
@@ -6614,6 +6620,7 @@ function QuickCreateOnSave(formContext,args) {
     }
 }
 
+//formContext is primaryCOntrol crmparamter
 function ReopenOpp(formContext) {
     var overallStatus = formContext.getAttribute("statecode").getValue();
     if (overallStatus == 1) {
@@ -6725,7 +6732,7 @@ function ReopenOpp(formContext) {
         req.send(window.JSON.stringify(oppty));
     }
 }
-
+//Button :
 function fnBtnExclusivityRequest(formContext) {
     //alert('Your request for Exclusivity has been sent');
 
@@ -6883,7 +6890,7 @@ function canReopenOpportunity(formContext) {
 
     if (state == null || state != 1) return true;
 
-    return isPartOfDQTeam();
+    return isPartOfDQTeam(formContext);
 
 }
 

@@ -76,7 +76,8 @@ function ShowHideOpportunityTypeAndProjectProcurement(formContext) {
     }, 2000);
 }
 
-//pass opportunity status as Lost/Won from Ribbon Workbench
+//This function is called from 'Close as Lost' button and 'Close as lost/no Bid' button
+//pass opportunity status as Lost / Won from Ribbon Workbench, formcontext is primarycontrol paramter
 function CloseOpportunity(formContext,statusCode) {
     debugger;
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
@@ -238,6 +239,7 @@ function getOpportunityReasons(ClientUrl,activeStageId, statusCode, arupInternal
     return dictionary;
 }
 
+//Below function called from Ribbonworkbench: FormCOntext is primarycontrol paramter
 function CloseOpportunityConfirmation(formContext,statusCode) {
     debugger;
     var client = formContext.getAttribute("ccrm_client").getValue();
@@ -341,6 +343,7 @@ function ConfirmationMessage(formContext) {
     return message;
 }
 
+//Button : Bid Decision Approval, FormCOntext is primarycontrol paramter from ribbon
 function BidDicisionConfirmation(formContext) {
 
     var bidDecisionChair = formContext.getAttribute("arup_biddecisionchair").getValue();
@@ -370,7 +373,7 @@ function BidDicisionConfirmation(formContext) {
                     label: "<b>Confirm</b>",
                     callback: function () {
                         var approvalType = "BidDecisionChairApproval";
-                        approveCallbackAction(approvalType);
+                        approveCallbackAction(formContext,approvalType);
                         moveToNextTrigger = true;
                     },
                     setFocus: true,
@@ -541,7 +544,7 @@ function BidReviewApprovalConfirmation(formContext,approvalType) {
             {
                 label: "<b>Confirm</b>",
                 callback: function () {
-                    approveCallbackAction(approvalType);
+                    approveCallbackAction(formContext,approvalType);
                     moveToNextTrigger = true;
                 },
                 setFocus: true,
