@@ -1234,7 +1234,7 @@ function OpenOverviewReport(primaryControl) {
         parentaccountid = accId;
     }
 
-    var customParameters = encodeURIComponent("accountID=" + accId + "&parentAccID=" + parentaccountid);
+    var customParameters = "accountID=" + encodeURIComponent(accId) + "&parentAccID=" + encodeURIComponent(parentaccountid);
     var windowOptions = { openInNewWindow: true, height: 800, width: 1100 };
     Xrm.Navigation.openWebResource('ccrm_/HTML/ClientOverViewReport.html', windowOptions, customParameters);
 }
