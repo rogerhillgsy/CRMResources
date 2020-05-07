@@ -1317,6 +1317,11 @@
       <UniqueName>arup_OppoWiz.MSWorkerClass.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_OppoWizAutocomplete.js">
+      <DisplayName>Opportunity Wizard Autocomplete</DisplayName>
+      <UniqueName>arup_OppoWizAutocomplete.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\arup_OppoWizValidate.js">
       <DisplayName>Opportunity Wizard Validation</DisplayName>
       <UniqueName>arup_OppoWizValidate.js</UniqueName>
@@ -1325,6 +1330,26 @@
     <CRMWebResource Include="WebResources\Script %28JScript%29\Contact_main_library.js">
       <DisplayName>Contact_main_library</DisplayName>
       <UniqueName>arup_Contact_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\libraries\autoComplete.js">
+      <DisplayName>autoComplete.js</DisplayName>
+      <UniqueName>arup_lib/autoComplete.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\libraries\index.js">
+      <DisplayName>index</DisplayName>
+      <UniqueName>arup_index</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\libraries\underscore.js">
+      <DisplayName>underscore</DisplayName>
+      <UniqueName>arup_underscore</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\libraries\validate.js">
+      <DisplayName>validate</DisplayName>
+      <UniqueName>arup_validate</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_dynamic_display_of_fieldvalue.js">

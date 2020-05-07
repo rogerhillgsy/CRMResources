@@ -682,6 +682,10 @@ function getCountries(input) {
     }
 }
 
+function getCountries3(input) {
+
+}
+
 function getStates() {
     var input = $("#countries option[value='" + $('#project_country').val() + "']").attr("data-value");
     if (input === undefined) return; // Autocompletion can cause this.
@@ -1043,4 +1047,114 @@ function restQueryErrorDialog(message) {
     }
         Xrm.Navigation.openErrorDialog(errorDetail);
     }
+}
+
+
+function getOpportunities(input) {
+
+    var num = input.length;
+
+    if ($.isNumeric(input)) {
+        if (num >= 4) {
+            var firstDigit = getFirstDigit(input);
+            if (firstDigit == 8) {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_reference,'" + input + "')&$orderby=" + encodeURIComponent("ccrm_jna asc"),
+                    beforeSend: function (XMLHttpRequest) {
+                        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                    },
+                    async: true,
+                    success: function (data, textStatus, xhr) {
+                        var results = data;
+                        var opp = "";
+                        for (var i = 0; i < results.value.length; i++) {
+                            // var ccrm_jna = results.value[i]["ccrm_jna"];
+                            var ccrm_reference = results.value[i]["ccrm_reference"];
+                            var name = results.value[i]["name"];
+                            var opportunityid = results.value[i]["opportunityid"];
+                            opp += '<option value="' + ccrm_reference + '-' + name + '" data-value="' + opportunityid + '" > ' + name + '</option > ';
+                        }
+                        document.getElementById('opportunities').innerHTML = opp;
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_jna,'" + input + "')&$orderby=" + encodeURIComponent("ccrm_jna asc"),
+                    beforeSend: function (XMLHttpRequest) {
+                        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                    },
+                    async: true,
+                    success: function (data, textStatus, xhr) {
+                        var results = data;
+                        var opp = "";
+                        for (var i = 0; i < results.value.length; i++) {
+                            var ccrm_reference = results.value[i]["ccrm_reference"];
+                            var name = results.value[i]["name"];
+                            var opportunityid = results.value[i]["opportunityid"];
+                            opp += '<option value="' + ccrm_reference + '-' + name + '" data-value="' + opportunityid + '" > ' + name + '</option > ';
+                        }
+                        document.getElementById('opportunities').innerHTML = opp;
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                    }
+                });
+            }
+        }
+    }
+    else {
+        if (num >= 5) {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=contains(name, '" + input + "')&$orderby=" + encodeURIComponent("ccrm_jna asc"),
+                beforeSend: function (XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=50");
+                },
+                async: true,
+                success: function (data, textStatus, xhr) {
+                    var opp = "";
+                    var results = data;
+                    for (var i = 0; i < results.value.length; i++) {
+                        var ccrm_reference = results.value[i]["ccrm_reference"];
+                        var name = results.value[i]["name"];
+                        var opportunityid = results.value[i]["opportunityid"];
+                        opp += '<option value="' + ccrm_reference + '-' + name + '" data-value="' + opportunityid + '" > ' + name + '</option > ';
+                    }
+                    document.getElementById('opportunities').innerHTML = opp;
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                }
+            });
+        }
+    }
+}
+function getFirstDigit(input) {
+    var output = [];
+    while (input) {
+        output.push(input % 10);
+        input = Math.floor(input / 10);
+    }
+    return output.pop();
 }

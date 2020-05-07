@@ -238,3 +238,133 @@
     filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1;
 }
+
+.fixed-table-body {
+    height: auto;
+    overflow: visible;
+}
+
+body {
+    height: fit-content;
+    margin-bottom: 20px;
+}
+
+html {
+    height: fit-content;
+}
+
+table {
+    font-size: small;
+}
+
+.checkbox input[type=checkbox] {
+    position: relative;
+}
+
+td:nth-child(4) {
+    width: 20px;
+}
+
+td:nth-child(3) {
+    width: 30px;
+}
+
+button.btn.btn-default.wizard-button-cancel {
+    margin-left: 37%;
+}
+
+#wait {
+    position: center;
+    height: 100px;
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    padding-left: 200px;
+    padding-top: 180px;
+    text-align: center;
+}
+
+#waitmsg {
+    position: center;
+    height: 20px;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    border: 0;
+    vertical-align: middle;
+    padding-left: 20px;
+    padding-top: 1px;
+    text-align: center;
+}
+
+.mainPage {
+    text-align: center;
+    font-family: "Segoe UI";
+}
+
+.mainPage1 {
+    text-align: center;
+    font-family: Calibri;
+}
+
+th {
+    background-color: ThreeDFace;
+}
+
+h2 {
+    margin-bottom: 30px;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+#BDBMPDPM_Dashboard, #GL_Dashboard, #CM_Dashboard {
+    padding-left: 12px;
+}
+
+#CRMResult th:nth-child(3) {
+    width: 40%;
+}
+
+/*#204 {
+    position: center;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    padding-left: 200px;
+    padding-top: 180px;
+    text-align: center;
+}*/
+
+.suppt {
+    width: 48%;
+    display: inline-block;
+}
+
+textarea.form-control {
+    border-color: #66afe9;
+    font-size: 16px;
+}
+
+#SS, #UR, #CN {
+    max-width: 700px;
+    margin-left: 0px;
+}
+
+.wizard-buttons {
+    max-width: 650px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.form-control.input-form {
+    margin-bottom: 20px;
+}
+
+.form-group.col-lg-6 {
+    display: inline-block;
+    width: 48%;
+}
