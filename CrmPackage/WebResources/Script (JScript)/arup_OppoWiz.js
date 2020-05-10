@@ -676,6 +676,7 @@ function getCountries(input) {
                     countries += '<option value="' + ccrm_name + '" data-value="' + ccrm_countryid + '" > ' + ccrm_arupcountrycode + " - " + ccrm_name + '</option > ';
                 }
                 document.getElementById('countries').innerHTML = countries;
+                console.log("retrieved" + results.value.length + " countries");
             },
             error: restQueryErrorDialog("Unable to get countryList")
             });
@@ -749,6 +750,7 @@ function getBusinesses() {
                 }
                 document.getElementById('businesses').innerHTML = businesses;
                 onceload = false;
+                console.log("retrieved" + results.value.length + " businesses");
             },
             error: restQueryErrorDialog("Unable to get Arup business list")
         });
@@ -782,6 +784,7 @@ function getSubBusinesses() {
                 subbusinesses += '<option value="' + arup_name + '" data-value="' + arup_subbusinessid + '" > ' + arup_name + '</option > ';
             }
             document.getElementById('subbusinesses').innerHTML = subbusinesses;
+            console.log("retrieved" + results.value.length + " sub businesses");
         },
         error: restQueryErrorDialog("Unable to get Arup sub-business list")
     });
@@ -813,6 +816,7 @@ function getUserCompany() {
                 companies += '<option value="' + ccrm_name + '" data-value="' + ccrm_arupcompanyid + '" data-accvalue="' + ccrm_acccentrelookupcode + '" > ' + ccrm_arupcompanycode + " - " + ccrm_name + '</option > ';
             }
             document.getElementById('companies').innerHTML = companies;
+            console.log("retrieved" + results.value.length + " companies");
         },
         error: restQueryErrorDialog("Unable to get Arup Companies list")
     });
@@ -836,9 +840,9 @@ function getUserCompany() {
             var _ccrm_arupcompanyid_value_lookuplogicalname = results["_ccrm_arupcompanyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
             var fullname = results["fullname"];
             var systemuserid = results["systemuserid"];
-            document.getElementById("arup_company").value = _ccrm_arupcompanyid_value_formatted;
-            document.getElementById('users').innerHTML = '<option value="' + fullname + '" data-value="' + systemuserid + '" > ' + fullname + '</option > ';
+           // TODO: document.getElementById('users').innerHTML = '<option value="' + fullname + '" data-value="' + systemuserid + '" > ' + fullname + '</option > ';
             document.getElementById("opporigin").value = fullname;
+            console.log("retrieved user");
         },
         error: restQueryErrorDialog("Unable to get User list")
     });
@@ -869,47 +873,85 @@ function getAccountingCentres() {
                 acc += '<option value="' + ccrm_name + '" data-value="' + ccrm_arupaccountingcodeid + '" > ' + ccrm_name + '</option > ';
             }
             document.getElementById('accountingcentres').innerHTML = acc;
+            console.log("retrieved" + results.value.length + " accounting centres");
         },
         error: restQueryErrorDialog("Unable to get Accounting Centre list")
     });
 }
 
-function getClients(input, flag) {
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/accounts?$select=accountid,name,address1_city&$filter=contains(name,'" + encodeURIComponent(input) + "')" + encodeURIComponent(" and statecode eq 1") + "&$orderby=name asc,address1_city asc",
-        beforeSend: function (XMLHttpRequest) {
-            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-            XMLHttpRequest.setRequestHeader("Accept", "application/json");
-            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=50");
-        },
-        async: true,
-        success: function (data, textStatus, xhr) {
-            var results = data;
-            if (flag)
-                var clients = "";
-            else
-                var endclients = "";
+var debounceTimers = [];
+function debounce(delay, callback) {
+    console.log("starting debounce " + delay);
+    if (!!debounceTimers[callback]) {
+        console.log("Clearing debounce timer");
+        clearTimeout(debounceTimers[callback]);
+    }
+    debounceTimers[callback] = setTimeout(callback, delay);
+}
 
-            for (var i = 0; i < results.value.length; i++) {
-                var accountid = results.value[i]["accountid"];
-                var name = results.value[i]["name"];
-                var city = results.value[i]["address1_city"];
-                if (flag)
-                    clients += '<option value="' + name + '" data-value="' + accountid + '" > ' + name + ' - ' +  city + '</option > ';
-                else
-                    endclients += '<option value="' + name + '" data-value="' + accountid + '" > ' + name + ' - ' + city +'</option > ';
-            }
-            if (flag)
-                document.getElementById('clients').innerHTML = clients;
-            else
-                document.getElementById('endclients').innerHTML = endclients;
-        },
-        error: restQueryErrorDialog("Unable to get client list")
-    });
+function getClients(input, flag) {
+    if (input.length < 3) return;
+    debounce(300,
+        () => {
+            console.log("Start getting clients " + input);
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Xrm.Page.context.getClientUrl() +
+                    "/api/data/v8.2/accounts?$select=accountid,name,address1_city&$filter=contains(name,'" +
+                    encodeURIComponent(input) +
+                    "')" +
+                    encodeURIComponent(" and statecode eq 1") +
+                    "&$orderby=name asc,address1_city asc",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=50");
+                },
+                async: true,
+                success: function(data, textStatus, xhr) {
+                    var results = data;
+                    if (flag)
+                        var clients = "";
+                    else
+                        var endclients = "";
+
+                    for (var i = 0; i < results.value.length; i++) {
+                        var accountid = results.value[i]["accountid"];
+                        var name = results.value[i]["name"];
+                        var city = results.value[i]["address1_city"];
+                        if (flag)
+                            clients += '<option value="' +
+                                name +
+                                '" data-value="' +
+                                accountid +
+                                '" > ' +
+                                name +
+                                ' - ' +
+                                city +
+                                '</option > ';
+                        else
+                            endclients += '<option value="' +
+                                name +
+                                '" data-value="' +
+                                accountid +
+                                '" > ' +
+                                name +
+                                ' - ' +
+                                city +
+                                '</option > ';
+                    }
+                    if (flag)
+                        document.getElementById('clients').innerHTML = clients;
+                    else
+                        document.getElementById('endclients').innerHTML = endclients;
+                    console.log("Retreived " + results.value.length + " client records from server");
+                },
+                error: restQueryErrorDialog("Unable to get client list")
+            });
+        });
 }
 
 function getUsers(input) {
@@ -935,6 +977,7 @@ function getUsers(input) {
                 users += '<option value="' + fullname + '" data-value="' + systemuserid + '" > ' + fullname + '</option > ';
             }
             document.getElementById('users').innerHTML = users;
+            console.log("retrieved" + results.value.length + " users");
         },
         error: restQueryErrorDialog("Unable to get User list")
     });
@@ -1040,6 +1083,7 @@ function CreateOpportunity(attributes) {
 
 function restQueryErrorDialog(message) {
     return function (xhr, textStatus, errorThrown) {
+        debugger;
         var errorDetail = {
             details: message + (!!url ? "\r\nQuery: " + url : "") + "\r\n" +   xhr.responseJSON.error.message,
             errorCode: xhr.status,

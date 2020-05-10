@@ -1813,7 +1813,7 @@
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page (HTML)\arup_OppoWiz.html">
-      <DisplayName>Opportunity Wizard HTML</DisplayName>
+      <DisplayName>Opportunity Wizard</DisplayName>
       <UniqueName>arup_OppoWiz.html</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
