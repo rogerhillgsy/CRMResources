@@ -400,7 +400,14 @@ function arupCompanyChange(formContext) {
     }
 }
 
-function calculateTotalBudget(formContext) {
+function calculateTotalBudget(executioncontext) {
+    var formContext;
+    if (typeof(executioncontext.getAttribute) != "function") {
+        formContext = executioncontext.getFormContext();
+    }
+    else {
+        formContext = executioncontext;
+    }
     var result = 0;
     var budgetAllowance02 = formContext.getAttribute("ccrm_budgetallowance02").getValue();
     var budgetAllowance03 = formContext.getAttribute("ccrm_budgetallowance03").getValue();
