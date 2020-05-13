@@ -124,6 +124,9 @@ Arup.validateOppWiz = function() {
 
 // Define constraints using validate.js
     var page4constraints = {
+        //opportunityType : {
+        //    presence : { allowEmpty : false }
+        //},
         project_name: {
             presence: { message: "- a name is required" }
         },
@@ -137,7 +140,7 @@ Arup.validateOppWiz = function() {
             presence: { message: "- enter name" }
         },
         arup_business: {
-            presence: { message: "- select values" }
+            presence: { message: "- select value" }
         },
         arup_subbusiness: {
             presence: { message: "- select value" }
@@ -157,11 +160,12 @@ Arup.validateOppWiz = function() {
         opporigin: {
             presence: { message: "- enter name" }
         },
-        global_services: {
-            presence: { message: "- select one" }
-        },
+        //global_services: {
+        //    presence: { message: "- select one" }
+        //},
         description: {
-            presence: { message: "- enter text" }
+//            presence: { message: "- enter text" },
+            length : { minimum : 5 }
         },
     };
 
@@ -216,10 +220,10 @@ Arup.validateOppWiz = function() {
             // we first mark the group has having errors
             formGroup.classList.add("has-error");
             // then we append all the errors
-            _.each(errors,
-                function(error) {
-                    addError(label, error);
-                });
+            //_.each(errors,
+            //    function(error) {
+            //        addError(label, error);
+            //    });
         } else {
             // otherwise we simply mark it as success
             formGroup.classList.add("has-success");
