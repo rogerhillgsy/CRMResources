@@ -70,6 +70,12 @@
             }
             );
 
+            // Prevent any submit events - a different mechanism is used to add data to the CRM system.
+            $("form").on("submit",
+                function(e) {
+                    e.preventDefault();
+                });
+
             // Hook up on the fly validation of input fields.
             //var form = document.querySelector("form#page4");
             //Arup.validateOppWiz.addValidationHooks(form);
@@ -135,10 +141,10 @@
                 </div>
                 <br /><br />-->
                 <div class="container" id="SS">
-                    <form class="" id="main">
+                    <form class="" id="main" on>
                         <div class="form-group">
                             <label for="opportunityType">Opportunity Type:</label>
-                            <select id="opportunityType" class="form-control" onchange="onOpportunityTypeChange(this.value)" title="Select Opportunity Type" autofocus>
+                            <select id="opportunityType" class="form-control" onchange="onOpportunityTypeChange(this)" onfocusout="checkSelected(this)" title="Select Opportunity Type" autofocus>
                                 <option value="">Select Opportunity Type</option>
                                 <option value="770000000" title="New Opportunity">New Opportunity</option>
                                 <option value="770000001" title="Project extension - existing contract">Project extension - existing contract</option>
@@ -151,14 +157,14 @@
                         </div>
                         <div class="form-group">
                             <label for="relatedopportunity">Related Parent Opportunity:</label>
-                            <input list="opportunities" id="relatedopportunity" class="form-control" name="relatedopportunity" oninput="getOpportunities(this.value);" title="Input related parent opportunity" autocomplete="off" onfocusout="ensureSelected(this)" />
+                            <input list="opportunities" id="relatedopportunity" class="form-control" name="relatedopportunity" oninput="getOpportunities(this.value);" title="Input related parent opportunity" autocomplete="off" onfocusout="ensureRelatedOpportunitySelected(this)" />
                             <datalist id="opportunities">
                             </datalist>
                         </div>
                         <div class="form-group">
                             <label for="leadSource">Lead Source:</label>
                             <!----<span class="glyphicon glyphicon-lock"></span>-->
-                            <select id="leadSource" class="form-control" title="Enter Source of Opportunity">
+                            <select id="leadSource" class="form-control" title="Enter Source of Opportunity" onfocusout="checkSelected(this)" onchange="checkSelected(this)">
                                 <option value="">Select Lead Source</option>
                                 <option value="100000000" title="Arup bid to supply same/further services, as an extension to an existing project. (One Arup team delivering to the client).">Addition to existing services</option>
                                 <option value="100000002" title="Arup has identified an opportunity, suggested the project idea, then submitted a bid to a client.">Arup project (idea) creation</option>
@@ -169,7 +175,7 @@
                                 <option value="11" title="Arup bid follows long-term activities to build a relationship with the client, and demonstrate our capabilities, aiming to become the ‘first choice for project’.">Long-Term Opportunity</option>
                                 <option value="10" title="Arup chose to bid following a public open invitation.">Public Advertisement/OJEU</option>
                             </select>
-                            <select id="leadSource1" class="form-control" title="Enter Source of Opportunity">
+                            <!--<select id="leadSource1" class="form-control" title="Enter Source of Opportunity">
                                 <option value="">Select Lead Source</option>
                                 <option value="100000000" title="Arup bid to supply same/further services, as an extension to an existing project. (One Arup team delivering to the client).">Addition to existing services</option>
                                 <option value="100000002" title="Arup has identified an opportunity, suggested the project idea, then submitted a bid to a client.">Arup project (idea) creation</option>
@@ -179,7 +185,7 @@
                                 <option value="8" title="Arup invited to bid, as one of a limited number of competitors.">Invitation to Compete</option>
                                 <option value="11" title="Arup bid follows long-term activities to build a relationship with the client, and demonstrate our capabilities, aiming to become the ‘first choice for project’.">Long-Term Opportunity</option>
                                 <option value="10" title="Arup chose to bid following a public open invitation.">Public Advertisement/OJEU</option>
-                            </select>
+                            </select>-->
                         </div>
                         <br />
                         <br />
@@ -196,7 +202,7 @@
 
                     <label for="contractarrangement">Project Procurement:</label>
                     <select id="contractarrangement" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
-                        <option value="--">--</option>
+                        <option value="">--</option>
                         <option title="Alliance" value="100000000">Alliance</option>
                         <option title="Design &amp; Construct/Design-Build/ECI" value="1">Design &amp; Construct/Design-Build/ECI</option>
                         <option title="Design-Build-Operate" value="100000002">Design-Build-Operate</option>
@@ -206,8 +212,8 @@
                         <option title="Traditional or Direct Appointment to Client with Potential Future Novation" value="8">Traditional or Direct Appointment to Client with Potential Future Novation</option>
                         <option title="Turnkey" value="6">Turnkey</option>
                     </select>
-                    <select id="contractarrangement1" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
-                        <option value="--">--</option>
+                    <!--<select id="contractarrangement1" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
+                        <option value="">--</option>
                         <option title="Alliance" value="100000000">Alliance</option>
                         <option title="Design &amp; Construct/Design-Build/ECI" value="1">Design &amp; Construct/Design-Build/ECI</option>
                         <option title="Design-Build-Operate" value="100000002">Design-Build-Operate</option>
@@ -216,7 +222,7 @@
                         <option title="Traditional or Direct Appointment to Client" value="5">Traditional or Direct Appointment to Client</option>
                         <option title="Traditional or Direct Appointment to Client with Potential Future Novation" value="8">Traditional or Direct Appointment to Client with Potential Future Novation</option>
                         <option title="Turnkey" value="6">Turnkey</option>
-                    </select>
+                    </select>-->
                 </div>
                 <br><br>
             </div>
