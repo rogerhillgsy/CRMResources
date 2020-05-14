@@ -1,4 +1,5 @@
-<html><head>
+<html>
+<head>
     <title>Records with similar name</title>
     <style type="text/css">
         body {
@@ -7,68 +8,74 @@
             font-size: 14px;
             position: initial;
         }
-        #Aruptab tr:nth-child(even){background-color: #D0D3D4;}
 
-        #Aruptab tr:hover {background-color: #ddd;}
+        #Aruptab tr:nth-child(even) {
+            background-color: #D0D3D4;
+        }
+
+        #Aruptab tr:hover {
+            background-color: #ddd;
+        }
 
         #Aruptab td, tr {
-                font-family: Segoe UI, Tahoma, Arial;
-                font-style: normal;
-                
-                border-width: 1px;
-	            padding: 2px;
-	            border-style: solid;
-	            border-color: #a9c6c9;
-           
-            }
-        #Aruptab tr:nth-child(even) {background-color: #f2f2f2}
-        #Aruptab   thead, tfoot, th {
-  
-                background-color:#c3dde0;
-	    border-width: 1px;
-	    padding: 2px;
-	    border-style: solid;
-	    border-color: #a9c6c9;
-            }
+            font-family: Segoe UI, Tahoma, Arial;
+            font-style: normal;
+            border-width: 1px;
+            padding: 2px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
 
-          #Aruptab  tfoot {
+        #Aruptab tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        #Aruptab thead, tfoot, th {
+            background-color: #c3dde0;
+            border-width: 1px;
+            padding: 2px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+
+        #Aruptab tfoot {
             background-color: rgba(221, 221, 221, 0.5);
             border-style: none;
-            }
+        }
 
-         #Aruptab {
-	        font-family: verdana,arial,sans-serif;
-	        font-size:11px;
-	        color:#333333;
-	        border-width: 1px;
-	        border-color: #999999;
-	        border-collapse: collapse;
+        #Aruptab {
+            font-family: verdana,arial,sans-serif;
+            font-size: 11px;
+            color: #333333;
+            border-width: 1px;
+            border-color: #999999;
+            border-collapse: collapse;
             width: 100%;
         }
 
         #wait {
-            position:center;
+            position: center;
             height: 100px;
             width: 100px;
             margin: 0;
             padding: 0;
             border: 0;
             vertical-align: middle;
-            padding-left:200px;
-            padding-top :180px;
+            padding-left: 200px;
+            padding-top: 180px;
             text-align: center;
         }
-         #waitmsg {
-            
-            position:center;
+
+        #waitmsg {
+            position: center;
             height: 20px;
             width: 300px;
             margin: 0;
             padding: 0;
             border: 0;
             vertical-align: middle;
-            padding-left:90px;
-            padding-top :1px;
+            padding-left: 90px;
+            padding-top: 1px;
             text-align: center;
         }
     </style>
@@ -83,21 +90,20 @@
 
         document.onreadystatechange = function () {
             if (document.readyState == "complete") {
+                debugger;
                 displayWaiting();
                 var dataParam = getDataParam();
                 //on load - parameter passed from the form design
-                if (dataParam != "UnKnown1919Arup")
-                {                   
+                if (dataParam != "UnKnown1919Arup") {
                     getDupeCheckResults(dataParam);
                 }
-                else { noDupes(dataParam);}
+                else { noDupes(dataParam); }
             }
         }
-      
+
 
         function getDupeCheckResults(dataPar) {
-            if (dataPar == "" || dataPar == null)
-            {
+            if (dataPar == "" || dataPar == null) {
                 noDupes("UnKnown1919Arup");
                 return;
             }
@@ -115,10 +121,8 @@
                 // vals[i] = vals[i].replace(/\+/g, " ").split("=");
                 vals[i] = vals[i].split("=");
             }
-            for (var i in vals)
-            {
-                switch(vals[i][0])
-                {
+            for (var i in vals) {
+                switch (vals[i][0]) {
                     case "Name":
                         accName = vals[i][1];
                         break;
@@ -144,13 +148,12 @@
                         clientId = vals[i][1];
                         break;
                     case "ipCity":
-                        ipCity = vals[i][1];                     
+                        ipCity = vals[i][1];
                 }
             }
 
             var n = accName.indexOf("ampAndArup");
-            if (n != -1)
-            {
+            if (n != -1) {
                 accName = accName.replace("ampAndArup", "&");
             }
             var n3 = accName.indexOf("aposArup");
@@ -182,23 +185,22 @@
             // call the DuplicateCheck.js function to return the json
             QCViewMoreButton(accName, entLogicName, firstName, lastName, ctryId, ipCity, recID, IPbussID);
         }
-        
+
         function QCViewMoreButton(name, entLogicName, FN, LN, ctryId, ipCity, recID, IPbussID) {
-            if (name != null && name != "null" && jsonMsgToRet == "None" && entLogicName == "account")
-            {
+            if (name != null && name != "null" && jsonMsgToRet == "None" && entLogicName == "account") {
                 if (ctryId == "") { ctryId = "null"; }
                 if (ipCity == "") { ipCity = "null"; }
-                callAction("arup_DupeDetect",name,null,null,recID,ctryId,ipCity,IPbussID,"QuickButton");
+                callAction("arup_DupeDetect", name, null, null, recID, ctryId, ipCity, IPbussID, "QuickButton");
             }
             if (FN != null && FN != "null" && LN != null && LN != "null" && jsonMsgToRet == "None" && entLogicName == "contact") {
                 if (ctryId == "") { ctryId = "null"; }
                 if (ipCity == "") { ipCity = "null"; }
-                callAction("arup_DupeDetectContact", null, FN, LN,recID, ctryId, ipCity,IPbussID, "QuickButton");
+                callAction("arup_DupeDetectContact", null, FN, LN, recID, ctryId, ipCity, IPbussID, "QuickButton");
             }
             if (name != null && name != "null" && jsonMsgToRet == "None" && entLogicName == "lead") {
                 if (ctryId == "") { ctryId = "null"; }
                 if (ipCity == "") { ipCity = "null"; }
-                callAction("arup_DupeDetectLead", name, null, null, recID, ctryId, ipCity,IPbussID, "QuickButton");
+                callAction("arup_DupeDetectLead", name, null, null, recID, ctryId, ipCity, IPbussID, "QuickButton");
             }
         }
 
@@ -358,8 +360,7 @@
 
         }
 
-        function PrepareTable(jsMsg3P)
-        {
+        function PrepareTable(jsMsg3P) {
             var resJsonMsg = jsMsg3P;
             var list = JSON.parse(resJsonMsg);
 
@@ -383,34 +384,40 @@
             var oTHeadTRTH2 = document.createElement("th");
             oTHeadTRTH2.align = "left";
             setText(oTHeadTRTH2, "City");
-            var oTHeadTRTH3 = document.createElement("th");
-            oTHeadTRTH3.align = "left";
-            setText(oTHeadTRTH3, "Rank");
+            if (entLogicName == "contact") {
+                var oTHeadTRTH3 = document.createElement("th");
+                oTHeadTRTH3.align = "left";
+                setText(oTHeadTRTH3, "Status");
+            }
+            var oTHeadTRTH4 = document.createElement("th");
+            oTHeadTRTH4.align = "left";
+            setText(oTHeadTRTH4, "Rank");
+
             oTHeadTR.appendChild(oTHeadTRTH1);
             oTHeadTR.appendChild(oTHeadTRTH2);
-            oTHeadTR.appendChild(oTHeadTRTH3);
+            if (entLogicName == "contact") {
+                oTHeadTR.appendChild(oTHeadTRTH3);
+            }
+            oTHeadTR.appendChild(oTHeadTRTH4);
             oTHead.appendChild(oTHeadTR);
             oTable.appendChild(oTHead);
             var oTBody = document.createElement("tbody");
 
             var len = list.length; // < 5 ? list.length : 5;
 
-            for (var i = 0; i < len ; ++i) {
+            for (var i = 0; i < len; ++i) {
                 var acc = list[i];
                 var oTRow = document.createElement("tr");
 
                 var oTRowTD1 = document.createElement("td");
                 var recordLink = "";
-                if (entLogicName == "account")
-                {
-                    recordLink =  '<a href="' + strURL + "main.aspx?etn=account&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
+                if (entLogicName == "account") {
+                    recordLink = '<a href="' + strURL + "main.aspx?etn=account&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
                 }
-                else if (entLogicName == "contact")
-                {
-                    recordLink =  '<a href="' + strURL + "main.aspx?etn=contact&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
+                else if (entLogicName == "contact") {
+                    recordLink = '<a href="' + strURL + "main.aspx?etn=contact&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
                 }
-                else if (entLogicName == "lead")
-                {
+                else if (entLogicName == "lead") {
                     recordLink = '<a href="' + strURL + "main.aspx?etn=lead&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
                 }
                 oTRowTD1.innerHTML = recordLink;
@@ -418,13 +425,22 @@
                 var oTRowTD2 = document.createElement("td");
                 setText(oTRowTD2, acc.City);
 
-                var oTRowTD3 = document.createElement("td");
-                oTRowTD3.align = "center";
-                setText(oTRowTD3, acc.Rank);
+                if (entLogicName == "contact") {
+                    var Status = acc.StateCode.Value == 0 ? "Active" : "Inactive";
+                    var oTRowTD3 = document.createElement("td");
+                    setText(oTRowTD3, Status);
+                }
+
+                var oTRowTD4 = document.createElement("td");
+                oTRowTD4.align = "center";
+                setText(oTRowTD4, acc.Rank);
 
                 oTRow.appendChild(oTRowTD1);
                 oTRow.appendChild(oTRowTD2);
-                oTRow.appendChild(oTRowTD3);
+                if (entLogicName == "contact") {
+                    oTRow.appendChild(oTRowTD3);
+                }
+                oTRow.appendChild(oTRowTD4);
                 oTBody.appendChild(oTRow);
             }
 
@@ -432,27 +448,33 @@
             var oTFootTR = document.createElement("tr");
             var oTFootTRTD1 = document.createElement("td");
             var oTFootTRTD2 = document.createElement("td");
-            var oTFootTRTD3 = document.createElement("td");
+            if (entLogicName == "contact") {
+                var oTFootTRTD3 = document.createElement("td");
+            }
+            var oTFootTRTD4 = document.createElement("td");
             oTFootTRTD1.align = "left";
             if (list.length <= 20) {
-                setText(oTFootTRTD1, "1 - " + list.length+" of "+list.length);
+                setText(oTFootTRTD1, "1 - " + list.length + " of " + list.length);
             }
-           
+
             oTFootTR.appendChild(oTFootTRTD1);
             oTFootTR.appendChild(oTFootTRTD2);
-            oTFootTR.appendChild(oTFootTRTD3);
+            if (entLogicName == "contact") {
+                oTFootTR.appendChild(oTFootTRTD3);
+            }
+            oTFootTR.appendChild(oTFootTRTD4);
             oTFoot.appendChild(oTFootTR);
             oTable.appendChild(oTFoot);
 
             oTable.appendChild(oTBody);
             document.body.appendChild(oTable);
-           
+
         }
 
         function getDataParam() {
             //Get the any query string parameters and load them
             //into the vals array
-           var retDataParam = "UnKnown1919Arup";
+            var retDataParam = "UnKnown1919Arup";
             var vals = new Array();
             if (location.search != "") {
                 vals = location.search.substr(1).split("&");
@@ -469,7 +491,7 @@
                     }
                 }
             }
-            return retDataParam;   
+            return retDataParam;
         }
 
 
@@ -480,8 +502,7 @@
                 element[index].parentNode.removeChild(element[index]);
             }
             var message = document.createElement("p");
-            if (action != "UnKnown1919")
-            { setText(message, "No duplicate records were found for " + action + "."); }
+            if (action != "UnKnown1919") { setText(message, "No duplicate records were found for " + action + "."); }
             else { setText(message, "No duplicate records were found."); }
             document.body.appendChild(message);
         }
@@ -504,13 +525,12 @@
             return strUrl;
         }
 
-        function displayWaiting()
-        {
-          
+        function displayWaiting() {
+
             var url = getClientUrl();
             removeElements();
-            
-            
+
+
             var oTBody = document.createElement("tbody");
             var oTable = document.createElement("table");
             oTable.id = "wait";
@@ -531,8 +551,7 @@
 
         }
 
-        function removeElements()
-        {
+        function removeElements() {
             //Remove all Paragraphs
             var element = document.getElementsByTagName("p"), index;
 
@@ -549,8 +568,13 @@
         }
 
     </script>
-<meta></head>
-<body style="word-wrap: break-word;" id="ArupBody">
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+</head>
+<body style="word-wrap: break-word;" id="ArupBody" onfocusout="parent.setEmailRange();">
 
 
-</body></html>
+</body>
+</html>

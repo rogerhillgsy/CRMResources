@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputType>Library</OutputType>
+    <ProjectGuid>{8799C4B4-11D2-4743-8578-6E2ADEE727F7}</ProjectGuid>
+    <ProjectTypeGuids>{4B952A0A-A664-46EC-8D7E-51EBEA2E954D};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BidReview_Customisation</RootNamespace>
+    <AssemblyName>CRM Web Resources.BidReview_Customisation</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <SolutionPackagerDir>C:\Work\Tools\SDK8\SDK\Bin</SolutionPackagerDir>
+    <SolutionLocToolsDir>C:\Work\Tools\SDK8\SDK\Bin</SolutionLocToolsDir>
+    <SolutionType>0</SolutionType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!--<None Include="MetadataProjectBinPlace.targets" />-->
+    <ResourceDefinition Include="WebResources.xml" />
+    <None Include="Microsoft.Crm.SolutionProjects.Metadata.targets" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Crm.SolutionProjects.MSBuild">
+      <HintPath>$(SolutionDir)packages\Microsoft.Crm.SolutionMSBuildExtention.1.3.2\lib\net452\Microsoft.Crm.SolutionProjects.MSBuild.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Other\Customizations.xml" />
+    <Content Include="Other\Relationships.xml" />
+    <Content Include="Other\Solution.xml" />
+    <Content Include="Resources\en-US\resources.en-US.resx" />
+    <Content Include="Resources\template_resources.resx" />
+    <Content Include="WebResources\arup_bidReviewTabs.html">
+      <WebResourceId>75982516-f773-ea11-a811-002248003e25</WebResourceId>
+      <Name>arup_bidReviewTabs</Name>
+      <DisplayName>Bid Review Tabs</DisplayName>
+      <WebResourceType>Html</WebResourceType>
+      <IntroducedVersion>1.20.04.01</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\ccrm_bidreviewjcloseout.html">
+      <WebResourceId>0a38575e-5097-e511-9410-005056b5201f</WebResourceId>
+      <Name>ccrm_bidreviewjcloseout</Name>
+      <DisplayName>bidreviewjcloseout</DisplayName>
+      <WebResourceType>Html</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\ccrm_BidReview_Label.html">
+      <WebResourceId>1d6acf93-ce8c-e311-93fe-005056b5201f</WebResourceId>
+      <Name>ccrm_BidReview_Label</Name>
+      <DisplayName>BidReview Label</DisplayName>
+      <Description>Label webresource used in multi stages in the Bid Review Form - will replace all old fields used as labels</Description>
+      <LanguageCode>1033</LanguageCode>
+      <WebResourceType>Html</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\Ccrm_bidreview_main_library.js">
+      <WebResourceId>b5d46bbe-d0b1-e111-a5b9-78e7d1652028</WebResourceId>
+      <Name>Ccrm_bidreview_main_library.js</Name>
+      <DisplayName>Scripts/Ccrm_bidreview.js</DisplayName>
+      <Description>Default Form User Library</Description>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+    </Content>
+    <Content Include="WebResources\ccrm_bidreview_main_library_2015.js">
+      <WebResourceId>f2ff6217-89b5-e611-80f3-005056b55b13</WebResourceId>
+      <Name>ccrm_bidreview_main_library_2015.js</Name>
+      <DisplayName>Scripts/Ccrm_bidreview_main_library.js</DisplayName>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+  </ItemGroup>
+  <Import Project="Microsoft.Crm.SolutionProjects.Metadata.targets" />
+</Project>
