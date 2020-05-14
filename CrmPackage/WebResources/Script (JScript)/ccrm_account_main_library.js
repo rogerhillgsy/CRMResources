@@ -31,7 +31,7 @@ function Form_onload(executionContext) {
 
     SSCTeam = isUserInSSCTeam(formContext);
 
-    globalDQTeam = isUserInTeamCheck('Global Data Quality', formContext);
+    globalDQTeam = isUserInTeamCheck(formContext);
 
     setCGFields(formContext);
 
@@ -142,14 +142,14 @@ function onLoaddisableFormFields(formContext) {
 
 function userInTeamCheck(primaryControl, TeamName) {
     var formContext = primaryControl;
-    isUserInTeamCheck(TeamName, formContext);
+    isUserInTeamCheck(formContext);
 }
 
 //Param - teamm name . This function checks whether the logged in user is a member of the team. Returns true if he/ she is a member.
-function isUserInTeamCheck(TeamName, formContext) {
+function isUserInTeamCheck(formContext) {
     var systemUser = formContext.context.getUserId().replace('{', '').replace('}', '');
     var req = new XMLHttpRequest();
-    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/teammemberships?$select=systemuserid,teamid&$filter=systemuserid eq " + systemUser, false);
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/teammemberships?$filter=systemuserid eq " + systemUser + " and (teamid eq 14E17BE2-0FF3-E411-940C-005056B5174A)", false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -160,45 +160,15 @@ function isUserInTeamCheck(TeamName, formContext) {
             req.onreadystatechange = null;
             if (this.status === 200) {
                 var results = JSON.parse(this.response);
-                userInTeam(results, TeamName, formContext);
+                userInTeam = results.value.length > 0;
             } else {
                 Xrm.Utility.alertDialog(this.statusText);
             }
         }
     };
     req.send();
+    return userInTeam;
 }
-
-function userInTeam(results, TeamName, formContext) {
-    var IsPresentInTeam = false;
-    for (var i = 0; i < results.value.length; i++) {
-        var teamid = results.value[i]["teamid"].replace('{', '').replace('}', '');
-        var req = new XMLHttpRequest();
-        req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/teams(" + teamid + ")?$select=name,teamid", false);
-        req.setRequestHeader("OData-MaxVersion", "4.0");
-        req.setRequestHeader("OData-Version", "4.0");
-        req.setRequestHeader("Accept", "application/json");
-        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-        req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-        req.onreadystatechange = function () {
-            if (this.readyState === 4) {
-                req.onreadystatechange = null;
-                if (this.status === 200) {
-                    var result = JSON.parse(this.response);
-                    if (result["name"] == TeamName) {
-                        IsPresentInTeam = true;
-                        return IsPresentInTeam;
-                    }
-                } else {
-                    Xrm.Utility.alertDialog(this.statusText);
-                }
-            }
-        };
-        req.send();
-    }
-    return IsPresentInTeam;
-}
-
 
 function userInSSCTeam(primaryControl) {
     var formContext = primaryControl;

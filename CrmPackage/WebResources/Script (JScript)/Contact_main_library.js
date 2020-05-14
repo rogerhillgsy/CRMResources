@@ -11,9 +11,10 @@ function form_onLoad(executionContext) {
 
         formContext.ui.tabs.get("HubSpot").setDisplayState('collapsed');
 
-        mostSeniorTeam = userInTeamCheck("Most Senior Contact Update Team", formContext);
-
-        formContext.getControl("arup_mostseniorcontact").setVisible(mostSeniorTeam);
+        //RF Commneted dure to GNS Changes
+        //mostSeniorTeam = userInTeamCheck("Most Senior Contact Update Team", formContext);
+        //formContext.getControl("arup_mostseniorcontact").setVisible(mostSeniorTeam);
+        // End
 
         ccrm_uselocallanguage_onchange(formContext);
 
@@ -686,7 +687,7 @@ function PopulateAddrsOnAddrSync(executionContext) {
 }
 
 function gridRowSelected(context) {
-
+    debugger;
     var entityObject = context.getFormContext().getData().getEntity();
     var id = entityObject.getId(); /* GUID of the contact record */
     var Id = id.replace(/[{}]/g, "");
@@ -834,6 +835,7 @@ function retrieveEntity(entityname, id, columnset, formContext) {
     req.send();
 }
 
+/* RF Commented the code as GNS removed tghe Most Senior contact field
 function userInTeamCheck(TeamName, formContext) {
 
     var IsPresentInTeam = false;
@@ -865,28 +867,12 @@ function userInTeamCheck(TeamName, formContext) {
                 Xrm.Utility.alertDialog(error.message);
             }
         );
-
-        //var filter = "SystemUserId eq (guid'" + formContext.context.getUserId() + "')";
-        //var dataset = "TeamMembershipSet";
-        //var retrievedMultiple = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);
-        //var results = retrievedMultiple.results;
-
-        //for (i = 0; i < results.length; i++) {
-        //    var filterTeam = "TeamId eq (guid'" + results[i].TeamId + "')";
-        //    var datasetTeam = "TeamSet";
-        //    var retrievedMultipleTeam = ConsultCrm.Sync.RetrieveMultipleRequest(datasetTeam, filterTeam);
-        //    var resultsTeam = retrievedMultipleTeam.results;
-        //    if (resultsTeam[0].Name == TeamName) {
-        //        IsPresentInTeam = true;
-        //        break;
-        //    }
-        //}
     }
     catch (err) {
         console.log('GLobal DQ Error: ' + err.message);
     }
     return IsPresentInTeam;
-}
+}*/
 
 function onChange_ContactType(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -912,7 +898,7 @@ function contactType_onchange(formContext) {
         enableAddressFields(false, formContext);
         formContext.getControl("address1_addresstypecode").setVisible(false);
         formContext.getAttribute("address1_line1").setRequiredLevel('none');
-        formContext.getControl("address1_line1").setVisible(true);
+        formContext.getControl("address1_line1").setVisible(false);
         formContext.getControl("address1_line2").setVisible(false);
         formContext.getControl("address1_line3").setVisible(false);
         formContext.getControl("address1_postalcode").setVisible(false);
@@ -923,16 +909,18 @@ function contactType_onchange(formContext) {
         formContext.getControl("arup_currentorganisation").setVisible(true);
         formContext.getAttribute("arup_currentorganisation").setRequiredLevel('required');
 
+        //RF Commneted due to GNS Changes
         if (formContext.getControl("header_parentcustomerid") != null) {
             formContext.getControl("header_parentcustomerid").setVisible(false);
-            formContext.getControl("header_arup_currentorganisation").setVisible(true);
+         //   formContext.getControl("header_arup_currentorganisation").setVisible(true);
         }
+        
         if (fullform) {
             formContext.getControl("department").setVisible(false);
             formContext.getControl("fax").setVisible(false);
             formContext.ui.tabs.get("tab_Address").sections.get("tab_additional_address_section").setVisible(false);
-            formContext.ui.tabs.get("tab_Details").sections.get("{fa46a68d-a6b2-4cc1-9d00-4abd1d46c8f4}").setVisible(false);
-            formContext.ui.tabs.get("tab_Details").sections.get("SUMMARY_TAB_section_6").setVisible(false);
+            formContext.ui.tabs.get("tab_Address").sections.get("{fa46a68d-a6b2-4cc1-9d00-4abd1d46c8f4}").setVisible(false);
+            formContext.ui.tabs.get("SUMMARY_TAB").sections.get("SUMMARY_TAB_section_6").setVisible(false);
             formContext.getControl("ccrm_uselocallanguage").setVisible(false);
         }
 
@@ -963,15 +951,17 @@ function contactType_onchange(formContext) {
         formContext.getControl("arup_currentorganisation").setVisible(false);
         formContext.getAttribute("parentcustomerid").setRequiredLevel('required');
 
+        //RF Commneted due to GNS Changes
         if (formContext.getControl("header_parentcustomerid") != null) {
-            formContext.getControl("header_parentcustomerid").setVisible(true);
-            formContext.getControl("header_arup_currentorganisation").setVisible(false);
-        }
+                formContext.getControl("header_parentcustomerid").setVisible(true);
+         //   formContext.getControl("header_arup_currentorganisation").setVisible(false);
+        }        
+
         if (fullform) {
             formContext.getControl("department").setVisible(true);
             formContext.getControl("fax").setVisible(true);
-            formContext.ui.tabs.get("tab_Details").sections.get("{fa46a68d-a6b2-4cc1-9d00-4abd1d46c8f4}").setVisible(true);
-            formContext.ui.tabs.get("tab_Details").sections.get("SUMMARY_TAB_section_6").setVisible(true);
+            formContext.ui.tabs.get("tab_Address").sections.get("{fa46a68d-a6b2-4cc1-9d00-4abd1d46c8f4}").setVisible(true);
+            formContext.ui.tabs.get("SUMMARY_TAB").sections.get("SUMMARY_TAB_section_6").setVisible(true);
             formContext.getControl("ccrm_uselocallanguage").setVisible(true);
             ccrm_uselocallanguage_onchange(formContext);
         }
