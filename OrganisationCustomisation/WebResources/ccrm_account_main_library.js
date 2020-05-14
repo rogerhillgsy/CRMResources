@@ -913,6 +913,12 @@ function OpenAttachmentPage(primaryControl) {
 
 }
 
+//function onChange_showrelform(primaryControl) {
+//    var formContext = primaryControl;
+//    var staterel = formContext.getAttribute("arup_showrelationshipform").getValue();
+//    return staterel == null ? false : staterel;
+//}
+
 //function to call on 'Pull Data from Parent Record' checkbox
 function GetCountryOfCompanyRegistartion(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -932,6 +938,7 @@ function GetCountryOfCompanyRegistartion(executionContext) {
                     req.onreadystatechange = null;
                     if (this.status === 200) {
                         var results = JSON.parse(this.response);
+                        debugger;
                         AssignRegistrationDetails(results, legalClientName, formContext);
                     } else {
                         Xrm.Navigation.openAlertDialog(this.statusText);
@@ -1149,6 +1156,7 @@ function IsRegisteredAddressFromParentRecordOnChange(executionContext) {
 }
 
 function IsRegisteredAddressFromParentRecord(formContext) {
+    debugger;
     if (formContext.getAttribute("arup_pulldatafromparentrecord").getValue() == true) {
         formContext.getAttribute("arup_copyorganisationaddress").setValue(false);//0
         formContext.getControl("arup_copyorganisationaddress").setDisabled(true);
@@ -1198,6 +1206,19 @@ function GetCurrentUserDetails(userId) {
             Xrm.Utility.alertDialog(error.message);
         }
     );
+
+    //SDK.REST.retrieveRecord(userId, "SystemUser", 'Ccrm_ArupRegionId,', null,
+    //    function (retrievedreq) {
+    //        if (retrievedreq != null) {
+    //            result.FullName = retrievedreq.FullName;
+    //            if (retrievedreq.Ccrm_ArupRegionId != null) {
+
+    //                result.userRegionID = retrievedreq.Ccrm_ArupRegionId.Id;
+    //                result.userRegionName = retrievedreq.Ccrm_ArupRegionId.Name;
+    //            }
+
+    //        }
+    //    }, errorHandler, false);
     return result;
 }
 

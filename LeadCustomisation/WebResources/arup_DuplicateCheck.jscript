@@ -136,6 +136,7 @@ function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IP
     FN = FN == null ? FN : htmlSpecialChars(FN);
     LN = LN == null ? LN : htmlSpecialChars(LN);
 
+    var requestXML = ""
     debugger;
     if (actionName == "arup_DupeDetect") {
         var parameters = {};
