@@ -930,7 +930,7 @@ function contactType_onchange(formContext) {
         if (fullform) {
             formContext.getControl("department").setVisible(false);
             formContext.getControl("fax").setVisible(false);
-            formContext.ui.tabs.get("tab_Address").sections.get("tab_additional_address_section").setVisible(false);
+            formContext.ui.tabs.get("tab_Address").sections.get("tab_additional_address_section").setVisible(false);                    
             formContext.ui.tabs.get("tab_Details").sections.get("{fa46a68d-a6b2-4cc1-9d00-4abd1d46c8f4}").setVisible(false);
             formContext.ui.tabs.get("tab_Details").sections.get("SUMMARY_TAB_section_6").setVisible(false);
             formContext.getControl("ccrm_uselocallanguage").setVisible(false);

@@ -1956,6 +1956,14 @@
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ContactCustomisation\ContactCustomisation.csproj">
+      <Name>ContactCustomisation</Name>
+      <Project>{85036e77-2fcc-4016-b1a0-f9bed62e719b}</Project>
+      <Private>True</Private>
+      <SilverlightApplication>False</SilverlightApplication>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\CRM\Microsoft.CrmDeveloperTools.12.targets" />-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
