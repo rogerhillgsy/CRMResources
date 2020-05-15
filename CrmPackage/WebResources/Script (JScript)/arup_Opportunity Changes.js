@@ -175,7 +175,7 @@ function CloseOpportunity(formContext,statusCode) {
 function getStepName(formContext,oppId) {
     var stepname = new String();
     var req = new XMLHttpRequest();
-    req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/ccrm_bpf_b253053047ef4eddbed29e34f6c23731s?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%3E%3Centity%20name%3D%22ccrm_bpf_b253053047ef4eddbed29e34f6c23731%22%3E%3Cattribute%20name%3D%22businessprocessflowinstanceid%22%20%2F%3E%3Cfilter%20type%3D%22and%22%3E%3Ccondition%20attribute%3D%22bpf_opportunityid%22%20operator%3D%22eq%22%20uiname%3D%22%26quot%3BPomeroy%26quot%3B%C2%A0-%C2%A014%C2%A0Macleay%C2%A0St%22%20uitype%3D%22opportunity%22%20value%3D%22%7B" +
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_bpf_b253053047ef4eddbed29e34f6c23731s?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%3E%3Centity%20name%3D%22ccrm_bpf_b253053047ef4eddbed29e34f6c23731%22%3E%3Cattribute%20name%3D%22businessprocessflowinstanceid%22%20%2F%3E%3Cfilter%20type%3D%22and%22%3E%3Ccondition%20attribute%3D%22bpf_opportunityid%22%20operator%3D%22eq%22%20uiname%3D%22%26quot%3BPomeroy%26quot%3B%C2%A0-%C2%A014%C2%A0Macleay%C2%A0St%22%20uitype%3D%22opportunity%22%20value%3D%22%7B" +
         oppId + "%7D%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22processstage%22%20from%3D%22processstageid%22%20to%3D%22activestageid%22%20alias%3D%22ab%22%3E%3Cattribute%20name%3D%22stagename%22%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
@@ -201,7 +201,7 @@ function getOpportunityReasons(ClientUrl,activeStageId, statusCode, arupInternal
     var dictionary = {};
     var req = new XMLHttpRequest();
 
-    req.open("GET", ClientUrl + "/api/data/v8.2/arup_closeopportunityreasons?$select=arup_lostopportunityreasons,arup_lostopportunityreasonvalues,arup_wonopportunityreasons,arup_wonopportunityreasonvalues&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal, false);
+    req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostopportunityreasons,arup_lostopportunityreasonvalues,arup_wonopportunityreasons,arup_wonopportunityreasonvalues&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal, false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -618,7 +618,7 @@ function retreiveOrganisationChecks(executionContext) {
             var req = new XMLHttpRequest();
             req.open("GET",
                 formContext.context.getClientUrl() +
-                "/api/data/v8.2/accounts(" +
+                "/api/data/v9.1/accounts(" +
                 clientId +
                 ")?$select=arup_creditcheck,arup_duediligencecheck,arup_lastddcheckdate,arup_duediligencetooltip,arup_duediligencemultipleresult",
                 true);
@@ -755,7 +755,7 @@ function checkOrganisationChecks(executionContext) {
             var clientId = client[0].id.replace('{', '').replace('}', '');
             var req = new XMLHttpRequest();
             req.open("GET",
-                formContext.context.getClientUrl() + "/api/data/v8.2/accounts(" + clientId + ")?$select=arup_duediligencecheck", true);
+                formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + clientId + ")?$select=arup_duediligencecheck", true);
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -791,7 +791,7 @@ function setOrganisationChecks(formContext,arup_duediligencecheck) {
     entity.arup_lastddcheckdate = new Date();
 
     var req = new XMLHttpRequest();
-    req.open("PATCH", formContext.context.getClientUrl() + "/api/data/v8.2/accounts(" + clientId + ")", true);
+    req.open("PATCH", formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + clientId + ")", true);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
