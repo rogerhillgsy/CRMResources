@@ -54,18 +54,30 @@ function QuickDupeDetect(executionContext) {
     var recordName = null;
     var firstName = null;
     var lastName = null;
+    var ccrm_arupbusiness = null;
+    var ccrm_countryid = null;
+    if (entName == "account") {
+        recordName = formContext.getAttribute("name").getValue();
+        ccrm_countryid = formContext.getAttribute("ccrm_countryid").getValue();
 
-    if (entName == "account") { recordName = formContext.getAttribute("name").getValue(); }
+        if (ccrm_countryid == null) return;
+    }
     if (entName == "contact") {
         firstName = formContext.getAttribute("firstname").getValue();
         lastName = formContext.getAttribute("lastname").getValue();
+        ccrm_countryid = formContext.getAttribute("ccrm_countryid").getValue();
+
+        if (ccrm_countryid == null) return;
         if (firstName != null && lastName != null) {
             recordName = firstName + " " + lastName;
         }
     }
     if (entName == "lead") {
         recordName = formContext.getAttribute("firstname").getValue();
+        ccrm_arupbusiness = formContext.getAttribute("ccrm_arupbusiness").getValue();
+        if (ccrm_arupbusiness == null || ccrm_arupbusiness == "") return;
     }
+  
     if (recordName != null) {
         //Display waiting
         dispLoadOnQC(formContext);
@@ -136,7 +148,6 @@ function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IP
     FN = FN == null ? FN : htmlSpecialChars(FN);
     LN = LN == null ? LN : htmlSpecialChars(LN);
 
-    debugger;
     if (actionName == "arup_DupeDetect") {
         var parameters = {};
         parameters.InputCity = cityIP;
@@ -220,7 +231,6 @@ function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IP
                 req.onreadystatechange = null;
                 if (this.status === 200) {
                     var results = JSON.parse(this.response);
-                    debugger;
                     if (formtype == "Main") {
                         parseMainSuccessActionResponse(results);
                     }
@@ -317,69 +327,55 @@ function SetValidField(fieldName, val, warningMsg, warMsgName, lenght, formConte
         if (entName != "lead" && leadFormType == "QC") {
             formContext.ui.setFormNotification(warningMsg, 'INFO', warMsgName);
         }
-        debugger;
+
         if (lenght <= 0) {
             Notify.add(warningMsg, "INFO", warMsgName + "n", null, 5);
         }
         else {
-            Notify.add(warningMsg, "QUESTION", warMsgName,
-                [{
-                    type: "button",
-                    text: "View Similar Records",
-                    callback: function () {
-                        if (entName == "account") {
-                            var n = accName.indexOf("&");
-                            if (n != -1) {
-                                accName = accName.replace("&", "ampAndArup");
-                            }
-                            var n3 = accName.indexOf("'");
-                            if (n3 != -1) {
-                                accName = accName.replace("'", "aposArup");
-                            }
-                            var dataparams = "Name=" + accName + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName;
-                            Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Similar Records", null, crmURL, false, 20);
-                        }
-                        else if (entName == "contact") {
-                            var n1 = firN.indexOf("&");
-                            if (n1 != -1) {
-                                firN = firN.replace("&", "ampAndArup");
-                            }
-                            var n4 = firN.indexOf("'");
-                            if (n4 != -1) {
-                                firN = firN.replace("'", "aposArup");
-                            }
-                            var n2 = LasN.indexOf("&");
-                            if (n2 != -1) {
-                                LasN = LasN.replace("&", "ampAndArup");
-                            }
-                            var n5 = LasN.indexOf("'");
-                            if (n5 != -1) {
-                                LasN = LasN.replace("'", "aposArup");
-                            }
-                            var dataparams = "FirstName=" + firN + "&LastName=" + LasN + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName;
-                            Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Similar Records", null, crmURL, false, 20);
-                        }
-                        else if (entName == "lead") {
-                            var n6 = accName.indexOf("&");
-                            if (n6 != -1) {
-                                accName = accName.replace("&", "ampAndArup");
-                            }
-                            var n7 = accName.indexOf("'");
-                            if (n7 != -1) {
-                                accName = accName.replace("'", "aposArup");
-                            }
-                            var dataparams = "Name=" + accName + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName + "&recordId=" + ipRecordId + "&bussID=" + inputBusinessID + "&cliID=" + clientId;
-                            Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Similar Records", null, crmURL, false, 20);
-                        }
-                    }
-                },
-                {
-                    type: "link",
-                    text: "Not now",
-                    callback: function () {
-                        Notify.remove("dupes");
-                    }
-                }]);
+            if (entName == "account") {
+                var n = accName.indexOf("&");
+                if (n != -1) {
+                    accName = accName.replace("&", "ampAndArup");
+                }
+                var n3 = accName.indexOf("'");
+                if (n3 != -1) {
+                    accName = accName.replace("'", "aposArup");
+                }
+                var dataparams = "Name=" + accName + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName + "&warningMsg=" + warningMsg;
+                Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Potential Duplicates", null, crmURL, false, 20);
+            }
+            else if (entName == "contact") {
+                var n1 = firN.indexOf("&");
+                if (n1 != -1) {
+                    firN = firN.replace("&", "ampAndArup");
+                }
+                var n4 = firN.indexOf("'");
+                if (n4 != -1) {
+                    firN = firN.replace("'", "aposArup");
+                }
+                var n2 = LasN.indexOf("&");
+                if (n2 != -1) {
+                    LasN = LasN.replace("&", "ampAndArup");
+                }
+                var n5 = LasN.indexOf("'");
+                if (n5 != -1) {
+                    LasN = LasN.replace("'", "aposArup");
+                }
+                var dataparams = "FirstName=" + firN + "&LastName=" + LasN + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName + "&warningMsg=" + warningMsg;
+                Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Potential Duplicates", null, crmURL, false, 20);
+            }
+            else if (entName == "lead") {
+                var n6 = accName.indexOf("&");
+                if (n6 != -1) {
+                    accName = accName.replace("&", "ampAndArup");
+                }
+                var n7 = accName.indexOf("'");
+                if (n7 != -1) {
+                    accName = accName.replace("'", "aposArup");
+                }
+                var dataparams = "Name=" + accName + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName + "&recordId=" + ipRecordId + "&bussID=" + inputBusinessID + "&cliID=" + clientId + "&warningMsg=" + warningMsg;
+                Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Potential Duplicates", null, crmURL, false, 20);
+            }
             Notify.remove("dupesn");
         }
 
