@@ -281,7 +281,7 @@ function onChangeSubcontractors(executioncontext) {
 function tabBehaviour(formContext) {
 
     var enquiryFlag = formContext.getAttribute("ccrm_enquiryclaim").getValue();
-
+    formContext.ui.tabs.get("tab_14").setFocus();
     if (enquiryFlag != null) {
 
         // Enquiry specific tabs
