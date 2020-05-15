@@ -1975,6 +1975,12 @@
       <Private>True</Private>
       <SilverlightApplication>False</SilverlightApplication>
     </ProjectReference>
+    <ProjectReference Include="..\OpportunityCustomisation\OpportunityCustomizations.CSPROJ">
+      <Name>OpportunityCustomizations</Name>
+      <Project>{1ddd15f9-a189-4cbc-970f-ac976e49c004}</Project>
+      <Private>True</Private>
+      <SilverlightApplication>False</SilverlightApplication>
+    </ProjectReference>
     <ProjectReference Include="..\OrganisationCustomisation\OrganisationCustomisations.CSPROJ">
       <Name>OrganisationCustomisations</Name>
       <Project>{89208095-a5fe-4e04-bb1a-a9f1bc82bde3}</Project>

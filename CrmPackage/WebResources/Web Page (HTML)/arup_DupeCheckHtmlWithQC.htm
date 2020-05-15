@@ -78,6 +78,17 @@
             padding-top: 1px;
             text-align: center;
         }
+
+        #warningmsg {
+            position: center;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            vertical-align: middle;
+            padding-top: 1px;
+            text-align: center;
+            color: orangered;
+        }
     </style>
     <script src="arup_DuplicateCheck" type="text/javascript"></script>
     <script type="text/javascript">
@@ -87,10 +98,10 @@
         var repeatDisplay = false;
         var entLogicName = "";
         var clientId = "null";
+        var warningMsg = "";
 
         document.onreadystatechange = function () {
             if (document.readyState == "complete") {
-                debugger;
                 displayWaiting();
                 var dataParam = getDataParam();
                 //on load - parameter passed from the form design
@@ -114,6 +125,7 @@
             var lastName = "";
             var recID = "null";
             var IPbussID = "null";
+
             //var entLogicName = "";
             var vals = new Array();
             vals = decodeURIComponent(dataPar).split("&");
@@ -149,6 +161,9 @@
                         break;
                     case "ipCity":
                         ipCity = vals[i][1];
+                        break;
+                    case "warningMsg":
+                        warningMsg = vals[i][1];
                 }
             }
 
@@ -211,153 +226,99 @@
             FN = FN == null ? FN : htmlSpecialChars(FN);
             LN = LN == null ? LN : htmlSpecialChars(LN);
 
-            var requestXML = ""
             if (actionName == "arup_DupeDetect") {
-                requestXML += "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">";
-                requestXML += "  <s:Body>";
-                requestXML += "    <Execute xmlns=\"http://schemas.microsoft.com/xrm/2011/Contracts/Services\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">";
-                requestXML += "      <request xmlns:a=\"http://schemas.microsoft.com/xrm/2011/Contracts\">";
-                requestXML += "        <a:Parameters xmlns:b=\"http://schemas.datacontract.org/2004/07/System.Collections.Generic\">";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputName</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + recordName + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputGUID</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + recordId + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputCountryId</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + countryId + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputCity</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + cityIP + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "        </a:Parameters>";
-                requestXML += "        <a:RequestId i:nil=\"true\" />";
-                requestXML += "        <a:RequestName>" + actionName + "</a:RequestName>";
-                requestXML += "      </request>";
-                requestXML += "    </Execute>";
-                requestXML += "  </s:Body>";
-                requestXML += "</s:Envelope>";
+                var parameters = {};
+                parameters.InputCity = cityIP;
+                parameters.InputCountryId = countryId;
+                parameters.InputGUID = recordId;
+                parameters.InputName = recordName;
+
+                var req = new XMLHttpRequest();
+                req.open("POST", parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetect622be8c63365ea11a813000d3a86ab8d", true);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 200) {
+                            var results = JSON.parse(this.response);
+                            if (formtype == "QuickButton") {
+                                parseMainSuccessActionResponse(results);
+                            }
+                        } else {
+                            Xrm.Utility.alertDialog(this.statusText);
+                        }
+                    }
+                };
+                req.send(JSON.stringify(parameters));
             }
             else if (actionName == "arup_DupeDetectContact") {
-                requestXML += "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">";
-                requestXML += "  <s:Body>";
-                requestXML += "    <Execute xmlns=\"http://schemas.microsoft.com/xrm/2011/Contracts/Services\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">";
-                requestXML += "      <request xmlns:a=\"http://schemas.microsoft.com/xrm/2011/Contracts\">";
-                requestXML += "        <a:Parameters xmlns:b=\"http://schemas.datacontract.org/2004/07/System.Collections.Generic\">";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputFN</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + FN + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputLN</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + LN + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputGUID</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + recordId + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputCountryId</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + countryId + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputCity</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + cityIP + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "        </a:Parameters>";
-                requestXML += "        <a:RequestId i:nil=\"true\" />";
-                requestXML += "        <a:RequestName>" + actionName + "</a:RequestName>";
-                requestXML += "      </request>";
-                requestXML += "    </Execute>";
-                requestXML += "  </s:Body>";
-                requestXML += "</s:Envelope>";
+                var parameters = {};
+                parameters.InputCity = cityIP;
+                parameters.InputCountryId = countryId;
+                parameters.InputGUID = recordId;
+                parameters.InputFN = FN;
+                parameters.InputLN = LN;
+
+                var req = new XMLHttpRequest();
+                req.open("POST", parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetectContact", true);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 200) {
+                            var results = JSON.parse(this.response);
+                            if (formtype == "QuickButton") {
+                                parseMainSuccessActionResponse(results);
+                            }
+                        } else {
+                            Xrm.Utility.alertDialog(this.statusText);
+                        }
+                    }
+                };
+                req.send(JSON.stringify(parameters));
             }
             else if (actionName == "arup_DupeDetectLead") {
-                requestXML += "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">";
-                requestXML += "  <s:Body>";
-                requestXML += "    <Execute xmlns=\"http://schemas.microsoft.com/xrm/2011/Contracts/Services\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">";
-                requestXML += "      <request xmlns:a=\"http://schemas.microsoft.com/xrm/2011/Contracts\">";
-                requestXML += "        <a:Parameters xmlns:b=\"http://schemas.datacontract.org/2004/07/System.Collections.Generic\">";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputCity</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + cityIP + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputName</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + recordName + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputCountryId</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + countryId + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputGUID</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + recordId + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputClientID</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + clientId + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "          <a:KeyValuePairOfstringanyType>";
-                requestXML += "            <b:key>InputBussID</b:key>";
-                requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + IPbussID + "</b:value>";
-                requestXML += "          </a:KeyValuePairOfstringanyType>";
-                requestXML += "        </a:Parameters>";
-                requestXML += "        <a:RequestId i:nil=\"true\" />";
-                requestXML += "        <a:RequestName>" + actionName + "</a:RequestName>";
-                requestXML += "      </request>";
-                requestXML += "    </Execute>";
-                requestXML += "  </s:Body>";
-                requestXML += "</s:Envelope>";
-            }
+                var parameters = {};
+                parameters.InputClientID = clientId;
+                parameters.InputCity = cityIP;
+                parameters.InputName = recordName;
+                parameters.InputCountryId = countryId;
+                parameters.InputGUID = recordId;
+                parameters.InputBussID = IPbussID;
 
-            var url = getClientUrl();
-            if (url.substring(url.length - 1) != "/") {
-                url = url + "/";
-            }
-            url = url + "XRMServices/2011/Organization.svc/web";
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("POST", url, true);
-            xmlhttp.setRequestHeader("Accept", "application/xml, text/xml, */*");
-            xmlhttp.setRequestHeader("Content-Type", "text/xml; charset=utf-8");
-            xmlhttp.setRequestHeader("SOAPAction", "http://schemas.microsoft.com/xrm/2011/Contracts/Services/IOrganizationService/Execute");
-            xmlhttp.onreadystatechange = function () {
-
-                if (formtype == "Main") {
-                    parseActionSOAPResponse(xmlhttp, successResponse, errorResponse);
-                }
-                else {
-                    if (formtype == "Quick") {
-                        parseActionSOAPResponse(xmlhttp, successQuickResponse, errorResponse);
+                var req = new XMLHttpRequest();
+                req.open("POST", parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetectLead", true);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 200) {
+                            var results = JSON.parse(this.response);
+                            if (formtype == "QuickButton") {
+                                parseMainSuccessActionResponse(results);
+                            }
+                        } else {
+                            Xrm.Utility.alertDialog(this.statusText);
+                        }
                     }
-                    else { if (formtype == "QuickButton") { parseActionSOAPResponse(xmlhttp, successQuickButtonResp, errorResponse); } }
-                }
-
-            };
-            xmlhttp.send(requestXML);
-        }
-
-        function parseActionSOAPResponse(req, successCallback, errorCallback) {
-            if (req.readyState == 4) {
-                req.onreadystatechange = null;
-                if (req.status == 200) {
-                    successCallback(req.responseXML);
-                }
-                else {
-                    errorCallback(req.responseXML);
-                }
+                };
+                req.send(JSON.stringify(parameters));
             }
         }
 
-        function successQuickButtonResp(responseXml) {
-            var jsMsg3 = ProcessSuccess(responseXml);
+        function parseMainSuccessActionResponse(results) {
+            var jsMsg3 = ProcessSuccess(results);
             jsonMsgToRet = jsMsg3;
             PrepareTable(jsMsg3);
-
         }
 
         function PrepareTable(jsMsg3P) {
@@ -369,6 +330,7 @@
                 return;
             }
             removeElements();
+            displayWarningMessage();
             var strURL = getClientUrl();
             //var parentAccId = parent.Xrm.Page.data.entity.getId().replace("{", "").replace("}", "");
             var firstColLabel = entLogicName == "account" ? "Account Name" : (entLogicName == "contact" ? "Contact Name" : "Project Name");
@@ -530,7 +492,6 @@
             var url = getClientUrl();
             removeElements();
 
-
             var oTBody = document.createElement("tbody");
             var oTable = document.createElement("table");
             oTable.id = "wait";
@@ -567,6 +528,13 @@
             }
         }
 
+        function displayWarningMessage() {
+            var message1 = document.createElement("p");
+            message1.id = "warningmsg";
+            setText(message1, warningMsg);
+            document.body.appendChild(message1);
+        }
+
     </script>
     <meta>
     <meta>
@@ -574,7 +542,5 @@
     <meta>
 </head>
 <body style="word-wrap: break-word;" id="ArupBody" onfocusout="parent.setEmailRange();">
-
-
 </body>
 </html>
