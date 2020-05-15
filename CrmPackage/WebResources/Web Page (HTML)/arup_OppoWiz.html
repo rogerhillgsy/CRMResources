@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="arup_Bootstrap_TableCSS">
     <link rel="stylesheet" href="arup_Bootstrap_MultiselectCSS">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css">
+    <link rel="stylesheet" href="/uclient/resources/styles/Styles.css" />
     <link rel="stylesheet" href="arup_OppoWiz.css">
     <script type="text/javascript" src="ccrm_/JavaScripts/Lib/jquery_3.2.0.min"></script>
     <script type="text/javascript" src="arup_BootStrap.min"></script>
@@ -62,7 +63,7 @@
                             Xrm.Navigation.openErrorDialog({
                                 message: "Invalid input - correct the form and try again",
                                 // details: (typeof(errors) === "object") ? errors.join("\r\n") : errors,
-                                title : "Validation errors"
+                                title: "Validation errors"
                             });
                         }
                     );
@@ -72,7 +73,7 @@
 
             // Prevent any submit events - a different mechanism is used to add data to the CRM system.
             $("form").on("submit",
-                function(e) {
+                function (e) {
                     e.preventDefault();
                 });
 
@@ -96,7 +97,10 @@
 
 
     <div class="container">
-        <br><h1 class="mainPage"><b>New Opportunity Wizard</b></h1>
+        <br>
+        <h1 class="mainPage">
+            <b>New Opportunity Wizard</b>
+        </h1>
         <h4 class="mainPage1">Select opportunity category</h4>
     </div>
     <br>
@@ -104,7 +108,11 @@
         <div class="wizard-content">
             <div class="wizard-steps-panel steps-quantity-4" onkeyup="nextOnReturn(this)">
                 <div class="step-number step-1 doing">
-                    <div class="number"><div class="img-circle"><img src="arup_userrolejpg"></div></div>
+                    <div class="number">
+                        <div class="img-circle">
+                            <img src="arup_userrolejpg">
+                        </div>
+                    </div>
                 </div>
                 <div class="step-number step-2">
                     <div class="number">2</div>
@@ -117,12 +125,17 @@
                 </div>
             </div>
             <!--<br /> -->
-            <div class="container"> <br><br></div>
+            <div class="container">
+                <br>
+                <br>
+            </div>
             <div class="wizard-step" style="display: block;" id="UR_Step">
 
                 <div class="container" id="UR">
                     <h2>Arup Internal </h2>
-                    <p><b><ins>Select whether the new opportunity is either Internal or External</ins></b></p>
+                    <p>
+                        <b><ins>Select whether the new opportunity is either Internal or External</ins></b>
+                    </p>
                     <form id="URForm">
                         <div class="radio">
                             <label><input type="radio" name="stepone" value="INT" autofocus="true">&nbsp;Internal</label>
@@ -130,16 +143,12 @@
                         <div class="radio">
                             <label><input type="radio" name="stepone" value="NOTINT">&nbsp;External</label>
                         </div>
-                    </form>
+                        </form>
                 </div>
-                <br><br>
+                <br>
+                <br>
             </div>
             <div class="wizard-step" style="display: none;" id="SS_Step">
-                <!--<div id="exButtons">
-                    <button type="button" id="exBack" class="btn btn-default wizard-button-back  pull-left">Back</button>
-                    <button type="button" id="exNext" class="btn btn-default wizard-button-next pull-right">Next</button>
-                </div>
-                <br /><br />-->
                 <div class="container" id="SS">
                     <form class="" id="main" on>
                         <div class="form-group">
@@ -157,9 +166,9 @@
                         </div>
                         <div class="form-group">
                             <label for="relatedopportunity">Related Parent Opportunity:</label>
-                            <input list="opportunities" id="relatedopportunity" class="form-control" name="relatedopportunity" oninput="getOpportunities(this.value);" title="Input related parent opportunity" autocomplete="off" onfocusout="ensureRelatedOpportunitySelected(this)" />
-                            <datalist id="opportunities">
-                            </datalist>
+                                <input list="opportunities" id="relatedopportunity" class="form-control" name="relatedopportunity" oninput="getOpportunities(this);" title="Input related parent opportunity" autocomplete="off" onfocusout="ensureRelatedOpportunitySelected(this)" />
+                                <datalist id="opportunities">
+                                </datalist>
                         </div>
                         <div class="form-group">
                             <label for="leadSource">Lead Source:</label>
@@ -175,56 +184,64 @@
                                 <option value="11" title="Arup bid follows long-term activities to build a relationship with the client, and demonstrate our capabilities, aiming to become the ‘first choice for project’.">Long-Term Opportunity</option>
                                 <option value="10" title="Arup chose to bid following a public open invitation.">Public Advertisement/OJEU</option>
                             </select>
-                            <!--<select id="leadSource1" class="form-control" title="Enter Source of Opportunity">
-                                <option value="">Select Lead Source</option>
-                                <option value="100000000" title="Arup bid to supply same/further services, as an extension to an existing project. (One Arup team delivering to the client).">Addition to existing services</option>
-                                <option value="100000002" title="Arup has identified an opportunity, suggested the project idea, then submitted a bid to a client.">Arup project (idea) creation</option>
-                                <option value="5" title="Arup invited to bid, as one of a shortlist previously chosen via a panel, framework agreement or other process.">Framework/Panel</option>
-                                <option value="6" title="Arup team cross-sell separate expertise, and introduce an additional Arup team.  (More than one Arup team delivering to the client).">Internal Referral and cross-selling</option>
-                                <option value="3" title="Arup is the only firm invited to bid, without competition.">Invitation - Arup Only</option>
-                                <option value="8" title="Arup invited to bid, as one of a limited number of competitors.">Invitation to Compete</option>
-                                <option value="11" title="Arup bid follows long-term activities to build a relationship with the client, and demonstrate our capabilities, aiming to become the ‘first choice for project’.">Long-Term Opportunity</option>
-                                <option value="10" title="Arup chose to bid following a public open invitation.">Public Advertisement/OJEU</option>
-                            </select>-->
                         </div>
                         <br />
                         <br />
                         <div class="form-group">
-                            <div class="suppt col-lg-6"><textarea class="form-control" id="ta1" rows="5" tabindex="-1"></textarea></div>
-                            <div class="suppt col-lg-6"><textarea class="form-control" id="ta2" rows="5" tabindex="-1"></textarea></div>
+                            <div class="suppt col-lg-6">
+<textarea class="form-control" id="ta1" rows="5" tabindex="-1"></textarea>
+                            </div>
+                            <div class="suppt col-lg-6">
+<textarea class="form-control" id="ta2" rows="5" tabindex="-1"></textarea>
+                            </div>
                         </div>
                     </form>
                 </div>
-                <br><br>
+                <br>
+                <br>
             </div>
             <div class="wizard-step" style="display: none;" id="CN_Step">
                 <div class="container" id="CN">
-
-                    <label for="contractarrangement">Project Procurement:</label>
-                    <select id="contractarrangement" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
-                        <option value="">--</option>
-                        <option title="Alliance" value="100000000">Alliance</option>
-                        <option title="Design &amp; Construct/Design-Build/ECI" value="1">Design &amp; Construct/Design-Build/ECI</option>
-                        <option title="Design-Build-Operate" value="100000002">Design-Build-Operate</option>
-                        <option title="Management Contracting/Construction Management" value="3">Management Contracting/Construction Management</option>
-                        <option title="Public Private Partnership" value="4">Public Private Partnership</option>
-                        <option title="Traditional or Direct Appointment to Client" value="5">Traditional or Direct Appointment to Client</option>
-                        <option title="Traditional or Direct Appointment to Client with Potential Future Novation" value="8">Traditional or Direct Appointment to Client with Potential Future Novation</option>
-                        <option title="Turnkey" value="6">Turnkey</option>
-                    </select>
-                    <!--<select id="contractarrangement1" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
-                        <option value="">--</option>
-                        <option title="Alliance" value="100000000">Alliance</option>
-                        <option title="Design &amp; Construct/Design-Build/ECI" value="1">Design &amp; Construct/Design-Build/ECI</option>
-                        <option title="Design-Build-Operate" value="100000002">Design-Build-Operate</option>
-                        <option title="Management Contracting/Construction Management" value="3">Management Contracting/Construction Management</option>
-                        <option title="Public Private Partnership" value="4">Public Private Partnership</option>
-                        <option title="Traditional or Direct Appointment to Client" value="5">Traditional or Direct Appointment to Client</option>
-                        <option title="Traditional or Direct Appointment to Client with Potential Future Novation" value="8">Traditional or Direct Appointment to Client with Potential Future Novation</option>
-                        <option title="Turnkey" value="6">Turnkey</option>
-                    </select>-->
+                    <div class="form-group col-lg-12">
+                        <label for="contractarrangement">Project Procurement:</label>
+                        <select id="contractarrangement" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
+                            <option value="">--</option>
+                            <option title="Alliance" value="100000000">Alliance</option>
+                            <option title="Design &amp; Construct/Design-Build/ECI" value="1">Design &amp; Construct/Design-Build/ECI</option>
+                            <option title="Design-Build-Operate" value="100000002">Design-Build-Operate</option>
+                            <option title="Management Contracting/Construction Management" value="3">Management Contracting/Construction Management</option>
+                            <option title="Public Private Partnership" value="4">Public Private Partnership</option>
+                            <option title="Traditional or Direct Appointment to Client" value="5">Traditional or Direct Appointment to Client</option>
+                            <option title="Traditional or Direct Appointment to Client with Potential Future Novation" value="8">Traditional or Direct Appointment to Client with Potential Future Novation</option>
+                            <option title="Turnkey" value="6">Turnkey</option>
+                        </select>
+                        <!--<select id="contractarrangement1" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
+                            <option value="">--</option>
+                            <option title="Alliance" value="100000000">Alliance</option>
+                            <option title="Design &amp; Construct/Design-Build/ECI" value="1">Design &amp; Construct/Design-Build/ECI</option>
+                            <option title="Design-Build-Operate" value="100000002">Design-Build-Operate</option>
+                            <option title="Management Contracting/Construction Management" value="3">Management Contracting/Construction Management</option>
+                            <option title="Public Private Partnership" value="4">Public Private Partnership</option>
+                            <option title="Traditional or Direct Appointment to Client" value="5">Traditional or Direct Appointment to Client</option>
+                            <option title="Traditional or Direct Appointment to Client with Potential Future Novation" value="8">Traditional or Direct Appointment to Client with Potential Future Novation</option>
+                            <option title="Turnkey" value="6">Turnkey</option>
+                        </select>-->
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="client">Client:</label>
+                        <input list="clients" id="client" class="form-control input-form" name="client" oninput="getClients(this.value, true, this);" onfocusout="ensureSelected(this)" title="Input Client" autocomplete="off" placeholder="Client company name" />
+                        <datalist id="clients">
+                        </datalist>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="endclient">Ultimate/End Client:</label>
+                        <input list="endclients" id="endclient" class="form-control input-form" name="endclient" oninput="getClients(this.value, false, this);" title="Input End Client" autocomplete="off" placeholder=" Ultimate client name" />
+                        <datalist id="endclients">
+                        </datalist>
+                    </div>
                 </div>
-                <br><br>
+                <br>
+                <br>
             </div>
             <form id="page4">
                 <div class="wizard-step" style="display: none;" id="WC_Step">
@@ -241,7 +258,7 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="project_state">Project State/Province:</label>
-                            <input list="states" id="project_state" class="form-control input-form" name="project_state" title="Input project state" autocomplete="off" onfocusout="ensureSelected(this)"  readonly="true"/>
+                            <input list="states" id="project_state" class="form-control input-form" name="project_state" title="Input project state" autocomplete="off" onfocusout="ensureSelected(this)" readonly="true" />
                             <datalist id="states">
                             </datalist>
                         </div>
@@ -253,7 +270,7 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="arup_business">Arup Business:</label>
-                            <input list="businesses" id="arup_business" class="form-control input-form" name="arup_business" oninput="getBusinesses();" onchange="getSubBusinesses()" onfocusout="ensureSelected(this)"  title="Input arup business" autocomplete="off" placeholder="Business Area" />
+                            <input list="businesses" id="arup_business" class="form-control input-form" name="arup_business" oninput="getBusinesses();" onchange="getSubBusinesses()" onfocusout="ensureSelected(this)" title="Input arup business" autocomplete="off" placeholder="Business Area" />
                             <datalist id="businesses">
                             </datalist>
                         </div>
@@ -265,26 +282,14 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="arup_company">Arup Company:</label>
-                            <input list="companies" id="arup_company" class="form-control input-form" name="arup_company" onchange="getAccountingCentres();" onfocusout="ensureSelected(this)"  title="Input Company" autocomplete="aoff" />
+                            <input list="companies" id="arup_company" class="form-control input-form" name="arup_company" onchange="getAccountingCentres();" onfocusout="ensureSelected(this)" title="Input Company" autocomplete="aoff" />
                             <datalist id="companies">
                             </datalist>
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="accountingcentre">Accounting Centre:</label>
-                            <input list="accountingcentres" id="accountingcentre" class="form-control input-form" name="accountingcentre" onfocusout="ensureSelected(this)"  title="Input Accounting Centre" autocomplete="off" />
+                            <input list="accountingcentres" id="accountingcentre" class="form-control input-form" name="accountingcentre" onfocusout="ensureSelected(this)" title="Input Accounting Centre" autocomplete="off" />
                             <datalist id="accountingcentres">
-                            </datalist>
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <label for="client">Client:</label>
-                            <input list="clients" id="client" class="form-control input-form" name="client" oninput="getClients(this.value, true, this);" onfocusout="ensureSelected(this)"  onfocusout="ensureSelected(this)"  title="Input Client" autocomplete="off" placeholder="Client company name" />
-                            <datalist id="clients">
-                            </datalist>
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <label for="endclient">Ultimate/End Client:</label>
-                            <input list="endclients" id="endclient" class="form-control input-form" name="endclient" oninput="getClients(this.value, false, this);" title="Input End Client" autocomplete="off" placeholder=" Ultimate client name" />
-                            <datalist id="endclients">
                             </datalist>
                         </div>
                         <div class="form-group col-lg-6">
@@ -310,7 +315,8 @@
                             <textarea id="description" class="form-control input-form" style="min-height: 72px; overflow: auto; height: auto;" maxlength="2000" role="textbox" attrname="description"></textarea>
                         </div>
                     </div>
-                    <br><br>
+                    <br>
+                    <br>
                 </div>
             </form>
             <div class="wizard-buttons">
@@ -325,4 +331,4 @@
         </div>
     </div>
 </body>
-</html >
+</html>

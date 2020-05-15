@@ -717,6 +717,11 @@
       <UniqueName>ccrmarup_Print_ico_16</UniqueName>
       <WebResourceType>GIF</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\GIF format\arup_progressSpinner.gif">
+      <DisplayName>Progress Spinner</DisplayName>
+      <UniqueName>arup_progressSpinner.gif</UniqueName>
+      <WebResourceType>GIF</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\ICO format\ccrm_AN_16x16_Icon.ico">
       <DisplayName>ConsultCRM - Auto Number 16 x 16 Icon</DisplayName>
       <UniqueName>ccrm_AN_16x16_Icon</UniqueName>

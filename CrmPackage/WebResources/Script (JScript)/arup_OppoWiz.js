@@ -1149,86 +1149,124 @@ function CreateOpportunity(attributes) {
     return promise;
 }
 
-function getOpportunities(input) {
+function getOpportunities(inputControl) {
     // Do not search if the current value is an exact match for a item in the data list.
     var value = $("#opportunities option[value='" + $('#relatedopportunity').val() + "']");
     if (value.length > 0) return;
+    var input = inputControl.value;
 
     debounce(300,
         () => {
-            var num = input.length;
-            oppWizLog("Searching for opportunity: " + input);
-            if ($.isNumeric(input)) {
-                if (num >= 4) {
-                    var firstDigit = getFirstDigit(input);
-                    if (firstDigit == 8) {
-                        $.ajax({
-                            type: "GET",
-                            contentType: "application/json; charset=utf-8",
-                            datatype: "json",
-                            url: Xrm.Page.context.getClientUrl() +
-                                "/api/data/v8.2/opportunities?$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_reference,'" +
-                                input +
-                                "')&$orderby=" +
-                                encodeURIComponent("ccrm_jna asc"),
-                            beforeSend: function(XMLHttpRequest) {
-                                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                                XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                                XMLHttpRequest.setRequestHeader("Prefer",
-                                    "odata.include-annotations=\"*\",odata.maxpagesize=25");
-                            },
-                            async: true,
-                            success: function(data, textStatus, xhr) {
-                                fillOpportunityResults(data);
-                                oppWizLog("Found " + data.value.length + " ccrm_reference results");
-                            },
-                            error: function(xhr, textStatus, errorThrown) {
-                                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-                            }
-                        });
-                    } else {
+            (new Promise(function(resolve, reject) {
+                inputControl.classList.add("waiting-for-crm");
+                var num = input.length;
+                oppWizLog("Searching for opportunity: " + input);
+                if ($.isNumeric(input)) {
+                    if (num >= 4) {
+                        var firstDigit = getFirstDigit(input);
+                        if (firstDigit == 8) {
+                            FetchCRMData("opportunities",
+                                    "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_reference,'" +
+                                    input +
+                                    "')&$orderby=" +
+                                    encodeURIComponent("ccrm_jna asc"))
+                                .then((result) => {
+                                        resolve(result, "ccrm_reference");
+                                        //fillOpportunityResults(result);
+                                        //oppWizLog("Found " + result.value.length + " ccrm_reference results");
+                                    },
+                                restQueryErrorDialog("Getting opportunities by name"), null, reject);
+
+
+                            //$.ajax({
+                            //    type: "GET",
+                            //    contentType: "application/json; charset=utf-8",
+                            //    datatype: "json",
+                            //    url: Xrm.Page.context.getClientUrl() +
+                            //        "/api/data/v8.2/opportunities?$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_reference,'" +
+                            //        input +
+                            //        "')&$orderby=" +
+                            //        encodeURIComponent("ccrm_jna asc"),
+                            //    beforeSend: function(XMLHttpRequest) {
+                            //        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                            //        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                            //        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                            //        XMLHttpRequest.setRequestHeader("Prefer",
+                            //            "odata.include-annotations=\"*\",odata.maxpagesize=25");
+                            //    },
+                            //    async: true,
+                            //    success: function(data, textStatus, xhr) {
+                            //        fillOpportunityResults(data);
+                            //        oppWizLog("Found " + data.value.length + " ccrm_reference results");
+                            //    },
+                            //    error: function(xhr, textStatus, errorThrown) {
+                            //        Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                            //    }
+                            //});
+                        } else {
+                            FetchCRMData("opportunities",
+                                    "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_jna,'" +
+                                    input +
+                                    "')&$orderby=" +
+                                    encodeURIComponent("ccrm_jna asc"))
+                                .then((result) => {
+                                        resolve( result, "ccrm_jna");
+                                        //fillOpportunityResults(result);
+                                        //oppWizLog("Found " + result.value.length + " ccrm_jna results");
+                                    },
+                                    restQueryErrorDialog("Getting opportunities by ccrm_jna", null, reject));
+                        }
+                    }
+                } else {
+                    if (num >= 5) {
                         FetchCRMData("opportunities",
-                                "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_jna,'" +
+                                "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=contains(name, '" +
                                 input +
                                 "')&$orderby=" +
                                 encodeURIComponent("ccrm_jna asc"))
                             .then((result) => {
-                                    fillOpportunityResults(result);
-                                    oppWizLog("Found " + result.value.length + " ccrm_jna results");
-                                },
-                                restQueryErrorDialog("Getting opportunities by ccrm_jna"));
+                                    resolve( result, "name");
+                                    //fillOpportunityResults(result);
+                                    //oppWizLog("Found " + result.value.length + " name results");
+                            },
+                                restQueryErrorDialog("Getting opportunities by name"),null,() => reject);
+
+                        //$.ajax({
+                        //    type: "GET",
+                        //    contentType: "application/json; charset=utf-8",
+                        //    datatype: "json",
+                        //    url: Xrm.Page.context.getClientUrl() +
+                        //        "/api/data/v8.2/opportunities?$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=contains(name, '" +
+                        //        input +
+                        //        "')&$orderby=" +
+                        //        encodeURIComponent("ccrm_jna asc"),
+                        //    beforeSend: function(XMLHttpRequest) {
+                        //        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                        //        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                        //        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                        //        XMLHttpRequest.setRequestHeader("Prefer",
+                        //            "odata.include-annotations=\"*\",odata.maxpagesize=25");
+                        //    },
+                        //    async: true,
+                        //    success: function(data, textStatus, xhr) {
+                        //        fillOpportunityResults(data);
+                        //        oppWizLog("Found " + data.value.length + " results");
+                        //    },
+                        //    error: function(xhr, textStatus, errorThrown) {
+                        //        Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                        //    }
+                        //});
                     }
                 }
-            } else {
-                if (num >= 5) {
-                    $.ajax({
-                        type: "GET",
-                        contentType: "application/json; charset=utf-8",
-                        datatype: "json",
-                        url: Xrm.Page.context.getClientUrl() +
-                            "/api/data/v8.2/opportunities?$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=contains(name, '" +
-                            input +
-                            "')&$orderby=" +
-                            encodeURIComponent("ccrm_jna asc"),
-                        beforeSend: function(XMLHttpRequest) {
-                            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                            XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                            XMLHttpRequest.setRequestHeader("Prefer",
-                                "odata.include-annotations=\"*\",odata.maxpagesize=25");
-                        },
-                        async: true,
-                        success: function(data, textStatus, xhr) {
-                            fillOpportunityResults(data);
-                            oppWizLog("Found " + data.value.length + " results");
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-                        }
-                    });
-                }
-            }
+            })).then(
+                function resolve( result, type) {
+                    fillOpportunityResults(result);
+                    oppWizLog("Found " + result.value.length + " " + type + " results");
+                    inputControl.classList.remove("waiting-for-crm");
+                },
+                function reject() {
+                    inputControl.classList.remove("waiting-for-crm");
+                });
         });
 }
 
@@ -1278,7 +1316,7 @@ function FetchCRMData(entityName, select, targetSelector ) {
     });
 }
 
-function restQueryErrorDialog(message, url) {
+function restQueryErrorDialog(message, url, reject) {
     return function (xhr, textStatus, errorThrown) {
         debugger;
         var errorDetail = {
@@ -1288,6 +1326,7 @@ function restQueryErrorDialog(message, url) {
             message: message
         }
         Xrm.Navigation.openErrorDialog(errorDetail);
+        if (typeof(reject) == "function") reject();
     }
 }
 
@@ -1334,7 +1373,7 @@ function ensureSelected(htmlElement ) {
     var target = null;
     var targetval = htmlElement.value;
     if ( !!targetval ) targetval = targetval.toLowerCase();
-    if (htmlElement.list.children.length > 0) {
+    if (!!htmlElement.list && htmlElement.list.children.length > 0) {
         var dataVals = htmlElement.list.children;
         for (var i = 0; i < dataVals.length; i++) {
             if (dataVals[i].value.toLowerCase().includes(targetval)) {
@@ -1384,5 +1423,19 @@ function checkSelected(htmlElement) {
         setError(htmlElement);
     } else {
         setError(htmlElement, false);
+    }
+}
+
+
+var Arup_validations =
+{
+    clients : {
+        validate : function(htmlNode) {
+            if (!!htmlNode) htmlNode = $("#clients")[0];
+            checkSelected(htmlNode);
+        },
+        getValues : function(htmlNode) {
+
+        }
     }
 }
