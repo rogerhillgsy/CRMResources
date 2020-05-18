@@ -932,7 +932,7 @@ ARUP.ccrm_bidreview = {
             //check if bonds or guarantees are required 
             this.chkBonds_GuaranteeRequirement();
             //setup OTHER field if type of bond required == 'OTHER'
-            setup_display_other_field("ccrm_sectione_data_15a_value", "ccrm_sectione_data15a_other", "100000004");
+            setup_display_other_field("arup_bondstype", "ccrm_sectione_data15a_other", "100000004");
             //check if we are bidding as part of JV 
             //if (Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() == null || Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() == 100000000)
             this.twoOptions_onChange("ccrm_sectione_data_5", 0);
@@ -947,6 +947,7 @@ ARUP.ccrm_bidreview = {
             this.showhideSection("tab_SectionE", "tab_SectionE_3a", showSection);
             this.fieldVisibility_onchange("ccrm_onerousrequirements_yesno", 1, "ccrm_contract_data_4a");
             this.fieldVisibility_onchange("ccrm_sectione_data_16", 100000005, "ccrm_sectione_data16_other");
+            this.fieldVisibility_onchange("arup_bondstype", 100000004, "ccrm_sectione_data15a_other");
 
         }
     },
@@ -1001,7 +1002,7 @@ ARUP.ccrm_bidreview = {
             this.fieldVisibility_onchange("ccrm_similarpayterms_yesno", 0, "ccrm_sectionf_data8d_multi");
             this.fieldVisibility_onchange("ccrm_quotesreceived_yesno", 0, "ccrm_sectionf_data8b_multi");
             this.fieldVisibility_onchange("ccrm_chargingbasis", 20, "ccrm_sectionf_data_3b");
-            setup_display_other_field("ccrm_sectionf_data_10_value", "ccrm_h1project_data_4", "100000005");
+            setup_display_other_field("arup_keyindicators", "ccrm_h1project_data_4", "100000005");
             this.duediligence_onchange();
             this.twoOptions_onChange("ccrm_paytermsmonthly_yesno", 0);
             //check whether fees and costs are in different currencies 
