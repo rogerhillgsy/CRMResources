@@ -6833,8 +6833,13 @@ function hideBPFFields(formContext, fieldName) {
             var attrName = arguments[field];
             var controlName = "header_process_" + attrName;
             var control = formContext.getControl(controlName);
+            var attribute = formContext.getAttribute(controlName);
+
             if (control != null) {
                 control.setVisible(false);
+            }
+            if (attribute != null) {
+                attribute.setRequiredLevel('none');
             }
         }
     }
@@ -7667,7 +7672,7 @@ function requestConfirmJob() {
             highlightField('#header_process_arup_projecttype', '', (v15 != null) ? true : false);
             highlightField('#header_process_arup_services', '', (v16 != null) ? true : false);
             highlightField('#header_process_arup_projectsector', '', (v17 != null) ? true : false);
-            highlightField('#header_process_ccrm_pilevelmoney_num1', '#ccrm_pilevelmoney_num', (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null) ? true : false);
+            highlightField('#header_process_ccrm_pilevelmoney_num1', '#ccrm_pilevelmoney_num', (v21 == PI_REQUIREMENT.MIN_COVER && v18 != null) ? true : false);
         }
     } else {
         if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
@@ -8678,7 +8683,7 @@ function PullDetailsFromParentOpportunity(formContext,parentOpportunity, event) 
     if (parentOpportunity != null && parentOpportunity != "undefined") {
         var parentOpportunityId = parentOpportunity[0].id.replace('{', '').replace('}', '');
         var req = new XMLHttpRequest();
-        req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_contractarrangement,ccrm_estarupinvolvementend,ccrm_estarupinvolvementstart,ccrm_leadsource,ccrm_location,ccrm_probabilityofprojectproceeding,_ccrm_projectlocationid_value,_ccrm_ultimateendclientid_value,closeprobability", true);
+        req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_contractarrangement,ccrm_leadsource,ccrm_location,ccrm_probabilityofprojectproceeding,_ccrm_projectlocationid_value,_ccrm_ultimateendclientid_value,closeprobability", true);
         req.setRequestHeader("OData-MaxVersion", "4.0");
         req.setRequestHeader("OData-Version", "4.0");
         req.setRequestHeader("Accept", "application/json");
@@ -8702,7 +8707,7 @@ function PullDetailsFromParentOpportunity(formContext,parentOpportunity, event) 
         };
         req.send();
     } else {
-        EnableFields(formContext,"arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement", "ccrm_estarupinvolvementend", "ccrm_estarupinvolvementstart", "ccrm_leadsource", "ccrm_location", "arup_globalservices", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
+        EnableFields(formContext,"arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement", "ccrm_leadsource", "ccrm_location", "arup_globalservices", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
     }
 }
 function UpdateField(formContext,field, fieldName, fieldValueFromParent, lookUpText, entityName, isOverRide) {
@@ -8814,8 +8819,6 @@ function UpdateDetailsFromParentOpportunity(formContext,result, event) {
     if (IsDependentFieldValueValid(formContext.data.entity.getEntityName(),"arup_opportunitytype", formContext.getAttribute("arup_opportunitytype").getValue(), "ccrm_contractarrangement", result["ccrm_contractarrangement"]))
          UpdateFieldFromParentOpportunity(formContext,"ccrm_contractarrangement", result["ccrm_contractarrangement"]);
 
-     UpdateFieldFromParentOpportunity(formContext,"ccrm_estarupinvolvementend", result["ccrm_estarupinvolvementend"]);
-     UpdateFieldFromParentOpportunity(formContext,"ccrm_estarupinvolvementstart", result["ccrm_estarupinvolvementstart"]);
 
     if (IsDependentFieldValueValid(formContext.data.entity.getEntityName(),"arup_opportunitytype", formContext.getAttribute("arup_opportunitytype").getValue(), "ccrm_leadsource", result["ccrm_leadsource"]))
          UpdateFieldFromParentOpportunity(formContext,"ccrm_leadsource", result["ccrm_leadsource"]);
@@ -9035,7 +9038,10 @@ function AddParentOpportunityFilter(formContext) {
             }
             else {
                 fetch = "<filter type='and'>" +
+                    "<filter type='or'>" +
                     "<condition attribute='statecode' operator='eq' value='0' />" +
+                    "<condition attribute='statecode' operator='eq' value='1' />" +
+                    "</filter>" +
                     "</filter>";
             }
             break;
@@ -9057,8 +9063,20 @@ function AddParentOpportunityFilter(formContext) {
         case 770000006:
             fetch = "<filter type='and'>" +
                 "<condition attribute='arup_opportunitytype' operator='eq' value='770000005' />" +
+                "<filter type='or'>" +
+                "<condition attribute='statecode' operator='eq' value='0' />" +
+                "<condition attribute='statecode' operator='eq' value='1' />" +
+                "</filter>" +
                 "</filter>";
             break;
+        default:
+            fetch = "<filter type='and'>" +
+                "<filter type='or'>" +
+                "<condition attribute='statecode' operator='eq' value='0' />" +
+                "<condition attribute='statecode' operator='eq' value='1' />" +
+                "</filter>" +
+                "</filter>";
+            break;       
     }
     formContext.getControl("ccrm_parentopportunityid").addCustomFilter(() => fetch);
 }
@@ -9426,8 +9444,8 @@ function IsDependentFieldValueValid(entityName,mainOptionsetFieldName, mainOptio
 function arupInternal_Onchange(executionContext) {
     var formContext = executionContext.getFormContext();
     if (formContext.getAttribute("ccrm_parentopportunityid").getValue() != null) {
-        ClearFields(formContext,"ccrm_parentopportunityid", "arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement", "ccrm_estarupinvolvementend", "ccrm_estarupinvolvementstart", "ccrm_leadsource", "ccrm_location", "arup_globalservices", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
-        EnableFields(formContext,"arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement", "ccrm_estarupinvolvementend", "ccrm_estarupinvolvementstart", "ccrm_leadsource", "ccrm_location", "arup_globalservices", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
+        ClearFields(formContext,"ccrm_parentopportunityid", "arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement",  "ccrm_leadsource", "ccrm_location", "arup_globalservices", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
+        EnableFields(formContext,"arup_subbusiness", "ccrm_arupbusinessid", "ccrm_accountingcentreid", "ccrm_arupcompanyid", "ccrm_arupusstateid", "ccrm_client", "ccrm_contractarrangement",  "ccrm_leadsource", "ccrm_location", "arup_globalservices", "ccrm_othernetworkdetails", "ccrm_probabilityofprojectproceeding", "ccrm_projectlocationid", "ccrm_ultimateendclientid", "closeprobability");
     }
     ParentOpportunityFilter(formContext);
 }

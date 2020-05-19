@@ -99,6 +99,8 @@ function CloseOpportunity(formContext,statusCode) {
         if (oppAttributes != null) {
             for (var i in oppAttributes) {
 
+                if (statusCode.toUpperCase() == 'LOST' && oppAttributes[i].getName() == 'arup_biddecisionchair') { continue; }
+
                 control = formContext.getControl(oppAttributes[i].getName());
                 if (!!control && control.getVisible() == true) {
                     attribute = formContext.getAttribute(oppAttributes[i].getName());
