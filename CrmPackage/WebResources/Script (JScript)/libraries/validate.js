@@ -489,7 +489,7 @@
       return callback(object, key, true);
     },
 
-    getDeepObjectValue: function(obj, keypath) {
+    fugetDeepObjectValue: function(obj, keypath) {
       if (!v.isObject(obj)) {
         return undefined;
       }

@@ -63,9 +63,6 @@ $.fn.wizard = function (config) {
                 //For each selected role populate the appropriate tables.
                 // createTables(step);
                 $('input:checkbox').removeAttr('checked');
-
-                //attachEventHandlers();
-
                 return true;
             }
         }
@@ -162,11 +159,23 @@ $.fn.wizard = function (config) {
                         true);
                     return false;
                 }
-                else {
-                    return true;
+                var clients = $("#client")[0];
+                checkSelected(clients);
+                var endClients = $("#endclient")[0];
+                var opportunityType = $("#opportunityType").val();
+                if (opportunityType == "770000005") {
+                    checkSelected(endClients);
                 }
+                if (hasError("#clients")) {
+                    return false;
+                }
+                if (hasError("#endclients")) {
+                    return false;
+                }
+                return true;
             }
         }
+        return false;
     };
     var validateFinish = config.validateFinish || function () { return true; };
 
@@ -323,10 +332,6 @@ $.fn.wizard = function (config) {
             btnBack.hide();
         }
 
-        //if (step == 2) {
-        //    leadsourceOptions = $("#leadSource1").html();
-        //    $("#leadSource1").hide();
-        //}
         if (step == 2) {
             leadsourceOptions = $("#leadSource").html();
         }
@@ -334,8 +339,6 @@ $.fn.wizard = function (config) {
 
         if (step == 3) {
             var opptype = $("#opportunityType").val();
-            //proctypeOptions = $("#contractarrangement1").html();
-            //$("#contractarrangement1").hide();
 
             switch (opptype) {
                 case "770000000":
@@ -401,10 +404,6 @@ $.fn.wizard = function (config) {
     btnCancel.on("click", function () { window.close(); });
 
     btnBack.on("click", function () {
-        //if (!validateBack(step, steps[step - 1])) {
-        //    return;
-        //};
-        //Back from Opportunity Basic Details.. Destroy the page before leaving.
         if (step == 2) {
             //resultJSON = new Object();
             SelectedEventsWithFreq = [];
@@ -578,7 +577,6 @@ function callAction(container, steps, step) {
 
                 });
 
-                //Xrm.Page.getAttribute(“Fieldname”).setValue(Result.OutputParameter);
             } else {
                 if (this.status == 204) {
                     $("#wait").remove();
@@ -697,178 +695,165 @@ function removeAllOptions(type) {
     }
 }
 
-function getCountries(input) {
-    var num = input.length;
-    if (num >= 3) {
-        $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            datatype: "json",
-            url: Xrm.Page.context.getClientUrl() +
-                "/api/data/v8.2/ccrm_countries?$select=ccrm_arupcountrycode,ccrm_name&$filter=" +
-                encodeURIComponent("statuscode eq 1 and ") +
-                "contains(ccrm_name,'" +
-                input +
-                "')" +
-                "&$orderby=ccrm_name asc",
-            beforeSend: function(XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            },
-            async: true,
-            success: function(data, textStatus, xhr) {
-                var results = data;
-                var countries = "";
-                for (var i = 0; i < results.value.length; i++) {
-                    var ccrm_arupcountrycode = results.value[i]["ccrm_arupcountrycode"];
-                    var ccrm_name = results.value[i]["ccrm_name"];
-                    var ccrm_countryid = results.value[i]["ccrm_countryid"];
-                    countries += '<option value="' +
-                        ccrm_name +
-                        '" data-value="' +
-                        ccrm_countryid +
-                        '" > ' +
-                        ccrm_arupcountrycode +
-                        " - " +
-                        ccrm_name +
-                        '</option > ';
-                }
-                document.getElementById('countries').innerHTML = countries;
-                oppWizLog("retrieved" + results.value.length + " countries");
-            },
-            error: restQueryErrorDialog("Unable to get countryList" )
-            });
-    }
+function getCountries(control) {
+    var input = control.value;
+    if (input.length < 4) return;
+    debounce(300,
+        () => {
+            oppWizLog("Start getting countries " + input);
+            control.classList.add("fetching-data");
+            FetchCRMData("ccrm_countries",
+                    "$select=ccrm_arupcountrycode,ccrm_name&$filter=" +
+                    encodeURIComponent("statuscode eq 1 and ") +
+                    "contains(ccrm_name,'" +
+                    input +
+                    "')" +
+                    "&$orderby=ccrm_name asc",
+                    control)
+                .then(function success(results) {
+                        var countries = "";
+                        for (var i = 0; i < results.value.length; i++) {
+                            var ccrm_arupcountrycode = results.value[i]["ccrm_arupcountrycode"];
+                            var ccrm_name = results.value[i]["ccrm_name"];
+                            var ccrm_countryid = results.value[i]["ccrm_countryid"];
+                            countries += '<option value="' +
+                                ccrm_name +
+                                '" data-value="' +
+                                ccrm_countryid +
+                                '" > ' +
+                                ccrm_arupcountrycode +
+                                " - " +
+                                ccrm_name +
+                                '</option > ';
+                        }
+                        control.list.innerHTML = countries;
+                        oppWizLog("retrieved" + results.value.length + " countries");
+                    },
+                    restQueryErrorDialog("Unable to get countryList"));
+        });
 }
 
 function getStates() {
-    var input = $("#countries option[value='" + $('#project_country').val() + "']").attr("data-value");
+    var input = $("#countries option[value='" + $('#project_country').val() + "']").attr("data-value"); // Country name
     if (input === undefined) return; // Autocompletion can cause this.
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupusstates?$select=ccrm_arupusstatecode,ccrm_arupusstateid,ccrm_name,ccrm_usstatecode,statecode&$filter=_ccrm_countryid_value" + encodeURIComponent(" eq ") + input + "&$orderby=ccrm_name asc",
-        beforeSend: function (XMLHttpRequest) {
-            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-            XMLHttpRequest.setRequestHeader("Accept", "application/json");
-            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-        },
-        async: true,
-        success: function (data, textStatus, xhr) {
-            var results = data;
-            var states = "";
-            for (var i = 0; i < results.value.length; i++) {
-               // var ccrm_arupusstatecode = results.value[i]["ccrm_arupusstatecode"];
-                var ccrm_arupusstateid = results.value[i]["ccrm_arupusstateid"];
-                var ccrm_name = results.value[i]["ccrm_name"];
-                var ccrm_usstatecode = results.value[i]["ccrm_usstatecode"];
-                var statecode = results.value[i]["statecode"];
-                var statecode_formatted = results.value[i]["statecode@OData.Community.Display.V1.FormattedValue"];
+    var control = $("#project_state")[0];
+    if (input.length < 4) return;
+    debounce(300,
+        () => {
+            oppWizLog("Start getting states " + input);
+            control.classList.add("fetching-data");
+            FetchCRMData("ccrm_arupusstates",
+                "$select=ccrm_arupusstatecode,ccrm_arupusstateid,ccrm_name,ccrm_usstatecode,statecode&$filter=_ccrm_countryid_value" + encodeURIComponent(" eq ") + input + "&$orderby=ccrm_name asc",
+                    control)
+                .then(function success(results) {
+                        var states = "";
+                        for (var i = 0; i < results.value.length; i++) {
+                            var ccrm_arupusstateid = results.value[i]["ccrm_arupusstateid"];
+                            var ccrm_name = results.value[i]["ccrm_name"];
+                            var ccrm_usstatecode = results.value[i]["ccrm_usstatecode"];
+                            var statecode = results.value[i]["statecode"];
+                            var statecode_formatted = results.value[i]["statecode@OData.Community.Display.V1.FormattedValue"];
 
-                states += '<option value="' + ccrm_name + '" data-value="' + ccrm_arupusstateid + '" > ' + ccrm_usstatecode + " - " + ccrm_name + '</option > ';
-            }
-            document.getElementById('states').innerHTML = states;
-            if (results.value.length == 0) {
-                document.getElementById('project_state').readOnly = true;
-                document.getElementById('project_state').val = "";
-            } else {
-                document.getElementById('project_state').readOnly = false;
-            }
-        },
-        error: restQueryErrorDialog("Unable to get States List")
-    });
+                            states += '<option value="' + ccrm_name + '" data-value="' + ccrm_arupusstateid + '" > ' + ccrm_usstatecode + " - " + ccrm_name + '</option > ';
+                        }
+                        control.list.innerHTML = states;
+                        control.value = "";
+                        if (results.value.length == 0) {
+                            setError(control, false);
+                            control.readOnly = true;
+                        } else {
+                            control.readOnly = false;
+                            setError(control, false);
+                            control.focus();
+                        }
+                    },
+                    restQueryErrorDialog("Unable to get States List"));
+        });
 }
 
 function getBusinesses() {
     if (onceload) {
-        $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            datatype: "json",
-            url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupbusinesses?$select=ccrm_arupbusinesscode,ccrm_arupbusinessid,_ccrm_arupmarketid_value,ccrm_name&$filter=statuscode" + encodeURIComponent(" eq 1") + "&$orderby=ccrm_name asc",
-            beforeSend: function (XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            },
-            async: true,
-            success: function (data, textStatus, xhr) {
-                var results = data;
-                var businesses = "";
-                for (var i = 0; i < results.value.length; i++) {
-                    var ccrm_arupbusinesscode = results.value[i]["ccrm_arupbusinesscode"];
-                    var ccrm_arupbusinessid = results.value[i]["ccrm_arupbusinessid"];
-                    var _ccrm_arupmarketid_value = results.value[i]["_ccrm_arupmarketid_value"];
-                    var _ccrm_arupmarketid_value_formatted = results.value[i]["_ccrm_arupmarketid_value@OData.Community.Display.V1.FormattedValue"];
-                    var _ccrm_arupmarketid_value_lookuplogicalname = results.value[i]["_ccrm_arupmarketid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
-                    var ccrm_name = results.value[i]["ccrm_name"];
+        var control = $("#arup_business")[0];
+        FetchCRMData("ccrm_arupbusinesses",
+                "$select=ccrm_arupbusinesscode,ccrm_arupbusinessid,_ccrm_arupmarketid_value,ccrm_name&$filter=statuscode" +
+                encodeURIComponent(" eq 1") +
+                "&$orderby=ccrm_name asc",
+                control)
+            .then(
+                function success(results) {
+                    var businesses = "";
+                    for (var i = 0; i < results.value.length; i++) {
+                        var ccrm_arupbusinesscode = results.value[i]["ccrm_arupbusinesscode"];
+                        var ccrm_arupbusinessid = results.value[i]["ccrm_arupbusinessid"];
+                        var _ccrm_arupmarketid_value = results.value[i]["_ccrm_arupmarketid_value"];
+                        var _ccrm_arupmarketid_value_formatted =
+                            results.value[i]["_ccrm_arupmarketid_value@OData.Community.Display.V1.FormattedValue"];
+                        var _ccrm_arupmarketid_value_lookuplogicalname =
+                            results.value[i]["_ccrm_arupmarketid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                        var ccrm_name = results.value[i]["ccrm_name"];
 
-                    businesses += '<option value="' + ccrm_name + '" data-value="' + ccrm_arupbusinessid + '" > ' + ccrm_name + " - " + ccrm_arupbusinesscode + "[" + _ccrm_arupmarketid_value_formatted +"]"+ '</option > ';
-                }
-                document.getElementById('businesses').innerHTML = businesses;
-                onceload = false;
-                oppWizLog("retrieved" + results.value.length + " businesses");
-            },
-            error: restQueryErrorDialog("Unable to get Arup business list")
-        });
+                        businesses += '<option value="' +
+                            ccrm_name +
+                            '" data-value="' +
+                            ccrm_arupbusinessid +
+                            '" > ' +
+                            ccrm_name +
+                            " - " +
+                            ccrm_arupbusinesscode +
+                            "[" +
+                            _ccrm_arupmarketid_value_formatted +
+                            "]" +
+                            '</option > ';
+                    }
+                    control.list.innerHTML = businesses;
+                    onceload = false;
+                    oppWizLog("retrieved" + results.value.length + " businesses");
+
+                },
+                restQueryErrorDialog("Unable to get Arup business list"));
     }
 }
 
 function getSubBusinesses() {
     var input = $("#businesses option[value='" + $('#arup_business').val() + "']").attr("data-value");
     if (input === undefined) return;
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/arup_subbusinesses?$select=arup_name,arup_subbusinessid,statecode,statuscode&$filter=_arup_business_value" + encodeURIComponent(" eq " + input + " and statuscode eq 1") + "&$orderby=arup_name asc",
-        beforeSend: function (XMLHttpRequest) {
-            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-            XMLHttpRequest.setRequestHeader("Accept", "application/json");
-            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-        },
-        async: true,
-        success: function (data, textStatus, xhr) {
-            var results = data;
+    var control = $("#arup_subbusiness")[0];
+    control.value = "";
+    FetchCRMData("arup_subbusinesses",
+        "$select=arup_name,arup_subbusinessid,statecode,statuscode&$filter=_arup_business_value" +
+        encodeURIComponent(" eq " + input + " and statuscode eq 1") +
+        "&$orderby=arup_name asc",
+        control
+    ).then(
+        function success(results) {
             var subbusinesses = "";
             for (var i = 0; i < results.value.length; i++) {
                 var arup_name = results.value[i]["arup_name"];
                 var arup_subbusinessid = results.value[i]["arup_subbusinessid"];
-                var statecode = results.value[i]["statecode"];
-                var statecode_formatted = results.value[i]["statecode@OData.Community.Display.V1.FormattedValue"];
-                var statuscode = results.value[i]["statuscode"];
-                subbusinesses += '<option value="' + arup_name + '" data-value="' + arup_subbusinessid + '" > ' + arup_name + '</option > ';
+                subbusinesses += '<option value="' +
+                    arup_name +
+                    '" data-value="' +
+                    arup_subbusinessid +
+                    '" > ' +
+                    arup_name +
+                    '</option > ';
             }
-            document.getElementById('subbusinesses').innerHTML = subbusinesses;
+            control.list.innerHTML = subbusinesses;
             oppWizLog("retrieved" + results.value.length + " sub businesses");
-        },
-        error: restQueryErrorDialog("Unable to get Arup sub-business list")
-    });
 
+        },
+        restQueryErrorDialog("Unable to get Arup sub-business list")
+    );
 }
 
 function getUserCompany() {
-
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupcompanies?$select=ccrm_acccentrelookupcode,ccrm_arupcompanycode,ccrm_arupcompanyid,ccrm_name&$filter=statuscode" + encodeURIComponent(" eq 1") + "&$orderby=ccrm_name asc",
-        beforeSend: function (XMLHttpRequest) {
-            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-            XMLHttpRequest.setRequestHeader("Accept", "application/json");
-            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-        },
-        async: true,
-        success: function (data, textStatus, xhr) {
-            var results = data;
+    var control = $("#arup_company")[0];
+    FetchCRMData("ccrm_arupcompanies",
+        "$select=ccrm_acccentrelookupcode,ccrm_arupcompanycode,ccrm_arupcompanyid,ccrm_name&$filter=statuscode" +
+        encodeURIComponent(" eq 1") +
+        "&$orderby=ccrm_name asc",
+        control, 50).then(
+        function success(results) {
             var companies = "";
             for (var i = 0; i < results.value.length; i++) {
                 var ccrm_acccentrelookupcode = results.value[i]["ccrm_acccentrelookupcode"];
@@ -877,68 +862,55 @@ function getUserCompany() {
                 var ccrm_name = results.value[i]["ccrm_name"];
                 companies += '<option value="' + ccrm_name + '" data-value="' + ccrm_arupcompanyid + '" data-accvalue="' + ccrm_acccentrelookupcode + '" > ' + ccrm_arupcompanycode + " - " + ccrm_name + '</option > ';
             }
-            document.getElementById('companies').innerHTML = companies;
+            control.list.innerHTML = companies;
             oppWizLog("retrieved" + results.value.length + " companies");
-        },
-        error: restQueryErrorDialog("Unable to get Arup Companies list")
-    });
 
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/systemusers(" + Xrm.Page.context.getUserId().replace(/[{}]/g, "") +")?$select=_ccrm_arupcompanyid_value,ccrm_staffid,fullname,systemuserid",
-        beforeSend: function (XMLHttpRequest) {
-            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-            XMLHttpRequest.setRequestHeader("Accept", "application/json");
-            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
         },
-        async: true,
-        success: function (data, textStatus, xhr) {
-            var results = data;
+        restQueryErrorDialog("Unable to get Arup Companies list")
+    );
+
+    var control2 = $("#opporigin")[0];
+    FetchCRMData("systemusers(" + Xrm.Page.context.getUserId().replace(/[{}]/g, "") + ")",
+        "$select=_ccrm_arupcompanyid_value,ccrm_staffid,fullname,systemuserid",
+        control2
+    ).then(function success(results) {
             var _ccrm_arupcompanyid_value = results["_ccrm_arupcompanyid_value"];
             var _ccrm_arupcompanyid_value_formatted = results["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"];
             var _ccrm_arupcompanyid_value_lookuplogicalname = results["_ccrm_arupcompanyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
             var fullname = results["fullname"];
             var systemuserid = results["systemuserid"];
-           // TODO: document.getElementById('users').innerHTML = '<option value="' + fullname + '" data-value="' + systemuserid + '" > ' + fullname + '</option > ';
+            // TODO: document.getElementById('users').innerHTML = '<option value="' + fullname + '" data-value="' + systemuserid + '" > ' + fullname + '</option > ';
             document.getElementById("opporigin").value = fullname;
             oppWizLog("retrieved user");
+
         },
-        error: restQueryErrorDialog("Unable to get User list")
-    });
+        restQueryErrorDialog("Unable to get User list"));
 }
 
 function getAccountingCentres() {
     var input = $("#companies option[value='" + $('#arup_company').val() + "']").attr("data-accvalue");
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/ccrm_arupaccountingcodes?$select=ccrm_arupaccountingcodeid,ccrm_arupcompanycode,ccrm_name&$filter=ccrm_arupcompanycode" + encodeURIComponent(" eq '" + input + "' and  statuscode eq 1 " )+ "&$orderby=ccrm_name asc",
-        beforeSend: function (XMLHttpRequest) {
-            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");''
-            XMLHttpRequest.setRequestHeader("Accept", "application/json");
-            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=50");
-        },
-        async: true,
-        success: function (data, textStatus, xhr) {
-            var results = data;
-            var acc = "";
-            for (var i = 0; i < results.value.length; i++) {
-                var ccrm_arupaccountingcodeid = results.value[i]["ccrm_arupaccountingcodeid"];
-                var ccrm_arupcompanycode = results.value[i]["ccrm_arupcompanycode"];
-                var ccrm_name = results.value[i]["ccrm_name"];
+    if (input != undefined);
+    var control = $("#accountingcentre")[0];
+    control.value = "";
+    FetchCRMData("ccrm_arupaccountingcodes",
+            "$select=ccrm_arupaccountingcodeid,ccrm_arupcompanycode,ccrm_name&$filter=ccrm_arupcompanycode" +
+            encodeURIComponent(" eq '" + input + "' and  statuscode eq 1 ") +
+            "&$orderby=ccrm_name asc",
+            control)
+        .then(function success(results) {
+                var acc = "";
+                for (var i = 0; i < results.value.length; i++) {
+                    var ccrm_arupaccountingcodeid = results.value[i]["ccrm_arupaccountingcodeid"];
+                    var ccrm_arupcompanycode = results.value[i]["ccrm_arupcompanycode"];
+                    var ccrm_name = results.value[i]["ccrm_name"];
 
-                acc += '<option value="' + ccrm_name + '" data-value="' + ccrm_arupaccountingcodeid + '" > ' + ccrm_name + '</option > ';
-            }
-            document.getElementById('accountingcentres').innerHTML = acc;
-            oppWizLog("retrieved" + results.value.length + " accounting centres");
-        },
-        error: restQueryErrorDialog("Unable to get Accounting Centre list")
-    });
+                    acc += '<option value="' + ccrm_name + '" data-value="' + ccrm_arupaccountingcodeid + '" > ' + ccrm_name + '</option > ';
+                }
+                document.getElementById('accountingcentres').innerHTML = acc;
+                oppWizLog("retrieved" + results.value.length + " accounting centres");
+            },
+            restQueryErrorDialog("Unable to get Accounting Centre list")
+    );
 }
 
 
@@ -952,104 +924,71 @@ function debounce(delay, callback) {
     debounceTimers[callback] = setTimeout(callback, delay);
 }
 
-function getClients(input, flag, control) {
+function getClients(control, flag) {
+    var input = control.value;
     if (input.length < 4) return;
     debounce(300,
-        () => {
-            oppWizLog("Start getting clients " + input);
-            control.classList.add("fetching-data");
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
-                url: Xrm.Page.context.getClientUrl() +
-                    "/api/data/v8.2/accounts?$select=accountid,name,address1_city&$filter=contains(name,'" +
-                    encodeURIComponent(input) +
-                    "')" +
-                    encodeURIComponent(" and statecode eq 1") +
-                    "&$orderby=name asc,address1_city asc",
-                beforeSend: function(XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=25");
-                },
-                async: true,
-                success: function(data, textStatus, xhr) {
-                    var results = data;
-                    if (flag)
-                        var clients = "";
-                    else
-                        var endclients = "";
+        () => getClient2(control,
+            "$select=accountid,name,address1_city&$filter=contains(name,'" +
+            encodeURIComponent(input) +
+            "')")
+    );
+}
 
-                    for (var i = 0; i < results.value.length; i++) {
-                        var accountid = results.value[i]["accountid"];
-                        var name = results.value[i]["name"];
-                        var city = results.value[i]["address1_city"];
-                        if (flag)
-                            clients += '<option value="' +
-                                name +
-                                '" data-value="' +
-                                accountid +
-                                '" > ' +
-                                name +
-                                ' - ' +
-                                city +
-                                '</option > ';
-                        else
-                            endclients += '<option value="' +
-                                name +
-                                '" data-value="' +
-                                accountid +
-                                '" > ' +
-                                name +
-                                ' - ' +
-                                city +
-                                '</option > ';
-                    }
-                    if (flag)
-                        document.getElementById('clients').innerHTML = clients;
-                    else
-                        document.getElementById('endclients').innerHTML = endclients;
-                    oppWizLog("Retreived " + results.value.length + " client records from server");
-                    control.classList.remove("fetching-data");
-                },
-                error: () => {
-                    control.classList.remove("fetching-data");
-                    restQueryErrorDialog("Unable to get client list");
+function getClients2(control, query) {
+    oppWizLog("Start getting clients " + control.value);
+    control.classList.add("fetching-data");
+    FetchCRMData("accounts", query, control)
+        .then(function success(results) {
+                var clients = "";
+                for (var i = 0; i < results.value.length; i++) {
+                    var accountid = results.value[i]["accountid"];
+                    var name = results.value[i]["name"];
+                    var city = results.value[i]["address1_city"];
+                    clients += '<option value="' +
+                        name +
+                        '" data-value="' +
+                        accountid +
+                        '" > ' +
+                        name +
+                        ' - ' +
+                        city +
+                        '</option > ';
                 }
-            });
-        });
+                control.list.innerHTML = clients;
+                oppWizLog("Retrieved " + results.value.length + " client records from server");
+            },
+            restQueryErrorDialog("Getting Clients"));
 }
 
-function getUsers(input) {
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        datatype: "json",
-        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/systemusers?$select=ccrm_staffid,fullname,systemuserid&$filter=contains(fullname,'" + encodeURIComponent(input) + "')" + encodeURIComponent(" and  isdisabled eq false") + "&$orderby=fullname asc",
-        beforeSend: function (XMLHttpRequest) {
-            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-            XMLHttpRequest.setRequestHeader("Accept", "application/json");
-            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=25");
-        },
-        async: true,
-        success: function (data, textStatus, xhr) {
-            var results = data;
-            var users = "";
-            for (var i = 0; i < results.value.length; i++) {
-                var ccrm_staffid = results.value[i]["ccrm_staffid"];
-                var fullname = results.value[i]["fullname"];
-                var systemuserid = results.value[i]["systemuserid"];
-                users += '<option value="' + fullname + '" data-value="' + systemuserid + '" > ' + fullname + '</option > ';
-            }
-            document.getElementById('users').innerHTML = users;
-            oppWizLog("retrieved" + results.value.length + " users");
-        },
-        error: restQueryErrorDialog("Unable to get User list")
-    });
-}
+//function getUsers(input) {
+//    $.ajax({
+//        type: "GET",
+//        contentType: "application/json; charset=utf-8",
+//        datatype: "json",
+//        url: Xrm.Page.context.getClientUrl() + "/api/data/v8.2/systemusers?$select=ccrm_staffid,fullname,systemuserid&$filter=contains(fullname,'" + encodeURIComponent(input) + "')" + encodeURIComponent(" and  isdisabled eq false") + "&$orderby=fullname asc",
+//        beforeSend: function (XMLHttpRequest) {
+//            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+//            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+//            XMLHttpRequest.setRequestHeader("Accept", "application/json");
+//            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=25");
+//        },
+//        async: true,
+//        success: function (data, textStatus, xhr) {
+//            var results = data;
+//            var users = "";
+//            for (var i = 0; i < results.value.length; i++) {
+//                var ccrm_staffid = results.value[i]["ccrm_staffid"];
+//                var fullname = results.value[i]["fullname"];
+//                var systemuserid = results.value[i]["systemuserid"];
+//                users += '<option value="' + fullname + '" data-value="' + systemuserid + '" > ' + fullname + '</option > ';
+//            }
+//            document.getElementById('users').innerHTML = users;
+//            oppWizLog("retrieved" + results.value.length + " users");
+//        },
+//        error: restQueryErrorDialog("Unable to get User list")
+//    });
+//}
 
 function saveOpportunity() 
 {
@@ -1169,21 +1108,23 @@ function getOpportunities(inputControl) {
                                     "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_reference,'" +
                                     input +
                                     "')&$orderby=" +
-                                    encodeURIComponent("ccrm_jna asc"))
+                                    encodeURIComponent("ccrm_jna asc"),
+                                    inputControl)
                                 .then((result) => {
                                         resolve(result, "ccrm_reference");
                                     },
-                                restQueryErrorDialog("Getting opportunities by name"), null, reject);
+                                    restQueryErrorDialog("Getting opportunities by name"),
+                                    null,
+                                    reject);
                         } else {
                             FetchCRMData("opportunities",
                                     "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_jna,'" +
                                     input +
                                     "')&$orderby=" +
-                                    encodeURIComponent("ccrm_jna asc"))
+                                    encodeURIComponent("ccrm_jna asc"),
+                                    inputControl)
                                 .then((result) => {
-                                        resolve( result, "ccrm_jna");
-                                        //fillOpportunityResults(result);
-                                        //oppWizLog("Found " + result.value.length + " ccrm_jna results");
+                                        resolve(result, "ccrm_jna");
                                     },
                                     restQueryErrorDialog("Getting opportunities by ccrm_jna", null, reject));
                         }
@@ -1194,49 +1135,25 @@ function getOpportunities(inputControl) {
                                 "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=contains(name, '" +
                                 input +
                                 "')&$orderby=" +
-                                encodeURIComponent("ccrm_jna asc"))
+                                encodeURIComponent("ccrm_jna asc"),
+                                inputControl)
                             .then((result) => {
-                                    resolve( result, "name");
-                                    //fillOpportunityResults(result);
-                                    //oppWizLog("Found " + result.value.length + " name results");
-                            },
-                                restQueryErrorDialog("Getting opportunities by name"),null,() => reject);
-
-                        //$.ajax({
-                        //    type: "GET",
-                        //    contentType: "application/json; charset=utf-8",
-                        //    datatype: "json",
-                        //    url: Xrm.Page.context.getClientUrl() +
-                        //        "/api/data/v8.2/opportunities?$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=contains(name, '" +
-                        //        input +
-                        //        "')&$orderby=" +
-                        //        encodeURIComponent("ccrm_jna asc"),
-                        //    beforeSend: function(XMLHttpRequest) {
-                        //        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                        //        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                        //        XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                        //        XMLHttpRequest.setRequestHeader("Prefer",
-                        //            "odata.include-annotations=\"*\",odata.maxpagesize=25");
-                        //    },
-                        //    async: true,
-                        //    success: function(data, textStatus, xhr) {
-                        //        fillOpportunityResults(data);
-                        //        oppWizLog("Found " + data.value.length + " results");
-                        //    },
-                        //    error: function(xhr, textStatus, errorThrown) {
-                        //        Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-                        //    }
-                        //});
+                                    resolve(result, "name");
+                                },
+                                restQueryErrorDialog("Getting opportunities by name"),
+                                null,
+                                () => reject);
                     }
                 }
             })).then(
                 function resolve( result, type) {
                     fillOpportunityResults(result);
                     oppWizLog("Found " + result.value.length + " " + type + " results");
-                    inputControl.classList.remove("waiting-for-crm");
+                    inputControl.setFocus();
+                    // inputControl.classList.remove("waiting-for-crm");
                 },
                 function reject() {
-                    inputControl.classList.remove("waiting-for-crm");
+                    // inputControl.classList.remove("waiting-for-crm");
                 });
         });
 }
@@ -1262,25 +1179,29 @@ function fillOpportunityResults(data) {
     document.getElementById('opportunities').innerHTML = opp;
 }
 
-function FetchCRMData(entityName, select, targetSelector ) {
-    return new Promise(function(resolve, reject) {
+function FetchCRMData(entityName, select, target, maxRecords) {
+    maxRecords = maxRecords || 25;
+    return new Promise(function (resolve, reject) {
+        if (!!target) target.classList.add("waiting-for-crm");
         $.ajax({
             type: "GET",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
             url: Xrm.Page.context.getClientUrl() +
-                "/api/data/v8.2/opportunities?" + select,
+                "/api/data/v9.1/"+ entityName + "?" + select,
             beforeSend: function(XMLHttpRequest) {
                 XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                 XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
                 XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=25");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=" + maxRecords);
             },
             async: true,
             success: function (data, textStatus, xhr) {
+                if (!!target) target.classList.remove("waiting-for-crm");
                 resolve(data, textStatus, xhr);
             },
             error: function (xhr, textStatus, errorThrown) {
+                if (!!target) target.classList.remove("waiting-for-crm");
                reject(xhr, textStatus, errorThrown);
             }
         });
@@ -1290,9 +1211,13 @@ function FetchCRMData(entityName, select, targetSelector ) {
 function restQueryErrorDialog(message, url, reject) {
     return function (xhr, textStatus, errorThrown) {
         debugger;
+        var errorMessage = textStatus;
+        if (!!xhr.responseJSON && !!xhr.responseJSON.error ) {
+            errorMessage = xhr.responseJSON.error.message
+        }
         var errorDetail = {
             //            details: message + (!!url ? "\r\nQuery: " + url : "") + "\r\n" +   xhr.responseJSON.error.message,
-            details: "Query error\r\n" + (!!url ? "\r\nQuery: " + url : "") + "\r\n" + xhr.responseJSON.error.message,
+            details: "Query error\r\n" + (!!url ? "\r\nQuery: " + url : "") + "\r\n" + errorMessage,
             errorCode: xhr.status,
             message: message
         }
@@ -1306,7 +1231,7 @@ function getFirstDigit(input) {
     while (input) {
         output.push(input % 10);
         input = Math.floor(input / 10);
-    }
+    }v
     return output.pop();
 }
 
@@ -1329,6 +1254,13 @@ function closestParent(child, className) {
     }
 }
 
+function ensureUltimateClientSelected(htmlElement) {
+    var opportunityType = $("#opportunityType")[0].value;
+    if (opportunityType == "770000005") {
+        checkSelected(htmlElement);
+    }
+}
+
 function ensureRelatedOpportunitySelected(htmlElement) {
     // Related opportuity only needed for project extensions to existing contracts.
     var oppoType = $("#opportunityType");
@@ -1341,6 +1273,7 @@ function ensureRelatedOpportunitySelected(htmlElement) {
 function ensureSelected(htmlElement ) {
     // Ensure that the selected value is set to the first item in the data list.
 //    var formGroup = closestParent(htmlElement.parentNode, "form-group");
+    if (htmlElement.readOnly) return;
     var target = null;
     var targetval = htmlElement.value;
     if ( !!targetval ) targetval = targetval.toLowerCase();
@@ -1390,7 +1323,7 @@ function oppWizLog(message) {
 }
 
 function checkSelected(htmlElement) {
-    if (htmlElement.value == "") {
+    if (!!htmlElement.value == "") {
         setError(htmlElement);
     } else {
         setError(htmlElement, false);
@@ -1398,15 +1331,156 @@ function checkSelected(htmlElement) {
 }
 
 
-var Arup_validations =
-{
-    clients : {
-        validate : function(htmlNode) {
-            if (!!htmlNode) htmlNode = $("#clients")[0];
-            checkSelected(htmlNode);
-        },
-        getValues : function(htmlNode) {
+function checkForError(target) {
+    setError(target, !ArupValidate(target));
+}
 
+function ArupValidate(target) {
+    if (typeof(target) === "string") {
+        return ValidateByName(target);
+    } else {
+        if (typeof(target) === "undefined") {
+            ValidateAll();
         }
     }
+    ValidateHtmlElement(target);
+}
+
+function ValidateByName(target) {
+    if (!!Arup_validations[target]) {
+        return Arup_validations[target].validate();
+    } else {
+        oppWizLog("Failed to find validation for " + target);
+        return false;
+    }
+}
+
+function ValidateHtmlElement(target) {
+    var name = target.id;
+    ValidateByName(name);
+}
+function ValidateAll() {
+    for (let v in Arup_validations) {
+        if (Arup_validations.hasOwnProperty(v)) {
+            ValidateByName(v);
+        }
+    }
+}
+
+function setDefault(target) {
+    if (typeof (target) === "string") {
+        return setDefaultByName(target);
+    } else {
+        if (typeof (target) === "undefined") {
+            setAllDefault();
+        }
+    }
+    setDefaultByElement(target);
+}
+
+function setDefaultByName(name) {
+    var target = document.getElementById(name) || document.getElementsByName(name)[0];
+    if (!target) {
+        oppWizLog("Did not find element to set by name : " + name);
+    }
+    setDefaultByElement(target);
+
+    //if (!!Arup_validations[target]) {
+    //    if (typeof (Arup_validations[target].defaultValue) == "string") {
+    //        target.value = Arup_validations[target].defaultValue;
+    //    } else if (typeof (Arup_validations[target].defaultValue) === "function") {
+    //        target.value = Arup_validations[target].defaultValue(target);
+    //    }
+    //}
+}
+
+//function setDefaultByElement(target) {
+//    var name = target.id;
+//    setDefaultByName(name);
+//}
+
+function setDefaultByElement(target) {
+    debugger;
+    var id = target.id || target.name;
+    if (!id) return;
+    if (!!Arup_validations[id]) {
+        if (typeof (Arup_validations[id].setDefault ) == "string") {
+            target.value = Arup_validations[id].setDefault;
+        } else if (typeof (Arup_validations[id].setDefault) === "function") {
+            target.value = Arup_validations[id].setDefault(target);
+        }
+    }
+}
+
+function Arup_setAllDefault() {
+    for (let v in Arup_validations) {
+        if (Arup_validations.hasOwnProperty(v)) {
+            setDefaultByName(v);
+        }
+    }
+}
+
+var Arup_validations =
+{
+    intorext: {
+        validate: function () {
+            debugger;
+            return !!$('input[name="intorext"]:checked').val();
+
+        },
+        value: function () {
+            return $('input[name="intorext"]:checked').val();
+        },
+        setDefault : function(target) {
+            $("input[name=intorext][value=INT]")[0].checked = true;
+        },
+        crmAttribute : "ccrm_arupinternal"
+    },
+
+    opporigin: {
+        validate: function(target) {
+             return !! $("#users option[value='" + $('#opporigin').val() + "']").attr("data-value");
+        },
+        value: function(target) {
+            return $("#users option[value='" + $('#opporigin').val() + "']").attr("data-value");
+        },
+        crmAttribute: "ccrm_leadoriginator",
+        setDefault : function(target) {
+            FetchCRMData("systemusers(" + Xrm.Page.context.getUserId().replace(/[{}]/g, "") + ")",
+                "$select=_ccrm_arupcompanyid_value,ccrm_staffid,fullname,systemuserid",
+                target
+            ).then(function success(results) {
+                    //var _ccrm_arupcompanyid_value = results["_ccrm_arupcompanyid_value"];
+                    //var _ccrm_arupcompanyid_value_formatted = results["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"];
+                    //var _ccrm_arupcompanyid_value_lookuplogicalname = results["_ccrm_arupcompanyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                    var fullname = results["fullname"];
+                    var systemuserid = results["systemuserid"];
+                    target.value = fullname;
+                    target.list.innerHTML = '<option value="' +
+                        fullname +
+                        '" data-value="' +
+                        systemuserid +
+                        '" > ' +
+                        fullname +
+                        '</option > ';
+
+                    // TODO: document.getElementById('users').innerHTML = '<option value="' + fullname + '" data-value="' + systemuserid + '" > ' + fullname + '</option > ';
+                    //document.getElementById("opporigin").value = fullname;
+                    oppWizLog("retrieved user");
+                },
+                restQueryErrorDialog("Unable to get User list"));
+        }
+    },
+    client : {
+        setDefault: function (target) {
+            getClients2(target, "$filter=name eq 'Unassigned'");
+        },
+        validate: function (htmlNode) {
+            if (!!htmlNode) htmlNode = $("#client")[0];
+            checkSelected(htmlNode);
+        },
+        getValues: function (htmlNode) {
+            return $('input[name="intorext"]:checked').val();
+        }
+    },
 }

@@ -26,18 +26,20 @@
     <script type="text/javascript" src="mag_/js/alert.js"></script>
     <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
     <script src="arup_SDK.WebAPI_min.js" type="text/javascript"></script>
-    <!--<script type="text/javascript" src="//cdn.jsdelivr.net/npm/@tarekraafat/ autocomplete.js@7.2.0/dist/js/autoComplete.min.js"></script>-->
-    <!--<script type="text/javascript" src="arup_lib/autoComplete.js"></script>-->
 
     <script src="arup_OppoWizAutocomplete.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             //Initialize tooltips
             $(".win-close").click(function (e) {
-
+                // Debugger  - do we need to stop the user pressing "Back" button on the browser/
+                debugger; 
                 window.close();
-
             });
+
+            // Set default values for all fields.
+            debugger;
+            Arup_setAllDefault();
 
             $("#mysub").wizard({
                 exitText: 'exit',
@@ -55,14 +57,27 @@
                                 },
                                 function (errorDetail) {
                                     Xrm.Utility.closeProgressIndicator();
-                                    Xrm.Navigation.openErrorDialog(errorDetail);
+                                    Xrm.Navigation.openErrorDialog(errorDetail);s
                                 });
                             Xrm.Utility.showProgressIndicator("Creating Opportunity");
                         },
                         function (errors) {
+                            var errorEntities = [];
+                            for (e in errors) {
+                                if (errors.hasOwnProperty(e))
+                                    errorEntities.push(e);
+                            }
+                            var errorList = "";
+                            var conjunction = "";
+                            for (var entity in errors) {
+                                if (errors.hasOwnProperty(e)) {
+                                    errorList += conjunction + entity + "\r\n   " + errors["client"].join("\r\n   ");
+                                    conjunction = "\r\n";
+                                }
+                            }
                             Xrm.Navigation.openErrorDialog({
-                                message: "Invalid input - correct the form and try again",
-                                // details: (typeof(errors) === "object") ? errors.join("\r\n") : errors,
+                                message: "Errors in " + errorEntities.join(", "),
+                                details: errorList,
                                 title: "Validation errors"
                             });
                         }
@@ -138,10 +153,10 @@
                     </p>
                     <form id="URForm">
                         <div class="radio">
-                            <label><input type="radio" name="stepone" value="INT" autofocus="true">&nbsp;Internal</label>
+                            <label><input type="radio" name="intorext" value="INT" autofocus="true">&nbsp;Internal</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" name="stepone" value="NOTINT">&nbsp;External</label>
+                            <label><input type="radio" name="intorext" value="NOTINT">&nbsp;External</label>
                         </div>
                         </form>
                 </div>
@@ -229,13 +244,13 @@
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="client">Client:</label>
-                        <input list="clients" id="client" class="form-control input-form" name="client" oninput="getClients(this.value, true, this);" onfocusout="ensureSelected(this)" title="Input Client" autocomplete="off" placeholder="Client company name" />
+                        <input list="clients" id="client" class="form-control input-form" name="client" oninput="getClients(this, true);" onfocusout="ensureSelected(this)" title="Input Client" autocomplete="off" placeholder="Client company name" />
                         <datalist id="clients">
                         </datalist>
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="endclient">Ultimate/End Client:</label>
-                        <input list="endclients" id="endclient" class="form-control input-form" name="endclient" oninput="getClients(this.value, false, this);" title="Input End Client" autocomplete="off" placeholder=" Ultimate client name" />
+                        <input list="endclients" id="endclient" class="form-control input-form" name="endclient" oninput="getClients(this, false);" onfocusout="ensureUltimateClientSelected(this)" title="Input End Client" autocomplete="off" placeholder=" Ultimate client name" />
                         <datalist id="endclients">
                         </datalist>
                     </div>
@@ -252,7 +267,7 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="project_country">Project Country:</label>
-                            <input list="countries" id="project_country" class="form-control input-form" name="project_country" oninput="getCountries(this.value);" onfocusout="ensureSelected(this)" onchange="getStates();" title="Input project country" autocomplete="off" />
+                            <input list="countries" id="project_country" class="form-control input-form" name="project_country" oninput="getCountries(this);" onfocusout="ensureSelected(this);getStates();"  title="Input project country" autocomplete="off" />
                             <datalist id="countries">
                             </datalist>
                         </div>
@@ -270,7 +285,7 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="arup_business">Arup Business:</label>
-                            <input list="businesses" id="arup_business" class="form-control input-form" name="arup_business" oninput="getBusinesses();" onchange="getSubBusinesses()" onfocusout="ensureSelected(this)" title="Input arup business" autocomplete="off" placeholder="Business Area" />
+                            <input list="businesses" id="arup_business" class="form-control input-form" name="arup_business" onfocus="getBusinesses();"  onfocusout="ensureSelected(this);getSubBusinesses()" title="Input arup business" autocomplete="off" placeholder="Business Area" />
                             <datalist id="businesses">
                             </datalist>
                         </div>

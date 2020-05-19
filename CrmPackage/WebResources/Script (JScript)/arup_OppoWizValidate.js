@@ -133,9 +133,9 @@ Arup.validateOppWiz = function() {
         project_country: {
             presence: { message: "- select a value" }
         },
-        project_state: {
-            presence: { message: "- select a value" }
-        },
+        //project_state: {
+        //    presence: { message: "- select a value" }
+        //},
         project_city: {
             presence: { message: "- enter name" }
         },
@@ -151,12 +151,12 @@ Arup.validateOppWiz = function() {
         accountingcentre: {
             presence: { message: "- select value" }
         },
-        client: {
-            presence: { message: "- select value" }
-        },
-        endclient: {
-            presence: { message: "- select value" }
-        },
+        //client: {
+        //    presence: { message: "- select value" }
+        //},
+        //endclient: {
+        //    presence: { message: "- select value" }
+        //},
         opporigin: {
             presence: { message: "- enter name" }
         },
