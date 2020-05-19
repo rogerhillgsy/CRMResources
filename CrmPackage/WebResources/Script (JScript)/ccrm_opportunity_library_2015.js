@@ -1284,33 +1284,43 @@ function setCurrentApprovers(formContext) {
 }
 
 function setLookupFiltering(formContext) {
-  
+    debugger;
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
 
     //bid director
     formContext.getControl("ccrm_biddirector_userid").addPreSearch(function () {
         UpdateRegionalLookup(formContext,"ccrm_biddirector_userid", "ccrm_regionaccreditedprojectbiddtrname", false);
+        UpdateRegionalLookup(formContext, "ccrm_biddirector_userid1", "ccrm_regionaccreditedprojectbiddtrname", false);
+
     });
 
     //bid manager
     formContext.getControl("ccrm_bidmanager_userid").addPreSearch(function () {
-        UpdateRegionalLookup(formContext,"ccrm_bidmanager_userid", "ccrm_regionaccreditedprojectbidmanagername", false);
+        UpdateRegionalLookup(formContext, "ccrm_bidmanager_userid", "ccrm_regionaccreditedprojectbidmanagername", false);
+        UpdateRegionalLookup(formContext, "ccrm_bidmanager_userid1", "ccrm_regionaccreditedprojectbidmanagername", false);
+
     });
 
     //project mgr
     formContext.getControl("ccrm_projectmanager_userid").addPreSearch(function () {
         UpdateRegionalLookup(formContext,"ccrm_projectmanager_userid", "ccrm_regionaccreditedprojectbidmanagername", false);
+        UpdateRegionalLookup(formContext, "ccrm_projectmanager_userid1", "ccrm_regionaccreditedprojectbidmanagername", false);
+
     });
 
     //project director
     formContext.getControl("ccrm_projectdirector_userid").addPreSearch(function () {
         UpdateRegionalLookup(formContext,"ccrm_projectdirector_userid", "ccrm_regionaccreditedprojectbiddtrname", false);
+        UpdateRegionalLookup(formContext, "ccrm_projectdirector_userid1", "ccrm_regionaccreditedprojectbiddtrname", false);
+
     });
 
     //Bid Decision Chair
     if (!arupInternal) {
         formContext.getControl("arup_biddecisionchair").addPreSearch(function () {
             UpdateRegionalLookup(formContext,"arup_biddecisionchair", "ccrm_regionaccreditedprojectbiddtrname", false);
+            UpdateRegionalLookup(formContext, "arup_biddecisionchair1", "ccrm_regionaccreditedprojectbiddtrname", false);
+
         });
     }
 
@@ -1967,9 +1977,10 @@ function ValidateProjectManager_onchange(executionContext) {
                     "WARNING", 400, 250, '', true);
                 return false;
             }
-        } else if (formContext.getAttribute("ccrm_projectmanager_userid").getValue() == null) {
-            GetandSetUserinPMPDBMBD(formContext,formContext.data.entity.getId(), "_ccrm_projectmanager_userid_value");
-        }
+        } // Shruti : commented below line of code
+        //else if (formContext.getAttribute("ccrm_projectmanager_userid").getValue() == null) {
+        //    GetandSetUserinPMPDBMBD(formContext,formContext.data.entity.getId(), "_ccrm_projectmanager_userid_value");
+        //}
     }
     return true;
 }
@@ -1989,9 +2000,10 @@ function ValidateProjectDirector_onchange(executionContext) {
                     "WARNING", 400, 250, '', true);
                 return false;
             }
-        } else if (formContext.getAttribute("ccrm_projectdirector_userid").getValue() == null) {
-            GetandSetUserinPMPDBMBD(formContext,formContext.data.entity.getId(), "_ccrm_projectdirector_userid_value");
-        }
+        } //Shruti : commented below line of code
+        //else if (formContext.getAttribute("ccrm_projectdirector_userid").getValue() == null) {
+        //    GetandSetUserinPMPDBMBD(formContext,formContext.data.entity.getId(), "_ccrm_projectdirector_userid_value");
+        //}
     }
     return true;
 }
@@ -7833,35 +7845,38 @@ function openNewCJNAForm(formContext,reserve) {
 
 //sync bid manager with project manager
 function Syncbidmanager_userid(executionContext) {
+    debugger;
     formContext = executionContext.getFormContext();
-    //Added by Jugal on 5-4-2018 for 47489
-    var isNewUserValid = ValidateBidManager_onChange(formContext);
+    if (formContext.getAttribute("ccrm_bidmanager_userid").getValue() != null) {
+        //Added by Jugal on 5-4-2018 for 47489
+        var isNewUserValid = ValidateBidManager_onChange(formContext);
 
-    if (formContext.getAttribute("ccrm_bidmanager_userid").getValue() != null &&
-        formContext.getAttribute("ccrm_projectmanager_userid").getValue() == null) {
-        //get the region name.
-        var arupRegionData = getArupRegionName(formContext,"ccrm_arupregionid");
-        var region;
-        var regName;
-        if (arupRegionData[0] != null) {
-            region = arupRegionData[0];
-            regName = arupRegionData[1];
-        }
-        // var regName = getArupRegionName();
-        //if EAR check accreditation level.
-        //isNewUserValid fieldcondition is added by Jugal on 5-4-2018 for 47489
-        if (regName != null && regName.toLowerCase() == (ArupRegionName.EastAsia).toLowerCase() && isNewUserValid) {
-            var accLevel = EAAccreditaionLevRequired(formContext);
-            //if EAR accreditation level is null, then update project manager as bid manager
-            if (accLevel == "") {
+        if (formContext.getAttribute("ccrm_bidmanager_userid").getValue() != null &&
+            formContext.getAttribute("ccrm_projectmanager_userid").getValue() == null) {
+            //get the region name.
+            var arupRegionData = getArupRegionName(formContext, "ccrm_arupregionid");
+            var region;
+            var regName;
+            if (arupRegionData[0] != null) {
+                region = arupRegionData[0];
+                regName = arupRegionData[1];
+            }
+            // var regName = getArupRegionName();
+            //if EAR check accreditation level.
+            //isNewUserValid fieldcondition is added by Jugal on 5-4-2018 for 47489
+            if (regName != null && regName.toLowerCase() == (ArupRegionName.EastAsia).toLowerCase() && isNewUserValid) {
+                var accLevel = EAAccreditaionLevRequired(formContext);
+                //if EAR accreditation level is null, then update project manager as bid manager
+                if (accLevel == "") {
+                    formContext.getAttribute("ccrm_projectmanager_userid")
+                        .setValue(formContext.getAttribute("ccrm_bidmanager_userid").getValue());
+                }
+            }
+            //isNewUserValid fieldcondition is added by Jugal on 5-4-2018 for 47489
+            else if (isNewUserValid) {
                 formContext.getAttribute("ccrm_projectmanager_userid")
                     .setValue(formContext.getAttribute("ccrm_bidmanager_userid").getValue());
             }
-        }
-        //isNewUserValid fieldcondition is added by Jugal on 5-4-2018 for 47489
-        else if (isNewUserValid) {
-            formContext.getAttribute("ccrm_projectmanager_userid")
-                .setValue(formContext.getAttribute("ccrm_bidmanager_userid").getValue());
         }
     }
 }
@@ -7869,33 +7884,36 @@ function Syncbidmanager_userid(executionContext) {
 //sync bid director with projectdirector
 function Syncbiddirector_userid(executionContext) {
     formContext = executionContext.getFormContext();
-    //Added by Jugal on 5-4-2018 for 47489
-    var isNewUserValid = ValidateBidDirector_onchange(formContext);
 
-    if (formContext.getAttribute("ccrm_biddirector_userid").getValue() != null &&
-        formContext.getAttribute("ccrm_projectdirector_userid").getValue() == null) {
-        //get the region name.
-        var arupRegionData = getArupRegionName(formContext,"ccrm_arupregionid");
-        var region;
-        var regName;
-        if (arupRegionData[0] != null) {
-            region = arupRegionData[0];
-            regName = arupRegionData[1];
-        }
-        //var regName = getArupRegionName("ccrm_arupregionid");
-        //if EAR check accreditation level.
-        //isNewUserValid fieldcondition is added by Jugal on 5-4-2018 for 47489
-        if (regName != null && regName.toLowerCase() == (ArupRegionName.EastAsia).toLowerCase() && isNewUserValid) {
-            var accLevel = EAAccreditaionLevRequired(formContext);
-            //if EAR accreditation level is null, then update project manager as bid manager
-            if (accLevel == "") {
-                formContext.getAttribute("ccrm_projectdirector_userid")
-                    .setValue(formContext.getAttribute("ccrm_biddirector_userid").getValue());
+    if (formContext.getAttribute("ccrm_biddirector_userid").getValue() != null) {
+        //Added by Jugal on 5-4-2018 for 47489
+        var isNewUserValid = ValidateBidDirector_onchange(formContext);
+
+        if (formContext.getAttribute("ccrm_biddirector_userid").getValue() != null &&
+            formContext.getAttribute("ccrm_projectdirector_userid").getValue() == null) {
+            //get the region name.
+            var arupRegionData = getArupRegionName(formContext, "ccrm_arupregionid");
+            var region;
+            var regName;
+            if (arupRegionData[0] != null) {
+                region = arupRegionData[0];
+                regName = arupRegionData[1];
             }
-        }
-        //isNewUserValid fieldcondition is added by Jugal on 5-4-2018 for 47489
-        else if (isNewUserValid) {
-            formContext.getAttribute("ccrm_projectdirector_userid").setValue(formContext.getAttribute("ccrm_biddirector_userid").getValue());
+            //var regName = getArupRegionName("ccrm_arupregionid");
+            //if EAR check accreditation level.
+            //isNewUserValid fieldcondition is added by Jugal on 5-4-2018 for 47489
+            if (regName != null && regName.toLowerCase() == (ArupRegionName.EastAsia).toLowerCase() && isNewUserValid) {
+                var accLevel = EAAccreditaionLevRequired(formContext);
+                //if EAR accreditation level is null, then update project manager as bid manager
+                if (accLevel == "") {
+                    formContext.getAttribute("ccrm_projectdirector_userid")
+                        .setValue(formContext.getAttribute("ccrm_biddirector_userid").getValue());
+                }
+            }
+            //isNewUserValid fieldcondition is added by Jugal on 5-4-2018 for 47489
+            else if (isNewUserValid) {
+                formContext.getAttribute("ccrm_projectdirector_userid").setValue(formContext.getAttribute("ccrm_biddirector_userid").getValue());
+            }
         }
     }
 }
