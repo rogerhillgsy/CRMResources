@@ -1309,6 +1309,7 @@ function AddParentOpportunityFilter(formContext) {
     var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue();
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var fetch;
+
     switch (opportunitytype) {
         case 770000001: /* existing contract */
             if (!arupInternal) {
@@ -1318,7 +1319,10 @@ function AddParentOpportunityFilter(formContext) {
             }
             else {
                 fetch = "<filter type='and'>" +
+                    "<filter type='or'>" +
                     "<condition attribute='statecode' operator='eq' value='0' />" +
+                    "<condition attribute='statecode' operator='eq' value='1' />" +
+                    "</filter>" +
                     "</filter>";
             }
             break;
@@ -1340,12 +1344,23 @@ function AddParentOpportunityFilter(formContext) {
         case 770000006:
             fetch = "<filter type='and'>" +
                 "<condition attribute='arup_opportunitytype' operator='eq' value='770000005' />" +
+                "<filter type='or'>" +
+                "<condition attribute='statecode' operator='eq' value='0' />" +
+                "<condition attribute='statecode' operator='eq' value='1' />" +
+                "</filter>" +
+                "</filter>";
+            break;
+        default:
+            fetch = "<filter type='and'>" +
+                "<filter type='or'>" +
+                "<condition attribute='statecode' operator='eq' value='0' />" +
+                "<condition attribute='statecode' operator='eq' value='1' />" +
+                "</filter>" +
                 "</filter>";
             break;
     }
 
     if (fetch != "") {
-        //formContext.getControl("arup_parentopportunityid").addCustomFilter(fetch);
         formContext.getControl("arup_parentopportunityid").addPreSearch(function () {
             formContext.getControl("arup_parentopportunityid").addCustomFilter(fetch);
         });

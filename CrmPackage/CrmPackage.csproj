@@ -1714,6 +1714,11 @@
       <UniqueName>arup_arup_BlankHTML</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_close_Opportunity.htm">
+      <DisplayName>arup_close_Opportunity</DisplayName>
+      <UniqueName>new_arup_close_Opportunity</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_DeclineReason">
       <DisplayName>arup_DeclineReason</DisplayName>
       <UniqueName>arup_arup_DeclineReason</UniqueName>
