@@ -33,41 +33,20 @@ $.fn.wizard = function (config) {
     var validateNext = config.validateNext || function () {
         if (step == 1) // Move to selection?
         {
-            selected = [];
-            $('#UR input:checked').each(function () {
-                selected.push($(this).attr('value'));
-            });
-            if (selected.length < 1) {
-                // alert("Please select atleast one role to proceed or you can exit if you choose to.");
-                Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
-                    '<font size="3" color="#000000"></br>Please select atleast one role to proceed or you can exit if you choose to.</font>',
-                    [
-                        {
-                            label: "<b>OK</b>",
-                            callback: function () {
-
-                            },
-                            setFocus: true,
-                            preventClose: false
-                        }
-                    ],
-                    'Warning',
-                    600,
-                    250,
-                    '',
-                    true);
-                return false;
+            var errors = ArupPageHasErrors("page1");
+            if (errors) {
+                ArupValidationErrorDialog(errors);
             }
-            else {
-                //GET THE SUBSCRIPTIONS FROM JSON static Strings -- Step 2 : MS events selection
-                //For each selected role populate the appropriate tables.
-                // createTables(step);
-                $('input:checkbox').removeAttr('checked');
-                return true;
-            }
+            return !errors;
         }
 
         else {
+            var errors = ArupPageHasErrors("page2");
+            if (errors) {
+                ArupValidationErrorDialog(errors);
+            }
+            return !errors;
+
             //Step 2 - display of the selected fields.
             if (step == 2) {
                 selected = [];
@@ -928,23 +907,24 @@ function getClients(control, flag) {
     var input = control.value;
     if (input.length < 4) return;
     debounce(300,
-        () => getClient2(control,
+        () => getClient2(control, "accounts",
             "$select=accountid,name,address1_city&$filter=contains(name,'" +
             encodeURIComponent(input) +
             "')")
     );
 }
 
-function getClients2(control, query) {
+function getClients2(control, entity, query) {
     oppWizLog("Start getting clients " + control.value);
     control.classList.add("fetching-data");
-    FetchCRMData("accounts", query, control)
+    FetchCRMData(entity, query, control)
         .then(function success(results) {
                 var clients = "";
-                for (var i = 0; i < results.value.length; i++) {
-                    var accountid = results.value[i]["accountid"];
-                    var name = results.value[i]["name"];
-                    var city = results.value[i]["address1_city"];
+                var list = results.value || [results];
+                for (var i = 0; i < list.length; i++) {
+                    var accountid = list[i]["accountid"];
+                    var name = list[i]["name"];
+                    var city = list[i]["address1_city"];
                     clients += '<option value="' +
                         name +
                         '" data-value="' +
@@ -956,7 +936,7 @@ function getClients2(control, query) {
                         '</option > ';
                 }
                 control.list.innerHTML = clients;
-                oppWizLog("Retrieved " + results.value.length + " client records from server");
+                oppWizLog("Retrieved " + list.length + " client records from server");
             },
             restQueryErrorDialog("Getting Clients"));
 }
@@ -1236,7 +1216,6 @@ function getFirstDigit(input) {
 }
 
 function nextOnReturn(ev) {
-    debugger;
     if (ev.keyCode == 13) {
         var btnNext = $(".wizard-button-next");
         btnNext.click();
@@ -1346,71 +1325,83 @@ function ArupValidate(target) {
     ValidateHtmlElement(target);
 }
 
-function ValidateByName(target) {
-    if (!!Arup_validations[target]) {
-        return Arup_validations[target].validate();
-    } else {
-        oppWizLog("Failed to find validation for " + target);
-        return false;
-    }
+//function ValidateAll() {
+//    for (let v in Arup_validations) {
+//        if (Arup_validations.hasOwnProperty(v)) {
+//            ValidateByName(v);
+//        }
+//    }
+//}
+
+// Top level validation for entire form.
+function ArupValidateAll() {
+    var p = new Promise(function (resolve, reject) {
+        var errors = {};
+        for (let v in Arup_validations) {
+            if (Arup_validations.hasOwnProperty(v)) {
+                var result = ValidateByName(v);
+                if (result) {
+                    for (var r in result) {
+                        errors[r] = result[r];
+                    }
+                }
+            }
+        }
+
+        if (Object.keys(errors)=== 0) {
+            resolve();
+        } else {
+            reject(errors);
+        }
+    });
 }
 
 function ValidateHtmlElement(target) {
-    var name = target.id;
+    var name = target.id || target.name;
     ValidateByName(name);
 }
-function ValidateAll() {
-    for (let v in Arup_validations) {
-        if (Arup_validations.hasOwnProperty(v)) {
-            ValidateByName(v);
-        }
-    }
-}
 
-function setDefault(target) {
-    if (typeof (target) === "string") {
-        return setDefaultByName(target);
+function ValidateByName(target) {
+    if (!!Arup_validations[target]) {
+        var validation = Arup_validations[target];
+        var hasErrors = validation.hasErrors;
+        if (typeof (hasErrors) == "function") hasErrors = [hasErrors];
+        var errors = [];
+        hasErrors.forEach((hasError, index) => {
+            let result = hasError(target, validation);
+            if (result) {
+                errors.push(result);
+            }
+        });
+        if (errors.length > 0) {
+            var name = validation.hasOwnProperty("name") ? validation.name : target;
+            var rv = {};
+            rv[name] = errors;
+            return rv;
+        } 
     } else {
-        if (typeof (target) === "undefined") {
-            setAllDefault();
-        }
+        oppWizLog("Failed to find validation for " + target);
     }
-    setDefaultByElement(target);
+    return false;
 }
 
-function setDefaultByName(name) {
-    var target = document.getElementById(name) || document.getElementsByName(name)[0];
-    if (!target) {
-        oppWizLog("Did not find element to set by name : " + name);
-    }
-    setDefaultByElement(target);
 
-    //if (!!Arup_validations[target]) {
-    //    if (typeof (Arup_validations[target].defaultValue) == "string") {
-    //        target.value = Arup_validations[target].defaultValue;
-    //    } else if (typeof (Arup_validations[target].defaultValue) === "function") {
-    //        target.value = Arup_validations[target].defaultValue(target);
-    //    }
-    //}
-}
+//function setDefault(target) {
+//    if (typeof (target) === "string") {
+//        return setDefaultByName(target);
+//    } else {
+//        if (typeof (target) === "undefined") {
+//            setAllDefault();
+//        }
+//    }
+//    setDefaultByElement(target);
+//}
+
 
 //function setDefaultByElement(target) {
 //    var name = target.id;
 //    setDefaultByName(name);
 //}
-
-function setDefaultByElement(target) {
-    debugger;
-    var id = target.id || target.name;
-    if (!id) return;
-    if (!!Arup_validations[id]) {
-        if (typeof (Arup_validations[id].setDefault ) == "string") {
-            target.value = Arup_validations[id].setDefault;
-        } else if (typeof (Arup_validations[id].setDefault) === "function") {
-            target.value = Arup_validations[id].setDefault(target);
-        }
-    }
-}
 
 function Arup_setAllDefault() {
     for (let v in Arup_validations) {
@@ -1420,32 +1411,110 @@ function Arup_setAllDefault() {
     }
 }
 
+function setDefaultByName(name) {
+    var target = document.getElementById(name) || document.getElementsByName(name)[0];
+    if (!target) {
+        oppWizLog("Did not find element to set by name : " + name);
+        return;
+    }
+    setDefaultByElement(target);
+}
+
+function setDefaultByElement(target) {
+    var id = target.id || target.name;
+    if (!id) return;
+    if (!!Arup_validations[id]) {
+        oppWizLog("Set default value for " + id);
+        if (typeof (Arup_validations[id].setDefault) == "string") {
+            target.value = Arup_validations[id].setDefault;
+        } else if (typeof (Arup_validations[id].setDefault) === "function") {
+            target.value = Arup_validations[id].setDefault(target);
+        }
+    }
+}
+
+function ArupPageHasErrors(pageid) {
+    if (Arup_validations_by_page.hasOwnProperty(pageid)) {
+        var errors = {};
+        Arup_validations_by_page[pageid].forEach((id, index) => {
+            var result = ValidateByName(id);
+            if (result) {
+                for (var r in result) {
+                    errors[r] = result[r];
+                }
+            }
+        });
+        if (Object.keys(errors).length > 0) {
+            return errors;
+        }
+    } else {
+        oppWizLog("Page " + pageid + "not found");
+    }
+    return false;
+}
+
+var Arup_validations_by_page = {
+    page1 : ['intorext'],
+    page2: ['opportunityType', 'relatedopportunity','leadSource'],
+    page3: ['contractarrangement', 'client', 'endclient'],
+    page4: ['project_name', 'project_country', 'project_state', 'project_city', 'arup_business', 'arup_subbusiness', 'arup_company', 'accountingcentre', 'opporigin', 'global_services','description'],
+}
+
+function ArupValidationErrorDialog(errors) {
+    var errorEntities = [];
+    var errorList = "";
+    var conjunction = "";
+    for (e in errors) {
+        if (errors.hasOwnProperty(e)) {
+            errorEntities.push(e);
+            errorList += conjunction + e + "\r\n   " + errors[e].join("\r\n   ");
+            conjunction = "\r\n";
+
+        }
+    }
+    Xrm.Navigation.openErrorDialog({
+        message: "Errors in : "  + errorEntities.join(", "),
+        details: errorList,
+        title: "Validation errors in " + errorEntities.join(", ")
+    });
+}
+
 var Arup_validations =
 {
     intorext: {
-        validate: function () {
-            debugger;
-            return !!$('input[name="intorext"]:checked').val();
+        // function or array of functions returning error strings.
+        hasErrors: function() {
+            if (!!$('input[name="intorext"]:checked').val()) {
+                return false;
+            } else {
+                return "One of Internal or External must be selected";
+            }
 
         },
-        value: function () {
+        value: function() {
             return $('input[name="intorext"]:checked').val();
         },
-        setDefault : function(target) {
+        setDefault: function(target) {
             $("input[name=intorext][value=INT]")[0].checked = true;
         },
-        crmAttribute : "ccrm_arupinternal"
+        crmAttribute: "ccrm_arupinternal",
+        name: "Internal or External"
     },
 
     opporigin: {
-        validate: function(target) {
-             return !! $("#users option[value='" + $('#opporigin').val() + "']").attr("data-value");
+        hasErrors: function(target) {
+            if (!! $("#users option[value='" + $('#opporigin').val() + "']").attr("data-value")) {
+                return false;
+            } else {
+                return "Opportunity Originator value must be selected";
+            }
         },
         value: function(target) {
             return $("#users option[value='" + $('#opporigin').val() + "']").attr("data-value");
         },
         crmAttribute: "ccrm_leadoriginator",
-        setDefault : function(target) {
+        name: "Opportunity Originator",
+        setDefault: function(target) {
             FetchCRMData("systemusers(" + Xrm.Page.context.getUserId().replace(/[{}]/g, "") + ")",
                 "$select=_ccrm_arupcompanyid_value,ccrm_staffid,fullname,systemuserid",
                 target
@@ -1466,21 +1535,99 @@ var Arup_validations =
 
                     // TODO: document.getElementById('users').innerHTML = '<option value="' + fullname + '" data-value="' + systemuserid + '" > ' + fullname + '</option > ';
                     //document.getElementById("opporigin").value = fullname;
-                    oppWizLog("retrieved user");
+                    oppWizLog("retrieved opportunity originator user " + fullname);
                 },
                 restQueryErrorDialog("Unable to get User list"));
         }
     },
-    client : {
-        setDefault: function (target) {
-            getClients2(target, "$filter=name eq 'Unassigned'");
+    client: {
+        setDefault: function(target) {
+            getClients2(target,
+                "accounts(9c3b9071-4d46-e011-9aa7-78e7d1652028)",
+                "$select=accountid,name,address1_city");
         },
-        validate: function (htmlNode) {
+        hasErrors: function(htmlNode) {
             if (!!htmlNode) htmlNode = $("#client")[0];
             checkSelected(htmlNode);
+            if (!htmlElement.value) {
+                return "Client value must be selected";
+            } else
+                return false;
         },
-        getValues: function (htmlNode) {
+        name: "Client",
+        value: function(htmlNode) {
             return $('input[name="intorext"]:checked').val();
         }
     },
+    opportunityType: {
+        setDefault(target) {
+            // no default
+        },
+        hasErrors: [
+            function checkSelected(htmlNode) {
+                var v = document.getElementById("opportunityType");
+                return !!v && !!v.value ? false : "Please select Opportunity Type";
+            }
+        ],
+        name: "Opportunity Type",
+        value: function(htmlNode) {
+            return htmlNode.val();
+        },
+        crmAttribute: "arup_opportunitytype",
+
+    },
+    relatedopportunity: {
+        hasErrors: [
+            function checkSelected(htmlNode) {
+                // Only needs to be selected for certain opportunity types.
+            },
+            function checkOther(htmlNode) {
+                // Other validation criteria
+            }
+        ],
+        name: "Related Parent Opportunity", // user friendly name for field.
+        value: function(htmlNode) {
+            return htmlNode.val();
+        },
+        crmAttribute: "ccrm_parentopportunityid", // Crm attribute tha this field maps to.
+
+    },
+    leadSource: {
+        hasErrors: [
+            function checkSelected(htmlNode) {
+                var v = document.getElementById("leadSource");
+                return !!v && !!v.value ? false : "Please select Lead Source";
+            },
+            function checkOther(htmlNode) {
+                // As many validation functions as needed
+            }
+        ],
+        name: "Lead Source", // user friendly name for field.
+        value: function (htmlNode) {
+            return htmlNode.val();
+        },
+        crmAttribute: "ccrm_leadsource", // Crm attribute tha this field maps to.
+
+    },
+        template: {
+        setDefault(target) {
+            // Set default for target HtmlNode
+        },
+        hasErrors: [
+            function checkSelected(htmlNode) {
+                // Either a single function or an array of functions returning
+                // either an error string or false (if there is no error);
+            },
+            function checkOther(htmlNode) {
+                // As many validation functions as needed
+            }
+        ],
+        name: "Opportunity Type", // user friendly name for field.
+        value: function(htmlNode) {
+            // Return the value of the field
+        },
+        crmAttribute: "arup_opportunitytype", // Crm attribute tha this field maps to.
+
+    },
 }
+

@@ -38,14 +38,14 @@
             });
 
             // Set default values for all fields.
-            debugger;
             Arup_setAllDefault();
 
             $("#mysub").wizard({
                 exitText: 'exit',
                 onfinish: function (e) {
-                    var form = document.querySelector("form#page4");
-                    Arup.validateOppWiz.validate(form).then(
+                    ArupValidateAll().then(
+                    //var form = document.querySelector("form#page4");
+                    //Arup.validateOppWiz.validate(form).then(
                         function () {
                             saveOpportunity().then(
                                 function (result) {
@@ -57,29 +57,29 @@
                                 },
                                 function (errorDetail) {
                                     Xrm.Utility.closeProgressIndicator();
-                                    Xrm.Navigation.openErrorDialog(errorDetail);s
+                                    Xrm.Navigation.openErrorDialog(errorDetail);
                                 });
                             Xrm.Utility.showProgressIndicator("Creating Opportunity");
                         },
                         function (errors) {
-                            var errorEntities = [];
-                            for (e in errors) {
-                                if (errors.hasOwnProperty(e))
-                                    errorEntities.push(e);
-                            }
-                            var errorList = "";
-                            var conjunction = "";
-                            for (var entity in errors) {
-                                if (errors.hasOwnProperty(e)) {
-                                    errorList += conjunction + entity + "\r\n   " + errors["client"].join("\r\n   ");
-                                    conjunction = "\r\n";
-                                }
-                            }
-                            Xrm.Navigation.openErrorDialog({
-                                message: "Errors in " + errorEntities.join(", "),
-                                details: errorList,
-                                title: "Validation errors"
-                            });
+                            debugger;
+                            ArupValidationErrorDialog(errors);
+                            //var errorEntities = [];
+                            //var errorList = "";
+                            //var conjunction = "";
+                            //for (e in errors) {
+                            //    if (errors.hasOwnProperty(e)) {
+                            //        errorEntities.push(e);
+                            //        errorList += conjunction + e + "\r\n   " + errors[e].join("\r\n   ");
+                            //        conjunction = "\r\n";
+
+                            //    }
+                            //}
+                            //Xrm.Navigation.openErrorDialog({
+                            //    message: "Errors in " + errorEntities.join(", "),
+                            //    details: errorList,
+                            //    title: "Validation errors"
+                            //});
                         }
                     );
                 }
