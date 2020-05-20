@@ -401,21 +401,7 @@ function FormOnload(executionContext) {
     projectcountry_onchange('formload', formContext);
 
     setup_optionset_size("ccrm_contractarrangement", 200, 380);
-    //setup_display_other_field("ccrm_othernetworksval", "arup_othernetworkdetails", "100000003");
-
-    //Below code is commented by Raul
-    //Xrm.Page.getControl("ccrm_othernetworks").setVisible(isMobile);
-    //Xrm.Page.getControl("ccrm_ccrm_othernetworksdisp").setVisible(!isMobile);
-    ////Xrm.Page.getControl("ccrm_ccrm_othernetworksdisp").setDisabled(isMobile);
-    //if (isMobile) {
-    //    Xrm.Page.getAttribute("ccrm_othernetworks").setRequiredLevel('required');
-    //    Xrm.Page.getAttribute("ccrm_ccrm_othernetworksdisp").setRequiredLevel('none');
-    //}
-    //else {
-    //    Xrm.Page.getAttribute("ccrm_othernetworks").setRequiredLevel('none');
-    //    Xrm.Page.getAttribute("ccrm_ccrm_othernetworksdisp").setRequiredLevel('required');
-    //}
-
+    SetMultiSelect(formContext);
 }
 
 function FormOnSave(executionContext) {
@@ -1422,9 +1408,15 @@ function AssignDetailsWhenOpportunityTypeExistingContract(results, formContext) 
     }
 }
 
+
 function GetMultiSelect(executionContext) {
     var formContext = executionContext.getFormContext();
+    SetMultiSelect(formContext);
+}
+
+function SetMultiSelect(formContext) {
     var selectedValues = formContext.getAttribute("arup_globalservices").getValue();
+    if (selectedValues == null) return;
     var otherOption = selectedValues.includes(100000003);
     var notApplicable = selectedValues.includes(770000000);
     var length = selectedValues.length;

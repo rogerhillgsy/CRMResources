@@ -1810,6 +1810,16 @@
       <UniqueName>arup_ccrm_CRMSuperUsers</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page (HTML)\arup_MicrosoftTeams.htm">
+      <DisplayName>HTMLPage1</DisplayName>
+      <UniqueName>arup_HTMLPage1</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page (HTML)\arup_organisationrequestchange.htm">
+      <DisplayName>HTMLPage1</DisplayName>
+      <UniqueName>arup_HTMLPage1</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page (HTML)\ccrm_CRMTabs.html">
       <DisplayName>ccrm_CRMTabs</DisplayName>
       <UniqueName>arup_ccrm_CRMTabs</UniqueName>

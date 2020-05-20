@@ -973,7 +973,7 @@ function contactType_onchange(formContext) {
         formContext.getControl("arup_currentorganisation").setVisible(false);
         if (formContext.getControl("header_parentcustomerid") != null) {
             formContext.getControl("header_parentcustomerid").setVisible(true);
-            formContext.getControl("header_arup_currentorganisation").setVisible(false);
+            //formContext.getControl("header_arup_currentorganisation").setVisible(false);
         }
     }
 }
