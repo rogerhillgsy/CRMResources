@@ -153,12 +153,12 @@
                     </p>
                     <form id="URForm">
                         <div class="radio">
-                            <label><input type="radio" name="intorext" value="INT" autofocus="true">&nbsp;Internal</label>
+                            <label><input type="radio" name="intorext" value="INT" autofocus>&nbsp;Internal</label>
                         </div>
                         <div class="radio">
                             <label><input type="radio" name="intorext" value="NOTINT">&nbsp;External</label>
                         </div>
-                        </form>
+                    </form>
                 </div>
                 <br>
                 <br>
@@ -168,8 +168,9 @@
                     <form class="" id="main" on>
                         <div class="form-group">
                             <label for="opportunityType">Opportunity Type:</label>
-                            <select id="opportunityType" class="form-control" onchange="onOpportunityTypeChange(this)" onfocusout="checkSelected(this)" title="Select Opportunity Type" autofocus>
-                                <option value="">Select Opportunity Type</option>
+                            <!--<select id="opportunityType" class="form-control" onchange="onOpportunityTypeChange(this)" onfocusout="checkSelected(this)" title="Select Opportunity Type" autofocus>-->
+                            <select id="opportunityType" class="form-control" onchange="onOpportunityTypeChange(this)" onfocusout="validateField(this)" placeholder="Select Opportunity Type" autofocus>
+                                <option value="" selected>Select Opportunity Type</option>
                                 <option value="770000000" title="New Opportunity">New Opportunity</option>
                                 <option value="770000001" title="Project extension - existing contract">Project extension - existing contract</option>
                                 <option value="770000002" title="Project extension – new contract">Project extension – new contract</option>
@@ -181,15 +182,16 @@
                         </div>
                         <div class="form-group">
                             <label for="relatedopportunity">Related Parent Opportunity:</label>
-                                <input list="opportunities" id="relatedopportunity" class="form-control" name="relatedopportunity" oninput="getOpportunities(this);" title="Input related parent opportunity" autocomplete="off" onfocusout="ensureRelatedOpportunitySelected(this)" />
+                            <!--<input list="opportunities" id="relatedopportunity" class="form-control" name="relatedopportunity" oninput="getOpportunities(this);" title="Input related parent opportunity" autocomplete="off" onfocusout="ensureRelatedOpportunitySelected(this)" />-->
+                            <input list="opportunities" id="relatedopportunity" class="form-control" name="relatedopportunity" oninput="getOpportunities(this);" placeholder="Input related parent opportunity" autocomplete="off" onfocusout="validateField(this)" />
                                 <datalist id="opportunities">
-                                </datalist>
+                            </datalist>
                         </div>
                         <div class="form-group">
                             <label for="leadSource">Lead Source:</label>
                             <!----<span class="glyphicon glyphicon-lock"></span>-->
-                            <select id="leadSource" class="form-control" title="Enter Source of Opportunity" onfocusout="checkSelected(this)" onchange="checkSelected(this)">
-                                <option value="">Select Lead Source</option>
+                            <select id="leadSource" class="form-control" title="Enter Source of Opportunity" onfocusout="validateField(this)" onchange="validateField(this)">
+                                <option value="" selected>Select Lead Source</option>
                                 <option value="100000000" title="Arup bid to supply same/further services, as an extension to an existing project. (One Arup team delivering to the client).">Addition to existing services</option>
                                 <option value="100000002" title="Arup has identified an opportunity, suggested the project idea, then submitted a bid to a client.">Arup project (idea) creation</option>
                                 <option value="5" title="Arup invited to bid, as one of a shortlist previously chosen via a panel, framework agreement or other process.">Framework/Panel</option>
@@ -273,7 +275,7 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="project_state">Project State/Province:</label>
-                            <input list="states" id="project_state" class="form-control input-form" name="project_state" title="Input project state" autocomplete="off" onfocusout="ensureSelected(this)" readonly="true" />
+                            <input list="states" id="project_state" class="form-control input-form" name="project_state" title="Input project state" autocomplete="off" onfocusout="ensureSelected(this)" readonly />
                             <datalist id="states">
                             </datalist>
                         </div>
@@ -309,7 +311,7 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="opporigin">Opportunity Originator:</label>
-                            <input list="users" id="opporigin" class="form-control input-form" name="opporigin" onkeyup="getUsers(this.value);" title="Input Staff name" autocomplete="off" placeholder="Arup staff name" />
+                            <input list="users" id="opporigin" class="form-control input-form" name="opporigin" oninput="getUsers(this.value);" title="Input Staff name" autocomplete="off" placeholder="Arup staff name" />
                             <datalist id="users">
                             </datalist>
                         </div>

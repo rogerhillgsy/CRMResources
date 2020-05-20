@@ -41,14 +41,15 @@ $.fn.wizard = function (config) {
         }
 
         else {
-            var errors = ArupPageHasErrors("page2");
-            if (errors) {
-                ArupValidationErrorDialog(errors);
-            }
-            return !errors;
 
             //Step 2 - display of the selected fields.
             if (step == 2) {
+                var errors = ArupPageHasErrors("page2");
+                if (errors) {
+                    ArupValidationErrorDialog(errors);
+                }
+                return !errors;
+
                 selected = [];
                 $('#SS select').each(function (i,s) {
                     if ($(this).val() != "") {
@@ -111,6 +112,12 @@ $.fn.wizard = function (config) {
                 return true;
             }
             if (step == 3) {
+                var errors = ArupPageHasErrors("page3");
+                if (errors) {
+                    ArupValidationErrorDialog(errors);
+                }
+                return !errors;
+
                 selected = [];
                 $('#CN select').each(function () {
                     if ($(this).val() != "") {
@@ -579,6 +586,7 @@ function callAction(container, steps, step) {
 }
 var leadSource;
 function onOpportunityTypeChange(htmlElement) {
+    oppWizLog("Change from " + htmlElement.value);
     leadSource = $("#leadSource");
     leadSource.attr("disabled", false);
     var type = htmlElement.value;
@@ -634,7 +642,8 @@ function onOpportunityTypeChange(htmlElement) {
             break;
     }
     checkSelected(htmlElement);
-    ensureRelatedOpportunitySelected("#opporunities");
+    validateField(htmlElement);
+    //ensureRelatedOpportunitySelected("#opporunities");
 }
 
 function removeOptions(data,type)
@@ -905,9 +914,9 @@ function debounce(delay, callback) {
 
 function getClients(control, flag) {
     var input = control.value;
-    if (input.length < 4) return;
+    if (input.length < 4 || input == "Unassigned") return;
     debounce(300,
-        () => getClient2(control, "accounts",
+        () => getClients2(control, "accounts",
             "$select=accountid,name,address1_city&$filter=contains(name,'" +
             encodeURIComponent(input) +
             "')")
@@ -936,6 +945,9 @@ function getClients2(control, entity, query) {
                         '</option > ';
                 }
                 control.list.innerHTML = clients;
+                if (list.length == 1) {
+                    control.value = list[0]["name"];
+                }
                 oppWizLog("Retrieved " + list.length + " client records from server");
             },
             restQueryErrorDialog("Getting Clients"));
@@ -1027,7 +1039,8 @@ function CreateOpportunity(attributes) {
                         );
                         return;
                     }
-                    impersonateUserId = result.entities[0].ccrm_setting;
+                impersonateUserId = result.entities[0].ccrm_setting;
+                oppWizLog("Impersonate UserId =" + impersonateUserId);
                     $.ajax({
                         type: "POST",
                         contentType: "application/json; charset=utf-8",
@@ -1128,12 +1141,10 @@ function getOpportunities(inputControl) {
             })).then(
                 function resolve( result, type) {
                     fillOpportunityResults(result);
-                    oppWizLog("Found " + result.value.length + " " + type + " results");
-                    inputControl.setFocus();
-                    // inputControl.classList.remove("waiting-for-crm");
+                    oppWizLog("Found " + result.value.length + " results");
+                    inputControl.focus();
                 },
                 function reject() {
-                    // inputControl.classList.remove("waiting-for-crm");
                 });
         });
 }
@@ -1240,14 +1251,14 @@ function ensureUltimateClientSelected(htmlElement) {
     }
 }
 
-function ensureRelatedOpportunitySelected(htmlElement) {
-    // Related opportuity only needed for project extensions to existing contracts.
-    var oppoType = $("#opportunityType");
-    ensureSelected(htmlElement);
-    if (oppoType[0].value != "770000001") {
-        setError(htmlElement, false);
-    }
-}
+//function ensureRelatedOpportunitySelected(htmlElement) {
+//    // Related opportuity only needed for project extensions to existing contracts.
+//    var oppoType = $("#opportunityType");
+//    ensureSelected(htmlElement);
+//    if (oppoType[0].value != "770000001") {
+//        setError(htmlElement, false);
+//    }
+//}
 
 function ensureSelected(htmlElement ) {
     // Ensure that the selected value is set to the first item in the data list.
@@ -1335,7 +1346,7 @@ function ArupValidate(target) {
 
 // Top level validation for entire form.
 function ArupValidateAll() {
-    var p = new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         var errors = {};
         for (let v in Arup_validations) {
             if (Arup_validations.hasOwnProperty(v)) {
@@ -1348,7 +1359,7 @@ function ArupValidateAll() {
             }
         }
 
-        if (Object.keys(errors)=== 0) {
+        if (Object.keys(errors).length === 0) {
             resolve();
         } else {
             reject(errors);
@@ -1358,7 +1369,7 @@ function ArupValidateAll() {
 
 function ValidateHtmlElement(target) {
     var name = target.id || target.name;
-    ValidateByName(name);
+    return ValidateByName(name);
 }
 
 function ValidateByName(target) {
@@ -1473,10 +1484,15 @@ function ArupValidationErrorDialog(errors) {
         }
     }
     Xrm.Navigation.openErrorDialog({
-        message: "Errors in : "  + errorEntities.join(", "),
+        message: "Check value for: "  + errorEntities.join(", "),
         details: errorList,
-        title: "Validation errors in " + errorEntities.join(", ")
+        title: "Validation error(s)s in " + errorEntities.join(", ")
     });
+}
+
+function validateField(htmlElement) {
+    var hasErrors = ValidateHtmlElement(htmlElement);
+    setError(htmlElement, hasErrors);
 }
 
 var Arup_validations =
@@ -1501,68 +1517,7 @@ var Arup_validations =
         name: "Internal or External"
     },
 
-    opporigin: {
-        hasErrors: function(target) {
-            if (!! $("#users option[value='" + $('#opporigin').val() + "']").attr("data-value")) {
-                return false;
-            } else {
-                return "Opportunity Originator value must be selected";
-            }
-        },
-        value: function(target) {
-            return $("#users option[value='" + $('#opporigin').val() + "']").attr("data-value");
-        },
-        crmAttribute: "ccrm_leadoriginator",
-        name: "Opportunity Originator",
-        setDefault: function(target) {
-            FetchCRMData("systemusers(" + Xrm.Page.context.getUserId().replace(/[{}]/g, "") + ")",
-                "$select=_ccrm_arupcompanyid_value,ccrm_staffid,fullname,systemuserid",
-                target
-            ).then(function success(results) {
-                    //var _ccrm_arupcompanyid_value = results["_ccrm_arupcompanyid_value"];
-                    //var _ccrm_arupcompanyid_value_formatted = results["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"];
-                    //var _ccrm_arupcompanyid_value_lookuplogicalname = results["_ccrm_arupcompanyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
-                    var fullname = results["fullname"];
-                    var systemuserid = results["systemuserid"];
-                    target.value = fullname;
-                    target.list.innerHTML = '<option value="' +
-                        fullname +
-                        '" data-value="' +
-                        systemuserid +
-                        '" > ' +
-                        fullname +
-                        '</option > ';
-
-                    // TODO: document.getElementById('users').innerHTML = '<option value="' + fullname + '" data-value="' + systemuserid + '" > ' + fullname + '</option > ';
-                    //document.getElementById("opporigin").value = fullname;
-                    oppWizLog("retrieved opportunity originator user " + fullname);
-                },
-                restQueryErrorDialog("Unable to get User list"));
-        }
-    },
-    client: {
-        setDefault: function(target) {
-            getClients2(target,
-                "accounts(9c3b9071-4d46-e011-9aa7-78e7d1652028)",
-                "$select=accountid,name,address1_city");
-        },
-        hasErrors: function(htmlNode) {
-            if (!!htmlNode) htmlNode = $("#client")[0];
-            checkSelected(htmlNode);
-            if (!htmlElement.value) {
-                return "Client value must be selected";
-            } else
-                return false;
-        },
-        name: "Client",
-        value: function(htmlNode) {
-            return $('input[name="intorext"]:checked').val();
-        }
-    },
     opportunityType: {
-        setDefault(target) {
-            // no default
-        },
         hasErrors: [
             function checkSelected(htmlNode) {
                 var v = document.getElementById("opportunityType");
@@ -1578,7 +1533,16 @@ var Arup_validations =
     },
     relatedopportunity: {
         hasErrors: [
-            function checkSelected(htmlNode) {
+            function checkSelected() {
+                var htmlNode = document.getElementById("relatedopportunity");
+                var oppoType = $("#opportunityType");
+                ensureSelected(htmlNode);
+                if (!htmlNode.value && oppoType[0].value == "770000001") {
+                    return "Related Parent Opportunity Required for extension of existing contract";
+                }
+                setError(htmlNode, false);
+                return false;
+
                 // Only needs to be selected for certain opportunity types.
             },
             function checkOther(htmlNode) {
@@ -1586,11 +1550,13 @@ var Arup_validations =
             }
         ],
         name: "Related Parent Opportunity", // user friendly name for field.
-        value: function(htmlNode) {
-            return htmlNode.val();
+        value: function() {
+            return $("#opportunities option[value='" + $('#relatedopportunity').val() + "']").attr("data-value");
         },
         crmAttribute: "ccrm_parentopportunityid", // Crm attribute tha this field maps to.
-
+        autocomplete: function(htmlNode) {
+            getClients(htmlNode);
+        }
     },
     leadSource: {
         hasErrors: [
@@ -1603,13 +1569,258 @@ var Arup_validations =
             }
         ],
         name: "Lead Source", // user friendly name for field.
-        value: function (htmlNode) {
+        value: function(htmlNode) {
             return htmlNode.val();
         },
         crmAttribute: "ccrm_leadsource", // Crm attribute tha this field maps to.
 
     },
-        template: {
+    contractarrangement: {
+        hasErrors: [
+            function checkSelected(htmlNode) {
+                var v = document.getElementById("contractarrangement");
+                return !!v && !!v.value ? false : "Please select Project Procurement Type";
+            },
+            function checkOther(htmlNode) {
+                // As many validation functions as needed
+            }
+        ],
+        name: "Project Procurement", // user friendly name for field.
+        value: function(htmlNode) {
+            return htmlNode.val();
+        },
+        crmAttribute: "ccrm_contractarrangement", // Crm attribute tha this field maps to.
+
+    },
+    client: {
+        setDefault: function(target) {
+            getClients2(target,
+                "accounts(9c3b9071-4d46-e011-9aa7-78e7d1652028)",
+                "$select=accountid,name,address1_city");
+        },
+        hasErrors: function(htmlNode) {
+            if (!!htmlNode) htmlNode = $("#client")[0];
+            checkSelected(htmlNode);
+            if (!htmlNode.value) {
+                return "Client value must be selected";
+            } else
+                return false;
+        },
+        name: "Client",
+        value: function(htmlNode) {
+            return "/accounts(" + $("#clients option[value='" + $('#client').val() + "']").attr("data-value") + ")";
+        },
+        autocomplete: function(htmlNode) {
+            getClients(htmlNode);
+        },
+        crmAttribute: "ccrm_client"
+    },
+    endclient: {
+        hasErrors: function(htmlNode) {
+            if (!!htmlNode) htmlNode = $("#endclient")[0];
+            var opportunityType = $("#opportunityType")[0].value;
+            if (opportunityType == "770000005") {
+                checkSelected(htmlNode);
+                if (!htmlNode.value) {
+                    return "Ultimate Client value must be selected";
+                }
+            }
+            return false;
+        },
+        name: "Ultimate/End Client",
+        value: function(htmlNode) {
+            return "/accounts(" +
+                $("#endclients option[value='" + $('#endclient').val() + "']").attr("data-value") +
+                ")";
+        },
+        autocomplete: function(htmlNode) {
+            getClients(htmlNode);
+        },
+        crmAttribute: "ccrm_ultimateendclientid",
+    },
+
+    project_name: {
+        hasErrors: [
+            function checkSelected(htmlNode) {
+                return !$("#project_name")[0].value ? "Project name missing" : false;
+            },
+        ],
+        name: "Project name",
+        value: function(htmlNode) {
+            return $("#project_name")[0].value;
+        },
+        crmAttribute: "name",
+    },
+    project_country: {
+        hasErrors: function(htmlNode) {
+            if (!!htmlNode) htmlNode = $("#project_country")[0];
+            checkSelected(htmlNode);
+            if (!htmlNode.value) {
+                return "Project country must be selected";
+            } else
+                return false;
+        },
+        autocomplete: function(htmlNode) {
+            getCountries(htmlNode);
+        },
+        name: "Project Country",
+        value: function(htmlNode) {
+            return "/ccrm_countries(" +
+                $("#countries option[value='" + $('#project_country').val() + "']").attr("data-value") +
+                ")";;
+        },
+        crmAttribute: "ccrm_projectlocationid",
+    },
+    project_state: {
+        hasErrors: function(htmlNode) {
+            if (!!htmlNode) htmlNode = $("#project_state")[0];
+            checkSelected(htmlNode);
+            if (!htmlNode.value) {
+                return "Project state must be selected";
+            } else
+                return false;
+        },
+        name: "Project State",
+        value: function() {
+            return "/ccrm_arupusstates(" +
+                $("#states option[value='" + $('#project_state').val() + "']").attr("data-value") +
+                ")";
+        },
+        crmAttribute: "ccrm_arupusstateid",
+    },
+    project_city: {
+        hasErrors: [
+            function checkSelected(htmlNode) {
+                return !$("#project_city")[0].value ? "Project City missing" : false;
+            },
+        ],
+        name: "Project city",
+        value: function(htmlNode) {
+            return $("#project_city")[0].value;
+        },
+        crmAttribute: "ccrm_location",
+    },
+    arup_business: {
+        hasErrors: function(htmlNode) {
+            if (!!htmlNode) htmlNode = $("#arup_business")[0];
+            checkSelected(htmlNode);
+            if (!htmlNode.value) {
+                return "Arup Business must be selected";
+            } else
+                return false;
+        },
+        name: "Arup Business",
+        value: function() {
+            return "/ccrm_arupbusinesses(" +
+                $("#businesses option[value='" + $('#arup_business').val() + "']").attr("data-value") +
+                ")";
+        },
+        crmAttribute: "ccrm_arupbusinessid",
+    },
+    arup_subbusiness: {
+        hasErrors: function(htmlNode) {
+            if (!!htmlNode) htmlNode = $("#arup_subbusiness")[0];
+            checkSelected(htmlNode);
+            if (!htmlNode.value) {
+                return "Arup Sub Business must be selected";
+            } else
+                return false;
+        },
+        name: "Arup Sub Business",
+        value: function() {
+            return "/arup_subbusinesses(" +
+                $("#subbusinesses option[value='" + $('#arup_subbusiness').val() + "']").attr("data-value") +
+                ")";
+        },
+        crmAttribute: "arup_subbusiness",
+        databind: true,
+    },
+    arup_company: {
+        hasErrors: function (htmlNode) {
+            if (!!htmlNode) htmlNode = $("#arup_company")[0];
+            checkSelected(htmlNode);
+            if (!htmlNode.value) {
+                return "Arup Company must be selected";
+            } else
+                return false;
+        },
+        name: "Arup Company",
+        value: function () {
+            return "/ccrm_arupcompanies(" + $("#companies option[value='" + $('#arup_company').val() + "']").attr("data-value") + ")";
+        },
+        crmAttribute: "ccrm_arupcompanyid",
+    },
+    accountingcentre: {
+        hasErrors: function (htmlNode) {
+            if (!!htmlNode) htmlNode = $("#accountingcentre")[0];
+            checkSelected(htmlNode);
+            if (!htmlNode.value) {
+                return "Accounting centre must be selected";
+            } else
+                return false;
+        },
+        name: "Accounting Centre",
+        value: function () {
+            return "/ccrm_arupaccountingcodes(" + $("#accountingcentres option[value='" + $('#accountingcentre').val() + "']").attr("data-value") + ")";
+        },
+        crmAttribute: "ccrm_accountingcentreid",
+    },
+    opporigin: {
+        hasErrors: function (target) {
+            if (!!$("#users option[value='" + $('#opporigin').val() + "']").attr("data-value")) {
+                return false;
+            } else {
+                return "Opportunity Originator value must be selected";
+            }
+        },
+        value: function (target) {
+            return $("#users option[value='" + $('#opporigin').val() + "']").attr("data-value");
+        },
+        crmAttribute: "ccrm_leadoriginator",
+        name: "Opportunity Originator",
+        setDefault: function (target) {
+            FetchCRMData("systemusers(" + Xrm.Page.context.getUserId().replace(/[{}]/g, "") + ")",
+                "$select=_ccrm_arupcompanyid_value,ccrm_staffid,fullname,systemuserid",
+                target
+            ).then(function success(results) {
+                var fullname = results["fullname"];
+                var systemuserid = results["systemuserid"];
+                target.value = fullname;
+                target.list.innerHTML = '<option value="' +
+                    fullname +
+                    '" data-value="' +
+                    systemuserid +
+                    '" > ' +
+                    fullname +
+                    '</option > ';
+                oppWizLog("retrieved opportunity originator user " + fullname);
+            },
+                restQueryErrorDialog("Unable to get User list"));
+        }
+    },
+    globalservices : {
+        name: "Global Services", // Multiselect
+        value : function() {
+            var globalServices = [];
+            document.querySelectorAll("#WC [name='global_services[]']:checked").forEach(
+                function (s) {
+                    if (s.value != "770000000") // Not applicable.
+                        globalServices.push(s.value);
+                });
+            return globalServices.join(",");
+        },
+        crmAttribute: "arup_globalservices", // Crm attribute tha this field maps to.
+    },
+
+    customerCopy: {
+        // This is a hidden field - set from client when we save.
+        name : "Customer (Copy)",
+        value : function() {
+            return Arup_validations.client.value();
+        },
+        crmAttribute : "customerid"
+    },
+    template: {
         setDefault(target) {
             // Set default for target HtmlNode
         },
@@ -1627,7 +1838,7 @@ var Arup_validations =
             // Return the value of the field
         },
         crmAttribute: "arup_opportunitytype", // Crm attribute tha this field maps to.
-
+        databind : true, // databinding normally goes by "id" at the end of the attribute name. This can be overriden by this field.
     },
 }
 
