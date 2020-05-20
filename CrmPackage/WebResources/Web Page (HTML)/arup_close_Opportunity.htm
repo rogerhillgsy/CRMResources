@@ -1,0 +1,263 @@
+﻿<html>
+<head>
+</head>
+<body onfocusout="parent.setEmailRange();" style="overflow-wrap: break-word;">
+    <html>
+    <head>
+        <script type="text/javascript">
+
+        var OpportunityId, clientUrl, statusCode;
+        var globalObject = new Object();
+
+        function getUrlParameters() {
+            var queryString = location.search.substring(1);
+            var params = {};
+            var queryStringParts = queryString.split("&amp;");
+            for (var i = 0; i < queryStringParts.length; i++) {
+                var pieces = queryStringParts[i].split("=");
+                params[pieces[0].toLowerCase()] = pieces.length === 1 ? null : decodeURIComponent(pieces[1]);
+            }
+
+            return params;
+        }
+
+        function getOpportunityStatus() {
+            debugger;
+            var oppId, statusReasons;
+            var parameters = getUrlParameters(); //GetGlobalContext().getQueryStringParameters().Data;
+            Xrm = parent.Xrm;
+            clientUrl = Xrm.Page.context.getClientUrl();
+            if (parameters != undefined) {
+                oppId = parameters.data.split('&amp;')[0].split('=')[1];
+                OpportunityId = oppId;
+                stepName = parameters.data.split('&amp;')[1].split('=')[1];
+                statusReasons = parameters.data.split('&amp;')[2].split('=')[1];
+                statusCode = parameters.data.split('&amp;')[3].split('=')[1];
+                var myObject = JSON.parse(statusReasons);
+                globalObject = myObject;
+
+                var select = document.getElementById("reason");
+                for (index in myObject) {
+                    select.options[select.options.length] = new Option(myObject[index], index);
+                }
+
+                var today = getTodayDate();
+				document.getElementById("dateValue").setAttribute("max", today);
+				document.getElementById("dateValue").setAttribute("value", today);
+            }
+        }
+
+		function getTodayDate(){
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth()+1; //January is 0!
+			var yyyy = today.getFullYear();
+			if(dd<10){
+				dd='0'+dd
+			}
+			if(mm<10){
+				mm='0'+mm
+			}
+			today = yyyy+'-'+mm+'-'+dd;
+			return today;
+		}
+
+        function closeOpportunity() {
+			var dateValue = document.getElementById("dateValue").value;
+			var selectedDate = new Date(dateValue);
+			var today = new Date();
+
+			var sdd = selectedDate.getDate();
+			var smm = selectedDate.getMonth()+1;
+			var syyyy = selectedDate.getFullYear();
+
+			var tdd = today.getDate();
+			var tmm = today.getMonth()+1;
+			var tyyyy = today.getFullYear();
+			var validDate = 0;
+
+			if(isNaN(selectedDate)){
+				document.getElementById("dateValue").setCustomValidity("You have selected Invalid Date. Please enter a valid Date.");
+				return;
+			}
+
+			if((smm > tmm && syyyy >= tyyyy) || (syyyy > tyyyy) || (smm == tmm && syyyy == tyyyy && sdd > tdd)){
+			document.getElementById("dateValue").setCustomValidity("Date Value cannot be greater than today");
+				return;
+			}
+
+            var select = document.getElementById("reason");
+            var parameters = {};
+
+            parameters.statusReason = select.options[select.selectedIndex].value;
+            parameters.description = document.getElementById("description").value;
+            parameters.statusCode = statusCode;
+
+            selectedDate.setHours(selectedDate.getHours() + 1);
+            parameters.actualclosedate = selectedDate.toISOString();
+
+            var req = new XMLHttpRequest();
+            req.open("POST",
+                clientUrl +
+                "/api/data/v8.2/opportunities(" +
+                OpportunityId +
+                ")/Microsoft.Dynamics.CRM.arup_CloseOpportunity",
+                false);
+            req.setRequestHeader("OData-MaxVersion", "4.0");
+            req.setRequestHeader("OData-Version", "4.0");
+            req.setRequestHeader("Accept", "application/json");
+            req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            req.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    req.onreadystatechange = null;
+                    if (this.status === 204) {
+                        closeDlg();
+                    }
+                }
+            };
+            req.send(JSON.stringify(parameters));
+        }
+
+        function closeDlg() {
+            try {
+				//window.close();
+                closeWindow(true);
+            } catch (e) {
+            }
+        }
+
+        function cancelDlg() {
+            try {
+                closeWindow(true);
+            } catch (e) {
+            }
+        }
+
+
+        </script>
+        <script src="../../../../../../webresources/ClientGlobalContext.js.aspx" type="text/javascript"></script>
+        <script src="mag_/jquery1.8.3.min.js" type="text/javascript"></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body {
+                font - family: Arial, Helvetica, sans-serif;
+            }
+
+            * {
+                box - sizing: border-box;
+            }
+
+            input[type=text], select, textarea, input[type=date], input[type=number] {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+                margin-top: 6px;
+                margin-bottom: 16px;
+                resize: vertical;
+            }
+
+            input[type=submit] {
+                background - color: #ffffff;
+                color: black;
+                padding: 6px 15px;
+                border-radius: 4px;
+                cursor: pointer;
+                border-color: #e7e7e7;
+            }
+
+                input[type=submit]:hover {
+                    background - color: #e7e7e7;
+                }
+
+            .container {
+                border - radius: 5px;
+                background-color: #ffffff;
+                padding: 20px;
+            }
+
+            label {
+                width: 150px;
+                text-align: right;
+            }
+
+            #dateValue {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+                margin-top: 6px;
+                margin-bottom: 16px;
+                resize: vertical;
+            }
+        </style>
+
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+        <meta>
+    </head>
+    <body onload="getOpportunityStatus();" style="overflow-wrap: break-word;" onfocusout="parent.setEmailRange();">
+
+        <h3 style="color: #1B76D5; font-size: 25px;">Close Opportunity</h3>
+        <p style="font-family: undefined;">Provide the following information about why this opportunity is being closed.</p>
+        <div class="container" style="font-family: undefined;">
+            <form>
+                <label>Status Reason:</label>
+                <select required="" id="reason" name="reason">
+                    <option selected="" disabled="" value="">Please Select</option>
+                </select>
+
+                <label>Close Date:</label>
+                <input type="date" id="dateValue" required="" pattern="\d{4}-\d{2}-\d{2}">
+
+                <label>Description:</label>
+                <textarea id="description" name="subject" style="height:60px"></textarea>
+                <div align="right">
+                    <input type="submit" value="Ok" onclick="closeOpportunity();">
+                    <input type="submit" value="Cancel" onclick="cancelDlg();">
+                </div>
+            </form>
+        </div>
+
+
+
+    </body>
+</html>
+</body>
+</html>
+</body></html></body></html>
