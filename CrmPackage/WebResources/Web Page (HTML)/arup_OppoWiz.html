@@ -39,6 +39,7 @@
 
             // Set default values for all fields.
             Arup_setAllDefault();
+            Arup_AddFocusOutValidationAll()
 
             $("#mysub").wizard({
                 exitText: 'exit',
@@ -169,7 +170,7 @@
                         <div class="form-group">
                             <label for="opportunityType">Opportunity Type:</label>
                             <!--<select id="opportunityType" class="form-control" onchange="onOpportunityTypeChange(this)" onfocusout="checkSelected(this)" title="Select Opportunity Type" autofocus>-->
-                            <select id="opportunityType" class="form-control" onchange="onOpportunityTypeChange(this)" onfocusout="validateField(this)" placeholder="Select Opportunity Type" autofocus>
+                            <select id="opportunityType" class="form-control" onchange="onOpportunityTypeChange(this)" placeholder="Select Opportunity Type" autofocus>
                                 <option value="" selected>Select Opportunity Type</option>
                                 <option value="770000000" title="New Opportunity">New Opportunity</option>
                                 <option value="770000001" title="Project extension - existing contract">Project extension - existing contract</option>
@@ -183,14 +184,14 @@
                         <div class="form-group">
                             <label for="relatedopportunity">Related Parent Opportunity:</label>
                             <!--<input list="opportunities" id="relatedopportunity" class="form-control" name="relatedopportunity" oninput="getOpportunities(this);" title="Input related parent opportunity" autocomplete="off" onfocusout="ensureRelatedOpportunitySelected(this)" />-->
-                            <input list="opportunities" id="relatedopportunity" class="form-control" name="relatedopportunity" oninput="getOpportunities(this);" placeholder="Input related parent opportunity" autocomplete="off" onfocusout="validateField(this)" />
+                            <input list="opportunities" id="relatedopportunity" class="form-control" name="relatedopportunity" oninput="getOpportunities(this);" placeholder="Input related parent opportunity" autocomplete="off"  />
                                 <datalist id="opportunities">
                             </datalist>
                         </div>
                         <div class="form-group">
                             <label for="leadSource">Lead Source:</label>
                             <!----<span class="glyphicon glyphicon-lock"></span>-->
-                            <select id="leadSource" class="form-control" title="Enter Source of Opportunity" onfocusout="validateField(this)" onchange="validateField(this)">
+                            <select id="leadSource" class="form-control" title="Enter Source of Opportunity"  oninput="validateField(this)" onchange="validateField(this)">
                                 <option value="" selected>Select Lead Source</option>
                                 <option value="100000000" title="Arup bid to supply same/further services, as an extension to an existing project. (One Arup team delivering to the client).">Addition to existing services</option>
                                 <option value="100000002" title="Arup has identified an opportunity, suggested the project idea, then submitted a bid to a client.">Arup project (idea) creation</option>
@@ -221,7 +222,7 @@
                 <div class="container" id="CN">
                     <div class="form-group col-lg-12">
                         <label for="contractarrangement">Project Procurement:</label>
-                        <select id="contractarrangement" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
+                        <select id="contractarrangement" class="form-control"  title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
                             <option value="">--</option>
                             <option title="Alliance" value="100000000">Alliance</option>
                             <option title="Design &amp; Construct/Design-Build/ECI" value="1">Design &amp; Construct/Design-Build/ECI</option>
@@ -232,27 +233,16 @@
                             <option title="Traditional or Direct Appointment to Client with Potential Future Novation" value="8">Traditional or Direct Appointment to Client with Potential Future Novation</option>
                             <option title="Turnkey" value="6">Turnkey</option>
                         </select>
-                        <!--<select id="contractarrangement1" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
-                            <option value="">--</option>
-                            <option title="Alliance" value="100000000">Alliance</option>
-                            <option title="Design &amp; Construct/Design-Build/ECI" value="1">Design &amp; Construct/Design-Build/ECI</option>
-                            <option title="Design-Build-Operate" value="100000002">Design-Build-Operate</option>
-                            <option title="Management Contracting/Construction Management" value="3">Management Contracting/Construction Management</option>
-                            <option title="Public Private Partnership" value="4">Public Private Partnership</option>
-                            <option title="Traditional or Direct Appointment to Client" value="5">Traditional or Direct Appointment to Client</option>
-                            <option title="Traditional or Direct Appointment to Client with Potential Future Novation" value="8">Traditional or Direct Appointment to Client with Potential Future Novation</option>
-                            <option title="Turnkey" value="6">Turnkey</option>
-                        </select>-->
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="client">Client:</label>
-                        <input list="clients" id="client" class="form-control input-form" name="client" oninput="getClients(this, true);" onfocusout="ensureSelected(this)" title="Input Client" autocomplete="off" placeholder="Client company name" />
+                        <input list="clients" id="client" class="form-control input-form" name="client" oninput="getClients(this, true);"  title="Input Client" autocomplete="off" placeholder="Client company name" />
                         <datalist id="clients">
                         </datalist>
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="endclient">Ultimate/End Client:</label>
-                        <input list="endclients" id="endclient" class="form-control input-form" name="endclient" oninput="getClients(this, false);" onfocusout="ensureUltimateClientSelected(this)" title="Input End Client" autocomplete="off" placeholder=" Ultimate client name" />
+                        <input list="endclients" id="endclient" class="form-control input-form" name="endclient"  oninput="getClients(this, false);" title="Input End Client" autocomplete="off" placeholder=" Ultimate client name" />
                         <datalist id="endclients">
                         </datalist>
                     </div>
@@ -275,7 +265,7 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="project_state">Project State/Province:</label>
-                            <input list="states" id="project_state" class="form-control input-form" name="project_state" title="Input project state" autocomplete="off" onfocusout="ensureSelected(this)" readonly />
+                            <input list="states" id="project_state" class="form-control input-form" name="project_state" title="Input project state" autocomplete="off"  readonly />
                             <datalist id="states">
                             </datalist>
                         </div>
@@ -293,25 +283,25 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="arup_subbusiness">Arup Sub Business:</label>
-                            <input list="subbusinesses" id="arup_subbusiness" class="form-control input-form" name="arup_subbusiness" title="Input arup sub business" onfocusout="ensureSelected(this)" autocomplete="off" placeholder="Business sub-area" />
+                            <input list="subbusinesses" id="arup_subbusiness" class="form-control input-form" name="arup_subbusiness" title="Input arup sub business" autocomplete="off" placeholder="Business sub-area" />
                             <datalist id="subbusinesses">
                             </datalist>
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="arup_company">Arup Company:</label>
-                            <input list="companies" id="arup_company" class="form-control input-form" name="arup_company" onchange="getAccountingCentres();" onfocusout="ensureSelected(this)" title="Input Company" autocomplete="aoff" />
+                            <input list="companies" id="arup_company" class="form-control input-form" name="arup_company" onchange="getAccountingCentres();" title="Input Company" autocomplete="aoff" />
                             <datalist id="companies">
                             </datalist>
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="accountingcentre">Accounting Centre:</label>
-                            <input list="accountingcentres" id="accountingcentre" class="form-control input-form" name="accountingcentre" onfocusout="ensureSelected(this)" title="Input Accounting Centre" autocomplete="off" />
+                            <input list="accountingcentres" id="accountingcentre" class="form-control input-form" name="accountingcentre"  title="Input Accounting Centre" autocomplete="off" />
                             <datalist id="accountingcentres">
                             </datalist>
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="opporigin">Opportunity Originator:</label>
-                            <input list="users" id="opporigin" class="form-control input-form" name="opporigin" oninput="getUsers(this.value);" title="Input Staff name" autocomplete="off" placeholder="Arup staff name" />
+                            <input list="users" id="opporigin" class="form-control input-form" name="opporigin" oninput="getUsers(this);" title="Input Staff name" autocomplete="off" placeholder="Arup staff name" />
                             <datalist id="users">
                             </datalist>
                         </div>
@@ -319,12 +309,12 @@
                         <div class="form-group col-lg-12">
                             <label>Global Services:</label>
                             <p>
-                                <label><input type="checkbox" name="global_services[]" value="100000001" /> Advisory Services</label>&nbsp;&nbsp;
-                                <label><input type="checkbox" name="global_services[]" value="100000000" /> Architecture</label>&nbsp;&nbsp;
-                                <label><input type="checkbox" name="global_services[]" value="100000006" /> Digital</label>&nbsp;&nbsp;
-                                <label><input type="checkbox" name="global_services[]" value="100000002" /> Planning</label>&nbsp;&nbsp;
-                                <label><input type="checkbox" name="global_services[]" value="770000000" /> Not Applicable</label>&nbsp;&nbsp;
-                                <label><input type="checkbox" name="global_services[]" value="100000003" /> Other</label>
+                                <label><input type="checkbox" name="global_services" value="100000001" /> Advisory Services</label>&nbsp;&nbsp;
+                                <label><input type="checkbox" name="global_services" value="100000000" /> Architecture</label>&nbsp;&nbsp;
+                                <label><input type="checkbox" name="global_services" value="100000006" /> Digital</label>&nbsp;&nbsp;
+                                <label><input type="checkbox" name="global_services" value="100000002" /> Planning</label>&nbsp;&nbsp;
+                                <label><input type="checkbox" name="global_services" value="770000000" /> Not Applicable</label>&nbsp;&nbsp;
+                                <label><input type="checkbox" name="global_services" value="100000003" /> Other</label>
                             </p>
                         </div>
                         <div class="form-group col-lg-12">
