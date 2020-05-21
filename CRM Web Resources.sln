@@ -90,4 +90,7 @@ Global
 	GlobalSection(CRMSolutionProperties) = preSolution
 		SolutionIsBoundToCRM = True
 	EndGlobalSection
+	GlobalSection(CRMSolutionProperties) = preSolution
+		SolutionIsBoundToCRM = True
+	EndGlobalSection
 EndGlobal
