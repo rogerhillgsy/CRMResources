@@ -1014,6 +1014,44 @@ function getUsers(control) {
         });
 }
 
+function getFrameworkRecs(control) {
+    var input = control.value;
+    if (input.length < 2) return;
+    debounce(300,
+        () => {
+            oppWizLog("Start getting frameworks" + input);
+            control.classList.add("fetching-data");
+            FetchCRMData("arup_frameworks",
+                    "$select=arup_name,arup_frameworkid,arup_arupregionname,_arup_client_value&$filter=contains(arup_name,'" +
+                    encodeURIComponent(input) +
+                    "')" +
+                    encodeURIComponent(" and statecode eq 0") +
+                    "&$orderby=arup_name asc",
+                    control)
+                .then(function success(results) {
+                        var frameworks = "";
+                        for (var i = 0; i < results.value.length; i++) {
+                            var frameworkname = results.value[i]["arup_name"];
+                            var frameworkid = results.value[i]["arup_frameworkid"];
+                            var client =
+                                results.value[i]["_arup_client_value@OData.Community.Display.V1.FormattedValue"];
+                            frameworks += '<option value="' +
+                                frameworkname +
+                                '" data-value="' +
+                                frameworkid +
+                                '" > ' +
+                                frameworkname + " - " + client +
+                                '</option > ';
+                        }
+                    control.list.innerHTML = frameworks;
+                    if (results.value.length == 1) {
+                        control.value = results.value[0].arup_name;
+                    }
+                        oppWizLog("retrieved " + results.value.length + " frameworks");
+                    },
+                    restQueryErrorDialog("Unable to get Framework"));
+        });
+}
 
 function saveOpportunity() {
     debugger;
@@ -1054,7 +1092,6 @@ function CreateOpportunity(attributes) {
         Xrm.WebApi.retrieveMultipleRecords("ccrm_arupinterfacesetting",
                 "?$select=ccrm_setting&$filter=ccrm_name eq ('Arup.CreateOpportunity.UserId')")
             .then(function(result) {
-                    debugger;
                     if (result.entities.length != 1) {
                         reject(
                             { message: "CreateOpportunity Userid not defined in Arup Interface Settings" }
@@ -1223,37 +1260,6 @@ function FetchCRMData(entityName, select, target, maxRecords) {
     promise.always(() => !!target && target.classList.remove("waiting-for-crm"));
     if (!!target) target.classList.add("waiting-for-crm");
     return promise;
-}
-
-
-function FetchCRMData1(entityName, select, target, maxRecords) {
-    maxRecords = maxRecords || 25;
-    return new Promise(function (resolve, reject) {
-        if (!!target) target.classList.add("waiting-for-crm");
-        var x = $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            datatype: "json",
-            url: parent.Xrm.Page.context.getClientUrl() +
-                "/api/data/v9.1/"+ entityName + "?" + select,
-            beforeSend: function(XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=" + maxRecords);
-            },
-            async: true,
-            success: function (data, textStatus, xhr) {
-                if (!!target) target.classList.remove("waiting-for-crm");
-                resolve(data, textStatus, xhr);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                if (!!target) target.classList.remove("waiting-for-crm");
-               reject(xhr, textStatus, errorThrown);
-            }
-        });
-        debugger;
-    });
 }
 
 function restQueryErrorDialog(message, url, reject) {
@@ -1606,44 +1612,64 @@ var Arup_validations =
         crmAttribute: "arup_opportunitytype",
         onchange: function() {
             // Set up for new framework/panel calloff type '03 - or existing Framwork '04
-            debugger;
             var oppType = document.getElementById("opportunityType").value;
             var frameworkExists = document.getElementById("crmframeworkexists");
             var contractref = document.getElementById("contractagreementref");
+            var frameworkrec = document.getElementById("crmframeworkrecord");
             var procType = document.getElementById("contractarrangement");
             switch (oppType) {
-            case "770000003":
+            case "770000003": // New Framework
                 // CRM Framework record exists visible, set to no and disabled
-                frameworkExists.parentNode.style.visibility = "visible";
+                frameworkExists.parentNode.classList.remove("hidden");
                 frameworkExists.checked = false;
                 frameworkExists.disabled = true;
-                // Contract agreement ref visible, enabled and required
-                contractref.parentNode.style.visibility = 'visible';
-                contractref.disabled = false;
-                // ?? required?
                 // Procurement type set to Framework/Panel.. (2) and disabled
-                proctype.value = 2;
-                procType.disabled = true;
+                    Arup_validations.opportunityType.procTypeFramework(true);
+                Arup_validations.crmframeworkexists.required = true;
                 break;
-            case "770000004":
+            case "770000004": // Existing Framework
                 // CRM Framework record exists visible, set to yes and enabled
-                frameworkExists.parentNode.style.visibility = "visible";
+                frameworkExists.parentNode.classList.remove("hidden");
                 frameworkExists.checked = true;
                 frameworkExists.disabled = false;
-                // Contract agreement ref visible and required.
-                contractref.parentNode.style.visibility = 'visible';
-                contractref.disabled = false;
                 // unlock procurement type
-                procType.disabled = false;
+                Arup_validations.opportunityType.procTypeFramework(false);
+                Arup_validations.crmframeworkexists.required = true;
                 break;
             default:
                 // Hide CRM Framework and Contract agreeement. Unlock procurement type
-                frameworkExists.parentNode.style.visibility = "collapse";
-                contractref.parentNode.style.visibility = "collapse";
-                procType.disabled = false;
-
+                frameworkExists.parentNode.classList.add("hidden");
+                contractref.parentNode.classList.add("hidden");
+                frameworkrec.parentNode.classList.add("hidden");
+                Arup_validations.opportunityType.procTypeFramework(false);
+                Arup_validations.contractagreementref.required = false;
+                    Arup_validations.crmframeworkrecord.required = false;
+                Arup_validations.crmframeworkexists.required = false;
                 break;
             }
+            Arup_validations.crmframeworkexists.onchange();
+        },
+        procTypeFramework: function (enable) {
+            var procType = document.getElementById("contractarrangement");
+                if (enable) {
+                    // Add Framework option to list.
+                    procType.disabled = true;
+                    var opt = document.createElement('option');
+                    opt.value = 2;
+                    opt.innerHTML = "Framework/Panel Appointment/On-Call Agreement/Call-Off Order";
+                    procType.appendChild(opt);
+                    procType.value = 2;
+                } else {
+                    // procType.value = undefined;
+                    procType.disabled = false;
+                    for (var i = procType.options.length - 1; i > 0; i--) {
+                        if (procType.options[i].value == "2") {
+                            procType.options.remove(i);
+                        }
+                    }
+                    // remove framework option from proctype list.
+                    // proctype.options.filter("[value=2]").remove;
+                }
         }
     },
     relatedopportunity: {
@@ -1688,11 +1714,74 @@ var Arup_validations =
         },
         crmAttribute: "ccrm_leadsource", // Crm attribute tha this field maps to.
     },
-    crmframeworkexists : {
-        // TODO
+    crmframeworkexists: {
+        required : false,
+        name: "CRM Framework Record Exists",
+        crmAttribute: "arup_isthereanexistingcrmframeworkrecord",
+        onchange: function() {
+            var frameworkExists = document.getElementById("crmframeworkexists");
+            var contractref = document.getElementById("contractagreementref");
+            var crmframeworkrec = document.getElementById("crmframeworkrecord");
+            // contract agreement ref not vis and required.
+            if (Arup_validations.crmframeworkexists.required) {
+                if (frameworkExists.checked) {
+                    // Hide contract agreement and show crm framework
+                    contractref.parentNode.classList.add("hidden");
+                    crmframeworkrec.parentNode.classList.remove("hidden");
+                    Arup_validations.contractagreementref.required = false;
+                    Arup_validations.crmframeworkrecord.required = true;
+                } else {
+                    // Show contract agreement and hide crm framework ref
+                    contractref.parentNode.classList.remove("hidden");
+                    crmframeworkrec.parentNode.classList.add("hidden");
+                    Arup_validations.contractagreementref.required = true;
+                    Arup_validations.crmframeworkrecord.required = false;
+                }
+            }
+        },
+        value: (node) => {
+            if (Arup_validations.crmframeworkexists.required) {
+                return node.checked ? 1 : 0;
+            }
+            return undefined;
+        },
     },
-    contractagreementref : {
-        // TODO
+    contractagreementref: {
+        required: false,
+        hasErrors: function () {
+            var contractref = document.getElementById("contractagreementref");
+            if (this.required && !contractref.value) {
+                return "Contract reference must be given.";
+            }
+            return false;
+        },
+        name: "Contract Agreement Reference #",
+        crmAttribute: "ccrm_agreementnumber",
+        value : (node) => {
+            if (Arup_validations.contractagreementref.required) {
+                return node.value;
+            }
+            return undefined;
+        },
+    },
+    crmframeworkrecord: {
+        required: false,
+        hasErrors: function () {
+            var frameworkRec = document.getElementById("crmframeworkrecord");
+            if (this.required && !frameworkRec.value) {
+                return "Framework record must be given.";
+            }
+            return false;
+        },
+        name: "CRM Framework Rec",
+        crmAttribute: "arup_Framework",
+        value: (node) => {
+            if (Arup_validations.crmframeworkrecord.required) {
+                return "/arup_frameworks(" + $("#frameworkrecs option[value='" + $('#crmframeworkrecord').val() + "']").attr("data-value") + ")";
+            }
+            return undefined;
+        },
+        databind : true,
     },
     contractarrangement: {
         hasErrors: [
@@ -1708,9 +1797,15 @@ var Arup_validations =
         value: function(htmlNode) {
             return htmlNode.value;
         },
-        crmAttribute: "ccrm_contractarrangement", // Crm attribute tha this field maps to.
+        crmAttribute: "ccrm_contractarrangement", // Crm attribute that this field maps to.
         onchange: function () {
             validateField($("#endclient")[0]);
+        },
+        value: () => {
+            if (this.required) {
+                return $("#contractagreementref").val();
+            }
+            return undefined;
         },
     },
     client: {

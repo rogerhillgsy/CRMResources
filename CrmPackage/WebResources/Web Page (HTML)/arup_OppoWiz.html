@@ -110,10 +110,7 @@
     </script>
     <style type="text/css">
     </style>
-
-
-
-    <div class="container">
+<div class="container">
         <br>
         <h1 class="mainPage">
             <b>New Opportunity Wizard</b>
@@ -203,13 +200,21 @@
                                 <option value="10" title="Arup chose to bid following a public open invitation.">Public Advertisement/OJEU</option>
                             </select>
                         </div>
-                        <div class="form-group col-lg-6 collapsed" >
+                        <div class="form-group col-lg-6 hidden">
                             <label for="crmframeworkexists">CRM Framework Record Exists:</label>
                             <input type="checkbox" id="crmframeworkexists" name="hasframework" checked="" />
                         </div>
-                        <div class="form-group col-lg-6 collapsed">
-                            <label for="contractagreementref">Contract Agreement Ref #:</label>
-                            <input id="contractagreementref" class="form-control input-form"  placeholder="Contract ref #" autocomplete="off" />
+                        <div class="col-lg-6">
+                            <div class="form-group  hidden">
+                                <label for="contractagreementref">Contract Agreement Ref #:</label>
+                                <input id="contractagreementref" class="form-control input-form" placeholder="Contract ref #" autocomplete="off" />
+                            </div>
+                            <div class="form-group hidden">
+                                <label for="crmframeworkrecord">CRM Framework Record:</label>
+                                <input list="frameworkrecs" id="crmframeworkrecord" class="form-control" name="crmframeworkrecord" oninput="getFrameworkRecs(this);" placeholder="Select CRM Framework" autocomplete="off" />
+                                <datalist id="frameworkrecs">
+                                </datalist>
+                            </div>
                         </div>
                         <br />
                         <br />
@@ -240,6 +245,7 @@
                             <option title="Traditional or Direct Appointment to Client" value="5">Traditional or Direct Appointment to Client</option>
                             <option title="Traditional or Direct Appointment to Client with Potential Future Novation" value="8">Traditional or Direct Appointment to Client with Potential Future Novation</option>
                             <option title="Turnkey" value="6">Turnkey</option>
+                            <option value="2" disabled> Framework/Panel Appointment/On-Call Agreement/Call-Off Order</option>
                         </select>
                     </div>
                     <div class="form-group col-lg-6">
