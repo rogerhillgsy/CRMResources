@@ -51,7 +51,7 @@ function Form_onload(executionContext) {
 
         //arup_highriskclient_onchange(formContext);
         filterLeadsGrid(formContext);
-        country_onChange(formContext);
+        country_onChange(executionContext);
         IsRegisteredAddressFromParentRecord(formContext);
         userRegion = GetCurrentUserDetails(formContext);
         DisplayCOVID19Section(userRegion, formContext);
@@ -198,43 +198,28 @@ function isUserInSSCTeam(formContext) {
     return userExists;
 }
 
-function country_onChange(formContext) {
+function country_onChange(executionContext) {
+
+    var formContext = executionContext.getFormContext();
 
     canada_visibility(formContext);
-    //clear_state();
     established_government_client_visibility(formContext);
+    hideShowAmericasFields(formContext);
 }
 
 function countryID_onChange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    country_onChange(formContext);
+
+    country_onChange(executionContext);
 }
 
 function canada_visibility(formContext) {
 
     if (formContext.getAttribute("ccrm_countryid").getValue() != null && formContext.getAttribute("ccrm_countryid").getValue() != "undefined") {
-        var isVisible = formContext.getAttribute("ccrm_countryid").getValue()[0].name == 'Canada';
+        var isVisible = formContext.getAttribute("ccrm_countryid").getValue()[0].name.toUpperCase() == 'CANADA';
 
         formContext.ui.tabs.get("SUMMARY_TAB").sections.get("canada_privacy").setVisible(isVisible);
     }
 }
-
-//function clear_state() {
-
-//    if (Xrm.Page.getAttribute("ccrm_countryid").getValue() == null || Xrm.Page.getAttribute("ccrm_countryid").getValue() == "undefined") {
-//        Xrm.Page.getAttribute("ccrm_countrystate").setValue(null);
-//        Xrm.Page.getAttribute("address1_stateorprovince").setValue(null);
-//        return;
-//    }
-
-//    if (stateRequired(Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].name)) {
-
-//        Xrm.Page.getAttribute("ccrm_countrystate").setValue(null);
-//    }
-//    else {
-//        Xrm.Page.getAttribute("address1_stateorprovince").setValue(null);
-//    }
-//}
 
 function established_government_client_visibility(formContext) {
 
@@ -1252,3 +1237,16 @@ function OpenConnMatrixReport(primaryControl) {
     }
 }
 
+function hideShowAmericasFields(formContext) {
+
+    var country = formContext.getAttribute("ccrm_countryid").getValue();
+    var countryName;
+    if (country != null) {
+        countryName = country[0].name.toUpperCase();
+    }
+    var isVisible = false;
+    isVisible = countryName != null && (countryName == 'UNITED STATES OF AMERICA' || countryName == 'CANADA');
+
+    formContext.ui.tabs.get('SUMMARY_TAB').sections.get('SUMMARY_TAB_section_6').setVisible(isVisible);
+
+}
