@@ -378,3 +378,7 @@ textarea.form-control {
     background-image: url("arup_progressSpinner.gif");
     background-repeat: no-repeat;
 }
+
+.collapsed {
+    visibility: collapse;
+}
