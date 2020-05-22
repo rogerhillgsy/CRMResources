@@ -16,7 +16,7 @@ function changeHeaderTileFormat() {
     var headertiles = window.parent.document.getElementsByClassName("ms-crm-HeaderTileElement");
     if (headertiles != null) {
         for (var i = 0; i < headertiles.length; i++) {
-            headertiles[i].style.width = "451px";
+            headertiles[i].style.width = "450px";
             headertiles[i].style.maxWidth = "300px";
         }
     }
