@@ -1,31 +1,9 @@
-function FormOnload() {
-
-    setup_display_other_field("arup_participantrole_val", "arup_role_other_text", "770000061");
-    //setTimeout(function () { WindowSizw(); }, 2000);
+function FormOnload(executionContext) {
+    
+    participantRole_onChange(executionContext);
 
 }
 
-function setup_display_other_field(otherNetworksVal, otherNetworksDetail, otherCodeValue, isToBeHidden) {
-    /// <summary>Setup multi-select picklist so that when "other" is selected, a text field is activated to allow the user to enter the details.</summary>
-    var isOtherFieldRequired = otherCodeValue;
-    if (typeof (otherCodeValue) != "function") {
-        isOtherFieldRequired = function (v) { return typeof (v) == "string" && v.search(otherCodeValue) > -1 || v == otherCodeValue };
-    }
-    isToBeHidden = isToBeHidden == null ? true : isToBeHidden;
-    var attribute = Xrm.Page.getAttribute(otherNetworksVal);
-    if (!!attribute) {
-        attribute.addOnChange(function () {
-            display_other_field(otherNetworksVal, otherNetworksDetail, isOtherFieldRequired, isToBeHidden);
-        });
-
-        // Do this twice as header fields get their requirement level set after the onload function runs.
-        display_other_field(otherNetworksVal, otherNetworksDetail, isOtherFieldRequired, isToBeHidden);
-        setTimeout(function () {
-            display_other_field(otherNetworksVal, otherNetworksDetail, isOtherFieldRequired, isToBeHidden);
-        },
-            1000);
-    }
-}
 function WindowSizw() {
     $(document).ready(function () {
         var _win = window.self;
@@ -41,23 +19,6 @@ function resizePage() {
     var height = 400;
     window.resizeTo(width, height);
     window.moveTo(((screen.width - width) / 2), ((screen.height - height) / 2));
-}
-
-function display_other_field(otherNetworksVal, otherNetworksDetail, isOtherFieldRequired, isToBeHidden) {
-    var value = Xrm.Page.getAttribute(otherNetworksVal).getValue();
-    var otherNetworkDetails = Xrm.Page.getControl(otherNetworksDetail);
-
-    if (!!otherNetworkDetails) {
-        if (!!value && isOtherFieldRequired(value)) {
-            otherNetworkDetails.getAttribute().setRequiredLevel("required");
-            otherNetworkDetails.setVisible(true);
-        } else {
-            otherNetworkDetails.getAttribute().setRequiredLevel("none");
-            if (isToBeHidden) {
-                otherNetworkDetails.setVisible(false);
-            }
-        }
-    }
 }
 
 // runs on Exit button
@@ -125,4 +86,27 @@ function addNewProjectCollabotor() {
         parameters["arup_opportunityname"] = opportunity[0].name;
         Xrm.Utility.openEntityForm(Xrm.Page.data.entity.getEntityName(), null, parameters);
     }
+}
+
+function participantRole_onChange(executionContext) {
+
+    var formContext = executionContext.getFormContext();
+    var valueExists = false;
+
+    var role = formContext.getAttribute("arup_collaboratorrole").getText();
+    if (role != null) { valueExists = role.indexOf('Other') != -1; }
+    switch (valueExists) {
+
+        case true:
+            formContext.getControl("arup_role_other_text").setVisible(true);
+            formContext.getAttribute("arup_role_other_text").setRequiredLevel('required');
+            break;
+
+        default:
+            formContext.getControl("arup_role_other_text").setVisible(false);
+            formContext.getAttribute("arup_role_other_text").setRequiredLevel('none');
+            formContext.getAttribute("arup_role_other_text").setValue(null);            
+            break;
+    }
+
 }
