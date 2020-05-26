@@ -1,7 +1,6 @@
 var expressedConsent;
 var isMobile = false;
 var businessInterestSaved;
-var mostSeniorTeam;
 
 function form_onLoad(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -10,11 +9,6 @@ function form_onLoad(executionContext) {
     if (formContext.ui.getFormType() != 1) {
 
         formContext.ui.tabs.get("HubSpot").setDisplayState('collapsed');
-
-        //RF Commneted dure to GNS Changes
-        //mostSeniorTeam = userInTeamCheck("Most Senior Contact Update Team", formContext);
-        //formContext.getControl("arup_mostseniorcontact").setVisible(mostSeniorTeam);
-        // End
 
         ccrm_uselocallanguage_onchange(formContext);
 
@@ -179,12 +173,6 @@ function PrePopulateCanadaFields(formContext) {
             Xrm.Utility.alertDialog(error.message);
         }
     );
-
-    //var dataset = "AccountSet";
-    //var retrievereq = ConsultCrm.Sync.RetrieveRequest(parentcustomerid, dataset);
-    //if (retrievereq !== null) {
-    //    formContext.getAttribute("arup_organisationconsent").setValue(retrievereq.arup_ImpliedConsent || retrievereq.arup_ExpressedConsent);
-    //}
 }
 
 function canadaFieldsRequired(executionContext) {
@@ -445,11 +433,6 @@ function phoneOnChange(executionContext) {
     if (formContext.getAttribute("ccrm_countryid").getValue() != null) {
         var countryId = formContext.getAttribute("ccrm_countryid").getValue()[0].id;
         var countryName = formContext.getAttribute("ccrm_countryid").getValue()[0].name;
-
-        //var filter = "Ccrm_countryId eq (guid'" + countryId + "')";
-        //var dataset = "Ccrm_countrySet";
-        //var retrievedMultiple = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);
-        //var results = retrievedMultiple.results;
 
         Xrm.WebApi.online.retrieveMultipleRecords("ccrm_country", "?$select=ccrm_mobilearray,ccrm_mobiledisplay,ccrm_mobileformat,ccrm_phonearray,ccrm_phonedisplay,ccrm_phoneformat&$filter=ccrm_countryid eq " + countryId + "").then(
             function success(results) {
@@ -718,30 +701,6 @@ function gridRowSelected(context) {
             Xrm.Utility.alertDialog(error.message);
         }
     );
-
-    //SDK.REST.retrieveRecord(id, "Contact", 'Ccrm_SyncAddress', null,
-    //    function (retrievedreq) {
-    //        if (retrievedreq != null) {
-    //            syncAddress = retrievedreq.Ccrm_SyncAddress;
-    //            entityObject.attributes.forEach(function (attr) {
-    //                if (
-    //                    (attr.getName() === "ccrm_countryid" || attr.getName() === "ccrm_address2countrypicklist" || attr.getName() == "arup_businessinterest_ms" ||
-    //                        attr.getName() === "ccrm_countrystate") ||
-    //                    attr.getName() == 'ccrm_address2state' || attr.getName() == 'ccrm_address2statepicklist' || attr.getName() == 'ccrm_adress2country' ||
-    //                    (syncAddress && (
-    //                        attr.getName() === "address1_addresstypecode" || attr.getName() === "address1_line1" ||
-    //                        attr.getName() === "address1_line2" || attr.getName() === "address1_line3" ||
-    //                        attr.getName() === "address1_postalcode" || attr.getName() === "address1_city" ||
-    //                        attr.getName() === "address1_stateorprovince")
-    //                    )
-    //                ) {
-    //                    attr.controls.forEach(function (c) {
-    //                        c.setDisabled(true);
-    //                    })
-    //                }
-    //            });
-    //        }
-    //    }, errorHandler, true);
 }
 
 function errorHandler(error) {
@@ -835,45 +794,6 @@ function retrieveEntity(entityname, id, columnset, formContext) {
     req.send();
 }
 
-/* RF Commented the code as GNS removed tghe Most Senior contact field
-function userInTeamCheck(TeamName, formContext) {
-
-    var IsPresentInTeam = false;
-
-    try {
-        Xrm.WebApi.online.retrieveMultipleRecords("teammembership", "?$select=systemuserid,teamid&$filter=systemuserid eq " + formContext.context.getUserId() + "").then(
-            function success(results) {
-                for (var i = 0; i < results.entities.length; i++) {
-                    var teamid = results.entities[i]["teamid"];
-
-                    Xrm.WebApi.online.retrieveMultipleRecords("team", "?$select=name,teamid&$filter=teamid eq " + teamid + "").then(
-                        function success(results) {
-                            for (var i = 0; i < results.entities.length; i++) {
-                                var name = results.entities[i]["name"];
-
-                                if (name == TeamName) {
-                                    IsPresentInTeam = true;
-                                    break;
-                                }
-                            }
-                        },
-                        function (error) {
-                            Xrm.Utility.alertDialog(error.message);
-                        }
-                    );
-                }
-            },
-            function (error) {
-                Xrm.Utility.alertDialog(error.message);
-            }
-        );
-    }
-    catch (err) {
-        console.log('GLobal DQ Error: ' + err.message);
-    }
-    return IsPresentInTeam;
-}*/
-
 function onChange_ContactType(executionContext) {
     var formContext = executionContext.getFormContext();
     contactType_onchange(formContext);
@@ -893,7 +813,6 @@ function contactType_onchange(formContext) {
         formContext.getControl("middlename").setVisible(false);
         formContext.getAttribute("jobtitle").setRequiredLevel('none');
         formContext.getAttribute("accountrolecode").setRequiredLevel('none');
-        //Xrm.Page.getControl("arup_organisationtype").setVisible(true);
         formContext.getControl("ccrm_syncaddress").setVisible(false);
         enableAddressFields(false, formContext);
         formContext.getControl("address1_addresstypecode").setVisible(false);
@@ -909,10 +828,8 @@ function contactType_onchange(formContext) {
         formContext.getControl("arup_currentorganisation").setVisible(true);
         formContext.getAttribute("arup_currentorganisation").setRequiredLevel('required');
 
-        //RF Commneted due to GNS Changes
         if (formContext.getControl("header_parentcustomerid") != null) {
             formContext.getControl("header_parentcustomerid").setVisible(false);
-         //   formContext.getControl("header_arup_currentorganisation").setVisible(true);
         }
         
         if (fullform) {
@@ -935,7 +852,6 @@ function contactType_onchange(formContext) {
         formContext.getControl("middlename").setVisible(true);
         formContext.getAttribute("jobtitle").setRequiredLevel('required');
         formContext.getAttribute("accountrolecode").setRequiredLevel('required');
-        //Xrm.Page.getControl("arup_organisationtype").setVisible(false);
         formContext.getControl("ccrm_syncaddress").setVisible(true);
         enableAddressFields(true, formContext);
         formContext.getControl("address1_addresstypecode").setVisible(true);
@@ -951,10 +867,8 @@ function contactType_onchange(formContext) {
         formContext.getControl("arup_currentorganisation").setVisible(false);
         formContext.getAttribute("parentcustomerid").setRequiredLevel('required');
 
-        //RF Commneted due to GNS Changes
         if (formContext.getControl("header_parentcustomerid") != null) {
                 formContext.getControl("header_parentcustomerid").setVisible(true);
-         //   formContext.getControl("header_arup_currentorganisation").setVisible(false);
         }        
 
         if (fullform) {
@@ -973,7 +887,6 @@ function contactType_onchange(formContext) {
         formContext.getControl("arup_currentorganisation").setVisible(false);
         if (formContext.getControl("header_parentcustomerid") != null) {
             formContext.getControl("header_parentcustomerid").setVisible(true);
-            //formContext.getControl("header_arup_currentorganisation").setVisible(false);
         }
     }
 }
