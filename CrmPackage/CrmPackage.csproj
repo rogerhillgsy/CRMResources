@@ -41,7 +41,6 @@
     <Folder Include="WebResources\PNG format\" />
     <Folder Include="WebResources\Script %28JScript%29\" />
     <Folder Include="WebResources\Script %28JScript%29\libraries" />
-    <Folder Include="WebResources\Script %28JScript%29\arup_oppowiz" />
     <Folder Include="WebResources\Style Sheet %28CSS%29\" />
     <Folder Include="WebResources\Web Page %28HTML%29\" />
     <RegisterPlugin Include="RegisterFile.crmregister">
@@ -1318,46 +1317,11 @@
       <UniqueName>arup_OppoWiz.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_OppoWiz.MSWorkerClass.js">
-      <DisplayName>Opportunity Wizard MS worker class</DisplayName>
-      <UniqueName>arup_OppoWiz.MSWorkerClass.js</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_OppoWizAutocomplete.js">
-      <DisplayName>Opportunity Wizard Autocomplete</DisplayName>
-      <UniqueName>arup_OppoWizAutocomplete.js</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_OppoWizValidate.js">
-      <DisplayName>Opportunity Wizard Validation</DisplayName>
-      <UniqueName>arup_OppoWizValidate.js</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_oppowiz\arup_oppoWizInput.js">
-      <DisplayName>OppoWiz input class</DisplayName>
-      <UniqueName>arup_oppowiz/arup_oppoWizInput.js</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script (JScript)\arup_oppowiz\arup_OppoWiz2.html">
-      <DisplayName>Oppowiz 2 html</DisplayName>
-      <UniqueName>arup_oppowiz/arup_OppoWiz.html</UniqueName>
-      <WebResourceType>WebPage</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script (JScript)\arup_oppowiz\arup_oppoWiz2.js">
-      <DisplayName>Oppowiz2 js</DisplayName>
-      <UniqueName>arup_oppowiz/arup_oppoWiz2.js</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Contact_main_library.js">
       <DisplayName>Contact_main_library</DisplayName>
       <UniqueName>arup_Contact_main_library</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
-    <None Include="WebResources\Script %28JScript%29\libraries\autoComplete.js">
-      <DisplayName>autoComplete.js</DisplayName>
-      <UniqueName>arup_lib/autoComplete.js</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </None>
     <None Include="WebResources\Script %28JScript%29\libraries\index.js">
       <DisplayName>index</DisplayName>
       <UniqueName>arup_index</UniqueName>
@@ -1366,11 +1330,6 @@
     <None Include="WebResources\Script %28JScript%29\libraries\underscore.js">
       <DisplayName>underscore</DisplayName>
       <UniqueName>arup_underscore</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </None>
-    <None Include="WebResources\Script %28JScript%29\libraries\validate.js">
-      <DisplayName>validate</DisplayName>
-      <UniqueName>arup_validate</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </None>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_dynamic_display_of_fieldvalue.js">
