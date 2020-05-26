@@ -734,21 +734,21 @@ function getStates() {
             oppWizLog("Start getting states " + input);
             control.classList.add("fetching-data");
             FetchCRMData("ccrm_arupusstates",
-                "$select=ccrm_arupusstatecode,ccrm_arupusstateid,ccrm_name,ccrm_usstatecode,ccrm_companyid,statecode&$filter=_ccrm_countryid_value" + encodeURIComponent(" eq ") + input + "&$orderby=ccrm_name asc",
-                    control)
+                "$select=ccrm_arupusstatecode,ccrm_arupusstateid,ccrm_name,ccrm_usstatecode,_ccrm_companyid_value,statecode&$filter=_ccrm_countryid_value" + encodeURIComponent(" eq ") + input + "&$orderby=ccrm_name asc",
+                    control,0)
                 .then(function success(results) {
                         var states = "";
                         for (var i = 0; i < results.value.length; i++) {
                             var ccrm_arupusstateid = results.value[i]["ccrm_arupusstateid"];
                             var ccrm_name = results.value[i]["ccrm_name"];
                             var ccrm_usstatecode = results.value[i]["ccrm_usstatecode"];
-                            var ccrm_companyid = results.value[i]["ccrm_companyid"];
+                            var ccrm_companyid = results.value[i]["_ccrm_companyid_value"];
                             var statecode = results.value[i]["statecode"];
                             var statecode_formatted = results.value[i]["statecode@OData.Community.Display.V1.FormattedValue"];
 
-                            states += '<option value="' + ccrm_name + '" data-value="' + ccrm_arupusstateid +
-                                ( ccrm_companyid == null ? "" : '"company-id-value"="' + ccrm_companyid ) +
-                                '" > ' + ccrm_usstatecode + " - " + ccrm_name + '</option > ';
+                            states += '<option value="' + ccrm_name + '" data-value="' + ccrm_arupusstateid + '" ' + 
+                                ( ccrm_companyid == null ? "" : 'company-id-value="' + ccrm_companyid + '"' ) +
+                                ' > ' + ccrm_usstatecode + " - " + ccrm_name + '</option > ';
                         }
                         control.list.innerHTML = states;
                         control.value = "";
@@ -848,7 +848,6 @@ function getUserCompany() {
         "&$orderby=ccrm_name asc",
         control, 0).then(
             function success(results) {
-                debugger;
                 var companies = "";
                 var indiaCompanies = "";
                 for (var i = 0; i < results.value.length; i++) {
@@ -1192,93 +1191,105 @@ function CreateOpportunity(attributes) {
 function getOpportunitiesOpen(target) {
     // To DO
     oppWizLog("Get open opportunities");
-    getOpportunities(target);
+    getOpportunities(target, "and statecode eq 0");
 }
 function getOpportunitiesOpenWon(target) {
     // To DO
     oppWizLog("Get open and Won opportunities");
-    getOpportunities(target);
+    getOpportunities(target, " and  (statecode eq 0 or  statecode eq 1 )");
 }
 
 function getOpportunitiesWon(target) {
     // To DO
     oppWizLog("Get  Won opportunities");
-    getOpportunities(target);
+    getOpportunities(target, " and  (statecode eq 1 )");
 }
 
 function getOpportunitiesOpenWonArchMaster(target) {
     // To DO
     oppWizLog("Get open and Won architectural master opportunities");
-    getOpportunities(target);
+    getOpportunities(target, " and  ((statecode eq 0 or  statecode eq 1 ) or arup_opportunitytype eq 770000005)");
 }
 
 
-function getOpportunities(inputControl) {
+function getOpportunities(inputControl, extraFilter) {
     // Do not search if the current value is an exact match for a item in the data list.
     var value = $("#opportunities option[value='" + $('#relatedopportunity').val() + "']");
     if (value.length > 0) return;
     var input = inputControl.value;
 
-    debounce(300,
-        () => {
-            (new Promise(function(resolve, reject) {
-                inputControl.classList.add("waiting-for-crm");
-                var num = input.length;
-                oppWizLog("Searching for opportunity: " + input);
-                if ($.isNumeric(input)) {
-                    if (num >= 4) {
-                        var firstDigit = getFirstDigit(input);
-                        if (firstDigit == 8) {
-                            FetchCRMData("opportunities",
-                                    "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_reference,'" +
-                                    input +
-                                    "')&$orderby=" +
-                                    encodeURIComponent("ccrm_jna asc"),
-                                    inputControl)
-                                .then((result) => {
-                                        resolve(result, "ccrm_reference");
-                                    },
-                                    restQueryErrorDialog("Getting opportunities by name"),
-                                    null,
-                                    reject);
-                        } else {
-                            FetchCRMData("opportunities",
-                                    "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_jna,'" +
-                                    input +
-                                    "')&$orderby=" +
-                                    encodeURIComponent("ccrm_jna asc"),
-                                    inputControl)
-                                .then((result) => {
-                                        resolve(result, "ccrm_jna");
-                                    },
-                                    restQueryErrorDialog("Getting opportunities by ccrm_jna", null, reject));
-                        }
-                    }
+    var p = new Promise(function(resolve, reject) {
+        inputControl.classList.add("waiting-for-crm");
+        var num = input.length;
+        oppWizLog("Searching for opportunity: " + input);
+        if ($.isNumeric(input)) {
+            if (num >= 4) {
+                var firstDigit = getFirstDigit(input);
+                if (firstDigit == 8) {
+                    FetchCRMData("opportunities",
+                            "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_reference,'" +
+                            input +
+                            "')" +
+                            extraFilter +
+                            "&$orderby=" +
+                            encodeURIComponent("ccrm_jna asc"),
+                            inputControl)
+                        .then((result) => {
+                                resolve(result, "ccrm_reference");
+                            },
+                            restQueryErrorDialog("Getting opportunities by name"),
+                            null,
+                            reject);
                 } else {
-                    if (num >= 5) {
-                        FetchCRMData("opportunities",
-                                "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=contains(name, '" +
-                                input +
-                                "')&$orderby=" +
-                                encodeURIComponent("ccrm_jna asc"),
-                                inputControl)
-                            .then((result) => {
-                                    resolve(result, "name");
-                                },
-                                restQueryErrorDialog("Getting opportunities by name"),
-                                null,
-                                () => reject);
-                    }
+                    FetchCRMData("opportunities",
+                            "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_jna,'" +
+                            input +
+                            "')" +
+                            extraFilter +
+                            "&$orderby=" +
+                            encodeURIComponent("ccrm_jna asc"),
+                            inputControl)
+                        .then((result) => {
+                                resolve(result, "ccrm_jna");
+                            },
+                            restQueryErrorDialog("Getting opportunities by ccrm_jna", null, reject));
                 }
-            })).then(
-                function resolve( result, type) {
-                    fillOpportunityResults(result);
-                    oppWizLog("Found " + result.value.length + " results");
-                    inputControl.focus();
-                },
-                function reject() {
-                });
+            }
+        } else {
+            if (num >= 5) {
+                FetchCRMData("opportunities",
+                        "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=contains(name, '" +
+                        input +
+                        "')" +
+                        extraFilter +
+                        "&$orderby=" +
+                        encodeURIComponent("ccrm_jna asc"),
+                        inputControl)
+                    .then((result) => {
+                            resolve(result, "name");
+                        },
+                        restQueryErrorDialog("Getting opportunities by name"),
+                        null,
+                        () => reject);
+            }
+        }
+    });
+    p = p.then(
+        function resolve(result, type) {
+            fillOpportunityResults(result);
+            oppWizLog("Found " + result.value.length + " results");
+            inputControl.focus();
+        },
+        function reject() {
         });
+    return p;
+}
+
+function loadFromParent(htmlNode, fieldsToLoad) {
+    // Load opportunity fields from parent
+    oppWizLog("load fields from parent " + htmlNode.value);
+    oppWizLog(" fields to load = " + fieldsToLoad.join(", "));
+
 }
 
 function fillOpportunityResults(data) {
@@ -1683,7 +1694,8 @@ var Arup_validations =
             }
         ],
         name: "Opportunity Type",
-        value: function(htmlNode) {
+        value: function (htmlNode) {
+            if (!htmlNode) htmlNode = $("#opportunityType")[0];
             return htmlNode.value;
         },
         crmAttribute: "arup_opportunitytype",
@@ -1780,55 +1792,88 @@ var Arup_validations =
         OPPTYPE_PROJECT_EXTENSION_EXISTING: "770000001",
         OPPTYPE_ARCH_COMP_TEAM_OPPO: "770000006",
         INTERNAL_OPPORTUNITY: 1,
-        oninput: function(c, _this) {
-            var intOrExt = Arup_validations.intorext.value();
-            var opptype = Arup_validations.opportunityType.value();
-            if (intOrExt == _this.INTERNAL_OPPORTUNITY) {
-                switch (opptype) {
-                case _this.OPPTYPE_PROJECT_EXTENSION_NEW:
-                    getOpportunitiesOpen(c.target);
-                    break;
-                case _this.OPPTYPE_PROJECT_EXTENSION_EXISTING:
-                    getOpportunitiesOpenWon(c.target);
-                    break;
-                case _this.OPPTYPE_ARCH_COMP_TEAM_OPPO:
-                    getOpportunitiesOpenWonArchMaster(c.target);
-                default:
-                    getOpportunitiesOpenWon(c.target);
-                    break;
-                }
-            } else {
-                switch (opptype) {
-                case _this.OPPTYPE_PROJECT_EXTENSION_NEW:
-                    getOpportunitiesOpenWon(c.target);
-                    break;
-                case _this.OPPTYPE_PROJECT_EXTENSION_EXISTING:
-                    getOpportuntiesWon(c.target);
-                    break;
-                case _this.OPPTYPE_ARCH_COMP_TEAM_OPPO:
-                    getOpportunitiesOpenWonArchMaster(c.target);
-                default:
-                    getOpportunitiesOpenWon(c.target);
-                    break;
-                }
-            }
+        oninput: function (c, _this) {
+            debounce(300,
+                () => {
+                    var intOrExt = Arup_validations.intorext.value();
+                    var opptype = Arup_validations.opportunityType.value();
+                    if (intOrExt == _this.INTERNAL_OPPORTUNITY) {
+                        switch (opptype) {
+                        case _this.OPPTYPE_PROJECT_EXTENSION_NEW:
+                            getOpportunitiesOpen(c.target);
+                            break;
+                        case _this.OPPTYPE_PROJECT_EXTENSION_EXISTING:
+                            getOpportunitiesOpenWon(c.target);
+                            break;
+                        case _this.OPPTYPE_ARCH_COMP_TEAM_OPPO:
+                            getOpportunitiesOpenWonArchMaster(c.target);
+                        default:
+                            getOpportunitiesOpenWon(c.target);
+                            break;
+                        }
+                    } else {
+                        switch (opptype) {
+                        case _this.OPPTYPE_PROJECT_EXTENSION_NEW:
+                            getOpportunitiesOpenWon(c.target);
+                            break;
+                        case _this.OPPTYPE_PROJECT_EXTENSION_EXISTING:
+                            getOpportuntiesWon(c.target);
+                            break;
+                        case _this.OPPTYPE_ARCH_COMP_TEAM_OPPO:
+                            getOpportunitiesOpenWonArchMaster(c.target);
+                        default:
+                            getOpportunitiesOpenWon(c.target);
+                            break;
+                        }
+                    }
+                });
         },
         onchange: function(e, _this) {
-            if (_this.required && !!_this.value()) {
-                // Lock field
-                e.target.disabled = true;
-            }
-            var opptype = Arup_validations.opportunityType.value();
-            switch (opptype) {
-            case _this.OPPTYPE_PROJECT_EXTENSION_NEW:
-                loadFromParent(_this.value(), [/*list of attrs to load */]);
-                break;
-            case _this.OPPTYPE_PROJECT_EXTENSION_EXISTING:
-                loadFromParent(_this.value(), [/*list of attrs to load */]);
-                break;
-            case _this.OPPTYPE_ARCH_COMP_TEAM_OPPO:
-                loadFromParent(_this.value(), [/*list of attrs to load */]);
-                break;
+            var intOrExt = Arup_validations.intorext.value();
+            if (intOrExt == _this.INTERNAL_OPPORTUNITY) {
+                if (_this.required && !!_this.value()) {
+                    // Lock field
+                    e.target.disabled = true;
+                    loadFromParent(_this,
+                        [
+                            'arup_business', 'arup_subbusiness', 'project_country', 'project_state', 'project_city',
+                            'contractarrangement', 'client', 'endclient', 'leadSource', 'probProjProceeding',
+                            'probOfWin'
+                        ]);
+                } else {
+                    var opptype = Arup_validations.opportunityType.value();
+                    switch (opptype) {
+                    case _this.OPPTYPE_PROJECT_EXTENSION_NEW:
+                        var fieldsToLoad = [
+                            'arup_business', 'arup_subbusiness', 'description', 'ArupUniIa', 'project_country',
+                            'project_state', 'project_city', 'confidential'
+                        ];
+                        var procurementType = $("#contractarrangement")[0].value;
+                        if (procurementType != 100000003) { // Novation to D&C contractor
+                            fieldsToLoad.push('client');
+                            }
+                        loadFromParent(_this, fieldsToLoad);
+                        break;
+                    case _this.OPPTYPE_PROJECT_EXTENSION_EXISTING:
+                        loadFromParent(_this,
+                            [
+                                'arup_business', 'arup_subbusiness', 'description', 'ArupUniIa', 'project_country',
+                                'project_state', 'project_city', 'confidential', 'client', 'arupsrole',
+                                'contractarrangement',
+                                'limitOfLiability', 'limitOfLiabilityAgreed', 'limitAmount', 'PIRequirement',
+                                'PICurrency', 'LolCurrency', 'PILevelAmount'
+                            ]);
+                        break;
+                    case _this.OPPTYPE_ARCH_COMP_TEAM_OPPO:
+                        loadFromParent(_this,
+                            [
+                                'arup_business', 'arup_subbusiness', 'description', 'ArupUniIa', 'project_country',
+                                'project_state', 'project_city', 'confidential', 'arupsrole', 'contractarrangement',
+                                'endclient'
+                            ]);
+                        break;
+                    }
+                }
             }
         }
     },
@@ -1935,8 +1980,11 @@ var Arup_validations =
             return htmlNode.value;
         },
         crmAttribute: "ccrm_contractarrangement", // Crm attribute that this field maps to.
-        onchange: function() {
+        onchange: function(e, _this) {
             validateField($("#endclient")[0]);
+            // TODO - load from paren
+            oppWizLog("****** check contractarrangement -> related opportunity");
+            Arup_validations.relatedopportunity.loadFieldsFromparent(e, Arup_validations.relatedopportunity);
         },
         value: () => {
             if (this.required) {
@@ -2086,8 +2134,8 @@ var Arup_validations =
         crmAttribute: "ccrm_arupusstateid",
         onchange: function (e, _this) {
             debugger;
-            var companyId = $("#states option[value='" + _this.valueName(target, _this) + "']").attr("company-id-value");
-            var country = Arup_validations.project_country.value();
+            var companyId = $("#states option[value='" + e.target.value + "']").attr("company-id-value");
+            var country = $("#project_country").val();
             if (country == "United States of America" || country == "Canada")
             {
                 // Set company from state if available.
@@ -2477,19 +2525,103 @@ var Arup_validations =
     },
     show_pjn: {
         // This is a hidden field - set from CRM on load and not displayed to user.
-        name: "Show PJN Bitton",
+        name: "Show PJN Button",
         value: function() {
             return true;
         },
         crmAttribute: "ccrm_showpjnbutton",
     },
     country_category: {
+        // Hidden field
         name: "Country Category Code",
         crmAttribute: "ccrm_countrycategory",
         value: function () { return this.val },
         dependson : ["project_country"],
     },
-
+    probProjProceeding: {
+        // This is a hidden field 
+        name: "Probability of Project Proceeding",
+        val: undefined, // Set dynamically from parent opportunity
+        value: (target, _this) => _this.val, 
+        crmAttribute: "ccrm_probabilityofprojectproceeding",
+    },
+    probOfWin: {
+        // This is a hidden field 
+        name: "Probability of Win",
+        val: undefined, // Set dynamically from parent opportunity
+        value: (target, _this) => _this.val,
+        crmAttribute: "closeprobability",
+    },
+    ArupUniIa: {
+        // This is a hidden field .
+        name: "Arup University/IiA Research Initiative",
+        val: undefined, // Set dynamically from parent opportunity
+        value: (target, _this) => _this.val,
+        crmAttribute: "ccrm_arupuniversityiiaresearchinitiative",
+    },
+    confidential: {
+        // This is a hidden field .
+        name: "Confidential Opportunity",
+        val: undefined, // Set dynamically from parent opportunity
+        value: (target, _this) => _this.val,
+        crmAttribute: "ccrm_confidential",
+    },
+    arupsrole : {
+        // This is a hidden field .
+        name: "Arup's Role in Project",
+        val: undefined, // Set dynamically from parent opportunity
+        value: (target, _this) => _this.val,
+        crmAttribute: "ccrm_arups_role_in_project",
+    },
+    limitOfLiability: {
+        // This is a hidden field .
+        name: "Limit of Liability?",
+        val: undefined, // Set dynamically from parent opportunity
+        value: (target, _this) => _this.val,
+        crmAttribute: "ccrm_contractlimitofliability",
+    },
+    limitOfLiabilityAgreed: {
+        // This is a hidden field .
+        name: "Limit of Liability Agreed?",
+        val: undefined, // Set dynamically from parent opportunity
+        value: (target, _this) => _this.val,
+        crmAttribute: "ccrm_limitofliabilityagreement",
+    },
+    limitAmount: {
+        // This is a hidden field .
+        name: "Limit of Liability Amount",
+        val: undefined, // Set dynamically from parent opportunity
+        value: (target, _this) => _this.val,
+        crmAttribute: "ccrm_limitamount_num",
+    },
+    PIRequirement: {
+        // This is a hidden field .
+        name: "PI Requirement",
+        val: undefined, // Set dynamically from parent opportunity
+        value: (target, _this) => _this.val,
+        crmAttribute: "ccrm_pirequirement",
+    },
+    PICurrency: {
+        // This is a hidden field .
+        name: "PI Currency",
+        val: undefined, // Set dynamically from parent opportunity
+        value: (target, _this) => _this.val,
+        crmAttribute: "ccrm_pi_transactioncurrencyid",
+    },
+    LolCurrency: {
+        // This is a hidden field .
+        name: "Lol Currency",
+        val: undefined, // Set dynamically from parent opportunity
+        value: (target, _this) => _this.val,
+        crmAttribute: "ccrm_limit_transactioncurrencyid",
+    },
+    PILevelAmount: {
+        // This is a hidden field .
+        name: "PI Level Amount",
+        val: undefined, // Set dynamically from parent opportunity
+        value: (target, _this) => _this.val,
+        crmAttribute: "ccrm_pilevelmoney_num",
+    },
     template: {
         setDefault(target) {
             // Set default for target HtmlNode
