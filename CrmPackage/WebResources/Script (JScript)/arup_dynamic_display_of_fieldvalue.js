@@ -28,10 +28,10 @@ function GetDependentOptionSetFieldValues(executionContext, mainOptionsetFieldNa
                     OptionSetAddRemove(dependentOptionsetFieldName, results, formContext);
 
                     if (setDefaultValue == true) {
-                        formContext.getAttribute(dependentOptionsetFieldName).setValue(optionsetDefaultValue);
+                        formContext.getAttribute(dependentOptionsetFieldName).setValue(parseInt(optionsetDefaultValue));
                     }
                     else if (isOptionSetSelectedValueValid)
-                        formContext.getAttribute(dependentOptionsetFieldName).setValue(optionsetSelectedValue);
+                        formContext.getAttribute(dependentOptionsetFieldName).setValue(parseInt(optionsetSelectedValue));
 
                     if (formContext.getAttribute("statecode") == null || formContext.getAttribute("statecode").getValue() == 0)
                         formContext.getControl(dependentOptionsetFieldName).setDisabled(optionsetReadOnly);

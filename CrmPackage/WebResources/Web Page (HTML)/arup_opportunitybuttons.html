@@ -99,6 +99,7 @@ There will be several copies of the web resource visible in the debugger as "aru
         function DisplayTab(newTabName) {
             console.log("Display tab:" + newTabName);
             formContext.Arup.PreviousTab = tabName;
+            formContext.Arup.CurrentDisplayTab = newTabName;
             Xrm.Page.Arup.DisplayTab(newTabName, formContext);
         }
 
@@ -149,9 +150,10 @@ There will be several copies of the web resource visible in the debugger as "aru
                 }
             }
         }
-
+        debugger;
         // Declare the configuration of each button: label, action to take when pressed and whether the button should be hidden.
         buttonConfigs = {
+          
             'Prebid_tab': [
                 {
                     'label': 'Request PJN',
@@ -172,7 +174,8 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'action': function () {
                         Log("Approving bid decision");
                         formContext.Arup.BidDicisionConfirmation();
-                    }
+                    },
+                    'hidden': a => !formContext.Arup.IsBidDicisionApprovalEnable(formContext)
                 },
                 {
                     'label': 'Move to Next Stage',
@@ -218,13 +221,21 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'hidden': f => !formContext.Arup.IsApproveBidReviewEnabled(formContext)
                 },
                 {
+                    'label': 'Bid Submitted',
+                    'action': function () {
+                        Log("Bid Submitted");
+                        formContext.Arup.BidSubmitted(formContext);
+                    },
+                    'hidden': f => !formContext.Arup.IsBidSubmittedEnabled(formContext)
+                },
+                {
                     'id': 'next_stage_button',
                     'label': 'Move to Next Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
                     },
-                    'hidden': f => !formContext.Arup.IsApproveBidReviewApproved(formContext)
+                    'hidden': f => formContext.Arup.IsBidSubmittedEnabled(formContext) || formContext.Arup.IsApproveBidReviewEnabled(formContext)
                 }
             ],
             'Confirmed_Job_Project_Tab': [
@@ -253,7 +264,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'action': function () {
                         ReturnToActiveTab();
                     },
-                    hidden: f => formContext.Arup.PreviousTab == null || formContext.Arup.PreviousTab == 'PJN_Costs_Tab'
+                    hidden: f => formContext.Arup.PreviousTab == null || formContext.Arup.PreviousTab == 'PJN_Costs_Tab' 
                 }
             ],
             'Project_Financials_Tab': [
@@ -262,7 +273,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'action': function () {
                         ReturnToActiveTab();
                     },
-                    hidden: f => formContext.Arup.PreviousTab == null || formContext.Arup.PreviousTab == 'Project_Financials_Tab'
+                    hidden: f => formContext.Arup.PreviousTab == null || formContext.Arup.PreviousTab == 'Project_Financials_Tab' 
                 }
             ],
             'PJN_Approval_tab': [
@@ -270,26 +281,93 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'label': 'Approve PJN Group Leader',
                     'action': function () {
                         Log("Move next stage");
-                        formContext.Arup.ApproveGroupLeader(formContext);
+                       // formContext.Arup.ApproveGroupLeader(formContext);
+                         formContext.Arup.PJNApproveGroupLeader();
                     },
                     hidden: f => !formContext.Arup.IsGroupLeaderApprovalEnabled(formContext)
                 },
                 {
-                    'label': 'Approve PJN Sector Leader',
+                    'label': 'Approve PJN Regional Sector Leader',
                     'action': function () {
                         Log("Move next stage");
-                        formContext.Arup.ApproveSectorLeader(formContext);
+                       formContext.Arup.PJNApproveRegionalSectorLeader(formContext);
+                        //formContext.Arup.ApproveSectorLeader(formContext);
+                    },
+                    hidden: f => !formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext)
+                },
+                {
+                    'label': 'Approve PJN  Sector Leader',
+                    'action': function () {
+                        Log("Move next stage");
+                       formContext.Arup.PJNApproveSectorLeader(formContext);
                     },
                     hidden: f => !formContext.Arup.IsSectorLeaderApprovalEnabled(formContext)
+                },
+                {
+                    'label': 'Approve Bid Director ',
+                    'action': function () {
+                        Log("Move next stage");
+                       formContext.Arup.PJNApproveBidDirector(formContext);
+                    },
+                    hidden: f => !formContext.Arup.IsBidDirectorApprovalEnabled(formContext)
                 },
                 {
                     'label': 'Approve Regional COO',
                     'action': function () {
                         Log("Move next stage");
-                        formContext.Arup.ApproveRegionalCOO(formContext);
+                        formContext.Arup.PJNApproveRegionalCOO(formContext);
+                        //formContext.Arup.ApproveRegionalCOO(formContext);
                     },
                     hidden: f => !formContext.Arup.IsRegionalCOOApprovalEnabled(formContext)
+                },
+                {
+                    'id': 'PJN_next_stage_button',
+                    'label': 'Move to Next Stage',
+                    'action': function () {
+                        Log("Move next stage");
+                        MoveNext();
+                    },
+                    'hidden': f => formContext.Arup.IsGroupLeaderApprovalEnabled(formContext) || formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext)
+                                  ||  formContext.Arup.IsSectorLeaderApprovalEnabled(formContext) ||  formContext.Arup.IsBidDirectorApprovalEnabled(formContext) ||  formContext.Arup.IsRegionalCOOApprovalEnabled(formContext)
                 }
+
+            ],
+             'CJN_Approval_tab': [
+                {
+                    'label': 'Approve Group Leader',
+                    'action': function () {
+                        Log("Move next stage");
+                       // formContext.Arup.ApproveGroupLeader(formContext);
+                         formContext.Arup.CJNApproveGroupLeader();
+                    },
+                    hidden: f => !formContext.Arup.IsCJNGroupLeaderApprovalEnabled(formContext)
+                },
+                {
+                    'label': 'Approve Project Manager/Director',
+                    'action': function () {
+                        Log("Move next stage");
+                       formContext.Arup.CJNApprovePMPD(formContext);
+                        //formContext.Arup.ApproveSectorLeader(formContext);
+                    },
+                    hidden: f => !formContext.Arup.IsPMPDApprovalEnabled(formContext)
+                },
+                {
+                    'label': 'Approve Accounting Centre',
+                    'action': function () {
+                        Log("Move next stage");
+                       formContext.Arup.CJNApproveAccountingCentre(formContext);
+                    },
+                    hidden: f => !formContext.Arup.IsAccCentreApprovalEnabled(formContext)
+                },
+                {
+                    'label': 'Approve Finance',
+                    'action': function () {
+                        Log("Move next stage");
+                       formContext.Arup.CJNApproveFinance(formContext);
+                    },
+                    hidden: f => !formContext.Arup.IsFinanceApprovalEnabled(formContext)
+                },              
+
             ],
             'tab_testing': [
             ]
