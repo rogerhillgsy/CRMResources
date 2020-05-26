@@ -1197,9 +1197,9 @@ function GetCurrentUserDetails(formContext) {
 }
 
 function DisplayCOVID19Section(userRegion, formContext) {
-    formContext.ui.tabs.get("COVID-19").sections.get("covid19_bc").setVisible(userRegion == ArupRegionName.Australasia || userRegion == ArupRegionName.Malaysia || userRegion == ArupRegionName.UKMEA);
+    formContext.ui.tabs.get("COVID-19").setVisible(userRegion == ArupRegionName.Australasia || userRegion == ArupRegionName.Malaysia || userRegion == ArupRegionName.UKMEA);
 
-    if (formContext.ui.tabs.get("COVID-19").sections.get("covid19_bc").getVisible() == false) { return; }
+    if (formContext.ui.tabs.get("COVID-19").getVisible() == false) { return; }
 
     makeCovid19FieldsRequired('arup_arupscovid19bcadvised', 'arup_arupscovid19bcadviseduser', formContext);
     makeCovid19FieldsRequired('arup_clientscovid19bcadvised', 'arup_clientscovid19bcadviseduser', formContext);
