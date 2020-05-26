@@ -1294,6 +1294,11 @@
       <UniqueName>arup_Contact_main_library</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\opportunity_ribbon.js">
+      <DisplayName>opportunity_ribbon</DisplayName>
+      <UniqueName>new_opportunity_ribbon</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_dynamic_display_of_fieldvalue.js">
       <DisplayName>JScript1</DisplayName>
       <UniqueName>new_JScript1</UniqueName>
@@ -1316,7 +1321,7 @@
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_CreditChecks.js">
       <DisplayName>arup_CreditChecks</DisplayName>
-      <UniqueName>arup_arup_CreditChecks</UniqueName>
+      <UniqueName>arup_CreditChecks</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\arup_dashboardsubscription.js">
