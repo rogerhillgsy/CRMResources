@@ -8586,8 +8586,8 @@ function projectParticipantExists(formContext) {
     return ProjectParticExists;
 }
 
-function addProjectParticipant(formContext) {
-
+function addProjectParticipant(primaryControl) {
+    var formContext = primaryControl;
     if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
     var parameters = {}; //set null parameters as we there is no need to set any other field
     parameters["arup_opportunity"] = formContext.data.entity.getId();
