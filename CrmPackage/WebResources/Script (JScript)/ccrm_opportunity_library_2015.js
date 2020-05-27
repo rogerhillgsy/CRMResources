@@ -9131,6 +9131,8 @@ function ArupRegion_OnChange(executionContext) {
     var formContext = executionContext.getFormContext();
     SetParentOpportunityRequired(formContext);
     formContext.ui.refreshRibbon();
+
+    RefreshWebResource(formContext, "WebResource_buttonnavigation");
 }
 
 function SetParentOpportunityRequired(formContext) {
@@ -9515,7 +9517,13 @@ function BidSubmittedClick(formContext) {
 
    // refreshPage();
 
-    var webResource = formContext.getControl("WebResource_bidreviewsubmissionnavigation");
+    RefreshWebResource(formContext, "WebResource_bidreviewsubmissionnavigation");
+
+ 
+}
+
+function RefreshWebResource(formContext,webResourceName) {
+    var webResource = formContext.getControl(webResourceName);
     var src = webResource.getSrc();
 
     var aboutBlank = "about:blank";
@@ -9524,8 +9532,6 @@ function BidSubmittedClick(formContext) {
     setTimeout(function () {
         webResource.setSrc(src);
     }, 1000);
-
- 
 }
 
 function FormNotificationForOpportunityType(formContext,opportunityTypeValue) {
