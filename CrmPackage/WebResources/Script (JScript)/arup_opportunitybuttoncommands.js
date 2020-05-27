@@ -36,25 +36,25 @@ Xrm.Page.Arup = (
         //
         // Functions related to specific buttons ---------------------
         //
-            RequestPossibleJob: function () {
-                requestPossibleJob(formContext);
-        },
+        //    RequestPossibleJob: function () {
+        //        requestPossibleJob(formContext);
+        //},
 
-        RequestPossibleJobEnabled: function(formContext) {
-            // ccrm_possiblejobnumberrequired = 1
-            // Not in create state
-            // ccrm_showpjnbutton != 0
-            // statuscode != 3
-            // statecode != disabled (1)
-            // Has write access to opportunity.
+        //RequestPossibleJobEnabled: function(formContext) {
+        //    // ccrm_possiblejobnumberrequired = 1
+        //    // Not in create state
+        //    // ccrm_showpjnbutton != 0
+        //    // statuscode != 3
+        //    // statecode != disabled (1)
+        //    // Has write access to opportunity.
 
-            var pjnrequired = GetAttribute(formContext, "ccrm_possiblejobnumberrequired");
-            var isCreate = formContext.ui.getFormType() == 1;
-            var showPJNButton = GetAttribute(formContext, "ccrm_showpjnbutton");
-            var statuscode = GetAttribute(formContext, "statuscode");
-            var statecode = GetAttribute(formContext, "statecode");
-            return pjnrequired != 1 && !isCreate && showPJNButton == 1 && statuscode != 3 && statecode != 1;
-        },
+        //    var pjnrequired = GetAttribute(formContext, "ccrm_possiblejobnumberrequired");
+        //    var isCreate = formContext.ui.getFormType() == 1;
+        //    var showPJNButton = GetAttribute(formContext, "ccrm_showpjnbutton");
+        //    var statuscode = GetAttribute(formContext, "statuscode");
+        //    var statecode = GetAttribute(formContext, "statecode");
+        //    return pjnrequired != 1 && !isCreate && showPJNButton == 1 && statuscode != 3 && statecode != 1;
+        //},
 
         BidDicisionConfirmation: function() {
             BidDicisionConfirmation(formContext);
@@ -274,8 +274,8 @@ Xrm.Page.Arup = (
                 cjnButtonhide != 1 &&
                 cjnRequestTrigger == 1;
         },
-        RequestCJN: function(formContext) {
-            requestConfirmJob();
+        RequestCJN: function() {
+            CloseOpportunityConfirmation(formContext,"cjn");
         },
 
 
@@ -369,7 +369,7 @@ Xrm.Page.Arup = (
 
         staticTabs: [
             'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
-            'Bid_Details_Tab', 'Bid_Development_Tab_External'
+            'Bid_Details_Tab', 'Bid_Development_Tab_External','Notes'
         ],
         // Entry point from the form properties.
         // This is set up as en event handler to be called from the main CRM opportunity form.

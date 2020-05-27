@@ -593,7 +593,7 @@ function FormOnload(executionContext) {
 
             //set internal opportunity banner
             if (formContext.getAttribute("ccrm_arupinternal").getValue() == true) {
-                formContext.ui.setFormNotification("INTERNAL OPPORTUNITY", "INFO", "InternalOpportunity");
+               formContext.ui.setFormNotification("INTERNAL OPPORTUNITY", "INFO", "InternalOpportunity");
             }
 
             //save Arup Business
@@ -3188,9 +3188,7 @@ function requestPossibleJob(formContext) {
 
         }
     }
-    //else {
-    //    formContext.data.save();
-    //     }
+
         },
         function (status) {
             Log("failure status " + status);
@@ -3330,7 +3328,7 @@ function IsFormValid(formContext, IsPJNRequest) {
             v16 == null ||
             v17 == null ||
             v18 == null ||
-            v19 == null ||
+           ( v19 == null || v19.length == 0 ) ||
             v20 == null ||
             v21 == null ||
             v22 == null ||
@@ -3340,7 +3338,7 @@ function IsFormValid(formContext, IsPJNRequest) {
             v31 == null ||
             v32 == null ||
             v35 == null ||
-            v33 == null ||
+            (v33 == null || v33.length == 0) ||
             (/Other/.test(v33) && v34 == null))
 
             mandatoryfieldflag = false;
@@ -3361,7 +3359,7 @@ function IsFormValid(formContext, IsPJNRequest) {
             v16 == null ||
             v17 == null ||
             v18 == null ||
-            v19 == null ||
+            (v19 == null || v19.length == 0) ||
             v20 == null ||
             v21 == null ||
             v22 == null ||
@@ -3369,7 +3367,7 @@ function IsFormValid(formContext, IsPJNRequest) {
             v24 == null ||
             v31 == null ||
             v35 == null ||
-            v33 == null ||
+            (v33 == null || v33.length == 0) ||
             (/Other/.test(v33) && v34 == null))
             mandatoryfieldflag = false;
     } else {
@@ -3388,7 +3386,7 @@ function IsFormValid(formContext, IsPJNRequest) {
             v16 == null ||
             v17 == null ||
             v18 == null ||
-            v19 == null ||
+            (v19 == null || v19.length == 0) ||
             v20 == null ||
             v21 == null ||
             v22 == null ||
@@ -3396,7 +3394,7 @@ function IsFormValid(formContext, IsPJNRequest) {
             v24 == null ||
             v31 == null ||
             v35 == null ||
-            v33 == null ||
+            (v33 == null || v33.length == 0) ||
             (/Other/.test(v33) && v34 == null))
             mandatoryfieldflag = false;
     }
@@ -6974,11 +6972,16 @@ function GetApproverSectionByStageId(stageId) {
 
 // Bid Review Approval -  ribbon button click - starts
 function BidReviewApprovalClick(formContext) {
+    debugger;
 
+    //var ismodified = formContext.data.entity.getIsDirty();
+    //if (ismodified == true) {
+    //    formContext.data.save();
+    //}
+    //formContext.data.save().then(
+    //    function success(status) {
     if (IsFormValid(formContext)) {
-
-        formContext.data.entity.save();
-
+        formContext.data.save();
         setTimeout(function () {
 
             var approvalType = "BidReviewApproval";
@@ -7066,9 +7069,13 @@ function BidReviewApprovalClick(formContext) {
             }
         }, 1500);
     } else {
-     
-            formContext.data.save();       
+        formContext.data.save();
     }
+        //},
+        //function (status) {
+        //    console.log("failure status " + status);
+        //});
+        
 }
 
 function BidReviewApprovalValidation(formContext,showmsg) {
@@ -7711,7 +7718,7 @@ function moveResult(args) {
     var a = args;
 }
 
-function requestConfirmJob() {
+function requestConfirmJob(formContext) {
 
     var arupInternal = formContext.getAttribute('ccrm_arupinternal').getValue();
 
@@ -7760,37 +7767,37 @@ function requestConfirmJob() {
         v19 == null) incompleteData = true;
 
   
-    if (!arupInternal && !incompleteData && (v15 == null || v16 == null || v17 == null || (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
+    if (!arupInternal && !incompleteData && ((v15 == null || v15.length == 0) ||(v16 == null || v16.length == 0) ||(v17== null || v17.length == 0 ) || (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
         incompleteData = true;
 
     if (v20 == 0) { }
     else if (incompleteData) {
-
+        formContext.data.save();
         formContext.ui.setFormNotification("Please fill in all mandatory fields", "WARNING", "reqCJNWarnMsg-mandfields");
         setTimeout(function () { formContext.ui.clearFormNotification("reqCJNWarnMsg-mandfields"); }, 10000);
 
-        highlightField('#header_process_ccrm_chargingbasis', '#ccrm_chargingbasis', (v1 != null) ? true : false);
-        highlightField('#header_process_ccrm_estexpenseincome_num1', '#ccrm_estexpenseincome_num', (v2 != null) ? true : false);
-        highlightField('#header_process_ccrm_projecttotalincome_num', '#ccrm_projecttotalincome_num', (v3 != null) ? true : false);
-        highlightField('#header_process_ccrm_projectmanager_userid1', '#ccrm_projectmanager_userid', (v4 != null) ? true : false);
-        highlightField('#header_process_ccrm_projectdirector_userid1', '#ccrm_projectdirector_userid', (v5 != null) ? true : false);
-        highlightField(null, '#ccrm_estprojectresourcecosts_num', (v6 != null) ? true : false);
-        highlightField('#header_process_ccrm_estarupinvolvementstart', '#ccrm_estarupinvolvementstart', (v7 != null) ? true : false);
-        highlightField('#header_process_ccrm_estarupinvolvementend', '#ccrm_estarupinvolvementend', (v8 != null) ? true : false);
-        highlightField('#header_process_ccrm_estimatedvalue_num2', '#ccrm_estimatedvalue_num', (v9 != null) ? true : false);
-        highlightField(null, '#ccrm_estprojectoverheads_num', (v10 != null) ? true : false);
-        highlightField('#header_process_ccrm_estprojectexpenses_num1', '#ccrm_estprojectexpenses_num', (v11 != null) ? true : false);
-        highlightField('#header_process_ccrm_projecttotalcosts_num', '#ccrm_projecttotalcosts_num', (v12 != null) ? true : false);
-        highlightField('#header_process_ccrm_estprojectprofit_num', '#ccrm_estprojectprofit_num', (v13 != null) ? true : false);
-        highlightField('#header_process_ccrm_profitasapercentageoffeedec', '#ccrm_profitasapercentageoffeedec', (v14 != null) ? true : false);
-        highlightField(null, "#ccrm_shorttitle", (v19 != null) ? true : false);
+        //highlightField('#header_process_ccrm_chargingbasis', '#ccrm_chargingbasis', (v1 != null) ? true : false);
+        //highlightField('#header_process_ccrm_estexpenseincome_num1', '#ccrm_estexpenseincome_num', (v2 != null) ? true : false);
+        //highlightField('#header_process_ccrm_projecttotalincome_num', '#ccrm_projecttotalincome_num', (v3 != null) ? true : false);
+        //highlightField('#header_process_ccrm_projectmanager_userid1', '#ccrm_projectmanager_userid', (v4 != null) ? true : false);
+        //highlightField('#header_process_ccrm_projectdirector_userid1', '#ccrm_projectdirector_userid', (v5 != null) ? true : false);
+        //highlightField(null, '#ccrm_estprojectresourcecosts_num', (v6 != null) ? true : false);
+        //highlightField('#header_process_ccrm_estarupinvolvementstart', '#ccrm_estarupinvolvementstart', (v7 != null) ? true : false);
+        //highlightField('#header_process_ccrm_estarupinvolvementend', '#ccrm_estarupinvolvementend', (v8 != null) ? true : false);
+        //highlightField('#header_process_ccrm_estimatedvalue_num2', '#ccrm_estimatedvalue_num', (v9 != null) ? true : false);
+        //highlightField(null, '#ccrm_estprojectoverheads_num', (v10 != null) ? true : false);
+        //highlightField('#header_process_ccrm_estprojectexpenses_num1', '#ccrm_estprojectexpenses_num', (v11 != null) ? true : false);
+        //highlightField('#header_process_ccrm_projecttotalcosts_num', '#ccrm_projecttotalcosts_num', (v12 != null) ? true : false);
+        //highlightField('#header_process_ccrm_estprojectprofit_num', '#ccrm_estprojectprofit_num', (v13 != null) ? true : false);
+        //highlightField('#header_process_ccrm_profitasapercentageoffeedec', '#ccrm_profitasapercentageoffeedec', (v14 != null) ? true : false);
+        //highlightField(null, "#ccrm_shorttitle", (v19 != null) ? true : false);
         formContext.getAttribute("ccrm_shorttitle").setRequiredLevel("required");
 
         if (!arupInternal) {
-            highlightField('#header_process_arup_projecttype', '', (v15 != null) ? true : false);
-            highlightField('#header_process_arup_services', '', (v16 != null) ? true : false);
-            highlightField('#header_process_arup_projectsector', '', (v17 != null) ? true : false);
-            highlightField('#header_process_ccrm_pilevelmoney_num1', '#ccrm_pilevelmoney_num', (v21 == PI_REQUIREMENT.MIN_COVER && v18 != null) ? true : false);
+            //highlightField('#header_process_arup_projecttype', '', (v15 != null) ? true : false);
+            //highlightField('#header_process_arup_services', '', (v16 != null) ? true : false);
+            //highlightField('#header_process_arup_projectsector', '', (v17 != null) ? true : false);
+            //highlightField('#header_process_ccrm_pilevelmoney_num1', '#ccrm_pilevelmoney_num', (v21 == PI_REQUIREMENT.MIN_COVER && v18 != null) ? true : false);
         }
     } else {
         if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
@@ -8710,6 +8717,7 @@ function approveCallbackAction(formContext,approvalType) {
 }
 
 function confirmUpdate(executionContext, logicalname, displayname) {
+    debugger;
     var formContext = executionContext.getFormContext();
     if ((formContext.getAttribute(logicalname).getValue() == 1) && (formContext.getAttribute(logicalname).getIsDirty())) {
         Alert.show('<font face="Segoe UI Light" font size="6" color="0472C4">' + displayname + '</font>',
@@ -8730,10 +8738,10 @@ function confirmUpdate(executionContext, logicalname, displayname) {
                     callback: function () {
                         var temp = formContext.getAttribute(logicalname).getIsDirty();
                         var tempValue = formContext.getAttribute(logicalname).getValue();
-                        var setVal = 0;
+                        var setVal = false;
                         if (temp) {
-                            if (tempValue == 0) {
-                                setVal = 1;
+                            if (!tempValue) {
+                                setVal = true;
                             }
                             formContext.getAttribute(logicalname).setValue(setVal);
                         }

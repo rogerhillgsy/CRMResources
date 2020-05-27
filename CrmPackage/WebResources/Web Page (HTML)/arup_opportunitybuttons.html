@@ -155,14 +155,14 @@ There will be several copies of the web resource visible in the debugger as "aru
         buttonConfigs = {
           
             'Prebid_tab': [
-                {
-                    'label': 'Request PJN',
-                    'action': function () {
-                        Log("Requesting PJN");
-                        formContext.Arup.RequestPossibleJob();
-                    },
-                    'hidden': a => !formContext.Arup.RequestPossibleJobEnabled(formContext)
-                },
+                //{
+                //    'label': 'Request PJN',
+                //    'action': function () {
+                //        Log("Requesting PJN");
+                //        formContext.Arup.RequestPossibleJob();
+                //    },
+                //    'hidden': a => !formContext.Arup.RequestPossibleJobEnabled(formContext)
+                //},
                 {
                     'label': 'Click Here for PJN Costs',
                     'action': function () {
@@ -378,6 +378,7 @@ There will be several copies of the web resource visible in the debugger as "aru
         var tabName;
         var tabNumber;
         document.onreadystatechange = function () {
+            debugger;
             if (document.readyState == "complete") {
                 if (location.search == "") {
                     console.error("No tab name given");
