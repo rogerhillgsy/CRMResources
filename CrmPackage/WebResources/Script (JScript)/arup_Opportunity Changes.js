@@ -269,7 +269,7 @@ function CloseOpportunityConfirmation(formContext,statusCode) {
                                 CloseOpportunity(formContext,statusCode);
                             }
                             if (statusCode == "cjn") {
-                                requestConfirmJob();
+                                requestConfirmJob(formContext);
                             }
                         },
                         setFocus: true,
@@ -292,7 +292,7 @@ function CloseOpportunityConfirmation(formContext,statusCode) {
                 CloseOpportunity(formContext,statusCode);
             }
             if (statusCode == "cjn") {
-                requestConfirmJob();
+                requestConfirmJob(formContext);
             }
 
         }
