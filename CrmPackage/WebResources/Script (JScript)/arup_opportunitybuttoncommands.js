@@ -374,7 +374,8 @@ Xrm.Page.Arup = (
         // Entry point from the form properties.
         // This is set up as en event handler to be called from the main CRM opportunity form.
         // Display the active tab according to the current stage.
-        displayActiveTabForStage: function(executionContext) {
+            displayActiveTabForStage: function (executionContext) {
+                debugger;
             var formContext = executionContext.getFormContext();
             obj.SetupTabsForStage(formContext);
             formContext.data.process.addOnStageChange(function (executionContext) {
@@ -384,7 +385,8 @@ Xrm.Page.Arup = (
             });
         },
 
-        DisplayTab: function(tabName, formContext) {
+            DisplayTab: function (tabName, formContext) {
+                debugger;
             var tab = formContext.ui.tabs.get(tabName);
             tab.setFocus();
             tab.setVisible(true);

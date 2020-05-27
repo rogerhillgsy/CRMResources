@@ -8586,8 +8586,8 @@ function projectParticipantExists(formContext) {
     return ProjectParticExists;
 }
 
-function addProjectParticipant(formContext) {
-
+function addProjectParticipant(primaryControl) {
+    var formContext = primaryControl;
     if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
     var parameters = {}; //set null parameters as we there is no need to set any other field
     parameters["arup_opportunity"] = formContext.data.entity.getId();
@@ -9131,6 +9131,8 @@ function ArupRegion_OnChange(executionContext) {
     var formContext = executionContext.getFormContext();
     SetParentOpportunityRequired(formContext);
     formContext.ui.refreshRibbon();
+
+    RefreshWebResource(formContext, "WebResource_buttonnavigation");
 }
 
 function SetParentOpportunityRequired(formContext) {
@@ -9515,7 +9517,13 @@ function BidSubmittedClick(formContext) {
 
    // refreshPage();
 
-    var webResource = formContext.getControl("WebResource_bidreviewsubmissionnavigation");
+    RefreshWebResource(formContext, "WebResource_bidreviewsubmissionnavigation");
+
+ 
+}
+
+function RefreshWebResource(formContext,webResourceName) {
+    var webResource = formContext.getControl(webResourceName);
     var src = webResource.getSrc();
 
     var aboutBlank = "about:blank";
@@ -9524,8 +9532,6 @@ function BidSubmittedClick(formContext) {
     setTimeout(function () {
         webResource.setSrc(src);
     }, 1000);
-
- 
 }
 
 function FormNotificationForOpportunityType(formContext,opportunityTypeValue) {
