@@ -1225,15 +1225,16 @@ function OpenConnMatrixReport(primaryControl) {
     }
 
     var customParameters = encodeURIComponent("accountID=" + accId + "&parentAccID=" + parentaccountid);
+    var windowOptions = { openInNewWindow: true, height: 800, width: 1200 };
     var ua = window.navigator.userAgent;
     var msie = ua.indexOf("MSIE ");
     if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer, return version number
     {
-        Xrm.Navigation.openWebResource('ccrm_/HTML/ConnectionMatrix_old.html', customParameters, 1200, 800);
+        Xrm.Navigation.openWebResource('ccrm_/HTML/ConnectionMatrix_old.html', windowOptions, customParameters);
     }
     else  // If another browser, return 0
     {
-        Xrm.Navigation.openWebResource('ccrm_/HTML/ConnectionMatrix.html', customParameters, 1200, 800);
+        Xrm.Navigation.openWebResource('ccrm_/HTML/ConnectionMatrix.html', windowOptions, customParameters);
     }
 }
 
