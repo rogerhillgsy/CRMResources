@@ -280,11 +280,14 @@ Xrm.Page.Arup = (
 
 
         // General Utility functions ----------------------
-        SetupTabsForStage: function(formContext) {
+            SetupTabsForStage: function (formContext) {
+       
             // And the active BPF stage
             var activeStageName = formContext.data.process.getActiveStage();
             activeStageName = activeStageName == null ? null : activeStageName.getName();
-            var activeTabName = obj.stageToTabMapping[activeStageName];
+                var activeTabName = obj.stageToTabMapping[activeStageName];
+                formContext.Arup.ActiveTabName = activeTabName;
+            Log("activeTabName :" + activeTabName);
 
             if (activeStageName != null) {
                 // Decide which tabs should be visible.
@@ -369,13 +372,13 @@ Xrm.Page.Arup = (
 
         staticTabs: [
             'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
-            'Bid_Details_Tab', 'Bid_Development_Tab_External','Notes'
+            'Bid_Details_Tab', 'Bid_Development_Tab_External','Notes_tab'
         ],
         // Entry point from the form properties.
         // This is set up as en event handler to be called from the main CRM opportunity form.
         // Display the active tab according to the current stage.
             displayActiveTabForStage: function (executionContext) {
-                debugger;
+     
             var formContext = executionContext.getFormContext();
             obj.SetupTabsForStage(formContext);
             formContext.data.process.addOnStageChange(function (executionContext) {
@@ -386,7 +389,7 @@ Xrm.Page.Arup = (
         },
 
             DisplayTab: function (tabName, formContext) {
-                debugger;
+               
             var tab = formContext.ui.tabs.get(tabName);
             tab.setFocus();
             tab.setVisible(true);
