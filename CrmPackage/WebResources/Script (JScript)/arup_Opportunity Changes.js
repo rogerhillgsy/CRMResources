@@ -3,7 +3,6 @@ var cacheValueBM = null;
 var cacheValueBD = null;
 
 function onSelectOfStage(formContext,selStageId) {
-    debugger;
     if (selStageId == null || selStageId == 'undefined')
         formContext = formContext.getFormContext(); //1st paramter is executioncontext in case of FormOnload event
 
@@ -449,7 +448,6 @@ function setBidDecisionChairRequired_ec(executionContext) {
 }
 
 function setBidDecisionChairRequired(formContext) {
-    debugger;
  
     var regionName;
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();

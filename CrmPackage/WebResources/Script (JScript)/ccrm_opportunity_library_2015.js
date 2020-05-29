@@ -637,6 +637,11 @@ function FormOnload(executionContext) {
                 formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
                 ParentOpportunity_Onchange(formContext,"load");
             }
+
+            //if (formContext.getAttribute('statecode').getValue() != OPPORTUNITY_STATE.OPEN) {
+            //    formContext.ui.tabs.get("Summary").setFocus();
+            //}
+
             onSelectOfStage(formContext,currentStage);
             ShowHideOpportunityTypeAndProjectProcurement(formContext);
             if (!!formContext.data.process) {
@@ -714,8 +719,6 @@ function arupSubBusiness_onChange_qc(executionContext) {
 }
 
 function opportunityType_onChange(executionContext, trigger) {
-    debugger;
-   // if (trigger == null)
     formContext = executionContext.getFormContext();
 
     var typeAttr = formContext.getAttribute("arup_opportunitytype");
@@ -2806,68 +2809,70 @@ function requestPossibleJob(formContext) {
 
     formContext.data.save().then(
         function success(status) {
-    if (IsFormValid(formContext, 'PJN')) {
+            if (IsFormValid(formContext, 'PJN')) {
 
-        var regionName = formContext.getAttribute('ccrm_arupregionid').getValue()[0].name;
-        if (crossregionbid && stageid == ArupStages.Lead && !CrossRegionFieldsFilled(formContext)) {
-            moveToNextTrigger_PJN = true;
-            moveToNextTrigger = true;
-            formContext.data.save();
-            return;
-        } // Not cross region bid        
-        else {
-            //set the possible job number required flag to YES    
-            if (crossregionbid) {
+                var regionName = formContext.getAttribute('ccrm_arupregionid').getValue()[0].name;
+                if (crossregionbid && stageid == ArupStages.Lead && !CrossRegionFieldsFilled(formContext)) {
+                    moveToNextTrigger_PJN = true;
+                    moveToNextTrigger = true;
+                    formContext.data.save();
+                    return;
+                } // Not cross region bid        
+                else {
+                    //set the possible job number required flag to YES    
+                    if (crossregionbid) {
 
-                if (!CrossRegionFieldsFilled(formContext)) {
-                    //HighlightCrossRegionFields();
-                    formContext.ui.setFormNotification("This is a Cross Region bid and the Country Manager needs to be consulted.  Please complete the details on the Cross Region stage. ", "WARNING", "msgCrossCountry");
-                    setTimeout(function () { formContext.ui.clearFormNotification("msgCrossCountry"); }, 10000);
-                    return false;
+                        if (!CrossRegionFieldsFilled(formContext)) {
+                            //HighlightCrossRegionFields();
+                            formContext.ui.setFormNotification("This is a Cross Region bid and the Country Manager needs to be consulted.  Please complete the details on the Cross Region stage. ", "WARNING", "msgCrossCountry");
+                            setTimeout(function () { formContext.ui.clearFormNotification("msgCrossCountry"); }, 10000);
+                            return false;
+                        }
+                    }
+
+                    // if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }            
+
+                    if (regionName != null) {
+                        if (regionName == 'East Asia Region' || regionName == 'Australasia Region' || regionName == 'Malaysia Region') {
+                            formContext.ui.setFormNotification("Your request for a Possible Job Number has been logged. Decision to Proceed approvals are being generated. See the PJN Approvals stage for status of the Approvals", "INFO", "PJNProgress");
+                            setTimeout(function () { formContext.ui.clearFormNotification("PJNProgress"); }, 10000);
+                            //lockDownBidCosts(formContext,true);
+                            setJobNoProgression(formContext, 100009002);
+                            moveToDevBid(formContext, stageid);
+                            setCurrentApproversAsync(formContext);
+                        } else {
+
+                            Alert.show('<font size="6" color="#2E74B5"><b>For your information</b></font>',
+                                '<font size="3" color="#000000"></br>By clicking OK you will assign a possible job number. No approval requests will be sent.</br></br>You must ensure that you have completed all the requirements of your regional bid policy and attached supporting evidence - such as a Decision to Proceed record signed by a Director.</br></br>If you are not sure if you have complied with your regional requirements please consult a Director before progressing.</font>',
+                                [
+                                    new Alert.Button("<b>OK</b>",
+                                        function () {
+                                            formContext.ui.setFormNotification("A Possible Job Number is being generated. It may take a couple of minutes to appear on the opportunity screen and couple of hours to appear on the financial systems", "INFO", "PJNProgress");
+                                            setTimeout(function () { formContext.ui.clearFormNotification("PJNProgress"); }, 10000);
+                                            lockDownBidCosts(formContext, true);
+                                            setJobNoProgression(formContext, 100009003);
+
+                                            moveToDevBid(formContext, stageid);
+
+                                        }, false, false),
+                                    new Alert.Button("Do Not Request",
+                                        function () {
+                                            Alert.show('<font size="6" color="#2E74B5"><b>For your information</b></font>',
+                                                '<font size="3" color="#000000"></br>Request for PJN was not sent.</font>',
+                                                [
+                                                    new Alert.Button("OK")
+                                                ],
+                                                "INFO", 500, 200, '', true);
+                                        }, true, false)
+                                ], "INFO", 700, 400, '', true);
+                        }
+                    }
+
                 }
             }
-
-            // if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }            
-
-            if (regionName != null) {
-                if (regionName == 'East Asia Region' || regionName == 'Australasia Region' || regionName == 'Malaysia Region') {
-                    formContext.ui.setFormNotification("Your request for a Possible Job Number has been logged. Decision to Proceed approvals are being generated. See the PJN Approvals stage for status of the Approvals", "INFO", "PJNProgress");
-                    setTimeout(function () { formContext.ui.clearFormNotification("PJNProgress"); }, 10000);
-                    //lockDownBidCosts(formContext,true);
-                    setJobNoProgression(formContext, 100009002);
-                    moveToDevBid(formContext, stageid);
-                    setCurrentApproversAsync(formContext);
-                } else {
-
-                    Alert.show('<font size="6" color="#2E74B5"><b>For your information</b></font>',
-                        '<font size="3" color="#000000"></br>By clicking OK you will assign a possible job number. No approval requests will be sent.</br></br>You must ensure that you have completed all the requirements of your regional bid policy and attached supporting evidence - such as a Decision to Proceed record signed by a Director.</br></br>If you are not sure if you have complied with your regional requirements please consult a Director before progressing.</font>',
-                        [
-                            new Alert.Button("<b>OK</b>",
-                                function () {
-                                    formContext.ui.setFormNotification("A Possible Job Number is being generated. It may take a couple of minutes to appear on the opportunity screen and couple of hours to appear on the financial systems", "INFO", "PJNProgress");
-                                    setTimeout(function () { formContext.ui.clearFormNotification("PJNProgress"); }, 10000);
-                                    lockDownBidCosts(formContext, true);
-                                    setJobNoProgression(formContext, 100009003);
-                                   
-                                    moveToDevBid(formContext, stageid);
-                                   
-                                }, false, false),
-                            new Alert.Button("Do Not Request",
-                                function () {
-                                    Alert.show('<font size="6" color="#2E74B5"><b>For your information</b></font>',
-                                        '<font size="3" color="#000000"></br>Request for PJN was not sent.</font>',
-                                        [
-                                            new Alert.Button("OK")
-                                        ],
-                                        "INFO", 500, 200, '', true);
-                                }, true, false)
-                        ], "INFO", 700, 400, '', true);
-                }
+            else {
+                formContext.data.save();
             }
-
-        }
-    }
-
         },
         function (status) {
             Log("failure status " + status);
@@ -5061,7 +5066,7 @@ function ccrm_estimatedvalue_num_onchange(executionContext) {
 }
 
 function ccrm_estexpenseincome_num_onchange(executionContext) {
-    debugger;
+ 
     var formContext = executionContext.getFormContext();
     calcRecalcIncome(formContext);
 }
@@ -5456,20 +5461,20 @@ function sync_values_onchange(formContext,sourceField, destField) {
 
 // Similar Bid button,
 
-function SimilarBidsDuplicate() {
+function SimilarBidsDuplicate(formContext) {
     var paramstr = '&business=';
-    paramstr += (Xrm.Page.getAttribute('ccrm_arupbusinessid').getValue() != null)
-        ? Xrm.Page.getAttribute('ccrm_arupbusinessid').getValue()[0].id
+    paramstr += (formContext.getAttribute('ccrm_arupbusinessid').getValue() != null)
+        ? formContext.getAttribute('ccrm_arupbusinessid').getValue()[0].id
         : '';
     paramstr += '&projcountry=';
-    paramstr += (Xrm.Page.getAttribute('ccrm_projectlocationid').getValue() != null)
-        ? Xrm.Page.getAttribute('ccrm_projectlocationid').getValue()[0].id
+    paramstr += (formContext.getAttribute('ccrm_projectlocationid').getValue() != null)
+        ? formContext.getAttribute('ccrm_projectlocationid').getValue()[0].id
         : '';
     paramstr += '&region=';
-    paramstr += (Xrm.Page.getAttribute('ccrm_arupregionid').getValue() != null)
-        ? Xrm.Page.getAttribute('ccrm_arupregionid').getValue()[0].id
+    paramstr += (formContext.getAttribute('ccrm_arupregionid').getValue() != null)
+        ? formContext.getAttribute('ccrm_arupregionid').getValue()[0].id
         : '';
-    paramstr += '&id=' + Xrm.Page.data.entity.getId();
+    paramstr += '&id=' + formContext.data.entity.getId();
 
     var pageInput = {
         pageType: "webresource",
@@ -5616,18 +5621,6 @@ function isamericaregion(CountryName) {
 }
 
 function getCountryregion(countryID) {
-    debugger;
-   // var result = null;
-
-    //SDK.REST.retrieveRecord(countryID, 'Ccrm_country', 'ccrm_arupregionid', null,
-    //    function (retrievedreq) {
-    //        if (retrievedreq != null)
-    //            result = (retrievedreq.ccrm_arupregionid != null) ? retrievedreq.ccrm_arupregionid : null;
-    //    },
-    //    errorHandler,
-    //    false
-    //);
-
     Xrm.WebApi.online.retrieveRecord("ccrm_country", countryID, "?$select=_ccrm_arupregionid_value").then(
         function success(result) {
             if (result != null)
@@ -6245,8 +6238,10 @@ function stageNotifications(formContext) {
         var financeMsg = "Please complete all required and Project Financials fields to proceed to next stage.";
         if (result)
             formContext.ui.clearFormNotification("FinancePendingMsg");
-        else
+        else {
             formContext.ui.setFormNotification(financeMsg, "WARNING", "FinancePendingMsg");
+            formContext.data.save();
+        }
         setTimeout(function () { formContext.ui.clearFormNotification("FinancePendingMsg"); }, 10000);
     }
     if (stageid == ArupStages.ConfirmJob) {
@@ -6881,41 +6876,32 @@ function CheckFinanceFields(formContext) {
     if (stageid == ArupStages.BidDevelopment || stageid == ArupStages.BidReviewApproval) {
         if (formContext.getAttribute('ccrm_estimatedvalue_num').getValue() == null) {
             result = false;
-            highlightField(null, '#ccrm_estimatedvalue_num');
         } else highlightField(null, '#ccrm_estimatedvalue_num', true);
         if (formContext.getAttribute('ccrm_estexpenseincome_num').getValue() == null) {
             result = false;
-            highlightField(null, '#ccrm_estexpenseincome_num');
             formContext.getAttribute("ccrm_estexpenseincome_num").setRequiredLevel('required');
         } else {
-            highlightField(null, '#ccrm_estexpenseincome_num', true);
             formContext.getAttribute("ccrm_estexpenseincome_num").setRequiredLevel('none');
         }
 
         if (formContext.getAttribute('ccrm_projecttotalincome_num').getValue() == null) {
             result = false;
-            highlightField(null, '#ccrm_projecttotalincome_num');
             formContext.getAttribute("ccrm_projecttotalincome_num").setRequiredLevel('required');
         } else {
-            highlightField(null, '#ccrm_projecttotalincome_num', true);
             formContext.getAttribute("ccrm_projecttotalincome_num").setRequiredLevel('none');
         }
 
         if (formContext.getAttribute('ccrm_estprojectresourcecosts_num').getValue() == null) {
             result = false;
-            highlightField(null, '#ccrm_estprojectresourcecosts_num');
             formContext.getAttribute("ccrm_estprojectresourcecosts_num").setRequiredLevel('required');
         } else {
-            highlightField(null, '#ccrm_estprojectresourcecosts_num', true);
             formContext.getAttribute("ccrm_estprojectresourcecosts_num").setRequiredLevel('none');
         }
 
         if (formContext.getAttribute('ccrm_estprojectstaffoverheadsrate').getValue() == null) {
             result = false;
-            highlightField(null, '#ccrm_estprojectstaffoverheadsrate');
             formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").setRequiredLevel('required');
         } else {
-            highlightField(null, '#ccrm_estprojectstaffoverheadsrate', true);
             formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").setRequiredLevel('none');
         }
         /*
@@ -6930,10 +6916,8 @@ function CheckFinanceFields(formContext) {
         */
         if (formContext.getAttribute('arup_expenses_num').getValue() == null) {
             result = false;
-            highlightField(null, '#arup_expenses_num');
             formContext.getAttribute("arup_expenses_num").setRequiredLevel('required');
         } else {
-            highlightField(null, '#arup_expenses_num', true);
             formContext.getAttribute("arup_expenses_num").setRequiredLevel('none');
         }
         /*
@@ -6964,7 +6948,6 @@ function CheckFinanceFields(formContext) {
 
         formContext.getAttribute("ccrm_financedetailscaptured").setSubmitMode("always");
 
-        //formContext.data.save();
     }
     return result;
 }
@@ -7208,10 +7191,16 @@ function CJNApprovalButtonClick(formContext,type, approvalType, statusField, use
                                 pollForChangeAsync(formContext,
                                     "statecode",
                                     function isWon(statecode) {
-                                        return !!statecode && statecode.Value != OPPORTUNITY_STATE.OPEN
+                                        return !!statecode && statecode != OPPORTUNITY_STATE.OPEN
                                     },
                                     function reloadForm() {
-                                        Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                                        var entityFormOptions = {};
+                                        entityFormOptions["entityName"] = "opportunity";//Logical name of the entity
+                                        entityFormOptions["entityId"] = formContext.data.entity.getId(); //ID of the entity record
+                                        entityFormOptions["formId"] = "C62BD14C-9457-4BD9-99BF-F91E355CB28" ; //FormId
+                                        Xrm.Navigation.openForm(entityFormOptions);
+
+                                     //   Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
                                     });
                             } else {
                                 setCurrentApproversAsync(formContext);
@@ -9141,7 +9130,7 @@ function setTimeoutfn(formContext,attributeName) {
 }
 
 function procurementTypeFullForm_onChange(attributeName) {
-
+    debugger;
     cachefields['attributename'] = attributeName;
 
     var confirmButton = new Alert.Button();
@@ -9165,7 +9154,7 @@ function procurementTypeFullForm_onChange(attributeName) {
 }
 
 function onConfirmButtonClick(formContext) {
-
+    debugger;
     attrName = cachefields['attributename'];
     if (attrName == "arup_opportunitytype") {
         cachefields["ccrm_contractarrangement"] = formContext.getAttribute("ccrm_contractarrangement").getValue();
@@ -9175,7 +9164,7 @@ function onConfirmButtonClick(formContext) {
 }
 
 function onCancelButtonClick(formContext) {
-
+    debugger;
     attrName = cachefields['attributename'];
     if (attrName == "arup_opportunitytype") {
         formContext.getAttribute("ccrm_contractarrangement").setValue(cachefields["ccrm_contractarrangement"]);
@@ -9186,15 +9175,10 @@ function onCancelButtonClick(formContext) {
 }
 
 function BidSubmittedClick(formContext) {
-    debugger;
+
     formContext.getAttribute("arup_bidsubmitteddate").setValue(new Date());
     formContext.getAttribute("arup_bidsubmissionoutcome").setValue(770000001);
     formContext.data.entity.save();
-   // formContext.ui.refreshRibbon();
-
-   // setTimeout(function () { Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId()); },100);
-
-   // refreshPage();
 
     RefreshWebResource(formContext, "WebResource_bidreviewsubmissionnavigation");
 
@@ -9203,14 +9187,16 @@ function BidSubmittedClick(formContext) {
 
 function RefreshWebResource(formContext,webResourceName) {
     var webResource = formContext.getControl(webResourceName);
-    var src = webResource.getSrc();
+    if (webResource != null) {
+        var src = webResource.getSrc();
 
-    var aboutBlank = "about:blank";
-    webResource.setSrc(aboutBlank);
+        var aboutBlank = "about:blank";
+        webResource.setSrc(aboutBlank);
 
-    setTimeout(function () {
-        webResource.setSrc(src);
-    }, 1000);
+        setTimeout(function () {
+            webResource.setSrc(src);
+        }, 1000);
+    }
 }
 
 function FormNotificationForOpportunityType(formContext,opportunityTypeValue) {

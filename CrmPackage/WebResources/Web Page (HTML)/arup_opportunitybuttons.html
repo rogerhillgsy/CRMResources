@@ -21,6 +21,29 @@ There will be several copies of the web resource visible in the debugger as "aru
             vertical-align: middle;
         }
 
+        label {
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 5px;
+            color: black;
+            font-family: Arial;
+            min-width: 280px;
+            width: 80%;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 5px 10px 10px 5px;
+            background-color: white;
+            box-shadow: 1px 1px 2px 2px #ab918f;
+            -webkit-box-shadow: 1px 5px 5px 1px #ab918f;
+            border: solid #FFFFFF 1px;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+            margin: 4px;
+ 
+        }
+
         .mainButton {
             -webkit-border-radius: 6px;
             -moz-border-radius: 6px;
@@ -36,13 +59,12 @@ There will be several copies of the web resource visible in the debugger as "aru
             box-shadow: 1px 1px 2px 2px #ab918f;
             -webkit-box-shadow: 1px 5px 5px 1px #ab918f;
             -moz-box-shadow: 1px 1px 2px 2px #ab918f;
-            text-shadow: 2px 4px 10px #000000;
             border: solid #FFFFFF 1px;
             text-decoration: none;
             display: inline-block;
             cursor: pointer;
             text-align: center;
-            margin: 4px;
+            margin: 10px;
             cursor: pointer;
         }
 
@@ -70,6 +92,25 @@ There will be several copies of the web resource visible in the debugger as "aru
         body {
             text-align: center;
         }
+
+        p {
+            text-align :left;
+            padding :5px;
+            font-family: Arial;
+            font-size: 16px;
+            font-weight: 400;
+            margin-left :32px;
+        }
+
+        ul {
+            display: block;
+            list-style-type: circle;
+            text-align :left;
+            font-family: Arial;
+            font-size: 16px;
+            font-weight: 400;
+            padding-left :70px;
+        }
     </style>
 
     <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
@@ -89,9 +130,14 @@ There will be several copies of the web resource visible in the debugger as "aru
 
         // Go back to the previous tab.
         function ReturnToActiveTab() {
-            var previousTab = formContext.Arup.PreviousTab;
-            if (previousTab != null) {
-                DisplayTab(previousTab);
+            //var previousTab = formContext.Arup.PreviousTab;
+            //if (previousTab != null) {
+            //    DisplayTab(previousTab);
+            //}
+
+             var activeTabName = formContext.Arup.ActiveTabName;
+            if (activeTabName != null) {
+                DisplayTab(activeTabName);
             }
         }
 
@@ -99,7 +145,6 @@ There will be several copies of the web resource visible in the debugger as "aru
         function DisplayTab(newTabName) {
             console.log("Display tab:" + newTabName);
             formContext.Arup.PreviousTab = tabName;
-            formContext.Arup.CurrentDisplayTab = newTabName;
             Xrm.Page.Arup.DisplayTab(newTabName, formContext);
         }
 
@@ -135,9 +180,11 @@ There will be several copies of the web resource visible in the debugger as "aru
                         span.innerHTML = button.label;
                         span.className = "mainButton";
 
-                        if (!button.isapprovalbutton)
-                            span.style = "background-color: #105189";
-                     
+                        if (!button.isredbutton)
+                            span.style = "background-color: #B2D135";
+
+                        if (button.islabel)
+                            span.className = "label";
 
                         $("#tabButtons")[0].appendChild(span);
 
@@ -155,25 +202,17 @@ There will be several copies of the web resource visible in the debugger as "aru
                 }
             }
         }
-        debugger;
+  
         // Declare the configuration of each button: label, action to take when pressed and whether the button should be hidden.
         buttonConfigs = {
           
             'Prebid_tab': [
-                //{
-                //    'label': 'Request PJN',
-                //    'action': function () {
-                //        Log("Requesting PJN");
-                //        formContext.Arup.RequestPossibleJob();
-                //    },
-                //    'hidden': a => !formContext.Arup.RequestPossibleJobEnabled(formContext)
-                //},
                 {
                     'label': 'Click Here for PJN Costs',
                     'action': function () {
                         DisplayTab("PJN_Costs_Tab");
                     },
-                    'isapprovalbutton': false
+                    'isredbutton': false
                 },
                 {
                     'label': 'Approve Decision to Bid',
@@ -182,7 +221,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         formContext.Arup.BidDicisionConfirmation();
                     },
                     'hidden': a => !formContext.Arup.IsBidDicisionApprovalEnable(formContext),
-                    'isapprovalbutton': true
+                    'isredbutton': true
                 },
                 {
                     'label': 'Move to Next Stage',
@@ -191,7 +230,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         MoveNext();
                     },
                     'hidden': a => formContext.Arup.IsBidDicisionApprovalEnable(formContext),
-                    'isapprovalbutton': false
+                    'isredbutton': false
 
                 }
             ],
@@ -202,18 +241,10 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Move next stage");
                         MoveNext();
                     },
-                      'isapprovalbutton': false
+                      'isredbutton': false
                 }
             ],
-            'Developing_Bid_tab': [
-                {
-                    'label': 'Move to Next Stage',
-                    'action': function () {
-                        Log("Move next stage");
-                        MoveNext();
-                    },
-                      'isapprovalbutton': false
-                },
+            'Developing_Bid_tab': [         
                 {
                     'label': 'Update Financial Details',
                     'action': function () {
@@ -221,7 +252,15 @@ There will be several copies of the web resource visible in the debugger as "aru
                         // Visit Project Financials?
                         DisplayTab("Project_Financials_Tab");
                     },
-                      'isapprovalbutton': false
+                      'isredbutton': false
+                },
+                {
+                    'label': 'Move to Next Stage',
+                    'action': function () {
+                        Log("Move next stage");
+                        MoveNext();
+                    },
+                      'isredbutton': true
                 },
             ],
             'Bid_Review_Submission_tab': [
@@ -232,7 +271,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         formContext.Arup.ApproveBidReview(formContext);
                     },
                     'hidden': f => !formContext.Arup.IsApproveBidReviewEnabled(formContext),
-                      'isapprovalbutton': true
+                      'isredbutton': true
                 },
                 {
                     'label': 'Bid Submitted',
@@ -241,7 +280,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         formContext.Arup.BidSubmitted(formContext);
                     },
                     'hidden': f => !formContext.Arup.IsBidSubmittedEnabled(formContext),
-                     'isapprovalbutton': true
+                     'isredbutton': true
                 },
                 {
                     'id': 'next_stage_button',
@@ -251,29 +290,48 @@ There will be several copies of the web resource visible in the debugger as "aru
                         MoveNext();
                     },
                     'hidden': f => formContext.Arup.IsBidSubmittedEnabled(formContext) || formContext.Arup.IsApproveBidReviewEnabled(formContext),
-                    'isapprovalbutton': false
+                    'isredbutton': true
                 }
             ],
             'Confirmed_Job_Project_Tab': [
+                {
+                    'label': 'Add Project Collaborators',
+                    'action': function () {
+                        Log("Add Project Collaborators");
+                       // formContext.Arup.BidSubmitted(formContext);
+                    },
+                  //  'hidden': f => !formContext.Arup.IsBidSubmittedEnabled(formContext),
+                     'isredbutton': false
+                },
                 {
                     'label': 'Move to Next Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
                     },
-                   'isapprovalbutton': false
+                   'isredbutton': false
                 }
             ],
-            //'Confirmed_Job_commercial_Tab': [
-            //    {
-            //        'label': 'Request Confirmed Job Number',
-            //        'action': function () {
-            //            Log("Request CJN");
-            //            formContext.Arup.RequestCJN();
-            //        },
-            //        'hidden': false // formContext.Arup.IsRequestCJNEnabled(formContext)
-            //    }
-            //],
+            'Confirmed_Job_commercial_Tab': [
+                {
+                    'label': 'Update Financial Details',
+                    'action': function () {
+                        Log("Update Financial Details");
+                        // Visit Project Financials?
+                        DisplayTab("Project_Financials_Tab");
+                    },
+                      'isredbutton': false
+                },
+                {
+                    'label': '</br><p>Use buttons at top for next step:-</br><ul><li>Close as Lost-</li><li>Close as Won – no CJN</li><li>Close as Won – CJN Needed</li></ul></p>',
+                    //'action': function () {
+                    //    Log("Request CJN");
+                    //    formContext.Arup.RequestCJN();
+                    //},
+                    'hidden': false,
+                    'islabel' :true
+                }
+            ],
             'PJN_Costs_Tab': [
                 {
                     // TOD: return to active stage
@@ -282,17 +340,17 @@ There will be several copies of the web resource visible in the debugger as "aru
                         ReturnToActiveTab();
                     },
                     hidden: f => formContext.Arup.PreviousTab == null || formContext.Arup.PreviousTab == 'PJN_Costs_Tab',
-                    'isapprovalbutton': false
+                    'isredbutton': false
                 }
             ],
             'Project_Financials_Tab': [
                 {
-                    'label': 'Return to: Required Fields - Developing Bid tab',
+                    'label': 'Back to the active stage tab',
                     'action': function () {
                         ReturnToActiveTab();
                     },
                     hidden: f => formContext.Arup.PreviousTab == null || formContext.Arup.PreviousTab == 'Project_Financials_Tab',
-                     'isapprovalbutton': false
+                     'isredbutton': false
                 }
             ],
             'PJN_Approval_tab': [
@@ -304,7 +362,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                          formContext.Arup.PJNApproveGroupLeader();
                     },
                     hidden: f => !formContext.Arup.IsGroupLeaderApprovalEnabled(formContext),
-                     'isapprovalbutton': true
+                     'isredbutton': true
                 },
                 {
                     'label': 'Approve PJN Regional Sector Leader',
@@ -314,7 +372,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         //formContext.Arup.ApproveSectorLeader(formContext);
                     },
                     hidden: f => !formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext),
-                     'isapprovalbutton': true
+                     'isredbutton': true
                 },
                 {
                     'label': 'Approve PJN  Sector Leader',
@@ -323,7 +381,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                        formContext.Arup.PJNApproveSectorLeader(formContext);
                     },
                     hidden: f => !formContext.Arup.IsSectorLeaderApprovalEnabled(formContext),
-                     'isapprovalbutton': true
+                     'isredbutton': true
                 },
                 {
                     'label': 'Approve Bid Director ',
@@ -332,7 +390,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                        formContext.Arup.PJNApproveBidDirector(formContext);
                     },
                     hidden: f => !formContext.Arup.IsBidDirectorApprovalEnabled(formContext),
-                    'isapprovalbutton': true
+                    'isredbutton': true
                 },
                 {
                     'label': 'Approve Regional COO',
@@ -342,7 +400,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         //formContext.Arup.ApproveRegionalCOO(formContext);
                     },
                     hidden: f => !formContext.Arup.IsRegionalCOOApprovalEnabled(formContext),
-                    'isapprovalbutton': true
+                    'isredbutton': true
                 },
                 {
                     'id': 'PJN_next_stage_button',
@@ -353,7 +411,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     },
                     'hidden': f => formContext.Arup.IsGroupLeaderApprovalEnabled(formContext) || formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext)
                         || formContext.Arup.IsSectorLeaderApprovalEnabled(formContext) || formContext.Arup.IsBidDirectorApprovalEnabled(formContext) || formContext.Arup.IsRegionalCOOApprovalEnabled(formContext),
-                    'isapprovalbutton': false
+                    'isredbutton': false
                 }
 
             ],
@@ -361,44 +419,52 @@ There will be several copies of the web resource visible in the debugger as "aru
                 {
                     'label': 'Approve Group Leader',
                     'action': function () {
-                        Log("Move next stage");
+                        Log("Approve Group Leade");
                        // formContext.Arup.ApproveGroupLeader(formContext);
                          formContext.Arup.CJNApproveGroupLeader();
                     },
                      hidden: f => !formContext.Arup.IsCJNGroupLeaderApprovalEnabled(formContext),
-                    'isapprovalbutton': true
+                    'isredbutton': true
                 },
                 {
                     'label': 'Approve Project Manager/Director',
                     'action': function () {
-                        Log("Move next stage");
+                        Log("Approve Project Manager/Director");
                        formContext.Arup.CJNApprovePMPD(formContext);
                         //formContext.Arup.ApproveSectorLeader(formContext);
                     },
                     hidden: f => !formContext.Arup.IsPMPDApprovalEnabled(formContext),
-                    'isapprovalbutton': true
+                    'isredbutton': true
                 },
                 {
                     'label': 'Approve Accounting Centre',
                     'action': function () {
-                        Log("Move next stage");
+                        Log("Approve Accounting Centre");
                        formContext.Arup.CJNApproveAccountingCentre(formContext);
                     },
                     hidden: f => !formContext.Arup.IsAccCentreApprovalEnabled(formContext),
-                     'isapprovalbutton': true
+                     'isredbutton': true
                 },
                 {
                     'label': 'Approve Finance',
                     'action': function () {
-                        Log("Move next stage");
+                        Log("Approve Finance");
                        formContext.Arup.CJNApproveFinance(formContext);
                     },
                     hidden: f => !formContext.Arup.IsFinanceApprovalEnabled(formContext),
-                    'isapprovalbutton': true
+                    'isredbutton': true
                 },              
 
             ],
-            'tab_testing': [
+            'Notes_tab': [
+                 {
+                      // TOD: return to active stage
+                    'label': 'Back to the active stage tab',
+                    'action': function () {
+                        ReturnToActiveTab();
+                    },                 
+                    'isredbutton': false
+                }
             ]
         };
 
@@ -407,7 +473,6 @@ There will be several copies of the web resource visible in the debugger as "aru
         var tabName;
         var tabNumber;
         document.onreadystatechange = function () {
-            debugger;
             if (document.readyState == "complete") {
                 if (location.search == "") {
                     console.error("No tab name given");
