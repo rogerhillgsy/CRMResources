@@ -1424,7 +1424,7 @@
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_Team_Main_Library.js">
       <DisplayName>arup_Team_Main_Library</DisplayName>
-      <UniqueName>arup_arup_Team_Main_Library</UniqueName>
+      <UniqueName>arup_Team_Main_Library.js</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_TEST.js">

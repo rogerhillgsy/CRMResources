@@ -2321,6 +2321,7 @@ var Arup_validations =
         },
         crmAttribute: "ccrm_arupcompanyid",
         onchange: (e, _this) => {
+            oppWizLog("Getting accounting centres for " + $('#arup_company').val());
             getAccountingCentres(e.target);
         },
         checkForIndiaCompanyList: (target) => {

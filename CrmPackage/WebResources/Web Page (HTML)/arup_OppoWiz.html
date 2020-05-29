@@ -78,6 +78,9 @@
                 });
 
             $('.multiselect-item .caret-container').click();
+
+            // Ensure that the intext raido box is autofocused.
+            $("input[name=intorext][value=INT]")[0].focus();
         });
 
     </script>
@@ -245,7 +248,6 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="project_country">Project Country:</label>
-                            <!--<input list="countries" id="project_country" class="form-control input-form" name="project_country" oninput="getCountries(this);" onfocusout="ensureSelected(this);getStates();"  title="Input project country" autocomplete="off" />-->
                             <input list="countries" id="project_country" class="form-control input-form" name="project_country" title="Input project country" autocomplete="off" />
                             <datalist id="countries">
                             </datalist>
