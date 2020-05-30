@@ -313,8 +313,8 @@ function ConfirmationMessage(formContext) {
     }
 
     var bidDirector = formContext.getAttribute("ccrm_biddirector_userid").getValue();
-    var userId = formContext.context.getUserId();
-    var userName = formContext.context.getUserName();
+    var userId = globalContext.userSettings.userId;
+    var userName = globalContext.userSettings.userName;
 
     if (bidDirector != null) {
         if (userId != bidDirector[0].id) {
@@ -395,8 +395,8 @@ function BidDicisionConfirmation(formContext) {
 
 function BidConfirmationMessage(formContext,bidDecisionChair) {
 
-    var userId = formContext.context.getUserId();
-    var userName = formContext.context.getUserName();
+    var userId = globalContext.userSettings.userId;
+    var userName = globalContext.userSettings.userName;
 
     var opportunityType = formContext.getAttribute("arup_opportunitytype").getValue();
 
@@ -569,8 +569,8 @@ function BidReviewApprovalConfirmationMessage(formContext) {
     var isBidManager = false;
     var isBidDirector = false;
 
-    var userId = formContext.context.getUserId();
-    var userName = formContext.context.getUserName();
+    var userId = globalContext.userSettings.userId;
+    var userName = globalContext.userSettings.userName;
 
     var message = "";
     var proxyUser = false;

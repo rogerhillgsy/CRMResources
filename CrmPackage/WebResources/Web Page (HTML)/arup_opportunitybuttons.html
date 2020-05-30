@@ -202,7 +202,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 }
             }
         }
-  
+     debugger;
         // Declare the configuration of each button: label, action to take when pressed and whether the button should be hidden.
         buttonConfigs = {
           
@@ -298,9 +298,9 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'label': 'Add Project Collaborators',
                     'action': function () {
                         Log("Add Project Collaborators");
-                       // formContext.Arup.BidSubmitted(formContext);
+                        formContext.Arup.AddProjectParticipant(formContext);
                     },
-                  //  'hidden': f => !formContext.Arup.IsBidSubmittedEnabled(formContext),
+                    'hidden': f => !formContext.Arup.IsAddProjectParticipantEnabled(formContext),
                      'isredbutton': false
                 },
                 {
@@ -324,18 +324,15 @@ There will be several copies of the web resource visible in the debugger as "aru
                 },
                 {
                     'label': '</br><p>Use buttons at top for next step:-</br><ul><li>Close as Lost-</li><li>Close as Won – no CJN</li><li>Close as Won – CJN Needed</li></ul></p>',
-                    //'action': function () {
-                    //    Log("Request CJN");
-                    //    formContext.Arup.RequestCJN();
-                    //},
                     'hidden': false,
                     'islabel' :true
                 }
             ],
             'PJN_Costs_Tab': [
                 {
+                 
                     // TOD: return to active stage
-                    'label': 'Back to the active stage tab',
+                    'label': 'Back to the ' + formContext.Arup.ActiveTabName.replace(/[_]/g, " "),
                     'action': function () {
                         ReturnToActiveTab();
                     },
@@ -345,7 +342,7 @@ There will be several copies of the web resource visible in the debugger as "aru
             ],
             'Project_Financials_Tab': [
                 {
-                    'label': 'Back to the active stage tab',
+                    'label': 'Back to the ' +  formContext.Arup.ActiveTabName.replace(/[_]/g, " "),
                     'action': function () {
                         ReturnToActiveTab();
                     },
@@ -459,7 +456,7 @@ There will be several copies of the web resource visible in the debugger as "aru
             'Notes_tab': [
                  {
                       // TOD: return to active stage
-                    'label': 'Back to the active stage tab',
+                    'label': 'Back to the '+ formContext.Arup.ActiveTabName.replace(/[_]/g, " "),
                     'action': function () {
                         ReturnToActiveTab();
                     },                 
