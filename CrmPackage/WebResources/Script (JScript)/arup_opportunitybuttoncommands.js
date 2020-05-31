@@ -256,26 +256,12 @@ Xrm.Page.Arup = (
             BidSubmittedClick(formContext);
         },
 
-        // CJN Request button.
-        IsRequestCJNEnabled: function(formContext) {
-            // Formstate == Existing
-            // ccrm_sys_confirmedjob_buttonhide != 1
-            // ccrm_systemcjnarequesttrigger == 1
-            // And has write privilege on opportunity???
-            var formType = formContext.ui.getFormType();
-            var cjnButtonhide = GetAttribute(formContext, "ccrm_sys_confirmedjob_buttonhide");
-            cjnButtonhide = cjnButtonhide.getValue();
-
-            var cjnRequestTrigger = GetAttribute(formContext, "ccrm_systemcjnarequesttrigger");
-            cjnRequestTrigger = cjnRequestTrigger.getValue();
-
-            return formType != 0 &&
-                formType != 1 && // undefined or creating
-                cjnButtonhide != 1 &&
-                cjnRequestTrigger == 1;
+        AddProjectParticipant: function () {
+            addProjectParticipant(formContext);
         },
-        RequestCJN: function() {
-            CloseOpportunityConfirmation(formContext,"cjn");
+
+        IsAddProjectParticipantEnabled: function (formContext) {
+            return hideButtonProjectCollaborator(formContext);
         },
 
 
@@ -310,6 +296,9 @@ Xrm.Page.Arup = (
                 } else {
                     tab.setVisible(false);
                 }
+            }
+            if (formContext.getAttribute('statecode').getValue() != 0) {
+                formContext.ui.tabs.get("Summary").setFocus();
             }
         },
 

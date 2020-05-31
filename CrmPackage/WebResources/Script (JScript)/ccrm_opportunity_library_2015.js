@@ -295,7 +295,7 @@ function GetOfficeCountryID(formContext, officeID) {
                 officeCountryResult.Id = result["_ccrm_officecountryid_value"];
                 officeCountryResult.Name = result["_ccrm_officecountryid_value@OData.Community.Display.V1.FormattedValue"];
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -305,11 +305,11 @@ function GetOfficeCountryID(formContext, officeID) {
 
 //get Region lookup - from the current user
 function getCurrentUserDetails(formContext) {
-  
+    debugger;
     var result = new Object();
     var ausCompany = new Object();
     var req = new XMLHttpRequest();
-    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/systemusers(" + formContext.context.getUserId().replace('{', '').replace('}', '') + ")?$select=caltype,_ccrm_accountingcentreid_value,_ccrm_arupcompanyid_value,_ccrm_arupofficeid_value,_ccrm_arupregionid_value,fullname", false);
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/systemusers(" + globalContext.userSettings.userId.replace('{', '').replace('}', '') + ")?$select=caltype,_ccrm_accountingcentreid_value,_ccrm_arupcompanyid_value,_ccrm_arupofficeid_value,_ccrm_arupregionid_value,fullname", false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -353,7 +353,7 @@ function getCurrentUserDetails(formContext) {
             }
 
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -384,7 +384,7 @@ function getAusCompanyDetails(companyCode) {
                     companyDetails.CompanyName = results[0].Ccrm_name;
                 }
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -409,7 +409,7 @@ function setDefaultClientUnassigned(formContext) {
 
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 
@@ -497,12 +497,12 @@ function FormOnload(executionContext) {
                 currUserData.arupcompanyname,
                 'ccrm_arupcompany',
                 'ccrm_arupcompanyid');
-            SetLookupField(formContext,formContext.context.getUserId(),
-                formContext.context.getUserName(),
+            SetLookupField(formContext,globalContext.userSettings.userId,
+                globalContext.userSettings.userName,
                 'systemuser',
                 'ccrm_leadoriginator');
-            SetLookupField(formContext,formContext.context.getUserId(),
-                formContext.context.getUserName(),
+            SetLookupField(formContext,globalContext.userSettings.userId,
+                globalContext.userSettings.userName,
                 'systemuser',
                 'ccrm_businessadministrator_userid');
             formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
@@ -638,9 +638,7 @@ function FormOnload(executionContext) {
                 ParentOpportunity_Onchange(formContext,"load");
             }
 
-            //if (formContext.getAttribute('statecode').getValue() != OPPORTUNITY_STATE.OPEN) {
-            //    formContext.ui.tabs.get("Summary").setFocus();
-            //}
+         
 
             onSelectOfStage(formContext,currentStage);
             ShowHideOpportunityTypeAndProjectProcurement(formContext);
@@ -769,7 +767,9 @@ function addEventToProjPartGrid(formContext) {
 
 }
 
-function OnStateChange(formContext) {
+function OnStateChange(executionContext) {
+    debugger;
+    var formContext = executionContext.getFormContext();
     if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
         var state = formContext.getAttribute("statecode").getValue();
         var bpfStatus = formContext.data.process.getStatus();
@@ -999,7 +999,10 @@ function lockDownBidCosts(formContext,lockDown) {
     var statecode = formContext.getAttribute('statecode').getValue();
 
     /* these fields should be locked down at all times for all licenses besides professional */
-    lockDown = (currUserData.caltype != 0 || statecode != 0) ? true : lockDown;
+  //  lockDown = (currUserData.caltype != 0 || statecode != 0) ? true : lockDown;
+
+    lockDown = (statecode != 0) ? true : lockDown;
+
 
     formContext.getControl("ccrm_salarycost_num").setDisabled(lockDown);
     formContext.getControl("ccrm_staffoverheadspercent").setDisabled(lockDown);
@@ -1040,7 +1043,7 @@ function GetCurrentApprover(formContext) {
                 var result = JSON.parse(this.response);
                 resultCurrentApprover = result["ccrm_currentapprovers"];
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -1065,7 +1068,7 @@ function GetCurrentApproversAsync(formContext,gotCurrentApproversCallback) {
             gotCurrentApproversCallback(result["ccrm_currentapprovers"]);
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -1202,7 +1205,7 @@ function GetFieldAsync(formContext,fieldname, gotFieldCallback) {
             gotFieldCallback(resultretrievedreq[fieldname]);
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -1253,6 +1256,7 @@ function setLookupFiltering(formContext) {
     formContext.getControl("ccrm_projectmanager_userid").addPreSearch(function () {
         UpdateRegionalLookup(formContext,"ccrm_projectmanager_userid", "arup_pmregionaccreditation", false);
         UpdateRegionalLookup(formContext, "ccrm_projectmanager_userid1", "arup_pmregionaccreditation", false);
+        UpdateRegionalLookup(formContext, "ccrm_projectmanager_userid2", "arup_pmregionaccreditation", false);
 
     });
 
@@ -1260,6 +1264,7 @@ function setLookupFiltering(formContext) {
     formContext.getControl("ccrm_projectdirector_userid").addPreSearch(function () {
         UpdateRegionalLookup(formContext,"ccrm_projectdirector_userid", "arup_pdregionaccreditation", false);
         UpdateRegionalLookup(formContext, "ccrm_projectdirector_userid1", "arup_pdregionaccreditation", false);
+        UpdateRegionalLookup(formContext, "ccrm_projectdirector_userid2", "arup_pdregionaccreditation", false);
 
     });
 
@@ -1457,7 +1462,7 @@ function GetAccLevelFilter(formContext, arupRegionName, lookupFieldName) {
                     };
 
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
@@ -1576,7 +1581,7 @@ function EAAccreditaionLevRequired(formContext) {
         //        }
         //    },
         //    function (error) {
-        //        Xrm.Utility.alertDialog(error.message);
+        //        Xrm.Navigation.openAlertDialog(error.message);
         //    }
         //);
 
@@ -1597,7 +1602,7 @@ function EAAccreditaionLevRequired(formContext) {
                         feeIncomeValue = feeIncomeValue * exRt;
                     }
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
@@ -1784,6 +1789,7 @@ function ValidateBidDirector_onchange(formContext) {
 }
 //Validate Project Manager on save, if there is data in it
 function ValidateProjectManager_onchange(executionContext) {
+    debugger;
     formContext = executionContext.getFormContext();
     if (formContext.getAttribute("ccrm_projectmanager_userid") != null) {
         if (formContext.getAttribute("ccrm_projectmanager_userid").getValue() != null) {
@@ -1807,6 +1813,7 @@ function ValidateProjectManager_onchange(executionContext) {
 }
 //Validate Project Director on save, if there is data in it
 function ValidateProjectDirector_onchange(executionContext) {
+    debugger;
     formContext = executionContext.getFormContext();
     if (formContext.getAttribute("ccrm_projectdirector_userid") != null) {
         if (formContext.getAttribute("ccrm_projectdirector_userid").getValue() != null) {
@@ -2019,7 +2026,7 @@ function SetCountryOfReg(formContext, clientId) {
             }
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -2080,7 +2087,7 @@ function checkHighRiskClient(clientid, extra, popup, quickcreate,statecode) {
             else if (quickcreate == false) { Notify.remove(messagename); }
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -2478,7 +2485,7 @@ function getAccountingCentreDetails(formContext,accountCentreID, checkOHrate) {
             }
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -2576,7 +2583,7 @@ function checkAccountingCentreStatus(formContext, newoppcreationflag) {
                         }
                     
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
@@ -2617,7 +2624,7 @@ function fetchArupRegion(ClientUrl,arupGroupId) {
                 lookup[0].name = _ccrm_arupregionid_value_formatted;
                 lookup[0].entityType = 'ccrm_arupregion';
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -2648,7 +2655,7 @@ function setNotificationLookup(arupRegionID) {
             };
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -2721,7 +2728,8 @@ function ccrm_bidreviewoutcome_onChange_ec(executionContext) {
 function ccrm_bidreviewoutcome_onChange(formContext) {
 
     var statecode = formContext.getAttribute('statecode').getValue();
-    var disableBidReviewChair = (formContext.getAttribute("ccrm_bidreviewoutcome").getValue() == 100000002 || currUserData.caltype != 0 || statecode != 0) ? true : false;
+   // var disableBidReviewChair = (formContext.getAttribute("ccrm_bidreviewoutcome").getValue() == 100000002 || currUserData.caltype != 0 || statecode != 0) ? true : false;
+    var disableBidReviewChair = (formContext.getAttribute("ccrm_bidreviewoutcome").getValue() == 100000002 ||  statecode != 0) ? true : false;
 
     formContext.getControl("ccrm_bidreviewchair_userid").setDisabled(disableBidReviewChair);
 
@@ -2898,7 +2906,7 @@ function denyArupCompanyPJN(formContext,companyID) {
     //        }
     //    },
     //    function (error) {
-    //        Xrm.Utility.alertDialog(error.message);
+    //        Xrm.Navigation.openAlertDialog(error.message);
     //    }
     //);
 
@@ -2917,7 +2925,7 @@ function denyArupCompanyPJN(formContext,companyID) {
                 var result = JSON.parse(this.response);
                 companyCode = result["ccrm_acccentrelookupcode"];
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -3410,7 +3418,7 @@ function getApproverName(recordid, entity, field) {
                 output.Name = result[formattedValueFieldName];
                 output.Id = result[field];
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -3422,7 +3430,7 @@ function getApproverName(recordid, entity, field) {
 function getGroupLeaderApprovers(formContext,groupid, companyid) {
     var check1 = -1;
     var check2 = -1;
-    var LoggedUser = formContext.context.getUserId();
+    var LoggedUser = globalContext.userSettings.userId;
     LoggedUser = LoggedUser.replace('{', '');
     LoggedUser = LoggedUser.replace('}', '');
     LoggedUser = LoggedUser.toLowerCase();
@@ -3557,7 +3565,7 @@ function getGLApprovers(formContext,groupid) {
                 }
                
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -3751,7 +3759,7 @@ function getGLApprovers(formContext,groupid) {
     //    }
     //  },
     //    function (error) {
-    //        Xrm.Utility.alertDialog(error.message);
+    //        Xrm.Navigation.openAlertDialog(error.message);
     //    }
     //);
 
@@ -3895,7 +3903,7 @@ function getAccCenApprovers(formContext,acccenid) {
                     }
                 }
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -4064,7 +4072,7 @@ function getAccCenApprovers(formContext,acccenid) {
     //    }
     //    },
     //    function (error) {
-    //        Xrm.Utility.alertDialog(error.message);
+    //        Xrm.Navigation.openAlertDialog(error.message);
     //    }
     //);
 
@@ -4307,7 +4315,7 @@ function getFinanceApproverForAccCentre(formContext,acccenid) {
                     }
                 }
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -4419,7 +4427,7 @@ function getFinanceApproverForAccCentre(formContext,acccenid) {
     //        }
     //    },
     //    function (error) {
-    //        Xrm.Utility.alertDialog(error.message);
+    //        Xrm.Navigation.openAlertDialog(error.message);
     //    }
     //);
 
@@ -4507,7 +4515,7 @@ function getFinanceApproverForCompany(formContext,companyid) {
                 }
              
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -4544,7 +4552,7 @@ function getFinanceApproverForCompany(formContext,companyid) {
     
     //    },
     //    function (error) {
-    //        Xrm.Utility.alertDialog(error.message);
+    //        Xrm.Navigation.openAlertDialog(error.message);
     //    }
     //);
 
@@ -4573,7 +4581,7 @@ function UserNameCheck(fullName) {
             }
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
     return result;
@@ -4616,12 +4624,12 @@ function ValidateApproval(formContext,msg, approvaltype) {
                 return temp;
             }
 
-            var tmp = getAccountingCentreApprovers(formContext,formContext.context.getUserId(),formContext.getAttribute('ccrm_accountingcentreid').getValue()[0].id, formContext.getAttribute('ccrm_arupcompanyid').getValue()[0].id);
+            var tmp = getAccountingCentreApprovers(formContext,globalContext.userSettings.userId,formContext.getAttribute('ccrm_accountingcentreid').getValue()[0].id, formContext.getAttribute('ccrm_arupcompanyid').getValue()[0].id);
             return tmp;
             break;
 
         case 'FinanceApproval':
-            var tmp = getFinanceApprovers(formContext,formContext.context.getUserId(),formContext.getAttribute('ccrm_accountingcentreid').getValue()[0].id, formContext.getAttribute('ccrm_arupcompanyid').getValue()[0].id);
+            var tmp = getFinanceApprovers(formContext,globalContext.userSettings.userId,formContext.getAttribute('ccrm_accountingcentreid').getValue()[0].id, formContext.getAttribute('ccrm_arupcompanyid').getValue()[0].id);
             return tmp;
 
         case 'BidDirector':
@@ -4692,7 +4700,7 @@ function ValidateApprovalIDs(formContext,msg, approvaltype) {
     var output = new Object();
     output.differentUser = false;
     output.result = true;
-    var LoggedUser = formContext.context.getUserId();
+    var LoggedUser = globalContext.userSettings.userId;
     if (formContext.getAttribute('arup_approverleader').getValue() != null) {
         if (formContext.getAttribute('arup_approverleader').getValue()[0].id != LoggedUser)
             output.differentUser = true;
@@ -5520,7 +5528,7 @@ function getCountryManagerAndCategory(formContext,countryID) {
 
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -5602,7 +5610,7 @@ function fetchCompanyCode(formContext,companyid) {
                 var result = JSON.parse(this.response);
                 var companyCode = result["ccrm_arupcompanycode"];
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -5632,7 +5640,7 @@ function getCountryregion(countryID) {
             }
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 
@@ -5695,7 +5703,7 @@ function USStateLookupPreFilter(executionContext) {
                     }
                 },
                 function (error) {
-                    Xrm.Utility.alertDialog(error.message);
+                    Xrm.Navigation.openAlertDialog(error.message);
                 }
             );
         }
@@ -5795,7 +5803,7 @@ function ccrm_arupcompanyid_onchange(executionContext) {
                 });
             },
             function (error) {
-                Xrm.Utility.alertDialog(error.message);
+                Xrm.Navigation.openAlertDialog(error.message);
             }
         );
 
@@ -5900,7 +5908,7 @@ function setTransactionCurrency(formContext,arupCompanyID) {
            
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
   
@@ -5952,7 +5960,7 @@ function GetCurrencyLookup(formContext) {
             }
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 
@@ -6055,7 +6063,7 @@ function checkOrganisationData(executionContext) {
                     } else
                         return false;
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
@@ -6665,7 +6673,7 @@ function BidReviewApprovalClick(formContext) {
 
             var regionName = formContext.getAttribute("ccrm_arupregionid").getValue()[0].name.toUpperCase();
             var currentBidReviewChair = formContext.getAttribute("ccrm_bidreviewchair_userid").getValue();
-            var currentUser = formContext.context.getUserId();
+            var currentUser = globalContext.userSettings.userId;
 
             var PMBR = formContext.getAttribute('ccrm_bidmanager_userid').getValue()[0].id,
                 PDBR = formContext.getAttribute('ccrm_biddirector_userid').getValue()[0].id;
@@ -6955,7 +6963,7 @@ function CheckFinanceFields(formContext) {
 // implementation pending
 function IsBidReviewChair() {
     var result = false;
-    var currUser = formContext.context.getUserId();
+    var currUser = globalContext.userSettings.userId;
     if (formContext.getAttribute('ccrm_bidreviewchair_userid').getValue() != null) {
         if (currUser == formContext.getAttribute('ccrm_bidreviewchair_userid').getValue()[0].id)
             result = true;
@@ -6985,7 +6993,7 @@ function updateBidReviewForm(formContext) {
 
             },
             function (error) {
-                Xrm.Utility.alertDialog(error.message);
+                Xrm.Navigation.openAlertDialog(error.message);
             }
         );
     }
@@ -7004,7 +7012,7 @@ function updateBidreviewPanel(bidreviewid, panelname) {
             var updatedEntityId = result.id;
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -7139,7 +7147,7 @@ function ValidatePJNGrpLdr() {
 }
 //This function is called from Ribbon :ccrm.opportunity.SectorLeaderApproval.Command
 function CJNApprovalButtonClick(formContext,type, approvalType, statusField, userField, dateField) {
-
+    debugger;
     if (!IsFormValid(formContext)) { return };
 
     var ackMsg = ApprovalConfirmationMessage(approvalType);
@@ -7197,8 +7205,11 @@ function CJNApprovalButtonClick(formContext,type, approvalType, statusField, use
                                         var entityFormOptions = {};
                                         entityFormOptions["entityName"] = "opportunity";//Logical name of the entity
                                         entityFormOptions["entityId"] = formContext.data.entity.getId(); //ID of the entity record
-                                        entityFormOptions["formId"] = "C62BD14C-9457-4BD9-99BF-F91E355CB28" ; //FormId
-                                        Xrm.Navigation.openForm(entityFormOptions);
+                                        entityFormOptions["formId"] = "C62BD14C-9457-4BD9-99BF-F91E355CB28"; //FormId
+
+                                      //  setTimeout(function () {  
+                                            Xrm.Navigation.openForm(entityFormOptions);
+                                     //   }, 10000);
 
                                      //   Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
                                     });
@@ -7471,7 +7482,7 @@ function requestConfirmJob(formContext) {
         if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
         //[RS - Added project participant check for PBI - 39838]
         var projPartApp = formContext.getAttribute("arup_projpartreqd").getValue();
-        var currUserId = formContext.context.getUserId();
+        var currUserId = globalContext.userSettings.userId;
         var lstCJNUsr = formContext.getAttribute("arup_aruplastcjnclickuser").getValue();
         var lstCJNUsrId = (lstCJNUsr != null) ? lstCJNUsr[0].id : null;
         if (projPartApp == 770000000) {
@@ -7518,7 +7529,7 @@ function requestConfirmJob(formContext) {
                         label: "<b>Yes - Add Project Collaborators</b>",
                         callback: function () {
                             //set arup_aruplastcjnclickuser field with the current user who is requesting CJN
-                            SetLookupField(formContext,formContext.context.getUserId(), formContext.context.getUserName(), 'systemuser', 'arup_aruplastcjnclickuser');
+                            SetLookupField(formContext,globalContext.userSettings.userId, globalContext.userSettings.userName, 'systemuser', 'arup_aruplastcjnclickuser');
                             formContext.getAttribute("arup_projparticipants_reqd").setValue(true);
                             formContext.getAttribute("arup_projpartreqd").setValue(770000000);
                             formContext.data.save();
@@ -8003,7 +8014,7 @@ function updateStatusCode(formContext,newStatusCode) {
                 var updatedEntityId = result.id;
             },
             function (error) {
-                Xrm.Utility.alertDialog(error.message);
+                Xrm.Navigation.openAlertDialog(error.message);
             }
         );
     }
@@ -8246,7 +8257,7 @@ function projectParticipantExists(formContext) {
                 var recordCount = results["@odata.count"];
                 ProjectParticExists = (recordCount > 0) ? true : false;
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -8322,7 +8333,7 @@ function userInTeamCheck(formContext,TeamNameInput) {
         req.open("GET", formContext.context.getClientUrl() +
             "/api/data/v8.2/accounts?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%3E%3Centity%20name%3D%22team%22%3E%3Cattribute%20name%3D%22name%22%2F%3E%3Cfilter%20type%3D%22and%22%3E%3Ccondition%20attribute%3D%22name%22%20operator%3D%22eq%22%20value%3D%22" +
             TeamNameInput + "%22%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22teammembership%22%20from%3D%22teamid%22%20to%3D%22teamid%22%20visible%3D%22false%22%20intersect%3D%22true%22%3E%3Cfilter%20type%3D%22and%22%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq%22%20value%3D%22" +
-            formContext.context.getUserId().replace('{', '').replace('}', '') + "%22%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            globalContext.userSettings.userId.replace('{', '').replace('}', '') + "%22%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
         req.setRequestHeader("OData-MaxVersion", "4.0");
         req.setRequestHeader("OData-Version", "4.0");
         req.setRequestHeader("Accept", "application/json");
@@ -8336,7 +8347,7 @@ function userInTeamCheck(formContext,TeamNameInput) {
                         IsPresentInTeam = true;
                     }
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
@@ -8360,7 +8371,7 @@ function approveCallbackAction(formContext,approvalType) {
     var parameters = {};
     var approveruser = {};
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
-    var LoggedUser = formContext.context.getUserId().replace(/[{}]/g, "");
+    var LoggedUser = globalContext.userSettings.userId.replace(/[{}]/g, "");
 
     approveruser.systemuserid = LoggedUser;
     approveruser["@odata.type"] = "Microsoft.Dynamics.CRM.systemuser";
@@ -8464,7 +8475,7 @@ function PullParentOpportunityDetailsForDiffOpportunityType(formContext,parentOp
                         var results = JSON.parse(this.response);
                         AssignDetailsFromParentOpportunity(results, opportunitytype);
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        Xrm.Navigation.openAlertDialog(this.statusText);
                     }
                 }
             };
@@ -8495,7 +8506,7 @@ function PullDetailsFromParentOpportunity(formContext,parentOpportunity, event) 
                         }
                     }
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
@@ -8786,7 +8797,7 @@ function SetUltimateClient(formContext) {
                             }
                         }
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        Xrm.Navigation.openAlertDialog(this.statusText);
                     }
                 }
             };
@@ -8913,7 +8924,7 @@ function VerifyParentOpportunity(formContext) {
                         }
                         // var statecode_formatted = result["statecode@OData.Community.Display.V1.FormattedValue"];
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        Xrm.Navigation.openAlertDialog(this.statusText);
                     }
                 }
             };
@@ -8978,7 +8989,7 @@ function PullFrameworkDetails(formContext) {
                         //  formContext.getAttribute("ccrm_client").setValue(result.arup_arup_framework_arup_frameworksecured_FrameworkID[a]["arup_piinsurancerequirement@OData.Community.Display.V1.FormattedValue"]);
                     }
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
@@ -9126,20 +9137,20 @@ function setTimeoutfn(formContext,attributeName) {
 
     if (formContext.ui.getFormType() == 1 || arupInternal) { return; }
 
-    setTimeout(procurementTypeFullForm_onChange(attributeName), 500);
+    setTimeout(procurementTypeFullForm_onChange(formContext,attributeName), 500);
 }
 
-function procurementTypeFullForm_onChange(attributeName) {
+function procurementTypeFullForm_onChange(formContext,attributeName) {
     debugger;
     cachefields['attributename'] = attributeName;
 
     var confirmButton = new Alert.Button();
     confirmButton.label = "Confirm";
-    confirmButton.callback = onConfirmButtonClick;
+    confirmButton.callback = onConfirmButtonClick(formContext);
 
     var cancelButton = new Alert.Button();
     cancelButton.label = "Cancel";
-    cancelButton.callback = onCancelButtonClick;
+    cancelButton.callback = onCancelButtonClick(formContext);
 
     var buttonArray = new Array();
     var titleFieldName = "Project Procurement";
@@ -9248,7 +9259,7 @@ function IsDependentFieldValueValid(entityName,mainOptionsetFieldName, mainOptio
                     }
                 }
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
