@@ -1256,6 +1256,7 @@ function setLookupFiltering(formContext) {
     formContext.getControl("ccrm_projectmanager_userid").addPreSearch(function () {
         UpdateRegionalLookup(formContext,"ccrm_projectmanager_userid", "arup_pmregionaccreditation", false);
         UpdateRegionalLookup(formContext, "ccrm_projectmanager_userid1", "arup_pmregionaccreditation", false);
+        UpdateRegionalLookup(formContext, "ccrm_projectmanager_userid2", "arup_pmregionaccreditation", false);
 
     });
 
@@ -1263,6 +1264,7 @@ function setLookupFiltering(formContext) {
     formContext.getControl("ccrm_projectdirector_userid").addPreSearch(function () {
         UpdateRegionalLookup(formContext,"ccrm_projectdirector_userid", "arup_pdregionaccreditation", false);
         UpdateRegionalLookup(formContext, "ccrm_projectdirector_userid1", "arup_pdregionaccreditation", false);
+        UpdateRegionalLookup(formContext, "ccrm_projectdirector_userid2", "arup_pdregionaccreditation", false);
 
     });
 
