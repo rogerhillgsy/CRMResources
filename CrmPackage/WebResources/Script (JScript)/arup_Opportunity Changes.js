@@ -78,7 +78,6 @@ function ShowHideOpportunityTypeAndProjectProcurement(formContext) {
 //This function is called from 'Close as Lost' button and 'Close as lost/no Bid' button
 //pass opportunity status as Lost / Won from Ribbon Workbench, formcontext is primarycontrol paramter
 function CloseOpportunity(formContext,statusCode) {
-    debugger;
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var clientUrl = formContext.context.getClientUrl();
@@ -242,7 +241,6 @@ function getOpportunityReasons(ClientUrl,activeStageId, statusCode, arupInternal
 
 //Below function called from Ribbonworkbench: FormCOntext is primarycontrol paramter
 function CloseOpportunityConfirmation(formContext,statusCode) {
-    debugger;
     var client = formContext.getAttribute("ccrm_client").getValue();
     var arupInternal = (formContext.getAttribute("ccrm_arupinternal").getValue() == 1) ? true : false;
 
