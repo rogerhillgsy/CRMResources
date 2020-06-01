@@ -1,7 +1,7 @@
 var selectedEntity;
 
-function onsave() {
-
+function onsave(executionContext) {
+    var formContext = executionContext.getFormContext();
     var entityId;
     var entityId1;
     var guid;
@@ -11,271 +11,269 @@ function onsave() {
 
         case 'Opportunity':
 
-            entityId = Xrm.Page.getAttribute('ccrm_relatingto').getValue();
-            entityId1 = Xrm.Page.getAttribute('ccrm_relatingto1').getValue();
+            entityId = formContext.getAttribute('ccrm_relatingto').getValue();
+            entityId1 = formContext.getAttribute('ccrm_relatingto1').getValue();
 
             switch (entityId) {
 
                 case 3:
-                    guid = Xrm.Page.getAttribute('ccrm_opportunityid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('ccrm_opportunityid').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_opportunityid').getValue()[0].name);
+                    guid = formContext.getAttribute('ccrm_opportunityid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('ccrm_opportunityid').getValue() == null ? null : formContext.getAttribute('ccrm_opportunityid').getValue()[0].name);
                     break;
 
                 case 10029:
-                    guid = Xrm.Page.getAttribute('ccrm_newarupregionid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('ccrm_newarupregionid').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_newarupregionid').getValue()[0].name);
+                    guid = formContext.getAttribute('ccrm_newarupregionid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('ccrm_newarupregionid').getValue() == null ? null : formContext.getAttribute('ccrm_newarupregionid').getValue()[0].name);
                     break;
 
                 case 8:
-                    guid = Xrm.Page.getAttribute('ccrm_user').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('ccrm_user').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_user').getValue()[0].name);
+                    guid = formContext.getAttribute('ccrm_user').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('ccrm_user').getValue() == null ? null : formContext.getAttribute('ccrm_user').getValue()[0].name);
                     break;
 
                 case 10054:
-                    guid = Xrm.Page.getAttribute('ccrm_arupaccountingcodeid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('ccrm_arupaccountingcodeid').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_arupaccountingcodeid').getValue()[0].name);
+                    guid = formContext.getAttribute('ccrm_arupaccountingcodeid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('ccrm_arupaccountingcodeid').getValue() == null ? null : formContext.getAttribute('ccrm_arupaccountingcodeid').getValue()[0].name);
                     break;
 
                 case 10038:
-                    guid = Xrm.Page.getAttribute('ccrm_countryid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('ccrm_countryid').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_countryid').getValue()[0].name);
+                    guid = formContext.getAttribute('ccrm_countryid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('ccrm_countryid').getValue() == null ? null : formContext.getAttribute('ccrm_countryid').getValue()[0].name);
                     break;
 
                 case 10043:
-                    guid = Xrm.Page.getAttribute('ccrm_arupbusinessid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('ccrm_arupbusinessid').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_arupbusinessid').getValue()[0].name);
+                    guid = formContext.getAttribute('ccrm_arupbusinessid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('ccrm_arupbusinessid').getValue() == null ? null : formContext.getAttribute('ccrm_arupbusinessid').getValue()[0].name);
                     break;
 
                 case 1:
-                    guid = Xrm.Page.getAttribute('ccrm_organisation').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('ccrm_organisation').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_organisation').getValue()[0].name);
+                    guid = formContext.getAttribute('ccrm_organisation').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('ccrm_organisation').getValue() == null ? null : formContext.getAttribute('ccrm_organisation').getValue()[0].name);
                     break;
 
                 case 10047:
-                    guid = Xrm.Page.getAttribute('ccrm_arupgroupid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('ccrm_arupgroupid').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_arupgroupid').getValue()[0].name);
+                    guid = formContext.getAttribute('ccrm_arupgroupid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('ccrm_arupgroupid').getValue() == null ? null : formContext.getAttribute('ccrm_arupgroupid').getValue()[0].name);
                     break;
 
                 case 770000000:
                     entityId = 10090;
-                    guid = Xrm.Page.getAttribute('arup_clientgroupings').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('arup_clientgroupings').getValue() == null ? null : Xrm.Page.getAttribute('arup_clientgroupings').getValue()[0].name);
+                    guid = formContext.getAttribute('arup_clientgroupings').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('arup_clientgroupings').getValue() == null ? null : formContext.getAttribute('arup_clientgroupings').getValue()[0].name);
                     break;
 
                 case 770000001:
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('arup_othernetworks').getValue() == null ? null : Xrm.Page.getAttribute('arup_othernetworks').getText());
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('arup_othernetworks').getValue() == null ? null : formContext.getAttribute('arup_othernetworks').getText());
                     break;
 
                 default:
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(null);
+                    formContext.getAttribute('ccrm_lname').setValue(null);
 
             }
 
             switch (entityId1) {
 
                 case 3:
-                    guid1 = Xrm.Page.getAttribute('ccrm_opportunityid1').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname1').setValue(Xrm.Page.getAttribute('ccrm_opportunityid1').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_opportunityid1').getValue()[0].name);
+                    guid1 = formContext.getAttribute('ccrm_opportunityid1').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname1').setValue(formContext.getAttribute('ccrm_opportunityid1').getValue() == null ? null : formContext.getAttribute('ccrm_opportunityid1').getValue()[0].name);
                     break;
 
                 case 10029:
-                    guid1 = Xrm.Page.getAttribute('ccrm_arupregionid1').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname1').setValue(Xrm.Page.getAttribute('ccrm_arupregionid1').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_arupregionid1').getValue()[0].name);
+                    guid1 = formContext.getAttribute('ccrm_arupregionid1').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname1').setValue(formContext.getAttribute('ccrm_arupregionid1').getValue() == null ? null : formContext.getAttribute('ccrm_arupregionid1').getValue()[0].name);
                     break;
 
                 case 8:
-                    guid1 = Xrm.Page.getAttribute('ccrm_userid1').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname1').setValue(Xrm.Page.getAttribute('ccrm_userid1').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_userid1').getValue()[0].name);
+                    guid1 = formContext.getAttribute('ccrm_userid1').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname1').setValue(formContext.getAttribute('ccrm_userid1').getValue() == null ? null : formContext.getAttribute('ccrm_userid1').getValue()[0].name);
                     break;
 
                 case 10054:
-                    guid1 = Xrm.Page.getAttribute('ccrm_arupaccountingcodeid1').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname1').setValue(Xrm.Page.getAttribute('ccrm_arupaccountingcodeid1').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_arupaccountingcodeid1').getValue()[0].name);
+                    guid1 = formContext.getAttribute('ccrm_arupaccountingcodeid1').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname1').setValue(formContext.getAttribute('ccrm_arupaccountingcodeid1').getValue() == null ? null : formContext.getAttribute('ccrm_arupaccountingcodeid1').getValue()[0].name);
                     break;
 
                 case 10038:
-                    guid1 = Xrm.Page.getAttribute('ccrm_countryid1').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname1').setValue(Xrm.Page.getAttribute('ccrm_countryid1').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_countryid1').getValue()[0].name);
+                    guid1 = formContext.getAttribute('ccrm_countryid1').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname1').setValue(formContext.getAttribute('ccrm_countryid1').getValue() == null ? null : formContext.getAttribute('ccrm_countryid1').getValue()[0].name);
                     break;
 
                 case 10043:
-                    guid1 = Xrm.Page.getAttribute('ccrm_arupbusinessid1').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname1').setValue(Xrm.Page.getAttribute('ccrm_arupbusinessid1').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_arupbusinessid1').getValue()[0].name);
+                    guid1 = formContext.getAttribute('ccrm_arupbusinessid1').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname1').setValue(formContext.getAttribute('ccrm_arupbusinessid1').getValue() == null ? null : formContext.getAttribute('ccrm_arupbusinessid1').getValue()[0].name);
                     break;
 
                 case 1:
-                    guid1 = Xrm.Page.getAttribute('ccrm_organisationid1').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname1').setValue(Xrm.Page.getAttribute('ccrm_organisationid1').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_organisationid1').getValue()[0].name);
+                    guid1 = formContext.getAttribute('ccrm_organisationid1').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname1').setValue(formContext.getAttribute('ccrm_organisationid1').getValue() == null ? null : formContext.getAttribute('ccrm_organisationid1').getValue()[0].name);
                     break;
 
                 case 10047:
-                    guid1 = Xrm.Page.getAttribute('ccrm_arupgroupid1').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname1').setValue(Xrm.Page.getAttribute('ccrm_arupgroupid1').getValue() == null ? null : Xrm.Page.getAttribute('ccrm_arupgroupid1').getValue()[0].name);
+                    guid1 = formContext.getAttribute('ccrm_arupgroupid1').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname1').setValue(formContext.getAttribute('ccrm_arupgroupid1').getValue() == null ? null : formContext.getAttribute('ccrm_arupgroupid1').getValue()[0].name);
                     break;
 
                 case 770000000:
                     entityId1 = 10090;
-                    guid1 = Xrm.Page.getAttribute('arup_clientgrouping1').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname1').setValue(Xrm.Page.getAttribute('arup_clientgrouping1').getValue() == null ? null : Xrm.Page.getAttribute('arup_clientgrouping1').getValue()[0].name);
+                    guid1 = formContext.getAttribute('arup_clientgrouping1').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname1').setValue(formContext.getAttribute('arup_clientgrouping1').getValue() == null ? null : formContext.getAttribute('arup_clientgrouping1').getValue()[0].name);
                     break;
 
                 case 770000001:
-                    Xrm.Page.getAttribute('ccrm_lname1').setValue(Xrm.Page.getAttribute('arup_othernetworks1').getValue() == null ? null : Xrm.Page.getAttribute('arup_othernetworks1').getText());
+                    formContext.getAttribute('ccrm_lname1').setValue(formContext.getAttribute('arup_othernetworks1').getValue() == null ? null : formContext.getAttribute('arup_othernetworks1').getText());
                     break;
 
                 default:
-                    Xrm.Page.getAttribute('ccrm_lname1').setValue(null);
+                    formContext.getAttribute('ccrm_lname1').setValue(null);
 
             }
 
-            Xrm.Page.getAttribute('ccrm_type').setValue(entityId == null ? null : entityId.toString());
-            Xrm.Page.getAttribute('ccrm_type1').setValue(entityId1 == null ? null : entityId1.toString());
-            Xrm.Page.getAttribute('ccrm_guid').setValue(guid);
-            Xrm.Page.getAttribute('ccrm_guid1').setValue(guid1);
+            formContext.getAttribute('ccrm_type').setValue(entityId == null ? null : entityId.toString());
+            formContext.getAttribute('ccrm_type1').setValue(entityId1 == null ? null : entityId1.toString());
+            formContext.getAttribute('ccrm_guid').setValue(guid);
+            formContext.getAttribute('ccrm_guid1').setValue(guid1);
             break;
 
         case 'Lead':
 
             //entityId = Xrm.Page.getAttribute('arup_relatedtolead').getValue();
 
-            switch (Xrm.Page.getAttribute('arup_relatedtolead').getValue()) {
+            switch (formContext.getAttribute('arup_relatedtolead').getValue()) {
 
                 case 770000005:
                     entityId = 4;
-                    guid = Xrm.Page.getAttribute('arup_leadleadid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('arup_leadleadid').getValue() == null ? null : Xrm.Page.getAttribute('arup_leadleadid').getValue()[0].name);
+                    guid = formContext.getAttribute('arup_leadleadid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('arup_leadleadid').getValue() == null ? null : formContext.getAttribute('arup_leadleadid').getValue()[0].name);
                     break;
 
                 case 770000003:
                     entityId = 10029;
-                    guid = Xrm.Page.getAttribute('arup_leadregionid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('arup_leadregionid').getValue() == null ? null : Xrm.Page.getAttribute('arup_leadregionid').getValue()[0].name);
+                    guid = formContext.getAttribute('arup_leadregionid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('arup_leadregionid').getValue() == null ? null : formContext.getAttribute('arup_leadregionid').getValue()[0].name);
                     break;
 
                 case 770000009: //procurement
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('arup_leadprocurement').getValue() == null ? null : Xrm.Page.getAttribute('arup_leadprocurement').getText());
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('arup_leadprocurement').getValue() == null ? null : formContext.getAttribute('arup_leadprocurement').getText());
                     break;
 
                 case 770000000:
                     entityId = 10054;
-                    guid = Xrm.Page.getAttribute('arup_leadacctcentreid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('arup_leadacctcentreid').getValue() == null ? null : Xrm.Page.getAttribute('arup_leadacctcentreid').getValue()[0].name);
+                    guid = formContext.getAttribute('arup_leadacctcentreid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('arup_leadacctcentreid').getValue() == null ? null : formContext.getAttribute('arup_leadacctcentreid').getValue()[0].name);
                     break;
 
                 case 770000004:
                     entityId = 10038;
-                    guid = Xrm.Page.getAttribute('arup_leadcountryid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('arup_leadcountryid').getValue() == null ? null : Xrm.Page.getAttribute('arup_leadcountryid').getValue()[0].name);
+                    guid = formContext.getAttribute('arup_leadcountryid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('arup_leadcountryid').getValue() == null ? null : formContext.getAttribute('arup_leadcountryid').getValue()[0].name);
                     break;
 
                 case 770000001:
                     entityId = 10043;
-                    guid = Xrm.Page.getAttribute('arup_leadbusinessid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('arup_leadbusinessid').getValue() == null ? null : Xrm.Page.getAttribute('arup_leadbusinessid').getValue()[0].name);
+                    guid = formContext.getAttribute('arup_leadbusinessid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('arup_leadbusinessid').getValue() == null ? null : formContext.getAttribute('arup_leadbusinessid').getValue()[0].name);
                     break;
 
                 case 770000006:
                     entityId = 1;
-                    guid = Xrm.Page.getAttribute('arup_leadclientid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('arup_leadclientid').getValue() == null ? null : Xrm.Page.getAttribute('arup_leadclientid').getValue()[0].name);
+                    guid = formContext.getAttribute('arup_leadclientid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('arup_leadclientid').getValue() == null ? null : formContext.getAttribute('arup_leadclientid').getValue()[0].name);
                     break;
 
                 case 770000002:
                     entityId = 10047;
-                    guid = Xrm.Page.getAttribute('arup_leadgroupid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('arup_leadgroupid').getValue() == null ? null : Xrm.Page.getAttribute('arup_leadgroupid').getValue()[0].name);
+                    guid = formContext.getAttribute('arup_leadgroupid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('arup_leadgroupid').getValue() == null ? null : formContext.getAttribute('arup_leadgroupid').getValue()[0].name);
                     break;
 
                 case 770000007:
                     entityId = 10090;
-                    guid = Xrm.Page.getAttribute('arup_leadclientgroupid').getValue()[0].id;
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('arup_leadclientgroupid').getValue() == null ? null : Xrm.Page.getAttribute('arup_leadclientgroupid').getValue()[0].name);
+                    guid = formContext.getAttribute('arup_leadclientgroupid').getValue()[0].id;
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('arup_leadclientgroupid').getValue() == null ? null : formContext.getAttribute('arup_leadclientgroupid').getValue()[0].name);
                     break;
 
                 case 770000008:
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(Xrm.Page.getAttribute('arup_leadnetworksmarkets').getValue() == null ? null : Xrm.Page.getAttribute('arup_leadnetworksmarkets').getText());
+                    formContext.getAttribute('ccrm_lname').setValue(formContext.getAttribute('arup_leadnetworksmarkets').getValue() == null ? null : formContext.getAttribute('arup_leadnetworksmarkets').getText());
                     break;
 
                 default:
-                    Xrm.Page.getAttribute('ccrm_lname').setValue(null);
+                    formContext.getAttribute('ccrm_lname').setValue(null);
 
             }
 
-            Xrm.Page.getAttribute('ccrm_type').setValue(entityId == null ? null : entityId.toString());
-            Xrm.Page.getAttribute('ccrm_guid').setValue(guid);
-            Xrm.Page.getAttribute('ccrm_type1').setValue(null);
-            Xrm.Page.getAttribute('ccrm_guid1').setValue(null);
-            Xrm.Page.getAttribute('ccrm_lname1').setValue(null);
+            formContext.getAttribute('ccrm_type').setValue(entityId == null ? null : entityId.toString());
+            formContext.getAttribute('ccrm_guid').setValue(guid);
+            formContext.getAttribute('ccrm_type1').setValue(null);
+            formContext.getAttribute('ccrm_guid1').setValue(null);
+            formContext.getAttribute('ccrm_lname1').setValue(null);
             break;
     }
 
 }
 
-function onload() {
-
-    filterEventsBasedOnUserCurrency();
-    //if (Xrm.Page.ui.getFormType() != 1) {
-    onChangeccrm_crmeventid();
-    //}
-    //Xrm.Page.getAttribute("ccrm_addmorecriteria").fireOnChange();
+function onload(executionContext) {
+    var formContext = executionContext.getFormContext();
+    filterEventsBasedOnUserCurrency(formContext);
+    onChangeccrm_crmeventid(executionContext);
 }
 
-function onChangeccrm_crmeventid() {
-
+function onChangeccrm_crmeventid(executionContext) {
+    var formContext = executionContext.getFormContext();
     var oppRelated = 0;
     var leadRelated = 0;
     var frequency = 0;
+    if (formContext.data.entity.attributes.get("ccrm_crmeventid").getValue() == null) { return; }
 
-    if (Xrm.Page.data.entity.attributes.get("ccrm_crmeventid").getValue() == null) { return; }
+    var eventID = formContext.data.entity.attributes.get("ccrm_crmeventid").getValue()[0].id;
 
-    var relatedEntity = null;
-    var eventID = Xrm.Page.data.entity.attributes.get("ccrm_crmeventid").getValue()[0].id;
+    Xrm.WebApi.online.retrieveRecord("ccrm_crmevent", eventID, "?$select=arup_relatedentity").then(
+        function success(result) {
+            var arup_relatedentity = result["arup_relatedentity"];          
 
-    SDK.REST.retrieveRecord(eventID, "ccrm_crmevent", 'arup_RelatedEntity', null,
-        function (retrievedreq) {
-
-            relatedEntity = retrievedreq.arup_RelatedEntity.Value;
-
-            switch (relatedEntity) {
+            switch (arup_relatedentity) {
 
                 case 770000000: //opportunity
                     selectedEntity = 'Opportunity';
-                    oppRelated = 1;
-                    frequency = 1;
-                    Xrm.Page.getAttribute("ccrm_relatingto").fireOnChange();
-                    Xrm.Page.getAttribute("ccrm_relatingto1").fireOnChange();
+                    oppRelated = true;
+                    frequency = true;
+                    formContext.getAttribute("ccrm_relatingto").fireOnChange();
+                    formContext.getAttribute("ccrm_relatingto1").fireOnChange();
                     break;
 
                 case 770000001: //lead
                     selectedEntity = 'Lead';
-                    leadRelated = 1;
-                    frequency = 1;
-                    Xrm.Page.getAttribute("arup_relatedtolead").fireOnChange();
+                    leadRelated = true;
+                    frequency = true;
+                    formContext.getAttribute("arup_relatedtolead").fireOnChange();
                     break;
 
                 default: // null
                     break;
             }
 
-            Xrm.Page.ui.tabs.get("General_Tab").sections.get("Opportunity_Related").setVisible(oppRelated);
-            Xrm.Page.ui.tabs.get("General_Tab").sections.get("Opportunity_Related1").setVisible(oppRelated);
-            Xrm.Page.ui.tabs.get("General_Tab").sections.get("Lead_Related").setVisible(leadRelated);
-            Xrm.Page.getControl('ccrm_relatingto').setVisible(oppRelated);
-            Xrm.Page.getControl('arup_relatedtolead').setVisible(leadRelated);
-            Xrm.Page.getControl('ccrm_addmorecriteria').setVisible(oppRelated);
-            Xrm.Page.getControl('arup_excludearupinternal').setVisible(oppRelated);
+            formContext.ui.tabs.get("General_Tab").sections.get("Opportunity_Related").setVisible(oppRelated);
+            formContext.ui.tabs.get("General_Tab").sections.get("Opportunity_Related1").setVisible(oppRelated);
+            formContext.ui.tabs.get("General_Tab").sections.get("Lead_Related").setVisible(leadRelated);
+            formContext.getControl('ccrm_relatingto').setVisible(oppRelated);
+            formContext.getControl('arup_relatedtolead').setVisible(leadRelated);
+            formContext.getControl('ccrm_addmorecriteria').setVisible(oppRelated);
+            formContext.getControl('arup_excludearupinternal').setVisible(oppRelated);
             if (oppRelated) {
-                Xrm.Page.getAttribute("ccrm_addmorecriteria").fireOnChange();
+                formContext.getAttribute("ccrm_addmorecriteria").fireOnChange();
             }
-        }, errorHandler, false);
+        },
+        function (error) {
+            Xrm.Utility.alertDialog(error.message);
+        }
+    );
 
 }
 
-function onChangearup_relatedtolead(arrfields) {
-
+function onChangearup_relatedtolead(executionContext, arrfields) {
+    var formContext = executionContext.getFormContext();
     var fields = arrfields;
     var visibleField = null;
-    var related = Xrm.Page.data.entity.attributes.get("arup_relatedtolead").getValue();
+    var related = formContext.data.entity.attributes.get("arup_relatedtolead").getValue();
 
     switch (related) {
 
@@ -322,17 +320,17 @@ function onChangearup_relatedtolead(arrfields) {
     }
 
     if (visibleField != null) {
-        Xrm.Page.getAttribute(visibleField).setRequiredLevel('required');
-        Xrm.Page.getControl(visibleField).setVisible(true);
+        formContext.getAttribute(visibleField).setRequiredLevel('required');
+        formContext.getControl(visibleField).setVisible(true);
         fields = removeField(fields, visibleField);
     }
-    hideAndNullifyFields(fields);
+    hideAndNullifyFields(formContext, fields);
 
 }
 
-function onChangeRelatedTo(relatingToField, arrfields) {
-
-    var relatingTo = Xrm.Page.getAttribute(relatingToField).getValue();
+function onChangeRelatedTo(executionContext, relatingToField, arrfields) {
+    var formContext = executionContext.getFormContext();
+    var relatingTo = formContext.getAttribute(relatingToField).getValue();
     var fields = arrfields;
     var visibleField = null;
 
@@ -380,22 +378,22 @@ function onChangeRelatedTo(relatingToField, arrfields) {
     }
 
     if (visibleField != null) {
-        Xrm.Page.getAttribute(visibleField).setRequiredLevel('required');
-        Xrm.Page.getControl(visibleField).setVisible(true);
+        formContext.getAttribute(visibleField).setRequiredLevel('required');
+        formContext.getControl(visibleField).setVisible(true);
         fields = removeField(fields, visibleField);
     }
-    hideAndNullifyFields(fields);
+    hideAndNullifyFields(formContext, fields);
 
 }
 
-function hideAndNullifyFields(fields) {
+function hideAndNullifyFields(formContext, fields) {
     var length = fields.length;
     var fieldName = null;
     for (var i = 0; i < length; i++) {
         fieldName = fields[i];
-        Xrm.Page.getControl(fieldName).setVisible(false);
-        Xrm.Page.getAttribute(fieldName).setRequiredLevel('none');
-        Xrm.Page.getAttribute(fieldName).setValue(null);
+        formContext.getControl(fieldName).setVisible(false);
+        formContext.getAttribute(fieldName).setRequiredLevel('none');
+        formContext.getAttribute(fieldName).setValue(null);
     }
 }
 
@@ -407,29 +405,23 @@ function removeField(fields, fieldName) {
     return (fields);
 }
 
-function ccrm_addmorecriteria_onChange(fields) {
-
-    var addMoreCriteria = Xrm.Page.data.entity.attributes.get("ccrm_addmorecriteria").getValue();
+function ccrm_addmorecriteria_onChange(executionContext, fields) {
+    var formContext = executionContext.getFormContext();
+    var addMoreCriteria = formContext.data.entity.attributes.get("ccrm_addmorecriteria").getValue();
     if (addMoreCriteria == 0) {
-        hideAndNullifyFields(fields);
+        hideAndNullifyFields(formContext, fields);
     }
     else {
-        Xrm.Page.getControl("ccrm_relatingto1").setVisible(true);
-        Xrm.Page.getAttribute("ccrm_relatingto1").setRequiredLevel('required');
+        formContext.getControl("ccrm_relatingto1").setVisible(true);
+        formContext.getAttribute("ccrm_relatingto1").setRequiredLevel('required');
     }
 }
 
-function refreshForm() {
-
-    Xrm.Page.data.refresh();
-
-}
-
-function filterEventsBasedOnUserCurrency() {
+function filterEventsBasedOnUserCurrency(formContext) {
     try {
-        if (Xrm.Page.context.getUserId() != null && Xrm.Page.context.getUserId() != undefined) {
-            Xrm.Page.getControl("ccrm_crmeventid").addPreSearch(function () {
-                addCustomCurrencyFilter(Xrm.Page.context.getUserId());
+        if (formContext.context.getUserId() != null && formContext.context.getUserId() != undefined) {
+            formContext.getControl("ccrm_crmeventid").addPreSearch(function () {
+                addCustomCurrencyFilter(formContext);
             })
         }
 
@@ -438,10 +430,10 @@ function filterEventsBasedOnUserCurrency() {
     }
 }
 
-function addCustomCurrencyFilter() {
+function addCustomCurrencyFilter(formContext) {
     var functionName = "addCustomCurrencyFilter";
-    var recordId = Xrm.Page.data.entity.getId();
-    var userId = Xrm.Page.context.getUserId();
+    var recordId = formContext.data.entity.getId();
+    var userId = formContext.context.getUserId();
     userId = userId.substring(1, userId.length - 1);
     var currencyFetchfromUser = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>\
     <entity name='usersettings' >\
@@ -456,7 +448,6 @@ function addCustomCurrencyFilter() {
      </entity>\
     </fetch>"
     var currencyRecord = XrmServiceToolkit.Soap.Fetch(currencyFetchfromUser);
-    //debugger;
 
     if (currencyRecord.length > 0) {
         if (currencyRecord[0].attributes["currency.isocurrencycode"] != undefined) {
@@ -485,7 +476,7 @@ function addCustomCurrencyFilter() {
       </filter>\
     </filter>"
     if (userId != null && userId != undefined) {
-        Xrm.Page.getControl("ccrm_crmeventid").addCustomFilter(filter);
+        formContext.getControl("ccrm_crmeventid").addCustomFilter(filter);
     }
 
 }
