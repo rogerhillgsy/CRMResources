@@ -1,2 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<EntityRelationships />
+<EntityRelationships>
+  <EntityRelationship Name="business_unit_teams" />
+  <EntityRelationship Name="ccrm_account_team_LeadClientOrganisation" />
+  <EntityRelationship Name="ccrm_contact_team_ClientLeadContact" />
+  <EntityRelationship Name="ccrm_systemuser_team_ArupSponsor" />
+  <EntityRelationship Name="ccrm_systemuser_team_RelationshipDirector" />
+  <EntityRelationship Name="ccrm_systemuser_team_RelationshipManager" />
+  <EntityRelationship Name="lk_teambase_administratorid" />
+  <EntityRelationship Name="lk_teambase_createdby" />
+  <EntityRelationship Name="lk_teambase_modifiedby" />
+  <EntityRelationship Name="organization_teams" />
+  <EntityRelationship Name="queue_team" />
+  <EntityRelationship Name="teamtemplate_Teams" />
+</EntityRelationships>
