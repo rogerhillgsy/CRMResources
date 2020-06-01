@@ -5,9 +5,6 @@ var isOptionSetSelectedValueValid = false;
 var optionsetSelectedValue;
 
 function GetDependentOptionSetFieldValues(executionContext, mainOptionsetFieldName, dependentOptionsetFieldName) {
-
-    //var attribute = executionContext.getEventSource();
-    //var mainOptionsetFieldName = attribute.getName();
     var formContext = executionContext.getFormContext();
     var mainOptionSetFieldValue = formContext.getAttribute(mainOptionsetFieldName).getValue();
 
@@ -15,7 +12,7 @@ function GetDependentOptionSetFieldValues(executionContext, mainOptionsetFieldNa
     optionsetReadOnly = true;
     var entityName = formContext.data.entity.getEntityName();
     var req = new XMLHttpRequest();
-    req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/arup_crmfieldconfigurations?$select=arup_dependentfieldvalue,arup_isdependentfielddefaultvalue,arup_isdependentfieldreadonly&$filter=arup_mainoptionsetfieldname eq '" + mainOptionsetFieldName + "' and  arup_dependentfieldname eq '" + dependentOptionsetFieldName + "' and  arup_mainoptionsetfieldvalue eq '" + mainOptionSetFieldValue + "' and arup_isdependentoptionset eq true and arup_entityname eq '" + entityName + "'", true);
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/arup_crmfieldconfigurations?$select=arup_dependentfieldvalue,arup_isdependentfielddefaultvalue,arup_isdependentfieldreadonly&$filter=arup_mainoptionsetfieldname eq '" + mainOptionsetFieldName + "' and  arup_dependentfieldname eq '" + dependentOptionsetFieldName + "' and  arup_mainoptionsetfieldvalue eq '" + mainOptionSetFieldValue + "' and arup_isdependentoptionset eq true and arup_entityname eq '" + entityName + "'", true);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -31,10 +28,10 @@ function GetDependentOptionSetFieldValues(executionContext, mainOptionsetFieldNa
                     OptionSetAddRemove(dependentOptionsetFieldName, results, formContext);
 
                     if (setDefaultValue == true) {
-                        formContext.getAttribute(dependentOptionsetFieldName).setValue(optionsetDefaultValue);
+                        formContext.getAttribute(dependentOptionsetFieldName).setValue(parseInt(optionsetDefaultValue));
                     }
                     else if (isOptionSetSelectedValueValid)
-                        formContext.getAttribute(dependentOptionsetFieldName).setValue(optionsetSelectedValue);
+                        formContext.getAttribute(dependentOptionsetFieldName).setValue(parseInt(optionsetSelectedValue));
 
                     if (formContext.getAttribute("statecode") == null || formContext.getAttribute("statecode").getValue() == 0)
                         formContext.getControl(dependentOptionsetFieldName).setDisabled(optionsetReadOnly);

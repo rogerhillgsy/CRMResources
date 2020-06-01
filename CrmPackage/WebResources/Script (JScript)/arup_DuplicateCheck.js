@@ -54,18 +54,30 @@ function QuickDupeDetect(executionContext) {
     var recordName = null;
     var firstName = null;
     var lastName = null;
+    var ccrm_arupbusiness = null;
+    var ccrm_countryid = null;
+    if (entName == "account") {
+        recordName = formContext.getAttribute("name").getValue();
+        ccrm_countryid = formContext.getAttribute("ccrm_countryid").getValue();
 
-    if (entName == "account") { recordName = formContext.getAttribute("name").getValue(); }
+        if (ccrm_countryid == null) return;
+    }
     if (entName == "contact") {
         firstName = formContext.getAttribute("firstname").getValue();
         lastName = formContext.getAttribute("lastname").getValue();
+        ccrm_countryid = formContext.getAttribute("ccrm_countryid").getValue();
+
+        if (ccrm_countryid == null) return;
         if (firstName != null && lastName != null) {
             recordName = firstName + " " + lastName;
         }
     }
     if (entName == "lead") {
         recordName = formContext.getAttribute("firstname").getValue();
+        ccrm_arupbusiness = formContext.getAttribute("ccrm_arupbusiness").getValue();
+        if (ccrm_arupbusiness == null || ccrm_arupbusiness == "") return;
     }
+  
     if (recordName != null) {
         //Display waiting
         dispLoadOnQC(formContext);
@@ -113,173 +125,130 @@ function QuickDupeDetect(executionContext) {
 
     if (recordName != null && entName == "account") {
         accName = recordName;
-        callAction("arup_DupeDetect", recordName, firstName, lastName, recordId, ctryId, ipCity, bussId, "Quick");
+        callAction("arup_DupeDetect", recordName, firstName, lastName, recordId, ctryId, ipCity, bussId, "Quick", formContext);
     }
     else { accName = "null" };
     if (recordName != null && entName == "contact") {
         firN = firstName;
         LasN = lastName;
-        callAction("arup_DupeDetectContact", recordName, firstName, lastName, recordId, ctryId, ipCity, bussId, "Quick");
+        callAction("arup_DupeDetectContact", recordName, firstName, lastName, recordId, ctryId, ipCity, bussId, "Quick", formContext);
     }
     if (recordName != null && entName == "lead") {
         accName = recordName;
         inputBusinessID = bussId;
-        callAction("arup_DupeDetectLead", recordName, firstName, lastName, recordId, ctryId, ipCity, bussId, "Quick");
+        callAction("arup_DupeDetectLead", recordName, firstName, lastName, recordId, ctryId, ipCity, bussId, "Quick", formContext);
     }
 }
 
 
-function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IPbussID, formtype) {
+function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IPbussID, formtype, formContext) {
     var actionName = actName;//"arup_DupeDetect";
     recordName = (recordName == "" || recordName == null) ? recordName : htmlSpecialChars(recordName);
 
     FN = FN == null ? FN : htmlSpecialChars(FN);
     LN = LN == null ? LN : htmlSpecialChars(LN);
 
-    var requestXML = ""
     if (actionName == "arup_DupeDetect") {
-        requestXML += "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">";
-        requestXML += "  <s:Body>";
-        requestXML += "    <Execute xmlns=\"http://schemas.microsoft.com/xrm/2011/Contracts/Services\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">";
-        requestXML += "      <request xmlns:a=\"http://schemas.microsoft.com/xrm/2011/Contracts\">";
-        requestXML += "        <a:Parameters xmlns:b=\"http://schemas.datacontract.org/2004/07/System.Collections.Generic\">";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputName</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + recordName + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputGUID</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + recordId + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputCountryId</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + countryId + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputCity</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + cityIP + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "        </a:Parameters>";
-        requestXML += "        <a:RequestId i:nil=\"true\" />";
-        requestXML += "        <a:RequestName>" + actionName + "</a:RequestName>";
-        requestXML += "      </request>";
-        requestXML += "    </Execute>";
-        requestXML += "  </s:Body>";
-        requestXML += "</s:Envelope>";
+        var parameters = {};
+        parameters.InputCity = cityIP;
+        parameters.InputCountryId = countryId;
+        parameters.InputGUID = recordId;
+        parameters.InputName = recordName;
+
+        var req = new XMLHttpRequest();
+        req.open("POST", formContext.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetect622be8c63365ea11a813000d3a86ab8d", true);
+        req.setRequestHeader("OData-MaxVersion", "4.0");
+        req.setRequestHeader("OData-Version", "4.0");
+        req.setRequestHeader("Accept", "application/json");
+        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        req.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 200) {
+                    var results = JSON.parse(this.response);
+                    if (formtype == "Main") {
+                        parseMainSuccessActionResponse(results);
+                    }
+                    else if (formtype == "Quick") {
+                        parseQuickSuccessActionResponse(results);
+                    }
+                } else {
+                    Xrm.Utility.alertDialog(this.statusText);
+                }
+            }
+        };
+        req.send(JSON.stringify(parameters));
     }
     else if (actionName == "arup_DupeDetectContact") {
-        requestXML += "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">";
-        requestXML += "  <s:Body>";
-        requestXML += "    <Execute xmlns=\"http://schemas.microsoft.com/xrm/2011/Contracts/Services\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">";
-        requestXML += "      <request xmlns:a=\"http://schemas.microsoft.com/xrm/2011/Contracts\">";
-        requestXML += "        <a:Parameters xmlns:b=\"http://schemas.datacontract.org/2004/07/System.Collections.Generic\">";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputFN</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + FN + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputLN</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + LN + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputGUID</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + recordId + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputCountryId</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + countryId + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputCity</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + cityIP + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "        </a:Parameters>";
-        requestXML += "        <a:RequestId i:nil=\"true\" />";
-        requestXML += "        <a:RequestName>" + actionName + "</a:RequestName>";
-        requestXML += "      </request>";
-        requestXML += "    </Execute>";
-        requestXML += "  </s:Body>";
-        requestXML += "</s:Envelope>";
+        var parameters = {};
+        parameters.InputCity = cityIP;
+        parameters.InputCountryId = countryId;
+        parameters.InputGUID = recordId;
+        parameters.InputFN = FN;
+        parameters.InputLN = LN;
+
+        var req = new XMLHttpRequest();
+        req.open("POST", formContext.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetectContact", true);
+        req.setRequestHeader("OData-MaxVersion", "4.0");
+        req.setRequestHeader("OData-Version", "4.0");
+        req.setRequestHeader("Accept", "application/json");
+        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        req.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 200) {
+                    var results = JSON.parse(this.response);
+                    if (formtype == "Main") {
+                        parseMainSuccessActionResponse(results);
+                    }
+                    else if (formtype == "Quick") {
+                        parseQuickSuccessActionResponse(results);
+                    }
+                } else {
+                    Xrm.Utility.alertDialog(this.statusText);
+                }
+            }
+        };
+        req.send(JSON.stringify(parameters));
     }
     else if (actionName == "arup_DupeDetectLead") {
-        requestXML += "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">";
-        requestXML += "  <s:Body>";
-        requestXML += "    <Execute xmlns=\"http://schemas.microsoft.com/xrm/2011/Contracts/Services\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">";
-        requestXML += "      <request xmlns:a=\"http://schemas.microsoft.com/xrm/2011/Contracts\">";
-        requestXML += "        <a:Parameters xmlns:b=\"http://schemas.datacontract.org/2004/07/System.Collections.Generic\">";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputCity</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + cityIP + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputName</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + recordName + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputCountryId</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + countryId + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputGUID</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + recordId + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputClientID</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + clientId + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "          <a:KeyValuePairOfstringanyType>";
-        requestXML += "            <b:key>InputBussID</b:key>";
-        requestXML += "            <b:value i:type=\"c:string\" xmlns:c=\"http://www.w3.org/2001/XMLSchema\">" + IPbussID + "</b:value>";
-        requestXML += "          </a:KeyValuePairOfstringanyType>";
-        requestXML += "        </a:Parameters>";
-        requestXML += "        <a:RequestId i:nil=\"true\" />";
-        requestXML += "        <a:RequestName>" + actionName + "</a:RequestName>";
-        requestXML += "      </request>";
-        requestXML += "    </Execute>";
-        requestXML += "  </s:Body>";
-        requestXML += "</s:Envelope>";
-    }
+        var parameters = {};
+        parameters.InputClientID = clientId;
+        parameters.InputCity = cityIP;
+        parameters.InputName = recordName;
+        parameters.InputCountryId = countryId;
+        parameters.InputGUID = recordId;
+        parameters.InputBussID = IPbussID;
 
-    var url = getClientUrl(globalFormContext);
-    if (url.substring(url.length - 1) != "/") {
-        url = url + "/";
-    }
-    url = url + "XRMServices/2011/Organization.svc/web";
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", url, true);
-    xmlhttp.setRequestHeader("Accept", "application/xml, text/xml, */*");
-    xmlhttp.setRequestHeader("Content-Type", "text/xml; charset=utf-8");
-    xmlhttp.setRequestHeader("SOAPAction", "http://schemas.microsoft.com/xrm/2011/Contracts/Services/IOrganizationService/Execute");
-    xmlhttp.onreadystatechange = function () {
-
-        if (formtype == "Main") {
-            parseActionSOAPResponse(xmlhttp, successResponse, errorResponse);
-        }
-        else {
-            if (formtype == "Quick") {
-                parseActionSOAPResponse(xmlhttp, successQuickResponse, errorResponse);
+        var req = new XMLHttpRequest();
+        req.open("POST", formContext.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetectLead", true);
+        req.setRequestHeader("OData-MaxVersion", "4.0");
+        req.setRequestHeader("OData-Version", "4.0");
+        req.setRequestHeader("Accept", "application/json");
+        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        req.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 200) {
+                    var results = JSON.parse(this.response);
+                    if (formtype == "Main") {
+                        parseMainSuccessActionResponse(results);
+                    }
+                    else if (formtype == "Quick") {
+                        parseQuickSuccessActionResponse(results);
+                    }
+                } else {
+                    Xrm.Utility.alertDialog(this.statusText);
+                }
             }
-            else { if (formtype == "QuickButton") { parseActionSOAPResponse(xmlhttp, successQuickButtonResp, errorResponse); } }
-        }
-
-    };
-    xmlhttp.send(requestXML);
-}
-
-function parseActionSOAPResponse(req, successCallback, errorCallback) {
-    if (req.readyState == 4) {
-        req.onreadystatechange = null;
-        if (req.status == 200) {
-            successCallback(req.responseXML);
-        }
-        else {
-            errorCallback(req.responseXML);
-        }
+        };
+        req.send(JSON.stringify(parameters));
     }
 }
 
-function successResponse(responseXml) {
-    var jsMsg = ProcessSuccess(responseXml);
+
+function parseMainSuccessActionResponse(results) {
+    var jsMsg = ProcessSuccess(results);
     if (jsMsg != "No Duplicates") {
         // SAVE THIS VALUE IN A NEW FIELD ON ACCOUNT ENTITY
         globalFormContext.getAttribute("arup_dupecheckresult").setValue(jsMsg);
@@ -293,8 +262,8 @@ function successResponse(responseXml) {
     }
 }
 
-function successQuickResponse(responseXml) {
-    var jsMsg2 = ProcessSuccess(responseXml);
+function parseQuickSuccessActionResponse(results) {
+    var jsMsg2 = ProcessSuccess(results);
     var msg = "No potential similar records found for the entered name.";
     var fieldName1 = "arup_dupecheckresult";
 
@@ -307,13 +276,13 @@ function successQuickResponse(responseXml) {
         }
         else {
             if (entName == "account" || entName == "contact") {
-                msg = ("We found " + NoOfDupes + " potential similar records. Please fill in or change City and Country fields to refine the search.").toString();
+                msg = ("We found " + NoOfDupes + " potential similar records. Please review the fields to refine the search.").toString();
             }
             else if (entName == "lead" && leadFormType == "QC") {
-                msg = ("We found " + NoOfDupes + " potential similar records. Please fill in or change Project Currency field to refine or rerun the search.").toString();
+                msg = ("We found " + NoOfDupes + " potential similar records. Please review or change Project Currency field to refine the search.").toString();
             }
             else if (entName == "lead" && leadFormType != "QC") {
-                msg = ("We found " + NoOfDupes + " potential similar records. Please fill in or change Client, Project Country, Project City, Arup Business fields to refine or rerun the search.").toString();
+                msg = ("We found " + NoOfDupes + " potential similar records. Please review or change Client, Project Country, Project City, Arup Business fields to refine the search.").toString();
             }
         }
         SetValidField(fieldName1, jsMsg2, msg, "dupes", NoOfDupes, globalFormContext);
@@ -324,33 +293,16 @@ function successQuickResponse(responseXml) {
     }
 }
 
-function successQuickButtonResp(responseXml) {
-    //var jsMsg3 = ProcessSuccess(responseXml);
-    //jsMsg3 = jsonMsgToRet;
-}
-
-function ProcessSuccess(responseXml) {
-    var dupesFound = "false";
+function ProcessSuccess(results) {
     var JSONMessage = "No Duplicates";
-    if (responseXml != null) {
+    if (results != null) {
         try {
-            var x = responseXml.getElementsByTagName("a:KeyValuePairOfstringanyType");
-            if (x.length == 0) {
-                x = responseXml.getElementsByTagName("KeyValuePairOfstringanyType");
-            }
-            for (var i = 0; i < x.length; i++) {
-                if (x[i].childNodes[0].textContent == "DupesFound")/*Output Param set in Custom Activity*/ {
-                    dupesFound = x[i].childNodes[1].textContent;
-                    // alert(dupesFound);
-                }
+            dupesFound = results.DupesFound;/*Output Param set in Custom Activity*/
 
-            }
-            if (dupesFound == "true") {
-                for (var i = 0; i < x.length; i++) {
-                    if (x[i].childNodes[0].textContent == "OutJSONMsg")/*Output Param set in Custom Activity*/ {
-                        JSONMessage = x[i].childNodes[1].textContent.toString();
-                        JSONMessage = JSONMessage.replace(/\\/g, "");
-                    }
+            if (dupesFound) {
+                if (results.OutJSONMsg != null)/*Output Param set in Custom Activity*/ {
+                    JSONMessage = results.OutJSONMsg.toString();
+                    JSONMessage = JSONMessage.replace(/\\/g, "");
                 }
             }
         }
@@ -365,7 +317,7 @@ function dispLoadOnQC(formContext) {
     var msg = "Searching for similar records...";
     var fielName = "arup_dupecheckresult";
     SetValidField(fielName, null, msg, "wait", 0, formContext);
-}
+}  
 
 function SetValidField(fieldName, val, warningMsg, warMsgName, lenght, formContext) {
     formContext.getAttribute(fieldName).setValue(val);
@@ -375,68 +327,60 @@ function SetValidField(fieldName, val, warningMsg, warMsgName, lenght, formConte
         if (entName != "lead" && leadFormType == "QC") {
             formContext.ui.setFormNotification(warningMsg, 'INFO', warMsgName);
         }
+
         if (lenght <= 0) {
             Notify.add(warningMsg, "INFO", warMsgName + "n", null, 5);
         }
         else {
-            Notify.add(warningMsg, "QUESTION", warMsgName,
-                [{
-                    type: "button",
-                    text: "View Similar Records",
-                    callback: function () {
-                        if (entName == "account") {
-                            var n = accName.indexOf("&");
-                            if (n != -1) {
-                                accName = accName.replace("&", "ampAndArup");
-                            }
-                            var n3 = accName.indexOf("'");
-                            if (n3 != -1) {
-                                accName = accName.replace("'", "aposArup");
-                            }
-                            var dataparams = "Name=" + accName + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName;
-                            Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Similar Records", null, crmURL, false, 20);
-                        }
-                        else if (entName == "contact") {
-                            var n1 = firN.indexOf("&");
-                            if (n1 != -1) {
-                                firN = firN.replace("&", "ampAndArup");
-                            }
-                            var n4 = firN.indexOf("'");
-                            if (n4 != -1) {
-                                firN = firN.replace("'", "aposArup");
-                            }
-                            var n2 = LasN.indexOf("&");
-                            if (n2 != -1) {
-                                LasN = LasN.replace("&", "ampAndArup");
-                            }
-                            var n5 = LasN.indexOf("'");
-                            if (n5 != -1) {
-                                LasN = LasN.replace("'", "aposArup");
-                            }
-                            var dataparams = "FirstName=" + firN + "&LastName=" + LasN + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName;
-                            Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Similar Records", null, crmURL, false, 20);
-                        }
-                        else if (entName == "lead") {
-                            var n6 = accName.indexOf("&");
-                            if (n6 != -1) {
-                                accName = accName.replace("&", "ampAndArup");
-                            }
-                            var n7 = accName.indexOf("'");
-                            if (n7 != -1) {
-                                accName = accName.replace("'", "aposArup");
-                            }
-                            var dataparams = "Name=" + accName + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName + "&recordId=" + ipRecordId + "&bussID=" + inputBusinessID + "&cliID=" + clientId;
-                            Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Similar Records", null, crmURL, false, 20);
-                        }
-                    }
-                },
-                {
-                    type: "link",
-                    text: "Not now",
-                    callback: function () {
-                        Notify.remove("dupes");
-                    }
-                }]);
+            var alertButton = new Alert.Button();
+            alertButton.label = "Close";
+            var array = new Array();
+            array.push(alertButton); 
+
+            if (entName == "account") {
+                var n = accName.indexOf("&");
+                if (n != -1) {
+                    accName = accName.replace("&", "ampAndArup");
+                }
+                var n3 = accName.indexOf("'");
+                if (n3 != -1) {
+                    accName = accName.replace("'", "aposArup");
+                }
+                var dataparams = "Name=" + accName + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName + "&warningMsg=" + warningMsg;
+                Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Potential Duplicates", array, crmURL, false, 20);
+            }
+            else if (entName == "contact") {
+                var n1 = firN.indexOf("&");
+                if (n1 != -1) {
+                    firN = firN.replace("&", "ampAndArup");
+                }
+                var n4 = firN.indexOf("'");
+                if (n4 != -1) {
+                    firN = firN.replace("'", "aposArup");
+                }
+                var n2 = LasN.indexOf("&");
+                if (n2 != -1) {
+                    LasN = LasN.replace("&", "ampAndArup");
+                }
+                var n5 = LasN.indexOf("'");
+                if (n5 != -1) {
+                    LasN = LasN.replace("'", "aposArup");
+                }
+                var dataparams = "FirstName=" + firN + "&LastName=" + LasN + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName + "&warningMsg=" + warningMsg;
+                Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Potential Duplicates", array, crmURL, false, 20);
+            }
+            else if (entName == "lead") {
+                var n6 = accName.indexOf("&");
+                if (n6 != -1) {
+                    accName = accName.replace("&", "ampAndArup");
+                }
+                var n7 = accName.indexOf("'");
+                if (n7 != -1) {
+                    accName = accName.replace("'", "aposArup");
+                }
+                var dataparams = "Name=" + accName + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName + "&recordId=" + ipRecordId + "&bussID=" + inputBusinessID + "&cliID=" + clientId + "&warningMsg=" + warningMsg;
+                Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Potential Duplicates", array, crmURL, false, 20);
+            }
             Notify.remove("dupesn");
         }
 

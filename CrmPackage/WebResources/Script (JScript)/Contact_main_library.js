@@ -1,7 +1,6 @@
 var expressedConsent;
 var isMobile = false;
 var businessInterestSaved;
-var mostSeniorTeam;
 
 function form_onLoad(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -10,10 +9,6 @@ function form_onLoad(executionContext) {
     if (formContext.ui.getFormType() != 1) {
 
         formContext.ui.tabs.get("HubSpot").setDisplayState('collapsed');
-
-        mostSeniorTeam = userInTeamCheck("Most Senior Contact Update Team", formContext);
-
-        formContext.getControl("arup_mostseniorcontact").setVisible(mostSeniorTeam);
 
         ccrm_uselocallanguage_onchange(formContext);
 
@@ -29,7 +24,8 @@ function form_onLoad(executionContext) {
         // this function will change the width of the header tile. It may not be supported
         setInterval(changeHeaderTileFormat, 1000);
     }
-    formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION");
+    formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
+    setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 15000);
     contactType_onchange(formContext);
     canadaSectionVisibility(formContext);
 }
@@ -40,7 +36,7 @@ function qc_form_onload(executionContext) {
     quick_create_country_onchange(formContext);
     contactType_onchange(formContext);
     formContext.getAttribute("arup_businessinterest_ms").setRequiredLevel('required');
-    formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION");
+    formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
 }
 
 // runs on Exit button
@@ -156,10 +152,10 @@ function quick_create_country_onchange(formContext) {
     formContext.getControl("arup_expirydate").setVisible(isVisible);
 }
 
-function resetStatesProvinces(stateLookup, stateFreeText, executionContext) {
+function resetStatesProvinces(executionContext) {
     var formContext = executionContext.getFormContext();
-    formContext.getAttribute(stateLookup).setValue(null);
-    formContext.getAttribute(stateFreeText).setValue(null);
+    formContext.getAttribute("ccrm_countrystate").setValue(null);
+    formContext.getAttribute("address1_stateorprovince").setValue(null);
 }
 
 function PrePopulateCanadaFields(formContext) {
@@ -177,12 +173,6 @@ function PrePopulateCanadaFields(formContext) {
             Xrm.Utility.alertDialog(error.message);
         }
     );
-
-    //var dataset = "AccountSet";
-    //var retrievereq = ConsultCrm.Sync.RetrieveRequest(parentcustomerid, dataset);
-    //if (retrievereq !== null) {
-    //    formContext.getAttribute("arup_organisationconsent").setValue(retrievereq.arup_ImpliedConsent || retrievereq.arup_ExpressedConsent);
-    //}
 }
 
 function canadaFieldsRequired(executionContext) {
@@ -383,6 +373,8 @@ function Form_onsave(eventArgs) {
             return false;
         }
     }
+
+    Xrm.Page.ui.clearFormNotification("1");
 }
 
 function removeFromList(list, value, separator) {
@@ -441,11 +433,6 @@ function phoneOnChange(executionContext) {
     if (formContext.getAttribute("ccrm_countryid").getValue() != null) {
         var countryId = formContext.getAttribute("ccrm_countryid").getValue()[0].id;
         var countryName = formContext.getAttribute("ccrm_countryid").getValue()[0].name;
-
-        //var filter = "Ccrm_countryId eq (guid'" + countryId + "')";
-        //var dataset = "Ccrm_countrySet";
-        //var retrievedMultiple = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);
-        //var results = retrievedMultiple.results;
 
         Xrm.WebApi.online.retrieveMultipleRecords("ccrm_country", "?$select=ccrm_mobilearray,ccrm_mobiledisplay,ccrm_mobileformat,ccrm_phonearray,ccrm_phonedisplay,ccrm_phoneformat&$filter=ccrm_countryid eq " + countryId + "").then(
             function success(results) {
@@ -683,7 +670,7 @@ function PopulateAddrsOnAddrSync(executionContext) {
 }
 
 function gridRowSelected(context) {
-
+    debugger;
     var entityObject = context.getFormContext().getData().getEntity();
     var id = entityObject.getId(); /* GUID of the contact record */
     var Id = id.replace(/[{}]/g, "");
@@ -714,30 +701,6 @@ function gridRowSelected(context) {
             Xrm.Utility.alertDialog(error.message);
         }
     );
-
-    //SDK.REST.retrieveRecord(id, "Contact", 'Ccrm_SyncAddress', null,
-    //    function (retrievedreq) {
-    //        if (retrievedreq != null) {
-    //            syncAddress = retrievedreq.Ccrm_SyncAddress;
-    //            entityObject.attributes.forEach(function (attr) {
-    //                if (
-    //                    (attr.getName() === "ccrm_countryid" || attr.getName() === "ccrm_address2countrypicklist" || attr.getName() == "arup_businessinterest_ms" ||
-    //                        attr.getName() === "ccrm_countrystate") ||
-    //                    attr.getName() == 'ccrm_address2state' || attr.getName() == 'ccrm_address2statepicklist' || attr.getName() == 'ccrm_adress2country' ||
-    //                    (syncAddress && (
-    //                        attr.getName() === "address1_addresstypecode" || attr.getName() === "address1_line1" ||
-    //                        attr.getName() === "address1_line2" || attr.getName() === "address1_line3" ||
-    //                        attr.getName() === "address1_postalcode" || attr.getName() === "address1_city" ||
-    //                        attr.getName() === "address1_stateorprovince")
-    //                    )
-    //                ) {
-    //                    attr.controls.forEach(function (c) {
-    //                        c.setDisabled(true);
-    //                    })
-    //                }
-    //            });
-    //        }
-    //    }, errorHandler, true);
 }
 
 function errorHandler(error) {
@@ -831,66 +794,15 @@ function retrieveEntity(entityname, id, columnset, formContext) {
     req.send();
 }
 
-function userInTeamCheck(TeamName, formContext) {
-
-    var IsPresentInTeam = false;
-
-    try {
-        Xrm.WebApi.online.retrieveMultipleRecords("teammembership", "?$select=systemuserid,teamid&$filter=systemuserid eq " + formContext.context.getUserId() + "").then(
-            function success(results) {
-                for (var i = 0; i < results.entities.length; i++) {
-                    var teamid = results.entities[i]["teamid"];
-
-                    Xrm.WebApi.online.retrieveMultipleRecords("team", "?$select=name,teamid&$filter=teamid eq " + teamid + "").then(
-                        function success(results) {
-                            for (var i = 0; i < results.entities.length; i++) {
-                                var name = results.entities[i]["name"];
-
-                                if (name == TeamName) {
-                                    IsPresentInTeam = true;
-                                    break;
-                                }
-                            }
-                        },
-                        function (error) {
-                            Xrm.Utility.alertDialog(error.message);
-                        }
-                    );
-                }
-            },
-            function (error) {
-                Xrm.Utility.alertDialog(error.message);
-            }
-        );
-
-        //var filter = "SystemUserId eq (guid'" + formContext.context.getUserId() + "')";
-        //var dataset = "TeamMembershipSet";
-        //var retrievedMultiple = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);
-        //var results = retrievedMultiple.results;
-
-        //for (i = 0; i < results.length; i++) {
-        //    var filterTeam = "TeamId eq (guid'" + results[i].TeamId + "')";
-        //    var datasetTeam = "TeamSet";
-        //    var retrievedMultipleTeam = ConsultCrm.Sync.RetrieveMultipleRequest(datasetTeam, filterTeam);
-        //    var resultsTeam = retrievedMultipleTeam.results;
-        //    if (resultsTeam[0].Name == TeamName) {
-        //        IsPresentInTeam = true;
-        //        break;
-        //    }
-        //}
-    }
-    catch (err) {
-        console.log('GLobal DQ Error: ' + err.message);
-    }
-    return IsPresentInTeam;
-}
-
 function onChange_ContactType(executionContext) {
     var formContext = executionContext.getFormContext();
     contactType_onchange(formContext);
 }
 
 function contactType_onchange(formContext) {
+    formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
+    setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 15000);
+
     var contactTypeValue = formContext.getAttribute("arup_contacttype");
     if (contactTypeValue == null) return;
     var contacttype = contactTypeValue.getValue();
@@ -901,7 +813,6 @@ function contactType_onchange(formContext) {
         formContext.getControl("middlename").setVisible(false);
         formContext.getAttribute("jobtitle").setRequiredLevel('none');
         formContext.getAttribute("accountrolecode").setRequiredLevel('none');
-        //Xrm.Page.getControl("arup_organisationtype").setVisible(true);
         formContext.getControl("ccrm_syncaddress").setVisible(false);
         enableAddressFields(false, formContext);
         formContext.getControl("address1_addresstypecode").setVisible(false);
@@ -919,13 +830,14 @@ function contactType_onchange(formContext) {
 
         if (formContext.getControl("header_parentcustomerid") != null) {
             formContext.getControl("header_parentcustomerid").setVisible(false);
-            formContext.getControl("header_arup_currentorganisation").setVisible(true);
         }
+        
         if (fullform) {
             formContext.getControl("department").setVisible(false);
             formContext.getControl("fax").setVisible(false);
-            formContext.ui.tabs.get("tab_Details").sections.get("{fa46a68d-a6b2-4cc1-9d00-4abd1d46c8f4}").setVisible(false);
-            formContext.ui.tabs.get("tab_Details").sections.get("SUMMARY_TAB_section_6").setVisible(false);
+            formContext.ui.tabs.get("tab_Address").sections.get("tab_additional_address_section").setVisible(false);
+            formContext.ui.tabs.get("tab_Address").sections.get("{fa46a68d-a6b2-4cc1-9d00-4abd1d46c8f4}").setVisible(false);
+            formContext.ui.tabs.get("SUMMARY_TAB").sections.get("SUMMARY_TAB_section_6").setVisible(false);
             formContext.getControl("ccrm_uselocallanguage").setVisible(false);
         }
 
@@ -940,7 +852,6 @@ function contactType_onchange(formContext) {
         formContext.getControl("middlename").setVisible(true);
         formContext.getAttribute("jobtitle").setRequiredLevel('required');
         formContext.getAttribute("accountrolecode").setRequiredLevel('required');
-        //Xrm.Page.getControl("arup_organisationtype").setVisible(false);
         formContext.getControl("ccrm_syncaddress").setVisible(true);
         enableAddressFields(true, formContext);
         formContext.getControl("address1_addresstypecode").setVisible(true);
@@ -957,15 +868,16 @@ function contactType_onchange(formContext) {
         formContext.getAttribute("parentcustomerid").setRequiredLevel('required');
 
         if (formContext.getControl("header_parentcustomerid") != null) {
-            formContext.getControl("header_parentcustomerid").setVisible(true);
-            formContext.getControl("header_arup_currentorganisation").setVisible(false);
-        }
+                formContext.getControl("header_parentcustomerid").setVisible(true);
+        }        
+
         if (fullform) {
             formContext.getControl("department").setVisible(true);
             formContext.getControl("fax").setVisible(true);
-            formContext.ui.tabs.get("tab_Details").sections.get("{fa46a68d-a6b2-4cc1-9d00-4abd1d46c8f4}").setVisible(true);
-            formContext.ui.tabs.get("tab_Details").sections.get("SUMMARY_TAB_section_6").setVisible(true);
+            formContext.ui.tabs.get("tab_Address").sections.get("{fa46a68d-a6b2-4cc1-9d00-4abd1d46c8f4}").setVisible(true);
+            formContext.ui.tabs.get("SUMMARY_TAB").sections.get("SUMMARY_TAB_section_6").setVisible(true);
             formContext.getControl("ccrm_uselocallanguage").setVisible(true);
+            ccrm_uselocallanguage_onchange(formContext);
         }
 
         formContext.getAttribute("arup_currentorganisation").setValue("");
@@ -975,7 +887,6 @@ function contactType_onchange(formContext) {
         formContext.getControl("arup_currentorganisation").setVisible(false);
         if (formContext.getControl("header_parentcustomerid") != null) {
             formContext.getControl("header_parentcustomerid").setVisible(true);
-            formContext.getControl("header_arup_currentorganisation").setVisible(false);
         }
     }
 }

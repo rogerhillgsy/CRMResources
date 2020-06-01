@@ -1,12 +1,12 @@
 var newCJN;
-var arupInternal;
+//var arupInternal;
 
 function Form_onload() {
 
     var project = Xrm.Page.getAttribute("ccrm_projectid").getValue();
     var rtnJobNumber = Xrm.Page.getAttribute("ccrm_opportunitycjn").getValue();
     var projSuffix = Xrm.Page.getAttribute("ccrm_suffix").getValue();
-    arupInternal = Xrm.Page.getAttribute("ccrm_arupinternal").getValue();
+   // arupInternal = Xrm.Page.getAttribute("ccrm_arupinternal").getValue();
     newCJN = Xrm.Page.getAttribute("ccrm_sys_reservejobnumber").getValue();
 
     //Added suffix check below to prevent recalling of web service when suffix is present
@@ -49,12 +49,12 @@ function Form_onload() {
                 Xrm.Page.getControl("ccrm_createmethod").removeOption(2);
                 SetNotificationAlert("INFO", "You are creating a suffix for INTERNAL COST MONITORING only. There is no fee income associated with a cost monitoring suffix.", "OppCr");
             }
-            else if (newCJN && arupInternal) {
-                Xrm.Page.getControl("ccrm_createmethod").removeOption(1);
-                Xrm.Page.getControl("ccrm_createmethod").removeOption(2);
-                Xrm.Page.getControl("ccrm_createmethod").removeOption(4);
-                defaultCreateMethod = 3;
-            }
+            //else if (newCJN && arupInternal) {
+            //    Xrm.Page.getControl("ccrm_createmethod").removeOption(1);
+            //    Xrm.Page.getControl("ccrm_createmethod").removeOption(2);
+            //    Xrm.Page.getControl("ccrm_createmethod").removeOption(4);
+            //    defaultCreateMethod = 3;
+            //}
             else defaultCreateMethod = 1;
 
             Xrm.Page.getAttribute("ccrm_createmethod").setValue(defaultCreateMethod);
@@ -401,11 +401,13 @@ function createNewSuffixExistingProject() {
             webservice_onchange();
         }
         Xrm.Page.getControl("ccrm_suffix").setDisabled(false);
-        Xrm.Page.getControl("ccrm_projectid").setDisabled(arupInternal);
+      //  Xrm.Page.getControl("ccrm_projectid").setDisabled(arupInternal);
     }
     else {
 
-        if (!arupInternal) { getProject(); }
+      //  if (!arupInternal) { getProject(); }
+
+        { getProject(); }
 
         Xrm.Page.getControl("ccrm_suffix").setDisabled(true);
         Xrm.Page.getControl("ccrm_projectid").setDisabled(false);

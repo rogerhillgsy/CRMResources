@@ -1,6 +1,7 @@
-﻿function form_OnLoad() {
+﻿function form_OnLoad(executionContext) {
 
     setInterval(changeHeaderTileFormat, 1000);
+    multiDiscipline_onChange(executionContext);
 
 }
 
@@ -140,9 +141,26 @@ function exitForm() {
                 preventClose: false
             }
         ],
-        'Warning',
-        600,
-        250,
-        '',
-        true);
+        'Warning', 600, 250, '', true);
+}
+
+function multiDiscipline_onChange(executionContext) {
+
+    var formContext = executionContext.getFormContext();
+
+    var multiDiscipline = formContext.getAttribute("arup_multidisciplinary").getValue();
+    switch (multiDiscipline) {
+
+        case true:
+            formContext.getControl("arup_disciplines_ms").setVisible(false);
+            formContext.getAttribute("arup_disciplines_ms").setRequiredLevel('none');
+            formContext.getAttribute("arup_disciplines_ms").setValue(null);
+            break;
+
+        default:
+            formContext.getControl("arup_disciplines_ms").setVisible(true);
+            formContext.getAttribute("arup_disciplines_ms").setRequiredLevel('required');
+            break;
+    }
+
 }

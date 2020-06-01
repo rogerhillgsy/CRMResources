@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <OutputType>Library</OutputType>
-    <ProjectGuid>{936E103D-ED9E-4EB4-9F60-6F88D479DBB1}</ProjectGuid>
+    <ProjectGuid>{85036E77-2FCC-4016-B1A0-F9BED62E719B}</ProjectGuid>
     <ProjectTypeGuids>{4B952A0A-A664-46EC-8D7E-51EBEA2E954D};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -68,16 +68,41 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Entities\Contact\Entity.xml" />
-    <Content Include="Entities\Contact\FormXml\main\{da2e0fd3-90a2-4ed8-b4d5-5711b19c2ed2}.xml" />
-    <Content Include="Entities\Contact\FormXml\quickCreate\{661157fe-2fc9-4eaa-835f-5bfa2f7b64f7}.xml" />
-    <Content Include="Entities\Contact\RibbonDiff.xml" />
     <Content Include="Other\Customizations.xml" />
-    <Content Include="Other\EntityMaps.xml" />
     <Content Include="Other\Relationships.xml" />
     <Content Include="Other\Solution.xml" />
     <Content Include="Resources\en-US\resources.en-US.resx" />
     <Content Include="Resources\template_resources.resx" />
+    <Content Include="WebResources\arup_DuplicateCheck.jscript">
+      <WebResourceId>6f76d8cd-06dc-e611-80f5-005056b55b13</WebResourceId>
+      <Name>arup_DuplicateCheck</Name>
+      <DisplayName>Duplicate Checking</DisplayName>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\arup_NotifyForQuickCreate.js">
+      <WebResourceId>da04ac86-090b-e711-80f7-005056b55b13</WebResourceId>
+      <Name>arup_NotifyForQuickCreate.js</Name>
+      <DisplayName>NotifyForQuickCreate</DisplayName>
+      <WebResourceType>JScript</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
+    <Content Include="WebResources\arup_QuickCreateNotifications.html">
+      <WebResourceId>70a9963e-6994-ea11-a812-000d3a86a78c</WebResourceId>
+      <Name>arup_QuickCreateNotifications</Name>
+      <DisplayName>QuickCreateNotifications</DisplayName>
+      <WebResourceType>Html</WebResourceType>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
     <Content Include="WebResources\Contact_main_library.js">
       <WebResourceId>b4d46bbe-d0b1-e111-a5b9-78e7d1652028</WebResourceId>
       <Name>Contact_main_library.js</Name>

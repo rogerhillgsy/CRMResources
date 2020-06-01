@@ -19,8 +19,8 @@ ARUP.ccrm_bidreview = {
      * Form On Load Event
      *********************************************************
      */
-    onLoad: function () {
-
+    onLoad: function (executionContext) {
+        var formContext = executionContext.getFormContext();
         // remove an option from question B9a
 
         if (Xrm.Page.context.client.getClient() != "Mobile") {
@@ -41,7 +41,7 @@ ARUP.ccrm_bidreview = {
             dataChanged = this.loadSupplementData(dataChanged);
             dataChanged = this.ultimateClientNL(dataChanged);
             dataChanged = this.prePopulateFields(dataChanged);
-            dataChanged = this.isPartofJV(dataChanged);
+            dataChanged = this.isPartofJV(formContext, dataChanged);
         }
 
         if (bidReviewHappened) {
@@ -135,7 +135,7 @@ ARUP.ccrm_bidreview = {
         else return false; //none returned
     },
 
-    isPartofJV: function (dataChanged) {
+    isPartofJV: function (formContext, dataChanged) {
         if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
         var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
         var dataset = "OpportunitySet";
@@ -152,7 +152,7 @@ ARUP.ccrm_bidreview = {
                     Xrm.Page.getAttribute("ccrm_jvbidding_yesno").setValue(0);
                 }
                 Xrm.Page.getAttribute("ccrm_jvbidding_yesno").setSubmitMode("always");
-                this.twoOptions_onChange("ccrm_jvbidding_yesno", 1);
+                this.twoOptions_onChange(formContext, "ccrm_jvbidding_yesno", 1);
 
                 if (!dataChanged) { dataChanged = changedData };
 
@@ -488,8 +488,8 @@ ARUP.ccrm_bidreview = {
             }
         }
     },
-    showhideSection: function (tabName, sectionName, isVisible) {
-        var tab = Xrm.Page.ui.tabs.get(tabName);
+    showhideSection: function (formContext, tabName, sectionName, isVisible) {
+        var tab = formContext.ui.tabs.get(tabName);
         if (tab && tab.sections.get(sectionName)) {
             tab.sections.get(sectionName).setVisible(isVisible);
         }
@@ -542,12 +542,12 @@ ARUP.ccrm_bidreview = {
      * show Questions 2a and 3a else hide them
      *********************************************************
      */
-    ultimateClient_onChange: function () {
+    ultimateClient_onChange: function (formContext) {
         //var showSection = false;
         //if (Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").getValue() != 1) //YES 
         var showSection = Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").getValue() == 0;
-        this.showhideSection("tab_Client", "tab_Client_section_3a", showSection);
-        this.showhideSection("tab_Client", "tab_Client_section_2a", showSection);
+        this.showhideSection(formContext, "tab_Client", "tab_Client_section_3a", showSection);
+        this.showhideSection(formContext, "tab_Client", "tab_Client_section_2a", showSection);
     },
 
     //relationshipManager_onChange: function () {
@@ -617,53 +617,53 @@ ARUP.ccrm_bidreview = {
      * Toggle hidden question visibility
      *********************************************************
      */
-    twoOptions_onChange: function (fieldName, value) {
+    twoOptions_onChange: function (formContext, fieldName, value) {
         var showSection;
         if (Xrm.Page.getAttribute(fieldName).getValue() == value) showSection = true;
         else showSection = false;
         switch (fieldName) {
             case "ccrm_clearbrief_yesno":
-                this.showhideSection("tab_SectionC", "tab_SectionC_1a", showSection);
+                this.showhideSection(formContext, "tab_SectionC", "tab_SectionC_1a", showSection);
                 break;
             case "ccrm_sectiond_data_1_new":
                 if (Xrm.Page.getAttribute(fieldName).getValue() == 100000001) { //no
-                    this.showhideSection("tab_SectionD", "tab_SectionD_1a", true);
-                    this.showhideSection("tab_SectionD", "tab_SectionD_1b", false);
+                    this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1a", true);
+                    this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1b", false);
                 } else if (Xrm.Page.getAttribute(fieldName).getValue() == 100000000) { //yes
-                    this.showhideSection("tab_SectionD", "tab_SectionD_1b", true);
-                    this.showhideSection("tab_SectionD", "tab_SectionD_1a", false);
+                    this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1b", true);
+                    this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1a", false);
                 } else {
-                    this.showhideSection("tab_SectionD", "tab_SectionD_1b", false);
-                    this.showhideSection("tab_SectionD", "tab_SectionD_1a", false);
+                    this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1b", false);
+                    this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1a", false);
                 }
                 break;
             case "ccrm_jvbidding_yesno":
                 //Xrm.Page.getControl('ccrm_sectione_data_2a').setVisible(showSection);
                 //console.log("Value: " + Xrm.Page.getAttribute('ccrm_jvbidding_yesno').getValue().toString() + ' visible? ' + Xrm.Page.getControl('ccrm_sectione_data_2a').getVisible());
-                this.showhideSection("tab_SectionE", "tab_SectionE_2a", showSection);
+                this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_2a", showSection);
                 break;
             case "ccrm_sectione_data_5":
-                this.showhideSection("tab_SectionE", "tab_SectionE_5a", false);
-                this.showhideSection("tab_SectionE", "tab_SectionE_5b", false);
-                this.showhideSection("tab_SectionE", "tab_SectionE_6", false);
-                this.showhideSection("tab_SectionE", "tab_SectionE_6a", false);
-                this.showhideSection("tab_SectionE", "tab_SectionE_7abc", false);
-                this.showhideSection("tab_SectionE", "tab_SectionE_7a", false);
+                this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_5a", false);
+                this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_5b", false);
+                this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_6", false);
+                this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_6a", false);
+                this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7abc", false);
+                this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7a", false);
                 switch (Xrm.Page.getAttribute("ccrm_sectione_data_5").getValue()) {
                     case 100000006:
                     case 100000007:
                     case 100000008:
-                        this.showhideSection("tab_SectionE", "tab_SectionE_5b", true);
+                        this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_5b", true);
                         break;
                     case 100000009:
                     case 100000010:
-                        this.showhideSection("tab_SectionE", "tab_SectionE_6a", true);
+                        this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_6a", true);
                         break;
                     case 100000003:
-                        this.showhideSection("tab_SectionE", "tab_SectionE_5a", true);
+                        this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_5a", true);
                         break;
                     case 100000004:
-                        this.showhideSection("tab_SectionE", "tab_SectionE_6", true);
+                        this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_6", true);
                         break;
                 }
                 break;
@@ -685,61 +685,61 @@ ARUP.ccrm_bidreview = {
             //    }
             //    break;
             case "ccrm_contractreviewed_yesno":
-                this.showhideSection("tab_SectionE", "tab_SectionE_7abc", false);
-                this.showhideSection("tab_SectionE", "tab_SectionE_7a", false);
+                this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7abc", false);
+                this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7a", false);
                 if (Xrm.Page.getAttribute(fieldName).getValue() == 1) { //Yes
-                    this.showhideSection("tab_SectionE", "tab_SectionE_7abc", true);
+                    this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7abc", true);
                 } else if (Xrm.Page.getAttribute(fieldName).getValue() == 0) {
-                    this.showhideSection("tab_SectionE", "tab_SectionE_7a", true);
+                    this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7a", true);
                 }
                 break;
             case "ccrm_liabilitylimit_yesno":
                 if (Xrm.Page.getAttribute("ccrm_liabilitylimit_yesno").getValue() == 0) {
-                    this.showhideSection("tab_SectionE", "tab_SectionE_13c", true);
-                    this.showhideSection("tab_SectionE", "tab_SectionE_13ab", false);
+                    this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13c", true);
+                    this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13ab", false);
                 }
                 else if (Xrm.Page.getAttribute("ccrm_liabilitylimit_yesno").getValue() == 1) {
-                    this.showhideSection("tab_SectionE", "tab_SectionE_13c", false);
-                    this.showhideSection("tab_SectionE", "tab_SectionE_13ab", true);
+                    this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13c", false);
+                    this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13ab", true);
                 }
                 else {
-                    this.showhideSection("tab_SectionE", "tab_SectionE_13c", false);
-                    this.showhideSection("tab_SectionE", "tab_SectionE_13ab", false);
+                    this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13c", false);
+                    this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13ab", false);
                 }
                 break;
             case "ccrm_sectione_data_13b":
-                this.showhideSection("tab_SectionE", "tab_SectionE_13c", showSection);
+                this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13c", showSection);
                 if (showSection == true) Xrm.Page.getControl("ccrm_contract_data_9").setLabel("12c. Why would we accept this?");
                 break;
             case "ccrm_bonds_guarantees_yesno":
-                this.showhideSection("tab_SectionE", "tab_SectionE_15ab", showSection);
+                this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_15ab", showSection);
                 break;
             case "ccrm_paytermsmonthly_yesno":
-                this.showhideSection("tab_SectionF", "tab_SectionF_2c", showSection);
+                this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_2c", showSection);
                 break;
             case "ccrm_resourceconsultants_yesno":
-                this.showhideSection("tab_SectionF", "tab_SectionF_8", showSection);
+                this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_8", showSection);
                 break;
             case "ccrm_negativeforecast_yesno":
-                this.showhideSection("tab_SectionF", "tab_SectionF_11", showSection);
+                this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_11", showSection);
                 break;
             case "ccrm_hourlyratesincluded_yesno":
-                this.showhideSection("tab_SectionF", "tab_SectionF_13a", false);
-                this.showhideSection("tab_SectionF", "tab_SectionF_13b", false);
+                this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_13a", false);
+                this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_13b", false);
                 if (Xrm.Page.getAttribute(fieldName).getValue() == 1) { //Yes
-                    this.showhideSection("tab_SectionF", "tab_SectionF_13a", true);
+                    this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_13a", true);
                 } else if (Xrm.Page.getAttribute(fieldName).getValue() == 0) {
-                    this.showhideSection("tab_SectionF", "tab_SectionF_13b", true);
+                    this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_13b", true);
                 }
                 break;
             case "ccrm_otherstaff_yesno":
                 if (Xrm.Page.getAttribute("ccrm_subconsultantsresourced_yesno").getValue() == false) {
-                    this.showhideSection("tab_SectionG", "tab_SectionG_3b", showSection);
+                    this.showhideSection(formContext, "tab_SectionG", "tab_SectionG_3b", showSection);
                 }
                 break;
             case "ccrm_subconsultantsresourced_yesno":
-                this.showhideSection("tab_SectionG", "tab_SectionG_3b", showSection);
-                this.showhideSection("tab_SectionG", "tab_SectionG_3c", showSection);
+                this.showhideSection(formContext, "tab_SectionG", "tab_SectionG_3b", showSection);
+                this.showhideSection(formContext, "tab_SectionG", "tab_SectionG_3c", showSection);
                 break;
             //case "ccrm_is_sectionh1_visible":
             //    this.showhideSection("tab_SectionH", "tab_SectionH_h1", showSection);
@@ -785,7 +785,7 @@ ARUP.ccrm_bidreview = {
      * (value = 20) display section F question 3b
      *********************************************************
      */
-    chkChargingBasis: function () {
+    chkChargingBasis: function (formContext) {
         //retrieve the opportunity client
         if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return;
         var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
@@ -793,7 +793,7 @@ ARUP.ccrm_bidreview = {
         var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
         if (retrievereq != null) {
             var visible = retrievereq.Ccrm_ChargingBasis.Value == 20;
-            this.showhideSection("tab_SectionF", "tab_SectionF_3b", visible);
+            this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_3b", visible);
         }
     },
     /*
@@ -860,17 +860,17 @@ ARUP.ccrm_bidreview = {
      * Section C - Tab expanded
      *********************************************************
      */
-    tab_SectionC_onstatechange: function () {
-
+    tab_SectionC_onstatechange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
         //handle field toggling when section E is expanded only 
         if (Xrm.Page.ui.tabs.get("tab_SectionC").getDisplayState() == "expanded") {
 
             this.ccrm_defineddeliverables_yesno_onChange();
             this.ccrm_unusualreq_yesno_onChange();
             ccrm_sectionc_data_7_onChange();
-            this.twoOptions_onChange("ccrm_clearbrief_yesno", 0);
-            this.arup_sectiond_question9_onChange();
-            this.arup_sectiond_question10_onChange();
+            this.twoOptions_onChange(formContext, "ccrm_clearbrief_yesno", 0);
+            this.arup_sectiond_question9_onChange(formContext);
+            this.arup_sectiond_question10_onChange(formContext);
 
         }
     },
@@ -879,12 +879,12 @@ ARUP.ccrm_bidreview = {
      * Section D - Tab expanded
      *********************************************************
      */
-    tab_SectionD_onstatechange: function () {
-
+    tab_SectionD_onstatechange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
         //handle field toggling when section E is expanded only 
         if (Xrm.Page.ui.tabs.get("tab_SectionD").getDisplayState() == "expanded") {
 
-            this.twoOptions_onChange("ccrm_sectiond_data_1_new", 0);
+            this.twoOptions_onChange(formContext, "ccrm_sectiond_data_1_new", 0);
             //this.twoOptions_onChange("ccrm_managementchanges_yesno", 1);
             this.fieldVisibility_onchange("ccrm_sectiond_data_5", 100000001, "ccrm_schedule_data_5");
             this.fieldVisibility_onchange("ccrm_approvalreq_yesno", 1, "ccrm_h1_project_data_9");
@@ -897,15 +897,15 @@ ARUP.ccrm_bidreview = {
      * Section G - Tab expanded
      *********************************************************
      */
-    tab_SectionG_onstatechange: function () {
-
+    tab_SectionG_onstatechange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
         //handle field toggling when section E is expanded only 
-        if (Xrm.Page.ui.tabs.get("tab_SectionG").getDisplayState() == "expanded") {
+        if (formContext.ui.tabs.get("tab_SectionG").getDisplayState() == "expanded") {
 
             //hide sections 3b and 3c 
-            this.showhideSection("tab_SectionG", "tab_SectionG_3b", false);
-            this.showhideSection("tab_SectionG", "tab_SectionG_3c", false);
-            this.twoOptions_onChange("ccrm_otherstaff_yesno", 1);
+            this.showhideSection(formContext, "tab_SectionG", "tab_SectionG_3b", false);
+            this.showhideSection(formContext, "tab_SectionG", "tab_SectionG_3c", false);
+            this.twoOptions_onChange(formContext, "ccrm_otherstaff_yesno", 1);
             this.fieldVisibility_onchange("ccrm_resourcesavailable_yesno", 0, "ccrm_sectiong_data_3a_comments");
             this.fieldVisibility_onchange("ccrm_hsneedsconsidered_yesno", 0, "ccrm_technical_data_9");
             this.fieldVisibility_onchange("ccrm_projecthsneeds_yesno", 1, "ccrm_technical_data_11");
@@ -915,7 +915,7 @@ ARUP.ccrm_bidreview = {
             this.fieldVisibility_onchange("ccrm_sectiong_3bi_optionset", 100000001, "ccrm_sectiong_3bi_name");
             this.fieldVisibility_onchange("ccrm_sectiong_3bii_optionset", 100000001, "ccrm_sectiong_3bii_name");
             this.fieldVisibility_onchange("ccrm_sectiong_3biii_optionset", 100000001, "ccrm_sectiong_3biii_name");
-            this.twoOptions_onChange("ccrm_subconsultantsresourced_yesno", 1);
+            this.twoOptions_onChange(formContext, "ccrm_subconsultantsresourced_yesno", 1);
 
         }
     },
@@ -924,29 +924,30 @@ ARUP.ccrm_bidreview = {
      * Section E - Tab expanded
      *********************************************************
      */
-    tab_SectionE_onstatechange: function () {
-
+    tab_SectionE_onstatechange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
         //handle field toggling when section E is expanded only 
         if (Xrm.Page.ui.tabs.get("tab_SectionE").getDisplayState() == "expanded") {
 
             //check if bonds or guarantees are required 
             this.chkBonds_GuaranteeRequirement();
             //setup OTHER field if type of bond required == 'OTHER'
-            setup_display_other_field("ccrm_sectione_data_15a_value", "ccrm_sectione_data15a_other", "100000004");
+            setup_display_other_field("arup_bondstype", "ccrm_sectione_data15a_other", "100000004");
             //check if we are bidding as part of JV 
             //if (Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() == null || Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() == 100000000)
-            this.twoOptions_onChange("ccrm_sectione_data_5", 0);
+            this.twoOptions_onChange(formContext, "ccrm_sectione_data_5", 0);
             //this.twoOptions_onChange("ccrm_tcattached_yesno", 0);
-            this.twoOptions_onChange("ccrm_contractreviewed_yesno", 0);
-            this.twoOptions_onChange("ccrm_liabilitylimit_yesno", 1);
-            this.twoOptions_onChange("ccrm_sectione_data_13b", 100000003);
+            this.twoOptions_onChange(formContext, "ccrm_contractreviewed_yesno", 0);
+            this.twoOptions_onChange(formContext, "ccrm_liabilitylimit_yesno", 1);
+            this.twoOptions_onChange(formContext, "ccrm_sectione_data_13b", 100000003);
             setTimeout(function () { ARUP.ccrm_bidreview.twoOptions_onChange("ccrm_bonds_guarantees_yesno", 1) }, 2000);
             //show/hide Section E question 3
             var showSection = false;
             if (this.isPowerOfAttorney()) showSection = true;
-            this.showhideSection("tab_SectionE", "tab_SectionE_3a", showSection);
+            this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_3a", showSection);
             this.fieldVisibility_onchange("ccrm_onerousrequirements_yesno", 1, "ccrm_contract_data_4a");
             this.fieldVisibility_onchange("ccrm_sectione_data_16", 100000005, "ccrm_sectione_data16_other");
+            this.fieldVisibility_onchange("arup_bondstype", 100000004, "ccrm_sectione_data15a_other");
 
         }
     },
@@ -955,9 +956,10 @@ ARUP.ccrm_bidreview = {
      * Section B - Tab expanded
      *********************************************************
      */
-    tab_SectionB_onstatechange: function () {
+    tab_SectionB_onstatechange: function (executionContext) {
         //console.log("Executing Function");
-        if (Xrm.Page.ui.tabs.get("tab_Client").getDisplayState() == "expanded") {
+        var formContext = executionContext.getFormContext();
+        if (formContext.ui.tabs.get("tab_Client").getDisplayState() == "expanded") {
 
             if (Xrm.Page.ui.getFormType() != 1) {
 
@@ -967,7 +969,7 @@ ARUP.ccrm_bidreview = {
                     Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").setSubmitMode("always");
                 }
 
-                this.ultimateClient_onChange();
+                this.ultimateClient_onChange(formContext);
                 //this.relationshipManager_onChange();
                 this.fieldVisibility_onchange("ccrm_client_data_5_new", 100000000, "ccrm_client_data_5a_new");
                 this.WebResource_sectionB_question8_onChange();
@@ -982,14 +984,15 @@ ARUP.ccrm_bidreview = {
      * Section F - Tab expanded
      *********************************************************
      */
-    tab_SectionF_onstatechange: function () {
+    tab_SectionF_onstatechange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
         //console.log("Executing Function");
         if (Xrm.Page.ui.tabs.get("tab_SectionF").getDisplayState() == "expanded") {
             //check charging basis 
-            this.chkChargingBasis();
-            this.twoOptions_onChange("ccrm_resourceconsultants_yesno", 1);
-            this.twoOptions_onChange("ccrm_negativeforecast_yesno", 1);
-            this.twoOptions_onChange("ccrm_hourlyratesincluded_yesno", 0);
+            this.chkChargingBasis(formContext);
+            this.twoOptions_onChange(formContext, "ccrm_resourceconsultants_yesno", 1);
+            this.twoOptions_onChange(formContext, "ccrm_negativeforecast_yesno", 1);
+            this.twoOptions_onChange(formContext, "ccrm_hourlyratesincluded_yesno", 0);
             this.fieldVisibility_onchange("arup_sectiongquestion1a", 1, "arup_sectiongq1b");
             this.fieldVisibility_onchange("arup_sectio0ngq1c", 1, "arup_sectiongq1d");
             this.fieldVisibility_onchange("ccrm_competitivebidtype", 100000002, "ccrm_sectionf_data_1a_multi");
@@ -1001,11 +1004,11 @@ ARUP.ccrm_bidreview = {
             this.fieldVisibility_onchange("ccrm_similarpayterms_yesno", 0, "ccrm_sectionf_data8d_multi");
             this.fieldVisibility_onchange("ccrm_quotesreceived_yesno", 0, "ccrm_sectionf_data8b_multi");
             this.fieldVisibility_onchange("ccrm_chargingbasis", 20, "ccrm_sectionf_data_3b");
-            setup_display_other_field("ccrm_sectionf_data_10_value", "ccrm_h1project_data_4", "100000005");
+            setup_display_other_field("arup_keyindicators", "ccrm_h1project_data_4", "100000005");
             this.duediligence_onchange();
-            this.twoOptions_onChange("ccrm_paytermsmonthly_yesno", 0);
+            this.twoOptions_onChange(formContext, "ccrm_paytermsmonthly_yesno", 0);
             //check whether fees and costs are in different currencies 
-            this.chkFeesandCostCurrency();
+            this.chkFeesandCostCurrency(formContext);
             this.chkKeyIndicators();
         }
     },
@@ -1118,27 +1121,27 @@ ARUP.ccrm_bidreview = {
         if (Xrm.Page.getAttribute(sourceField).getValue() == sourceFieldValue || Xrm.Page.getAttribute(sourceField).getValue() == null) Xrm.Page.getControl(targetField).setVisible(false);
         else Xrm.Page.getControl(targetField).setVisible(true);
     },
-    chkFeesandCostCurrency: function () {
+    chkFeesandCostCurrency: function (formContext) {
         //console.log("Executing Function");
-        this.showhideSection("tab_SectionF", "tab_SectionF_5", true);
+        this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_5", true);
         if (Xrm.Page.getAttribute("ccrm_feepaymentcurrency").getValue() != null && Xrm.Page.getAttribute("ccrm_costcurrency").getValue() != null) {
-            if (Xrm.Page.getAttribute("ccrm_feepaymentcurrency").getValue()[0].id == Xrm.Page.getAttribute("ccrm_costcurrency").getValue()[0].id) this.showhideSection("tab_SectionF", "tab_SectionF_5", false);
+            if (Xrm.Page.getAttribute("ccrm_feepaymentcurrency").getValue()[0].id == Xrm.Page.getAttribute("ccrm_costcurrency").getValue()[0].id) this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_5", false);
         }
-        if (Xrm.Page.getAttribute("ccrm_feepaymentcurrency").getValue() == null && Xrm.Page.getAttribute("ccrm_costcurrency").getValue() == null) this.showhideSection("tab_SectionF", "tab_SectionF_5", false);
+        if (Xrm.Page.getAttribute("ccrm_feepaymentcurrency").getValue() == null && Xrm.Page.getAttribute("ccrm_costcurrency").getValue() == null) this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_5", false);
     },
-    arup_sectiond_question9_onChange: function () {
+    arup_sectiond_question9_onChange: function (formContext) {
 
-        this.showhideSection("tab_SectionC", "tabD_section9", Xrm.Page.getAttribute("arup_sectiond_question9").getValue() == '0');
+        this.showhideSection(formContext, "tab_SectionC", "tabD_section9", Xrm.Page.getAttribute("arup_sectiond_question9").getValue() == '0');
 
     },
-    arup_sectiond_question10_onChange: function () {
+    arup_sectiond_question10_onChange: function (formContext) {
 
-        this.showhideSection("tab_SectionC", "tabD_Section10a", Xrm.Page.getAttribute("arup_sectiond_question10").getValue() == '0');
+        this.showhideSection(formContext, "tab_SectionC", "tabD_Section10a", Xrm.Page.getAttribute("arup_sectiond_question10").getValue() == '0');
 
     },
     chkKeyIndicators: function () {
         //console.log("Executing Function");
-        var strKeyIndicators = Xrm.Page.getAttribute("ccrm_sectionf_data_10_value").getValue();
+        var strKeyIndicators = Xrm.Page.getAttribute("arup_keyindicators").getValue();
         if (strKeyIndicators == null) Xrm.Page.getControl("ccrm_h1project_data_4").setVisible(false);
         else {
             var n = strKeyIndicators.indexOf("100000005");
@@ -1336,4 +1339,27 @@ function valueChanged(fieldName, originalValue, changedValue) {
             return originalValue.toString().replace('}', '').replace('{', '').toUpperCase() != changedValue.toString().replace('}', '').replace('{', '').toUpperCase();
         }
 
+}
+
+function multiselectfields_onchange(executioncontext, fieldname, fieldothername, othervalue, targetfield) {
+    var formcontext = executioncontext.getFormContext();
+    var fieldvalue = formcontext.getAttribute(fieldname).getText();
+    if (fieldvalue.length > 0) {
+        var targetvalue = "";
+        for (val of fieldvalue) {
+            if (targetvalue == "") {
+                targetvalue = val;
+            }
+            else {
+                targetvalue = targetvalue + ", " + val;
+            }
+        }
+        if (fieldvalue.indexOf(othervalue) == -1) {
+            formcontext.getAttribute(targetfield).setValue(targetvalue);
+        }
+        else {
+            var fieldothervalue = formcontext.getAttribute(fieldothername).getValue();
+            formcontext.getAttribute(targetfield).setValue(targetvalue + ", " + fieldothervalue);
+        }
+    }   
 }

@@ -1322,16 +1322,11 @@
       <UniqueName>arup_Contact_main_library</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
-    <None Include="WebResources\Script %28JScript%29\libraries\index.js">
-      <DisplayName>index</DisplayName>
-      <UniqueName>arup_index</UniqueName>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\opportunity_ribbon.js">
+      <DisplayName>opportunity_ribbon</DisplayName>
+      <UniqueName>new_opportunity_ribbon</UniqueName>
       <WebResourceType>Script</WebResourceType>
-    </None>
-    <None Include="WebResources\Script %28JScript%29\libraries\underscore.js">
-      <DisplayName>underscore</DisplayName>
-      <UniqueName>arup_underscore</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </None>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_dynamic_display_of_fieldvalue.js">
       <DisplayName>JScript1</DisplayName>
       <UniqueName>new_JScript1</UniqueName>
@@ -1354,7 +1349,7 @@
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_CreditChecks.js">
       <DisplayName>arup_CreditChecks</DisplayName>
-      <UniqueName>arup_arup_CreditChecks</UniqueName>
+      <UniqueName>arup_CreditChecks</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\arup_dashboardsubscription.js">
@@ -1757,6 +1752,11 @@
       <UniqueName>arup_arup_BlankHTML</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_close_Opportunity.htm">
+      <DisplayName>arup_close_Opportunity</DisplayName>
+      <UniqueName>new_arup_close_Opportunity</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_DeclineReason">
       <DisplayName>arup_DeclineReason</DisplayName>
       <UniqueName>arup_arup_DeclineReason</UniqueName>
@@ -1862,6 +1862,16 @@
       <DisplayName>ccrm_CRMSuperUsers</DisplayName>
       <UniqueName>arup_ccrm_CRMSuperUsers</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page (HTML)\arup_MicrosoftTeams.htm">
+      <DisplayName>HTMLPage1</DisplayName>
+      <UniqueName>arup_HTMLPage1</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page (HTML)\arup_organisationrequestchange.htm">
+      <DisplayName>HTMLPage1</DisplayName>
+      <UniqueName>arup_HTMLPage1</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page (HTML)\ccrm_CRMTabs.html">
       <DisplayName>ccrm_CRMTabs</DisplayName>

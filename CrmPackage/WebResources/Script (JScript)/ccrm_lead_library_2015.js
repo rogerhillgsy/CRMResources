@@ -1,6 +1,5 @@
 var leadOwnerData;
 var isMobile;
-var relatedNetworksSaved;
 var ArupBusinessSaved;
 var cachefields = {};
 
@@ -75,11 +74,10 @@ function QualifyLead(primaryControl) {
         if (attribute.getRequiredLevel() == "recommended" || attribute.getRequiredLevel() == "required") {
             if (attribute.getValue() === null) {
                 populated = false;
-                /* if (attribute.getRequiredLevel() == "recommended")
-                {
+                if (attribute.getRequiredLevel() == "recommended") {
                     attribute.setRequiredLevel("required"); //set required level to required so that users are forced to fill up the fields                        
-                }*/
-                highlightField(null, '#' + attribute.getName(), false);
+                }
+                //highlightField(null, '#' + attribute.getName(), false);
             }
         }
     });
@@ -89,7 +87,13 @@ function QualifyLead(primaryControl) {
         Alert.show('<font face="Segoe UI Light" size="6" color="#FF0000">Stop</font>',
             '<font face="Segoe UI Light" size="3" color="#000000">Please fill in the mandatory information before converting this Lead to Opportunity</font>',
             [
-                { label: "<b>OK</b>", setFocus: true },
+                {
+                    label: "<b>OK</b>",
+                    callback: function () {
+                        formContext.data.entity.save();
+                    },
+                    setFocus: true
+                },
             ],
             "ERROR", 500, 250, '', true);
     }
@@ -174,7 +178,7 @@ function requestLeadQualification(formContext) {
                         };
 
                         var req = new XMLHttpRequest();
-                        req.open("POST", organisationUrl + "/api/data/v8.1/arup_QualifyLead", true);
+                        req.open("POST", organisationUrl + "/api/data/v9.1/arup_QualifyLead", true);
                         req.setRequestHeader("Accept", "application/json");
                         req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
                         req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -290,19 +294,6 @@ function projectcountry_onchange(fromformload, formContext) {
                                 Xrm.Utility.alertDialog(error.message);
                             }
                         );
-
-                        /*
-                                              var retrievedreq;
-                             SDK.REST.retrieveRecord(companyId, "Ccrm_arupcompany", 'Ccrm_ArupCompanyCode', null, function (responseData) {
-                            if (responseData != null) {
-                                retrievedreq = responseData;
-                                if (retrievedreq.Ccrm_ArupCompanyCode != "55" && retrievedreq.Ccrm_ArupCompanyCode != "75") {
-                                    var fieldName = "ccrm_arupcompanyid";
-                                    Xrm.Page.getControl(fieldName).addPreSearch(function () { IndiaCompanyFilter(); });
-                                }
-                            }
-
-                        }, errorHandler, false);*/
                     }
                 }
             }
@@ -317,8 +308,11 @@ function onChange_projectState(executionContext) {
 
 function projectState_onChange(formContext) {
     var CountryName = '';
-    if (formContext.getAttribute("ccrm_country").getValue()[0] && formContext.getAttribute("ccrm_arupusstateid").getValue()[0]) {
-        CountryName = formContext.getAttribute("ccrm_country").getValue()[0].name + '';
+    var country = formContext.getAttribute("ccrm_country").getValue();
+    var state = formContext.getAttribute("ccrm_arupusstateid").getValue();
+
+    if (country != null && state != null) {
+        CountryName = country[0].name + '';
         CountryName = CountryName.toUpperCase();
 
         var fieldName = "ccrm_arupcompanyid";
@@ -326,7 +320,7 @@ function projectState_onChange(formContext) {
         if (formContext.ui.getFormType() != 1) // not for quick create
         {
             if (CountryName == "UNITED STATES OF AMERICA") {
-                var stateId = formContext.getAttribute("ccrm_arupusstateid").getValue()[0].id;
+                var stateId = state[0].id;
 
                 Xrm.WebApi.online.retrieveRecord("ccrm_arupusstate", stateId, "?$select=_ccrm_companyid_value").then(
                     function success(result) {
@@ -334,12 +328,11 @@ function projectState_onChange(formContext) {
                         var _ccrm_companyid_value_formatted = result["_ccrm_companyid_value@OData.Community.Display.V1.FormattedValue"];
 
                         if (_ccrm_companyid_value != null) {
-                            debugger;
                             var Id = _ccrm_companyid_value;
-                            //if (Id.indexOf('{') == -1)
-                            //    Id = '{' + Id;
-                            //if (Id.indexOf('}') == -1)
-                            //    Id = Id + '}';
+                            if (Id.indexOf('{') == -1)
+                                Id = '{' + Id;
+                            if (Id.indexOf('}') == -1)
+                                Id = Id + '}';
                             Id = Id.toUpperCase();
 
                             var lookupValue = new Array();
@@ -361,37 +354,6 @@ function projectState_onChange(formContext) {
                         Xrm.Utility.alertDialog(error.message);
                     }
                 );
-
-
-                //SDK.REST.retrieveRecord(stateId, "Ccrm_arupusstate", 'ccrm_companyid', null, function (responseData) {
-                //    if (responseData != null) {
-                //        if (responseData.ccrm_companyid.Id != null) {
-                //            var Id = responseData.ccrm_companyid.Id;
-                //            if (Id.indexOf('{') == -1)
-                //                Id = '{' + Id;
-                //            if (Id.indexOf('}') == -1)
-                //                Id = Id + '}';
-                //            Id = Id.toUpperCase();
-
-                //            var lookupValue = new Array();
-                //            lookupValue[0] = new Object();
-                //            lookupValue[0].id = Id;
-                //            lookupValue[0].name = responseData.ccrm_companyid.Name;
-                //            lookupValue[0].entityType = 'ccrm_arupcompany';
-                //            Xrm.Page.getAttribute('ccrm_arupcompanyid').setValue(lookupValue);
-                //            Xrm.Page.getAttribute("ccrm_arupcompanyid").fireOnChange();
-                //            // show noticiation
-                //            Xrm.Page.ui
-                //                .setFormNotification('Please select an Accounting Centre for the selected US State',
-                //                    "WARNING",
-                //                    "statechangefieldreq");
-                //            setTimeout(function () { Xrm.Page.ui.clearFormNotification("statechangefieldreq"); }, 10000);
-                //            Xrm.Page.getControl('ccrm_accountingcentreid').setFocus(true);
-                //        }
-                //    }
-                //},
-                //    errorHandler,
-                //    false);
             }
         }
     }
@@ -412,8 +374,6 @@ function FormOnload(executionContext) {
         }
     }
     else {
-
-        //relatedNetworksSaved = formContext.getAttribute("ccrm_othernetworks").getValue();
         //save Arup Business
         if (formContext.getAttribute("ccrm_arupbusiness").getValue() != null) {
             ArupBusinessSaved = formContext.getAttribute("ccrm_arupbusiness").getValue()[0].name;
@@ -425,84 +385,12 @@ function FormOnload(executionContext) {
     projectcountry_onchange('formload', formContext);
 
     setup_optionset_size("ccrm_contractarrangement", 200, 380);
-    //setup_display_other_field("ccrm_othernetworksval", "arup_othernetworkdetails", "100000003");
-
-    //Below code is commented by Raul
-    //Xrm.Page.getControl("ccrm_othernetworks").setVisible(isMobile);
-    //Xrm.Page.getControl("ccrm_ccrm_othernetworksdisp").setVisible(!isMobile);
-    ////Xrm.Page.getControl("ccrm_ccrm_othernetworksdisp").setDisabled(isMobile);
-    //if (isMobile) {
-    //    Xrm.Page.getAttribute("ccrm_othernetworks").setRequiredLevel('required');
-    //    Xrm.Page.getAttribute("ccrm_ccrm_othernetworksdisp").setRequiredLevel('none');
-    //}
-    //else {
-    //    Xrm.Page.getAttribute("ccrm_othernetworks").setRequiredLevel('none');
-    //    Xrm.Page.getAttribute("ccrm_ccrm_othernetworksdisp").setRequiredLevel('required');
-    //}
-
+    SetMultiSelect(formContext);
 }
 
 function FormOnSave(executionContext) {
     var formContext = executionContext.getFormContext();
-    //syncRelatedNetworks(formContext);
     setShortTitle(formContext);
-}
-
-// Calling function commented as The multislect fields wil be deleted - Update 07/04/2020
-function syncRelatedNetworks(formContext) {
-
-    var singleSelect = formContext.getAttribute("ccrm_othernetworks").getValue();
-    var relatedNetworksCode = Xrm.Page.getAttribute("ccrm_othernetworksval").getValue();
-
-    //for mobile form
-    if (isMobile) {
-
-        //check to see if the value of the single select optionset has changed. If it hasn't, then nothing needs to be done
-        if (!Xrm.Page.getAttribute('ccrm_othernetworks').getIsDirty()) return;
-
-        //check to see if the value selected in single select already exists in multi select. If this is the case, no need to do anything
-        if (relatedNetworksCode != null && relatedNetworksCode.indexOf(singleSelect) != -1) {
-            relatedNetworksSaved = singleSelect;
-            return;
-        }
-
-        //check if single select optionset is empty or multiselect optionset is either empty or has just 1 value
-        //in this case just push the new value to *disp and *value fields
-        if (relatedNetworksSaved == null || relatedNetworksCode == null || (relatedNetworksCode != null && relatedNetworksCode.indexOf(",") == -1)) {
-            Xrm.Page.getAttribute("ccrm_othernetworksval").setValue(String(singleSelect));
-            Xrm.Page.getAttribute("ccrm_ccrm_othernetworksdisp").setValue(Xrm.Page.getAttribute("ccrm_othernetworks").getText());
-        }
-        // check to see if multiselect optionset field has more than 1 value
-        //if that's the case, the old values in *disp and *val need to be replaced with the new value from the single select
-        else {
-
-            var relatedArrayCode = relatedNetworksCode.split(',');
-            var relatedArrayValue = Xrm.Page.getAttribute("ccrm_ccrm_othernetworksdisp").getValue().split(',');
-            var entryNum = relatedArrayCode.indexOf(String(relatedNetworksSaved));
-
-            relatedArrayCode[entryNum] = String(singleSelect).trim();
-            relatedArrayValue[entryNum] = Xrm.Page.getAttribute("ccrm_othernetworks").getText().trim();
-
-            // make sure to remove all trailing/leading spaces from all array elements
-            var arrayLength = relatedArrayValue.length;
-            for (var i = 0; i < arrayLength; i++) {
-                relatedArrayValue[i] = relatedArrayValue[i].trim();
-                relatedArrayCode[i] = relatedArrayCode[i].trim();
-            }
-
-            Xrm.Page.getAttribute("ccrm_othernetworksval").setValue(relatedArrayCode.join(','));
-            Xrm.Page.getAttribute("ccrm_ccrm_othernetworksdisp").setValue(relatedArrayValue.join(', '));
-        }
-    }
-    //Full WEB client
-    else {
-        //check if single select is NULL or its value is not contained in the list of the multiselect since multi select is a required field on the full form
-        if (singleSelect == null || (singleSelect != null && relatedNetworksCode.indexOf(singleSelect) == -1 && relatedNetworksCode != null)) {
-            Xrm.Page.getAttribute("ccrm_othernetworks").setValue(relatedNetworksCode.split(",")[0]);
-        }
-    }
-    //save the current single select in case it's changed later
-    relatedNetworksSaved = Xrm.Page.getAttribute("ccrm_othernetworks").getValue();
 }
 
 //default the Client to 'Unassigned' record
@@ -626,10 +514,8 @@ function display_other_field(otherNetworksVal, otherNetworksDetail, isOtherField
             Xrm.Page.getControl("arup_othernetworkdetails").setVisible(false);
             Xrm.Page.getAttribute("arup_othernetworkdetails").setRequiredLevel('none');
             Xrm.Page.getAttribute("arup_othernetworkdetails").setValue(null);
-
         }
         else {
-
             if (!!value && isOtherFieldRequired(value)) {
                 otherNetworkDetails.getAttribute().setRequiredLevel("required");
                 otherNetworkDetails.setVisible(true);
@@ -714,51 +600,6 @@ function setLeadOwnerDetails(formContext) {
                 Xrm.Utility.alertDialog(error.message);
             }
         );
-
-        /*SDK.REST.retrieveRecord(formContext.getAttribute("ownerid").getValue()[0].id, "SystemUser", 'Ccrm_ArupRegionId,ccrm_arupcompanyid,ccrm_accountingcentreid,ccrm_arupofficeid', null, function (retrievedreq) {
-            if (retrievedreq != null) {
-                if (retrievedreq.Ccrm_ArupRegionId != null) {
-                    result.ccrm_arupregioneid = retrievedreq.Ccrm_ArupRegionId.Id;
-                    result.ccrm_arupregionname = retrievedreq.Ccrm_ArupRegionId.Name;
-                    result.userOfficeID = retrievedreq.ccrm_arupofficeid.Id;
-                    var userCountry;
-                    if (result.ccrm_arupregionname == 'Australasia Region' && result.userOfficeID != null) {
-
-                        SDK.REST.retrieveRecord(result.userOfficeID, 'Ccrm_arupoffice', 'ccrm_officecountryid', null,
-                            function (retrievedcountry) {
-                                userCountry = retrievedcountry.ccrm_officecountryid.Name.toUpperCase();
-
-                                if (retrievedcountry != null && userCountry == 'AUSTRALIA') {
-                                    ausCompany = getAusCompanyDetails('5002');
-                                }
-                            }, errorHandler, false);
-                    }
-                }
-                if (result.userOfficeID != null) {
-                    SetLookupField(result.userOfficeID, retrievedreq.ccrm_arupofficeid.Name, 'ccrm_arupoffice', 'arup_arupofficeid', formContext);
-                }
-
-                if (retrievedreq.ccrm_arupcompanyid != null || userCountry == 'AUSTRALIA') {
-                    result.arupcompanyid = (userCountry == 'AUSTRALIA') ? ausCompany.companyId : retrievedreq.ccrm_arupcompanyid.Id;
-                    result.arupcompanyname = (userCountry == 'AUSTRALIA') ? ausCompany.CompanyName : retrievedreq.ccrm_arupcompanyid.Name;
-                }
-                if (retrievedreq.ccrm_accountingcentreid != null || userCountry == 'AUSTRALIA') {
-                    result.ccrm_accountingcentreid = (userCountry == 'AUSTRALIA') ? null : retrievedreq.ccrm_accountingcentreid.Id;
-                    result.ccrm_accountingcentrename = (userCountry == 'AUSTRALIA') ? null : retrievedreq.ccrm_accountingcentreid.Name;
-                }
-
-                leadOwnerData = result;
-
-                SetLookupField(result.arupcompanyid, result.arupcompanyname, 'ccrm_arupcompany', 'ccrm_arupcompanyid', formContext);
-                formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
-                SetLookupField(result.ccrm_accountingcentreid, result.ccrm_accountingcentrename, 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid', formContext);
-                SetLookupField(result.ccrm_arupregioneid, result.ccrm_arupregionname, 'ccrm_arupregion', 'arup_arupregion', formContext);
-
-                if (leadOwnerData.ccrm_accountingcentreid != null)
-                    getArupGroup(leadOwnerData.ccrm_accountingcentreid);
-
-            }
-        }, errorHandler, false);*/
     }
 }
 
@@ -776,30 +617,6 @@ function getAusCompanyDetails(companyCode) {
         }
     );
     return companyDetails;
-    /*
-    var req = new XMLHttpRequest();
-    req.open("GET", Xrm.Page.context.getClientUrl() + "/XRMServices/2011/OrganizationData.svc/Ccrm_arupcompanySet?$select=Ccrm_arupcompanyId,Ccrm_name&$filter=Ccrm_ArupCompanyCode eq '" + companyCode + "' and statecode/Value eq 0", false);
-    req.setRequestHeader("Accept", "application/json");
-    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    req.onreadystatechange = function () {
-        if (this.readyState === 4) {
-
-            this.onreadystatechange = null;
-
-            if (this.status === 200) {
-                var returned = JSON.parse(this.responseText).d;
-                var results = returned.results;
-                if (results.length > 0) {
-                    companyDetails.companyId = results[0].Ccrm_arupcompanyId;
-                    companyDetails.CompanyName = results[0].Ccrm_name;
-                }
-            } else {
-                Xrm.Utility.alertDialog(this.statusText);
-            }
-        }
-    };
-    req.send();
-    return companyDetails;*/
 }
 
 function getArupGroup(accountingcentreId, formContext) {
@@ -858,7 +675,6 @@ function ccrm_arupcompanyid_onchange(executionContext) {
             }
         }
         if (formContext.ui.getFormType() != 1) {
-            //CRM2016 Bug 34826
             if (formContext.getAttribute("ccrm_accountingcentreid")) {
                 formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
             }
@@ -874,14 +690,6 @@ function ccrm_arupcompanyid_onchange(executionContext) {
                     Xrm.Utility.alertDialog(error.message);
                 }
             );
-
-            //SDK.REST.retrieveRecord(companyval[0].id, "Ccrm_arupcompany", 'Ccrm_AccCentreLookupCode', null, function (retrievedreq) {
-            //    if (retrievedreq != null) {
-            //        accCenterFilterCode = retrievedreq.Ccrm_AccCentreLookupCode;
-            //        selectedCompanyCode = retrievedreq.Ccrm_AccCentreLookupCode;
-            //    }
-            //},
-            //    errorHandler, false);
 
             formContext.getControl('ccrm_accountingcentreid').addPreSearch(function () {
                 AccCentreAddLookupFilter(accCenterFilterCode, formContext);
@@ -945,34 +753,6 @@ function setTransactionCurrency(arupCompanyID, formContext) {
             Xrm.Utility.alertDialog(error.message);
         }
     );
-
-
-    //SDK.REST.retrieveRecord(arupCompanyID, "Ccrm_arupcompany", 'ccrm_currencyid,', null,
-    //    function (retrievedreq) {
-    //        if (retrievedreq != null) {
-    //            var nodeCurrency = retrievedreq.ccrm_currencyid;
-
-    //            var Id = retrievedreq.ccrm_currencyid.Id;
-    //            if (Id.indexOf('{') == -1)
-    //                Id = '{' + Id;
-    //            if (Id.indexOf('}') == -1)
-    //                Id = Id + '}';
-    //            Id = Id.toUpperCase();
-
-    //            lookup[0] = new Object();
-    //            lookup[0].entityType = "transactioncurrency";
-    //            if (nodeCurrency != null) {
-    //                lookup[0].id = Id;
-    //                lookup[0].name = retrievedreq.ccrm_currencyid.Name;
-    //                if (Xrm.Page.getAttribute("ccrm_projectcurrency"))
-    //                    Xrm.Page.getAttribute("ccrm_projectcurrency").setValue(lookup);
-    //            }
-    //        } else {
-    //            lookup = GetCurrencyLookup();
-    //            if (Xrm.Page.getAttribute("ccrm_projectcurrency"))
-    //                Xrm.Page.getAttribute("ccrm_projectcurrency").setValue(lookup);
-    //        }
-    //    }, errorHandler, false);
 }
 
 function onchange_ccrm_accountingcentreid(executionContext) {
@@ -1166,7 +946,6 @@ function getRegionalCurrency(regionId, formContext) {
 }
 
 function onChange_ccrm_arupbusiness(executionContext, valueChanged) {
-    debugger;
     var formContext = executionContext.getFormContext();
     ccrm_arupbusiness_onChange(valueChanged, formContext);
 }
@@ -1206,7 +985,6 @@ function addEnergy_ProjectSector(currentBusinessValue, formContext) {
     if (ArupBusinessSaved == currentBusinessValue) {
         return;
     }
-    debugger;
     var projectSectorCode = formContext.getAttribute('arup_projectsector_ms').getValue();
 
     //check to see if Arup Business used to be Energy and Project Sector has the Energy Project Sector option selected, then it needs to be removed
@@ -1230,37 +1008,6 @@ function addEnergy_ProjectSector(currentBusinessValue, formContext) {
     }
     if (formContext.getAttribute("ccrm_arupbusiness").getValue != null)
         ArupBusinessSaved = formContext.getAttribute("ccrm_arupbusiness").getValue()[0].name;
-
-    //var projectSectorCode = formContext.getAttribute('arup_projectsector_ms').getValue();
-    //var projectSectorValue = formContext.getAttribute('arup_projectsectorname').getValue();
-
-    ////check to see if Arup Business used to be Energy and Project Sector has the Energy Project Sector option selected, then it needs to be removed
-    //if (ArupBusinessSaved == 'Energy' && projectSectorCode != null && projectSectorCode.indexOf('13') != -1) {
-    //    //first remove the value
-    //    projectSectorCode = projectSectorCode.split(',');
-    //    projectSectorValue = projectSectorValue.split(', ');
-    //    var entryNum = projectSectorCode.indexOf('13');
-    //    var value = removeFromList(formContext.getAttribute('arup_projectsectorvalue').getValue(), '13', ',');
-    //    formContext.getAttribute('arup_projectsectorvalue').setValue(value);
-    //    value = removeFromList(formContext.getAttribute('arup_projectsectorname').getValue(), 'Energy Project Sector', ', ')
-    //    formContext.getAttribute("arup_projectsectorname").setValue(value);
-    //}
-    ////check to see if Arup Business has been changed to Energy and Project Sector doesn't have the Energy Project Sector option selected already
-    //else if (currentBusinessValue == 'Energy' && (projectSectorCode == null || projectSectorCode.indexOf('13') == -1)) {
-    //    //check to see if multi-select is empty. In this case just push the values into *name & *code fields
-    //    if (projectSectorCode == null) {
-    //        formContext.getAttribute('arup_projectsectorvalue').setValue('13');
-    //        formContext.getAttribute('arup_projectsectorname').setValue('Energy Project Sector');
-    //    }
-    //    else {
-    //        //need to add to the existing values
-    //        formContext.getAttribute('arup_projectsectorvalue').setValue(projectSectorCode + ',13');
-    //        formContext.getAttribute('arup_projectsectorname').setValue(formContext.getAttribute('arup_projectsectorname').getValue() + ', Energy Project Sector');
-    //    }
-    //}
-
-    //formContext.getAttribute('arup_projectsectorvalue').setSubmitMode("always");
-    //formContext.getAttribute('arup_projectsectorname').setSubmitMode("always");
 }
 
 function resetSubBusiness(valuechanged, businessid, formContext) {
@@ -1282,39 +1029,6 @@ function removeFromList(list, value, separator) {
     }
     return list;
 }
-/* Function is not used in Lead entity. Need to remove - Updated 07/04/2020
-function setTimeoutfn() {
-    setTimeout(procurementTypeFullForm_onChange, 1000);
-}
-
-function procurementTypeFullForm_onChange() {
-    var confirmButton = new Alert.Button();
-
-    confirmButton.label = "Confirm";
-
-    confirmButton.callback = onConfirmButtonClick;
-
-    var cancelButton = new Alert.Button();
-
-    cancelButton.label = "Cancel";
-
-    cancelButton.callback = onCancelButtonClick;
-
-    var buttonArray = new Array();
-
-    buttonArray.push(confirmButton);
-    buttonArray.push(cancelButton);
-    Alert.showWebResource("arup_procurementtypesupportingtext", 550, 350, "Do you want to confirm?", buttonArray, null, true, 10);
-}
-
-function onConfirmButtonClick() {
-    Alert.hide();
-}
-
-function onCancelButtonClick() {
-    Alert.hide();
-    Xrm.Page.getAttribute("ccrm_contractarrangement").setValue(cachefields['procurementType']);
-}*/
 
 function ArupRegion_OnChange(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -1349,6 +1063,7 @@ function AddParentOpportunityFilter(formContext) {
     var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue();
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var fetch;
+
     switch (opportunitytype) {
         case 770000001: /* existing contract */
             if (!arupInternal) {
@@ -1358,7 +1073,10 @@ function AddParentOpportunityFilter(formContext) {
             }
             else {
                 fetch = "<filter type='and'>" +
+                    "<filter type='or'>" +
                     "<condition attribute='statecode' operator='eq' value='0' />" +
+                    "<condition attribute='statecode' operator='eq' value='1' />" +
+                    "</filter>" +
                     "</filter>";
             }
             break;
@@ -1380,15 +1098,26 @@ function AddParentOpportunityFilter(formContext) {
         case 770000006:
             fetch = "<filter type='and'>" +
                 "<condition attribute='arup_opportunitytype' operator='eq' value='770000005' />" +
+                "<filter type='or'>" +
+                "<condition attribute='statecode' operator='eq' value='0' />" +
+                "<condition attribute='statecode' operator='eq' value='1' />" +
+                "</filter>" +
+                "</filter>";
+            break;
+        default:
+            fetch = "<filter type='and'>" +
+                "<filter type='or'>" +
+                "<condition attribute='statecode' operator='eq' value='0' />" +
+                "<condition attribute='statecode' operator='eq' value='1' />" +
+                "</filter>" +
                 "</filter>";
             break;
     }
 
-    if (fetch != "") {     
-        //formContext.getControl("arup_parentopportunityid").addCustomFilter(fetch);
+    if (fetch != "") {
         formContext.getControl("arup_parentopportunityid").addPreSearch(function () {
             formContext.getControl("arup_parentopportunityid").addCustomFilter(fetch);
-        });    
+        });
     }
 }
 
@@ -1445,5 +1174,44 @@ function AssignDetailsFromParentOpportunity(results, formContext) {
 function AssignDetailsWhenOpportunityTypeExistingContract(results, formContext) {
     if (formContext.ui.getFormType() != 1) {
         formContext.getAttribute("ccrm_contractarrangement").setValue(results.value[0]["ccrm_contractarrangement"]);
+    }
+}
+
+
+function GetMultiSelect(executionContext) {
+    var formContext = executionContext.getFormContext();
+    SetMultiSelect(formContext);
+}
+
+function SetMultiSelect(formContext) {
+    var selectedValues = formContext.getAttribute("arup_globalservices").getValue();
+    if (selectedValues == null) return;
+    var otherOption = selectedValues.includes(100000003);
+    var notApplicable = selectedValues.includes(770000000);
+    var length = selectedValues.length;
+
+    if (notApplicable) {
+        if (selectedValues.length > 1) {
+            formContext.ui.setFormNotification('You have selected "Not Applicable" option for Global Services. This will not allow you to add more options.', 'WARNING', '3');
+            setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
+            formContext.getControl("arup_othernetworkdetails").setVisible(false);
+            formContext.getAttribute("arup_othernetworkdetails").setRequiredLevel('none');
+        }
+        formContext.getAttribute("arup_globalservices").setValue([770000000]);
+        return;
+    }
+
+    if (length > 3) {
+        formContext.getControl("arup_globalservices").setNotification('Selection is limited to 3 choices');
+    } else {
+        formContext.getControl("arup_globalservices").clearNotification();
+    }
+
+    if (otherOption) {
+        formContext.getControl("arup_othernetworkdetails").setVisible(true);
+        formContext.getAttribute("arup_othernetworkdetails").setRequiredLevel('required');
+    } else {
+        formContext.getControl("arup_othernetworkdetails").setVisible(false);
+        formContext.getAttribute("arup_othernetworkdetails").setRequiredLevel('none');
     }
 }
