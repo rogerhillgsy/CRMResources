@@ -45,18 +45,16 @@ function Form_onload(executionContext) {
         if (formContext.getAttribute("name").getValue() == 'Unassigned') {
             onLoaddisableFormFields(formContext);
         }
-
+        userRegion = GetCurrentUserDetails(formContext);
         // this function will change the width of the header tile. It may not be supported
         changeHeaderTileFormat();
 
-        //arup_highriskclient_onchange(formContext);
         filterLeadsGrid(formContext);
         country_onChange(executionContext);
-        IsRegisteredAddressFromParentRecord(formContext);
-        userRegion = GetCurrentUserDetails(formContext);
-        DisplayCOVID19Section(userRegion, formContext);
+        IsRegisteredAddressFromParentRecord(formContext);          
         toggleSections(formContext);
         prepareCheckOptions(formContext);
+        DisplayCOVID19Section(userRegion, formContext);
     }
 }
 
@@ -1160,7 +1158,7 @@ function GetCurrentUserDetails(formContext) {
     var userId = formContext.context.getUserId().replace('{', '').replace('}', '');
     var userRegion = null;
     var req = new XMLHttpRequest();
-    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/systemusers(" + userId + ")?$select=_ccrm_arupregionid_value,fullname", false);
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/systemusers(" + userId + ")?$select=_ccrm_arupregionid_value", false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");

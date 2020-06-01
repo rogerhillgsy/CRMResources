@@ -276,13 +276,13 @@ function parseQuickSuccessActionResponse(results) {
         }
         else {
             if (entName == "account" || entName == "contact") {
-                msg = ("We found " + NoOfDupes + " potential similar records. Please fill in or change City and Country fields to refine the search.").toString();
+                msg = ("We found " + NoOfDupes + " potential similar records. Please review the fields to refine the search.").toString();
             }
             else if (entName == "lead" && leadFormType == "QC") {
-                msg = ("We found " + NoOfDupes + " potential similar records. Please fill in or change Project Currency field to refine or rerun the search.").toString();
+                msg = ("We found " + NoOfDupes + " potential similar records. Please review or change Project Currency field to refine the search.").toString();
             }
             else if (entName == "lead" && leadFormType != "QC") {
-                msg = ("We found " + NoOfDupes + " potential similar records. Please fill in or change Client, Project Country, Project City, Arup Business fields to refine or rerun the search.").toString();
+                msg = ("We found " + NoOfDupes + " potential similar records. Please review or change Client, Project Country, Project City, Arup Business fields to refine the search.").toString();
             }
         }
         SetValidField(fieldName1, jsMsg2, msg, "dupes", NoOfDupes, globalFormContext);
@@ -317,7 +317,7 @@ function dispLoadOnQC(formContext) {
     var msg = "Searching for similar records...";
     var fielName = "arup_dupecheckresult";
     SetValidField(fielName, null, msg, "wait", 0, formContext);
-}
+}  
 
 function SetValidField(fieldName, val, warningMsg, warMsgName, lenght, formContext) {
     formContext.getAttribute(fieldName).setValue(val);
@@ -332,6 +332,11 @@ function SetValidField(fieldName, val, warningMsg, warMsgName, lenght, formConte
             Notify.add(warningMsg, "INFO", warMsgName + "n", null, 5);
         }
         else {
+            var alertButton = new Alert.Button();
+            alertButton.label = "Close";
+            var array = new Array();
+            array.push(alertButton); 
+
             if (entName == "account") {
                 var n = accName.indexOf("&");
                 if (n != -1) {
@@ -342,7 +347,7 @@ function SetValidField(fieldName, val, warningMsg, warMsgName, lenght, formConte
                     accName = accName.replace("'", "aposArup");
                 }
                 var dataparams = "Name=" + accName + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName + "&warningMsg=" + warningMsg;
-                Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Potential Duplicates", null, crmURL, false, 20);
+                Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Potential Duplicates", array, crmURL, false, 20);
             }
             else if (entName == "contact") {
                 var n1 = firN.indexOf("&");
@@ -362,7 +367,7 @@ function SetValidField(fieldName, val, warningMsg, warMsgName, lenght, formConte
                     LasN = LasN.replace("'", "aposArup");
                 }
                 var dataparams = "FirstName=" + firN + "&LastName=" + LasN + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName + "&warningMsg=" + warningMsg;
-                Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Potential Duplicates", null, crmURL, false, 20);
+                Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Potential Duplicates", array, crmURL, false, 20);
             }
             else if (entName == "lead") {
                 var n6 = accName.indexOf("&");
@@ -374,7 +379,7 @@ function SetValidField(fieldName, val, warningMsg, warMsgName, lenght, formConte
                     accName = accName.replace("'", "aposArup");
                 }
                 var dataparams = "Name=" + accName + "&ContryId=" + inputCtryID + "&ipCity=" + inputCity + "&entLogicName=" + entName + "&recordId=" + ipRecordId + "&bussID=" + inputBusinessID + "&cliID=" + clientId + "&warningMsg=" + warningMsg;
-                Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Potential Duplicates", null, crmURL, false, 20);
+                Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 510, 520, "Potential Duplicates", array, crmURL, false, 20);
             }
             Notify.remove("dupesn");
         }
