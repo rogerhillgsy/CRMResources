@@ -305,7 +305,6 @@ function GetOfficeCountryID(formContext, officeID) {
 
 //get Region lookup - from the current user
 function getCurrentUserDetails(formContext) {
-    debugger;
     var result = new Object();
     var ausCompany = new Object();
     var req = new XMLHttpRequest();
@@ -453,7 +452,7 @@ function OnChangeToDirtyField(a) {
 }
 
 function FormOnload(executionContext) {
-    debugger;
+   // debugger;
     var formContext = executionContext.getFormContext();
     if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
         if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
@@ -768,7 +767,6 @@ function addEventToProjPartGrid(formContext) {
 }
 
 function OnStateChange(executionContext) {
-    debugger;
     var formContext = executionContext.getFormContext();
     if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
         var state = formContext.getAttribute("statecode").getValue();
@@ -1618,7 +1616,7 @@ function EAAccreditaionLevRequired(formContext) {
 }
 
 function FormOnSave(executionContext) {
-    debugger;
+   // debugger;
     formContext = executionContext.getFormContext();
 
     var preventSave = false;
@@ -1789,7 +1787,6 @@ function ValidateBidDirector_onchange(formContext) {
 }
 //Validate Project Manager on save, if there is data in it
 function ValidateProjectManager_onchange(executionContext) {
-    debugger;
     formContext = executionContext.getFormContext();
     if (formContext.getAttribute("ccrm_projectmanager_userid") != null) {
         if (formContext.getAttribute("ccrm_projectmanager_userid").getValue() != null) {
@@ -1813,7 +1810,6 @@ function ValidateProjectManager_onchange(executionContext) {
 }
 //Validate Project Director on save, if there is data in it
 function ValidateProjectDirector_onchange(executionContext) {
-    debugger;
     formContext = executionContext.getFormContext();
     if (formContext.getAttribute("ccrm_projectdirector_userid") != null) {
         if (formContext.getAttribute("ccrm_projectdirector_userid").getValue() != null) {
@@ -1875,7 +1871,6 @@ function GetPMPDRegionAccreditationValues(regionId) {
 
 //Validate the user details with the access level conditions
 function ValidateUser(formContext, opportunityFieldName, lookupFieldName, filterChkFieldName) {
-    debugger;
     var vrStatus;
     var userId = formContext.getAttribute(lookupFieldName).getValue()[0].id;
     var arupRegionData = getArupRegionName(formContext,opportunityFieldName);
@@ -2770,8 +2765,7 @@ function highlightField(headerfield, formfield, clear) {
 }
 //This function is called from Ribbon button 'Request Possible JOb' and crmparameter 'prmarycontrol' from the ribbon is the formContext
 function requestPossibleJob(formContext) {
-    debugger;
-    // set focus to avoid issues with in progress changes.
+ // set focus to avoid issues with in progress changes.
   //  formContext.getControl("ccrm_reference").setFocus();
 
     //Shruti : to test set focus to required field-pre bid tab by setting focus to one of its field
@@ -2937,7 +2931,6 @@ function denyArupCompanyPJN(formContext,companyID) {
 }
 
 function IsFormValid(formContext, IsPJNRequest) {
-    debugger;
     /// <summary>Check various mandatory fields on the form to check if they have been filled in. Highlight fields that are not valid.</summary>
     /// <param name="IsPJNRequest">Flag to indicate whether we are in the process of requesting a PJN, in which case certain fields such as the Bid Salary Cost and Bid Gross Expenses need to be mandatory.</param>
     var v1 = formContext.getAttribute('ccrm_validcontact').getValue(); //needs to be 1
@@ -3381,7 +3374,6 @@ function setJobNoProgression(formContext,val) {
 }
 
 function getApproverName(recordid, entity, field) {
-    debugger;
     var output = new Object();
     field = "_" + field + "_value";
     //SDK.REST.retrieveRecord(recordid,
@@ -4588,7 +4580,6 @@ function UserNameCheck(fullName) {
 }
 
 function ValidateApproval(formContext,msg, approvaltype) {
-    debugger;
     var output = new Object();
 
     output.differentUser = false;
@@ -4857,7 +4848,6 @@ function SetApproverID(formContext,approverIDs) {
 
 // Ribbon Approval Btn click events , formCOntext is primaryControl crmparamter passed from ribbon
 function ApprovalButtonClick(formContext,type, approvalType, statusField, userField, dateField) {
-    debugger;
     var ackMsg = ApprovalConfirmationMessage(approvalType);
     var alertType;
     if (IsFormValid(formContext)) {
@@ -6145,7 +6135,6 @@ function HideApprovalButtonForRiskChange(regionName) {
 }
 
 function stageNotifications(formContext) {
-    debugger;
     setLookupFiltering(formContext); // appy filter to user fields
 
     var pjnrequested = false;
@@ -6397,7 +6386,6 @@ function BPFMoveNext(formContext) {
 }
 
 function StageChange_event(formContext) {
-    debugger;
     var stageid = getStageId(formContext);
     var error = false;
 
@@ -6545,7 +6533,7 @@ function hideProcessFields(formContext, selectedStage) {
             break;
         case "BID REVIEW/SUBMISSION":
             hideBPFFields(formContext, "arup_biddecisiondate", "estimatedclosedate");
-            setRequiredLevelOfBPFField(formContext, "ccrm_bidreviewdecisiondate", "arup_bidsubmissionoutcome","arup_bidsubmitteddate");
+          //  setRequiredLevelOfBPFField(formContext, "ccrm_bidreviewdecisiondate", "arup_bidsubmissionoutcome","arup_bidsubmitteddate");
 
             break;
         case "CONFIRMED JOB - PROJECT":
@@ -6654,7 +6642,6 @@ function GetApproverSectionByStageId(stageId) {
 
 // Bid Review Approval -  ribbon button click - starts
 function BidReviewApprovalClick(formContext) {
-    debugger;
 
     //var ismodified = formContext.data.entity.getIsDirty();
     //if (ismodified == true) {
@@ -7147,7 +7134,7 @@ function ValidatePJNGrpLdr() {
 }
 //This function is called from Ribbon :ccrm.opportunity.SectorLeaderApproval.Command
 function CJNApprovalButtonClick(formContext,type, approvalType, statusField, userField, dateField) {
-    debugger;
+
     if (!IsFormValid(formContext)) { return };
 
     var ackMsg = ApprovalConfirmationMessage(approvalType);
@@ -7266,7 +7253,7 @@ function CJNApprovalButtonClick(formContext,type, approvalType, statusField, use
 
 //function for the oppo progress button 
 possibleJNRequired_onChange = function (formContext) {
-    debugger;
+
     // Job required = true - we will simulate the get job number button 
 
     if (formContext.getAttribute("ccrm_possiblejobnumberrequired").getValue() == 1) {
@@ -7654,7 +7641,7 @@ function openNewCJNAForm(formContext,reserve) {
 
 //sync bid manager with project manager
 function Syncbidmanager_userid(executionContext) {
-    debugger;
+
     formContext = executionContext.getFormContext();
     if (formContext.getAttribute("ccrm_bidmanager_userid").getValue() != null) {
         //Added by Jugal on 5-4-2018 for 47489
@@ -8396,7 +8383,7 @@ function approveCallbackAction(formContext,approvalType) {
 }
 
 function confirmUpdate(executionContext, logicalname, displayname) {
-    debugger;
+
     var formContext = executionContext.getFormContext();
     if ((formContext.getAttribute(logicalname).getValue() == 1) && (formContext.getAttribute(logicalname).getIsDirty())) {
         Alert.show('<font face="Segoe UI Light" font size="6" color="0472C4">' + displayname + '</font>',
@@ -8473,7 +8460,7 @@ function PullParentOpportunityDetailsForDiffOpportunityType(formContext,parentOp
                     req.onreadystatechange = null;
                     if (this.status === 200) {
                         var results = JSON.parse(this.response);
-                        AssignDetailsFromParentOpportunity(results, opportunitytype);
+                        AssignDetailsFromParentOpportunity(formContext,results, opportunitytype);
                     } else {
                         Xrm.Navigation.openAlertDialog(this.statusText);
                     }
@@ -8621,11 +8608,11 @@ function UpdateDetailsFromParentOpportunity(formContext,result, event) {
      UpdateFieldFromParentOpportunity(formContext,"ccrm_projectlocationid", result["_ccrm_projectlocationid_value"], result["_ccrm_projectlocationid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_projectlocationid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
     //formContext.getAttribute("ccrm_projectlocationid").fireOnChange();
     projectcountry_onchange(formContext,(event == 'load' ? 'formonload' : null));
-    if (IsDependentFieldValueValid(formContext.data.entity.getEntityName(),"arup_opportunitytype", formContext.getAttribute("arup_opportunitytype").getValue(), "ccrm_contractarrangement", result["ccrm_contractarrangement"]))
+    if (IsDependentFieldValueValid(formContext,formContext.data.entity.getEntityName(),"arup_opportunitytype", formContext.getAttribute("arup_opportunitytype").getValue(), "ccrm_contractarrangement", result["ccrm_contractarrangement"]))
          UpdateFieldFromParentOpportunity(formContext,"ccrm_contractarrangement", result["ccrm_contractarrangement"]);
 
 
-    if (IsDependentFieldValueValid(formContext.data.entity.getEntityName(),"arup_opportunitytype", formContext.getAttribute("arup_opportunitytype").getValue(), "ccrm_leadsource", result["ccrm_leadsource"]))
+    if (IsDependentFieldValueValid(formContext,formContext.data.entity.getEntityName(),"arup_opportunitytype", formContext.getAttribute("arup_opportunitytype").getValue(), "ccrm_leadsource", result["ccrm_leadsource"]))
          UpdateFieldFromParentOpportunity(formContext,"ccrm_leadsource", result["ccrm_leadsource"]);
 
      UpdateFieldFromParentOpportunity(formContext,"ccrm_location", result["ccrm_location"]);
@@ -8657,7 +8644,7 @@ function UpdateDetailsFromParentOpportunity(formContext,result, event) {
 }
 
 
-function AssignDetailsFromParentOpportunity(results, opportunityType) {
+function AssignDetailsFromParentOpportunity(formContext,results, opportunityType) {
     if (results.value.length > 0) {
 
         switch (opportunityType) {
@@ -8724,7 +8711,7 @@ function AssignDetailsWhenOpportunityTypeNewContract(formContext,results) {
     }
 }
 
-function AssignDetailsWhenOpportunityTypeExistingContract(results) {
+function AssignDetailsWhenOpportunityTypeExistingContract(formContext,results) {
 
     if (formContext.ui.getFormType() != 1) {
         formContext.getAttribute("ccrm_contractarrangement").setValue(results.value[0]["ccrm_contractarrangement"]);
@@ -8732,7 +8719,7 @@ function AssignDetailsWhenOpportunityTypeExistingContract(results) {
 
     if (formContext.ui.getFormType() == 1) {
 
-        if (IsDependentFieldValueValid(formContext.data.entity.getEntityName(),"arup_opportunitytype", formContext.getAttribute("arup_opportunitytype").getValue(), "ccrm_contractarrangement", results.value[0]["ccrm_contractarrangement"]))
+        if (IsDependentFieldValueValid(formContext,formContext.data.entity.getEntityName(),"arup_opportunitytype", formContext.getAttribute("arup_opportunitytype").getValue(), "ccrm_contractarrangement", results.value[0]["ccrm_contractarrangement"]))
             AssignFieldValueFromParent(formContext,"ccrm_contractarrangement", results.value[0]["ccrm_contractarrangement"]);
 
         AssignFieldValueFromParent(formContext,"ccrm_client", results.value[0]["_ccrm_client_value"], results.value[0]["_ccrm_client_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_client_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
@@ -9141,7 +9128,7 @@ function setTimeoutfn(formContext,attributeName) {
 }
 
 function procurementTypeFullForm_onChange(formContext,attributeName) {
-    debugger;
+
     cachefields['attributename'] = attributeName;
 
     var confirmButton = new Alert.Button();
@@ -9165,7 +9152,7 @@ function procurementTypeFullForm_onChange(formContext,attributeName) {
 }
 
 function onConfirmButtonClick(formContext) {
-    debugger;
+ 
     attrName = cachefields['attributename'];
     if (attrName == "arup_opportunitytype") {
         cachefields["ccrm_contractarrangement"] = formContext.getAttribute("ccrm_contractarrangement").getValue();
@@ -9175,7 +9162,7 @@ function onConfirmButtonClick(formContext) {
 }
 
 function onCancelButtonClick(formContext) {
-    debugger;
+
     attrName = cachefields['attributename'];
     if (attrName == "arup_opportunitytype") {
         formContext.getAttribute("ccrm_contractarrangement").setValue(cachefields["ccrm_contractarrangement"]);
@@ -9235,7 +9222,7 @@ function clearSpace() {
     }
 }
 
-function IsDependentFieldValueValid(entityName,mainOptionsetFieldName, mainOptionSetFieldValue, dependentOptionsetFieldName, dependentOptionsetFieldValue) {
+function IsDependentFieldValueValid(formContext,entityName,mainOptionsetFieldName, mainOptionSetFieldValue, dependentOptionsetFieldName, dependentOptionsetFieldValue) {
 
     var isDependentFieldValueValid = false;
     var req = new XMLHttpRequest();
