@@ -80,7 +80,7 @@
             $('.multiselect-item .caret-container').click();
 
             // Ensure that the intext raido box is autofocused.
-            $("input[name=intorext][value=INT]")[0].focus();
+            $("input[name=intorext][value=NOTINT]")[0].focus();
         });
 
     </script>
@@ -128,10 +128,10 @@
                     </p>
                     <form id="URForm">
                         <div class="radio">
-                            <label><input type="radio" name="intorext" value="INT" autofocus>&nbsp;Internal</label>
+                            <label><input type="radio" name="intorext" value="INT" >&nbsp;Internal</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" name="intorext" value="NOTINT">&nbsp;External</label>
+                            <label><input type="radio" name="intorext" value="NOTINT" autofocus>&nbsp;External</label>
                         </div>
                     </form>
                 </div>
@@ -210,9 +210,10 @@
                 <div class="container" id="CN">
                     <div class="form-group col-lg-12">
                         <label for="contractarrangement">Project Procurement:</label>
-                        <select id="contractarrangement" class="form-control"  title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
+                        <select id="contractarrangement" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
                             <option value="">--</option>
                             <option title="Alliance" value="100000000">Alliance</option>
+                            <option title="Charitable/Pro-Bono" value="100000001">Charitable/Pro-Bono</option>
                             <option title="Design &amp; Construct/Design-Build/ECI" value="1">Design &amp; Construct/Design-Build/ECI</option>
                             <option title="Design-Build-Operate" value="100000002">Design-Build-Operate</option>
                             <option title="Management Contracting/Construction Management" value="3">Management Contracting/Construction Management</option>
