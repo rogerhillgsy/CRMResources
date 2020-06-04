@@ -51,15 +51,15 @@ function onSelectOfStage(formContext,selStageId) {
     setBidDecisionChairRequired(formContext);
 }
 
-function ShowHideOpportunityTypeAndProjectProcurement(formContext) {
-
+function ShowHideOpportunityTypeAndProjectProcurement(formContext,stageId) {
+    debugger;
     if (formContext.getAttribute("statecode").getValue() != 0) { return; }
 
     setTimeout(function () {
-        if (formContext.getAttribute("stageid") != null && formContext.getAttribute("stageid") != undefined) {
-            var selStageId = formContext.getAttribute("stageid").getValue();
+        if (stageId != null && stageId != undefined) {
+           // var selStageId = formContext.getAttribute("stageid").getValue();
 
-            if (selStageId == ArupStages.Lead || isPartOfDQTeam()) {
+            if (stageId == ArupStages.Lead || isPartOfDQTeam(formContext)) {
 
                 formContext.getControl("arup_opportunitytype").setDisabled(false);
                 if (!formContext.getControl("ccrm_contractarrangement").getDisabled())
@@ -633,7 +633,7 @@ function retreiveOrganisationChecks(executionContext) {
 
                         var arup_creditcheck = result["arup_creditcheck"];
                         formContext.getAttribute("arup_creditcheck").setValue(arup_creditcheck);
-                        setCreditCheckLight(formContext);
+                       // setCreditCheckLight(formContext);
 
                         var arup_duediligencecheck = result["arup_duediligencecheck"];
                         if (arup_duediligencecheck != null) { // If Sanctions is null on Client
@@ -648,9 +648,9 @@ function retreiveOrganisationChecks(executionContext) {
 
                         } else if (oppSanctionCheck != null && !clientDirty) { // If sanctions is null on Opportunity
                             formContext.getAttribute("arup_duediligencecheck").setValue(oppSanctionCheck);
-                            formContext.getAttribute("arup_sanctionschecktrigger").setValue(1);
+                            formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
                         } else if (!clientDirty) { // If Client is not dirty //Top right coner in Design                                            
-                            formContext.getAttribute("arup_sanctionschecktrigger").setValue(1);
+                            formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
                             formContext.data.save();
                             setTimeout(function () {
                                 formContext.getAttribute("arup_sanctionschecktrigger").fireOnChange();
@@ -707,45 +707,49 @@ function setCreditCheckLight(formContext) {
 function setDueDiligenceCheckLight(executionContext) {
     var formContext = executionContext.getFormContext();
     var arup_duediligencecheck = formContext.getAttribute("arup_duediligencecheck").getValue();
-    var sourceUrl = formContext.getControl("WebResource_Due_Diligence_Check").getSrc();
-    var sourceString = sourceUrl.toString();
-    var url = sourceString.substring(0, sourceString.lastIndexOf('/'));
-    var targetUrl, resource, title = "";
-    if (arup_duediligencecheck != null) {
-        switch (arup_duediligencecheck) {
-            case 1:
-                resource = "/arup_Green_Light";
-                title = "No Sanctions";
-                break;
-            case 2:
-                resource = "/arup_Green_Light";
-                title = "No Sanctions (OOL)";
-                break;
-            case 3:
-                resource = "/arup_Red_Light";
-                title = "Sanctioned";
-                break;
-            case 7:
-                resource = "/arup_Grey_Light";
-                title = "Not Checked";
-                break;
-            case 8:
-                resource = "/arup_Grey_Light";
-                title = "Manual Check Needed";
-                break;
-            default:
-                break;
+    var webResourceDueDiligenceCheck = formContext.getControl("WebResource_Due_Diligence_Check");
+    if (webResourceDueDiligenceCheck != null) {
+        var sourceUrl = formContext.getControl("WebResource_Due_Diligence_Check").getSrc();
+        var sourceString = sourceUrl.toString();
+        var url = sourceString.substring(0, sourceString.lastIndexOf('/'));
+        var targetUrl, resource, title = "";
+        if (arup_duediligencecheck != null) {
+            switch (arup_duediligencecheck) {
+                case 1:
+                    resource = "/arup_Green_Light";
+                    title = "No Sanctions";
+                    break;
+                case 2:
+                    resource = "/arup_Green_Light";
+                    title = "No Sanctions (OOL)";
+                    break;
+                case 3:
+                    resource = "/arup_Red_Light";
+                    title = "Sanctioned";
+                    break;
+                case 7:
+                    resource = "/arup_Grey_Light";
+                    title = "Not Checked";
+                    break;
+                case 8:
+                    resource = "/arup_Grey_Light";
+                    title = "Manual Check Needed";
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            resource = "/arup_Grey_Light";
+            title = "Not Checked";
         }
-    } else {
-        resource = "/arup_Grey_Light";
-        title = "Not Checked";
+        targetUrl = url.concat(resource);
+        formContext.getControl("WebResource_Due_Diligence_Check").setSrc(targetUrl);
+        formContext.getControl("WebResource_Due_Diligence_Check").getObject().title = title;
     }
-    targetUrl = url.concat(resource);
-    formContext.getControl("WebResource_Due_Diligence_Check").setSrc(targetUrl);
-    formContext.getControl("WebResource_Due_Diligence_Check").getObject().title = title;
 }
 
 function checkOrganisationChecks(executionContext) {
+    debugger;
     var formContext = executionContext.getFormContext();
     setTimeout(function () {
         var client = formContext.getAttribute("ccrm_client").getValue();

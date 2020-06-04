@@ -332,7 +332,7 @@ function getCurrentUserDetails(formContext) {
                             var retrivedOfficeCountry = GetOfficeCountryID(formContext, result.userOfficeID);
                             userCountry = retrivedOfficeCountry.Name.toUpperCase();
                             if (retrivedOfficeCountry != null && userCountry == 'AUSTRALIA') {
-                                        ausCompany = getAusCompanyDetails('5002');
+                                ausCompany = getAusCompanyDetails(formContext,'5002');
                              }
                                
                         }
@@ -361,7 +361,7 @@ function getCurrentUserDetails(formContext) {
     return result;
 }
 
-function getAusCompanyDetails(companyCode) {
+function getAusCompanyDetails(formContext,companyCode) {
 
     var companyDetails = new Object();
 
@@ -443,7 +443,7 @@ function OnChangeToDirtyField(a) {
 }
 
 function FormOnload(executionContext) {
-   // debugger;
+    debugger;
     var formContext = executionContext.getFormContext();
     if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
         if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
@@ -631,7 +631,7 @@ function FormOnload(executionContext) {
          
 
             onSelectOfStage(formContext,currentStage);
-            ShowHideOpportunityTypeAndProjectProcurement(formContext);
+            ShowHideOpportunityTypeAndProjectProcurement(formContext, currentStage);
             if (!!formContext.data.process) {
                 formContext.data.process.addOnStageSelected(function () { StageSelected(formContext) });
                 formContext.data.process.addOnStageChange(function () { StageChange_event(formContext) });
@@ -1558,7 +1558,7 @@ function EAAccreditaionLevRequired(formContext) {
 }
 
 function FormOnSave(executionContext) {
-   // debugger;
+    debugger;
     formContext = executionContext.getFormContext();
 
     var preventSave = false;
@@ -2733,7 +2733,7 @@ function requestPossibleJob(formContext) {
             }
         },
         function (status) {
-            Log("failure status " + status);
+            console.log("failure status " + status);
         });
 }
 
@@ -4031,7 +4031,8 @@ function SetApproverID(formContext,approverIDs) {
 }
 
 // Ribbon Approval Btn click events , formCOntext is primaryControl crmparamter passed from ribbon
-function ApprovalButtonClick(formContext,type, approvalType, statusField, userField, dateField) {
+function ApprovalButtonClick(formContext, type, approvalType, statusField, userField, dateField) {
+    debugger;
     var ackMsg = ApprovalConfirmationMessage(approvalType);
     var alertType;
     if (IsFormValid(formContext)) {
@@ -5506,7 +5507,7 @@ function StageChange_event(formContext) {
     //    setTimeout(function () { refreshPage(); }, 3000);
     //}
     //currentStage = stageid
-    ShowHideOpportunityTypeAndProjectProcurement(formContext);
+    ShowHideOpportunityTypeAndProjectProcurement(formContext, stageid);
 
 }
 function IsPJNApprovalStage(stageid) {
@@ -6618,8 +6619,8 @@ ccrm_dateconsulted_onChange = function (executionContext) {
     }
 }
 
-function fnBtnAddNewJobNumberSuffix() {
-    openNewCJNAForm(false);
+function fnBtnAddNewJobNumberSuffix(formContext) {
+    openNewCJNAForm(formContext,false);
 }
 
 function openNewCJNAForm(formContext,reserve) {
@@ -7327,21 +7328,21 @@ function canReopenOpportunity(formContext) {
 }
 
 function isPartOfDQTeam(formContext) {
-
+  
     var dqteam = userInTeamCheck(formContext,'Global Data Quality');
     return dqteam;
 }
 
 //Param - teamm name . This function checks whether the logged in user is a member of the team. Returns true if he/ she is a member.
 function userInTeamCheck(formContext,TeamNameInput) {
-
+    debugger;
     var IsPresentInTeam = false;
 
     try {
 
         var req = new XMLHttpRequest();
         req.open("GET", formContext.context.getClientUrl() +
-            "/api/data/v8.2/accounts?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%3E%3Centity%20name%3D%22team%22%3E%3Cattribute%20name%3D%22name%22%2F%3E%3Cfilter%20type%3D%22and%22%3E%3Ccondition%20attribute%3D%22name%22%20operator%3D%22eq%22%20value%3D%22" +
+            "/api/data/v9.1/teams?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%3E%3Centity%20name%3D%22team%22%3E%3Cattribute%20name%3D%22name%22%2F%3E%3Cfilter%20type%3D%22and%22%3E%3Ccondition%20attribute%3D%22name%22%20operator%3D%22eq%22%20value%3D%22" +
             TeamNameInput + "%22%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22teammembership%22%20from%3D%22teamid%22%20to%3D%22teamid%22%20visible%3D%22false%22%20intersect%3D%22true%22%3E%3Cfilter%20type%3D%22and%22%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq%22%20value%3D%22" +
             globalContext.userSettings.userId.replace('{', '').replace('}', '') + "%22%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
         req.setRequestHeader("OData-MaxVersion", "4.0");
