@@ -1712,6 +1712,15 @@ function ArupFieldConfig(name, crmAttribute, id) {
     }
 };
 
+// Field configuration that always returns true
+function ArupFieldConfigAlwaysTrue(name, crmAttribute, id) {
+    ArupFieldConfig.call(this, name, crmAttribute, id);
+    if (!ArupFieldConfigAlwaysTrue.prototype.__constructed) {
+        ArupFieldConfigAlwaysTrue.prototype.value = function () { return true; };
+        ArupFieldConfigAlwaysTrue.prototype.__constructed = true;
+    }
+}
+
 // For any Arup_validation attributes that appear as "on..." add a corresponding event listener.
 function arup_AddAllEvents() {
     for (var v in Arup_validations) {
@@ -2768,7 +2777,8 @@ var Arup_validations =
         val: undefined, // Set dynamically from Accounting centre
         value: function(target, _this) { return "/ccrm_arupgroups(" + _this.val + ")" },
     },
-    K12: {
+    K12: function () {
+        var o = ArupFieldConfig("", "arup_k12school");
         name: "Is it K-12 school?",
         crmAttribute: "arup_k12school",
         value: function(target, _this) {
@@ -2804,130 +2814,37 @@ var Arup_validations =
             _this._checkK12Required(_this);
         }
 
-    },
-    valid_accounting_centre: {
-        // This is a hidden field - set from CRM on load and not displayed to user.
-        name: "Valid Accounting Centre",
-        value: function() {
-            return true;
-        },
-        crmAttribute: "ccrm_validaccountingcentre",
-    },
-    valid_contact: {
-        // This is a hidden field - set from CRM on load and not displayed to user.
-        name: "Valid Contact",
-        value: function() {
-            return true;
-        },
-        crmAttribute: "ccrm_validcontact",
-    },
-    show_pjn: {
-        // This is a hidden field - set from CRM on load and not displayed to user.
-        name: "Show PJN Button",
-        value: function() {
-            return true;
-        },
-        crmAttribute: "ccrm_showpjnbutton",
-    },
-    country_category: {
-        // Hidden field
-        name: "Country Category Code",
-        crmAttribute: "ccrm_countrycategory",
-        value: function () { return this.val },
-        dependson : ["project_country"],
-    },
-    probProjProceeding: {
-        // This is a hidden field 
-        name: "Probability of Project Proceeding",
-        val: undefined, // Set dynamically from parent opportunity
-        value: function(target, _this) { return _this.val;}, 
-        crmAttribute: "ccrm_probabilityofprojectproceeding",
-    },
-    probOfWin: {
-        // This is a hidden field 
-        name: "Probability of Win",
-        val: undefined, // Set dynamically from parent opportunity
-        value: function(target, _this) { return _this.val;},
-        crmAttribute: "closeprobability",
-    },
-    ArupUniIa: {
-        // This is a hidden field .
-        name: "Arup University/IiA Research Initiative",
-        val: undefined, // Set dynamically from parent opportunity
-        value: function(target, _this) { return _this.val;},
-        crmAttribute: "ccrm_arupuniversityiiaresearchinitiative",
-    },
-    confidential: {
-        // This is a hidden field .
-        name: "Confidential Opportunity",
-        val: undefined, // Set dynamically from parent opportunity
-        value: function(target, _this) { return _this.val;},
-        crmAttribute: "ccrm_confidential",
-    },
-    arupsrole : {
-        // This is a hidden field .
-        name: "Arup's Role in Project",
-        val: undefined, // Set dynamically from parent opportunity
-        value: function(target, _this) { return _this.val;},
-        crmAttribute: "ccrm_arups_role_in_project",
-    },
-    limitOfLiability: {
-        // This is a hidden field .
-        name: "Limit of Liability?",
-        val: undefined, // Set dynamically from parent opportunity
-        value: function(target, _this) { return _this.val;},
-        crmAttribute: "ccrm_contractlimitofliability",
-    },
-    limitOfLiabilityAgreed: {
-        // This is a hidden field .
-        name: "Limit of Liability Agreed?",
-        val: undefined, // Set dynamically from parent opportunity
-        value: function(target, _this) { return _this.val;},
-        crmAttribute: "ccrm_limitofliabilityagreement",
-    },
-    limitAmount: {
-        // This is a hidden field .
-        name: "Limit of Liability Amount",
-        val: undefined, // Set dynamically from parent opportunity
-        value: function(target, _this) { return _this.val;},
-        crmAttribute: "ccrm_limitamount_num",
-    },
-    PIRequirement: {
-        // This is a hidden field .
-        name: "PI Requirement",
-        val: undefined, // Set dynamically from parent opportunity
-        value: function(target, _this) { return _this.val;},
-        crmAttribute: "ccrm_pirequirement",
-    },
-    PICurrency: {
-        // This is a hidden field .
-        name: "PI Currency",
-        val: undefined, // Set dynamically from parent opportunity
-        value: function(target, _this) { return _this.val;},
-        crmAttribute: "ccrm_pi_transactioncurrencyid",
-    },
-    LolCurrency: {
-        // This is a hidden field .
-        name: "Lol Currency",
-        val: undefined, // Set dynamically from parent opportunity
-        value: function(target, _this) { return _this.val;},
-        crmAttribute: "ccrm_limit_transactioncurrencyid",
-    },
-    PILevelAmount: {
-        // This is a hidden field .
-        name: "PI Level Amount",
-        val: undefined, // Set dynamically from parent opportunity
-        value: function(target, _this) { return _this.val;},
-        crmAttribute: "ccrm_pilevelmoney_num",
-    },
+    }(),
+    valid_accounting_centre: function () {
+        var o = ArupFieldConfig("Valid Accounting Centre", "ccrm_validaccountingcentre");
+        o.value = function () { return true; };
+        return o;
+    }(),
+        valid_contact: function () {
+        var o = ArupFieldConfig("Valid Contact", "ccrm_validcontact");
+        o.value = function () { return true; };
+        return o;
+    }(),
+        show_pjn: ArupFieldConfigAlwaysTrue("Show PJN Button","ccrm_showpjnbutton")
+        function () {
+        var o = ArupFieldConfig("Show PJN Button", "ccrm_showpjnbutton");
+        o.value = function () { return true; };
+        return o;
+    }(),
+    country_category: ArupFieldConfig("Country Category Code", "ccrm_countrycategory"),
+    probProjProceeding: ArupFieldConfig("Probability of Project Proceeding", "ccrm_probabilityofprojectproceeding"),
+    probOfWin: ArupFieldConfig("Probability of Win", "closeprobability"),
+    ArupUniIa: ArupFieldConfig("Arup University/IiA Research Initiative","ccrm_arupuniversityiiaresearchinitiative"),
+    confidential: ArupFieldConfig("Confidential Opportunity", "ccrm_confidential"),
+    arupsrole: ArupFieldConfig("Arup's Role in Project", "ccrm_arups_role_in_project"),
+    limitOfLiability: ArupFieldConfig("Limit of Liability?","ccrm_contractlimitofliability"),
+    limitOfLiabilityAgreed: ArupFieldConfig("Limit of Liability Agreed?","ccrm_limitofliabilityagreement"),
+    limitAmount: ArupFieldConfig("Limit of Liability Amount", "ccrm_limitamount_num"),
+    PIRequirement: ArupFieldConfig("PI Requirement", "ccrm_pirequirement"),
+    PICurrency: ArupFieldConfig("PI Currency", "ccrm_pi_transactioncurrencyid"),
+    LolCurrency: ArupFieldConfig("Lol Currency","ccrm_limit_transactioncurrencyid"),
+    PILevelAmount: ArupFieldConfig("PI Level Amount","ccrm_pilevelmoney_num"),
     description: new ArupFieldConfig("Description", "description"),
-    //description2: {
-    //    // This is a hidden field .
-    //    name: "Description",
-    //    val: undefined, // Set dynamically from parent opportunity
-    //    value: function(target, _this) { return _this.val;},
-    //    crmAttribute: "description",
-    //},
     template: {
         setDefault(target) {
             // Set default for target HtmlNode
