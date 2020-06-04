@@ -463,8 +463,14 @@ function calculateTotalBudget(executioncontext) {
 
 }
 
-function calcuTotalForecast(formContext) {
-
+function calcuTotalForecast(executioncontext) {
+    var formContext;
+    if (typeof (executioncontext.getAttribute) != "function") {
+        formContext = executioncontext.getFormContext();
+    }
+    else {
+        formContext = executioncontext;
+    }
     //Budget Remaining will be the total in “Total Budget (Old)” minus the combination of  
     var result = 0;
     var totalBudget = formContext.getAttribute("ccrm_totalbudget").getValue();
