@@ -81,7 +81,7 @@ function CloseOpportunity(formContext,statusCode) {
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var clientUrl = formContext.context.getClientUrl();
-    var stepName = getStepName(formContext,oppId);
+    //var stepName = getStepName(formContext,oppId);
     var activeStageId = formContext.data.process.getActiveStage().getId();
     var oppDetails = getOpportunityReasons(formContext.context.getClientUrl(),activeStageId, statusCode, arupInternal);
 
@@ -123,13 +123,8 @@ function CloseOpportunity(formContext,statusCode) {
             setTimeout(function () {
                 if (oppDetails != null) {
                     var object = JSON.stringify(oppDetails);
-                  //  var customParameters = encodeURIComponent("oppId=" + oppId + "&stepName=" + stepName + "&oppDetails=" + object + "&statusCode=" + statusCode);
-                    var customParameters = "oppId=" + oppId + "&stepName=" + stepName + "&oppDetails=" + object + "&statusCode=" + statusCode;
+                    var customParameters = "&oppId=" + oppId + "&oppDetails=" + object + "&statusCode=" + statusCode + "&clientUrl=" + clientUrl;
 
-                    var DialogOption = {
-                        width: 500,
-                        height: 500
-                    };
                     // DialogOption.width = 600;
                     // DialogOption.height = 445;
                     //Xrm.Internal.openDialog(formContext.context.getClientUrl() + "/WebResources/arup_close_Opportunity?Data=" +
@@ -151,17 +146,17 @@ function CloseOpportunity(formContext,statusCode) {
                     var navigationOptions = {
                         target: 2,
                         width: 600,
-                        height: 445,
+                        height: 500,
                         position: 1
                     };
                     Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
-                        //function success(returnValue) {
-                        //    debugger;
-                        //    Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
-                        //},
-                        //function error() {
-                        //    // Handle errors
-                        //}
+                        function success(returnValue) {
+                            formContext.data.entity.save();
+                            Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                        },
+                        function error() {
+                            // Handle errors
+                        }
                     );
 
 
@@ -172,27 +167,27 @@ function CloseOpportunity(formContext,statusCode) {
     }, 1500);
 }
 
-function getStepName(formContext,oppId) {
-    var stepname = new String();
-    var req = new XMLHttpRequest();
-    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_bpf_b253053047ef4eddbed29e34f6c23731s?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%3E%3Centity%20name%3D%22ccrm_bpf_b253053047ef4eddbed29e34f6c23731%22%3E%3Cattribute%20name%3D%22businessprocessflowinstanceid%22%20%2F%3E%3Cfilter%20type%3D%22and%22%3E%3Ccondition%20attribute%3D%22bpf_opportunityid%22%20operator%3D%22eq%22%20uiname%3D%22%26quot%3BPomeroy%26quot%3B%C2%A0-%C2%A014%C2%A0Macleay%C2%A0St%22%20uitype%3D%22opportunity%22%20value%3D%22%7B" +
-        oppId + "%7D%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22processstage%22%20from%3D%22processstageid%22%20to%3D%22activestageid%22%20alias%3D%22ab%22%3E%3Cattribute%20name%3D%22stagename%22%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
-    req.setRequestHeader("OData-MaxVersion", "4.0");
-    req.setRequestHeader("OData-Version", "4.0");
-    req.setRequestHeader("Accept", "application/json");
-    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-    req.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            req.onreadystatechange = null;
-            if (this.status === 200) {
-                var results = JSON.parse(this.response);
-                stepname = results.value[0].ab_x002e_stagename;
-            }
-        }
-    };
-    req.send();
-    return stepname;
-}
+//function getStepName(formContext,oppId) {
+//    var stepname = new String();
+//    var req = new XMLHttpRequest();
+//    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_bpf_b253053047ef4eddbed29e34f6c23731s?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%3E%3Centity%20name%3D%22ccrm_bpf_b253053047ef4eddbed29e34f6c23731%22%3E%3Cattribute%20name%3D%22businessprocessflowinstanceid%22%20%2F%3E%3Cfilter%20type%3D%22and%22%3E%3Ccondition%20attribute%3D%22bpf_opportunityid%22%20operator%3D%22eq%22%20uiname%3D%22%26quot%3BPomeroy%26quot%3B%C2%A0-%C2%A014%C2%A0Macleay%C2%A0St%22%20uitype%3D%22opportunity%22%20value%3D%22%7B" +
+//        oppId + "%7D%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22processstage%22%20from%3D%22processstageid%22%20to%3D%22activestageid%22%20alias%3D%22ab%22%3E%3Cattribute%20name%3D%22stagename%22%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+//    req.setRequestHeader("OData-MaxVersion", "4.0");
+//    req.setRequestHeader("OData-Version", "4.0");
+//    req.setRequestHeader("Accept", "application/json");
+//    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+//    req.onreadystatechange = function () {
+//        if (this.readyState === 4) {
+//            req.onreadystatechange = null;
+//            if (this.status === 200) {
+//                var results = JSON.parse(this.response);
+//                stepname = results.value[0].ab_x002e_stagename;
+//            }
+//        }
+//    };
+//    req.send();
+//    return stepname;
+//}
 
 function getOpportunityReasons(ClientUrl,activeStageId, statusCode, arupInternal) {
 

@@ -218,6 +218,7 @@ function onload(executionContext) {
 }
 
 function onChangeccrm_crmeventid(executionContext) {
+    debugger;
     var formContext = executionContext.getFormContext();
     var oppRelated = 0;
     var leadRelated = 0;
