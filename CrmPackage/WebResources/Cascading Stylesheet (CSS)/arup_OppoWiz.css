@@ -1,0 +1,384 @@
+﻿.spacing .step-number:before {
+    content: ' ';
+    position: absolute;
+    border: 4px solid #dedede;
+    border-radius: 4px;
+    left: -4px;
+    right: calc( 50% + 1.4em/2 );
+    top: calc( 1.4em / 2 );
+}
+
+.spacing .step-number:after {
+    content: ' ';
+    position: absolute;
+    border: 4px solid #dedede;
+    border-radius: 4px;
+    left: calc( 50% + 1.4em/2 );
+    right: -4px;
+    top: calc( 1.4em / 2 );
+}
+
+.padd {
+    padding-left: 10px;
+}
+
+.wizard-steps-panel {
+    position: relative;
+    height: 4em;
+}
+
+    .wizard-steps-panel .step-number {
+        display: inline-block;
+        text-align: center;
+        font-size: 26px;
+        position: relative;
+    }
+
+        .wizard-steps-panel .step-number .number {
+            width: 1.7em;
+            height: 1.7em;
+            background-color: #dedede;
+            color: #5a5a5a;
+            margin-left: calc(50% - 1.7em / 2 );
+            border: 4px solid #dedede;
+            border-radius: 1.7em;
+        }
+
+        /* .wizard-steps-panel .step-number.doing .number,
+  .wizard-steps-panel .step-number.doing .number:after,
+  .wizard-steps-panel .step-number.doing .number:before {
+    background-color: #56BDEA;
+    border: 4px solid #56BDEA;
+    color: white;
+  }
+
+  .wizard-steps-panel .step-number.done .number,
+  .wizard-steps-panel .step-number.done .number:after,
+  .wizard-steps-panel .step-number.done .number:before {
+    background-color: #79C447;
+    border: 4px solid #79C447;
+    color: white;
+  }*/
+
+        .wizard-steps-panel .step-number.doing #num1,
+        .wizard-steps-panel .step-number.doing #num1::after,
+        .wizard-steps-panel .step-number.doing #num1::before {
+            background-color: #B2D135;
+            border: 4px solid #B2D135;
+            color: white;
+        }
+
+        .wizard-steps-panel .step-number.done #num1,
+        .wizard-steps-panel .step-number.done #num1::after,
+        .wizard-steps-panel .step-number.done #num1::before {
+            background-color: #B2D135;
+            border: 4px solid #B2D135;
+            color: white;
+        }
+
+        .wizard-steps-panel .step-number.doing #num2,
+        .wizard-steps-panel .step-number.doing #num2::after,
+        .wizard-steps-panel .step-number.doing #num2::before {
+            background-color: #56BDEA;
+            border: 4px solid #56BDEA;
+            color: white;
+        }
+
+        .wizard-steps-panel .step-number.done #num2,
+        .wizard-steps-panel .step-number.done #num2::after,
+        .wizard-steps-panel .step-number.done #num2::before {
+            background-color: #56BDEA;
+            border: 4px solid #56BDEA;
+            color: white;
+        }
+
+        .wizard-steps-panel .step-number.doing #num3,
+        .wizard-steps-panel .step-number.doing #num3::after,
+        .wizard-steps-panel .step-number.doing #num3::before {
+            background-color: #FC5781;
+            border: 4px solid #FC5781;
+            color: white;
+        }
+
+        .wizard-steps-panel .step-number.done #num3,
+        .wizard-steps-panel .step-number.done #num3::after,
+        .wizard-steps-panel .step-number.done #num3::before {
+            background-color: #FC5781;
+            border: 4px solid #FC5781;
+            color: white;
+        }
+
+        .wizard-steps-panel .step-number.doing #num4,
+        .wizard-steps-panel .step-number.doing #num4::after,
+        .wizard-steps-panel .step-number.doing #num4::before {
+            background-color: #FFCD31;
+            border: 4px solid #FFCD31;
+            color: white;
+        }
+
+        .wizard-steps-panel .step-number.done #num4,
+        .wizard-steps-panel .step-number.done #num4::after,
+        .wizard-steps-panel .step-number.done #num4::before {
+            background-color: #FFCD31;
+            border: 4px solid #FFCD31;
+            color: white;
+        }
+
+        .wizard-steps-panel .step-number .number:before {
+            content: ' ';
+            position: absolute;
+            border: 4px solid #dedede;
+            border-radius: 4px;
+            left: -4px;
+            right: calc( 50% + 1.4em/2 );
+            top: calc( 1.4em / 2 );
+        }
+
+        .wizard-steps-panel .step-number .number:after {
+            content: ' ';
+            position: absolute;
+            border: 4px solid #dedede;
+            border-radius: 4px;
+            left: calc( 50% + 1.4em/2 );
+            right: -4px;
+            top: calc( 1.4em / 2 );
+        }
+
+    .wizard-steps-panel.steps-quantity-1 .step-number {
+        width: 99%;
+    }
+
+    .wizard-steps-panel.steps-quantity-2 .step-number {
+        width: 49%;
+    }
+
+    .wizard-steps-panel.steps-quantity-3 .step-number {
+        width: 32%;
+    }
+
+    .wizard-steps-panel.steps-quantity-4 .step-number {
+        width: 24%;
+    }
+
+    .wizard-steps-panel.steps-quantity-5 .step-number {
+        width: 19%;
+    }
+
+    .wizard-steps-panel.steps-quantity-6 .step-number {
+        width: 15%;
+    }
+
+.spacing.steps-quantity-4 .step-number {
+    width: 24%;
+}
+
+/**
+* Tooltip Styles
+    * see https://chrisbracco.com/a-simple-css-tooltip/
+*/
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+    visibility: hidden;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    margin-bottom: 5px;
+    margin-left: -80px;
+    padding: 7px;
+    width: 160px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #000;
+    background-color: hsla(0, 0%, 20%, 0.9);
+    color: #fff;
+    content: attr(data-tooltip);
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -5px;
+    width: 0;
+    border-top: 5px solid #000;
+    border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+    visibility: visible;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+}
+
+.fixed-table-body {
+    height: auto;
+    overflow: visible;
+}
+
+body {
+    height: fit-content;
+    margin-bottom: 20px;
+}
+
+html {
+    height: fit-content;
+}
+
+table {
+    font-size: small;
+}
+
+.checkbox input[type=checkbox] {
+    position: relative;
+}
+
+td:nth-child(4) {
+    width: 20px;
+}
+
+td:nth-child(3) {
+    width: 30px;
+}
+
+button.btn.btn-default.wizard-button-cancel {
+    margin-left: 37%;
+}
+
+#wait {
+    position: center;
+    height: 100px;
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    padding-left: 200px;
+    padding-top: 180px;
+    text-align: center;
+}
+
+#waitmsg {
+    position: center;
+    height: 20px;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    border: 0;
+    vertical-align: middle;
+    padding-left: 20px;
+    padding-top: 1px;
+    text-align: center;
+}
+
+.mainPage {
+    text-align: center;
+    font-family: "Segoe UI";
+}
+
+.mainPage1 {
+    text-align: center;
+    font-family: Calibri;
+}
+
+th {
+    background-color: ThreeDFace;
+}
+
+h2 {
+    margin-bottom: 30px;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+#BDBMPDPM_Dashboard, #GL_Dashboard, #CM_Dashboard {
+    padding-left: 12px;
+}
+
+#CRMResult th:nth-child(3) {
+    width: 40%;
+}
+
+/*#204 {
+    position: center;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    padding-left: 200px;
+    padding-top: 180px;
+    text-align: center;
+}*/
+
+.suppt {
+    width: 48%;
+    display: inline-block;
+}
+
+textarea.form-control {
+    border-color: #66afe9;
+    font-size: 16px;
+}
+
+#SS, #UR, #CN {
+    max-width: 700px;
+    margin-left: 0px;
+}
+
+.wizard-buttons {
+    max-width: 650px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.form-control.input-form {
+    margin-bottom: 20px;
+}
+
+.form-group.col-lg-6 {
+    display: inline-block;
+    width: 48%;
+}
+
+.has-error input, .has-error select {
+    border-width: 3px;
+    background-color: rgba(255,182,193,128);
+}
+
+.waiting-for-crm {
+    background-image: url("arup_progressSpinner.gif");
+    background-repeat: no-repeat;
+}
+
+.hidden {
+    display: none;
+}

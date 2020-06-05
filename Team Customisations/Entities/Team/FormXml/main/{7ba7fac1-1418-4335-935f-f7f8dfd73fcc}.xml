@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<systemform>
+  <formid>{7ba7fac1-1418-4335-935f-f7f8dfd73fcc}</formid>
+  <IntroducedVersion>6.0.0.0</IntroducedVersion>
+  <FormPresentation>1</FormPresentation>
+  <FormActivationState>0</FormActivationState>
+  <form shownavigationbar="true" showImage="false" maxWidth="1900">
+    <ancestor id="{7ba7fac1-1418-4335-935f-f7f8dfd73fcc}" />
+    <hiddencontrols>
+      <data id="isdefault" datafieldname="isdefault" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" />
+    </hiddencontrols>
+    <tabs>
+      <tab name="general" verticallayout="true" id="{0840971E-E63D-4FD3-825F-44A6203D7B28}" IsUserDefined="0" expanded="true" showlabel="true" locklevel="0">
+        <labels>
+          <label description="General" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="55%">
+            <sections>
+              <section name="General" showlabel="false" showbar="false" id="{DC61780B-91D3-43C4-90F8-BE6F1EACD317}" IsUserDefined="0" labelwidth="145" columns="11" locklevel="0" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="GENERAL" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{6727C94D-0CD6-4003-AE6D-484652C0A578}">
+                      <labels>
+                        <label description="Team Name" languagecode="1033" />
+                      </labels>
+                      <control id="name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="name" />
+                    </cell>
+                    <cell id="{2248D866-7813-404D-8479-2210483745D9}" showlabel="true" locklevel="1">
+                      <labels>
+                        <label description="Administrator" languagecode="1033" />
+                      </labels>
+                      <control id="administratorid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="administratorid" uniqueid="{b42883ea-02dc-746e-e293-894458c42339}" disabled="false">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{a752dc90-1d82-9678-ab1a-11806c12c5de}" showlabel="true" locklevel="0" colspan="1">
+                      <labels>
+                        <label description="Relationship Manager" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_relationshipmanager" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_relationshipmanager" disabled="false" uniqueid="{188726b1-820a-b715-0dd5-b70307aac140}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{E88CA999-0B16-4AE9-B6A9-9EDC840D42D8}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                    <cell id="{e3dca6c4-ae67-419b-93c7-41d574042dfd}" showlabel="true" locklevel="1">
+                      <labels>
+                        <label description="Team Type" languagecode="1033" />
+                      </labels>
+                      <control id="teamtype" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="teamtype" disabled="false" uniqueid="{16c44160-6681-87c2-e5b5-7b5a2492d6c0}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{bdd0a104-478c-0815-578b-03a3742aa8cd}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Relationship Type" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_relationshiptype" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ccrm_relationshiptype" disabled="false" />
+                    </cell>
+                    <cell id="{6853e1e7-464b-7871-aacd-7c73ad68c8d0}" showlabel="true" locklevel="0">
+                      <labels>
+                        <label description="Team Category" languagecode="1033" />
+                      </labels>
+                      <control id="arup_teamcategory" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="arup_teamcategory" disabled="false" uniqueid="{0a4dedd2-ab71-507c-ddab-ea9c9cd05572}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{e1d428c5-654c-b606-cc8c-9a5ad238b72d}" showlabel="true" locklevel="0" colspan="2">
+                      <labels>
+                        <label description="Lead Client Organisation" languagecode="1033" />
+                      </labels>
+                      <control id="ccrm_leadclientorganisation" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ccrm_leadclientorganisation" disabled="false" uniqueid="{0ab5ae0c-7147-ea63-0675-363b894d6a11}">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{A9AF0AB8-861D-4CFA-92A5-C6281FED7FAB}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+              <section name="ClientGroupingsSection" showlabel="true" showbar="false" locklevel="0" id="{3630de92-26ae-6cec-4ce2-1835ddc6d6d5}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Client Groupings" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{d27013ca-3933-a6e3-3624-b6597318b302}" showlabel="false" colspan="1" rowspan="6" auto="false">
+                      <labels>
+                        <label description="Client Groupings" languagecode="1033" />
+                      </labels>
+                      <control id="ClientGroupings" classid="{E7A81278-8635-4d9e-8D4D-59480B391C5B}" indicationOfSubgrid="true" uniqueid="{2de3d29d-73b8-3ce7-a34b-07e32361a34c}">
+                        <parameters>
+                          <ViewId>{A0A78B3E-8FB6-E311-802B-005056AF76FF}</ViewId>
+                          <IsUserView>false</IsUserView>
+                          <RelationshipName>ccrm_team_ccrm_clientgrouping_ManagingTeam</RelationshipName>
+                          <TargetEntityType>ccrm_clientgrouping</TargetEntityType>
+                          <AutoExpand>Fixed</AutoExpand>
+                          <EnableQuickFind>false</EnableQuickFind>
+                          <EnableViewPicker>false</EnableViewPicker>
+                          <ViewIds>{A0A78B3E-8FB6-E311-802B-005056AF76FF}</ViewIds>
+                          <EnableJumpBar>false</EnableJumpBar>
+                          <ChartGridMode>Grid</ChartGridMode>
+                          <VisualizationId />
+                          <IsUserChart>false</IsUserChart>
+                          <EnableChartPicker>false</EnableChartPicker>
+                          <RecordsPerPage>4</RecordsPerPage>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                </rows>
+              </section>
+            </sections>
+          </column>
+          <column width="45%">
+            <sections>
+              <section name="general_section_5" showlabel="true" showbar="false" locklevel="0" id="{c69e4c47-7437-a69e-2544-1eca7233de4e}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="85" celllabelalignment="Left" celllabelposition="Left" height="auto">
+                <labels>
+                  <label description="Description" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{BD50EAB1-25F3-464D-ADAB-FEFAE73F6F96}" showlabel="false" locklevel="0" colspan="2" rowspan="8" auto="false">
+                      <labels>
+                        <label description="Description" languagecode="1033" />
+                      </labels>
+                      <control id="description" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="description" uniqueid="{da358a88-072b-9dec-2489-cd91de1e807e}" disabled="false" />
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                </rows>
+              </section>
+              <section name="general_section_4" showlabel="true" showbar="false" locklevel="0" id="{dc92b9e1-8d1b-5ee6-4870-6b5313989795}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Fields of play" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{e20d28d9-d295-5c69-84ca-6e0e25e48c22}" showlabel="false" colspan="1" auto="false" rowspan="6">
+                      <labels>
+                        <label description="Fields of Play" languagecode="1033" />
+                      </labels>
+                      <control id="FieldsOfPlay" classid="{E7A81278-8635-4d9e-8D4D-59480B391C5B}" indicationOfSubgrid="true" uniqueid="{4edcb4c8-2e44-e1a5-eaea-7224a9c0760e}">
+                        <parameters>
+                          <ViewId>{67AF8F67-91ED-4CD3-B2A1-E13AA9C2CA2E}</ViewId>
+                          <IsUserView>false</IsUserView>
+                          <RelationshipName>arup_team_arup_fieldofplay_RelationshipTeamId</RelationshipName>
+                          <TargetEntityType>arup_fieldofplay</TargetEntityType>
+                          <AutoExpand>Fixed</AutoExpand>
+                          <EnableQuickFind>false</EnableQuickFind>
+                          <EnableViewPicker>false</EnableViewPicker>
+                          <ViewIds>{67AF8F67-91ED-4CD3-B2A1-E13AA9C2CA2E}</ViewIds>
+                          <EnableJumpBar>false</EnableJumpBar>
+                          <ChartGridMode>All</ChartGridMode>
+                          <VisualizationId />
+                          <IsUserChart>false</IsUserChart>
+                          <EnableChartPicker>true</EnableChartPicker>
+                          <RecordsPerPage>4</RecordsPerPage>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row>
+                    <cell id="{5e66d223-c38e-020a-7568-27e220c5b031}" showlabel="true" locklevel="0" visible="false" colspan="1">
+                      <labels>
+                        <label description="Email" languagecode="1033" />
+                      </labels>
+                      <control id="emailaddress" classid="{ADA2203E-B4CD-49be-9DDF-234642B43B52}" datafieldname="emailaddress" disabled="false" uniqueid="{185dce08-539e-731c-ed37-2731bd091646}" />
+                    </cell>
+                  </row>
+                  <row>
+                    <cell id="{BF695E55-85F5-4534-8980-8932A4D18263}" showlabel="true" locklevel="1" visible="false">
+                      <labels>
+                        <label description="Business Unit" languagecode="1033" />
+                      </labels>
+                      <control id="businessunitid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="businessunitid" uniqueid="{b06d6859-ab27-c380-1387-5a83b009c161}" disabled="false">
+                        <parameters>
+                          <AutoResolve>true</AutoResolve>
+                          <DisableMru>false</DisableMru>
+                          <DisableQuickFind>false</DisableQuickFind>
+                          <DisableViewPicker>false</DisableViewPicker>
+                          <DefaultViewId>{408041F8-B27C-4741-9F7A-85EB1714E6A5}</DefaultViewId>
+                          <AllowFilterOff>false</AllowFilterOff>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+      <tab name="tab_3" id="{c45526be-a427-d596-bc8a-0dee711bc61e}" IsUserDefined="0" locklevel="0" showlabel="true" expanded="true">
+        <labels>
+          <label description="Team Members" languagecode="1033" />
+        </labels>
+        <columns>
+          <column width="100%">
+            <sections>
+              <section name="tab_3_section_1" showlabel="false" showbar="false" locklevel="0" id="{e4c8c762-3e98-8411-ec21-d4de458087db}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                <labels>
+                  <label description="Team Members" languagecode="1033" />
+                </labels>
+                <rows>
+                  <row>
+                    <cell id="{018e6a35-229c-3924-5a84-0262e4051ee0}" showlabel="false" colspan="1" auto="false" rowspan="6">
+                      <labels>
+                        <label description="Team Members" languagecode="1033" />
+                      </labels>
+                      <control id="TeamMembers" classid="{E7A81278-8635-4d9e-8D4D-59480B391C5B}" indicationOfSubgrid="true" uniqueid="{cbe6932d-3c0e-5b6a-2234-d4d360946d11}">
+                        <parameters>
+                          <ViewId>{30CE6879-6B7A-E211-8976-00155D89AC0C}</ViewId>
+                          <IsUserView>false</IsUserView>
+                          <RelationshipName>teammembership_association</RelationshipName>
+                          <TargetEntityType>systemuser</TargetEntityType>
+                          <AutoExpand>Fixed</AutoExpand>
+                          <EnableQuickFind>false</EnableQuickFind>
+                          <EnableViewPicker>false</EnableViewPicker>
+                          <ViewIds>{26B373CD-C7CC-E811-8115-005056B509E1},{30CE6879-6B7A-E211-8976-00155D89AC0C}</ViewIds>
+                          <EnableJumpBar>false</EnableJumpBar>
+                          <ChartGridMode>All</ChartGridMode>
+                          <VisualizationId />
+                          <IsUserChart>false</IsUserChart>
+                          <EnableChartPicker>true</EnableChartPicker>
+                          <RecordsPerPage>4</RecordsPerPage>
+                          <RelationshipRoleOrdinal>1</RelationshipRoleOrdinal>
+                        </parameters>
+                      </control>
+                    </cell>
+                  </row>
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                  <row />
+                </rows>
+              </section>
+            </sections>
+          </column>
+        </columns>
+      </tab>
+    </tabs>
+    <clientresources>
+      <internalresources>
+        <clientincludes>
+          <internaljscriptfile src="/_static/Biz/Teams/TeamRecord.js" />
+          <internaljscriptfile src="$webresource:Team_main_system_library.js" />
+        </clientincludes>
+      </internalresources>
+    </clientresources>
+    <header id="{C4057CC3-270C-40D8-BAB7-4418CB323D2C}" columns="111">
+      <rows>
+        <row>
+          <cell id="{93BCC9EF-6750-4BFE-BB32-BB56C6BC0CE8}" showlabel="false">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+          <cell id="{1DCAD190-7FDE-4F7D-870A-BA20127DACE9}" showlabel="false">
+            <labels>
+              <label description="" languagecode="1033" />
+            </labels>
+          </cell>
+          <cell id="{C0079CB8-5922-43C9-93ED-A52C51847C3F}" showlabel="true" locklevel="0">
+            <labels>
+              <label description="Default Queue" languagecode="1033" />
+            </labels>
+            <control id="header_queueid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="queueid" disabled="false" />
+          </cell>
+        </row>
+      </rows>
+    </header>
+    <DisplayConditions FallbackForm="true" Order="2">
+      <Everyone />
+    </DisplayConditions>
+    <events>
+      <event name="onload" application="true" active="true">
+        <InternalHandlers>
+          <Handler functionName="Mscrm.Form_onload" libraryName="Team_main_system_library.js" handlerUniqueId="06131746-007C-4094-9C39-683554194748" enabled="true" />
+        </InternalHandlers>
+        <Handlers>
+          <Handler functionName="ShowHideOrganisationSubGrid" libraryName="arup_Team_Main_Library" handlerUniqueId="{6612794c-0c7e-ceb6-0747-29ec77990721}" enabled="false" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+      <event name="onchange" application="true" active="true" attribute="teamtype">
+        <InternalHandlers>
+          <Handler functionName="Mscrm.teamtype_onchange" libraryName="Team_main_system_library.js" handlerUniqueId="3BAEE412-4718-4EC5-992E-0769C108749B" enabled="true" passExecutionContext="true" />
+        </InternalHandlers>
+      </event>
+      <event name="onchange" application="false" active="false" attribute="arup_teamcategory">
+        <Handlers>
+          <Handler functionName="ShowHideOrganisationSubGrid" libraryName="arup_Team_Main_Library" handlerUniqueId="{9999d3e8-a110-c3d7-3c9a-34a1dab67ee0}" enabled="false" parameters="" passExecutionContext="false" />
+          <Handler functionName="refreshRibbonOnChange" libraryName="arup_Team_Main_Library" handlerUniqueId="{c5534e13-b6ca-99ca-7999-444ca5e5505c}" enabled="true" parameters="" passExecutionContext="false" />
+        </Handlers>
+      </event>
+    </events>
+    <Navigation>
+      <NavBar></NavBar>
+      <NavBarAreas>
+        <NavBarArea Id="Info">
+          <Titles>
+            <Title LCID="1033" Text="Common" />
+          </Titles>
+        </NavBarArea>
+        <NavBarArea Id="Sales">
+          <Titles>
+            <Title LCID="1033" Text="Sales" />
+          </Titles>
+        </NavBarArea>
+        <NavBarArea Id="Service">
+          <Titles>
+            <Title LCID="1033" Text="Service" />
+          </Titles>
+        </NavBarArea>
+        <NavBarArea Id="Marketing">
+          <Titles>
+            <Title LCID="1033" Text="Marketing" />
+          </Titles>
+        </NavBarArea>
+        <NavBarArea Id="ProcessCenter">
+          <Titles>
+            <Title LCID="1033" Text="Process Sessions" />
+          </Titles>
+        </NavBarArea>
+      </NavBarAreas>
+    </Navigation>
+    <controlDescriptions />
+    <formLibraries>
+      <Library name="arup_Team_Main_Library" libraryUniqueId="{70962ebd-bc7a-4ad5-61aa-a75a62a5db75}" />
+    </formLibraries>
+  </form>
+  <LocalizedNames>
+    <LocalizedName description="Team" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="Updated default Team form" languagecode="1033" />
+  </Descriptions>
+</systemform>

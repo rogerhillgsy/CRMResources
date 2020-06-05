@@ -1,0 +1,624 @@
+{
+  "id": "e129e365-3925-438c-bafb-7640430b341b",
+  "version": "2.0",
+  "name": "Opportunity Wizard",
+  "url": "https://arupdev.crm11.dynamics.com/",
+  "tests": [{
+    "id": "4d8da5d5-bb81-48c3-9acd-7b3317980b97",
+    "name": "Happy path 1",
+    "commands": [{
+      "id": "f2cfe083-a471-4e35-a058-b1b7166dc8cd",
+      "comment": "",
+      "command": "open",
+      "target": "/Apps/uniquename/ccrm_Dynamics365RBH",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a7936405-7bff-4871-beb9-66e02709861d",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1576x1442",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6414a5f7-c99e-45eb-9f07-44309f7ac28e",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=#sitemap-entity-NewSubArea_0e5ff91c .cg > .cv",
+      "targets": [
+        ["css=#sitemap-entity-NewSubArea_0e5ff91c .cg > .cv", "css:finder"],
+        ["xpath=//li[@id='sitemap-entity-NewSubArea_0e5ff91c']/div/div/div[2]/span[2]", "xpath:idRelative"],
+        ["xpath=//li/ul/li/div/div/div[2]/span[2]", "xpath:position"]
+      ],
+      "value": "10000"
+    }, {
+      "id": "41bfd61e-80e5-46f2-a755-8d18cb8905f9",
+      "comment": "",
+      "command": "click",
+      "target": "css=#sitemap-entity-NewSubArea_0e5ff91c .cg > .cv",
+      "targets": [
+        ["css=#sitemap-entity-NewSubArea_0e5ff91c .cg > .cv", "css:finder"],
+        ["xpath=//li[@id='sitemap-entity-NewSubArea_0e5ff91c']/div/div/div[2]/span[2]", "xpath:idRelative"],
+        ["xpath=//li/ul/li/div/div/div[2]/span[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7691dc06-a5c8-45d2-8c25-60201187c224",
+      "comment": "",
+      "command": "selectFrame",
+      "target": "index=10",
+      "targets": [
+        ["index=9"]
+      ],
+      "value": "2000"
+    }, {
+      "id": "dcbb5738-70df-4914-9bad-39c4beb721d8",
+      "comment": "",
+      "command": "click",
+      "target": "name=stepone",
+      "targets": [
+        ["name=stepone", "name"],
+        ["css=.radio:nth-child(1) input", "css:finder"],
+        ["xpath=//input[@name='stepone']", "xpath:attributes"],
+        ["xpath=//form[@id='URForm']/div/label/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "2000"
+    }, {
+      "id": "4eceff6f-ba32-4273-9347-27738e9e2e77",
+      "comment": "",
+      "command": "click",
+      "target": "css=.wizard-button-next",
+      "targets": [
+        ["css=.wizard-button-next", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//div[@id='mysub']/div/div[7]/button[3]", "xpath:idRelative"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Next')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8774462a-b5e5-44d9-b099-59bc3e425a26",
+      "comment": "",
+      "command": "click",
+      "target": "id=opportunityType",
+      "targets": [
+        ["id=opportunityType", "id"],
+        ["css=#opportunityType", "css:finder"],
+        ["xpath=//select[@id='opportunityType']", "xpath:attributes"],
+        ["xpath=//div[@id='SS']/form/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "3000"
+    }, {
+      "id": "82257cd1-9d1d-4bfd-92f3-fbfea69f47de",
+      "comment": "",
+      "command": "select",
+      "target": "id=opportunityType",
+      "targets": [],
+      "value": "label=New Opportunity"
+    }, {
+      "id": "f74c8ad9-bce3-4788-a808-6de3a2a4001e",
+      "comment": "",
+      "command": "click",
+      "target": "id=opportunityType",
+      "targets": [
+        ["id=opportunityType", "id"],
+        ["css=#opportunityType", "css:finder"],
+        ["xpath=//select[@id='opportunityType']", "xpath:attributes"],
+        ["xpath=//div[@id='SS']/form/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7fc48ea7-8f85-4f60-87e8-19ff96430974",
+      "comment": "",
+      "command": "click",
+      "target": "id=leadSource",
+      "targets": [
+        ["id=leadSource", "id"],
+        ["css=#leadSource", "css:finder"],
+        ["xpath=//select[@id='leadSource']", "xpath:attributes"],
+        ["xpath=//div[@id='SS']/form/div[3]/select", "xpath:idRelative"],
+        ["xpath=//div[3]/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a20ceac2-189f-461c-a3fb-348f52d9a795",
+      "comment": "",
+      "command": "select",
+      "target": "id=leadSource",
+      "targets": [],
+      "value": "label=Invitation - Arup Only"
+    }, {
+      "id": "b0f479f0-2abb-4e95-bcc3-a6363fbefd72",
+      "comment": "",
+      "command": "click",
+      "target": "id=leadSource",
+      "targets": [
+        ["id=leadSource", "id"],
+        ["css=#leadSource", "css:finder"],
+        ["xpath=//select[@id='leadSource']", "xpath:attributes"],
+        ["xpath=//div[@id='SS']/form/div[3]/select", "xpath:idRelative"],
+        ["xpath=//div[3]/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ec0f9885-7538-4f76-91d5-cb3a85c55919",
+      "comment": "",
+      "command": "click",
+      "target": "css=.wizard-button-next",
+      "targets": [
+        ["css=.wizard-button-next", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//div[@id='mysub']/div/div[7]/button[3]", "xpath:idRelative"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Next')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6259c80c-bd7d-4cd8-a59c-1dc8c528e916",
+      "comment": "",
+      "command": "click",
+      "target": "id=contractarrangement",
+      "targets": [
+        ["id=contractarrangement", "id"],
+        ["css=#contractarrangement", "css:finder"],
+        ["xpath=//select[@id='contractarrangement']", "xpath:attributes"],
+        ["xpath=//div[@id='CN']/select", "xpath:idRelative"],
+        ["xpath=//div[5]/div/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ec581bd9-a0fa-4c16-8e71-c2ea3f4c7c77",
+      "comment": "",
+      "command": "select",
+      "target": "id=contractarrangement",
+      "targets": [],
+      "value": "label=Traditional or Direct Appointment to Client"
+    }, {
+      "id": "1474f0c7-94e3-4266-ac90-e4e453b76ceb",
+      "comment": "",
+      "command": "click",
+      "target": "id=contractarrangement",
+      "targets": [
+        ["id=contractarrangement", "id"],
+        ["css=#contractarrangement", "css:finder"],
+        ["xpath=//select[@id='contractarrangement']", "xpath:attributes"],
+        ["xpath=//div[@id='CN']/select", "xpath:idRelative"],
+        ["xpath=//div[5]/div/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "aa453663-3531-4941-bd25-b78f1b421698",
+      "comment": "",
+      "command": "click",
+      "target": "css=.wizard-button-next",
+      "targets": [
+        ["css=.wizard-button-next", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//div[@id='mysub']/div/div[7]/button[3]", "xpath:idRelative"],
+        ["xpath=//button[3]", "xpath:position"],
+        ["xpath=//button[contains(.,'Next')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "59aad023-e701-4d46-8a90-03f21a43695f",
+      "comment": "",
+      "command": "click",
+      "target": "id=project_name",
+      "targets": [
+        ["id=project_name", "id"],
+        ["css=#project_name", "css:finder"],
+        ["xpath=//input[@id='project_name']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div/input", "xpath:idRelative"],
+        ["xpath=//div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f7479c3c-e367-4fcd-ad7a-0e44c8799e77",
+      "comment": "",
+      "command": "type",
+      "target": "id=project_name",
+      "targets": [
+        ["id=project_name", "id"],
+        ["css=#project_name", "css:finder"],
+        ["xpath=//input[@id='project_name']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div/input", "xpath:idRelative"],
+        ["xpath=//div/div/input", "xpath:position"]
+      ],
+      "value": "Roger 16"
+    }, {
+      "id": "9731e97f-3f33-4cfd-8f43-35790d1f0f3c",
+      "comment": "",
+      "command": "click",
+      "target": "id=project_country",
+      "targets": [
+        ["id=project_country", "id"],
+        ["name=project_country", "name"],
+        ["css=#project_country", "css:finder"],
+        ["xpath=//input[@id='project_country']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div/div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "86a35f08-0063-4b50-ba1d-19981c32b699",
+      "comment": "",
+      "command": "type",
+      "target": "id=project_country",
+      "targets": [
+        ["id=project_country", "id"],
+        ["name=project_country", "name"],
+        ["css=#project_country", "css:finder"],
+        ["xpath=//input[@id='project_country']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div/div[2]/input", "xpath:position"]
+      ],
+      "value": "Australia"
+    }, {
+      "id": "1810069a-ec5a-4ce3-90ca-920adc435d2f",
+      "comment": "",
+      "command": "click",
+      "target": "id=project_state",
+      "targets": [
+        ["id=project_state", "id"],
+        ["name=project_state", "name"],
+        ["css=#project_state", "css:finder"],
+        ["xpath=//input[@id='project_state']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7de59255-c3e4-4ebb-93bf-f5f18fa3be75",
+      "comment": "",
+      "command": "type",
+      "target": "id=project_state",
+      "targets": [
+        ["id=project_state", "id"],
+        ["name=project_state", "name"],
+        ["css=#project_state", "css:finder"],
+        ["xpath=//input[@id='project_state']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "New South Wales"
+    }, {
+      "id": "22ab1f91-d07b-443d-adf2-d4e6c9ac030d",
+      "comment": "",
+      "command": "click",
+      "target": "id=project_city",
+      "targets": [
+        ["id=project_city", "id"],
+        ["name=project_city", "name"],
+        ["css=#project_city", "css:finder"],
+        ["xpath=//input[@id='project_city']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "88709a68-e698-46d5-861a-a55a5c5bd9a8",
+      "comment": "",
+      "command": "type",
+      "target": "id=project_city",
+      "targets": [
+        ["id=project_city", "id"],
+        ["name=project_city", "name"],
+        ["css=#project_city", "css:finder"],
+        ["xpath=//input[@id='project_city']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": "Sydney"
+    }, {
+      "id": "9404c147-704d-4733-bdba-85056efcb3bb",
+      "comment": "",
+      "command": "click",
+      "target": "id=arup_business",
+      "targets": [
+        ["id=arup_business", "id"],
+        ["name=arup_business", "name"],
+        ["css=#arup_business", "css:finder"],
+        ["xpath=//input[@id='arup_business']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[5]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e415c6ea-fd29-469a-9f18-82082ed5fa94",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "id=arup_business",
+      "targets": [
+        ["id=arup_business", "id"],
+        ["name=arup_business", "name"],
+        ["css=#arup_business", "css:finder"],
+        ["xpath=//input[@id='arup_business']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[5]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "098bd236-d72c-4286-b250-0d419b308986",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "id=arup_business",
+      "targets": [
+        ["id=arup_business", "id"],
+        ["name=arup_business", "name"],
+        ["css=#arup_business", "css:finder"],
+        ["xpath=//input[@id='arup_business']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[5]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d9a2f11d-0f43-472c-8813-5f928a66dd7e",
+      "comment": "",
+      "command": "type",
+      "target": "id=arup_business",
+      "targets": [
+        ["id=arup_business", "id"],
+        ["name=arup_business", "name"],
+        ["css=#arup_business", "css:finder"],
+        ["xpath=//input[@id='arup_business']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[5]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": "Rail"
+    }, {
+      "id": "331fc28f-bf15-4743-be29-05c3909893b6",
+      "comment": "",
+      "command": "click",
+      "target": "id=arup_subbusiness",
+      "targets": [
+        ["id=arup_subbusiness", "id"],
+        ["name=arup_subbusiness", "name"],
+        ["css=#arup_subbusiness", "css:finder"],
+        ["xpath=//input[@id='arup_subbusiness']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[6]/input", "xpath:idRelative"],
+        ["xpath=//div[6]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "282bfa05-c353-4a1b-8118-49d568ce34f2",
+      "comment": "",
+      "command": "type",
+      "target": "id=arup_subbusiness",
+      "targets": [
+        ["id=arup_subbusiness", "id"],
+        ["name=arup_subbusiness", "name"],
+        ["css=#arup_subbusiness", "css:finder"],
+        ["xpath=//input[@id='arup_subbusiness']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[6]/input", "xpath:idRelative"],
+        ["xpath=//div[6]/input", "xpath:position"]
+      ],
+      "value": "High Speed Rail (HSR)"
+    }, {
+      "id": "17765144-135f-4c31-a0cb-312cbea7dd1f",
+      "comment": "",
+      "command": "click",
+      "target": "id=arup_company",
+      "targets": [
+        ["id=arup_company", "id"],
+        ["name=arup_company", "name"],
+        ["css=#arup_company", "css:finder"],
+        ["xpath=//input[@id='arup_company']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[7]/input", "xpath:idRelative"],
+        ["xpath=//div[7]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d4a40847-79ca-4fe1-ae06-1bc848d5fc21",
+      "comment": "",
+      "command": "type",
+      "target": "id=arup_company",
+      "targets": [
+        ["id=arup_company", "id"],
+        ["name=arup_company", "name"],
+        ["css=#arup_company", "css:finder"],
+        ["xpath=//input[@id='arup_company']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[7]/input", "xpath:idRelative"],
+        ["xpath=//div[7]/input", "xpath:position"]
+      ],
+      "value": "Arup Aus. Projects Pty Ltd"
+    }, {
+      "id": "5f13f748-ea84-49b8-8028-a315980c2d11",
+      "comment": "",
+      "command": "click",
+      "target": "id=accountingcentre",
+      "targets": [
+        ["id=accountingcentre", "id"],
+        ["name=accountingcentre", "name"],
+        ["css=#accountingcentre", "css:finder"],
+        ["xpath=//input[@id='accountingcentre']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[8]/input", "xpath:idRelative"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c2ecefa5-c65f-4c6a-bdc7-78ef642cc775",
+      "comment": "",
+      "command": "type",
+      "target": "id=accountingcentre",
+      "targets": [
+        ["id=accountingcentre", "id"],
+        ["name=accountingcentre", "name"],
+        ["css=#accountingcentre", "css:finder"],
+        ["xpath=//input[@id='accountingcentre']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[8]/input", "xpath:idRelative"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": "120 - Infrastructure NSW"
+    }, {
+      "id": "6edcbaf6-507c-4a18-a493-6ff4b51f1c01",
+      "comment": "",
+      "command": "click",
+      "target": "id=client",
+      "targets": [
+        ["id=client", "id"],
+        ["name=client", "name"],
+        ["css=#client", "css:finder"],
+        ["xpath=//input[@id='client']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[9]/input", "xpath:idRelative"],
+        ["xpath=//div[9]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b9ab8515-1be3-4cd7-8644-be5d7d13d730",
+      "comment": "",
+      "command": "type",
+      "target": "id=client",
+      "targets": [
+        ["id=client", "id"],
+        ["name=client", "name"],
+        ["css=#client", "css:finder"],
+        ["xpath=//input[@id='client']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[9]/input", "xpath:idRelative"],
+        ["xpath=//div[9]/input", "xpath:position"]
+      ],
+      "value": "Sydney Trains"
+    }, {
+      "id": "204d5c6e-7a5d-47c0-a258-667fa6f26502",
+      "comment": "",
+      "command": "click",
+      "target": "id=endclient",
+      "targets": [
+        ["id=endclient", "id"],
+        ["name=endclient", "name"],
+        ["css=#endclient", "css:finder"],
+        ["xpath=//input[@id='endclient']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[10]/input", "xpath:idRelative"],
+        ["xpath=//div[10]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "aa4e3973-5c54-4136-9793-d3e1db5eefc2",
+      "comment": "",
+      "command": "type",
+      "target": "id=endclient",
+      "targets": [
+        ["id=endclient", "id"],
+        ["name=endclient", "name"],
+        ["css=#endclient", "css:finder"],
+        ["xpath=//input[@id='endclient']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[10]/input", "xpath:idRelative"],
+        ["xpath=//div[10]/input", "xpath:position"]
+      ],
+      "value": "Transport - Sydney Trains"
+    }, {
+      "id": "ac6e1c10-da37-48ea-8da1-008acb59ac14",
+      "comment": "",
+      "command": "click",
+      "target": "id=opporigin",
+      "targets": [
+        ["id=opporigin", "id"],
+        ["name=opporigin", "name"],
+        ["css=#opporigin", "css:finder"],
+        ["xpath=//input[@id='opporigin']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[11]/input", "xpath:idRelative"],
+        ["xpath=//div[11]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5f21476d-7768-4cc6-9a93-218054688b94",
+      "comment": "",
+      "command": "type",
+      "target": "id=opporigin",
+      "targets": [
+        ["id=opporigin", "id"],
+        ["name=opporigin", "name"],
+        ["css=#opporigin", "css:finder"],
+        ["xpath=//input[@id='opporigin']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[11]/input", "xpath:idRelative"],
+        ["xpath=//div[11]/input", "xpath:position"]
+      ],
+      "value": "Nuno Rodrigues Da Costa"
+    }, {
+      "id": "1e624742-e721-4793-aef9-de690fe05a42",
+      "comment": "",
+      "command": "click",
+      "target": "css=.form-group:nth-child(13)",
+      "targets": [
+        ["css=.form-group:nth-child(13)", "css:finder"],
+        ["xpath=//div[@id='WC']/div[12]", "xpath:idRelative"],
+        ["xpath=//div[12]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cd4904b9-8503-4c8c-9c2d-9c5aa80c49a3",
+      "comment": "",
+      "command": "click",
+      "target": "css=p > label:nth-child(1)",
+      "targets": [
+        ["css=p > label:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='WC']/div[12]/p/label", "xpath:idRelative"],
+        ["xpath=//p/label", "xpath:position"],
+        ["xpath=//label[contains(.,' Advisory Services')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8a3e8e3d-e490-4b35-99b1-5c2c94772c92",
+      "comment": "",
+      "command": "click",
+      "target": "css=label:nth-child(5)",
+      "targets": [
+        ["css=label:nth-child(5)", "css:finder"],
+        ["xpath=//div[@id='WC']/div[12]/p/label[5]", "xpath:idRelative"],
+        ["xpath=//label[5]", "xpath:position"],
+        ["xpath=//label[contains(.,' Not Applicable')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "439cb7f3-4a80-432c-bab2-1bc64928d94e",
+      "comment": "",
+      "command": "click",
+      "target": "css=label:nth-child(4)",
+      "targets": [
+        ["css=label:nth-child(4)", "css:finder"],
+        ["xpath=//div[@id='WC']/div[12]/p/label[4]", "xpath:idRelative"],
+        ["xpath=//label[4]", "xpath:position"],
+        ["xpath=//label[contains(.,' Planning')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1fa0d5f7-fe8c-4538-b63e-bdde2b6f9409",
+      "comment": "",
+      "command": "click",
+      "target": "id=description",
+      "targets": [
+        ["id=description", "id"],
+        ["css=#description", "css:finder"],
+        ["xpath=//textarea[@id='description']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[13]/textarea", "xpath:idRelative"],
+        ["xpath=//div[13]/textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1b4f6e92-53da-4cea-b25c-b50eb614238b",
+      "comment": "",
+      "command": "type",
+      "target": "id=description",
+      "targets": [
+        ["id=description", "id"],
+        ["css=#description", "css:finder"],
+        ["xpath=//textarea[@id='description']", "xpath:attributes"],
+        ["xpath=//div[@id='WC']/div[13]/textarea", "xpath:idRelative"],
+        ["xpath=//div[13]/textarea", "xpath:position"]
+      ],
+      "value": "Big"
+    }]
+  }],
+  "suites": [{
+    "id": "4c4c4234-41d6-4965-90fa-f9740553e1dd",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["4d8da5d5-bb81-48c3-9acd-7b3317980b97"]
+  }],
+  "urls": ["https://arupdev.crm11.dynamics.com/", "https://arupdev.crm11.dynamics.com/Apps/uniquename/ccrm_Dynamics365RBH"],
+  "plugins": []
+}
