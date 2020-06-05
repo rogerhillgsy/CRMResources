@@ -158,7 +158,7 @@ function isUserInTeamCheck(formContext) {
                 var results = JSON.parse(this.response);
                 userInTeam = results.value.length > 0;
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
