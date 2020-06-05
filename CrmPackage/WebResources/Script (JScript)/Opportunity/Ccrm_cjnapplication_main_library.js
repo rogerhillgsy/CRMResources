@@ -1,0 +1,820 @@
+var newCJN;
+//var arupInternal;
+
+function Form_onload(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var project = formContext.getAttribute("ccrm_projectid").getValue();
+    var rtnJobNumber = formContext.getAttribute("ccrm_opportunitycjn").getValue();
+    var projSuffix = formContext.getAttribute("ccrm_suffix").getValue();
+    newCJN = formContext.getAttribute("ccrm_sys_reservejobnumber").getValue();
+
+    //Added suffix check below to prevent recalling of web service when suffix is present
+    if (project != null && projSuffix == null) {
+        jobNumber = rtnJobNumber;
+        jobNumber = jobNumber.substring(0, 6);
+        jobNumber = jobNumber + "00";
+        callSuffixWebService(jobNumber, formContext)
+    }
+
+    //function force submit readonly fields
+    fnForceSubmit(formContext);
+
+    //Not on Form Creation 
+    if (formContext.ui.getFormType() != 1) {
+
+        if (formContext.getAttribute("ccrm_assignednumber").getValue() == null) {
+
+            //Section hidden until populated with number
+            formContext.ui.tabs.get("job_number_tab").setVisible(formContext.getAttribute("ccrm_assignednumber").getValue() == null ? false : true);
+        }
+        //disable fields on form
+        disableFieldsOnForm(formContext);
+    }
+    else {
+
+        //if came from Request New CJN button then the default create method should be New Project (new number),
+        //if came from Request Suffix button then the default create method should be New Suffix (existing project)
+        if (formContext.getAttribute("ccrm_createmethod").getValue() == null) {
+
+            var defaultCreateMethod;
+
+            // if CJN request has been originated from clicking Request Suffix button on the opportunity form
+            if (!newCJN) {
+
+                defaultCreateMethod = 3;
+                formContext.getControl("ccrm_projectsuffixisforintcostmonitoringonly").setDisabled(true);
+                //delete new number and extsing prefix
+                formContext.getControl("ccrm_createmethod").removeOption(1);
+                formContext.getControl("ccrm_createmethod").removeOption(2);
+                SetNotificationAlert("INFO", "You are creating a suffix for INTERNAL COST MONITORING only. There is no fee income associated with a cost monitoring suffix.", "OppCr", formContext);
+            }
+            else defaultCreateMethod = 1;
+
+            formContext.getAttribute("ccrm_createmethod").setValue(defaultCreateMethod);
+
+            //Section hidden 
+            formContext.ui.tabs.get("job_number_tab").setVisible(false);
+        }
+
+        ccrm_projectid_onchange(formContext);
+        ccrm_createmethod_onchange(formContext);
+
+        if (formContext.getAttribute("ccrm_opportunitycjn").getValue() != null) {
+            //set to disable when suffix is being requested and oppo cjn is assigned
+            formContext.getControl("ccrm_arupcompanyid").setDisabled(true);
+            formContext.getControl("ccrm_arupaccountingcodeid").setDisabled(true);
+        }
+
+        var wonReasons = formContext.getControl("ccrm_wonreason");
+        wonReasons.removeOption(100000004);
+    }
+
+    //interface error banner display
+    if (formContext.getAttribute("ccrm_interface_type").getValue() != null && formContext.getAttribute("ccrm_interface_retries").getValue() > 0) {
+        interfaceErrorBanner(formContext.getAttribute("ccrm_interface_type").getValue(), formContext.getAttribute("ccrm_interface_retries").getValue(), formContext.getAttribute("ccrm_interface_error").getValue());
+    }
+
+    //display error code -1
+    var interfaceErrorCode = formContext.getAttribute("ccrm_interface_error").getValue();
+    if (interfaceErrorCode != null && interfaceErrorCode.indexOf("Error code -1") > -1) {
+        var errorMsg = "Warning: The selected suffix has already been allocated. Please select a new suffix by clicking on the Request Job Number button on the Opportunity";
+        SetNotificationAlert("WARNING", errorMsg, "Intr", formContext);
+    }
+
+}
+
+function detectBrowser() {
+    var g = navigator.userAgent,
+        c = navigator.appName,
+        j = "" + parseFloat(navigator.appVersion),
+        b,
+        d = "",
+        a = "",
+        e = false,
+        f,
+        h = {};
+    if ((f = g.indexOf("MSIE")) != -1) {
+        c = "Microsoft Internet Explorer"; b = g.substring(f + 5, f + 8)
+    }
+    else if ((f = g.indexOf("Chrome")) != -1) {
+        c = "Chrome"; b = parseInt(navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10)
+    }
+    else if ((f = g.indexOf("Safari")) != -1) {
+        c = "Safari"; b = parseInt(navigator.appVersion.match(/Version\/(\d+)\./)[1], 10)
+    }
+    else if ((f = g.indexOf("Firefox")) != -1) { c = "Firefox"; b = g.substring(f + 8) }
+
+    if (navigator.appVersion.indexOf("Win") != -1) {
+        d = "Windows";
+    }
+    else if (navigator.appVersion.indexOf("Mac") != -1) {
+        d = "MacOS";
+    }
+
+    if (navigator.userAgent.indexOf("Windows NT") != -1) {
+        var i = navigator.userAgent.indexOf("Windows NT");
+        a = navigator.userAgent.substring(i + 11, i + 14);
+    }
+    else if (navigator.userAgent.indexOf("Macintosh") != -1) {
+        var i = navigator.userAgent.indexOf("Mac OS X");
+        a = navigator.userAgent.substring(i + 9, i + 13);
+        a = a.replace("_", ".");
+        d = "Macintosh"
+    }
+    else if (navigator.userAgent.indexOf("iPad") != -1) {
+        var i = navigator.userAgent.indexOf("CPU OS");
+        a = navigator.userAgent.substring(i + 6, i + 10);
+        a = a.replace("_", ".");
+        d = "iPad";
+    }
+    if (b >= 7 && b <= 9 && (a >= 5.1 && a <= 6.1) && d == "Windows" && c == "Microsoft Internet Explorer") {
+        e = true;
+    }
+    else if (b == 10 && (a >= 6.1 && a <= 6.2) && d == "Windows" && c == "Microsoft Internet Explorer") {
+        e = true;
+    }
+    else if (b >= 6 && (a >= 5.1 && a <= 6.1) && d == "Windows" && c == "Firefox") {
+        e = true;
+    }
+    else if (b >= 6 && a >= 5 && d == "Macintosh" && c == "Firefox") {
+        e = true;
+    }
+    else if (b >= 5 && a >= 5 && d == "Macintosh" && c == "Safari") {
+        e = true;
+    }
+    else if (b >= 5 && a >= 5 && d == "iPad" && c == "Safari") {
+        e = true;
+    }
+    else if (b >= 13 && (a >= 5.1 && a <= 6.1) && d == "Windows" && c == "Chrome") {
+        e = true;
+    }
+
+    h.BrowserName = c;
+    h.BrowserVersion = b;
+    h.OSName = d;
+    h.OSVersion = a;
+    h.Supported = e;
+    return h
+}
+
+function Form_onsave(executionObj) {
+    var formContext = executionObj.getFormContext();
+    if (formContext.getAttribute("ccrm_suffix").getValue() == null) {
+        alert("You must provide a value for Suffix.");
+        executionObj.getEventArgs().preventDefault();
+        return false;
+    }
+    //to stop users from creating from adv find
+    if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) {
+        alert("Request for Job Number can only be requested from within an Opportunity.");
+        executionObj.getEventArgs().preventDefault();
+        return false;
+    }
+    //to stop users creating if there is an error on the webservice
+    if (formContext.getAttribute("ccrm_sys_webservicecheck").getValue() == true) {
+        return false;
+    }
+
+    //prompt if only form initiated from Opportunity Request Confirmed Job Number button and Create method is not 'Create new project (new number)'.
+    if (formContext.getAttribute("ccrm_sys_reservejobnumber").getValue() && formContext.getAttribute("ccrm_createmethod").getValue() != 1) {
+        alert("A new Job Number has been requested and the Confirmed Job Approval process has been initiated.");
+    }
+
+    //update Opportunity State with Confirmed as Won value at all times
+    formContext.getAttribute("ccrm_opportunitystate").setValue(1); //confirmed as won
+
+    // Updates the ccrm_sys_confirmedjob_gateway field on the associated opportunity field. This ensures that the CJNA cannot be created again from the Opportunity ribbon  and Create method is not 'Create new project (new number)'.
+    // This code must always execute before the ccrm_sys_reservejobnumber is set to false below.
+    //Bug# 31046 Changes Start.
+
+    if (formContext.getAttribute("ccrm_sys_reservejobnumber").getValue() && formContext.getAttribute("ccrm_assignednumber").getValue() == null) {
+        var id = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace('{', '').replace('}', '');
+        var entity = {};
+        entity.ccrm_sys_confirmedjob_buttonhide = true;
+        entity.ccrm_jobnumberprogression = 100009005;
+
+        var req = new XMLHttpRequest();
+        req.open("PATCH", formContext.context.getClientUrl() + "/api/data/v9.1/opportunities(" + id +")", true);
+        req.setRequestHeader("OData-MaxVersion", "4.0");
+        req.setRequestHeader("OData-Version", "4.0");
+        req.setRequestHeader("Accept", "application/json");
+        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        req.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 204) {
+                    //Success - No Return Data - Do Something
+                } else {
+                    Xrm.Utility.alertDialog(this.statusText);
+                }
+            }
+        };
+        req.send(JSON.stringify(entity));
+    }
+}
+
+// SET AvailableSuffixes URL
+// CANNOT FIND FUNCTION
+function getAvailableSuffixesURL(interfaceName) {
+    //get the attributes
+    var req = new XMLHttpRequest();
+    req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/ccrm_arupinterfacesettings?$filter=ccrm_name eq '" + interfaceName+"'", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var results = JSON.parse(this.response);
+                for (var i = 0; i < results.value.length; i++) {
+                    return  results.value[i].Ccrm_Setting;
+                }
+            } else {
+                alert('There has been an error returning the Interface Setting URL. Please contact your System Administrator.');
+                return null;
+            }
+        }
+    };
+    req.send();
+}
+
+//function to set required level
+function SetRequiredLevel(field, level, formContext) {
+    formContext.getAttribute(field).setRequiredLevel(level);
+}
+
+function SetNotificationAlert(errorType, errorMessage, msgID, formContext) {
+    //information message
+    if (errorType == "INFO") {
+        formContext.ui.setFormNotification(errorMessage, 'INFORMATION', msgID);
+    }
+    //warning message
+    else if (errorType == "WARNING") {
+        formContext.ui.setFormNotification(errorMessage, 'WARNING', msgID);
+    }
+    //error message
+    else if (errorType == "CRITICAL") {
+        formContext.ui.setFormNotification(errorMessage, 'ERROR', msgID);
+    }
+    //clear form notifications
+    else {
+        formContext.ui.clearFormNotification(msgID);
+    }
+}
+
+
+//function to output error banner message from the interface
+function interfaceErrorBanner(errorType, errorRetries, errorMsg, formContext) {
+    SetNotificationAlert("CRITICAL", errorType + " | Number of retries: " + errorRetries + " | " + errorMsg, null, formContext);
+}
+
+function ccrm_projectsuffix_onChange() {
+    var formContext = executionContext.getFormContext();
+    ccrm_projectsuffixisforintcostmonitoringonly_onChange(formContext);
+}
+
+function ccrm_projectsuffixisforintcostmonitoringonly_onChange(formContext) {
+
+    var intCostMonitoring = formContext.getAttribute("ccrm_projectsuffixisforintcostmonitoringonly").getValue();
+
+    interfaceInformationIntCostMonitoringBanner(intCostMonitoring, 'IICM', formContext);
+
+}
+
+//function to output information banner message for int cost monitoring
+function interfaceInformationIntCostMonitoringBanner(output, msgID, formContext) {
+    var msg = newCJN ? "You are creating a suffix for INTERNAL COST MONITORING only. This will not create a forecast for additional fee income under the base project in PFF." :
+        "For a fee forecasting suffix, please cancel this and create a new opportunity and request a suffix at Confirmed Job stage.";
+    if (output == true) {
+        SetNotificationAlert(null, null, msgID, formContext);
+        SetNotificationAlert("WARNING", msg, msgID, formContext);
+    }
+    else {
+        SetNotificationAlert(null, null, msgID, formContext);
+    }
+}
+
+function fnForceSubmit(formContext) {
+    formContext.getAttribute("ccrm_suffix").setSubmitMode("always");
+    formContext.getAttribute("ccrm_projectid").setSubmitMode("always");
+    formContext.getAttribute("ccrm_createmethod").setSubmitMode("always");
+    formContext.getAttribute("ccrm_opportunitystate").setSubmitMode("always");
+    formContext.getAttribute("ccrm_wonreason").setSubmitMode("always");
+    formContext.getAttribute("ccrm_wondescription").setSubmitMode("always");
+    formContext.getAttribute("ccrm_opportunityid").setSubmitMode("always");
+    formContext.getAttribute("ccrm_suffixarray").setSubmitMode("always");
+}
+
+function ccrm_createMethodOnChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    ccrm_createmethod_onchange(formContext)
+}
+
+function ccrm_createmethod_onchange(formContext) {
+
+    /* CREATE METHOD
+       1 = Create new project (new number)
+       2 = Create new project (existing prefix)
+       3 = Create new suffix (existing project)
+       4 = Create new suffix (new prefix) 
+    */
+
+    createMethod = formContext.getAttribute("ccrm_createmethod").getValue();
+
+    if (createMethod == null) {
+
+        formContext.getControl('ccrm_name').setLabel('Job Number Description');
+        return;
+
+    }
+
+    switch (createMethod) {
+
+        case 1:
+            createNewProject(true, 'none', formContext);
+            break;
+
+        case 2:
+            createNewProject(false, 'required', formContext);
+            break;
+
+        case 3:
+            createNewSuffixExistingProject(formContext);
+            break;
+
+        case 4:
+            createNewSuffixNewPrefix(formContext);
+            break;
+    }
+
+    var required = 'none';
+    if (newCJN == false) {
+
+        formContext.getAttribute("ccrm_wonreason").setValue(null);
+        formContext.getAttribute("ccrm_wondescription").setValue(null);
+
+    }
+    else {
+        required = 'required';
+    }
+
+    formContext.getControl("ccrm_wonreason").setVisible(newCJN);
+    formContext.getControl("ccrm_wondescription").setVisible(newCJN);
+    formContext.getControl("ccrm_wonreason").setDisabled(!newCJN);
+    formContext.getControl("ccrm_wondescription").setDisabled(!newCJN);
+    formContext.getAttribute("ccrm_wonreason").setRequiredLevel(required);
+
+    if (createMethod != 1) {
+        ccrm_projectid_onchange(formContext);
+    }
+
+    ccrm_projectsuffixisforintcostmonitoringonly_onChange(formContext);
+}
+
+function createNewProject(disabled, required, formContext) {
+    //1 or 2
+
+    //null values   
+    formContext.getAttribute("ccrm_projectprefix").setValue(null);
+    formContext.getAttribute("ccrm_parentproject").setValue(null);
+    formContext.getAttribute("ccrm_projectid").setValue(null);
+    formContext.getAttribute("ccrm_suffixarray").setValue(null);
+
+    SetRequiredLevel("ccrm_projectid", required, formContext);
+    formContext.getControl("ccrm_projectid").setDisabled(disabled);
+
+    formContext.getControl("ccrm_createmethod").setDisabled(false);
+    formContext.getAttribute("ccrm_suffix").setValue(1);
+    formContext.getControl("ccrm_suffix").setDisabled(true);
+
+    formContext.getControl('ccrm_name').setLabel('Job Number Description');
+
+    //hide int cost monitoring
+    formContext.getControl("ccrm_projectsuffixisforintcostmonitoringonly").setVisible(false);
+    //set the value of false
+    formContext.getAttribute("ccrm_projectsuffixisforintcostmonitoringonly").setValue(false);
+    //cancel output int cost monitoring information message
+    //interfaceInformationIntCostMonitoringBanner(false, "IICM");
+}
+
+function createNewSuffixExistingProject(formContext) {
+    //3
+    formContext.getControl('ccrm_name').setLabel('Suffix Name (for Ovaview)');
+    SetRequiredLevel("ccrm_projectid", "required", formContext);
+    formContext.getControl("ccrm_createmethod").setDisabled(false);
+
+    //show int cost monitoring
+    formContext.getControl("ccrm_projectsuffixisforintcostmonitoringonly").setVisible(true);
+    //set the value of true
+    formContext.getAttribute("ccrm_projectsuffixisforintcostmonitoringonly").setValue(!newCJN);
+    //disable int. cost monitoring when suffix is requested
+    formContext.getControl("ccrm_projectsuffixisforintcostmonitoringonly").setDisabled(!newCJN);
+    //cancel output int cost monitoring information message
+    //interfaceInformationIntCostMonitoringBanner(true, "IICM");
+
+    // coming from Request Suffix button
+    if (!newCJN) {
+        if (formContext.getAttribute("ccrm_projectid").getValue() != null) {
+            webservice_onchange(formContext);
+        }
+        formContext.getControl("ccrm_suffix").setDisabled(false);
+    }
+    else {
+        { getProject(formContext); }
+
+        formContext.getControl("ccrm_suffix").setDisabled(true);
+        formContext.getControl("ccrm_projectid").setDisabled(false);
+    }
+}
+
+function createNewSuffixNewPrefix(formContext) {
+
+    //4
+    if (newCJN) {
+        getProject(formContext);
+    }
+
+    //null values
+    formContext.getAttribute("ccrm_projectprefix").setValue(null);
+    formContext.getAttribute("ccrm_parentproject").setValue(null);
+    formContext.getAttribute("ccrm_suffixarray").setValue(null);
+
+    formContext.getControl("ccrm_projectid").setDisabled(false);
+    SetRequiredLevel("ccrm_projectid", "required", formContext);
+    formContext.getControl('ccrm_name').setLabel('Suffix Name (for Ovaview)');
+
+    formContext.getControl("ccrm_createmethod").setDisabled(false);
+
+    formContext.getControl("ccrm_suffix").setDisabled(true); //set to false once project is selected
+    var option = new Object();
+    option.text = "00";
+    option.value = 1;
+    formContext.getControl("ccrm_suffix").addOption(option);
+    formContext.getAttribute("ccrm_suffix").setValue(1);
+
+    // show int cost monitoring
+    formContext.getControl("ccrm_projectsuffixisforintcostmonitoringonly").setVisible(true);
+    //set the value of true
+    formContext.getAttribute("ccrm_projectsuffixisforintcostmonitoringonly").setValue(!newCJN);
+    //disable int. cost monitoring when suffix is requested
+    formContext.getControl("ccrm_projectsuffixisforintcostmonitoringonly").setDisabled(!newCJN);
+    //cancel output int cost monitoring information message
+    //interfaceInformationIntCostMonitoringBanner(true, "IICM");
+}
+
+function ccrm_projectIdOnChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    ccrm_projectid_onchange(formContext);
+}
+
+function ccrm_projectid_onchange(formContext) {
+
+    formContext.getAttribute("ccrm_projectprefix").setValue(null);
+    formContext.getAttribute("ccrm_parentproject").setValue(null);
+
+    if (formContext.getAttribute("ccrm_createmethod").getValue() == 4) return;
+    else
+        formContext.getAttribute("ccrm_suffix").setValue(null);
+
+    if (formContext.getAttribute("ccrm_projectid").getValue() != null) {
+        webservice_onchange();
+
+        formContext.getControl("ccrm_suffix").setDisabled(false);
+
+        var rtnJobNumber = getJobNumber(formContext.getAttribute("ccrm_projectid").getValue()[0].id, formContext);
+        if (rtnJobNumber != null && formContext.getAttribute("ccrm_suffixarray").getValue() != null) {
+            jobNumber = rtnJobNumber[0];
+            jobNumber = jobNumber.substring(0, 6);
+            jobNumber = jobNumber + "00";
+
+            formContext.getAttribute("ccrm_projectprefix").setValue(jobNumber.substring(0, 6));
+            formContext.getAttribute("ccrm_parentproject").setValue(rtnJobNumber[1]);
+            if (formContext.getAttribute("ccrm_createmethod").getValue() == 2) {
+                callSuffixWebService(jobNumber, formContext);
+            }
+        }
+        else {
+            formContext.getControl("ccrm_suffix").setDisabled(false);
+        }
+    }
+    else {
+
+        formContext.getControl("ccrm_suffix").setDisabled(true);
+        SetNotificationAlert(null, null, "OppCr", formContext)
+        SetNotificationAlert(null, null, "IICM", formContext)
+    }
+}
+
+function getProject(formContext) {
+
+    //find if main opportunity has a parent
+    var req = new XMLHttpRequest();
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/opportunities(" + formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace('{', '').replace('}', '') + ")?$select=_ccrm_parentopportunityid_value", true);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var result = JSON.parse(this.response);
+                var _ccrm_parentopportunityid_value = result["_ccrm_parentopportunityid_value"];
+
+                // if main opportunity has a parent, find if there's a project associated with it
+                if (_ccrm_parentopportunityid_value != null) {
+
+                    var reqP = new XMLHttpRequest();
+                    reqP.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/ccrm_projects?$select=ccrm_name,ccrm_projectid&$filter=_ccrm_opportunityid_value eq " + _ccrm_parentopportunityid_value, true);
+                    reqP.setRequestHeader("OData-MaxVersion", "4.0");
+                    reqP.setRequestHeader("OData-Version", "4.0");
+                    reqP.setRequestHeader("Accept", "application/json");
+                    reqP.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                    reqP.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=1");
+                    reqP.onreadystatechange = function () {
+                        if (this.readyState === 4) {
+                            reqP.onreadystatechange = null;
+                            if (this.status === 200) {
+                                var results = JSON.parse(this.response);
+                                for (var i = 0; i < results.value.length; i++) {
+                                    var ccrm_name = results.value[i]["ccrm_name"];
+                                    var ccrm_projectid = results.value[i]["ccrm_projectid"];
+
+                                    // if main opportunity has a parent and if there's a project associated with it, populate it Associated Project/Prefix with the project #
+                                    if (ccrm_projectid != null) {
+
+                                        if (formContext.getAttribute('ccrm_projectid').getValue() == null || (formContext.getAttribute('ccrm_projectid').getValue() != null && formContext.getAttribute('ccrm_projectid').getValue()[0].id != ccrm_projectid)) {
+
+                                            Alert.show('<font size="6" color="#2E74B5"><b>For your information</b></font>',
+                                                '<font size="3" color="#000000"></br>This opportunity has a parent project (<b>' + ccrm_name + '</b>) which will be defaulted in the Associated Project/Prefix field<br>Click OK to accept it or Cancel to select another project</font>',
+                                                [
+                                                    new Alert.Button("<b>OK</b>",
+                                                        function () {
+
+                                                            var lookup = new Array();
+                                                            lookup[0] = new Object();
+                                                            lookup[0].id = ccrm_projectid;
+                                                            lookup[0].name = ccrm_name;
+                                                            lookup[0].entityType = 'ccrm_project';
+                                                            formContext.getAttribute('ccrm_projectid').setValue(lookup);
+                                                            ccrm_projectid_onchange();
+
+                                                        }, false, false),
+                                                    new Alert.Button("Cancel", function () { }, true, false)
+                                                ], "INFO", 600, 250, '', true);
+                                        }
+                                    }
+                                }
+                            } else {
+                                Xrm.Navigation.openAlertDialog(this.statusText + " : " + this.status.toString() + " 1");
+                            }
+                        }
+                    };
+                    reqP.send();
+                }
+            } else {
+                Xrm.Navigation.openAlertDialog(this.statusText + " : " + this.status.toString() + " 2");
+            }
+        }
+    };
+    req.send();
+}
+
+function disableFieldsOnForm(formContext) {
+    //set all fields to readonly when assigned number is set
+    formContext.getControl("ccrm_name").setDisabled(true);
+    formContext.getControl("ccrm_wonreason").setDisabled(true);
+    formContext.getControl("ccrm_wondescription").setDisabled(true);
+    formContext.getControl("ccrm_projectid").setDisabled(true);
+    formContext.getControl("ccrm_createmethod").setDisabled(true);
+    formContext.getControl("ccrm_suffix").setDisabled(true);
+    formContext.getControl("ccrm_projectsuffixisforintcostmonitoringonly").setDisabled(true);
+    formContext.getControl("ccrm_autocloseopportunitywhennumberreceived").setDisabled(true);
+    formContext.getControl("ccrm_projectmanager_userid").setDisabled(true);
+    formContext.getControl("ccrm_projectdirector_userid").setDisabled(true);
+    formContext.getControl("ccrm_arupcompanyid").setDisabled(true);
+    formContext.getControl("ccrm_arupaccountingcodeid").setDisabled(true);
+    formContext.getControl("ccrm_opportunityid").setDisabled(true);
+}
+
+function webservice_onchange(formContext) {
+
+    formContext.getAttribute("ccrm_suffixarray").setValue(null);
+    if (formContext.getAttribute("ccrm_projectid").getValue() != null) {
+        var rtnJobNumber = getJobNumber(formContext.getAttribute("ccrm_projectid").getValue()[0].id, formContext);
+        if (rtnJobNumber != null) {
+            jobNumber = rtnJobNumber[0];
+            jobNumber = jobNumber.substring(0, 6);
+            jobNumber = jobNumber + "00";
+            callSuffixWebService(jobNumber, formContext);
+
+            formContext.getAttribute("ccrm_projectprefix").setValue(jobNumber.substring(0, 6));
+            formContext.getAttribute("ccrm_parentproject").setValue(rtnJobNumber[1]);
+            formContext.getControl("ccrm_suffix").setDisabled(false);
+            //set error flag to false
+            formContext.getAttribute("ccrm_sys_webservicecheck").setValue(false);
+        }
+        else {
+            //set error flag to true
+            formContext.getAttribute("ccrm_sys_webservicecheck").setValue(true);
+            formContext.getControl("ccrm_suffix").setDisabled(false);
+        }
+    }
+}
+
+//function to populate the client when the contact is selected on the customerid Lookup
+function getJobNumber(projectId, formContext) {
+
+    var req = new XMLHttpRequest();
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_projects(" + projectId+")?$select=ccrm_jobnumber,ccrm_parentproject", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var result = JSON.parse(this.response);
+                var ccrm_jobnumber = result["ccrm_jobnumber"];
+                var ccrm_parentproject = result["ccrm_parentproject"];
+
+                var nodeJobNumber = (ccrm_jobnumber != null) ? ccrm_jobnumber : null;
+                var nodeParentProject = (ccrm_parentproject != null) ? ccrm_parentproject : null;
+                formContext.getAttribute("ccrm_opportunitycjn").setValue(nodeJobNumber);
+
+                if (nodeJobNumber != null) {
+                    return [nodeJobNumber, nodeParentProject];
+                } else {
+                    return null;
+                }
+
+            } else {
+                Xrm.Utility.alertDialog(this.statusText);
+            }
+        }
+    };
+    req.send();
+}
+
+//function to call Available Suffixes webservice
+function callSuffixWebService(jobNumber, formContext) {
+
+    formContext.getControl("ccrm_suffix").setDisabled(false);
+    var callingFunctionURL = getServiceURL(formContext);
+
+    //TD 24/04/2013 cross browser required
+    var browserInfo = detectBrowser();
+    var myVersion = parseFloat(browserInfo.BrowserVersion);
+
+    if (browserInfo.BrowserName == "Microsoft Internet Explorer" && myVersion <= 8.0) {
+        var xml = '<?xml version="1.0" encoding="utf-8"?>';
+        xml = xml + '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
+        xml = xml + '  <soap:Body>';
+        xml = xml + '	<AvailableSuffices xmlns="http://arup.com/crm/progression/">';
+        xml = xml + '	  <project>' + jobNumber + '</project>';
+        xml = xml + '	</AvailableSuffices>';
+        xml = xml + '  </soap:Body>';
+        xml = xml + '</soap:Envelope>';
+
+        xmlHttp = new ActiveXObject('Msxml2.XMLHTTP');
+        xmlHttp.Open('POST', callingFunctionURL, false);
+        xmlHttp.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
+        xmlHttp.setRequestHeader('Content-Length', xml.length);
+        xmlHttp.setRequestHeader('SOAPAction', 'http://arup.com/crm/progression/AvailableSuffices');
+        xmlHttp.send(xml);
+
+        var resultXml = xmlHttp.responseText;
+
+        resultXml1 = resultXml.replace('<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><AvailableSufficesResponse xmlns="http://arup.com/crm/progression/"><AvailableSufficesResult><status>200</status><result>', '');
+        resultXml2 = resultXml1.replace('<message /></AvailableSufficesResult></AvailableSufficesResponse></soap:Body></soap:Envelope>', '');
+        resultXml3 = resultXml2.replace('<result>', '');
+        resultXml4 = resultXml3.replace('</result>', '');
+        resultXml5 = resultXml4.replace('&lt;sxs&gt;&lt;sx&gt;', '');
+        resultXml6 = resultXml5.replace('&lt;/sx&gt;&lt;sx&gt;', ',');
+        var searchMask = "&lt;/sx&gt;&lt;sx&gt;";
+        var regEx = new RegExp(searchMask, "ig");
+        var replaceMask = ",";
+        var result = resultXml6.replace(regEx, replaceMask);
+        resultXml7 = result.replace('&lt;/sx&gt;&lt;/sxs&gt;', '');
+        formContext.getAttribute("ccrm_suffixarray").setValue(resultXml7);
+        showAvailableSuffixes(resultXml7, formContext);
+    }
+    else {
+        var xml = '<?xml version="1.0" encoding="utf-8"?>';
+        xml = xml + '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
+        xml = xml + '  <soap:Body>';
+        xml = xml + '	<AvailableSuffices xmlns="http://arup.com/crm/progression/">';
+        xml = xml + '	  <project>' + jobNumber + '</project>';
+        xml = xml + '	</AvailableSuffices>';
+        xml = xml + '  </soap:Body>';
+        xml = xml + '</soap:Envelope>';
+
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.open('POST', callingFunctionURL, false);
+        xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
+        xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "GET, POST");
+        xmlHttp.setRequestHeader("Access-Control-Allow-Credentials", "true");
+        xmlHttp.setRequestHeader('Content-Type', 'text/xml');
+        xmlHttp.setRequestHeader('SOAPAction', 'http://arup.com/crm/progression/AvailableSuffices');
+        xml = xml.replace('\"', '"');
+        xmlHttp.send(xml);
+
+        var resultXml = xmlHttp.responseText;
+
+        resultXml1 = resultXml.replace('<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><AvailableSufficesResponse xmlns="http://arup.com/crm/progression/"><AvailableSufficesResult><status>200</status><result>', '');
+        resultXml2 = resultXml1.replace('<message /></AvailableSufficesResult></AvailableSufficesResponse></soap:Body></soap:Envelope>', '');
+        resultXml3 = resultXml2.replace('<result>', '');
+        resultXml4 = resultXml3.replace('</result>', '');
+        resultXml5 = resultXml4.replace('&lt;sxs&gt;&lt;sx&gt;', '');
+        resultXml6 = resultXml5.replace('&lt;/sx&gt;&lt;sx&gt;', ',');
+        var searchMask = "&lt;/sx&gt;&lt;sx&gt;";
+        var regEx = new RegExp(searchMask, "ig");
+        var replaceMask = ",";
+        var result = resultXml6.replace(regEx, replaceMask);
+        resultXml7 = result.replace('&lt;/sx&gt;&lt;/sxs&gt;', '');
+        formContext.getAttribute("ccrm_suffixarray").setValue(resultXml7);
+        showAvailableSuffixes(resultXml7, formContext);
+    }
+}
+
+function fnCallback(XmlHttpRequest, status) {
+    alert(XmlHttpRequest.responseXML);
+}
+
+//function showAvailableSuffixes(suffixArray) {
+function showAvailableSuffixes(suffixArray, formContext) {
+    var suffixArray = formContext.getAttribute("ccrm_suffixarray").getValue();
+    if (suffixArray != null) {
+        //remove all options
+        var exist = formContext.getAttribute("ccrm_assignednumber").getValue();
+        if (exist == null) {
+            formContext.getControl("ccrm_suffix").clearOptions();
+            suffixArray = suffixArray.split(",");
+            for (i = 0; i < suffixArray.length; i++) {
+                var picklistTextOption = parseInt(suffixArray[i], 10) + 1;
+                var option = new Object();
+                option.text = suffixArray[i];
+                option.value = picklistTextOption;
+                if (formContext.getAttribute("ccrm_suffix").getValue() != picklistTextOption) {
+                    formContext.getControl("ccrm_suffix").addOption(option);
+                }
+            }
+        }
+    }
+    //remove 00
+    if (formContext.getAttribute("ccrm_suffix").getValue() != 1 && formContext.getAttribute("ccrm_createmethod").getValue() != 2) {
+        var suffixControl = formContext.getControl("ccrm_suffix");
+        suffixControl.removeOption(1);
+    }
+}
+
+function getServiceURL(formContext) {
+    var orgName = formContext.context.getOrgUniqueName();
+
+    switch (orgName) {
+        case "ArupDev": //dev
+            return "https://crmwsp.arup.com/progression.populate.dev/PopulateProgression.asmx";
+            break;
+
+        case "ArupTest": //test
+            return "https://crmwsp.arup.com/progression.populate.dev/PopulateProgression.asmx";
+            break;
+
+        case "ArupUAT": //uat
+            return "https://crmwsp.arup.com/progression.populate.dev/PopulateProgression.asmx";
+            break;
+
+        case "ArupGroup": //live
+            return "https://crmwsp.arup.com/progression.populate/PopulateProgression.asmx"; //UPDATE
+            break;
+    }
+}
+
+function exitForm(primaryControl) {
+    var formContext = primaryControl;
+    //see if the form is dirty
+    var ismodified = formContext.data.entity.getIsDirty();
+    if (ismodified == false || formContext.ui.getFormType() == 1) {
+        formContext.ui.close();
+        return;
+    }
+
+    if (ismodified == true && formContext.getAttribute("statecode").getValue() != 0) {
+        //get list of dirty fields
+        var cjnAttributes = formContext.data.entity.attributes.get();
+        if (cjnAttributes != null) {
+            for (var i in cjnAttributes) {
+                if (cjnAttributes[i].getIsDirty()) {
+                    formContext.getAttribute(cjnAttributes[i].getName()).setSubmitMode("never");
+                }
+            }
+            setTimeout(function () { formContext.ui.close(); }, 1000);
+        }
+        return;
+    }
+}
