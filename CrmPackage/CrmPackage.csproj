@@ -1764,6 +1764,16 @@
       <UniqueName>arup_arup_UploadAttachments</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_WhatsNewPage.htm">
+      <DisplayName>arup_WhatsNewPage</DisplayName>
+      <UniqueName>new_arup_WhatsNewPage</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_whatsNewWelcomeScreen.htm">
+      <DisplayName>arup_whatsNewWelcomeScreen</DisplayName>
+      <UniqueName>new_arup_whatsNewWelcomeScreen</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_bidreview">
       <DisplayName>ccrm_bidreview</DisplayName>
       <UniqueName>arup_ccrm_bidreview</UniqueName>
