@@ -17,8 +17,9 @@ function oppoProgressFnCJNGateway() {
 function oppoProgressFnCJN() {
     fnBtnAddNewJobNumber();
 }
-function oppoProgressFnCJNSuffix() {
-    fnBtnAddNewJobNumberSuffix();
+function oppoProgressFnCJNSuffix(formContext) {
+    debugger;
+    fnBtnAddNewJobNumberSuffix(formContext);
 }
 
 function oppoProgressFnResetCJNGateway() {
