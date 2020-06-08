@@ -483,7 +483,7 @@ function ccrm_projectid_onchange(formContext) {
 
         formContext.getControl("ccrm_suffix").setDisabled(false);
 
-        var rtnJobNumber = getJobNumber(formContext.getAttribute("ccrm_projectid").getValue()[0].id, formContext);
+        var rtnJobNumber = getJobNumber(formContext.getAttribute("ccrm_projectid").getValue()[0].id.replace(/[{}]/g, ""), formContext);
         if (rtnJobNumber != null && formContext.getAttribute("ccrm_suffixarray").getValue() != null) {
             jobNumber = rtnJobNumber[0];
             jobNumber = jobNumber.substring(0, 6);
@@ -604,7 +604,7 @@ function webservice_onchange(formContext) {
 
     formContext.getAttribute("ccrm_suffixarray").setValue(null);
     if (formContext.getAttribute("ccrm_projectid").getValue() != null) {
-        var rtnJobNumber = getJobNumber(formContext.getAttribute("ccrm_projectid").getValue()[0].id, formContext);
+        var rtnJobNumber = getJobNumber(formContext.getAttribute("ccrm_projectid").getValue()[0].id.replace(/[{}]/g, ""), formContext);
         if (rtnJobNumber != null) {
             jobNumber = rtnJobNumber[0];
             jobNumber = jobNumber.substring(0, 6);
@@ -774,22 +774,22 @@ function showAvailableSuffixes(suffixArray, formContext) {
 }
 
 function getServiceURL(formContext) {
-    var orgName = formContext.context.getOrgUniqueName();
+    var orgName = formContext.context.getOrgUniqueName().toLowerCase();
 
     switch (orgName) {
-        case "ArupDev": //dev
+        case "arupdev": //dev
             return "https://crmwsp.arup.com/progression.populate.dev/PopulateProgression.asmx";
             break;
 
-        case "ArupTest": //test
+        case "aruptest": //test
             return "https://crmwsp.arup.com/progression.populate.dev/PopulateProgression.asmx";
             break;
 
-        case "ArupUAT": //uat
+        case "arupuat": //uat
             return "https://crmwsp.arup.com/progression.populate.dev/PopulateProgression.asmx";
             break;
 
-        case "ArupGroup": //live
+        case "arupgroup": //live
             return "https://crmwsp.arup.com/progression.populate/PopulateProgression.asmx"; //UPDATE
             break;
     }
