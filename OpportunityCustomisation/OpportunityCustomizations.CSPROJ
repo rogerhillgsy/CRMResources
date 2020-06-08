@@ -73,16 +73,6 @@
     <Content Include="Other\Solution.xml" />
     <Content Include="Resources\en-US\resources.en-US.resx" />
     <Content Include="Resources\template_resources.resx" />
-    <Content Include="WebResources\arup_Ccrm_exclusivityrequest_main_library.jscript">
-      <WebResourceId>6df14279-ce6d-ea11-a811-002248003e25</WebResourceId>
-      <Name>arup_Ccrm_exclusivityrequest_main_library</Name>
-      <DisplayName>Ccrm_exclusivityrequest_main_library</DisplayName>
-      <WebResourceType>JScript</WebResourceType>
-      <IntroducedVersion>1.0</IntroducedVersion>
-      <IsCustomizable>True</IsCustomizable>
-      <CanBeDeleted>True</CanBeDeleted>
-      <IsHidden>False</IsHidden>
-    </Content>
     <Content Include="WebResources\arup_close_Opportunity.html">
       <WebResourceId>9df7e993-5817-ea11-812e-00505690cb20</WebResourceId>
       <Name>arup_close_Opportunity</Name>
@@ -128,7 +118,7 @@
     <Content Include="WebResources\arup_Opportunity_Changes.jscript">
       <WebResourceId>4ffe8c63-4617-ea11-812e-00505690cb20</WebResourceId>
       <Name>arup_Opportunity_Changes</Name>
-      <DisplayName>Opportunity Changes</DisplayName>
+      <DisplayName>arup_Opportunity_Changes</DisplayName>
       <Description>New Opportunity Changes</Description>
       <WebResourceType>JScript</WebResourceType>
       <IntroducedVersion>1.0.0.0</IntroducedVersion>
@@ -147,14 +137,6 @@
       <CanBeDeleted>True</CanBeDeleted>
       <IsHidden>False</IsHidden>
     </Content>
-    <Content Include="WebResources\Ccrm_exclusivityrequest_main_library.js">
-      <WebResourceId>b9d46bbe-d0b1-e111-a5b9-78e7d1652028</WebResourceId>
-      <Name>Ccrm_exclusivityrequest_main_library.js</Name>
-      <DisplayName>Scripts/Ccrm_exclusivityrequest.js</DisplayName>
-      <Description>Default Form User Library</Description>
-      <WebResourceType>JScript</WebResourceType>
-      <IntroducedVersion>1.0</IntroducedVersion>
-    </Content>
     <Content Include="WebResources\ccrm_opportunity_library_2015.jscript">
       <WebResourceId>172f9910-585c-e511-80d8-005056b55b13</WebResourceId>
       <Name>ccrm_opportunity_library_2015</Name>
@@ -168,7 +150,7 @@
     <Content Include="WebResources\opportunity_ribbon.js">
       <WebResourceId>623de6ce-d0b1-e111-a5b9-78e7d1652028</WebResourceId>
       <Name>opportunity_ribbon.js</Name>
-      <DisplayName>Scripts/opportunity_ribbon.js</DisplayName>
+      <DisplayName>opportunity_ribbon.js</DisplayName>
       <Description>Default Ribbon Library</Description>
       <WebResourceType>JScript</WebResourceType>
       <IntroducedVersion>1.0</IntroducedVersion>

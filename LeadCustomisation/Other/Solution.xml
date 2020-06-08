@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml version="9.1.0.17151" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ImportExportXml version="9.1.0.18341" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SolutionManifest>
     <UniqueName>LeadCustomisation</UniqueName>
     <LocalizedNames>
@@ -80,10 +80,10 @@
       </Addresses>
     </Publisher>
     <RootComponents>
+      <RootComponent type="61" schemaName="arup_DupeCheckHtmlWithQC.htm" behavior="0" />
       <RootComponent type="61" schemaName="arup_DuplicateCheck" behavior="0" />
       <RootComponent type="61" schemaName="arup_dynamic_display_of_fieldvalue" behavior="0" />
       <RootComponent type="61" schemaName="ccrm_lead_library_2015" behavior="0" />
-      <RootComponent type="61" schemaName="Lead_main_library.js" behavior="0" />
     </RootComponents>
     <MissingDependencies />
   </SolutionManifest>
