@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml version="9.1.0.17151" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ImportExportXml version="9.1.0.18341" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SolutionManifest>
     <UniqueName>OrganisationCustomisations</UniqueName>
     <LocalizedNames>
@@ -81,6 +81,10 @@
     </Publisher>
     <RootComponents>
       <RootComponent type="61" schemaName="arup_CreditChecks" behavior="0" />
+      <RootComponent type="61" schemaName="arup_MicrosoftTeams" behavior="0" />
+      <RootComponent type="61" schemaName="arup_OrganisationRequestChange" behavior="0" />
+      <RootComponent type="61" schemaName="ccrm_/HTML/ClientOverViewReport.html" behavior="0" />
+      <RootComponent type="61" schemaName="ccrm_/HTML/ConnectionMatrix.html" behavior="0" />
       <RootComponent type="61" schemaName="ccrm_account_main_library.js" behavior="0" />
       <RootComponent type="61" schemaName="ccrm_Customer_main_library.js" behavior="0" />
     </RootComponents>
