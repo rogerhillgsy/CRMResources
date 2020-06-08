@@ -639,7 +639,8 @@ function FormOnload(executionContext) {
         }
 
         // Ensure that when the "Related Networks & Markets" field is set to "Other" that the "Other Network Details" field is made visible and mandatory.
-        setup_display_other_field(formContext, "arup_globalservices", "ccrm_othernetworkdetails", "100000003");
+        //setup_display_other_field(formContext, "arup_globalservices", "ccrm_othernetworkdetails", "100000003");
+        SetMultiSelect(formContext);
 
         //uncommented the line below to fix the bug 64054
         if (!formContext.getAttribute("ccrm_arupinternal").getValue())
@@ -943,36 +944,36 @@ function setup_display_other_field(formContext, otherNetworksVal, otherNetworksD
 
 function display_other_field(formContext, otherNetworksVal, otherNetworksDetail, isOtherFieldRequired, isToBeHidden) {
     var value = formContext.getAttribute(otherNetworksVal).getValue();
-    var notApplicable = false;
+   // var notApplicable = false;
     var otherNetworkDetails = formContext.getControl(otherNetworksDetail);
 
-    if (otherNetworksVal == 'arup_globalservices' && value != null) {
-        notApplicable = value.indexOf(770000000) >= 0;
-    }
+    //if (otherNetworksVal == 'arup_globalservices' && value != null) {
+    //    notApplicable = value.indexOf(770000000) >= 0;
+    //}
 
     if (!!otherNetworkDetails) {
 
-        if (otherNetworksVal == 'arup_globalservices') {
+        //if (otherNetworksVal == 'arup_globalservices') {
 
-            //if (!!value && isOtherFieldRequired(value) && !notApplicable) {
-            if (!!value && value.indexOf(100000003) >= 0 && !notApplicable) {
-                otherNetworkDetails.getAttribute().setRequiredLevel("required");
-                otherNetworkDetails.setVisible(true);
-                return;
-            } else if (notApplicable) {
+        //    //if (!!value && isOtherFieldRequired(value) && !notApplicable) {
+        //    if (!!value && value.indexOf(100000003) >= 0 && !notApplicable) {
+        //        otherNetworkDetails.getAttribute().setRequiredLevel("required");
+        //        otherNetworkDetails.setVisible(true);
+        //        return;
+        //    } else if (notApplicable) {
 
-                //formContext.getAttribute("ccrm_othernetworksdisp").setValue('Not Applicable');
-                //formContext.getAttribute("ccrm_othernetworksval").setValue('770000000');
-                formContext.getAttribute("arup_globalservices").setValue([770000000]);
-            }
+        //        //formContext.getAttribute("ccrm_othernetworksdisp").setValue('Not Applicable');
+        //        //formContext.getAttribute("ccrm_othernetworksval").setValue('770000000');
+        //        formContext.getAttribute("arup_globalservices").setValue([770000000]);
+        //    }
 
-            formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
-            formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
-            formContext.getAttribute("ccrm_othernetworkdetails").setValue(null);
+        //    formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
+        //    formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
+        //    formContext.getAttribute("ccrm_othernetworkdetails").setValue(null);
 
-        }
+        //}
 
-        else {
+        //else {
             if (!!value && isOtherFieldRequired(value)) {
                 otherNetworkDetails.getAttribute().setRequiredLevel("required");
                 otherNetworkDetails.setVisible(true);
@@ -982,7 +983,7 @@ function display_other_field(formContext, otherNetworksVal, otherNetworksDetail,
                     otherNetworkDetails.setVisible(false);
                 }
             }
-        }
+        //}
     }
 }
 
@@ -8127,13 +8128,50 @@ function ClearFields(formContext, fieldName) {
 }
 
 function OpenForm(entityName, entityId, formParameter) {
-    debugger;
     var entityFormOptions = {};
     entityFormOptions["entityName"] = entityName; // logical name of the entity
     entityFormOptions["entityId"] = entityId; //ID of the entity record
-    if (formParameter != null)
+    if (formParameter != null) {
         Xrm.Navigation.openForm(entityFormOptions, formParameter);
-    else
+    } else {
         Xrm.Navigation.openForm(entityFormOptions);
+    }
+}
 
+function GetMultiSelect(executionContext) {
+    var formContext = executionContext.getFormContext();
+    SetMultiSelect(formContext);
+}
+
+function SetMultiSelect(formContext) {
+    var selectedValues = formContext.getAttribute("arup_globalservices").getValue();
+    if (selectedValues == null) return;
+    var otherOption = selectedValues.includes(100000003);
+    var notApplicable = selectedValues.includes(770000000);
+    var length = selectedValues.length;
+
+    if (notApplicable) {
+        if (selectedValues.length > 1) {
+            formContext.ui.setFormNotification('You have selected "Not Applicable" option for Global Services. This will not allow you to add more options.', 'WARNING', '3');
+            setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
+            formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
+            formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
+        }
+        formContext.getAttribute("arup_globalservices").setValue([770000000]);
+        return;
+    }
+
+    if (length > 3) {
+        formContext.getControl("arup_globalservices").setNotification('Selection is limited to 3 choices');
+    } else {
+        formContext.getControl("arup_globalservices").clearNotification();
+    }
+
+    if (otherOption) {
+        formContext.getControl("ccrm_othernetworkdetails").setVisible(true);
+        formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('required');
+    } else {
+        formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
+        formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
+    }
 }
