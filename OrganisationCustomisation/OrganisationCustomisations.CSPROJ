@@ -124,26 +124,8 @@
       <CanBeDeleted>True</CanBeDeleted>
       <IsHidden>False</IsHidden>
     </Content>
-    <Content Include="WebResources\ccrm_\HTML\ClientOverViewReport.html">
-      <WebResourceId>4c6a808e-8613-e711-80f7-005056b55b13</WebResourceId>
-      <Name>ccrm_/HTML/ClientOverViewReport.html</Name>
-      <DisplayName>ClientOverViewReport.html</DisplayName>
-      <WebResourceType>Html</WebResourceType>
-      <IntroducedVersion>1.0.0.0</IntroducedVersion>
-      <IsCustomizable>True</IsCustomizable>
-      <CanBeDeleted>True</CanBeDeleted>
-      <IsHidden>False</IsHidden>
-    </Content>
-    <Content Include="WebResources\ccrm_\HTML\ConnectionMatrix.html">
-      <WebResourceId>f07ce85a-4198-e711-80ff-005056b509e1</WebResourceId>
-      <Name>ccrm_/HTML/ConnectionMatrix.html</Name>
-      <DisplayName>ConnectionMatrix.html</DisplayName>
-      <WebResourceType>Html</WebResourceType>
-      <IntroducedVersion>1.0.0.0</IntroducedVersion>
-      <IsCustomizable>True</IsCustomizable>
-      <CanBeDeleted>True</CanBeDeleted>
-      <IsHidden>False</IsHidden>
-    </Content>
+    <Content Include="WebResources\ClientOverViewReport.html" />
+    <Content Include="WebResources\ConnectionMatrix.html" />
   </ItemGroup>
   <Import Project="Microsoft.Crm.SolutionProjects.Metadata.targets" />
 </Project>

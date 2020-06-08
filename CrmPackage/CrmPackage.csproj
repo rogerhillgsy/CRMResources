@@ -2054,6 +2054,14 @@
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomizationforArupEntities\CustomizationforArupEntities.csproj">
+      <Name>CustomizationforArupEntities</Name>
+      <Project>{c112317c-7700-48d3-9c6d-1494b57602f5}</Project>
+      <Private>True</Private>
+      <SilverlightApplication>False</SilverlightApplication>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\CRM\Microsoft.CrmDeveloperTools.12.targets" />-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
