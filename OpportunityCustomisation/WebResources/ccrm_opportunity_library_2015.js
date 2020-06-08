@@ -2628,6 +2628,8 @@ function highlightField(headerfield, formfield, clear) {
 //This function is called from Ribbon button 'Request Possible JOb' and crmparameter 'prmarycontrol' from the ribbon is the formContext
 function requestPossibleJob(formContext) {
     debugger;
+    // set focus to avoid issues with in progress changes.
+    //  formContext.getControl("ccrm_reference").setFocus();
 
     //Shruti : to test set focus to required field-pre bid tab by setting focus to one of its field
     if (formContext.getControl("ccrm_client") != null || formContext.getControl("ccrm_client") != 'undefined')
@@ -2662,15 +2664,13 @@ function requestPossibleJob(formContext) {
         }
     }
 
-    //Set below fields required to generate PJN
-    setRequiredLevelOfFields(formContext, "ccrm_salarycost_num", "ccrm_grossexpenses_num", "ccrm_chargingbasis", "ccrm_bid_transactioncurrencyid","ccrm_totalbidcost_num");
-
-    //formContext.getAttribute("ccrm_salarycost_num").setRequiredLevel('required');
-    //formContext.getAttribute("ccrm_grossexpenses_num").setRequiredLevel('required');
-    //formContext.getAttribute("ccrm_chargingbasis").setRequiredLevel('required');
-    //formContext.getAttribute("ccrm_bid_transactioncurrencyid").setRequiredLevel('required');
-    //formContext.getAttribute("ccrm_totalbidcost_num").setRequiredLevel('required');
- 
+    //  if (IsPJNRequest) {
+    formContext.getAttribute("ccrm_salarycost_num").setRequiredLevel('required');
+    formContext.getAttribute("ccrm_grossexpenses_num").setRequiredLevel('required');
+    formContext.getAttribute("ccrm_chargingbasis").setRequiredLevel('required');
+    formContext.getAttribute("ccrm_bid_transactioncurrencyid").setRequiredLevel('required');
+    formContext.getAttribute("ccrm_totalbidcost_num").setRequiredLevel('required');// moved back to PJN block based on regression test defect
+    // }
 
     formContext.data.save().then(
         function success(status) {
@@ -5424,46 +5424,46 @@ function hideProcessFields(formContext, selectedStage) {
             }
             else {
                 hideBPFFields(formContext, "ccrm_arupinternal", "ccrm_possiblejobnumberrequired", "ccrm_arupregionid", "ccrm_projectcountryregionid", "arup_isaccountingcentervalid", "ccrm_opportunitytype");
-                setRequiredLevelOfFields(formContext, "ccrm_arups_role_in_project", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend");
+                setRequiredLevelOfBPFField(formContext, "ccrm_arups_role_in_project", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend");
             }
             break;
         case "CROSS REGION":
             hideBPFFields(formContext, "ccrm_opportunitytype_1", "ccrm_possiblejobnumberrequired_1", "ccrm_arupregionid_1");
-            setRequiredLevelOfFields(formContext, "ccrm_geographicmanagerid", "ccrm_geographicmanagerproxyconsulted");
+            setRequiredLevelOfBPFField(formContext, "ccrm_geographicmanagerid", "ccrm_geographicmanagerproxyconsulted");
             break;
         case "DEVELOPING BID":
             if (arupInternal) {
                 hideBPFFields(formContext, "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_pilevelmoney_num", "ccrm_contractlimitofliability", "ccrm_limitofliabilityagreement", "ccrm_limitamount_num", "ccrm_financedetailscaptured");
-                setRequiredLevelOfFields(formContext, "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission");
+                setRequiredLevelOfBPFField(formContext, "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission");
             }
             else {
                 hideBPFFields(formContext, "ccrm_financedetailscaptured");
-                setRequiredLevelOfFields(formContext, "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission");
+                setRequiredLevelOfBPFField(formContext, "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission");
             }
             break;
         case "BID REVIEW/SUBMISSION":
             hideBPFFields(formContext, "arup_biddecisiondate", "estimatedclosedate");
-            //  setRequiredLevelOfFields(formContext, "ccrm_bidreviewdecisiondate", "arup_bidsubmissionoutcome","arup_bidsubmitteddate");
+            //  setRequiredLevelOfBPFField(formContext, "ccrm_bidreviewdecisiondate", "arup_bidsubmissionoutcome","arup_bidsubmitteddate");
 
             break;
         case "CONFIRMED JOB - PROJECT":
             if (arupInternal) {
                 hideBPFFields(formContext, "arup_services", "arup_projecttype", "arup_projectsector", "ccrm_estprojectvalue_num", "arup_projpartreqd");
-                //  setRequiredLevelOfFields(formContext, "ccrm_estarupinvolvementstart_1", "ccrm_estarupinvolvementend_1");
-                setRequiredLevelOfFields(formContext, "ccrm_projectmanager_userid", "ccrm_projectdirector_userid");
+                //  setRequiredLevelOfBPFField(formContext, "ccrm_estarupinvolvementstart_1", "ccrm_estarupinvolvementend_1");
+                setRequiredLevelOfBPFField(formContext, "ccrm_projectmanager_userid", "ccrm_projectdirector_userid");
 
             } else {
-                setRequiredLevelOfFields(formContext, "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "arup_services", "arup_projecttype", "arup_projectsector", "arup_projpartreqd");
+                setRequiredLevelOfBPFField(formContext, "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "arup_services", "arup_projecttype", "arup_projectsector", "arup_projpartreqd");
             }
             break;
         case "CONFIRMED JOB - COMMERCIAL":
             if (arupInternal) {
                 hideBPFFields(formContext, "ccrm_estprojectprofit_num", "ccrm_profitasapercentageoffeedec", "ccrm_pi_transactioncurrencyid_1", "ccrm_pirequirement_1", "ccrm_pilevelmoney_num_1", "ccrm_contractlimitofliability_1", "ccrm_limitofliabilityagreement_1", "ccrm_limitamount_num_1", "ccrm_jobnumberprogression", "ccrm_arupregionid_2", "ccrm_opportunitytype_2");
-                setRequiredLevelOfFields(formContext, "ccrm_estexpenseincome_num", "ccrm_projecttotalincome_num", "arup_grossstaffcost_num", "ccrm_estprojectexpenses_num", "ccrm_projecttotalcosts_num", "ccrm_chargingbasis");
+                setRequiredLevelOfBPFField(formContext, "ccrm_estexpenseincome_num", "ccrm_projecttotalincome_num", "arup_grossstaffcost_num", "ccrm_estprojectexpenses_num", "ccrm_projecttotalcosts_num", "ccrm_chargingbasis");
             }
             else {
                 hideBPFFields(formContext, "ccrm_jobnumberprogression", "ccrm_arupregionid_2", "ccrm_opportunitytype_2");
-                setRequiredLevelOfFields(formContext, "ccrm_estexpenseincome_num", "ccrm_projecttotalincome_num", "arup_grossstaffcost_num", "ccrm_estprojectexpenses_num", "ccrm_projecttotalcosts_num", "ccrm_chargingbasis", "ccrm_estprojectprofit_num", "ccrm_profitasapercentageoffeedec", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability");
+                setRequiredLevelOfBPFField(formContext, "ccrm_estexpenseincome_num", "ccrm_projecttotalincome_num", "arup_grossstaffcost_num", "ccrm_estprojectexpenses_num", "ccrm_projecttotalcosts_num", "ccrm_chargingbasis", "ccrm_estprojectprofit_num", "ccrm_profitasapercentageoffeedec", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability");
             }
             break;
         case "CJN APPROVAL":
@@ -5495,7 +5495,7 @@ function hideBPFFields(formContext, fieldName) {
     }
 }
 
-function setRequiredLevelOfFields(formContext, fieldName) {
+function setRequiredLevelOfBPFField(formContext, fieldName) {
     for (var field in arguments) {
         if (field != 0) { // first argument is formContext. So do not consider it as field 
             var attrName = arguments[field];
