@@ -93,16 +93,6 @@
       <CanBeDeleted>True</CanBeDeleted>
       <IsHidden>False</IsHidden>
     </Content>
-    <Content Include="WebResources\arup_QuickCreateNotifications.html">
-      <WebResourceId>70a9963e-6994-ea11-a812-000d3a86a78c</WebResourceId>
-      <Name>arup_QuickCreateNotifications</Name>
-      <DisplayName>QuickCreateNotifications</DisplayName>
-      <WebResourceType>Html</WebResourceType>
-      <IntroducedVersion>1.0.0.0</IntroducedVersion>
-      <IsCustomizable>True</IsCustomizable>
-      <CanBeDeleted>True</CanBeDeleted>
-      <IsHidden>False</IsHidden>
-    </Content>
     <Content Include="WebResources\Contact_main_library.js">
       <WebResourceId>b4d46bbe-d0b1-e111-a5b9-78e7d1652028</WebResourceId>
       <Name>Contact_main_library.js</Name>

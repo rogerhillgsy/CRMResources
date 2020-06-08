@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml version="9.1.0.17151" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ImportExportXml version="9.1.0.18341" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SolutionManifest>
     <UniqueName>ContactCustomisation</UniqueName>
     <LocalizedNames>
@@ -82,7 +82,6 @@
     <RootComponents>
       <RootComponent type="61" schemaName="arup_DuplicateCheck" behavior="0" />
       <RootComponent type="61" schemaName="arup_NotifyForQuickCreate.js" behavior="0" />
-      <RootComponent type="61" schemaName="arup_QuickCreateNotifications" behavior="0" />
       <RootComponent type="61" schemaName="Contact_main_library.js" behavior="0" />
     </RootComponents>
     <MissingDependencies />
