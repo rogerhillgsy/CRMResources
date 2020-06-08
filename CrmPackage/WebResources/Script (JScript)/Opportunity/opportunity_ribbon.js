@@ -18,7 +18,6 @@ function oppoProgressFnCJN() {
     fnBtnAddNewJobNumber();
 }
 function oppoProgressFnCJNSuffix(formContext) {
-    debugger;
     fnBtnAddNewJobNumberSuffix(formContext);
 }
 
@@ -69,7 +68,6 @@ function DWBidSiteRequestVisibility(formContext) {
 
 function debug() {
     /// <summary>Drop into debugger from ribbon code.</summary>
-    debugger;
 }
 
 //function onFormLoad() {
@@ -222,7 +220,7 @@ function GetArupGroupCode(formContext) {
                     var result = JSON.parse(this.response);
                     arupGroupDetails.arupGroupCode = result["ccrm_arupgroupcode"];
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
