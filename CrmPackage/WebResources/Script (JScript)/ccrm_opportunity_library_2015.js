@@ -149,7 +149,7 @@ function exitForm(formContext) {
                             }
                         }
                     }
-                    if (cansave) { formContext.data.entity.save("saveandclose"); }
+                    if (cansave) { formContext.data.save("saveandclose"); }
                 },
                 setFocus: true,
                 preventClose: false
@@ -711,20 +711,23 @@ function opportunityType_onChange(executionContext, trigger) {
 
     var typeAttr = formContext.getAttribute("arup_opportunitytype");
     var typeValue = typeAttr.getValue();
-    var stageID = formContext.data.process.getActiveStage().getId();
-    var newOpportunity = formContext.ui.getFormType() == 1;
-    if (typeValue == 770000005 && stageID != ArupStages.Lead && !newOpportunity) {
+    if (formContext.data.process.getActiveStage() != null) {
+        var stageID = formContext.data.process.getActiveStage().getId();
 
-        var typeText = typeAttr.getText();
+        var newOpportunity = formContext.ui.getFormType() == 1;
+        if (typeValue == 770000005 && stageID != ArupStages.Lead && !newOpportunity) {
 
-        Alert.show('<font size="6" color="#FF0000"><b>Invalid Opportunity Type</b></font>',
-            '<font size="3" color="#000000"></br>Opportunity Type: <b>' + typeText + '</b> is not valid for this stage.</font>',
-            [
-                { label: "<b>OK</b>", setFocus: true },
-            ], "ERROR", 500, 250, '', true);
+            var typeText = typeAttr.getText();
 
-        formContext.getAttribute("arup_opportunitytype").setValue(null);
-        return;
+            Alert.show('<font size="6" color="#FF0000"><b>Invalid Opportunity Type</b></font>',
+                '<font size="3" color="#000000"></br>Opportunity Type: <b>' + typeText + '</b> is not valid for this stage.</font>',
+                [
+                    { label: "<b>OK</b>", setFocus: true },
+                ], "ERROR", 500, 250, '', true);
+
+            formContext.getAttribute("arup_opportunitytype").setValue(null);
+            return;
+        }
     }
 
     ParentOpportunityFilter(formContext);
@@ -2173,6 +2176,7 @@ function ccrm_opportunitytype_onchange_ec(executionContext) {
 }
 // Set Valid Opp Track Code --  Starts
 function ccrm_opportunitytype_onchange(formContext) {
+    debugger;
     //refresh ribbon when track is small oppo
     formContext.ui.refreshRibbon();
     oppoType(formContext);
@@ -2194,7 +2198,8 @@ function ccrm_opportunitytype_onchange(formContext) {
             onStageChange(formContext);
             hideProcessFields(formContext,formContext.data.process.getSelectedStage().getName());
             setTimeout(function () {
-                Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+              //  Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
             }, 200);
             formContext.ui.setFormNotification("Risk Level changed on bid. System is reseting the PJN Approval.", "WARNING", "PJNRiskChsnge");
         }
@@ -2202,7 +2207,7 @@ function ccrm_opportunitytype_onchange(formContext) {
 }
 
 function refreshPage() {
-    setTimeout(function () { Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId()); }, 10);
+    setTimeout(function () { OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId()); }, 10);
 }
 
 function oppoType(formContext) {
@@ -2621,6 +2626,7 @@ function highlightField(headerfield, formfield, clear) {
 }
 //This function is called from Ribbon button 'Request Possible JOb' and crmparameter 'prmarycontrol' from the ribbon is the formContext
 function requestPossibleJob(formContext) {
+    debugger;
  // set focus to avoid issues with in progress changes.
   //  formContext.getControl("ccrm_reference").setFocus();
 
@@ -2729,7 +2735,7 @@ function requestPossibleJob(formContext) {
                 }
             }
             else {
-                formContext.data.save();
+                formContext.data.entity.save();
             }
         },
         function (status) {
@@ -4528,7 +4534,7 @@ function SimilarBidsDuplicate(formContext) {
     };
     Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
         function success() {
-            formContext.data.entity.save();
+            formContext.data.save();
         },
         function error() {
         }
@@ -5035,6 +5041,7 @@ function HideApprovalButtonForRiskChange(regionName) {
 }
 
 function stageNotifications(formContext) {
+    debugger; 
     setLookupFiltering(formContext); // appy filter to user fields
 
     var pjnrequested = false;
@@ -5110,7 +5117,7 @@ function stageNotifications(formContext) {
         makeBidReviewApprovalFieldsReadonly(formContext);
         if (formContext.getAttribute("ccrm_bidreviewoutcome").getValue() != 100000002)
             showRibbonButton(formContext,'ccrm_shwbidreviewappbtn', 1);
-        //setTimeout(function () { formContext.data.entity.save(null); }, 2);
+        //setTimeout(function () { formContext.data.save(null); }, 2);
         setCurrentApproversAsync(formContext);
     }
     if (stageid == ArupStages.CrossRegion) {
@@ -5119,7 +5126,9 @@ function stageNotifications(formContext) {
 
             var eventArgs = executionContext.getEventArgs();
             if (eventArgs.getDirection() == "Next" && (eventArgs.getStage().getName() == "DEVELOPING BID" || eventArgs.getStage().getName() == "CROSS REGION")) {
-                Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+               // Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+
             }
         }
         );
@@ -5263,16 +5272,16 @@ function resetAndSetVal(formContext,fields) {
 function hideRibbonButton(formContext,field, value) {
     if (formContext.getAttribute(field).getValue() == 1) {
         formContext.getAttribute(field).setValue(value);
-        setTimeout(function () { formContext.data.entity.save(); }, 500);
-        //formContext.data.entity.save();
+        setTimeout(function () { formContext.data.save(); }, 500);
+        //formContext.data.save();
     }
 }
 
 function showRibbonButton(formContext,field, value) {
     if (formContext.getAttribute(field).getValue() == 0 || formContext.getAttribute(field).getValue() == null) {
         formContext.getAttribute(field).setValue(value);
-        //setTimeout(function () { formContext.data.entity.save(null); }, 500);
-        formContext.data.entity.save();
+        //setTimeout(function () { formContext.data.save(null); }, 500);
+        formContext.data.save();
     }
 }
 
@@ -5358,7 +5367,7 @@ function StageChange_event(formContext) {
     formContext.ui.refreshRibbon();
 
     //if (stageid == ArupStages.BidDevelopment && currentStage != ArupStages.Lead) {
-    //    formContext.data.entity.save();
+    //    formContext.data.save();
     //    setTimeout(function () { refreshPage(); }, 3000);
     //}
     //currentStage = stageid
@@ -6021,7 +6030,7 @@ function ValidatePJNGrpLdr() {
 }
 //This function is called from Ribbon :ccrm.opportunity.SectorLeaderApproval.Command
 function CJNApprovalButtonClick(formContext,type, approvalType, statusField, userField, dateField) {
-
+    debugger;
     if (!IsFormValid(formContext)) { return };
 
     var ackMsg = ApprovalConfirmationMessage(approvalType);
@@ -6076,16 +6085,7 @@ function CJNApprovalButtonClick(formContext,type, approvalType, statusField, use
                                         return !!statecode && statecode != OPPORTUNITY_STATE.OPEN
                                     },
                                     function reloadForm() {
-                                        var entityFormOptions = {};
-                                        entityFormOptions["entityName"] = "opportunity";//Logical name of the entity
-                                        entityFormOptions["entityId"] = formContext.data.entity.getId(); //ID of the entity record
-                                        entityFormOptions["formId"] = "C62BD14C-9457-4BD9-99BF-F91E355CB28"; //FormId
-
-                                      //  setTimeout(function () {  
-                                            Xrm.Navigation.openForm(entityFormOptions);
-                                     //   }, 10000);
-
-                                     //   Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                                        OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());                      
                                     });
                             } else {
                                 setCurrentApproversAsync(formContext);
@@ -6120,7 +6120,8 @@ function CJNApprovalButtonClick(formContext,type, approvalType, statusField, use
                         if (approvalType == 'FinanceApproval' ||
                             approvalType == 'AccCenterLeadApproval' ||
                             approvalType == "GroupLeaderApproval") {
-                            Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                            OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                           // Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
                         } else {
                             setCurrentApproversAsync(formContext);
                         }
@@ -6250,7 +6251,7 @@ function moveNext(formContext,currentStage) {
             clearInterval(intervalId);
         }
 
-        if (formContext.data.entity.getIsDirty()) { formContext.data.entity.save(); }
+        if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
 
         //Check if form is dirty, if it is not and the stage has not changed then attempt to moveNext
         if (!formContext.data.entity.getIsDirty() && formContext.data.process.getActiveStage().getId() == currentStage) {
@@ -6410,7 +6411,7 @@ function requestConfirmJob(formContext) {
                             var parameters = {}; //set null parameters as there is no need to set any other field
                             parameters["arup_opportunity"] = formContext.data.entity.getId();
                             parameters["arup_opportunityname"] = formContext.getAttribute("name").getValue();
-                            setTimeout(function () { openProjectParticipantPage(parameters); }, 2500);
+                            setTimeout(function () { OpenForm("arup_projectparticipant", null, parameters); }, 2500);
                         },
                         setFocus: true,
                         preventClose: false
@@ -6523,7 +6524,7 @@ function openNewCJNAForm(formContext,reserve) {
     if (reserve)
         parameters["ccrm_sys_reservejobnumber"] = 1
 
-    Xrm.Utility.openEntityForm("ccrm_cjnapplication", null, parameters);
+    OpenForm("ccrm_cjnapplication", null, parameters);
 }
 
 //sync bid manager with project manager
@@ -6649,7 +6650,7 @@ function ProvisionDWBidsSite(formContext) {
                                 {
                                     label: "<b>OK</b>",
                                     callback: function () {
-                                        Xrm.Utility.openEntityForm("opportunity", oppId);
+                                        OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
                                     },
                                     setFocus: true
                                 },
@@ -6908,8 +6909,43 @@ function QuickCreateOnSave(executionContext, args) {
     }
 }
 
+function ReOpenOpportunityRequest(formContext) {
+    var organisationUrl = formContext.context.getClientUrl();
+    var opptyId = formContext.data.entity.getId();
+
+    opptyId = opptyId.replace("{", "");
+    opptyId = opptyId.replace("}", "");
+
+    var req = new XMLHttpRequest();
+    req.open("PATCH", organisationUrl + "/api/data/v9.1/opportunities(" + opptyId + ")", true);
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+
+    var oppty = {};
+
+    oppty["statecode"] = 0;
+
+    req.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            req.onreadystatechange = null;
+            if (this.status == 204) {
+                OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+
+            } else {
+                var error = JSON.parse(this.response).error;
+                alert(error.message);
+            }
+        }
+    };
+
+    req.send(window.JSON.stringify(oppty));
+}
+
 //formContext is primaryCOntrol crmparamter
 function ReopenOpp(formContext) {
+    debugger;
     var overallStatus = formContext.getAttribute("statecode").getValue();
     if (overallStatus == 1) {
         Alert.show('<font face="Segoe UI Light" font size="6" color="0472C4">Information</font>',
@@ -6918,41 +6954,7 @@ function ReopenOpp(formContext) {
                 {
                     label: "<b>Reopen Opportunity</b>",
                     callback: function () {
-                        var organisationUrl = formContext.context.getClientUrl();
-                        var opptyId = formContext.data.entity.getId();
-                        var opptyStatus = formContext.getAttribute("statuscode").getValue();
-
-                        opptyId = opptyId.replace("{", "");
-                        opptyId = opptyId.replace("}", "");
-
-                        var req = new XMLHttpRequest();
-                        req.open("PATCH", organisationUrl + "/api/data/v9.1/opportunities(" + opptyId + ")", true);
-                        req.setRequestHeader("Accept", "application/json");
-                        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-                        req.setRequestHeader("OData-MaxVersion", "4.0");
-                        req.setRequestHeader("OData-Version", "4.0");
-
-                        var oppty = {};
-
-                        oppty["statecode"] = 0;
-                        //oppty["statuscode"] = 1;
-
-                        req.onreadystatechange = function () {
-                            if (this.readyState == 4) {
-                                req.onreadystatechange = null;
-                                if (this.status == 204) {
-                                    var _id = formContext.data.entity.getId();
-                                    Xrm.Utility.openEntityForm("opportunity", _id);
-                                    //formContext.data.refresh();
-                                } else {
-                                    var error = JSON.parse(this.response).error;
-                                    alert(error.message);
-                                }
-                            }
-                        };
-
-                        req.send(window.JSON.stringify(oppty));
-
+                        ReOpenOpportunityRequest(formContext);
                     }
                     ,
                     setFocus: true,
@@ -6963,7 +6965,7 @@ function ReopenOpp(formContext) {
                     label: "<b>Add Suffix</b>",
                     callback: function () {
 
-                        oppoProgressFnCJNSuffix();
+                        oppoProgressFnCJNSuffix(formContext);
                     },
                     setFocus: false,
                     preventClose: false
@@ -6984,40 +6986,7 @@ function ReopenOpp(formContext) {
             true);
     }
     else {
-        var organisationUrl = formContext.context.getClientUrl();
-        var opptyId = formContext.data.entity.getId();
-        var opptyStatus = formContext.getAttribute("statuscode").getValue();
-
-        opptyId = opptyId.replace("{", "");
-        opptyId = opptyId.replace("}", "");
-
-        var req = new XMLHttpRequest();
-        req.open("PATCH", organisationUrl + "/api/data/v9.1/opportunities(" + opptyId + ")", true);
-        req.setRequestHeader("Accept", "application/json");
-        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-        req.setRequestHeader("OData-MaxVersion", "4.0");
-        req.setRequestHeader("OData-Version", "4.0");
-
-        var oppty = {};
-
-        oppty["statecode"] = 0;
-        //oppty["statuscode"] = 1;
-
-        req.onreadystatechange = function () {
-            if (this.readyState == 4) {
-                req.onreadystatechange = null;
-                if (this.status == 204) {
-                    var _id = formContext.data.entity.getId();
-                    Xrm.Utility.openEntityForm("opportunity", _id);
-                    //formContext.data.refresh();
-                } else {
-                    var error = JSON.parse(this.response).error;
-                    alert(error.message);
-                }
-            }
-        };
-
-        req.send(window.JSON.stringify(oppty));
+        ReOpenOpportunityRequest(formContext);     
     }
 }
 //Button :
@@ -7031,7 +7000,7 @@ function fnBtnExclusivityRequest(formContext) {
     //force submit
     formContext.getAttribute("ccrm_exclusivity").setSubmitMode("always");
     formContext.getAttribute("ccrm_exclusivitystate").setSubmitMode("always");
-    formContext.data.entity.save();
+    formContext.data.save();
     var serverUrl = formContext.context.getClientUrl();
     var id = formContext.data.entity.getId();
     id = id.replace("{", "");
@@ -7091,17 +7060,17 @@ function fnBtnExclusivityRequest(formContext) {
     parameters["ccrm_projecttitleid"] = formContext.data.entity.getId();
     parameters["ccrm_projecttitleidname"] = formContext.getAttribute("name").getValue();
 
-    setTimeout(function () { openExclReq(parameters); }, 2000);
+    setTimeout(function () { OpenForm("ccrm_exclusivityrequest", null, parameters); }, 2000);
 
 }
 
-function openExclReq(parameters) {
-    var windowOptions = {
-        openInNewWindow: true
-    };
+//function openExclReq(parameters) {
+//    var windowOptions = {
+//        openInNewWindow: true
+//    };
 
-    Xrm.Utility.openEntityForm("ccrm_exclusivityrequest", null, parameters);
-}
+//    Xrm.Utility.openEntityForm("ccrm_exclusivityrequest", null, parameters);
+//}
 
 function projectParticipantExists(formContext) {
 
@@ -7132,24 +7101,25 @@ function projectParticipantExists(formContext) {
 }
 
 function addProjectParticipant(primaryControl) {
+    debugger;
     var formContext = primaryControl;
     if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
     var parameters = {}; //set null parameters as we there is no need to set any other field
     parameters["arup_opportunity"] = formContext.data.entity.getId();
     parameters["arup_opportunityname"] = formContext.getAttribute("name").getValue();
-    setTimeout(function () { openProjectParticipantPage(parameters); }, 2000);
+    setTimeout(function () { OpenForm("arup_projectparticipant", null, parameters);  }, 2000);
 
 }
 
-function openProjectParticipantPage(parameters) {
+//function openProjectParticipantPage(parameters) {
 
-    var windowOptions = { openInNewWindow: true };
-    Xrm.Utility.openEntityForm("arup_projectparticipant", null, parameters);
-    var serverUrl = formContext.context.getClientUrl();
-    var params = "arup_opportunity=" + parameters["arup_opportunity"] + "&arup_opportunityname=" + parameters["arup_opportunityname"];
-    var features = "location=no,menubar=no,status=no,toolbar=no,scrollbars=yes,width=4000,height=700";
+//    var windowOptions = { openInNewWindow: true };
+//    Xrm.Utility.openEntityForm("arup_projectparticipant", null, parameters);
+//    var serverUrl = formContext.context.getClientUrl();
+//    var params = "arup_opportunity=" + parameters["arup_opportunity"] + "&arup_opportunityname=" + parameters["arup_opportunityname"];
+//    var features = "location=no,menubar=no,status=no,toolbar=no,scrollbars=yes,width=4000,height=700";
 
-}
+//}
 
 function resetSubBusiness(formContext,valuechanged, businessid) {
 
@@ -7233,7 +7203,7 @@ function onChange_PJN(executionContext) {
 }
 
 function approveCallbackAction(formContext,approvalType) {
-
+    debugger;
     var parameters = {};
     var approveruser = {};
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
@@ -7254,7 +7224,7 @@ function approveCallbackAction(formContext,approvalType) {
         if (this.readyState === 4) {
             req.onreadystatechange = null;
             if (this.status === 200) {
-                Xrm.Utility.openEntityForm("opportunity", oppId);
+                    OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
             }
         }
     };
@@ -8055,7 +8025,7 @@ function BidSubmittedClick(formContext) {
 
     formContext.getAttribute("arup_bidsubmitteddate").setValue(new Date());
     formContext.getAttribute("arup_bidsubmissionoutcome").setValue(770000001);
-    formContext.data.entity.save();
+    formContext.data.save();
 
     RefreshWebResource(formContext, "WebResource_bidreviewsubmissionnavigation");
 
@@ -8155,4 +8125,15 @@ function ClearFields(formContext,fieldName) {
         }
     }
 }
-    
+
+function OpenForm(entityName, entityId, formParameter) {
+    debugger;
+    var entityFormOptions = {};
+    entityFormOptions["entityName"] = entityName; // logical name of the entity
+    entityFormOptions["entityId"] = entityId; //ID of the entity record
+    if (formParameter != null)
+        Xrm.Navigation.openForm(entityFormOptions, formParameter);
+    else
+        Xrm.Navigation.openForm(entityFormOptions);
+
+}

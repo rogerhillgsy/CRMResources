@@ -77,7 +77,8 @@ function ShowHideOpportunityTypeAndProjectProcurement(formContext,stageId) {
 
 //This function is called from 'Close as Lost' button and 'Close as lost/no Bid' button
 //pass opportunity status as Lost / Won from Ribbon Workbench, formcontext is primarycontrol paramter
-function CloseOpportunity(formContext,statusCode) {
+function CloseOpportunity(formContext, statusCode) {
+    debugger;
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var clientUrl = formContext.context.getClientUrl();
@@ -86,57 +87,16 @@ function CloseOpportunity(formContext,statusCode) {
     var oppDetails = getOpportunityReasons(formContext.context.getClientUrl(),activeStageId, statusCode, arupInternal);
 
     //save the form before popping the dialog
-    if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
+  //  if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
 
-    //loop through all form attributes and detirmine which visible and required attributes are blank
-    setTimeout(function () {
-        var oppAttributes = formContext.data.entity.attributes.get();
-        var control;
-        var attribute;
-        var errors = false;
-        if (oppAttributes != null) {
-            for (var i in oppAttributes) {
 
-                if (statusCode.toUpperCase() == 'LOST' && oppAttributes[i].getName() == 'arup_biddecisionchair') { continue; }
-
-                control = formContext.getControl(oppAttributes[i].getName());
-                if (!!control && control.getVisible() == true) {
-                    attribute = formContext.getAttribute(oppAttributes[i].getName());
-                    if (!!attribute && attribute.getRequiredLevel() == 'required' && attribute.getValue() == null) {
-                        errors = true;
-                        break;
-                    }
-                }
-            }
-        }
-        if (errors) {
-
-            Alert.show('<font size="6" color="#FF0000"><b>Missing required information</b></font>',
-                '<font size="3" color="#000000"></br>Please, fill out all of the the required information on the form.</font>',
-                [
-                    { label: "<b>OK</b>", setFocus: true },
-                ], "ERROR", 550, 250, '', true);
-
-        }
-        else {
+    formContext.data.save().then(
+        function success(status) {
 
             setTimeout(function () {
                 if (oppDetails != null) {
                     var object = JSON.stringify(oppDetails);
                     var customParameters = "&oppId=" + oppId + "&oppDetails=" + object + "&statusCode=" + statusCode + "&clientUrl=" + clientUrl;
-
-                    // DialogOption.width = 600;
-                    // DialogOption.height = 445;
-                    //Xrm.Internal.openDialog(formContext.context.getClientUrl() + "/WebResources/arup_close_Opportunity?Data=" +
-                    //    customParameters,
-                    //    DialogOption,
-                    //    null,
-                    //    null,
-                    //    function (returnValue) {
-                    //        //debugger;
-                    //        Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
-                    //    });
-
                     var pageInput = {
                         pageType: "webresource",
                         webresourceName: "arup_close_Opportunity",
@@ -151,8 +111,8 @@ function CloseOpportunity(formContext,statusCode) {
                     };
                     Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
                         function success(returnValue) {
-                            formContext.data.entity.save();
-                            Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                          //  formContext.data.entity.save();
+                            OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
                         },
                         function error() {
                             // Handle errors
@@ -163,6 +123,72 @@ function CloseOpportunity(formContext,statusCode) {
 
                 }
             }, 1000);
+        },
+        function (status) {
+            console.log("failure status " + status);
+        });
+    //loop through all form attributes and detirmine which visible and required attributes are blank
+    setTimeout(function () {
+        //var oppAttributes = formContext.data.entity.attributes.get();
+        //var control;
+        //var attribute;
+        //var errors = false;
+        //if (oppAttributes != null) {
+        //    for (var i in oppAttributes) {
+
+        //        if (statusCode.toUpperCase() == 'LOST' && oppAttributes[i].getName() == 'arup_biddecisionchair') { continue; }
+
+        //        control = formContext.getControl(oppAttributes[i].getName());
+        //        if (!!control && control.getVisible() == true) {
+        //            attribute = formContext.getAttribute(oppAttributes[i].getName());
+        //            if (!!attribute && attribute.getRequiredLevel() == 'required' && attribute.getValue() == null) {
+        //                errors = true;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
+        if (errors) {
+
+            //Alert.show('<font size="6" color="#FF0000"><b>Missing required information</b></font>',
+            //    '<font size="3" color="#000000"></br>Please, fill out all of the the required information on the form.</font>',
+            //    [
+            //        { label: "<b>OK</b>", setFocus: true },
+            //    ], "ERROR", 550, 250, '', true);
+
+        }
+        else {
+
+            //setTimeout(function () {
+            //    if (oppDetails != null) {
+            //        var object = JSON.stringify(oppDetails);
+            //        var customParameters = "&oppId=" + oppId + "&oppDetails=" + object + "&statusCode=" + statusCode + "&clientUrl=" + clientUrl;
+            //        var pageInput = {
+            //            pageType: "webresource",
+            //            webresourceName: "arup_close_Opportunity",
+            //            data: customParameters
+
+            //        };
+            //        var navigationOptions = {
+            //            target: 2,
+            //            width: 600,
+            //            height: 500,
+            //            position: 1
+            //        };
+            //        Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
+            //            function success(returnValue) {
+            //                formContext.data.save();
+            //                OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+            //            },
+            //            function error() {
+            //                // Handle errors
+            //            }
+            //        );
+
+
+
+            //    }
+            //}, 1000);
         }
     }, 1500);
 }
@@ -744,7 +770,7 @@ function setDueDiligenceCheckLight(executionContext) {
 }
 
 function checkOrganisationChecks(executionContext) {
-    debugger;
+ 
     var formContext = executionContext.getFormContext();
     setTimeout(function () {
         var client = formContext.getAttribute("ccrm_client").getValue();

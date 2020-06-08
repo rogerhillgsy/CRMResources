@@ -1323,8 +1323,8 @@
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\opportunity_ribbon.js">
-      <DisplayName>opportunity_ribbon</DisplayName>
-      <UniqueName>new_opportunity_ribbon</UniqueName>
+      <DisplayName>opportunity_ribbon.js</DisplayName>
+      <UniqueName>opportunity_ribbon.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_dynamic_display_of_fieldvalue.js">

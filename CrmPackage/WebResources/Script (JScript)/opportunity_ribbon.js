@@ -222,7 +222,7 @@ function GetArupGroupCode(formContext) {
                     var result = JSON.parse(this.response);
                     arupGroupDetails.arupGroupCode = result["ccrm_arupgroupcode"];
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };

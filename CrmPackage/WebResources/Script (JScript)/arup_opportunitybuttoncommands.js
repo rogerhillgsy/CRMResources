@@ -267,7 +267,7 @@ Xrm.Page.Arup = (
 
         // General Utility functions ----------------------
             SetupTabsForStage: function (formContext) {
-                debugger;
+          
             // And the active BPF stage
             var activeStageName = formContext.data.process.getActiveStage();
             activeStageName = activeStageName == null ? null : activeStageName.getName();
@@ -287,7 +287,7 @@ Xrm.Page.Arup = (
         },
 
             setVisibleTabs: function (formContext, tabList) {
-                debugger;
+             
             var tabs = formContext.ui.tabs.get();
             for (var t in tabs) {
                 var tab = tabs[t];
@@ -379,7 +379,7 @@ Xrm.Page.Arup = (
         },
 
             DisplayTab: function (tabName, formContext) {
-                debugger;
+           
             var tab = formContext.ui.tabs.get(tabName);
             tab.setFocus();
             tab.setVisible(true);
