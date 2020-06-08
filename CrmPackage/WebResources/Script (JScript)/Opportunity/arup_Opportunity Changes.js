@@ -2,7 +2,7 @@
 var cacheValueBM = null;
 var cacheValueBD = null;
 
-function onSelectOfStage(formContext,selStageId) {
+function onSelectOfStage(formContext, selStageId) {
     if (selStageId == null || selStageId == 'undefined')
         formContext = formContext.getFormContext(); //1st paramter is executioncontext in case of FormOnload event
 
@@ -51,13 +51,13 @@ function onSelectOfStage(formContext,selStageId) {
     setBidDecisionChairRequired(formContext);
 }
 
-function ShowHideOpportunityTypeAndProjectProcurement(formContext,stageId) {
+function ShowHideOpportunityTypeAndProjectProcurement(formContext, stageId) {
     debugger;
     if (formContext.getAttribute("statecode").getValue() != 0) { return; }
 
     setTimeout(function () {
         if (stageId != null && stageId != undefined) {
-           // var selStageId = formContext.getAttribute("stageid").getValue();
+            // var selStageId = formContext.getAttribute("stageid").getValue();
 
             if (stageId == ArupStages.Lead || isPartOfDQTeam(formContext)) {
 
@@ -77,66 +77,26 @@ function ShowHideOpportunityTypeAndProjectProcurement(formContext,stageId) {
 
 //This function is called from 'Close as Lost' button and 'Close as lost/no Bid' button
 //pass opportunity status as Lost / Won from Ribbon Workbench, formcontext is primarycontrol paramter
-function CloseOpportunity(formContext,statusCode) {
+function CloseOpportunity(formContext, statusCode) {
+    debugger;
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var clientUrl = formContext.context.getClientUrl();
     //var stepName = getStepName(formContext,oppId);
     var activeStageId = formContext.data.process.getActiveStage().getId();
-    var oppDetails = getOpportunityReasons(formContext.context.getClientUrl(),activeStageId, statusCode, arupInternal);
+    var oppDetails = getOpportunityReasons(formContext.context.getClientUrl(), activeStageId, statusCode, arupInternal);
 
     //save the form before popping the dialog
-    if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
+    //  if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
 
-    //loop through all form attributes and detirmine which visible and required attributes are blank
-    setTimeout(function () {
-        var oppAttributes = formContext.data.entity.attributes.get();
-        var control;
-        var attribute;
-        var errors = false;
-        if (oppAttributes != null) {
-            for (var i in oppAttributes) {
 
-                if (statusCode.toUpperCase() == 'LOST' && oppAttributes[i].getName() == 'arup_biddecisionchair') { continue; }
-
-                control = formContext.getControl(oppAttributes[i].getName());
-                if (!!control && control.getVisible() == true) {
-                    attribute = formContext.getAttribute(oppAttributes[i].getName());
-                    if (!!attribute && attribute.getRequiredLevel() == 'required' && attribute.getValue() == null) {
-                        errors = true;
-                        break;
-                    }
-                }
-            }
-        }
-        if (errors) {
-
-            Alert.show('<font size="6" color="#FF0000"><b>Missing required information</b></font>',
-                '<font size="3" color="#000000"></br>Please, fill out all of the the required information on the form.</font>',
-                [
-                    { label: "<b>OK</b>", setFocus: true },
-                ], "ERROR", 550, 250, '', true);
-
-        }
-        else {
+    formContext.data.save().then(
+        function success(status) {
 
             setTimeout(function () {
                 if (oppDetails != null) {
                     var object = JSON.stringify(oppDetails);
                     var customParameters = "&oppId=" + oppId + "&oppDetails=" + object + "&statusCode=" + statusCode + "&clientUrl=" + clientUrl;
-
-                    // DialogOption.width = 600;
-                    // DialogOption.height = 445;
-                    //Xrm.Internal.openDialog(formContext.context.getClientUrl() + "/WebResources/arup_close_Opportunity?Data=" +
-                    //    customParameters,
-                    //    DialogOption,
-                    //    null,
-                    //    null,
-                    //    function (returnValue) {
-                    //        //debugger;
-                    //        Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
-                    //    });
-
                     var pageInput = {
                         pageType: "webresource",
                         webresourceName: "arup_close_Opportunity",
@@ -151,8 +111,8 @@ function CloseOpportunity(formContext,statusCode) {
                     };
                     Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
                         function success(returnValue) {
-                            formContext.data.entity.save();
-                            Xrm.Utility.openEntityForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                            //  formContext.data.entity.save();
+                            OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
                         },
                         function error() {
                             // Handle errors
@@ -163,6 +123,72 @@ function CloseOpportunity(formContext,statusCode) {
 
                 }
             }, 1000);
+        },
+        function (status) {
+            console.log("failure status " + status);
+        });
+    //loop through all form attributes and detirmine which visible and required attributes are blank
+    setTimeout(function () {
+        //var oppAttributes = formContext.data.entity.attributes.get();
+        //var control;
+        //var attribute;
+        //var errors = false;
+        //if (oppAttributes != null) {
+        //    for (var i in oppAttributes) {
+
+        //        if (statusCode.toUpperCase() == 'LOST' && oppAttributes[i].getName() == 'arup_biddecisionchair') { continue; }
+
+        //        control = formContext.getControl(oppAttributes[i].getName());
+        //        if (!!control && control.getVisible() == true) {
+        //            attribute = formContext.getAttribute(oppAttributes[i].getName());
+        //            if (!!attribute && attribute.getRequiredLevel() == 'required' && attribute.getValue() == null) {
+        //                errors = true;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
+        if (errors) {
+
+            //Alert.show('<font size="6" color="#FF0000"><b>Missing required information</b></font>',
+            //    '<font size="3" color="#000000"></br>Please, fill out all of the the required information on the form.</font>',
+            //    [
+            //        { label: "<b>OK</b>", setFocus: true },
+            //    ], "ERROR", 550, 250, '', true);
+
+        }
+        else {
+
+            //setTimeout(function () {
+            //    if (oppDetails != null) {
+            //        var object = JSON.stringify(oppDetails);
+            //        var customParameters = "&oppId=" + oppId + "&oppDetails=" + object + "&statusCode=" + statusCode + "&clientUrl=" + clientUrl;
+            //        var pageInput = {
+            //            pageType: "webresource",
+            //            webresourceName: "arup_close_Opportunity",
+            //            data: customParameters
+
+            //        };
+            //        var navigationOptions = {
+            //            target: 2,
+            //            width: 600,
+            //            height: 500,
+            //            position: 1
+            //        };
+            //        Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
+            //            function success(returnValue) {
+            //                formContext.data.save();
+            //                OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+            //            },
+            //            function error() {
+            //                // Handle errors
+            //            }
+            //        );
+
+
+
+            //    }
+            //}, 1000);
         }
     }, 1500);
 }
@@ -189,7 +215,7 @@ function CloseOpportunity(formContext,statusCode) {
 //    return stepname;
 //}
 
-function getOpportunityReasons(ClientUrl,activeStageId, statusCode, arupInternal) {
+function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInternal) {
 
     var ccrm_lostopp_reason = new String();
     var ccrm_lostopp_resaon_values = new String();
@@ -220,7 +246,7 @@ function getOpportunityReasons(ClientUrl,activeStageId, statusCode, arupInternal
                     var reasonkey = ccrm_wonopp_resaon_values.split(',');
                 }
 
-                for (var i = j = 0; i < reasonValue.length && j < reasonkey.length; i++ , j++) {
+                for (var i = j = 0; i < reasonValue.length && j < reasonkey.length; i++, j++) {
                     var key = reasonkey[j];
                     var value = reasonValue[i];
                     dictionary[key] = value;
@@ -235,7 +261,7 @@ function getOpportunityReasons(ClientUrl,activeStageId, statusCode, arupInternal
 }
 
 //Below function called from Ribbonworkbench: FormCOntext is primarycontrol paramter
-function CloseOpportunityConfirmation(formContext,statusCode) {
+function CloseOpportunityConfirmation(formContext, statusCode) {
     var client = formContext.getAttribute("ccrm_client").getValue();
     var arupInternal = (formContext.getAttribute("ccrm_arupinternal").getValue() == 1) ? true : false;
 
@@ -258,7 +284,7 @@ function CloseOpportunityConfirmation(formContext,statusCode) {
                         label: "<b>Confirm</b>",
                         callback: function () {
                             if (statusCode == "won") {
-                                CloseOpportunity(formContext,statusCode);
+                                CloseOpportunity(formContext, statusCode);
                             }
                             if (statusCode == "cjn") {
                                 requestConfirmJob(formContext);
@@ -281,7 +307,7 @@ function CloseOpportunityConfirmation(formContext,statusCode) {
         else {
 
             if (statusCode == "won") {
-                CloseOpportunity(formContext,statusCode);
+                CloseOpportunity(formContext, statusCode);
             }
             if (statusCode == "cjn") {
                 requestConfirmJob(formContext);
@@ -354,11 +380,11 @@ function BidDicisionConfirmation(formContext) {
         formContext.data.save();
     }
 
-    if (!IsFormValid(formContext, 'BDA') || !checkBidDecionChair(formContext,'AP')) { return; }
+    if (!IsFormValid(formContext, 'BDA') || !checkBidDecionChair(formContext, 'AP')) { return; }
 
     setTimeout(function () {
 
-        var ackMsg = BidConfirmationMessage(formContext,bidDecisionChair);
+        var ackMsg = BidConfirmationMessage(formContext, bidDecisionChair);
 
         Alert.show('<font size="6" color="#187ACD"><b>Opportunity - Decision to Bid</b></font>',
             '<font size="3" color="#000000"></br></br>' + ackMsg + '</font>',
@@ -367,7 +393,7 @@ function BidDicisionConfirmation(formContext) {
                     label: "<b>Confirm</b>",
                     callback: function () {
                         var approvalType = "BidDecisionChairApproval";
-                        approveCallbackAction(formContext,approvalType);
+                        approveCallbackAction(formContext, approvalType);
                         moveToNextTrigger = true;
                     },
                     setFocus: true,
@@ -386,7 +412,7 @@ function BidDicisionConfirmation(formContext) {
     }, 2000);
 }
 
-function BidConfirmationMessage(formContext,bidDecisionChair) {
+function BidConfirmationMessage(formContext, bidDecisionChair) {
 
     var userId = globalContext.userSettings.userId;
     var userName = globalContext.userSettings.userName;
@@ -441,7 +467,7 @@ function setBidDecisionChairRequired_ec(executionContext) {
 }
 
 function setBidDecisionChairRequired(formContext) {
- 
+
     var regionName;
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var opportunityType = formContext.getAttribute("arup_opportunitytype").getValue();
@@ -467,7 +493,7 @@ function checkBidDecionChair_ec(executionContext, attribute) {
     checkBidDecionChair(formContext, attribute);
 }
 
-function checkBidDecionChair(formContext, attribute) {    
+function checkBidDecionChair(formContext, attribute) {
     var state = formContext.getAttribute("statecode").getValue();
     var arupRegion = formContext.getAttribute("ccrm_arupregionid").getValue();
     var opportunityType = formContext.getAttribute("arup_opportunitytype").getValue();
@@ -486,13 +512,13 @@ function checkBidDecionChair(formContext, attribute) {
     var biddirector = formContext.getAttribute("ccrm_biddirector_userid").getValue();
     if (bidDecisionChair != null && bidmanager != null && bidDecisionChair[0].id == bidmanager[0].id) {
         var errorMessage = 'Bid Decision Chair cannot be the same as Bid Manager or Bid Director';
-        showAlertMessage(formContext,attribute, errorMessage);
+        showAlertMessage(formContext, attribute, errorMessage);
         if (attribute == 'AP') { return false; }
     }
     else if (attribute == 'AP') { return true; }
 }
 
-function showAlertMessage(formContext,attribute, errorMessage) {
+function showAlertMessage(formContext, attribute, errorMessage) {
 
     Alert.show('<font size="6" color="#FF0000"><b>Bid Decision Chair</b></font>',
         '<font size="3" color="#000000"></br>' + errorMessage + '</font>',
@@ -528,7 +554,7 @@ function errorHandlerBidDecision() {
         ], "ERROR", 450, 200, '', true);
 }
 
-function BidReviewApprovalConfirmation(formContext,approvalType) {
+function BidReviewApprovalConfirmation(formContext, approvalType) {
     var ackMsg = BidReviewApprovalConfirmationMessage(formContext);
 
     Alert.show('<font size="6" color="#1B76D5"><b>Opportunity - Bid Review Approval</b></font>',
@@ -537,7 +563,7 @@ function BidReviewApprovalConfirmation(formContext,approvalType) {
             {
                 label: "<b>Confirm</b>",
                 callback: function () {
-                    approveCallbackAction(formContext,approvalType);
+                    approveCallbackAction(formContext, approvalType);
                     moveToNextTrigger = true;
                 },
                 setFocus: true,
@@ -628,7 +654,7 @@ function retreiveOrganisationChecks(executionContext) {
 
                         var arup_creditcheck = result["arup_creditcheck"];
                         formContext.getAttribute("arup_creditcheck").setValue(arup_creditcheck);
-                       // setCreditCheckLight(formContext);
+                        // setCreditCheckLight(formContext);
 
                         var arup_duediligencecheck = result["arup_duediligencecheck"];
                         if (arup_duediligencecheck != null) { // If Sanctions is null on Client
@@ -744,7 +770,7 @@ function setDueDiligenceCheckLight(executionContext) {
 }
 
 function checkOrganisationChecks(executionContext) {
-    debugger;
+
     var formContext = executionContext.getFormContext();
     setTimeout(function () {
         var client = formContext.getAttribute("ccrm_client").getValue();
@@ -766,7 +792,7 @@ function checkOrganisationChecks(executionContext) {
                         var org_duediligencecheck = result["arup_duediligencecheck"];
                         var arup_duediligencecheck = formContext.getAttribute("arup_duediligencecheck").getValue();
                         if ((arup_duediligencecheck != org_duediligencecheck))
-                            setOrganisationChecks(formContext,arup_duediligencecheck);
+                            setOrganisationChecks(formContext, arup_duediligencecheck);
                     }
                 }
             };
@@ -775,7 +801,7 @@ function checkOrganisationChecks(executionContext) {
     }, 2000);
 }
 
-function setOrganisationChecks(formContext,arup_duediligencecheck) {
+function setOrganisationChecks(formContext, arup_duediligencecheck) {
     var client = formContext.getAttribute("ccrm_client").getValue();
     if (client != null) {
         var clientId = client[0].id.replace('{', '').replace('}', '');

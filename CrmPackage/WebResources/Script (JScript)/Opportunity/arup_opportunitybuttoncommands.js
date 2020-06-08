@@ -14,7 +14,7 @@
 //  any buttons that may be displayed are updated(to change visibility, etc.)
 
 Xrm.Page.Arup = (
-    function() {
+    function () {
         function GetAttribute(formContext, attrName) {
             var attr = formContext.getAttribute(attrName);
             if (attr != null) {
@@ -22,101 +22,101 @@ Xrm.Page.Arup = (
             }
             return attr;
         };
-    
-    function Log(s) { console.log(s);};
+
+        function Log(s) { console.log(s); };
         var tabStateChangeCallbackAdded = false;
         var buttonChangeCallbacks = {};
 
 
         var obj = {
-        ButtonState: {
-            ActiveTab: "Summary"
-        },
-
-        //
-        // Functions related to specific buttons ---------------------
-        //
-        //    RequestPossibleJob: function () {
-        //        requestPossibleJob(formContext);
-        //},
-
-        //RequestPossibleJobEnabled: function(formContext) {
-        //    // ccrm_possiblejobnumberrequired = 1
-        //    // Not in create state
-        //    // ccrm_showpjnbutton != 0
-        //    // statuscode != 3
-        //    // statecode != disabled (1)
-        //    // Has write access to opportunity.
-
-        //    var pjnrequired = GetAttribute(formContext, "ccrm_possiblejobnumberrequired");
-        //    var isCreate = formContext.ui.getFormType() == 1;
-        //    var showPJNButton = GetAttribute(formContext, "ccrm_showpjnbutton");
-        //    var statuscode = GetAttribute(formContext, "statuscode");
-        //    var statecode = GetAttribute(formContext, "statecode");
-        //    return pjnrequired != 1 && !isCreate && showPJNButton == 1 && statuscode != 3 && statecode != 1;
-        //},
-
-        BidDicisionConfirmation: function() {
-            BidDicisionConfirmation(formContext);
-        },
-
-        IsBidDicisionApprovalEnable: function (formContext) {
-          return  hideButtonBidDecisionApproval(formContext);
-         },
-
-        IsPMPDApprovalEnabled: function(formContext) {          
-            var statecode = GetAttribute(formContext, "statecode");
-            var pmpdApprovalOptions = GetAttribute(formContext, "ccrm_projmgrdirapprovaloptions");
-
-            return statecode == 0 && (pmpdApprovalOptions == 100000000 || pmpdApprovalOptions == 100000002);
+            ButtonState: {
+                ActiveTab: "Summary"
             },
 
-        IsAccCentreApprovalEnabled: function (formContext) {
-            var statecode = GetAttribute(formContext, "statecode");
-            var accCentreApprovalOptions = GetAttribute(formContext, "ccrm_acctcentleadapprovaloptions");
+            //
+            // Functions related to specific buttons ---------------------
+            //
+            //    RequestPossibleJob: function () {
+            //        requestPossibleJob(formContext);
+            //},
 
-            return statecode == 0 && (accCentreApprovalOptions == 100000000 || accCentreApprovalOptions == 100000002);
+            //RequestPossibleJobEnabled: function(formContext) {
+            //    // ccrm_possiblejobnumberrequired = 1
+            //    // Not in create state
+            //    // ccrm_showpjnbutton != 0
+            //    // statuscode != 3
+            //    // statecode != disabled (1)
+            //    // Has write access to opportunity.
+
+            //    var pjnrequired = GetAttribute(formContext, "ccrm_possiblejobnumberrequired");
+            //    var isCreate = formContext.ui.getFormType() == 1;
+            //    var showPJNButton = GetAttribute(formContext, "ccrm_showpjnbutton");
+            //    var statuscode = GetAttribute(formContext, "statuscode");
+            //    var statecode = GetAttribute(formContext, "statecode");
+            //    return pjnrequired != 1 && !isCreate && showPJNButton == 1 && statuscode != 3 && statecode != 1;
+            //},
+
+            BidDicisionConfirmation: function () {
+                BidDicisionConfirmation(formContext);
             },
 
-        IsFinanceApprovalEnabled: function (formContext) {
-            var statecode = GetAttribute(formContext, "statecode");
-            var finaceApprovalOptions = GetAttribute(formContext, "ccrm_financeapprovaloptions");
-
-            return statecode == 0 && (finaceApprovalOptions == 100000000 || finaceApprovalOptions == 100000002);
+            IsBidDicisionApprovalEnable: function (formContext) {
+                return hideButtonBidDecisionApproval(formContext);
             },
 
-        IsCJNGroupLeaderApprovalEnabled: function (formContext) {
+            IsPMPDApprovalEnabled: function (formContext) {
+                var statecode = GetAttribute(formContext, "statecode");
+                var pmpdApprovalOptions = GetAttribute(formContext, "ccrm_projmgrdirapprovaloptions");
+
+                return statecode == 0 && (pmpdApprovalOptions == 100000000 || pmpdApprovalOptions == 100000002);
+            },
+
+            IsAccCentreApprovalEnabled: function (formContext) {
+                var statecode = GetAttribute(formContext, "statecode");
+                var accCentreApprovalOptions = GetAttribute(formContext, "ccrm_acctcentleadapprovaloptions");
+
+                return statecode == 0 && (accCentreApprovalOptions == 100000000 || accCentreApprovalOptions == 100000002);
+            },
+
+            IsFinanceApprovalEnabled: function (formContext) {
+                var statecode = GetAttribute(formContext, "statecode");
+                var finaceApprovalOptions = GetAttribute(formContext, "ccrm_financeapprovaloptions");
+
+                return statecode == 0 && (finaceApprovalOptions == 100000000 || finaceApprovalOptions == 100000002);
+            },
+
+            IsCJNGroupLeaderApprovalEnabled: function (formContext) {
 
                 var statecode = GetAttribute(formContext, "statecode");
-            var cjnGrpLeaderApprovalOptions = GetAttribute(formContext, "ccrm_groupleadercjnapprovaloptions");
+                var cjnGrpLeaderApprovalOptions = GetAttribute(formContext, "ccrm_groupleadercjnapprovaloptions");
 
-            return statecode == 0 && (cjnGrpLeaderApprovalOptions == 100000000 || cjnGrpLeaderApprovalOptions == 100000002);
-        },
+                return statecode == 0 && (cjnGrpLeaderApprovalOptions == 100000000 || cjnGrpLeaderApprovalOptions == 100000002);
+            },
 
-        IsGroupLeaderApprovalEnabled: function (formContext) {
+            IsGroupLeaderApprovalEnabled: function (formContext) {
                 var statecode = GetAttribute(formContext, "statecode");
                 var grpApprovalOptions = GetAttribute(formContext, "ccrm_groupleaderapprovaloptions");
 
                 return statecode == 0 && (grpApprovalOptions == 100000000 || grpApprovalOptions == 100000002);
-        },
+            },
 
-        PJNApproveGroupLeader: function () {
-            ApprovalButtonClick(formContext,"Approve",
+            PJNApproveGroupLeader: function () {
+                ApprovalButtonClick(formContext, "Approve",
                     "GroupLeader",
                     "ccrm_groupleaderapprovaloptions",
                     "ccrm_groupleaderapproval",
                     "ccrm_groupleaderapprovaldate");
             },
 
-        CJNApproveGroupLeader: function() {
-            CJNApprovalButtonClick(formContext,"Approve",
-                "GroupLeaderApproval",
-                "ccrm_groupleadercjnapprovaloptions",
-                "ccrm_groupleadercjnapproval",
-                "ccrm_groupleadercjnapprovaldate");
-        },
+            CJNApproveGroupLeader: function () {
+                CJNApprovalButtonClick(formContext, "Approve",
+                    "GroupLeaderApproval",
+                    "ccrm_groupleadercjnapprovaloptions",
+                    "ccrm_groupleadercjnapproval",
+                    "ccrm_groupleadercjnapprovaldate");
+            },
 
-        CJNApprovePMPD: function (formContext) {
+            CJNApprovePMPD: function (formContext) {
                 CJNApprovalButtonClick(formContext, "Approve",
                     "ProjectManagerApproval",
                     "ccrm_projmgrdirapprovaloptions",
@@ -124,14 +124,14 @@ Xrm.Page.Arup = (
                     "ccrm_projmgrdirapprovaldate");
             },
 
-        CJNApproveAccountingCentre: function (formContext) {
+            CJNApproveAccountingCentre: function (formContext) {
                 CJNApprovalButtonClick(formContext, "Approve",
                     "AccCenterLeadApproval",
                     "ccrm_acctcentleadapprovaloptions",
                     "ccrm_acctcentleadapproval",
                     "ccrm_acctcentleadapprovaldate");
-        },
-        CJNApproveFinance: function (formContext) {
+            },
+            CJNApproveFinance: function (formContext) {
                 CJNApprovalButtonClick(formContext, "Approve",
                     "FinanceApproval",
                     "ccrm_financeapprovaloptions",
@@ -139,38 +139,38 @@ Xrm.Page.Arup = (
                     "ccrm_financeapprovaldate");
             },
 
-        IsRegionalSectorLeaderApprovalEnabled: function (formContext) {
+            IsRegionalSectorLeaderApprovalEnabled: function (formContext) {
 
-            var statecode = GetAttribute(formContext, "statecode");
-            var sectorApprovalOptions = GetAttribute(formContext, "ccrm_regionalpracticeleaderapprovaloptions");
-            var oppType = GetAttribute(formContext, "ccrm_opportunitytype");
+                var statecode = GetAttribute(formContext, "statecode");
+                var sectorApprovalOptions = GetAttribute(formContext, "ccrm_regionalpracticeleaderapprovaloptions");
+                var oppType = GetAttribute(formContext, "ccrm_opportunitytype");
 
-            return statecode == 0 &&
-                oppType == 200003 &&
-                (sectorApprovalOptions == 100000000 || sectorApprovalOptions == 100000002);
+                return statecode == 0 &&
+                    oppType == 200003 &&
+                    (sectorApprovalOptions == 100000000 || sectorApprovalOptions == 100000002);
             },
 
-        IsSectorLeaderApprovalEnabled: function (formContext) {
-            
+            IsSectorLeaderApprovalEnabled: function (formContext) {
+
                 var statecode = GetAttribute(formContext, "statecode");
-            var sectorApprovalOptions = GetAttribute(formContext, "ccrm_practiceleaderapprovaloptions");
+                var sectorApprovalOptions = GetAttribute(formContext, "ccrm_practiceleaderapprovaloptions");
                 var oppType = GetAttribute(formContext, "ccrm_opportunitytype");
 
                 return statecode == 0 &&
                     oppType == 200002 &&
                     (sectorApprovalOptions == 100000000 || sectorApprovalOptions == 100000002);
-        },
+            },
 
-        IsBidDirectorApprovalEnabled: function (formContext) {
-          
-            var statecode = GetAttribute(formContext, "statecode");
-            var bdApprovalOptions = GetAttribute(formContext, "ccrm_biddirectorapprovaloptions");
-            return statecode == 0 &&
-            (bdApprovalOptions == 100000000 || bdApprovalOptions == 100000002);
-        },
+            IsBidDirectorApprovalEnabled: function (formContext) {
+
+                var statecode = GetAttribute(formContext, "statecode");
+                var bdApprovalOptions = GetAttribute(formContext, "ccrm_biddirectorapprovaloptions");
+                return statecode == 0 &&
+                    (bdApprovalOptions == 100000000 || bdApprovalOptions == 100000002);
+            },
 
 
-        PJNApproveBidDirector: function () {
+            PJNApproveBidDirector: function () {
                 ApprovalButtonClick(formContext, "Approve",
                     "BidDirector",
                     "ccrm_biddirectorapprovaloptions",
@@ -178,248 +178,248 @@ Xrm.Page.Arup = (
                     "ccrm_biddirectorapprovaldate");
             },
 
-        PJNApproveRegionalSectorLeader: function () {
-                ApprovalButtonClick(formContext,"Approve",
+            PJNApproveRegionalSectorLeader: function () {
+                ApprovalButtonClick(formContext, "Approve",
                     "RegionalPracticeLeader",
                     "ccrm_regionalpracticeleaderapprovaloptions",
                     "ccrm_regionalpracticeleaderapproval",
                     "ccrm_regionalpracticeleaderapprovaldate");
-         },
+            },
 
-        PJNApproveSectorLeader: function() {
-            ApprovalButtonClick(formContext,"Approve",
-                "PracticeLeader",
-                "ccrm_practiceleaderapprovaloptions",
-                "ccrm_practiceleaderapproval",
-                "ccrm_practiceleaderapprovaldate");
-        },
+            PJNApproveSectorLeader: function () {
+                ApprovalButtonClick(formContext, "Approve",
+                    "PracticeLeader",
+                    "ccrm_practiceleaderapprovaloptions",
+                    "ccrm_practiceleaderapproval",
+                    "ccrm_practiceleaderapprovaldate");
+            },
 
-        IsRegionalCOOApprovalEnabled: function(formContext) {
-            // ccrm_opportunitytype = 200003 - Risk Level 3
-            // statecode = 0 (active)
-            //    (
-            //          ccrm_regioncooapprovaloptions == 100000000  // Awaiting response
-            //       or ccrm_regioncooapprovaloptions == 100000002  // declined
-            //     )
-            var statecode = GetAttribute(formContext, "statecode");
-            var cooApprovalOptions = GetAttribute(formContext, "ccrm_regioncooapprovaloptions");
-            var oppType = GetAttribute(formContext, "ccrm_opportunitytype");
+            IsRegionalCOOApprovalEnabled: function (formContext) {
+                // ccrm_opportunitytype = 200003 - Risk Level 3
+                // statecode = 0 (active)
+                //    (
+                //          ccrm_regioncooapprovaloptions == 100000000  // Awaiting response
+                //       or ccrm_regioncooapprovaloptions == 100000002  // declined
+                //     )
+                var statecode = GetAttribute(formContext, "statecode");
+                var cooApprovalOptions = GetAttribute(formContext, "ccrm_regioncooapprovaloptions");
+                var oppType = GetAttribute(formContext, "ccrm_opportunitytype");
 
-            return statecode == 0 &&
-                oppType == 200003 &&
-                (cooApprovalOptions == 100000000 || cooApprovalOptions == 100000002);
-        },
+                return statecode == 0 &&
+                    oppType == 200003 &&
+                    (cooApprovalOptions == 100000000 || cooApprovalOptions == 100000002);
+            },
 
-        PJNApproveRegionalCOO: function () {
-            ApprovalButtonClick(formContext,"Approve",
+            PJNApproveRegionalCOO: function () {
+                ApprovalButtonClick(formContext, "Approve",
                     "RegionalCOO",
                     "ccrm_regioncooapprovaloptions",
                     "ccrm_regioncooapproval",
                     "ccrm_regionalcooapprovaldate");
             },
 
-        ApproveRegionalCOO: function(formContext) {
-            CJNApprovalButtonClick("Approve",
-                "RegionalCOO",
-                "ccrm_regioncooapprovaloptions",
-                "ccrm_regioncooapproval",
-                "ccrm_regionalcooapprovaldate");
-        },
+            ApproveRegionalCOO: function (formContext) {
+                CJNApprovalButtonClick("Approve",
+                    "RegionalCOO",
+                    "ccrm_regioncooapprovaloptions",
+                    "ccrm_regioncooapproval",
+                    "ccrm_regionalcooapprovaldate");
+            },
 
-        IsApproveBidReviewEnabled: function(formContext) {
-            // ccrm_shwbidreviewappbtn = 1 (Yes)
-            // statecode = 0 (active)
-            var statecode = GetAttribute(formContext, "statecode");
-            var showBidReviewButton = GetAttribute(formContext, "ccrm_shwbidreviewappbtn");
+            IsApproveBidReviewEnabled: function (formContext) {
+                // ccrm_shwbidreviewappbtn = 1 (Yes)
+                // statecode = 0 (active)
+                var statecode = GetAttribute(formContext, "statecode");
+                var showBidReviewButton = GetAttribute(formContext, "ccrm_shwbidreviewappbtn");
 
-            return statecode == 0 && showBidReviewButton == 1;
-        },
+                return statecode == 0 && showBidReviewButton == 1;
+            },
 
-        //IsApproveBidReviewApproved: function(formContext) {
-        //    // statecode = 0 (active)
-        //    // ccrm_bidreviewoutcome == 100000002
-        //    var statecode = GetAttribute(formContext, "statecode");
-        //    var bidReviewOutcome = GetAttribute(formContext, "ccrm_bidreviewoutcome");
+            //IsApproveBidReviewApproved: function(formContext) {
+            //    // statecode = 0 (active)
+            //    // ccrm_bidreviewoutcome == 100000002
+            //    var statecode = GetAttribute(formContext, "statecode");
+            //    var bidReviewOutcome = GetAttribute(formContext, "ccrm_bidreviewoutcome");
 
-        //    return statecode == 0 && bidReviewOutcome == 100000002;
-        //},
+            //    return statecode == 0 && bidReviewOutcome == 100000002;
+            //},
 
-        ApproveBidReview: function() {
-            BidReviewApprovalClick(formContext);
-        },
+            ApproveBidReview: function () {
+                BidReviewApprovalClick(formContext);
+            },
 
-        IsBidSubmittedEnabled: function (formContext) {
-            return hideButtonBidSubmitted(formContext);
-        },
+            IsBidSubmittedEnabled: function (formContext) {
+                return hideButtonBidSubmitted(formContext);
+            },
 
-        BidSubmitted: function () {
-            BidSubmittedClick(formContext);
-        },
+            BidSubmitted: function () {
+                BidSubmittedClick(formContext);
+            },
 
-        AddProjectParticipant: function () {
-            addProjectParticipant(formContext);
-        },
+            AddProjectParticipant: function () {
+                addProjectParticipant(formContext);
+            },
 
-        IsAddProjectParticipantEnabled: function (formContext) {
-            return hideButtonProjectCollaborator(formContext);
-        },
+            IsAddProjectParticipantEnabled: function (formContext) {
+                return hideButtonProjectCollaborator(formContext);
+            },
 
 
-        // General Utility functions ----------------------
+            // General Utility functions ----------------------
             SetupTabsForStage: function (formContext) {
-                debugger;
-            // And the active BPF stage
-            var activeStageName = formContext.data.process.getActiveStage();
-            activeStageName = activeStageName == null ? null : activeStageName.getName();
+
+                // And the active BPF stage
+                var activeStageName = formContext.data.process.getActiveStage();
+                activeStageName = activeStageName == null ? null : activeStageName.getName();
                 var activeTabName = obj.stageToTabMapping[activeStageName];
                 formContext.Arup.ActiveTabName = activeTabName;
-            Log("activeTabName :" + activeTabName);
+                Log("activeTabName :" + activeTabName);
 
-            if (activeStageName != null) {
-                // Decide which tabs should be visible.
-                Log("Displaying tabs for process stage " + activeStageName + " / " + activeTabName);
-                obj.DisplayTab(activeTabName, formContext);
-                obj.setVisibleTabs(formContext, obj.staticTabs.concat([activeTabName]));
-                if (buttonChangeCallbacks[activeTabName] != null) {
-                    buttonChangeCallbacks[activeTabName]();
+                if (activeStageName != null) {
+                    // Decide which tabs should be visible.
+                    Log("Displaying tabs for process stage " + activeStageName + " / " + activeTabName);
+                    obj.DisplayTab(activeTabName, formContext);
+                    obj.setVisibleTabs(formContext, obj.staticTabs.concat([activeTabName]));
+                    if (buttonChangeCallbacks[activeTabName] != null) {
+                        buttonChangeCallbacks[activeTabName]();
+                    }
                 }
-            }
-        },
+            },
 
             setVisibleTabs: function (formContext, tabList) {
-                debugger;
-            var tabs = formContext.ui.tabs.get();
-            for (var t in tabs) {
-                var tab = tabs[t];
-                var tabName = tab.getName();
-                if (tabList.indexOf(tabName) > -1) {
-                    tab.setVisible(true);
-                } else {
-                    tab.setVisible(false);
-                }
-            }
-            if (formContext.getAttribute('statecode').getValue() != 0) {
-                formContext.ui.tabs.get("Summary").setFocus();
-            }
-        },
 
-        GetTabNumber : function(formContext, tabName) {
-            var tabs = formContext.ui.tabs.get();
-            var tabNum = null;
-            for (var t in tabs) {
-                var tab = tabs[t];
-                if (tab.getName() == tabName) {
-                    tabNum = t;
-                }
-            }
-            return tabNum;
-        },
-
-        BPFMoveNext: function(formContext, successCallback) {
-            // BPFMoveNext(); -- existing function does not seem relevant to V9
-            var opportunityType = GetAttribute(formContext, "arup_opportunitytype");
-            if (opportunityType == '770000005') {
-                return;
-            }
-
-            // Make sure form is saved.
-            //  formContext.data.entity.save();
-            formContext.data.save().then(
-                function success(status) {
-                    Log("success status" + status);
-                    var process = formContext.data.process;
-                    if (process != null) {
-                        process.moveNext(
-                            function(result) {
-                                Log("result is " + result);
-                                if (result == "success") {
-                                    obj.SetupTabsForStage(formContext);
-                                    successCallback();
-                                } else {
-                                    Xrm.Navigation.openAlertDialog({
-                                        title : "Process error",
-                                        text: "Unable to move to next stage: " + result
-                                    });
-                                }
-                            });
-                    }
-                },
-                function(status) {
-                    Log("failure status " + status);
-                });
-        },
-
-        stageToTabMapping: {
-            "PRE-BID": "Pre-Bid_Tab",
-            "CROSS REGION": "Cross_Region_Tab",
-            "PJN APPROVAL": "PJN_Approval_tab",
-            "DEVELOPING BID": "Developing_Bid_tab",
-            "BID REVIEW/SUBMISSION": "Bid_Review_Submission_tab",
-            "CONFIRMED JOB - PROJECT": "Confirmed_Job_Project_Tab",
-            "CONFIRMED JOB - COMMERCIAL": "Confirmed_Job_commercial_Tab",
-            "CJN APPROVAL": "CJN_Approval_tab",
-        },
-
-        staticTabs: [
-            'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
-            'Bid_Details_Tab', 'Bid_Development_Tab_External','Notes_tab'
-        ],
-        // Entry point from the form properties.
-        // This is set up as en event handler to be called from the main CRM opportunity form.
-        // Display the active tab according to the current stage.
-            displayActiveTabForStage: function (executionContext) {
-     
-            var formContext = executionContext.getFormContext();
-            obj.SetupTabsForStage(formContext);
-            formContext.data.process.addOnStageChange(function (executionContext) {
-                Log("Process stage Change");
-                var formContext = executionContext.getFormContext();
-                obj.SetupTabsForStage(formContext);
-            });
-        },
-
-            DisplayTab: function (tabName, formContext) {
-                debugger;
-            var tab = formContext.ui.tabs.get(tabName);
-            tab.setFocus();
-            tab.setVisible(true);
-            tab.setDisplayState("expanded");
-            if ( buttonChangeCallbacks[tabName] != null) {
-                buttonChangeCallbacks[tabName]();
-            }
-            return tabName;
-        },
-
-        OnDisplayingTab: function(formContext, tabName, callback) {
-            buttonChangeCallbacks[tabName] = callback;
-            if (!tabStateChangeCallbackAdded) {
-                tabStateChangeCallbackAdded = true;
                 var tabs = formContext.ui.tabs.get();
                 for (var t in tabs) {
                     var tab = tabs[t];
-                    tab.addTabStateChange(OnTabStateChange);
+                    var tabName = tab.getName();
+                    if (tabList.indexOf(tabName) > -1) {
+                        tab.setVisible(true);
+                    } else {
+                        tab.setVisible(false);
+                    }
+                }
+                if (formContext.getAttribute('statecode').getValue() != 0) {
+                    formContext.ui.tabs.get("Summary").setFocus();
+                }
+            },
+
+            GetTabNumber: function (formContext, tabName) {
+                var tabs = formContext.ui.tabs.get();
+                var tabNum = null;
+                for (var t in tabs) {
+                    var tab = tabs[t];
+                    if (tab.getName() == tabName) {
+                        tabNum = t;
+                    }
+                }
+                return tabNum;
+            },
+
+            BPFMoveNext: function (formContext, successCallback) {
+                // BPFMoveNext(); -- existing function does not seem relevant to V9
+                var opportunityType = GetAttribute(formContext, "arup_opportunitytype");
+                if (opportunityType == '770000005') {
+                    return;
+                }
+
+                // Make sure form is saved.
+                //  formContext.data.entity.save();
+                formContext.data.save().then(
+                    function success(status) {
+                        Log("success status" + status);
+                        var process = formContext.data.process;
+                        if (process != null) {
+                            process.moveNext(
+                                function (result) {
+                                    Log("result is " + result);
+                                    if (result == "success") {
+                                        obj.SetupTabsForStage(formContext);
+                                        successCallback();
+                                    } else {
+                                        Xrm.Navigation.openAlertDialog({
+                                            title: "Process error",
+                                            text: "Unable to move to next stage: " + result
+                                        });
+                                    }
+                                });
+                        }
+                    },
+                    function (status) {
+                        Log("failure status " + status);
+                    });
+            },
+
+            stageToTabMapping: {
+                "PRE-BID": "Pre-Bid_Tab",
+                "CROSS REGION": "Cross_Region_Tab",
+                "PJN APPROVAL": "PJN_Approval_tab",
+                "DEVELOPING BID": "Developing_Bid_tab",
+                "BID REVIEW/SUBMISSION": "Bid_Review_Submission_tab",
+                "CONFIRMED JOB - PROJECT": "Confirmed_Job_Project_Tab",
+                "CONFIRMED JOB - COMMERCIAL": "Confirmed_Job_commercial_Tab",
+                "CJN APPROVAL": "CJN_Approval_tab",
+            },
+
+            staticTabs: [
+                'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
+                'Bid_Details_Tab', 'Bid_Development_Tab_External', 'Notes_tab'
+            ],
+            // Entry point from the form properties.
+            // This is set up as en event handler to be called from the main CRM opportunity form.
+            // Display the active tab according to the current stage.
+            displayActiveTabForStage: function (executionContext) {
+
+                var formContext = executionContext.getFormContext();
+                obj.SetupTabsForStage(formContext);
+                formContext.data.process.addOnStageChange(function (executionContext) {
+                    Log("Process stage Change");
+                    var formContext = executionContext.getFormContext();
+                    obj.SetupTabsForStage(formContext);
+                });
+            },
+
+            DisplayTab: function (tabName, formContext) {
+
+                var tab = formContext.ui.tabs.get(tabName);
+                tab.setFocus();
+                tab.setVisible(true);
+                tab.setDisplayState("expanded");
+                if (buttonChangeCallbacks[tabName] != null) {
+                    buttonChangeCallbacks[tabName]();
+                }
+                return tabName;
+            },
+
+            OnDisplayingTab: function (formContext, tabName, callback) {
+                buttonChangeCallbacks[tabName] = callback;
+                if (!tabStateChangeCallbackAdded) {
+                    tabStateChangeCallbackAdded = true;
+                    var tabs = formContext.ui.tabs.get();
+                    for (var t in tabs) {
+                        var tab = tabs[t];
+                        tab.addTabStateChange(OnTabStateChange);
+                    }
+                }
+
+            }
+        };
+
+        function OnTabStateChange(e) {
+            var source = e.getEventSource();
+            if (source.getDisplayState() == "collapsed") {
+                formContext.Arup.PreviousTab = source.getName();
+            }
+            if (source.getDisplayState() == "expanded") {
+                var tabName = source.getName();
+                Log("Tab expanded :" + tabName);
+                if (buttonChangeCallbacks[tabName] != null) {
+                    buttonChangeCallbacks[tabName]();
                 }
             }
-
         }
-    };
 
-    function OnTabStateChange(e) {
-        var source = e.getEventSource();
-        if (source.getDisplayState() == "collapsed") {
-            formContext.Arup.PreviousTab = source.getName();
-        }
-        if (source.getDisplayState() == "expanded") {
-            var tabName = source.getName();
-            Log("Tab expanded :" + tabName);
-            if (buttonChangeCallbacks[tabName] != null) {
-                buttonChangeCallbacks[tabName]();
-            }
-        }
-    }
-
-    return obj;
-})();
+        return obj;
+    })();
 
 
 

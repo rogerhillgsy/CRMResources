@@ -479,7 +479,7 @@ function ccrm_projectid_onchange(formContext) {
         formContext.getAttribute("ccrm_suffix").setValue(null);
 
     if (formContext.getAttribute("ccrm_projectid").getValue() != null) {
-        webservice_onchange();
+        webservice_onchange(formContext);
 
         formContext.getControl("ccrm_suffix").setDisabled(false);
 
