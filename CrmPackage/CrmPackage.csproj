@@ -1384,37 +1384,37 @@
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_close_Opportunity.htm">
       <DisplayName>arup_close_Opportunity</DisplayName>
-      <UniqueName>new_arup_close_Opportunity</UniqueName>
+      <UniqueName>arup_close_Opportunity</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_dynamic_display_of_fieldvalue.js">
       <DisplayName>arup_dynamic_display_of_fieldvalue</DisplayName>
-      <UniqueName>new_arup_dynamic_display_of_fieldvalue</UniqueName>
+      <UniqueName>arup_dynamic_display_of_fieldvalue</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_Opportunity Changes.js">
       <DisplayName>arup_Opportunity_Changes</DisplayName>
-      <UniqueName>new_arup_Opportunity_Changes</UniqueName>
+      <UniqueName>arup_Opportunity_Changes</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_opportunitybuttoncommands.js">
       <DisplayName>arup_opportunitybuttoncommands</DisplayName>
-      <UniqueName>new_arup_opportunitybuttoncommands</UniqueName>
+      <UniqueName>arup_opportunitybuttoncommands</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_opportunitybuttons.html">
       <DisplayName>arup_opportunitybuttons</DisplayName>
-      <UniqueName>new_arup_opportunitybuttons</UniqueName>
+      <UniqueName>arup_opportunitybuttons</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\opportunity_ribbon.js">
       <DisplayName>opportunity_ribbon</DisplayName>
-      <UniqueName>new_opportunity_ribbon</UniqueName>
+      <UniqueName>opportunity_ribbon</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\ccrm_opportunity_library_2015.js">
       <DisplayName>ccrm_opportunity_library_2015</DisplayName>
-      <UniqueName>new_ccrm_opportunity_library_2015</UniqueName>
+      <UniqueName>ccrm_opportunity_library_2015</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\Organisation\arup_Relationship_Interactions.html">

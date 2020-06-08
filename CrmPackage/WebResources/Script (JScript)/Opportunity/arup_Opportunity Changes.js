@@ -86,9 +86,8 @@ function CloseOpportunity(formContext, statusCode) {
     var activeStageId = formContext.data.process.getActiveStage().getId();
     var oppDetails = getOpportunityReasons(formContext.context.getClientUrl(), activeStageId, statusCode, arupInternal);
 
-    //save the form before popping the dialog
-    //  if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
-
+    formContext.getAttribute("arup_biddecisionchair").setRequiredLevel('none');
+    formContext.getAttribute("ccrm_bidreviewchair_userid").setRequiredLevel('none');
 
     formContext.data.save().then(
         function success(status) {
@@ -127,70 +126,6 @@ function CloseOpportunity(formContext, statusCode) {
         function (status) {
             console.log("failure status " + status);
         });
-    //loop through all form attributes and detirmine which visible and required attributes are blank
-    setTimeout(function () {
-        //var oppAttributes = formContext.data.entity.attributes.get();
-        //var control;
-        //var attribute;
-        //var errors = false;
-        //if (oppAttributes != null) {
-        //    for (var i in oppAttributes) {
-
-        //        if (statusCode.toUpperCase() == 'LOST' && oppAttributes[i].getName() == 'arup_biddecisionchair') { continue; }
-
-        //        control = formContext.getControl(oppAttributes[i].getName());
-        //        if (!!control && control.getVisible() == true) {
-        //            attribute = formContext.getAttribute(oppAttributes[i].getName());
-        //            if (!!attribute && attribute.getRequiredLevel() == 'required' && attribute.getValue() == null) {
-        //                errors = true;
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
-        if (errors) {
-
-            //Alert.show('<font size="6" color="#FF0000"><b>Missing required information</b></font>',
-            //    '<font size="3" color="#000000"></br>Please, fill out all of the the required information on the form.</font>',
-            //    [
-            //        { label: "<b>OK</b>", setFocus: true },
-            //    ], "ERROR", 550, 250, '', true);
-
-        }
-        else {
-
-            //setTimeout(function () {
-            //    if (oppDetails != null) {
-            //        var object = JSON.stringify(oppDetails);
-            //        var customParameters = "&oppId=" + oppId + "&oppDetails=" + object + "&statusCode=" + statusCode + "&clientUrl=" + clientUrl;
-            //        var pageInput = {
-            //            pageType: "webresource",
-            //            webresourceName: "arup_close_Opportunity",
-            //            data: customParameters
-
-            //        };
-            //        var navigationOptions = {
-            //            target: 2,
-            //            width: 600,
-            //            height: 500,
-            //            position: 1
-            //        };
-            //        Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
-            //            function success(returnValue) {
-            //                formContext.data.save();
-            //                OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
-            //            },
-            //            function error() {
-            //                // Handle errors
-            //            }
-            //        );
-
-
-
-            //    }
-            //}, 1000);
-        }
-    }, 1500);
 }
 
 //function getStepName(formContext,oppId) {
@@ -367,49 +302,49 @@ function ConfirmationMessage(formContext) {
 function BidDicisionConfirmation(formContext) {
 
     var bidDecisionChair = formContext.getAttribute("arup_biddecisionchair").getValue();
-
-    if (bidDecisionChair == null) {
-        errorHandlerBidDecision();
-        return;
-    }
-
     ccrm_opportunitytype_onchange(formContext);
 
-    var ismodified = formContext.data.entity.getIsDirty();
-    if (ismodified == true) {
-        formContext.data.save();
-    }
+    if (!checkBidDecionChair(formContext, 'AP')) { return; }
 
-    if (!IsFormValid(formContext, 'BDA') || !checkBidDecionChair(formContext, 'AP')) { return; }
+    formContext.data.save().then(
+        function success(status) {
+            if (IsFormValid(formContext, 'BDA')){
+            setTimeout(function () {
 
-    setTimeout(function () {
+            var ackMsg = BidConfirmationMessage(formContext, bidDecisionChair);
 
-        var ackMsg = BidConfirmationMessage(formContext, bidDecisionChair);
-
-        Alert.show('<font size="6" color="#187ACD"><b>Opportunity - Decision to Bid</b></font>',
-            '<font size="3" color="#000000"></br></br>' + ackMsg + '</font>',
-            [
-                {
-                    label: "<b>Confirm</b>",
-                    callback: function () {
-                        var approvalType = "BidDecisionChairApproval";
-                        approveCallbackAction(formContext, approvalType);
-                        moveToNextTrigger = true;
-                    },
-                    setFocus: true,
-                    preventClose: false
-
-                },
-                {
-                    label: "<b>Cancel</b>",
-                    callback: function () {
+            Alert.show('<font size="6" color="#187ACD"><b>Opportunity - Decision to Bid</b></font>',
+                '<font size="3" color="#000000"></br></br>' + ackMsg + '</font>',
+                [
+                    {
+                        label: "<b>Confirm</b>",
+                        callback: function () {
+                            var approvalType = "BidDecisionChairApproval";
+                            approveCallbackAction(formContext, approvalType);
+                            moveToNextTrigger = true;
+                        },
+                        setFocus: true,
+                        preventClose: false
 
                     },
-                    setFocus: false,
-                    preventClose: false
-                }
-            ], 'QUESTION', 800, 470, '', true);
-    }, 2000);
+                    {
+                        label: "<b>Cancel</b>",
+                        callback: function () {
+
+                        },
+                        setFocus: false,
+                        preventClose: false
+                    }
+                ], 'QUESTION', 800, 470, '', true);
+        }, 2000);
+            }
+            else {
+                formContext.data.save();
+            }
+        },
+        function (status) {
+            console.log("failure status " + status);
+        });
 }
 
 function BidConfirmationMessage(formContext, bidDecisionChair) {
@@ -542,17 +477,17 @@ function showAlertMessage(formContext, attribute, errorMessage) {
         ], "ERROR", 550, 200, '', true);
 }
 
-function errorHandlerBidDecision() {
-    Alert.show('<font size="6" color="#FF0000"><b>Stop</b></font>',
-        '<font size="3" color="#000000"></br>Bid Decision Chair cannot be empty.</font>',
-        [
-            {
-                label: "<b>OK</b>",
-                setFocus: true,
-                preventClose: false
-            },
-        ], "ERROR", 450, 200, '', true);
-}
+//function errorHandlerBidDecision() {
+//    Alert.show('<font size="6" color="#FF0000"><b>Stop</b></font>',
+//        '<font size="3" color="#000000"></br>Bid Decision Chair cannot be empty.</font>',
+//        [
+//            {
+//                label: "<b>OK</b>",
+//                setFocus: true,
+//                preventClose: false
+//            },
+//        ], "ERROR", 450, 200, '', true);
+//}
 
 function BidReviewApprovalConfirmation(formContext, approvalType) {
     var ackMsg = BidReviewApprovalConfirmationMessage(formContext);
