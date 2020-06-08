@@ -5,6 +5,7 @@ var isOptionSetSelectedValueValid = false;
 var optionsetSelectedValue;
 
 function GetDependentOptionSetFieldValues(executionContext, mainOptionsetFieldName, dependentOptionsetFieldName) {
+debugger;
     var formContext = executionContext.getFormContext();
     var mainOptionSetFieldValue = formContext.getAttribute(mainOptionsetFieldName).getValue();
 
@@ -28,10 +29,10 @@ function GetDependentOptionSetFieldValues(executionContext, mainOptionsetFieldNa
                     OptionSetAddRemove(dependentOptionsetFieldName, results, formContext);
 
                     if (setDefaultValue == true) {
-                        formContext.getAttribute(dependentOptionsetFieldName).setValue(optionsetDefaultValue);
+                        formContext.getAttribute(dependentOptionsetFieldName).setValue(parseInt(optionsetDefaultValue));
                     }
                     else if (isOptionSetSelectedValueValid)
-                        formContext.getAttribute(dependentOptionsetFieldName).setValue(optionsetSelectedValue);
+                        formContext.getAttribute(dependentOptionsetFieldName).setValue(parseInt(optionsetSelectedValue));
 
                     if (formContext.getAttribute("statecode") == null || formContext.getAttribute("statecode").getValue() == 0)
                         formContext.getControl(dependentOptionsetFieldName).setDisabled(optionsetReadOnly);

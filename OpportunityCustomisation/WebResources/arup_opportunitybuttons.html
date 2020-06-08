@@ -1,10 +1,10 @@
 ﻿<!--
-This web resource works together with arup_opportunitybuttoncommands.js to display 
+This web resource works together with arup_opportunitybuttoncommands.js to display
 buttons on the opportunity form that are relevant to the current BPF stage.
-    
+
 Arguments: The name of the tab must be specified in the CRM data arguments for the web resource, where it has been added to the form.
-    
-Bear in mind that this web resource is added to several different tabs within the opportunity, and that each copy of the web resource 
+
+Bear in mind that this web resource is added to several different tabs within the opportunity, and that each copy of the web resource
 functions independently of the others.
 There will be several copies of the web resource visible in the debugger as "arup_opportunitybuttons.html?data=PJN_Costs_Tab", for example.
 
@@ -19,6 +19,28 @@ There will be several copies of the web resource visible in the debugger as "aru
         body {
             margin: 0px;
             vertical-align: middle;
+        }
+
+        label {
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 5px;
+            color: black;
+            font-family: Arial;
+            min-width: 280px;
+            width: 80%;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 5px 10px 10px 5px;
+            background-color: white;
+            box-shadow: 1px 1px 2px 2px #ab918f;
+            -webkit-box-shadow: 1px 5px 5px 1px #ab918f;
+            border: solid #FFFFFF 1px;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+            margin: 4px;
         }
 
         .mainButton {
@@ -36,6 +58,48 @@ There will be several copies of the web resource visible in the debugger as "aru
             box-shadow: 1px 1px 2px 2px #ab918f;
             -webkit-box-shadow: 1px 5px 5px 1px #ab918f;
             -moz-box-shadow: 1px 1px 2px 2px #ab918f;
+            border: solid #FFFFFF 1px;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+            margin: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .mainButton:hover {
+                background: #E43326;
+                border: solid #FFFFFF 1px;
+                -webkit-border-radius: 6px;
+                -moz-border-radius: 6px;
+                border-radius: 6px;
+                text-decoration: none;
+        }
+
+        .mainButton:active {
+                background: #D42316;
+                box-shadow: 1px 1px 2px 2px #ab918f;
+                -webkit-box-shadow: 1px 1px 1px 1px #ab918f;
+                -moz-box-shadow: 1px 1px 2px 2px #ab918f;
+                -webkit-transform: translate(4px, 4px);
+        }
+
+        .greenButton {
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 5px;
+            color: #FFFFFF;
+            font-family: Arial;
+            min-width: 280px;
+            width: 80%;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 5px 10px 10px 5px;
+            background-color: #B2D135;
+            box-shadow: 1px 1px 2px 2px #ab918f;
+            -webkit-box-shadow: 1px 5px 5px 1px #ab918f;
+            -moz-box-shadow: 1px 1px 2px 2px #ab918f;
             text-shadow: 2px 4px 10px #000000;
             border: solid #FFFFFF 1px;
             text-decoration: none;
@@ -46,22 +110,22 @@ There will be several copies of the web resource visible in the debugger as "aru
             cursor: pointer;
         }
 
-            .mainButton:hover {
-                background: #E43326;
+        .greenButton:hover {
+                background: #a3c12c;
                 border: solid #FFFFFF 1px;
                 -webkit-border-radius: 6px;
                 -moz-border-radius: 6px;
                 border-radius: 6px;
                 text-decoration: none;
-            }
+        }
 
-            .mainButton:active {
-                background: #D42316;
+        .greenButton:active {
+                background: #91ac27;
                 box-shadow: 1px 1px 2px 2px #ab918f;
                 -webkit-box-shadow: 1px 1px 1px 1px #ab918f;
                 -moz-box-shadow: 1px 1px 2px 2px #ab918f;
                 -webkit-transform: translate(4px, 4px);
-            }
+        }
 
         .tabButtons {
             text-align: center;
@@ -69,6 +133,25 @@ There will be several copies of the web resource visible in the debugger as "aru
 
         body {
             text-align: center;
+        }
+
+        p {
+            text-align: left;
+            padding: 5px;
+            font-family: Arial;
+            font-size: 16px;
+            font-weight: 400;
+            margin-left: 32px;
+        }
+
+        ul {
+            display: block;
+            list-style-type: circle;
+            text-align: left;
+            font-family: Arial;
+            font-size: 16px;
+            font-weight: 400;
+            padding-left: 70px;
         }
     </style>
 
@@ -89,9 +172,14 @@ There will be several copies of the web resource visible in the debugger as "aru
 
         // Go back to the previous tab.
         function ReturnToActiveTab() {
-            var previousTab = formContext.Arup.PreviousTab;
-            if (previousTab != null) {
-                DisplayTab(previousTab);
+            //var previousTab = formContext.Arup.PreviousTab;
+            //if (previousTab != null) {
+            //    DisplayTab(previousTab);
+            //}
+
+            var activeTabName = formContext.Arup.ActiveTabName;
+            if (activeTabName != null) {
+                DisplayTab(activeTabName);
             }
         }
 
@@ -133,6 +221,13 @@ There will be several copies of the web resource visible in the debugger as "aru
                         span.onclick = button.action;
                         span.innerHTML = button.label;
                         span.className = "mainButton";
+
+                        if (!button.isredbutton)
+                            span.className = "greenButton";
+
+                        if (button.islabel)
+                            span.className = "label";
+
                         $("#tabButtons")[0].appendChild(span);
 
                         // Check for static or dynamic value for hidden.
@@ -152,34 +247,33 @@ There will be several copies of the web resource visible in the debugger as "aru
 
         // Declare the configuration of each button: label, action to take when pressed and whether the button should be hidden.
         buttonConfigs = {
-            'Prebid_tab': [
-                {
-                    'label': 'Request PJN',
-                    'action': function () {
-                        Log("Requesting PJN");
-                        formContext.Arup.RequestPossibleJob();
-                    },
-                    'hidden': a => !formContext.Arup.RequestPossibleJobEnabled(formContext)
-                },
+
+            'Pre-Bid_Tab': [
                 {
                     'label': 'Click Here for PJN Costs',
                     'action': function () {
                         DisplayTab("PJN_Costs_Tab");
-                    }
+                    },
+                    'isredbutton': false
                 },
                 {
                     'label': 'Approve Decision to Bid',
                     'action': function () {
                         Log("Approving bid decision");
                         formContext.Arup.BidDicisionConfirmation();
-                    }
+                    },
+                    'hidden': a => !formContext.Arup.IsBidDicisionApprovalEnable(formContext),
+                    'isredbutton': true
                 },
                 {
                     'label': 'Move to Next Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
-                    }
+                    },
+                    'hidden': a => formContext.Arup.IsBidDicisionApprovalEnable(formContext),
+                    'isredbutton': true
+
                 }
             ],
             'Cross_Region_Tab': [
@@ -188,24 +282,27 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
-                    }
+                    },
+                    'isredbutton': true
                 }
             ],
             'Developing_Bid_tab': [
-                {
-                    'label': 'Move to Next Stage',
-                    'action': function () {
-                        Log("Move next stage");
-                        MoveNext();
-                    }
-                },
                 {
                     'label': 'Update Financial Details',
                     'action': function () {
                         Log("Update Financial Details");
                         // Visit Project Financials?
                         DisplayTab("Project_Financials_Tab");
-                    }
+                    },
+                    'isredbutton': false
+                },
+                {
+                    'label': 'Move to Next Stage',
+                    'action': function () {
+                        Log("Move next stage");
+                        MoveNext();
+                    },
+                    'isredbutton': true
                 },
             ],
             'Bid_Review_Submission_tab': [
@@ -215,7 +312,17 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Approve Bid Review");
                         formContext.Arup.ApproveBidReview(formContext);
                     },
-                    'hidden': f => !formContext.Arup.IsApproveBidReviewEnabled(formContext)
+                    'hidden': f => !formContext.Arup.IsApproveBidReviewEnabled(formContext),
+                    'isredbutton': true
+                },
+                {
+                    'label': 'Bid Submitted',
+                    'action': function () {
+                        Log("Bid Submitted");
+                        formContext.Arup.BidSubmitted(formContext);
+                    },
+                    'hidden': f => !formContext.Arup.IsBidSubmittedEnabled(formContext),
+                    'isredbutton': true
                 },
                 {
                     'id': 'next_stage_button',
@@ -224,45 +331,65 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Move next stage");
                         MoveNext();
                     },
-                    'hidden': f => !formContext.Arup.IsApproveBidReviewApproved(formContext)
+                    'hidden': f => formContext.Arup.IsBidSubmittedEnabled(formContext) || formContext.Arup.IsApproveBidReviewEnabled(formContext),
+                    'isredbutton': true
                 }
             ],
             'Confirmed_Job_Project_Tab': [
+                {
+                    'label': 'Add Project Collaborators',
+                    'action': function () {
+                        Log("Add Project Collaborators");
+                        formContext.Arup.AddProjectParticipant(formContext);
+                    },
+                    'hidden': f => !formContext.Arup.IsAddProjectParticipantEnabled(formContext),
+                    'isredbutton': false
+                },
                 {
                     'label': 'Move to Next Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
-                    }
+                    },
+                    'isredbutton': true
                 }
             ],
             'Confirmed_Job_commercial_Tab': [
                 {
-                    'label': 'Request Confirmed Job Number',
+                    'label': 'Update Financial Details',
                     'action': function () {
-                        Log("Request CJN");
-                        formContext.Arup.RequestCJN();
+                        Log("Update Financial Details");
+                        // Visit Project Financials?
+                        DisplayTab("Project_Financials_Tab");
                     },
-                    'hidden': false // formContext.Arup.IsRequestCJNEnabled(formContext)
+                    'isredbutton': false
+                },
+                {
+                    'label': '</br><p>Use buttons at top for next step:-</br><ul><li>Close as Lost-</li><li>Close as Won – no CJN</li><li>Close as Won – CJN Needed</li></ul></p>',
+                    'hidden': false,
+                    'islabel': true
                 }
             ],
             'PJN_Costs_Tab': [
                 {
+
                     // TOD: return to active stage
-                    'label': 'Back to the active stage tab',
+                    'label': 'Back to the ' + formContext.Arup.ActiveTabName.replace(/[_]/g, " "),
                     'action': function () {
                         ReturnToActiveTab();
                     },
-                    hidden: f => formContext.Arup.PreviousTab == null || formContext.Arup.PreviousTab == 'PJN_Costs_Tab'
+                 //   hidden: f => formContext.Arup.PreviousTab == null || formContext.Arup.PreviousTab == 'PJN_Costs_Tab',
+                    'isredbutton': false
                 }
             ],
             'Project_Financials_Tab': [
                 {
-                    'label': 'Return to: Required Fields - Developing Bid tab',
+                    'label': 'Back to the ' + formContext.Arup.ActiveTabName.replace(/[_]/g, " "),
                     'action': function () {
                         ReturnToActiveTab();
                     },
-                    hidden: f => formContext.Arup.PreviousTab == null || formContext.Arup.PreviousTab == 'Project_Financials_Tab'
+                 //   hidden: f => formContext.Arup.PreviousTab == null || formContext.Arup.PreviousTab == 'Project_Financials_Tab',
+                    'isredbutton': false
                 }
             ],
             'PJN_Approval_tab': [
@@ -270,32 +397,117 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'label': 'Approve PJN Group Leader',
                     'action': function () {
                         Log("Move next stage");
-                        formContext.Arup.ApproveGroupLeader(formContext);
+                        // formContext.Arup.ApproveGroupLeader(formContext);
+                        formContext.Arup.PJNApproveGroupLeader();
                     },
-                    hidden: f => !formContext.Arup.IsGroupLeaderApprovalEnabled(formContext)
+                    hidden: f => !formContext.Arup.IsGroupLeaderApprovalEnabled(formContext),
+                    'isredbutton': true
                 },
                 {
-                    'label': 'Approve PJN Sector Leader',
+                    'label': 'Approve PJN Regional Sector Leader',
                     'action': function () {
                         Log("Move next stage");
-                        formContext.Arup.ApproveSectorLeader(formContext);
+                        formContext.Arup.PJNApproveRegionalSectorLeader(formContext);
+                        //formContext.Arup.ApproveSectorLeader(formContext);
                     },
-                    hidden: f => !formContext.Arup.IsSectorLeaderApprovalEnabled(formContext)
+                    hidden: f => !formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext),
+                    'isredbutton': true
+                },
+                {
+                    'label': 'Approve PJN  Sector Leader',
+                    'action': function () {
+                        Log("Move next stage");
+                        formContext.Arup.PJNApproveSectorLeader(formContext);
+                    },
+                    hidden: f => !formContext.Arup.IsSectorLeaderApprovalEnabled(formContext),
+                    'isredbutton': true
+                },
+                {
+                    'label': 'Approve Bid Director ',
+                    'action': function () {
+                        Log("Move next stage");
+                        formContext.Arup.PJNApproveBidDirector(formContext);
+                    },
+                    hidden: f => !formContext.Arup.IsBidDirectorApprovalEnabled(formContext),
+                    'isredbutton': true
                 },
                 {
                     'label': 'Approve Regional COO',
                     'action': function () {
                         Log("Move next stage");
-                        formContext.Arup.ApproveRegionalCOO(formContext);
+                        formContext.Arup.PJNApproveRegionalCOO(formContext);
+                        //formContext.Arup.ApproveRegionalCOO(formContext);
                     },
-                    hidden: f => !formContext.Arup.IsRegionalCOOApprovalEnabled(formContext)
+                    hidden: f => !formContext.Arup.IsRegionalCOOApprovalEnabled(formContext),
+                    'isredbutton': true
+                },
+                {
+                    'id': 'PJN_next_stage_button',
+                    'label': 'Move to Next Stage',
+                    'action': function () {
+                        Log("Move next stage");
+                        MoveNext();
+                    },
+                    'hidden': f => formContext.Arup.IsGroupLeaderApprovalEnabled(formContext) || formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext)
+                        || formContext.Arup.IsSectorLeaderApprovalEnabled(formContext) || formContext.Arup.IsBidDirectorApprovalEnabled(formContext) || formContext.Arup.IsRegionalCOOApprovalEnabled(formContext),
+                    'isredbutton': true
                 }
+
             ],
-            'tab_testing': [
+            'CJN_Approval_tab': [
+                {
+                    'label': 'Approve Group Leader',
+                    'action': function () {
+                        Log("Approve Group Leade");
+                        // formContext.Arup.ApproveGroupLeader(formContext);
+                        formContext.Arup.CJNApproveGroupLeader();
+                    },
+                    hidden: f => !formContext.Arup.IsCJNGroupLeaderApprovalEnabled(formContext),
+                    'isredbutton': true
+                },
+                {
+                    'label': 'Approve Project Manager/Director',
+                    'action': function () {
+                        Log("Approve Project Manager/Director");
+                        formContext.Arup.CJNApprovePMPD(formContext);
+                        //formContext.Arup.ApproveSectorLeader(formContext);
+                    },
+                    hidden: f => !formContext.Arup.IsPMPDApprovalEnabled(formContext),
+                    'isredbutton': true
+                },
+                {
+                    'label': 'Approve Accounting Centre',
+                    'action': function () {
+                        Log("Approve Accounting Centre");
+                        formContext.Arup.CJNApproveAccountingCentre(formContext);
+                    },
+                    hidden: f => !formContext.Arup.IsAccCentreApprovalEnabled(formContext),
+                    'isredbutton': true
+                },
+                {
+                    'label': 'Approve Finance',
+                    'action': function () {
+                        Log("Approve Finance");
+                        formContext.Arup.CJNApproveFinance(formContext);
+                    },
+                    hidden: f => !formContext.Arup.IsFinanceApprovalEnabled(formContext),
+                    'isredbutton': true
+                },
+
+            ],
+            'Notes_tab': [
+                {
+                    // TOD: return to active stage
+                    'label': 'Back to the ' + formContext.Arup.ActiveTabName.replace(/[_]/g, " "),
+                    'action': function () {
+                        ReturnToActiveTab();
+                    },
+                    'isredbutton': false
+                }
             ]
         };
 
-        // Call on startup to ensure that the buttons for this tab are set up within the web resource, and that the callback to 
+        // Call on startup to ensure that the buttons for this tab are set up within the web resource, and that the callback to
         // refresh the buttons is registered in arup_opportunitybuttoncomamnds.js.
         var tabName;
         var tabNumber;

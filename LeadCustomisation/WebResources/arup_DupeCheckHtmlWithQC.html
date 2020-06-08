@@ -1,0 +1,545 @@
+<html><head>
+    <title>Records with similar name</title>
+    <style type="text/css">
+        body {
+            font-family: Segoe UI, Tahoma, Arial;
+            background-color: #d4e3e5;
+            font-size: 14px;
+            position: initial;
+        }
+
+        #Aruptab tr:nth-child(even) {
+            background-color: #D0D3D4;
+        }
+
+        #Aruptab tr:hover {
+            background-color: #ddd;
+        }
+
+        #Aruptab td, tr {
+            font-family: Segoe UI, Tahoma, Arial;
+            font-style: normal;
+            border-width: 1px;
+            padding: 2px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+
+        #Aruptab tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        #Aruptab thead, tfoot, th {
+            background-color: #c3dde0;
+            border-width: 1px;
+            padding: 2px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+
+        #Aruptab tfoot {
+            background-color: rgba(221, 221, 221, 0.5);
+            border-style: none;
+        }
+
+        #Aruptab {
+            font-family: verdana,arial,sans-serif;
+            font-size: 11px;
+            color: #333333;
+            border-width: 1px;
+            border-color: #999999;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #wait {
+            position: center;
+            height: 100px;
+            width: 100px;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            vertical-align: middle;
+            padding-left: 200px;
+            padding-top: 180px;
+            text-align: center;
+        }
+
+        #waitmsg {
+            position: center;
+            height: 20px;
+            width: 300px;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            vertical-align: middle;
+            padding-left: 90px;
+            padding-top: 1px;
+            text-align: center;
+        }
+
+        #warningmsg {
+            position: center;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            vertical-align: middle;
+            padding-top: 1px;
+            text-align: center;
+            color: orangered;
+        }
+    </style>
+    <script src="arup_DuplicateCheck" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var GlodataPara = "";
+        var jsonMsgToRet = "None";
+        var repeatDisplay = false;
+        var entLogicName = "";
+        var clientId = "null";
+        var warningMsg = "";
+
+        document.onreadystatechange = function () {
+            if (document.readyState == "complete") {
+                displayWaiting();
+                var dataParam = getDataParam();
+                //on load - parameter passed from the form design
+                if (dataParam != "UnKnown1919Arup") {
+                    getDupeCheckResults(dataParam);
+                }
+                else { noDupes(dataParam); }
+            }
+        }
+
+
+        function getDupeCheckResults(dataPar) {
+            if (dataPar == "" || dataPar == null) {
+                noDupes("UnKnown1919Arup");
+                return;
+            }
+            var accName = "";
+            var ctryId = "";
+            var ipCity = "";
+            var firstName = "";
+            var lastName = "";
+            var recID = "null";
+            var IPbussID = "null";
+
+            //var entLogicName = "";
+            var vals = new Array();
+            vals = decodeURIComponent(dataPar).split("&");
+            for (var i in vals) {
+                // vals[i] = vals[i].replace(/\+/g, " ").split("=");
+                vals[i] = vals[i].split("=");
+            }
+            for (var i in vals) {
+                switch (vals[i][0]) {
+                    case "Name":
+                        accName = vals[i][1];
+                        break;
+                    case "FirstName":
+                        firstName = vals[i][1];
+                        break;
+                    case "LastName":
+                        lastName = vals[i][1];
+                        break;
+                    case "entLogicName":
+                        entLogicName = vals[i][1];
+                        break;
+                    case "ContryId":
+                        ctryId = vals[i][1];
+                        break;
+                    case "recordId":
+                        recID = vals[i][1];
+                        break;
+                    case "bussID":
+                        IPbussID = vals[i][1];
+                        break;
+                    case "cliID":
+                        clientId = vals[i][1];
+                        break;
+                    case "ipCity":
+                        ipCity = vals[i][1];
+                        break;
+                    case "warningMsg":
+                        warningMsg = vals[i][1];
+                }
+            }
+
+            var n = accName.indexOf("ampAndArup");
+            if (n != -1) {
+                accName = accName.replace("ampAndArup", "&");
+            }
+            var n3 = accName.indexOf("aposArup");
+            if (n3 != -1) {
+                accName = accName.replace("aposArup", "'");
+            }
+            var n1 = firstName.indexOf("ampAndArup");
+            if (n1 != -1) {
+                firstName = firstName.replace("ampAndArup", "&");
+            }
+            var n4 = firstName.indexOf("aposArup");
+            if (n4 != -1) {
+                firstName = firstName.replace("aposArup", "'");
+            }
+            var n2 = lastName.indexOf("ampAndArup");
+            if (n2 != -1) {
+                lastName = lastName.replace("ampAndArup", "&");
+            }
+            var n5 = lastName.indexOf("aposArup");
+            if (n5 != -1) {
+                lastName = lastName.replace("aposArup", "'");
+            }
+
+            //var resJsonMsg = "[{\"AccName\":\"name1\",\"guid\":\"B0D86709-67D3-E611-80F4-005056B55B13\",\"rank\":0.9},{\"AccName\":\"Organization Name\",\"guid\":\"A19071CF-85D5-E511-80E0-005056B55B13\",\"rank\":0.87}]";
+            if (accName == null) {
+                noDupes(accName);
+                return;
+            }
+            // call the DuplicateCheck.js function to return the json
+            QCViewMoreButton(accName, entLogicName, firstName, lastName, ctryId, ipCity, recID, IPbussID);
+        }
+
+        function QCViewMoreButton(name, entLogicName, FN, LN, ctryId, ipCity, recID, IPbussID) {
+            if (name != null && name != "null" && jsonMsgToRet == "None" && entLogicName == "account") {
+                if (ctryId == "") { ctryId = "null"; }
+                if (ipCity == "") { ipCity = "null"; }
+                callAction("arup_DupeDetect", name, null, null, recID, ctryId, ipCity, IPbussID, "QuickButton");
+            }
+            if (FN != null && FN != "null" && LN != null && LN != "null" && jsonMsgToRet == "None" && entLogicName == "contact") {
+                if (ctryId == "") { ctryId = "null"; }
+                if (ipCity == "") { ipCity = "null"; }
+                callAction("arup_DupeDetectContact", null, FN, LN, recID, ctryId, ipCity, IPbussID, "QuickButton");
+            }
+            if (name != null && name != "null" && jsonMsgToRet == "None" && entLogicName == "lead") {
+                if (ctryId == "") { ctryId = "null"; }
+                if (ipCity == "") { ipCity = "null"; }
+                callAction("arup_DupeDetectLead", name, null, null, recID, ctryId, ipCity, IPbussID, "QuickButton");
+            }
+        }
+
+        function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IPbussID, formtype) {
+            var actionName = actName;//"arup_DupeDetect";
+            recordName = (recordName == "" || recordName == null) ? recordName : htmlSpecialChars(recordName);
+
+            FN = FN == null ? FN : htmlSpecialChars(FN);
+            LN = LN == null ? LN : htmlSpecialChars(LN);
+
+            if (actionName == "arup_DupeDetect") {
+                var parameters = {};
+                parameters.InputCity = cityIP;
+                parameters.InputCountryId = countryId;
+                parameters.InputGUID = recordId;
+                parameters.InputName = recordName;
+
+                var req = new XMLHttpRequest();
+                req.open("POST", parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetect622be8c63365ea11a813000d3a86ab8d", true);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 200) {
+                            var results = JSON.parse(this.response);
+                            if (formtype == "QuickButton") {
+                                parseMainSuccessActionResponse(results);
+                            }
+                        } else {
+                            Xrm.Utility.alertDialog(this.statusText);
+                        }
+                    }
+                };
+                req.send(JSON.stringify(parameters));
+            }
+            else if (actionName == "arup_DupeDetectContact") {
+                var parameters = {};
+                parameters.InputCity = cityIP;
+                parameters.InputCountryId = countryId;
+                parameters.InputGUID = recordId;
+                parameters.InputFN = FN;
+                parameters.InputLN = LN;
+
+                var req = new XMLHttpRequest();
+                req.open("POST", parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetectContact", true);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 200) {
+                            var results = JSON.parse(this.response);
+                            if (formtype == "QuickButton") {
+                                parseMainSuccessActionResponse(results);
+                            }
+                        } else {
+                            Xrm.Utility.alertDialog(this.statusText);
+                        }
+                    }
+                };
+                req.send(JSON.stringify(parameters));
+            }
+            else if (actionName == "arup_DupeDetectLead") {
+                var parameters = {};
+                parameters.InputClientID = clientId;
+                parameters.InputCity = cityIP;
+                parameters.InputName = recordName;
+                parameters.InputCountryId = countryId;
+                parameters.InputGUID = recordId;
+                parameters.InputBussID = IPbussID;
+
+                var req = new XMLHttpRequest();
+                req.open("POST", parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetectLead", true);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 200) {
+                            var results = JSON.parse(this.response);
+                            if (formtype == "QuickButton") {
+                                parseMainSuccessActionResponse(results);
+                            }
+                        } else {
+                            Xrm.Utility.alertDialog(this.statusText);
+                        }
+                    }
+                };
+                req.send(JSON.stringify(parameters));
+            }
+        }
+
+        function parseMainSuccessActionResponse(results) {
+            var jsMsg3 = ProcessSuccess(results);
+            jsonMsgToRet = jsMsg3;
+            PrepareTable(jsMsg3);
+        }
+
+        function PrepareTable(jsMsg3P) {
+            var resJsonMsg = jsMsg3P;
+            var list = JSON.parse(resJsonMsg);
+
+            if (list.length < 1) {
+                noDupes(dataPar);
+                return;
+            }
+            removeElements();
+            displayWarningMessage();
+            var strURL = getClientUrl();
+            //var parentAccId = parent.Xrm.Page.data.entity.getId().replace("{", "").replace("}", "");
+            var firstColLabel = entLogicName == "account" ? "Account Name" : (entLogicName == "contact" ? "Contact Name" : "Project Name");
+            //Create a table and header using the DOM
+            var oTable = document.createElement("table");
+            oTable.setAttribute("class", "hovertable");
+            oTable.setAttribute("id", "Aruptab");
+            var oTHead = document.createElement("thead");
+            var oTHeadTR = document.createElement("tr");
+            var oTHeadTRTH1 = document.createElement("th");
+            oTHeadTRTH1.align = "left";
+            setText(oTHeadTRTH1, firstColLabel);
+            var oTHeadTRTH2 = document.createElement("th");
+            oTHeadTRTH2.align = "left";
+            setText(oTHeadTRTH2, "City");
+            if (entLogicName == "contact") {
+                var oTHeadTRTH3 = document.createElement("th");
+                oTHeadTRTH3.align = "left";
+                setText(oTHeadTRTH3, "Status");
+            }
+            var oTHeadTRTH4 = document.createElement("th");
+            oTHeadTRTH4.align = "left";
+            setText(oTHeadTRTH4, "Rank");
+
+            oTHeadTR.appendChild(oTHeadTRTH1);
+            oTHeadTR.appendChild(oTHeadTRTH2);
+            if (entLogicName == "contact") {
+                oTHeadTR.appendChild(oTHeadTRTH3);
+            }
+            oTHeadTR.appendChild(oTHeadTRTH4);
+            oTHead.appendChild(oTHeadTR);
+            oTable.appendChild(oTHead);
+            var oTBody = document.createElement("tbody");
+
+            var len = list.length; // < 5 ? list.length : 5;
+
+            for (var i = 0; i < len; ++i) {
+                var acc = list[i];
+                var oTRow = document.createElement("tr");
+
+                var oTRowTD1 = document.createElement("td");
+                var recordLink = "";
+                if (entLogicName == "account") {
+                    recordLink = '<a href="' + strURL + "main.aspx?etn=account&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
+                }
+                else if (entLogicName == "contact") {
+                    recordLink = '<a href="' + strURL + "main.aspx?etn=contact&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
+                }
+                else if (entLogicName == "lead") {
+                    recordLink = '<a href="' + strURL + "main.aspx?etn=lead&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
+                }
+                oTRowTD1.innerHTML = recordLink;
+
+                var oTRowTD2 = document.createElement("td");
+                setText(oTRowTD2, acc.City);
+
+                if (entLogicName == "contact") {
+                    var Status = acc.StateCode.Value == 0 ? "Active" : "Inactive";
+                    var oTRowTD3 = document.createElement("td");
+                    setText(oTRowTD3, Status);
+                }
+
+                var oTRowTD4 = document.createElement("td");
+                oTRowTD4.align = "center";
+                setText(oTRowTD4, acc.Rank);
+
+                oTRow.appendChild(oTRowTD1);
+                oTRow.appendChild(oTRowTD2);
+                if (entLogicName == "contact") {
+                    oTRow.appendChild(oTRowTD3);
+                }
+                oTRow.appendChild(oTRowTD4);
+                oTBody.appendChild(oTRow);
+            }
+
+            var oTFoot = document.createElement("tfoot");
+            var oTFootTR = document.createElement("tr");
+            var oTFootTRTD1 = document.createElement("td");
+            var oTFootTRTD2 = document.createElement("td");
+            if (entLogicName == "contact") {
+                var oTFootTRTD3 = document.createElement("td");
+            }
+            var oTFootTRTD4 = document.createElement("td");
+            oTFootTRTD1.align = "left";
+            if (list.length <= 20) {
+                setText(oTFootTRTD1, "1 - " + list.length + " of " + list.length);
+            }
+
+            oTFootTR.appendChild(oTFootTRTD1);
+            oTFootTR.appendChild(oTFootTRTD2);
+            if (entLogicName == "contact") {
+                oTFootTR.appendChild(oTFootTRTD3);
+            }
+            oTFootTR.appendChild(oTFootTRTD4);
+            oTFoot.appendChild(oTFootTR);
+            oTable.appendChild(oTFoot);
+
+            oTable.appendChild(oTBody);
+            document.body.appendChild(oTable);
+
+        }
+
+        function getDataParam() {
+            //Get the any query string parameters and load them
+            //into the vals array
+            var retDataParam = "UnKnown1919Arup";
+            var vals = new Array();
+            if (location.search != "") {
+                vals = location.search.substr(1).split("&");
+                for (var i in vals) {
+                    vals[i] = vals[i].replace(/\+/g, " ").split("=");
+                }
+                //look for the parameter named 'data'
+                var found = false;
+                for (var i in vals) {
+                    if (vals[i][0].toLowerCase() == "data") {
+                        retDataParam = vals[i][1];
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            return retDataParam;
+        }
+
+
+        function noDupes(action) {
+            var element = document.getElementsByTagName("p"), index;
+
+            for (index = element.length - 1; index >= 0; index--) {
+                element[index].parentNode.removeChild(element[index]);
+            }
+            var message = document.createElement("p");
+            if (action != "UnKnown1919") { setText(message, "No duplicate records were found for " + action + "."); }
+            else { setText(message, "No duplicate records were found."); }
+            document.body.appendChild(message);
+        }
+        //Added for cross browser support.
+        function setText(element, text) {
+            if (typeof element.innerText != "undefined") {
+                element.innerText = text;
+            }
+            else {
+                element.textContent = text;
+            }
+        }
+
+        function getClientUrl() {
+            var strUrl = parent.Xrm.Page.context.getClientUrl();
+            if (strUrl.substr(strUrl.length - 1) != "/") {
+                strUrl += "/";
+            }
+            //var strUrl = "https://crm15-dev.arup.com/Test1";
+            return strUrl;
+        }
+
+        function displayWaiting() {
+
+            var url = getClientUrl();
+            removeElements();
+
+            var oTBody = document.createElement("tbody");
+            var oTable = document.createElement("table");
+            oTable.id = "wait";
+            var oTabTR = document.createElement("tr");
+            var oTabTD = document.createElement("td");
+            var oTDImg = document.createElement("img");
+            //oTDImg.src = getClientUrl + "WebResources/arup_ProcessingLoader";
+            oTDImg.src = "arup_ProcessingLoader";
+            oTDImg.alt = "Loading Please wait...";
+            oTabTD.appendChild(oTDImg);
+            oTabTR.appendChild(oTabTD);
+            oTable.appendChild(oTabTR);
+            document.body.appendChild(oTable);
+            var message1 = document.createElement("p");
+            message1.id = "waitmsg";
+            setText(message1, "Populating, please wait.... ");
+            document.body.appendChild(message1);
+
+        }
+
+        function removeElements() {
+            //Remove all Paragraphs
+            var element = document.getElementsByTagName("p"), index;
+
+            for (index = element.length - 1; index >= 0; index--) {
+                element[index].parentNode.removeChild(element[index]);
+            }
+
+            //Remove all Tables
+            var elementTab = document.getElementsByTagName("table"), indextab;
+
+            for (indextab = elementTab.length - 1; indextab >= 0; indextab--) {
+                elementTab[indextab].parentNode.removeChild(elementTab[indextab]);
+            }
+        }
+
+        function displayWarningMessage() {
+            var message1 = document.createElement("p");
+            message1.id = "warningmsg";
+            setText(message1, warningMsg);
+            document.body.appendChild(message1);
+        }
+
+    </script>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+<meta></head>
+<body style="word-wrap: break-word;" id="ArupBody" onfocusout="parent.setEmailRange();">
+
+</body></html>

@@ -73,6 +73,16 @@
     <Content Include="Other\Solution.xml" />
     <Content Include="Resources\en-US\resources.en-US.resx" />
     <Content Include="Resources\template_resources.resx" />
+    <Content Include="WebResources\arup_DupeCheckHtmlWithQC.html">
+      <WebResourceId>66f67bee-270b-e711-80f7-005056b55b13</WebResourceId>
+      <Name>arup_DupeCheckHtmlWithQC.htm</Name>
+      <DisplayName>DupeCheckHtmlWithQC</DisplayName>
+      <WebResourceType>Html</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsCustomizable>True</IsCustomizable>
+      <CanBeDeleted>True</CanBeDeleted>
+      <IsHidden>False</IsHidden>
+    </Content>
     <Content Include="WebResources\arup_DuplicateCheck.jscript">
       <WebResourceId>6f76d8cd-06dc-e611-80f5-005056b55b13</WebResourceId>
       <Name>arup_DuplicateCheck</Name>
