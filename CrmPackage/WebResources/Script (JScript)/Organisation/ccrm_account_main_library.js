@@ -88,6 +88,7 @@ function Form_onload(executionContext) {
         formContext.getControl('arup_duediligencecheck').removeOption(2);
         retreiveTeamDetails(formContext);
     }
+    formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
 }
 
 // runs on Exit button
