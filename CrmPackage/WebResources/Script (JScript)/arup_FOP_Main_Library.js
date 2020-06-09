@@ -1,20 +1,23 @@
 ///<reference path="../Intellisense/Xrm.Page.2013.js"/>
 
-function DisableFields() {
-    if (Xrm.Page.ui.getFormType() == 2) {
-        Xrm.Page.getControl('arup_relationshipteamid').setDisabled(true);
-        Xrm.Page.getControl('arup_organsationid').setDisabled(true);
+function DisableFields(executionContext) {
+    formContext = executionContext.getFormContext();
+    if (formContext.ui.getFormType() == 2) {
+        formContext.getControl('arup_relationshipteamid').setDisabled(true);
+        if (formContext.getControl('arup_organisationid') != null) {
+            formContext.getControl('arup_organsationid').setDisabled(true);
+        }
     }
 }
 
 
 //Param - teamm name . This function checks whether the logged in user is a member of the team. Returns true if he/ she is a member.
-function userInTeamCheck(TeamName) {
+function userInTeamCheck(formContext, TeamName) {
 
     var IsPresentInTeam = false;
 
     try {
-        var filter = "SystemUserId eq (guid'" + Xrm.Page.context.getUserId() + "')";
+        var filter = "SystemUserId eq (guid'" + formContext.context.getUserId() + "')";
         var dataset = "TeamMembershipSet";
         var retrievedMultiple = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);
         var results = retrievedMultiple.results;
@@ -36,10 +39,15 @@ function userInTeamCheck(TeamName) {
     return IsPresentInTeam;
 }
 
-function ValidateUserBelongsToTeam(context) {
-    var teamName = Xrm.Page.getAttribute("arup_relationshipteamid").getValue()[0].name;
+function ValidateUserBelongsToTeam(context, eventFlag) {
+    if (eventFlag == undefined) {
+        eventFlag = false;
+    }
+    var formContext = context.getFormContext();
+    var eventArgs = context.getEventArgs();
+    var teamName = formContext.getAttribute("arup_relationshipteamid").getValue()[0].name;
 
-    if (!userInTeamCheck(teamName)) {
+    if (!userInTeamCheck(formContext, teamName)) {
         Alert.show('<font size="6" color="#d80303"><b>User not a Part of Team</b></font>',
             '<font size="3" color="#000000"></br>Only members of <b>' + teamName + '</b> can create/edit Field of Play records </font>',
             [
@@ -50,31 +58,36 @@ function ValidateUserBelongsToTeam(context) {
             200,
             '',
             true);
-
-        context.getEventArgs().preventDefault();
+        if (eventFlag) {
+           eventArgs.preventDefault();
+        }
     }
 }
 
-function ClearOrganisation() {
-    Xrm.Page.getAttribute("arup_organsationid").setValue(null);
-    GetOrganisations();
+function ClearOrganisation(context) {
+    var formContext = context.getFormContext();
+    if (formContext.getControl('arup_organisationid') != null) {
+        formContext.getAttribute("arup_organsationid").setValue(null);
+    }
+    GetOrganisations(formContext);
 }
 
-function OnLoad() {
-    var param = Xrm.Page.context.getQueryStringParameters();
+function OnLoad(context) {
+    var formContext = context.getFormContext();
+    var param = formContext.context.getQueryStringParameters();
     var source = param["arup_relationshipteamid"];
 
     if (source != undefined) {
-        Xrm.Page.getControl('arup_relationshipteamid').setDisabled(true);
-        GetOrganisations();
+        formContext.getControl('arup_relationshipteamid').setDisabled(true);
+        GetOrganisations(formContext);
     }
 }
 
-function GetOrganisations() {
-    if (Xrm.Page.getAttribute("arup_relationshipteamid").getValue() != null) {
-        var teamId = Xrm.Page.getAttribute("arup_relationshipteamid").getValue()[0].id.replace(/[{}]/g, "");
+function GetOrganisations(formContext) {
+    if (formContext.getAttribute("arup_relationshipteamid").getValue() != null) {
+        var teamId = formContext.getAttribute("arup_relationshipteamid").getValue()[0].id.replace(/[{}]/g, "");
         var req = new XMLHttpRequest();
-        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v8.2/accounts?$select=name&$filter=(_ccrm_managingteamid_value eq " + teamId + " and statecode eq 0)", true);
+        req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/accounts?$select=name&$filter=(_ccrm_managingteamid_value eq " + teamId + " and statecode eq 0)", true);
         req.setRequestHeader("OData-MaxVersion", "4.0");
         req.setRequestHeader("OData-Version", "4.0");
         req.setRequestHeader("Accept", "application/json");
@@ -90,7 +103,7 @@ function GetOrganisations() {
                         var orgId = results.value[0]["accountid"];
                         var orgName = results.value[0]["name"];
 
-                        Xrm.Page.getAttribute("arup_organsationid").setValue([
+                        formContext.getAttribute("arup_organsationid").setValue([
                             {
                                 id: orgId,
                                 name: orgName,
@@ -101,7 +114,9 @@ function GetOrganisations() {
                     }
 
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
                 }
             }
         };
