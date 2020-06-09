@@ -2212,7 +2212,7 @@ var Arup_validations =
                     procType == "100000001" ||
                     procType == "3" ||
                     procType == "6")) {
-                    setError(htmlNode);
+                    this.setError();
                     return "Ultimate Client value must be selected for this project procurement type";
                 }
                 return false;
