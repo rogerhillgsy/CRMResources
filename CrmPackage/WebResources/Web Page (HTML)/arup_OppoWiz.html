@@ -63,7 +63,6 @@
                             Xrm.Utility.showProgressIndicator("Creating Opportunity");
                         },
                         function (errors) {
-                            debugger;
                             ArupValidationErrorDialog(errors);
                          
                         }
@@ -302,7 +301,7 @@
                         </div>
                         <br />
                         <div class="form-group col-lg-12">
-                            <label>Global Services:</label>
+                            <label class="displaysError" >Global Services:</label>
                             <p>
                                 <label><input type="checkbox" name="global_services" value="100000001" /> Advisory Services</label>&nbsp;&nbsp;
                                 <label><input type="checkbox" name="global_services" value="100000000" /> Architecture</label>&nbsp;&nbsp;

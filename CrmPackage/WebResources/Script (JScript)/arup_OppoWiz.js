@@ -1117,8 +1117,8 @@ function getAttributes() {
             if (field.crmAttribute.endsWith("id") || field.hasOwnProperty("databind") && field.databind) {
                 bind = "@odata.bind";
             }
-            oppWizLog("field is " + name);
-            var val = field.value.call(field, document.getElementById(f), field);
+//            oppWizLog("field is " + name);
+            var val = field.value();
             if (typeof(val) !== "undefined") attrs[name + bind] = val;
         }
     }
@@ -1326,7 +1326,7 @@ function fillFieldsFromParent(result, fieldsToLoad, fieldsToLoadButIgnore) {
             field.val = value; // Do this all fields.
             // Anything else will have to sort itself out via a setvalue function.
             if (typeof (field.setValue) === "function") {
-                field.setValue.call(field, value, result);
+                field.setValue( value, result);
             } else {
                 // If there is a dom element with id === f, set the value of that
                 var htmlNode = $("#" + f)[0];
@@ -1435,31 +1435,31 @@ function ensureUltimateClientSelected(htmlElement) {
     }
 }
 
-function ensureSelected(htmlElement, isNotRequired ) {
-    // Ensure that the selected value is set to the first item in the data list.
-    //    var formGroup = closestParent(htmlElement.parentNode, "form-group");
-    if (htmlElement.readOnly) return;
-    var target = null;
-    var targetval = htmlElement.value;
-    var id = null;
-    if ( !!targetval ) targetval = targetval.toLowerCase();
-    if (!!htmlElement.list && htmlElement.list.children.length > 0) {
-        var dataVals = htmlElement.list.children;
-        for (var i = 0; i < dataVals.length; i++) {
-            if (dataVals[i].value.toLowerCase().includes(targetval)) {
-                target = dataVals[i];
-                id = dataVals[i].getAttribute("data-value");
-                break;
-            }
-        }
-    }
-    if (!!targetval && !id || (!isNotRequired && target == null)) {
-        setError(htmlElement);
-    } else {
-        if (!!target) htmlElement.value = target.value;
-        setError(htmlElement, false);
-    }
-}
+//function ensureSelected(htmlElement, isNotRequired ) {
+//    // Ensure that the selected value is set to the first item in the data list.
+//    //    var formGroup = closestParent(htmlElement.parentNode, "form-group");
+//    if (htmlElement.readOnly) return;
+//    var target = null;
+//    var targetval = htmlElement.value;
+//    var id = null;
+//    if ( !!targetval ) targetval = targetval.toLowerCase();
+//    if (!!htmlElement.list && htmlElement.list.children.length > 0) {
+//        var dataVals = htmlElement.list.children;
+//        for (var i = 0; i < dataVals.length; i++) {
+//            if (dataVals[i].value.toLowerCase().includes(targetval)) {
+//                target = dataVals[i];
+//                id = dataVals[i].getAttribute("data-value");
+//                break;
+//            }
+//        }
+//    }
+//    if (!!targetval && !id || (!isNotRequired && target == null)) {
+//        setError(htmlElement);
+//    } else {
+//        if (!!target) htmlElement.value = target.value;
+//        setError(htmlElement, false);
+//    }
+//}
 
 function setError(selector, errorOn) {
     if (typeof(errorOn) === 'undefined') errorOn = true;
@@ -1559,7 +1559,7 @@ function ValidateByName(target) {
             var errors = [];
             var htmlNode = document.getElementById(target);
             hasErrors.forEach(function(hasError, index) {
-                var result = hasError.call(validation, htmlNode, validation );
+                var result = hasError.call(validation);
                 if (result) {
                     errors.push(result);
                 }
@@ -1660,7 +1660,7 @@ function ArupFieldConfig(name, crmAttribute, id) {
                     }
                 }
             }
-            if (!!targetval && !id || (!this.isNotRequired && target == null)) {
+            if (!targetval || !!targetval && !id || (!this.isNotRequired && target == null)) {
                 this.setError();
             } else {
                 if (!!target) node.value = target.value;
@@ -1725,7 +1725,7 @@ function arup_AddAllEvents() {
                         function(e) { // Have
                             var f = e.data.callback;
                             var validation = e.data.validation;
-                            f.call(validation, e, validation)
+                            f.call(validation, e);
                         }
                     );
                 }
@@ -1741,7 +1741,7 @@ function setDefaultByName(name) {
     } else {
         // There are some fields that are not displayed on the form. need to allow for these.
         if (!!Arup_validations[name] && typeof (Arup_validations[name].setDefault) === "function") {
-            Arup_validations[name].setDefault.call(Arup_validations[name], name, Arup_validations[name]);
+            Arup_validations[name].setDefault();
         } else {
             oppWizLog("Did not find element to set default by name : " + name);
         }
@@ -1756,7 +1756,7 @@ function setDefaultByElement(target) {
         if (typeof (Arup_validations[id].setDefault) == "string") {
             target.value = Arup_validations[id].setDefault;
         } else if (typeof (Arup_validations[id].setDefault) === "function") {
-            Arup_validations[id].setDefault.call(Arup_validations[id], target, Arup_validations[id]);
+            Arup_validations[id].setDefault();
         }
     }
 }
@@ -1922,9 +1922,9 @@ var Arup_validations =
         o.hasErrors =
             function checkSelected() {
                 var htmlNode = this.htmlNode();
-                ensureSelected(htmlNode);
+                this.ensureSelected();
                 var oppoType = $("#opportunityType");
-                ensureSelected(htmlNode);
+                this.ensureSelected();
                 var oppType = oppoType[0].value;
                 if (!htmlNode.value && (oppType == "770000001" || oppType == "770000002" || oppType == "770000006")) {
                     return "Related Parent Opportunity Required for extension of existing contract";
@@ -1991,7 +1991,7 @@ var Arup_validations =
         };
         o.onchange = function(e, _this) {
             oppWizLog("Onchange for related opportunity called");
-            ensureSelected(e.target);
+            this.ensureSelected(e.target);
             var intOrExt = Arup_validations.intorext.value();
             if (intOrExt == _this.INTERNAL_OPPORTUNITY) {
                 loadFromParent(_this,
@@ -2145,15 +2145,12 @@ var Arup_validations =
             };
         o.onchange = function() {
             validateField($("#endclient")[0]);
-            // TODO - load from paren
+            // TODO - load from parent
             oppWizLog("****** check contractarrangement -> related opportunity");
             //  Arup_validations.relatedopportunity.loadFieldsFromparent(e, Arup_validations.relatedopportunity);
         };
         o.value = function() {
-            if (this.required) {
-                return $("#contractagreementref").val();
-            }
-            return undefined;
+            return this.htmlNode().value;
         }.bind(o);
         return o;
     }(),
@@ -2291,7 +2288,7 @@ var Arup_validations =
     }(),
     project_state: function() {
         var o = new ArupFieldConfig("Project State", "ccrm_arupusstateid", "project_state");
-        o.hasErrors = function() {
+        o.hasErrors = function () {
             var target = this.htmlNode();
             if (target.list.options.length == 0) return false; // No states to select from
             this.ensureSelected();
@@ -2307,12 +2304,12 @@ var Arup_validations =
         }.bind(o);
         o.value = function() {
             var target = this.htmlNode();
-        var state = this.valueName();
-        if (!state) return undefined;
-        var stateId = this.valueId();
-        if (!stateId) return undefined;
-        return "/ccrm_arupusstates(" + stateId + ")";
-    }.bind(o);
+            var state = this.valueName();
+            if (!state) return undefined;
+            var stateId = this.valueId();
+            if (!stateId) return undefined;
+            return "/ccrm_arupusstates(" + stateId + ")";
+        }.bind(o);
         o.onchange = function(e) {
             var companyId = $("#states option[value='" + e.target.value + "']").attr("company-id-value");
             var country = $("#project_country").val();
@@ -2335,34 +2332,34 @@ var Arup_validations =
         };
         return o;
     }(),
-        arup_business: function () {
+        arup_business: function() {
             var o = new ArupFieldConfig("Arup Business", "ccrm_arupbusinessid", "arup_business");
-            o.hasErrors = function(htmlNode) {
-                if (!!htmlNode) htmlNode = $("#arup_business")[0];
-                ensureSelected(htmlNode);
-                if (!htmlNode.value) {
+            o.hasErrors = function () {
+                var target = this.htmlNode();
+                this.ensureSelected(target);
+                if (!target.value) {
                     return "Arup Business must be selected";
                 } else
                     return false;
+            }.bind(o);
+            o.valueName = function() {
+                var target = this.htmlNode();
+                return target.value;
             };
-        o.valueName=function(target) {
-            if (!target) target = $("#arup_business")[0];
-            return target.value;
-        };
-        o.value = function(target, _this) {
-            return "/ccrm_arupbusinesses(" +
-                $("#businesses option[value='" + _this.valueName(target) + "']").attr("data-value") +
-                ")";
-        }
-        o.onfocus = function(e) { getBusinesses(e.target) };
-        o.onfocusout = function(e) {
-            ensureSelected(e.target);
-            getSubBusinesses(e.target);
-        };
-        o.onchange = function(e, _this) {
-            Arup_validations.K12.checkK12Status(e, _this);
-        };
-        return o;
+            o.value = function() {
+                return "/ccrm_arupbusinesses(" +
+                    $("#businesses option[value='" + this.valueName() + "']").attr("data-value") +
+                    ")";
+            }
+            o.onfocus = function(e) { getBusinesses(e.target) };
+            o.onfocusout = function(e) {
+                this.ensureSelected(e.target);
+                getSubBusinesses(e.target);
+            };
+            o.onchange = function(e, _this) {
+                Arup_validations.K12.checkK12Status(e, _this);
+            };
+            return o;
         }(),
     arup_subbusiness: function () {
         var o = new ArupFieldConfig("Arup Sub Business", "arup_subbusiness", "arup_subbusiness");
@@ -2396,7 +2393,7 @@ var Arup_validations =
                         if (!this.hasErrors()) {
                             getAccountingCentres()
                                 .then(function() {
-                                    Arup_validations.accountingcentre.setDefault();
+                                    Arup_validations.accountingcentre.setDefault2();
                                 });
                         };
                     } else {
@@ -2450,13 +2447,12 @@ var Arup_validations =
     }(),
     accountingcentre: function() {
         var o = new ArupFieldConfig("Accounting Centre", "ccrm_accountingcentreid", "accountingcentre");
-        o.setDefault = function() {
+        o.setDefault2 = function () { // Called from arup_company after accounting centre list is loaded.
             getUserData(function(result) {
                 if (result.hasOwnProperty("ccrm_accountingcentreid")) {
-                    var target = this.htmlNode2();
+                    var target = this.htmlNode();
                     target.value = result["ccrm_accountingcentreid"]["ccrm_name"];
-                    var htmlNode = document.getElementById('accountingcentre');
-                    Arup_validations.accountingcentre.hasErrors(htmlNode);
+                    this.hasErrors();
                 } else {
                     oppWizLog("** User data did not contain arup accounting centre");
                 }
@@ -2497,7 +2493,6 @@ var Arup_validations =
             this.htmlNode().list.innerHTML = acc;
         };
         o.onchange = function(e) {
-            debugger;
             // Validate accounting centre and fill in any dependencies.
             if (!this.currentAccountingCentre ||
                 !!this.currentAccountingCentre && this.currentAccountingCentre !== e.target.value) {
@@ -2551,7 +2546,40 @@ var Arup_validations =
         return o;
     }(),
     globalservices: function () {
-        var o = new ArupFieldConfig("Global Services", "arup_globalservices", "globalservices");// Multiselect
+        var o = new ArupFieldConfig("Global Services", "arup_globalservices", "global_services");// Multiselect
+        o.hasErrors = function () {
+            var nodes = document.querySelectorAll("#WC [name='global_services']:checked");
+            if (nodes.length === 0) {
+                this.setError();
+                return "Specify a value for global services (or not Applicable)";
+            }
+            var hasNotApplicable = false;
+            nodes.forEach(
+                function (s) {
+                    if (s.value != "770000000") // Not applicable.
+                        hasNotApplicable = true;
+                });
+            if (nodes.length > 1 && hasNotApplicable) {
+                this.setError();
+                return "Cannot specify Not Applicable with other global services values";
+            }
+            this.setError(false);
+            return false;
+        }.bind(o);
+        o.setError= function(errorOn) {
+            if (typeof (errorOn) === 'undefined') errorOn = true;
+            var target = document.getElementsByName(this.id)[0]; 
+            if (!target) return;
+            var formGroup = closestParent(target, "form-group");
+            if (errorOn) {
+                formGroup.classList.remove("has-success");
+                formGroup.classList.add("has-error");
+            } else {
+                formGroup.classList.add("has-success");
+                formGroup.classList.remove("has-error");
+            }
+        };
+        
         o.value = function() {
             var globalServices = [];
             document.querySelectorAll("#WC [name='global_services']:checked").forEach(
@@ -2561,6 +2589,10 @@ var Arup_validations =
                 });
             return globalServices.join(",");
         };
+        o.htmlNode = function() {
+            var v = document.getElementsByName(this.id);
+            return !v ? null : v[0];
+        }
         return o;
     }(),
 
