@@ -1,0 +1,1842 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="9.1.0.18341" SolutionPackageVersion="9.1" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SolutionManifest>
+    <UniqueName>OpportunityCustomizations</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="Opportunity Customizations" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="Customizations around the opporutnity process.&#xA;&#xA;Eventually including the opportunity entity, CJNA and associated web resources and javascript." languagecode="1033" />
+    </Descriptions>
+    <Version>1.20.03.11</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>arup</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="Arup" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="Arup Publisher" languagecode="1033" />
+      </Descriptions>
+      <EMailAddress xsi:nil="true"></EMailAddress>
+      <SupportingWebsiteUrl xsi:nil="true"></SupportingWebsiteUrl>
+      <CustomizationPrefix>arup</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>77000</CustomizationOptionValuePrefix>
+      <Addresses>
+        <Address>
+          <AddressNumber>1</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode>1</ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+        <Address>
+          <AddressNumber>2</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode>1</ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+      </Addresses>
+    </Publisher>
+    <RootComponents>
+      <RootComponent type="60" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" behavior="0" />
+      <RootComponent type="60" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" behavior="0" />
+      <RootComponent type="61" schemaName="arup_close_Opportunity" behavior="0" />
+      <RootComponent type="61" schemaName="arup_dynamic_display_of_fieldvalue" behavior="0" />
+      <RootComponent type="61" schemaName="arup_opportunitybuttoncommands.js" behavior="0" />
+      <RootComponent type="61" schemaName="arup_opportunitybuttons.html" behavior="0" />
+      <RootComponent type="61" schemaName="arup_Opportunity_Changes" behavior="0" />
+      <RootComponent type="61" schemaName="ccrm_opportunity_library_2015" behavior="0" />
+      <RootComponent type="61" schemaName="opportunity_ribbon.js" behavior="0" />
+    </RootComponents>
+    <MissingDependencies>
+      <MissingDependency>
+        <Required key="0" type="1" schemaName="ccrm_country" displayName="Country" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="2" type="1" schemaName="ccrm_arupbusiness" displayName="Arup Business" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="3" type="1" schemaName="opportunity" displayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="4" type="1" schemaName="ccrm_arupaccountingcode" displayName="Arup Accounting Code" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="5" type="1" schemaName="arup_projectparticipant" displayName="Project Collaborator" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="6" type="1" schemaName="ccrm_bidreview" displayName="Bid Review" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="2" type="1" schemaName="ccrm_arupbusiness" displayName="Arup Business" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="0" type="1" schemaName="ccrm_country" displayName="Country" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="3" type="1" schemaName="opportunity" displayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="8" type="2" schemaName="ccrm_notificationlistid" displayName="Notification List" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="9" type="2" schemaName="ccrm_shorttitle" displayName="Short Title" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="10" type="2" schemaName="ccrm_leadsource" displayName="Lead Source" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="11" type="2" schemaName="ccrm_arupgroupcode" displayName="Arup Group Code" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="12" type="2" schemaName="arup_globalservices" displayName="Global Services (multiselect)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="13" type="2" schemaName="ccrm_pi_transactioncurrencyid" displayName="PI Currency" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="14" type="2" schemaName="ccrm_pirequirement" displayName="PI Requirement" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="15" type="2" schemaName="ccrm_client" displayName="Client" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="16" type="2" schemaName="ccrm_confidential" displayName="Confidential" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="17" type="2" schemaName="ccrm_contractarrangement" displayName="Project Procurement" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="18" type="2" schemaName="ccrm_arupgroupid" displayName="Arup Group" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="19" type="2" schemaName="ccrm_agreementnumber" displayName="Contract Agreement Ref#" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="20" type="2" schemaName="ccrm_practicecode" displayName="Parent Practice Code" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="21" type="2" schemaName="ccrm_contractconditions" displayName="Contract Conditions" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="22" type="2" schemaName="ccrm_validaccountingcentre" displayName="Valid Accounting Centre" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="23" type="2" schemaName="arup_subbusiness" displayName="Arup Sub Business" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="24" type="2" schemaName="ccrm_subpracticecode" displayName="Sub-Practice Code" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="25" type="2" schemaName="ccrm_leadoriginator" displayName="Opportunity Originator" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="26" type="2" schemaName="ccrm_practice" displayName="Parent Practice" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="27" type="2" schemaName="ccrm_validcontact" displayName="Valid Contact" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="28" type="2" schemaName="arup_opportunitytype" displayName="Opportunity Type" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="29" type="2" schemaName="ccrm_showpjnbutton" displayName="Show PJN Button?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="30" type="2" schemaName="ccrm_arups_role_in_project" displayName="Arup's Role in Project" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="31" type="2" schemaName="ccrm_countryofclientregistrationid" displayName="Country of Client Registration" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="32" type="2" schemaName="customerid" displayName="Customer (copy)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="33" type="2" schemaName="ccrm_othernetworkdetails" displayName="Global Services = Other" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="34" type="2" schemaName="ccrm_arupregionid" displayName="Arup Region" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="35" type="2" schemaName="arup_procurementmessage" displayName="Supporting Text 1" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="36" type="2" schemaName="ccrm_estprojectexpenses_num" displayName="Gross Expenses" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="37" type="2" schemaName="arup_framework" displayName="CRM Framework Record" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="38" type="2" schemaName="ccrm_arupuniversityiiaresearchinitiative" displayName="Arup University/IiA Research Initiative" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="39" type="2" schemaName="ccrm_arupgroup" displayName="Arup Group Name" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="40" type="2" schemaName="ccrm_arupusstateid" displayName="Project State/Province" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="41" type="2" schemaName="ccrm_accountingcentreid" displayName="Accounting Centre" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="42" type="2" schemaName="ccrm_otherprocurementtypedetails" displayName="Procurement Type = Other" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="43" type="2" schemaName="arup_projectsector" displayName="Project Sector (multiselect)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="44" type="2" schemaName="ccrm_businessadministrator_userid" displayName="Opportunity Administrator" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="45" type="2" schemaName="arup_isthereanexistingcrmframeworkrecord" displayName="CRM Framework Record exists?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="46" type="2" schemaName="arup_k12school" displayName="Is it K-12 School?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="47" type="2" schemaName="name" displayName="Project Name" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="48" type="2" schemaName="ccrm_pilevelmoney_num" displayName="PI Level Amount" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="49" type="2" schemaName="ccrm_countrycategory" displayName="Country Category" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="50" type="2" schemaName="ccrm_subpractice" displayName="Sub-Practice" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="51" type="2" schemaName="ccrm_parentopportunityid" displayName="Related Parent Opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="52" type="2" schemaName="ccrm_contractlimitofliability" displayName="Limit of Liability?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="53" type="2" schemaName="ccrm_limitofliabilityagreement" displayName="Limit of Liability Agreed?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="54" type="2" schemaName="ccrm_ultimateendclientid" displayName="Ultimate/End Client" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="55" type="2" schemaName="ccrm_limitamount_num" displayName="Limit of Liability Amount" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="56" type="2" schemaName="arup_supportingtext2" displayName="Supporting Text 2" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="57" type="2" schemaName="ccrm_arupcompanyid" displayName="Arup Company" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="58" type="2" schemaName="ccrm_projectcountryregionid" displayName="Project Country Region" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="59" type="2" schemaName="ccrm_arupbusinessid" displayName="Arup Business" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="60" type="2" schemaName="description" displayName="Project Summary" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="61" type="2" schemaName="ccrm_projectlocationid" displayName="Project Country" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="62" type="2" schemaName="ccrm_arupinternal" displayName="Arup Internal" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="63" type="2" schemaName="ccrm_location" displayName="Project Town/City" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="64" type="2" schemaName="ccrm_financeapprovaldate" displayName="Finance Approved Date (CJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="65" type="2" schemaName="ccrm_staffoverheadspercent" displayName="Bid Staff OH Rate %" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="66" type="2" schemaName="ccrm_confidentialoptionset" displayName="Confidential Optionset" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="14" type="2" schemaName="ccrm_pirequirement" displayName="PI Requirement" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="67" type="2" schemaName="arup_importedexpenses_num" displayName="Imported Expenses" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="68" type="2" schemaName="arup_expenses_num" displayName="Expenses" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="24" type="2" schemaName="ccrm_subpracticecode" displayName="Sub-Practice Code" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="69" type="2" schemaName="ccrm_probabilityofprojectproceeding" displayName="Probability of Project Proceeding (%)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="70" type="2" schemaName="arup_bidreviewproxy" displayName="Bid Review Proxy" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="18" type="2" schemaName="ccrm_arupgroupid" displayName="Arup Group" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="37" type="2" schemaName="arup_framework" displayName="CRM Framework Record" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="71" type="2" schemaName="ccrm_practiceleaderapprovaldate" displayName="Sector Leader Approved Date (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="72" type="2" schemaName="ccrm_sys_op_trigger" displayName="System Opportunity Progress Trigger" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="73" type="2" schemaName="closeprobability" displayName="Probability of Win (%)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="74" type="2" schemaName="ccrm_sys_br_rejected" displayName="System Bid Review Rejected" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="75" type="2" schemaName="ccrm_charitablework" displayName="Charitable Work?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="60" type="2" schemaName="description" displayName="Project Summary" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="76" type="2" schemaName="ccrm_approvalnolongerrequired" displayName="Approval No Longer Required?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="77" type="2" schemaName="arup_importedsalarycost_num" displayName="Imported Salary Cost" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="78" type="2" schemaName="ccrm_regioncooapproval" displayName="Regional COO Approved By (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="79" type="2" schemaName="ccrm_parentproject" displayName="Parent Project" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="80" type="2" schemaName="ccrm_estprojectsubcontractorfees_num" displayName="Sub Consultant Fees" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="81" type="2" schemaName="ccrm_regionalpracticeleaderapprovaloptions" displayName="Regional Sector Leader Approval Status (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="82" type="2" schemaName="ccrm_processstage" displayName="Process Stage (unused)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="83" type="2" schemaName="ccrm_currentbidreviewchair" displayName="Current Bid Review Chair" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="84" type="2" schemaName="ccrm_sys_phasename" displayName="Active Stage" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="85" type="2" schemaName="ccrm_staffoverheads_num" displayName="Bid Staff OH Cost" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="86" type="2" schemaName="ccrm_estimatedvalue_num" displayName="Fee Income" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="87" type="2" schemaName="arup_projecttype" displayName="Project Type (multiselect)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="88" type="2" schemaName="ccrm_currentapprovers" displayName="Current Approvers" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="89" type="2" schemaName="ccrm_unmatchedcurrencyexceedslimit" displayName="Unmatched Currency &gt; Limit?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="15" type="2" schemaName="ccrm_client" displayName="Client" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="90" type="2" schemaName="ccrm_actualbidgrossexpenses" displayName="Actual Bid Expenses Spent" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="91" type="2" schemaName="ccrm_projmgrdirapproval" displayName="Project Manager/Director Approved By (CJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="92" type="2" schemaName="ccrm_dateconsulted" displayName="Date Consulted" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="93" type="2" schemaName="arup_sanctionschecktrigger" displayName="Sanctions Check Trigger" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="94" type="2" schemaName="ccrm_sys_reserved_jna" displayName="System Reserved CJN" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="19" type="2" schemaName="ccrm_agreementnumber" displayName="Contract Agreement Ref#" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="95" type="2" schemaName="ccrm_estprojectprofit_num" displayName="Project Profit" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="96" type="2" schemaName="ccrm_sys_dtp_gateway" displayName="System DTP Gateway" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="97" type="2" schemaName="ccrm_subaccountingcentreid" displayName="Sub-Accounting Centre" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="13" type="2" schemaName="ccrm_pi_transactioncurrencyid" displayName="PI Currency" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="35" type="2" schemaName="arup_procurementmessage" displayName="Supporting Text 1" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="98" type="2" schemaName="ccrm_wonreason" displayName="Won Reason" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="99" type="2" schemaName="arup_duediligenceteamemail" displayName="Due Diligence Team Email" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="100" type="2" schemaName="ccrm_regioncooapprovaloptions" displayName="Regional COO Approval Status (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="101" type="2" schemaName="ccrm_commercialmanager_userid" displayName="Commercial Manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="102" type="2" schemaName="ccrm_limitamountvalueold" displayName="Limit Amount Value(Old)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="103" type="2" schemaName="ccrm_estarupinvolvementend" displayName="Arup Project End Date" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="104" type="2" schemaName="ccrm_proj_factoredincome_num" displayName="Factored Income" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="105" type="2" schemaName="ccrm_factorednetreturntoarup_num" displayName="Factored Net Return to Arup" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="106" type="2" schemaName="ccrm_reference" displayName="Project ID" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="55" type="2" schemaName="ccrm_limitamount_num" displayName="Limit of Liability Amount" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="107" type="2" schemaName="ccrm_clientold" displayName="Client  ( Old)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="108" type="2" schemaName="ccrm_reasonfornotconsultingcountrymanager" displayName="Reason for not consulting Country Manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="22" type="2" schemaName="ccrm_validaccountingcentre" displayName="Valid Accounting Centre" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="109" type="2" schemaName="ccrm_processflag" displayName="Process Flag" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="110" type="2" schemaName="ccrm_sys_pjnrequesteduser_trigger" displayName="System PJN Requested Trigger" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="111" type="2" schemaName="ccrm_bidsubmission" displayName="Bid Submission Date" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="112" type="2" schemaName="ccrm_groupleadercjnapproval" displayName="Group Leader Approved By (CJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="113" type="2" schemaName="ccrm_arupofficeid" displayName="Arup Office" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="114" type="2" schemaName="ccrm_crossregionbid" displayName="Cross Region Bid" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="115" type="2" schemaName="createdby" displayName="Created By" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="116" type="2" schemaName="ccrm_bidreviewdecisiondate" displayName="Bid Review Approval Date" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="117" type="2" schemaName="ccrm_bondsrequired" displayName="Bonds Required?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="118" type="2" schemaName="ccrm_profitasapercentageoffeedec" displayName="Profit on Income (%)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="29" type="2" schemaName="ccrm_showpjnbutton" displayName="Show PJN Button?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="40" type="2" schemaName="ccrm_arupusstateid" displayName="Project State/Province" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="119" type="2" schemaName="exchangerate" displayName="Exchange Rate" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="120" type="2" schemaName="statecode" displayName="Overall Status" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="121" type="2" schemaName="arup_biddecisionproxy" displayName="Bid Decision Proxy" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="122" type="2" schemaName="ccrm_createmethodtext" displayName="Create Method Text" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="123" type="2" schemaName="arup_duediligencemultipleresult" displayName="Due Diligence Multiple Result" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="51" type="2" schemaName="ccrm_parentopportunityid" displayName="Related Parent Opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="124" type="2" schemaName="arup_services" displayName="Services (multiselect)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="125" type="2" schemaName="ccrm_systemcjnarequesttrigger" displayName="System CJNA Request Trigger" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="126" type="2" schemaName="ccrm_exclusivity" displayName="Exclusivity Requested?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="127" type="2" schemaName="ccrm_jna" displayName="CJN (Confirmed Job Number)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="128" type="2" schemaName="originatingleadid" displayName="Originating Lead" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="129" type="2" schemaName="ccrm_regionalpracticeleaderapprovaldate" displayName="Regional Sector Leader Approved Date (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="130" type="2" schemaName="ccrm_projecttotalincome_num" displayName="Total Income" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="45" type="2" schemaName="arup_isthereanexistingcrmframeworkrecord" displayName="CRM Framework Record exists?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="131" type="2" schemaName="ccrm_creditcheckrequired" displayName="Credit Check Required?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="132" type="2" schemaName="ccrm_project_transactioncurrencyid" displayName="Project Currency" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="133" type="2" schemaName="arup_biddecisionchair" displayName="Bid Decision Chair" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="134" type="2" schemaName="ccrm_chargingbasis" displayName="Charging Basis" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="135" type="2" schemaName="ccrm_projectid" displayName="Project (Lookup)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="136" type="2" schemaName="ccrm_groupleadercjnapprovaldate" displayName="Group Leader Approved Date (CJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="137" type="2" schemaName="ccrm_bidreview" displayName="Bid Review Date" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="138" type="2" schemaName="ccrm_acctcentleadapprovaloptions" displayName="Accounting Centre Lead/Delegate Appr. Status (CJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="139" type="2" schemaName="ccrm_establishmentofnewentitytaxregbankac" displayName="New Entity/Tax Reg./Bank A/C?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="140" type="2" schemaName="ccrm_createmethod" displayName="Create Method" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="141" type="2" schemaName="ccrm_performanceguarantees" displayName="Performance Guarantees?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="142" type="2" schemaName="ccrm_bidreviewchair_userid" displayName="Bid Review Chair" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="143" type="2" schemaName="ccrm_biddirectorapprovaldate" displayName="Bid Director Approved Date (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="144" type="2" schemaName="arup_bidsiterequested" displayName="Bid Site Requested" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="145" type="2" schemaName="ccrm_equityorloanparticipation" displayName="Equity or Loan Participation?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="49" type="2" schemaName="ccrm_countrycategory" displayName="Country Category" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="9" type="2" schemaName="ccrm_shorttitle" displayName="Short Title" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="146" type="2" schemaName="ccrm_estprojectresourcecosts_num" displayName="Salary Cost" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="41" type="2" schemaName="ccrm_accountingcentreid" displayName="Accounting Centre" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="147" type="2" schemaName="ccrm_practiceleaderid" displayName="Practice Leader" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="148" type="2" schemaName="ccrm_tags" displayName="tags" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="27" type="2" schemaName="ccrm_validcontact" displayName="Valid Contact" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="149" type="2" schemaName="ccrm_geographicproxyid" displayName="Country Proxy/Person Consulted" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="150" type="2" schemaName="ccrm_sys_dtb_approval" displayName="System DTP Approval" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="33" type="2" schemaName="ccrm_othernetworkdetails" displayName="Global Services = Other" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="52" type="2" schemaName="ccrm_contractlimitofliability" displayName="Limit of Liability?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="11" type="2" schemaName="ccrm_arupgroupcode" displayName="Arup Group Code" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="151" type="2" schemaName="ccrm_anticipatedprojectcashflow_num" displayName="Maximum Negative Cash Flow" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="53" type="2" schemaName="ccrm_limitofliabilityagreement" displayName="Limit of Liability Agreed?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="38" type="2" schemaName="ccrm_arupuniversityiiaresearchinitiative" displayName="Arup University/IiA Research Initiative" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="152" type="2" schemaName="ownerid" displayName="Owner" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="153" type="2" schemaName="ccrm_projectsectorname" displayName="Project Sector" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="154" type="2" schemaName="ccrm_groupleaderapprovaloptions" displayName="Group Leader Approval Status (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="155" type="2" schemaName="ccrm_descriptionofextentofarupservices" displayName="Extent of Arup Services" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="61" type="2" schemaName="ccrm_projectlocationid" displayName="Project Country" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="156" type="2" schemaName="arup_clientatbidreview" displayName="Client at Bid Review" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="62" type="2" schemaName="ccrm_arupinternal" displayName="Arup Internal" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="157" type="2" schemaName="totalamount" displayName="Total Amount" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="158" type="2" schemaName="ccrm_geographicmanagerproxyconsulted2" displayName="Country Manager/Proxy Consulted?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="159" type="2" schemaName="ccrm_bidreviewoutcome" displayName="Bid Review Outcome" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="160" type="2" schemaName="ccrm_shwbidreviewappbtn" displayName="Show Bid Review App Btn" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="50" type="2" schemaName="ccrm_subpractice" displayName="Sub-Practice" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="161" type="2" schemaName="ccrm_biddirectorapproval" displayName="Bid Director Approved By (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="162" type="2" schemaName="createdon" displayName="Created On" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="163" type="2" schemaName="ccrm_riskreviewcompleted" displayName="Risk Review Completed?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="12" type="2" schemaName="arup_globalservices" displayName="Global Services (multiselect)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="164" type="2" schemaName="ccrm_referredby_accountid" displayName="Referred By" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="48" type="2" schemaName="ccrm_pilevelmoney_num" displayName="PI Level Amount" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="23" type="2" schemaName="arup_subbusiness" displayName="Arup Sub Business" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="165" type="2" schemaName="ccrm_processvariation" displayName="Process Variation" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="166" type="2" schemaName="ccrm_financeapproval" displayName="Finance Approved By (CJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="32" type="2" schemaName="customerid" displayName="Customer (copy)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="47" type="2" schemaName="name" displayName="Project Name" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="57" type="2" schemaName="ccrm_arupcompanyid" displayName="Arup Company" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="167" type="2" schemaName="ccrm_salarycost_num" displayName="Bid Salary Cost" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="168" type="2" schemaName="ccrm_parentcompanyguarantee" displayName="Parent Company Guarantee?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="169" type="2" schemaName="ccrm_disciplinesname" displayName="Disciplines" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="170" type="2" schemaName="ccrm_stagetoggle" displayName="Stage Toggle Flag" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="171" type="2" schemaName="ccrm_proj_factoredprofit_num" displayName="Factored Profit" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="31" type="2" schemaName="ccrm_countryofclientregistrationid" displayName="Country of Client Registration" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="172" type="2" schemaName="arup_bidsubmissionoutcome" displayName="Bid Submission Outcome" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="173" type="2" schemaName="ccrm_dateoflastcreditcheck" displayName="Last Client Credit Check?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="8" type="2" schemaName="ccrm_notificationlistid" displayName="Notification List" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="174" type="2" schemaName="ccrm_pjnprogressbutton" displayName="PJN progress button" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="175" type="2" schemaName="ccrm_sys_fa_approval" displayName="System Financial Approval" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="30" type="2" schemaName="ccrm_arups_role_in_project" displayName="Arup's Role in Project" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="176" type="2" schemaName="arup_approverleader" displayName="System Approver Leader" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="177" type="2" schemaName="ccrm_groupleaderapproval" displayName="Group Leader Approved By (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="178" type="2" schemaName="ccrm_othernetworksdisp" displayName="Global Services" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="59" type="2" schemaName="ccrm_arupbusinessid" displayName="Arup Business" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="179" type="2" schemaName="ccrm_ratfactnetreturntoarupnetarupbidcost_num" displayName="Bid Ratio" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="180" type="2" schemaName="ccrm_estprojectstaffoverheadsrate" displayName="Staff Overhead Rate %" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="28" type="2" schemaName="arup_opportunitytype" displayName="Opportunity Type" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="181" type="2" schemaName="ccrm_acctcentleadapproval" displayName="Accounting Centre Leader/Delegate Appr. By (CJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="182" type="2" schemaName="ccrm_sys_bidreview_gateway" displayName="System Bid Review Gateway" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="183" type="2" schemaName="isrevenuesystemcalculated" displayName="Revenue" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="184" type="2" schemaName="ccrm_powersofattorney" displayName="Powers of Attorney" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="63" type="2" schemaName="ccrm_location" displayName="Project Town/City" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="185" type="2" schemaName="ccrm_pklist_riskreviewresult" displayName="Risk Review Level" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="186" type="2" schemaName="ccrm_grossexpenses_num" displayName="Bid Gross Expenses" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="16" type="2" schemaName="ccrm_confidential" displayName="Confidential" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="187" type="2" schemaName="statuscode" displayName="Review / Approval Status" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="188" type="2" schemaName="ccrm_interface_retries" displayName="Interface Retries" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="189" type="2" schemaName="ccrm_totalbidcost_num" displayName="Total Bid Cost" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="44" type="2" schemaName="ccrm_businessadministrator_userid" displayName="Opportunity Administrator" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="190" type="2" schemaName="ccrm_geographicmanagerid" displayName="Country Manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="191" type="2" schemaName="ccrm_possiblejobnumberrequired" displayName="Possible Job Number Required?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="34" type="2" schemaName="ccrm_arupregionid" displayName="Arup Region" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="192" type="2" schemaName="ccrm_actualtotalbidcosts" displayName="Actual Total Cost Spent" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="193" type="2" schemaName="ccrm_sys_confirmedjob_buttonhide" displayName="System Confirmed Job Button Hide" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="194" type="2" schemaName="ccrm_bidmanager_userid" displayName="Bid Manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="195" type="2" schemaName="arup_duediligencetooltip" displayName="Due Diligence Tool Tip" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="39" type="2" schemaName="ccrm_arupgroup" displayName="Arup Group Name" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="196" type="2" schemaName="ccrm_closeprobability_synced" displayName="Probability of Win (%) (Synced)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="17" type="2" schemaName="ccrm_contractarrangement" displayName="Project Procurement" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="197" type="2" schemaName="arup_aruplastcjnclickuser" displayName="Arup Last CJN Click User" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="198" type="2" schemaName="ccrm_invoicinglevel" displayName="Invoicing Level" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="199" type="2" schemaName="arup_declinereason" displayName="Decline Reason" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="200" type="2" schemaName="ccrm_financeapprovaloptions" displayName="Finance Approval Status (CJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="10" type="2" schemaName="ccrm_leadsource" displayName="Lead Source" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="201" type="2" schemaName="arup_duediligencecheck" displayName="Sanctions Check" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="202" type="2" schemaName="arup_biddecisiondate" displayName="Bid Decision Date" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="203" type="2" schemaName="ccrm_ndaexecuted" displayName="NDA Executed" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="25" type="2" schemaName="ccrm_leadoriginator" displayName="Opportunity Originator" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="204" type="2" schemaName="ccrm_groupleadercjnapprovaloptions" displayName="Group Leader Approval Status (CJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="205" type="2" schemaName="arup_bidsubmitteddate" displayName="Bid Submitted Date" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="206" type="2" schemaName="ccrm_financedetailscaptured" displayName="Finance Details Captured?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="207" type="2" schemaName="ccrm_calccashflowdeficit" displayName="Calculate Cash Flow Deficit" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="208" type="2" schemaName="ccrm_servicesname" displayName="Services" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="209" type="2" schemaName="estimatedvalue_base" displayName="Fee Income (UK Pound Sterling)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="58" type="2" schemaName="ccrm_projectcountryregionid" displayName="Project Country Region" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="54" type="2" schemaName="ccrm_ultimateendclientid" displayName="Ultimate/End Client" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="210" type="2" schemaName="ccrm_regionalcooapprovaldate" displayName="Regional COO Approved Date (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="211" type="2" schemaName="ccrm_projectmanager_userid" displayName="Project Manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="212" type="2" schemaName="ccrm_exclusivitystate" displayName="Exclusivity Agreed Status" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="213" type="2" schemaName="ccrm_groupleaderapprovaldate" displayName="Group Leader Approved Date (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="214" type="2" schemaName="ccrm_jobnumberprogression" displayName="Job Number Progression" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="215" type="2" schemaName="ccrm_regionalpracticeleaderapproval" displayName="Regional Sector Leader Approved By (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="216" type="2" schemaName="ccrm_estarupinvolvementstart" displayName="Arup Project Start Date" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="217" type="2" schemaName="arup_projparticipants_reqd" displayName="Proj Collaborators Prompt Flag" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="218" type="2" schemaName="ccrm_bid_transactioncurrencyid" displayName="Bid Currency" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="219" type="2" schemaName="ccrm_validopportunitytrack" displayName="Valid Opportunity Track" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="220" type="2" schemaName="ccrm_estprojectoverheads_num" displayName="Staff Overhead Cost" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="221" type="2" schemaName="ccrm_practiceleaderapproval" displayName="Sector Leader Approved By (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="222" type="2" schemaName="pricelevelid" displayName="Price List" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="223" type="2" schemaName="arup_biddecisionoutcome" displayName="Bid Decision Outcome" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="224" type="2" schemaName="transactioncurrencyid" displayName="Currency" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="225" type="2" schemaName="ccrm_projmgrdirapprovaldate" displayName="Project Manager/Director Approved Date (CJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="226" type="2" schemaName="ccrm_projecttotalcosts_num" displayName="Total Cost" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="227" type="2" schemaName="ccrm_pjna" displayName="PJN (Possible Job Number)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="228" type="2" schemaName="ccrm_biddirector_userid" displayName="Bid Director" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="229" type="2" schemaName="ccrm_projectdirector_userid" displayName="Project Director" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="230" type="2" schemaName="ccrm_arupbidstartdate" displayName="Arup Bid Start Date" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="231" type="2" schemaName="ccrm_estexpenseincome_num" displayName="Expense Income" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="232" type="2" schemaName="arup_importedstaffohcost_num" displayName="Imported Staff OH Cost" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="46" type="2" schemaName="arup_k12school" displayName="Is it K-12 School?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="20" type="2" schemaName="ccrm_practicecode" displayName="Parent Practice Code" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="43" type="2" schemaName="arup_projectsector" displayName="Project Sector (multiselect)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="233" type="2" schemaName="ccrm_projectsectorvalue" displayName="Project Sector Value" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="234" type="2" schemaName="ccrm_clientcontactid" displayName="Client Contact" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="235" type="2" schemaName="ccrm_pjn_opportunitytype" displayName="Opportunity Type (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="236" type="2" schemaName="arup_grossstaffcost_num" displayName="Gross Staff Cost" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="237" type="2" schemaName="estimatedclosedate" displayName="Bid Response Date" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="238" type="2" schemaName="ccrm_arupbidfinishdate" displayName="Arup Bid Finish Date" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="239" type="2" schemaName="arup_disciplines" displayName="Disciplines (multiselect)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="240" type="2" schemaName="estimatedvalue" displayName="Fee Income (Currency)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="241" type="2" schemaName="ccrm_biddirectorapprovaloptions" displayName="Bid Director Approval Status (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="242" type="2" schemaName="ccrm_contingency" displayName="Contingency" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="243" type="2" schemaName="arup_creditcheck" displayName="Credit Check" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="244" type="2" schemaName="ccrm_estprojectvalue_num" displayName="Overall Project Value (Numeric)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="245" type="2" schemaName="ccrm_opportunitytype" displayName="Risk Level" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="26" type="2" schemaName="ccrm_practice" displayName="Parent Practice" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="246" type="2" schemaName="ccrm_closereasons" displayName="Close Reasons" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="247" type="2" schemaName="ccrm_confidentialbidmanager_userid" displayName="Confidential Bid Manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="248" type="2" schemaName="ccrm_actualbidsalarycosts" displayName="Actual Bid Effort Cost Spent" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="249" type="2" schemaName="ccrm_aruplocalcontact_userid" displayName="Arup Local Contact" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="250" type="2" schemaName="ccrm_acctcentleadapprovaldate" displayName="Accounting Centre Leader/Delegate Appr. Date (CJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="251" type="2" schemaName="ccrm_practiceleaderapprovaloptions" displayName="Sector Leader Approval Status (PJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="252" type="2" schemaName="ccrm_projmgrdirapprovaloptions" displayName="Project Manager/Director Approval Status (CJN)" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="253" type="2" schemaName="arup_projpartreqd" displayName="Project Collaborators?" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="56" type="2" schemaName="arup_supportingtext2" displayName="Supporting Text 2" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="21" type="2" schemaName="ccrm_contractconditions" displayName="Contract Conditions" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="254" type="10" schemaName="arup_systemuser_opportunity_aruplastCJNclickuser" displayName="arup_systemuser_opportunity_aruplastCJNclickuser" parentSchemaName="systemuser" parentDisplayName="User" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="255" type="10" schemaName="arup_opportunity_arup_projectparticipant_opportunity" displayName="arup_opportunity_arup_projectparticipant_opportunity" parentSchemaName="arup_projectparticipant" parentDisplayName="Project Collaborator" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="256" type="10" schemaName="ccrm_opportunity_ccrm_bidreview" displayName="ccrm_opportunity_ccrm_bidreview" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="257" type="10" schemaName="ccrm_account_opportunity" displayName="ccrm_account_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="258" type="10" schemaName="ccrm_notificationlist_opportunity" displayName="ccrm_notificationlist_opportunity" parentSchemaName="ccrm_notificationlist" parentDisplayName="Notification List" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="259" type="10" schemaName="ccrm_systemuser_opportunity_projectdirector" displayName="ccrm_systemuser_opportunity_projectdirector" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="260" type="10" schemaName="arup_systemuser_opportunity_bidreviewproxy" displayName="arup_systemuser_opportunity_bidreviewproxy" parentSchemaName="systemuser" parentDisplayName="User" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="261" type="10" schemaName="ccrm_opportunity_opportunitycontact" displayName="ccrm_opportunity_opportunitycontact" parentSchemaName="ccrm_opportunitycontact" parentDisplayName="Opportunity Contact" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="262" type="10" schemaName="ccrm_account_opportunity_Client" displayName="ccrm_account_opportunity_Client" parentSchemaName="account" parentDisplayName="Organisation" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="263" type="10" schemaName="ccrm_country_opportunity" displayName="ccrm_country_opportunity" parentSchemaName="ccrm_country" parentDisplayName="Country" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="264" type="10" schemaName="ccrm_ccrm_practiceleader_opportunity" displayName="ccrm_ccrm_practiceleader_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="265" type="10" schemaName="arup_systemuser_opportunity_BidDecisionProxy" displayName="arup_systemuser_opportunity_BidDecisionProxy" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="266" type="10" schemaName="ccrm_systemuser_opportunity_CurrentBidReviewChair" displayName="ccrm_systemuser_opportunity_CurrentBidReviewChair" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="267" type="10" schemaName="ccrm_opportunity_ccrm_cjnapplication" displayName="ccrm_opportunity_ccrm_cjnapplication" parentSchemaName="ccrm_cjnapplication" parentDisplayName="Confirmed Job Number Application" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="268" type="10" schemaName="ccrm_region_opportunity" displayName="ccrm_region_opportunity" parentSchemaName="ccrm_arupregion" parentDisplayName="Arup Region" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="269" type="10" schemaName="ccrm_systemuser_opportunity_biddirector" displayName="ccrm_systemuser_opportunity_biddirector" parentSchemaName="systemuser" parentDisplayName="User" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="270" type="10" schemaName="ccrm_account_opportunity_ClientOld" displayName="ccrm_account_opportunity_ClientOld" parentSchemaName="account" parentDisplayName="Organisation" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="271" type="10" schemaName="ccrm_systemuser_opportunity_BidReviewChair" displayName="ccrm_systemuser_opportunity_BidReviewChair" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="272" type="10" schemaName="ccrm_systemuser_opportunity_businessadmin" displayName="ccrm_systemuser_opportunity_businessadmin" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="273" type="10" schemaName="ccrm_geog_manager" displayName="ccrm_geog_manager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="274" type="10" schemaName="ccrm_systemuser_opportunity" displayName="ccrm_systemuser_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="275" type="10" schemaName="arup_systemuser_opportunity_BidDecisionChair" displayName="arup_systemuser_opportunity_BidDecisionChair" parentSchemaName="systemuser" parentDisplayName="User" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="276" type="10" schemaName="ccrm_arupaccountingcode_arupsubaccoutingcode" displayName="ccrm_arupaccountingcode_arupsubaccoutingcode" parentSchemaName="ccrm_arupsubaccountingcode" parentDisplayName="Arup Sub-Accounting Code" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="277" type="10" schemaName="ccrm_opportunity_ccrm_opportunityapproval" displayName="ccrm_opportunity_ccrm_opportunityapproval" parentSchemaName="ccrm_opportunityapproval" parentDisplayName="Review and Approval" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="278" type="10" schemaName="ccrm_systemuser_opportunity_acctcentleadapproval" displayName="ccrm_systemuser_opportunity_acctcentleadapproval" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="279" type="10" schemaName="ccrm_arupcompany_opportunity" displayName="ccrm_arupcompany_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="280" type="10" schemaName="ccrm_systemuser_opportunity_regioncooapproval" displayName="ccrm_systemuser_opportunity_regioncooapproval" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="281" type="10" schemaName="ccrm_Project_Country_Region" displayName="ccrm_Project_Country_Region" parentSchemaName="ccrm_arupregion" parentDisplayName="Arup Region" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="282" type="10" schemaName="ccrm_opportunity_opportunity_parent" displayName="ccrm_opportunity_opportunity_parent" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="283" type="10" schemaName="ccrm_systemuser_opportunity_projectmanager" displayName="ccrm_systemuser_opportunity_projectmanager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="284" type="10" schemaName="ccrm_projecttitle" displayName="ccrm_projecttitle" parentSchemaName="ccrm_exclusivityrequest" parentDisplayName="Exclusivity Request" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="285" type="10" schemaName="ccrm_systemuser_opportunity_biddirectorapproval" displayName="ccrm_systemuser_opportunity_biddirectorapproval" parentSchemaName="systemuser" parentDisplayName="User" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="286" type="10" schemaName="ccrm_transactioncurrency_opportunity_pi" displayName="ccrm_transactioncurrency_opportunity_pi" parentSchemaName="transactioncurrency" parentDisplayName="Currency" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="287" type="10" schemaName="ccrm_systemuser_opportunity_projmgrdirapproval" displayName="ccrm_systemuser_opportunity_projmgrdirapproval" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="288" type="10" schemaName="ccrm_systemuser_opportunity_regionalpracticeleaderapproval" displayName="ccrm_systemuser_opportunity_regionalpracticeleaderapproval" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="289" type="10" schemaName="arup_account_opportunity_ClientatBidReview" displayName="arup_account_opportunity_ClientatBidReview" parentSchemaName="account" parentDisplayName="Organisation" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="290" type="10" schemaName="ccrm_country_clientreg" displayName="ccrm_country_clientreg" parentSchemaName="ccrm_country" parentDisplayName="Country" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="291" type="10" schemaName="ccrm_ccrm_arupsubaccountingcode_opportunity" displayName="ccrm_ccrm_arupsubaccountingcode_opportunity" parentSchemaName="ccrm_arupsubaccountingcode" parentDisplayName="Arup Sub-Accounting Code" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="292" type="10" schemaName="ccrm_systemuser_opportunity_practiceleaderapproval" displayName="ccrm_systemuser_opportunity_practiceleaderapproval" parentSchemaName="systemuser" parentDisplayName="User" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="293" type="10" schemaName="arup_ccrm_arupbusiness_arup_subbusiness_business" displayName="arup_ccrm_arupbusiness_arup_subbusiness_business" parentSchemaName="arup_subbusiness" parentDisplayName="Arup Sub Business" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="294" type="10" schemaName="ccrm_opportunity_ccrm_progresshistory" displayName="ccrm_opportunity_ccrm_progresshistory" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="295" type="10" schemaName="ccrm_arupaccountingcode_opportunity" displayName="ccrm_arupaccountingcode_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="296" type="10" schemaName="ccrm_systemuser_opportunity_commercialmanager" displayName="ccrm_systemuser_opportunity_commercialmanager" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="297" type="10" schemaName="ccrm_geog_proxy_user" displayName="ccrm_geog_proxy_user" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="298" type="10" schemaName="ccrm_systemuser_opportunity_aruplocalcontact" displayName="ccrm_systemuser_opportunity_aruplocalcontact" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="299" type="10" schemaName="ccrm_systemuser_opportunity_bidmanager" displayName="ccrm_systemuser_opportunity_bidmanager" parentSchemaName="systemuser" parentDisplayName="User" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="300" type="10" schemaName="ccrm_ccrm_arupoffice_opportunity_arupoffice" displayName="ccrm_ccrm_arupoffice_opportunity_arupoffice" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="301" type="10" schemaName="arup_systemuser_opportunity_ApproverLeader" displayName="arup_systemuser_opportunity_ApproverLeader" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="302" type="10" schemaName="ccrm_transactioncurrency_opportunity_bid" displayName="ccrm_transactioncurrency_opportunity_bid" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="303" type="10" schemaName="ccrm_systemuser_opportunity_groupleadercjnapproval" displayName="ccrm_systemuser_opportunity_groupleadercjnapproval" parentSchemaName="systemuser" parentDisplayName="User" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="304" type="10" schemaName="ccrm_ccrm_project_opportunity" displayName="ccrm_ccrm_project_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="305" type="10" schemaName="arup_arup_subbusiness_opportunity_subbusiness" displayName="arup_arup_subbusiness_opportunity_subbusiness" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="306" type="10" schemaName="ccrm_ccrm_arupgroup_opportunity" displayName="ccrm_ccrm_arupgroup_opportunity" parentSchemaName="ccrm_arupgroup" parentDisplayName="Arup Group" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="307" type="10" schemaName="ccrm_opportunity_incident_Projectname" displayName="ccrm_opportunity_incident_Projectname" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="308" type="10" schemaName="ccrm_systemuser_opportunity_groupleaderapproval" displayName="ccrm_systemuser_opportunity_groupleaderapproval" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="309" type="10" schemaName="ccrm_ccrm_arupbusiness_opportunity" displayName="ccrm_ccrm_arupbusiness_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="310" type="10" schemaName="arup_opportunity_Framework" displayName="arup_opportunity_Framework" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="311" type="10" schemaName="ccrm_systemuser_opportunity_LeadOriginator" displayName="ccrm_systemuser_opportunity_LeadOriginator" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="312" type="10" schemaName="ccrm_ccrm_country_ccrm_arupusstate" displayName="ccrm_ccrm_country_ccrm_arupusstate" parentSchemaName="ccrm_arupusstate" parentDisplayName="Arup State" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="313" type="10" schemaName="ccrm_ccrm_arupusstate_opportunity" displayName="ccrm_ccrm_arupusstate_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="314" type="10" schemaName="ccrm_systemuser_opportunity_financeapproval" displayName="ccrm_systemuser_opportunity_financeapproval" parentSchemaName="systemuser" parentDisplayName="User" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="272" type="10" schemaName="ccrm_systemuser_opportunity_businessadmin" displayName="ccrm_systemuser_opportunity_businessadmin" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="315" type="10" schemaName="ccrm_transactioncurrency_opportunity_project" displayName="ccrm_transactioncurrency_opportunity_project" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="295" type="10" schemaName="ccrm_arupaccountingcode_opportunity" displayName="ccrm_arupaccountingcode_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="290" type="10" schemaName="ccrm_country_clientreg" displayName="ccrm_country_clientreg" parentSchemaName="ccrm_country" parentDisplayName="Country" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="282" type="10" schemaName="ccrm_opportunity_opportunity_parent" displayName="ccrm_opportunity_opportunity_parent" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="281" type="10" schemaName="ccrm_Project_Country_Region" displayName="ccrm_Project_Country_Region" parentSchemaName="ccrm_arupregion" parentDisplayName="Arup Region" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="258" type="10" schemaName="ccrm_notificationlist_opportunity" displayName="ccrm_notificationlist_opportunity" parentSchemaName="ccrm_notificationlist" parentDisplayName="Notification List" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="305" type="10" schemaName="arup_arup_subbusiness_opportunity_subbusiness" displayName="arup_arup_subbusiness_opportunity_subbusiness" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="286" type="10" schemaName="ccrm_transactioncurrency_opportunity_pi" displayName="ccrm_transactioncurrency_opportunity_pi" parentSchemaName="transactioncurrency" parentDisplayName="Currency" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="263" type="10" schemaName="ccrm_country_opportunity" displayName="ccrm_country_opportunity" parentSchemaName="ccrm_country" parentDisplayName="Country" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="306" type="10" schemaName="ccrm_ccrm_arupgroup_opportunity" displayName="ccrm_ccrm_arupgroup_opportunity" parentSchemaName="ccrm_arupgroup" parentDisplayName="Arup Group" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="262" type="10" schemaName="ccrm_account_opportunity_Client" displayName="ccrm_account_opportunity_Client" parentSchemaName="account" parentDisplayName="Organisation" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="313" type="10" schemaName="ccrm_ccrm_arupusstate_opportunity" displayName="ccrm_ccrm_arupusstate_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="316" type="10" schemaName="ccrm_account_opportunity_referredby" displayName="ccrm_account_opportunity_referredby" parentSchemaName="account" parentDisplayName="Organisation" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="312" type="10" schemaName="ccrm_ccrm_country_ccrm_arupusstate" displayName="ccrm_ccrm_country_ccrm_arupusstate" parentSchemaName="ccrm_arupusstate" parentDisplayName="Arup State" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="310" type="10" schemaName="arup_opportunity_Framework" displayName="arup_opportunity_Framework" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="317" type="10" schemaName="ccrm_contact_opportunity" displayName="ccrm_contact_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="293" type="10" schemaName="arup_ccrm_arupbusiness_arup_subbusiness_business" displayName="arup_ccrm_arupbusiness_arup_subbusiness_business" parentSchemaName="arup_subbusiness" parentDisplayName="Arup Sub Business" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="268" type="10" schemaName="ccrm_region_opportunity" displayName="ccrm_region_opportunity" parentSchemaName="ccrm_arupregion" parentDisplayName="Arup Region" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="309" type="10" schemaName="ccrm_ccrm_arupbusiness_opportunity" displayName="ccrm_ccrm_arupbusiness_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="311" type="10" schemaName="ccrm_systemuser_opportunity_LeadOriginator" displayName="ccrm_systemuser_opportunity_LeadOriginator" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="257" type="10" schemaName="ccrm_account_opportunity" displayName="ccrm_account_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="279" type="10" schemaName="ccrm_arupcompany_opportunity" displayName="ccrm_arupcompany_opportunity" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="318" type="26" schemaName="Arup Accounting Code Lookup View" displayName="Arup Accounting Code Lookup View" parentSchemaName="ccrm_arupaccountingcode" parentDisplayName="Arup Accounting Code" solution="Active" id="{45f07848-c04d-4a72-a9da-ff0bc11cb822}" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="319" type="26" schemaName="Arup Group Lookup View" displayName="Arup Group Lookup View" parentSchemaName="ccrm_arupgroup" parentDisplayName="Arup Group" solution="Active" id="{2eba8051-83ce-4b17-b1ff-900b146de59a}" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="320" type="26" schemaName="Notification List Lookup View" displayName="Notification List Lookup View" parentSchemaName="ccrm_notificationlist" parentDisplayName="Notification List" solution="Active" id="{0dd0b8b6-2a94-4f3a-9c9e-058e775b88db}" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="321" type="26" schemaName="Framework Lookup View" displayName="Framework Lookup View" parentSchemaName="arup_framework" parentDisplayName="Framework" solution="Active" id="{48c68e5a-a5a2-4e1f-b57b-2f6fe3e13165}" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="322" type="26" schemaName="Arup Sub Business Lookup View" displayName="Arup Sub Business Lookup View" parentSchemaName="arup_subbusiness" parentDisplayName="Arup Sub Business" solution="Active" id="{83a5f3b8-b2ea-42d0-82b1-21659b1a2768}" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="323" type="26" schemaName="Country Lookup View" displayName="Country Lookup View" parentSchemaName="ccrm_country" parentDisplayName="Country" solution="Active" id="{20bc9030-bc6c-44ef-a763-e5997d15b0c1}" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="324" type="26" schemaName="Arup Region Lookup View" displayName="Arup Region Lookup View" parentSchemaName="ccrm_arupregion" parentDisplayName="Arup Region" solution="Active" id="{179b1a07-010c-4173-b03d-7d27055382b9}" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="325" type="26" schemaName="Arup Business Lookup View" displayName="Arup Business Lookup View" parentSchemaName="ccrm_arupbusiness" parentDisplayName="Arup Business" solution="Active" id="{4e81b86f-99af-421e-b021-a673156ce0de}" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="326" type="26" schemaName="Opportunity Lookup View" displayName="Opportunity Lookup View" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" id="{9eb361b4-67ac-4830-8abf-2d29efbaee2c}" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="327" type="26" schemaName="Arup Company Lookup View" displayName="Arup Company Lookup View" parentSchemaName="ccrm_arupcompany" parentDisplayName="Arup Company" solution="Active" id="{8b3f3055-0dc8-414e-8d73-68acd251daf4}" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="328" type="26" schemaName="Arup US State Lookup View" displayName="Arup US State Lookup View" parentSchemaName="ccrm_arupusstate" parentDisplayName="Arup State" solution="Active" id="{7c6d2eae-2ff2-4695-bcee-f054cc4a293c}" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="319" type="26" schemaName="Arup Group Lookup View" displayName="Arup Group Lookup View" parentSchemaName="ccrm_arupgroup" parentDisplayName="Arup Group" solution="Active" id="{2eba8051-83ce-4b17-b1ff-900b146de59a}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="329" type="26" schemaName="Active Project Collaborator" displayName="Active Project Collaborator" parentSchemaName="arup_projectparticipant" parentDisplayName="Project Collaborator" solution="Active" id="{6a5daed2-ea6a-4bd5-8e34-a1062a1f1aa6}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="330" type="26" schemaName="Arup Sub-Accounting Code Lookup View" displayName="Arup Sub-Accounting Code Lookup View" parentSchemaName="ccrm_arupsubaccountingcode" parentDisplayName="Arup Sub-Accounting Code" solution="Active" id="{c4eafe03-9a4a-48b7-95fd-5d32deea0668}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="326" type="26" schemaName="Opportunity Lookup View" displayName="Opportunity Lookup View" parentSchemaName="opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" id="{9eb361b4-67ac-4830-8abf-2d29efbaee2c}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="331" type="26" schemaName="All Bid Reviews" displayName="All Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" solution="Active" id="{eab6dbbc-e916-e811-810a-005056b509e1}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="325" type="26" schemaName="Arup Business Lookup View" displayName="Arup Business Lookup View" parentSchemaName="ccrm_arupbusiness" parentDisplayName="Arup Business" solution="Active" id="{4e81b86f-99af-421e-b021-a673156ce0de}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="327" type="26" schemaName="Arup Company Lookup View" displayName="Arup Company Lookup View" parentSchemaName="ccrm_arupcompany" parentDisplayName="Arup Company" solution="Active" id="{8b3f3055-0dc8-414e-8d73-68acd251daf4}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="324" type="26" schemaName="Arup Region Lookup View" displayName="Arup Region Lookup View" parentSchemaName="ccrm_arupregion" parentDisplayName="Arup Region" solution="Active" id="{179b1a07-010c-4173-b03d-7d27055382b9}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="332" type="26" schemaName="Arup Office Lookup View" displayName="Arup Office Lookup View" parentSchemaName="ccrm_arupoffice" parentDisplayName="Arup Office" solution="Active" id="{b1e4e51d-1ea1-4761-86ed-ffabfe295ed8}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="321" type="26" schemaName="Framework Lookup View" displayName="Framework Lookup View" parentSchemaName="arup_framework" parentDisplayName="Framework" solution="Active" id="{48c68e5a-a5a2-4e1f-b57b-2f6fe3e13165}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="333" type="26" schemaName="My Active Bid Reviews" displayName="My Active Bid Reviews" parentSchemaName="ccrm_bidreview" parentDisplayName="Bid Review" solution="Active" id="{502a4001-cb07-e611-80e2-005056b55b13}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="323" type="26" schemaName="Country Lookup View" displayName="Country Lookup View" parentSchemaName="ccrm_country" parentDisplayName="Country" solution="Active" id="{20bc9030-bc6c-44ef-a763-e5997d15b0c1}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="322" type="26" schemaName="Arup Sub Business Lookup View" displayName="Arup Sub Business Lookup View" parentSchemaName="arup_subbusiness" parentDisplayName="Arup Sub Business" solution="Active" id="{83a5f3b8-b2ea-42d0-82b1-21659b1a2768}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="334" type="26" schemaName="Lead Lookup View" displayName="Lead Lookup View" parentSchemaName="lead" parentDisplayName="Lead" solution="msdynce_LeadManagement (9.0.4.0066)" id="{ecbac1a3-f8d8-4423-8f7e-10b11119739a}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="318" type="26" schemaName="Arup Accounting Code Lookup View" displayName="Arup Accounting Code Lookup View" parentSchemaName="ccrm_arupaccountingcode" parentDisplayName="Arup Accounting Code" solution="Active" id="{45f07848-c04d-4a72-a9da-ff0bc11cb822}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="335" type="26" schemaName="Active Arup US States" displayName="Active Arup US States" parentSchemaName="ccrm_arupusstate" parentDisplayName="Arup State" solution="Active" id="{8c7426d7-90b4-4865-9f63-2d35edc09b57}" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" solution="msdynce_Sales (9.0.4.0076)" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="336" type="66" schemaName="MscrmControls.FlipSwitch.FlipSwitchControl" displayName="MscrmControls.FlipSwitch.FlipSwitchControl" solution="CustomControlsCore (9.1.0000.18341)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="337" type="66" schemaName="orb_ORBIS.ColorfulOptionset" displayName="orb_ORBIS.ColorfulOptionset" solution="ColorfulOptionset (1.0)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="338" type="61" schemaName="ccrm_sdk_rest_data_library" displayName="ccrm_sdk_rest_data_library" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="339" type="61" schemaName="arup_CreditChecks" displayName="arup_CreditChecks" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="340" type="61" schemaName="ccrm_ms_jQuery1102" displayName="ccrm_ms_jQuery1102" solution="ConsultCRMMultiselect (6.2.0.0)" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="341" type="61" schemaName="ccrm_ms_MultiSelect.js" displayName="ccrm_ms_MultiSelect.js" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="342" type="61" schemaName="ccrm_ms_BPF_MultiSelect.js" displayName="ccrm_ms_BPF_MultiSelect.js" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="343" type="61" schemaName="ccrm_library/SDK.REST.js" displayName="ccrm_library/SDK.REST.js" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="344" type="61" schemaName="mag_/js/notify.js" displayName="mag_/js/notify.js" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="345" type="61" schemaName="mag_/js/alert.js" displayName="mag_/js/alert.js" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="346" type="61" schemaName="arup_Notify_Opportunity" displayName="arup_Notify_Opportunity" solution="Active" />
+        <Dependent key="1" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{c62bd14c-9457-4bd9-99bf-f91e355cb283}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="347" type="61" schemaName="ccrm_jQueryv1102" displayName="ccrm_jQueryv1102" solution="ConsultCRMDataOperations (6.1.3.0)" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="338" type="61" schemaName="ccrm_sdk_rest_data_library" displayName="ccrm_sdk_rest_data_library" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="345" type="61" schemaName="mag_/js/alert.js" displayName="mag_/js/alert.js" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required key="341" type="61" schemaName="ccrm_ms_MultiSelect.js" displayName="ccrm_ms_MultiSelect.js" solution="Active" />
+        <Dependent key="7" type="60" displayName="Opportunity" parentDisplayName="Opportunity" id="{e3c588ee-8e11-49da-a5fe-3800f3f683de}" />
+      </MissingDependency>
+    </MissingDependencies>
+  </SolutionManifest>
+</ImportExportXml>

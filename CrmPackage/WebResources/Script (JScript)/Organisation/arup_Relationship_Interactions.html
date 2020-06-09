@@ -1,0 +1,598 @@
+<html><head>
+    <script type="text/javascript">
+
+        function getOrgRelationships() {
+            if (document.readyState == "complete") {
+                Xrm = parent.Xrm;
+                if (Xrm.Page.data != null) {
+                    var orgId = Xrm.Page.data.entity.getId();
+                    var strUrl = Xrm.Page.context.getClientUrl();
+
+                    var contactFetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
+						"<entity name='contact' >" +
+							"<attribute name='fullname' />" +
+							"<attribute name='parentcustomerid' />" +
+							"<attribute name='contactid' />" +
+							"<attribute name='accountrolecode' />" +
+							"<attribute name='department' />" +
+							"<order attribute='fullname' descending='false' />" +
+							"<filter type='and' >" +
+								"<condition attribute='parentcustomerid' operator='eq' uitype='account' value='" + orgId + "' />" +
+								"<condition attribute='statecode' operator='eq' value='0' />" +
+							"</filter>" +
+							"<link-entity name='activitypointer' from='regardingobjectid' to='contactid' alias='ag' >" +
+								"<attribute name='activitytypecode' />" +
+								"<attribute name='modifiedon' />" +
+								"<attribute name='activityid' />" +
+								"<order attribute='modifiedon' descending='false' />" +
+								"<filter type='and' >" +
+									"<condition attribute='activitytypecode' operator='in' >" +
+										"<value>4201</value>" +
+										"<value>4210</value>" +
+										"<value>4212</value>" +
+									"</condition>" +
+								"</filter>" +
+								"<link-entity name='appointment' from='activityid' to='activityid' link-type='outer' alias='appt' >" +
+									"<attribute name='arup_sentiment' />" +
+									"<attribute name='arup_outcome' />" +
+									"<attribute name='subject' />" +
+									"<attribute name='activityid' />" +
+									"<attribute name='description' />" +
+									"<attribute name='activitytypecode' />" +
+									"<attribute name='scheduledstart' />" +
+									"<attribute name='regardingobjectid' />" +
+									"<attribute name='ownerid' />" +
+								"</link-entity>" +
+								"<link-entity name='phonecall' from='activityid' to='activityid' link-type='outer' alias='pc' >" +
+									"<attribute name='actualstart' />" +
+									"<attribute name='activityid' />" +
+									"<attribute name='subject' />" +
+									"<attribute name='arup_sentiment' />" +
+									"<attribute name='arup_outcome' />" +
+									"<attribute name='description' />" +
+									"<attribute name='activitytypecode' />" +
+									"<attribute name='ownerid' />" +
+									"<attribute name='regardingobjectid' />" +
+								"</link-entity>" +
+								"<link-entity name='task' from='activityid' to='activityid' link-type='outer' alias='t' >" +
+									"<attribute name='actualstart' />" +
+									"<attribute name='activityid' />" +
+									"<attribute name='subject' />" +
+									"<attribute name='description' />" +
+									"<attribute name='activitytypecode' />" +
+									"<attribute name='ownerid' />" +
+									"<attribute name='regardingobjectid' />" +
+								"</link-entity>" +
+							"</link-entity>" +
+						"</entity>" +
+					"</fetch>";
+
+                    var encodedFetchXML = encodeURIComponent(contactFetchXML);
+                    var req = new XMLHttpRequest();
+                    req.open("GET", strUrl + "/api/data/v8.2/contacts?fetchXml=" + encodedFetchXML, false);
+                    req.setRequestHeader("OData-MaxVersion", "4.0");
+                    req.setRequestHeader("OData-Version", "4.0");
+                    req.setRequestHeader("Accept", "application/json");
+                    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                    req.onreadystatechange = function () {
+                        if (this.readyState === 4) {
+                            req.onreadystatechange = null;
+                            if (this.status === 200) {
+                                var results = JSON.parse(this.response);
+                                if (results.value.length != 0) {
+                                    getConnectionDetails(results);
+                                }
+								else{
+									PrepareTable(null, null);
+								}                                
+                            }
+                        }
+                    }
+                    req.send();
+                }
+            }
+        }
+
+        function getConnectionDetails(contactResults) {
+            // get all connections regarding the contact
+            var distinctContacts = [];
+            var contactsLen = contactResults.value.length;
+            for (var i = 0; i < contactsLen; i++) {
+                if (!distinctContacts.includes(contactResults.value[i].contactid)) {
+                    distinctContacts.push(contactResults.value[i].contactid);
+                }
+            }
+
+            var contactsLen = contactResults.value.length;
+            var connectionIds = [];
+            var strUrl = Xrm.Page.context.getClientUrl();
+            var contactID;
+            for (var i = 0; i < distinctContacts.length ; ++i) {
+                var contactId = distinctContacts[i];
+
+                var connectionFetch = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+					  "<entity name='connection'>" +
+						"<attribute name='record2id' />" +
+						"<attribute name='record1id' />" +
+						"<attribute name='record2roleid' />" +
+						"<attribute name='connectionid' />" +
+						"<attribute name='arup_relationshipstrength' />" +
+						"<order attribute='record2id' descending='false' />" +
+						"<filter type='and'>" +
+						  "<condition attribute='record1id' operator='eq' uitype='contact' value='" + contactId + "' />" +
+						"</filter>" +
+					  "</entity>" +
+					"</fetch>";
+
+                var encodedFetchXML = encodeURIComponent(connectionFetch);
+
+                var req = new XMLHttpRequest();
+                req.open("GET", strUrl + "/api/data/v8.2/connections?fetchXml=" + encodedFetchXML, false);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 200) {
+                            var connectionResults = JSON.parse(this.response);
+                            if (connectionResults.value.length != 0) {
+                                connectionIds.push(connectionResults);
+                            }
+                        }
+                    }
+                }
+                req.send();
+            }
+            mergeRelationshipDetails(connectionIds, contactResults);
+        }
+
+        function mergeRelationshipDetails(connectionResults, ContactResults) {
+            Xrm = parent.Xrm;
+            var connectionLen = connectionResults.length;
+            var connectionList = [];
+            var connectionIds = [];
+			var lenConRes = ContactResults.value.length;
+			
+            if (Xrm.Page.data != null) {
+                var strUrl = Xrm.Page.context.getClientUrl();
+                for (var i = 0; i < connectionLen; ++i) {
+                    var connectionArrayLen = connectionResults[i].value.length;
+
+                    for (var j = 0; j < connectionArrayLen; ++j) {
+                        var connectedFromId = connectionResults[i].value[j]._record2id_value;
+                        connectionIds.push(connectedFromId);
+                        var connectionListItem = connectionResults[i].value[j];
+						
+						for (var k = 0; k < lenConRes; ++k) {  
+							var conAptId = ContactResults.value[k].appt_x002e_ownerid;
+							var conPCId = ContactResults.value[k].pc_x002e_ownerid;
+							var conTaskId = ContactResults.value[k].t_x002e_ownerid;
+							if (conAptId != undefined) {
+								if (conAptId == connectedFromId) {
+									connectionList.push(connectionListItem);
+								}
+							}
+							if (conPCId != undefined) {
+								if (conPCId == connectedFromId) {
+									connectionList.push(connectionListItem);
+								}
+							}
+							if (conTaskId != undefined) {
+								if (conTaskId == connectedFromId) {
+									connectionList.push(connectionListItem);
+								}
+							}
+						}
+					}
+				}
+			}
+            PrepareTable(ContactResults, connectionList);
+        }
+
+        function PrepareTable(results, connectionList) {
+            //Create a table and header using the DOM
+            var oTable = document.createElement("table");
+            oTable.setAttribute("class", "hovertable");
+            oTable.setAttribute("id", "Aruptab");
+            var oTHead = document.createElement("thead");
+            var oTHeadTR = document.createElement("tr");
+
+            var oTHeadTRTH1 = document.createElement("th");
+            oTHeadTRTH1.align = "left";
+            oTHeadTRTH1.textContent = "Full Name";
+
+            var oTHeadTRTH2 = document.createElement("th");
+            oTHeadTRTH2.align = "left";
+            oTHeadTRTH2.textContent = "Role";
+
+            var oTHeadTRTH3 = document.createElement("th");
+            oTHeadTRTH3.align = "left";
+            oTHeadTRTH3.textContent = "Department";
+
+            var oTHeadTRTH4 = document.createElement("th");
+            oTHeadTRTH4.align = "left";
+            oTHeadTRTH4.textContent = "Interaction With (User)";
+
+            var oTHeadTRTH5 = document.createElement("th");
+            oTHeadTRTH5.align = "left";
+            oTHeadTRTH5.textContent = "Relationship Strength";
+
+            var oTHeadTRTH6 = document.createElement("th");
+            oTHeadTRTH6.align = "left";
+            oTHeadTRTH6.textContent = "Activity Type";
+
+            var oTHeadTRTH7 = document.createElement("th");
+            oTHeadTRTH7.align = "left";
+            oTHeadTRTH7.textContent = "Interaction Date";
+
+            var oTHeadTRTH8 = document.createElement("th");
+            oTHeadTRTH8.align = "left";
+            oTHeadTRTH8.textContent = "Subject";
+
+            var oTHeadTRTH9 = document.createElement("th");
+            oTHeadTRTH9.align = "left";
+            oTHeadTRTH9.textContent = "Sentiment";
+
+            var oTHeadTRTH10 = document.createElement("th");
+            oTHeadTRTH10.align = "left";
+            oTHeadTRTH10.textContent = "Outcome";
+
+            oTHeadTR.appendChild(oTHeadTRTH1);
+            oTHeadTR.appendChild(oTHeadTRTH2);
+            oTHeadTR.appendChild(oTHeadTRTH3);
+            oTHeadTR.appendChild(oTHeadTRTH4);
+            oTHeadTR.appendChild(oTHeadTRTH5);
+            oTHeadTR.appendChild(oTHeadTRTH6);
+            oTHeadTR.appendChild(oTHeadTRTH7);
+            oTHeadTR.appendChild(oTHeadTRTH8);
+            oTHeadTR.appendChild(oTHeadTRTH9);
+            oTHeadTR.appendChild(oTHeadTRTH10);
+            oTHead.appendChild(oTHeadTR);
+            oTable.appendChild(oTHead);
+            var oTBody = document.createElement("tbody");
+		
+			if(results != null){
+				var len = results.value.length;
+				
+				for (var i = 0; i < len; ++i) {
+					var con = results.value[i];
+					var oTRow = document.createElement("tr");
+
+					var oTRowTD1 = document.createElement("td");
+					var contactId = con.contactid.replace('{', '').replace('}', '');
+					var recordLink = '<a href="' +
+						Xrm.Page.context.getClientUrl() +
+						"/main.aspx?etn=contact&pagetype=entityrecord&id=%7B" +
+						contactId +
+						"%7D" +
+						'" target="_blank">' +
+						con.fullname +
+						'</a>';
+					oTRowTD1.innerHTML = recordLink;
+
+					var oTRowTD2 = document.createElement("td");
+					if (con.accountrolecode != undefined) {
+						oTRowTD2.textContent = con["accountrolecode@OData.Community.Display.V1.FormattedValue"];
+					}
+
+					var oTRowTD3 = document.createElement("td");
+					if (con.department != undefined) {
+						oTRowTD3.textContent = con.department;
+					}
+
+					for (var j = 0; j < connectionList.length; ++j) {
+						var oTRowTD4 = document.createElement("td");
+						var connectionFlag = false;
+
+						if (con.appt_x002e_ownerid != undefined &&
+							con.appt_x002e_ownerid == connectionList[j]._record2id_value &&
+							con.contactid == connectionList[j]._record1id_value) {
+							connectionFlag = true;
+						}
+						if (con.pc_x002e_ownerid != undefined &&
+							con.pc_x002e_ownerid == connectionList[j]._record2id_value &&
+							con.contactid == connectionList[j]._record1id_value) {
+							connectionFlag = true;
+						}
+						if (con.t_x002e_ownerid != undefined &&
+							con.t_x002e_ownerid == connectionList[j]._record2id_value &&
+							con.contactid == connectionList[j]._record1id_value) {
+							connectionFlag = true;
+						}
+						if (connectionFlag) {
+							var userId = connectionList[j]._record2id_value.replace('{', '').replace('}', '');
+							var recordLink = '<a href="' +
+								Xrm.Page.context.getClientUrl() +
+								"/main.aspx?etn=systemuser&pagetype=entityrecord&id=%7B" +
+								userId +
+								"%7D" +
+								'" target="_blank">' +
+								connectionList[j]["_record2id_value@OData.Community.Display.V1.FormattedValue"] +
+								'</a>';
+							oTRowTD4.innerHTML = recordLink;
+						}
+
+						var oTRowTD5 = document.createElement("td");
+						if (con.appt_x002e_ownerid != undefined &&
+							con.appt_x002e_ownerid == connectionList[j]._record2id_value &&
+							con.contactid == connectionList[j]._record1id_value) {
+							oTRowTD5.textContent =
+								connectionList[j]["arup_relationshipstrength@OData.Community.Display.V1.FormattedValue"
+							];
+						}
+						if (con.pc_x002e_ownerid != undefined &&
+							con.pc_x002e_ownerid == connectionList[j]._record2id_value &&
+							con.contactid == connectionList[j]._record1id_value) {
+							oTRowTD5.textContent =
+								connectionList[j]["arup_relationshipstrength@OData.Community.Display.V1.FormattedValue"
+							];
+						}
+						if (con.t_x002e_ownerid != undefined &&
+							con.t_x002e_ownerid == connectionList[j]._record2id_value &&
+							con.contactid == connectionList[j]._record1id_value) {
+							oTRowTD5.textContent =
+								connectionList[j]["arup_relationshipstrength@OData.Community.Display.V1.FormattedValue"
+							];
+						}
+
+						if (oTRowTD4.textContent != "" || oTRowTD5.textContent != "") break;
+					}
+					
+					if(connectionList.length == 0){
+						var oTRowTD4 = document.createElement("td");
+						oTRowTD4.textContent = "";
+						var oTRowTD5 = document.createElement("td");
+						oTRowTD5.textContent = "";
+					}
+					
+					var oTRowTD6 = document.createElement("td");
+					var activityFlag = false;
+					var activityType = "";
+					var activityId = "";
+					var activityName = "";
+					if (con.appt_x002e_activitytypecode != undefined) {
+						activityId = con.appt_x002e_activityid;
+						activityFlag = true;
+						activityType = "appointment";
+						activityName = con["appt_x002e_activitytypecode@OData.Community.Display.V1.FormattedValue"];
+					} else if (con.t_x002e_activitytypecode != undefined) {
+						activityId = con.t_x002e_activityid;
+						activityFlag = true;
+						activityType = "task";
+						activityName = con["t_x002e_activitytypecode@OData.Community.Display.V1.FormattedValue"];
+					} else if (con.pc_x002e_activitytypecode != undefined) {
+						activityId = con.pc_x002e_activityid;
+						activityFlag = true;
+						activityType = "phonecall";
+						activityName = con["pc_x002e_activitytypecode@OData.Community.Display.V1.FormattedValue"];
+					}
+					if (activityFlag) {
+						var recordLink = '<a href="' +
+							Xrm.Page.context.getClientUrl() +
+							"/main.aspx?etn=" +
+							activityType +
+							"&pagetype=entityrecord&id=%7B" +
+							activityId +
+							"%7D" +
+							'" target="_blank">' +
+							activityName +
+							'</a>';
+						oTRowTD6.innerHTML = recordLink;
+					}
+
+					var oTRowTD7 = document.createElement("td");
+					if (con.appt_x002e_scheduledstart != undefined) {
+						oTRowTD7.textContent =
+							con["appt_x002e_scheduledstart@OData.Community.Display.V1.FormattedValue"];
+					} else if (con.t_x002e_actualstart != undefined) {
+						oTRowTD7.textContent = con["t_x002e_actualstart@OData.Community.Display.V1.FormattedValue"];
+					} else if (con.pc_x002e_actualstart != undefined) {
+						oTRowTD7.textContent = con["pc_x002e_actualstart@OData.Community.Display.V1.FormattedValue"];
+					}
+
+					var oTRowTD8 = document.createElement("td");
+					var subject = "";
+
+					if (con.appt_x002e_subject != undefined) {
+						subject = con.appt_x002e_subject;
+					} else if (con.pc_x002e_subject != undefined) {
+						subject = con.pc_x002e_subject;
+					} else if (con.t_x002e_subject != undefined) {
+						subject = con.t_x002e_subject;
+					}
+					if (subject.length > 40)
+						oTRowTD8.textContent = subject.substring(0, 40) + '...';
+					else
+						oTRowTD8.textContent = subject;
+
+					var oTRowTD9 = document.createElement("td");
+					oTRowTD9.align = "center";
+					var sentiment = "";
+					if (con.appt_x002e_arup_sentiment != undefined) {
+						sentiment = con["appt_x002e_arup_sentiment"];
+					} else if (con.pc_x002e_arup_sentiment != undefined) {
+						sentiment = con["pc_x002e_arup_sentiment"];
+					}
+
+					if (sentiment != "" && sentiment == 770000000) {
+						oTRowTD9.innerHTML =
+							'<img src="https://crm16-dev.arup.com/ArupDev/WebResources/arup_Good_Sentiment" height=15 width=30 alt= "Good"/> '
+						oTRowTD9.title = "Good";
+					}
+					if (sentiment != "" && sentiment == 770000001) {
+						oTRowTD9.innerHTML =
+							'<img src="https://crm16-dev.arup.com/ArupDev/WebResources/arup_Neutral_Sentiment" height=15 width=25 alt= "Neutral"/> '
+						oTRowTD9.title = "Neutral";
+					}
+					if (sentiment != "" && sentiment == 770000002) {
+						oTRowTD9.innerHTML =
+							'<img src="https://crm16-dev.arup.com/ArupDev/WebResources/arup_Poor_Sentiment" height=15 width=30 alt= "Poor"/> '
+						oTRowTD9.title = "Poor";
+					}
+
+					var oTRowTD10 = document.createElement("td");
+					if (con.appt_x002e_arup_outcome != undefined) {
+						oTRowTD10.textContent = con.appt_x002e_arup_outcome;
+					} else if (con.pc_x002e_arup_outcome != undefined) {
+						oTRowTD10.textContent = con.pc_x002e_arup_outcome;
+					}
+
+					oTRow.appendChild(oTRowTD1);
+					oTRow.appendChild(oTRowTD2);
+					oTRow.appendChild(oTRowTD3);
+					oTRow.appendChild(oTRowTD4);
+					oTRow.appendChild(oTRowTD5);
+					oTRow.appendChild(oTRowTD6);
+					oTRow.appendChild(oTRowTD7);
+					oTRow.appendChild(oTRowTD8);
+					oTRow.appendChild(oTRowTD9);
+					oTRow.appendChild(oTRowTD10);
+
+					oTBody.appendChild(oTRow);
+				}
+			}
+			else{
+				var oTRow = document.createElement("tr");
+				var oTRowTD1 = document.createElement("td");
+				oTRowTD1.textContent = "No data";
+				
+				var oTRowTD2 = document.createElement("td");
+				oTRowTD2.textContent = "No data";
+				
+				var oTRowTD3 = document.createElement("td");
+				oTRowTD3.textContent = "No data";
+				
+				var oTRowTD4 = document.createElement("td");
+				oTRowTD4.textContent = "No data";
+				
+				var oTRowTD5 = document.createElement("td");
+				oTRowTD5.textContent = "No data";
+				
+				var oTRowTD6 = document.createElement("td");
+				oTRowTD6.textContent = "No data";
+				
+				var oTRowTD7 = document.createElement("td");
+				oTRowTD7.textContent = "No data";
+				
+				var oTRowTD8 = document.createElement("td");
+				oTRowTD8.textContent = "No data";
+				
+				var oTRowTD9 = document.createElement("td");
+				oTRowTD9.textContent = "No data";
+				
+				var oTRowTD10 = document.createElement("td");
+				oTRowTD10.textContent = "No data";
+				
+				oTRow.appendChild(oTRowTD1);
+				oTRow.appendChild(oTRowTD2);
+				oTRow.appendChild(oTRowTD3);
+				oTRow.appendChild(oTRowTD4);
+				oTRow.appendChild(oTRowTD5);
+				oTRow.appendChild(oTRowTD6);
+				oTRow.appendChild(oTRowTD7);
+				oTRow.appendChild(oTRowTD8);
+				oTRow.appendChild(oTRowTD9);
+				oTRow.appendChild(oTRowTD10);
+
+				oTBody.appendChild(oTRow);
+			}
+
+            oTable.appendChild(oTBody);
+            document.body.appendChild(oTable);
+        }
+
+    </script>
+    <script src="../../../../../../webresources/ClientGlobalContext.js.aspx" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+            border: white;
+        }
+
+        table {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+        }
+
+        #Aruptab tr:nth-child(even) {
+            background-color: #D0D3D4;
+        }
+
+        #Aruptab tr:hover {
+            background-color: #ddd;
+        }
+
+        #Aruptab td, tr {
+            font-family: Segoe UI, Tahoma, Arial;
+            font-style: normal;
+            border-width: 1px;
+            padding: 2px;
+            border-style: solid;
+            border-color: #a9c6c9;			
+        }
+
+        #Aruptab tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }		
+
+        #Aruptab thead, tfoot, th {
+            background-color: #c3dde0;
+            border-width: 1px;
+            padding: 2px;
+            border-style: solid;
+            border-color: #a9c6c9;
+			top: -1px;
+			position: sticky;
+        }
+
+        #Aruptab tfoot {
+            background-color: rgba(221, 221, 221, 0.5);
+            border-style: none;
+        }
+
+        #Aruptab {
+            font-family: verdana,arial,sans-serif;
+            font-size: 12px;
+            color: #333333;
+            border-width: 1px;
+            border-color: #999999;
+            border-collapse: collapse;
+            width: 100%;
+        }	
+		
+    </style>
+
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+<meta><meta><meta><meta><meta><meta></head>
+<body onload="getOrgRelationships();" onfocusout="parent.setEmailRange();" style="overflow-wrap: break-word;">
+
+</body></html>
