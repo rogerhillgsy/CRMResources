@@ -121,7 +121,6 @@ function quick_create_country_onchange(formContext) {
         formContext.getAttribute("address1_stateorprovince").setValue(null);
     }
     else {
-
         var CountryName = formContext.getAttribute("ccrm_countryid").getValue()[0].name;
         isVisible = isCanada(formContext);
         CountryName = CountryName.toUpperCase();
@@ -226,7 +225,6 @@ function onChange_otherImpliedConsent(executionContext) {
 }
 
 function otherImpliedConsent_onChange(formContext) {
-
     if (!isCanada(formContext)) return;
 
     var otherImpliedConsent = formContext.getAttribute('arup_otherimpliedconsent').getValue();
@@ -290,7 +288,6 @@ function quick_create_sync_addressDetails(executionContext) {
 }
 
 function quick_create_sync_address(formContext) {
-
     var sync = formContext.getAttribute("ccrm_syncaddress").getValue();
     if (sync == null) { return; }
 
@@ -338,6 +335,7 @@ function onchange_ccrm_uselocallanguage(executionContext) {
     var formContext = executionContext.getFormContext();
     ccrm_uselocallanguage_onchange(formContext);
 }
+
 //function to make additional language fields visible
 function ccrm_uselocallanguage_onchange(formContext) {
     if (formContext.getAttribute("ccrm_uselocallanguage").getValue() == true) {
@@ -357,7 +355,6 @@ function Form_onsave(eventArgs) {
     }
 
     if (isCanada(formContext)) {
-
         expressedConsent = formContext.getAttribute('arup_expressedconsent').getValue();
         var now = new Date();
 
@@ -374,7 +371,6 @@ function Form_onsave(eventArgs) {
             return false;
         }
     }
-
     Xrm.Page.ui.clearFormNotification("1");
 }
 
@@ -671,7 +667,6 @@ function PopulateAddrsOnAddrSync(executionContext) {
 }
 
 function gridRowSelected(context) {
-    debugger;
     var entityObject = context.getFormContext().getData().getEntity();
     var id = entityObject.getId(); /* GUID of the contact record */
     var Id = id.replace(/[{}]/g, "");
