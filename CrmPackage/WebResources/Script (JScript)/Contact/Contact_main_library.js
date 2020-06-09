@@ -28,6 +28,7 @@ function form_onLoad(executionContext) {
     setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 15000);
     contactType_onchange(formContext);
     canadaSectionVisibility(formContext);
+    formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
 }
 
 function qc_form_onload(executionContext) {
