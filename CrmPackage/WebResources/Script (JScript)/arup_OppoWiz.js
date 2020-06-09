@@ -1695,6 +1695,13 @@ function ArupFieldConfigAlwaysTrue(name, crmAttribute, id) {
         ArupFieldConfigAlwaysTrue.prototype.__constructed = true;
     }
 }
+function ArupFieldConfigAlwaysFalse(name, crmAttribute, id) {
+    ArupFieldConfig.call(this, name, crmAttribute, id);
+    if (!ArupFieldConfigAlwaysFalse.prototype.__constructed) {
+        ArupFieldConfigAlwaysFalse.prototype.value = function () { return false; };
+        ArupFieldConfigAlwaysFalse.prototype.__constructed = true;
+    }
+}
 
 function ArupFieldConfigLookup(name, crmAttribute, id, collectionname) {
     var o = ArupFieldConfig.call(this, name, crmAttribute, id);
@@ -2297,15 +2304,13 @@ var Arup_validations =
             } else
                 return false;
         }.bind(o);
-        o.valueName = function() { this.value }.bind(o);
+        o.valueName = function() { return this.htmlNode().value; }.bind(o);
         o.valueId = function() {
             return $("#states option[value='" + this.valueName() + "']")
                 .attr("data-value");
         }.bind(o);
-        o.value = function() {
-            var target = this.htmlNode();
-            var state = this.valueName();
-            if (!state) return undefined;
+        o.value = function () {
+            debugger;
             var stateId = this.valueId();
             if (!stateId) return undefined;
             return "/ccrm_arupusstates(" + stateId + ")";
@@ -2317,9 +2322,18 @@ var Arup_validations =
                 // Set company from state if available.
                 if (companyId != null) {
                     $("#arup_company")[0].value = $("#companies option[data-value='" + companyId + "']").attr('value');
+                    Arup_validations.arup_compa
                 }
             }
         }.bind(o);
+        o.onfocusout = function () {
+            debugger;
+            var target = this.htmlNode();
+            if (!target.value) {
+                target.value = target.list.options[0].value;
+                this.setError(false);
+            }
+        }
         return o;
     }(),
     project_city: function () {
@@ -2556,7 +2570,7 @@ var Arup_validations =
             var hasNotApplicable = false;
             nodes.forEach(
                 function (s) {
-                    if (s.value != "770000000") // Not applicable.
+                    if (s.value === "770000000") // Not applicable.
                         hasNotApplicable = true;
                 });
             if (nodes.length > 1 && hasNotApplicable) {
@@ -2584,8 +2598,7 @@ var Arup_validations =
             var globalServices = [];
             document.querySelectorAll("#WC [name='global_services']:checked").forEach(
                 function(s) {
-                    if (s.value != "770000000") // Not applicable.
-                        globalServices.push(s.value);
+                     globalServices.push(s.value);
                 });
             return globalServices.join(",");
         };
@@ -2766,7 +2779,7 @@ var Arup_validations =
         return o;
     }(),
     valid_accounting_centre: new ArupFieldConfigAlwaysTrue("Valid Accounting Centre", "ccrm_validaccountingcentre"),
-    valid_contact: new ArupFieldConfigAlwaysTrue("Valid Contact", "ccrm_validcontact"),
+    valid_contact: new ArupFieldConfigAlwaysFalse("Valid Contact", "ccrm_validcontact"),
     show_pjn: new ArupFieldConfigAlwaysTrue("Show PJN Button","ccrm_showpjnbutton"),
 
     country_category: new ArupFieldConfig("Country Category Code", "ccrm_countrycategory"),
