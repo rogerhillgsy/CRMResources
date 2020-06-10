@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="arup_BootStrap_ThemeCSS">
     <link rel="stylesheet" href="arup_Bootstrap_TableCSS">
     <link rel="stylesheet" href="arup_Bootstrap_MultiselectCSS">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css">
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css">-->
     <link rel="stylesheet" href="/uclient/resources/styles/Styles.css" />
     <link rel="stylesheet" href="arup_OppoWiz.css">
     <script type="text/javascript" src="ccrm_/JavaScripts/Lib/jquery_3.2.0.min"></script>
@@ -54,6 +54,15 @@
                                     Xrm.Navigation.openAlertDialog({
                                         text: "Opportunity " + result.name + " has been created",
                                         title: "Opportunity Created"
+                                    }).then(function reload() {
+                                        // Navigate to new opportunity
+                                        debugger;
+                                        var pageInput = {
+                                            pageType: "entityrecord",
+                                            entityName: "opportunity",
+                                            entityId: result.newEntityid,
+                                        };
+                                        Xrm.Navigation.navigateTo(pageInput);
                                     });
                                 },
                                 function (errorDetail) {
@@ -91,7 +100,6 @@
         <h1 class="mainPage">
             <b>New Opportunity Wizard</b>
         </h1>
-        <h4 class="mainPage1">Select opportunity category</h4>
     </div>
     <br>
     <div class="container" width="100%" height="100%" id="mysub">
@@ -226,7 +234,7 @@
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="client">Client:</label>
-                        <input list="clients" id="client" class="form-control input-form" name="client" title="Input Client" autocomplete="off" placeholder="Client company name" />
+                        <input list="clients" id="client" class="form-control input-form" name="client" title="Input Client" autocomplete="off" placeholder="Unassigned" />
                         <datalist id="clients">
                         </datalist>
                     </div>
@@ -320,16 +328,9 @@
                     <br>
                 </div>
             </form>
-            <div class="wizard-buttons">
-                <button type="button" class="btn btn-default win-close">Exit</button>
-                <button type="button" class="btn btn-default wizard-button-back" style="display: none;" tabindex="-1">Back</button>
-                <button type="button" class="btn btn-default wizard-button-next">Next</button>
-                <button type="button" class="btn btn-primary wizard-button-finish" style="display: none;">Create</button>
-                <button type="button" class="btn btn-primary wizard-button-confirm pull-right" style="display: none;">Confirm</button>
-                <button type="button" class="btn btn-default wizard-button-cancel" style="display: none;">Cancel</button>
-            </div>
+        <div class="wizard-buttons"/>
 
-        </div>
+        
     </div>
 </body>
 </html>

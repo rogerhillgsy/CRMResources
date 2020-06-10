@@ -204,11 +204,12 @@ $.fn.wizard = function (config) {
 
         if (step == 3) {
             btnConfirm.show();
-            btnCancel.show();
             btnNext.hide();
+        } else {
+            btnConfirm.hide();
         }
-        else { btnConfirm.hide(); btnCancel.hide(); }
 
+        btnCancel.show();
         btnFinish.hide();
         btnNext.show();
 
@@ -271,11 +272,11 @@ $.fn.wizard = function (config) {
     }
     var btns = "";
     btns += '<button type="button" class="btn btn-default wizard-button-exit pull-left"' + contentForModal + ' >' + exitText + '</button>';
+    btns += '<button type="button" class="btn btn-default wizard-button-cancel pull-left" ' + contentForModal + ' >' + cancelText + '</button>';
     btns += '<button type="button" class="btn btn-default wizard-button-back  pull-left">' + backText + '</button>';
     btns += '<button type="button" class="btn btn-default wizard-button-next pull-right">' + nextText + '</button>';
     btns += '<button type="button" class="btn btn-primary wizard-button-finish pull-right" ' + contentForModal + ' >' + finishText + '</button>';
     btns += '<button type="button" class="btn btn-primary wizard-button-confirm pull-right" ' + contentForModal + ' >' + confirmText + '</button>';
-    btns += '<button type="button" class="btn btn-default wizard-button-cancel">' + cancelText + '</button>';
     $(this).find(".wizard-buttons").html("");
     $(this).find(".wizard-buttons").append(btns);
     var btnExit = $(this).find(".wizard-button-exit");
@@ -384,9 +385,9 @@ $.fn.wizard = function (config) {
         $('.multiselect-item .caret-container').click();
     });
 
-    btnExit.on("click", function () { window.close(); });
+    btnExit.on("click", function () { location.reload(); });
 
-    btnCancel.on("click", function () { window.close(); });
+    btnCancel.on("click", function () { location.reload(); });
 
     btnBack.on("click", function () {
         if (step == 2) {
@@ -474,7 +475,6 @@ $.fn.wizard = function (config) {
     btnBack.hide();
     btnFinish.hide();
     btnConfirm.hide();
-    btnCancel.hide();
     return this;
 
 };
@@ -1790,7 +1790,7 @@ function ArupPageHasErrors(pageid) {
 
 var Arup_validations_by_page = {
     page1 : ['intorext'],
-    page2: ['opportunityType', 'relatedopportunity', 'leadSource', 'crmframeworkexists', 'contractagreementref2','crmframeworkrecord'],
+    page2: ['opportunityType', 'relatedopportunity', 'leadSource', 'crmframeworkexists', 'contractagreementref','crmframeworkrecord'],
     page3: ['contractarrangement', 'client', 'endclient'],
     page4: ['project_name', 'project_country', 'project_state', 'project_city', 'arup_business', 'arup_subbusiness', 'arup_company', 'accountingcentre', 'opporigin', 'global_services','description'],
 }
@@ -1958,20 +1958,20 @@ var Arup_validations =
         var OPPTYPE_PROJECT_EXTENSION_EXISTING = "770000001";
         var OPPTYPE_ARCH_COMP_TEAM_OPPO = "770000006";
         var INTERNAL_OPPORTUNITY = 1;
-        o.oninput = function(c, _this) {
+        o.oninput = function(c) {
             debounce(300,
                 function() {
                     var intOrExt = Arup_validations.intorext.value();
                     var opptype = Arup_validations.opportunityType.value();
-                    if (intOrExt == _this.INTERNAL_OPPORTUNITY) {
+                    if (intOrExt == INTERNAL_OPPORTUNITY) {
                         switch (opptype) {
-                        case _this.OPPTYPE_PROJECT_EXTENSION_NEW:
+                        case OPPTYPE_PROJECT_EXTENSION_NEW:
                             getOpportunitiesOpen(c.target);
                             break;
-                        case _this.OPPTYPE_PROJECT_EXTENSION_EXISTING:
+                        case OPPTYPE_PROJECT_EXTENSION_EXISTING:
                             getOpportunitiesOpenWon(c.target);
                             break;
-                        case _this.OPPTYPE_ARCH_COMP_TEAM_OPPO:
+                        case OPPTYPE_ARCH_COMP_TEAM_OPPO:
                             getOpportunitiesOpenWonArchMaster(c.target);
                             break;
                         default:
@@ -1980,13 +1980,13 @@ var Arup_validations =
                         }
                     } else {
                         switch (opptype) {
-                        case _this.OPPTYPE_PROJECT_EXTENSION_NEW:
+                        case OPPTYPE_PROJECT_EXTENSION_NEW:
                             getOpportunitiesOpenWon(c.target);
                             break;
-                        case _this.OPPTYPE_PROJECT_EXTENSION_EXISTING:
+                        case OPPTYPE_PROJECT_EXTENSION_EXISTING:
                             getOpportunitiesWon(c.target);
                             break;
-                        case _this.OPPTYPE_ARCH_COMP_TEAM_OPPO:
+                        case OPPTYPE_ARCH_COMP_TEAM_OPPO:
                             getOpportunitiesOpenWonArchMaster(c.target);
                             break;
                         default:
@@ -2000,7 +2000,7 @@ var Arup_validations =
             oppWizLog("Onchange for related opportunity called");
             this.ensureSelected(e.target);
             var intOrExt = Arup_validations.intorext.value();
-            if (intOrExt == _this.INTERNAL_OPPORTUNITY) {
+            if (intOrExt == INTERNAL_OPPORTUNITY) {
                 loadFromParent(_this,
                         [
                             'arup_business', 'arup_subbusiness', 'project_country', 'project_state',
@@ -2009,14 +2009,14 @@ var Arup_validations =
                             'probOfWin'
                         ])
                     .then(function resolve() {
-                        if (_this.required && !!_this.value()) {
+                        if (this.required && !!this.value()) {
                             //  e.target.disabled = true; // Do not disable parent opportunity field for now.
                         }
-                    });
+                    }.bind(o));
             } else {
                 var opptype = Arup_validations.opportunityType.value();
                 switch (opptype) {
-                case _this.OPPTYPE_PROJECT_EXTENSION_NEW:
+                case OPPTYPE_PROJECT_EXTENSION_NEW:
                     var fieldsToLoad = [
                         'arup_business', 'arup_subbusiness', 'description', 'ArupUniIa', 'project_country',
                         'project_state', 'project_city', 'confidential', 'client'
@@ -2033,7 +2033,7 @@ var Arup_validations =
                             });
                     };
                     break;
-                case _this.OPPTYPE_PROJECT_EXTENSION_EXISTING:
+                case OPPTYPE_PROJECT_EXTENSION_EXISTING:
                     loadFromParent(_this,
                         [
                             'arup_business', 'arup_subbusiness', 'description', 'ArupUniIa', 'project_country',
@@ -2043,7 +2043,7 @@ var Arup_validations =
                             'PICurrency', 'LolCurrency', 'PILevelAmount'
                         ]);
                     break;
-                case _this.OPPTYPE_ARCH_COMP_TEAM_OPPO:
+                case OPPTYPE_ARCH_COMP_TEAM_OPPO:
                     loadFromParent(_this,
                         [
                             'arup_business', 'arup_subbusiness', 'description', 'ArupUniIa', 'project_country',
@@ -2261,9 +2261,6 @@ var Arup_validations =
             } else
                 return false;
         };
-        //autocomplete: function (htmlNode) {
-        //    getCountries(htmlNode);
-        //},
         o.value = function(htmlNode) {
             return "/ccrm_countries(" +
                 $("#countries option[value='" + $('#project_country').val() + "']").attr("data-value") +
@@ -2279,7 +2276,8 @@ var Arup_validations =
         o.onchange = function(e, _this) {
             countryChanged();
         };
-        o.oninput = function(e) {
+        o.onfocusout = function () { countryChanged(); };
+        o.oninput = function (e) {
             getCountries(e.target,
                 (function fill(result) {
                     if (document.activeElement != this.htmlNode2) {
@@ -2297,7 +2295,7 @@ var Arup_validations =
         var o = new ArupFieldConfig("Project State", "ccrm_arupusstateid", "project_state");
         o.hasErrors = function () {
             var target = this.htmlNode();
-            if (target.list.options.length == 0) return false; // No states to select from
+            if (!target.value && target.list.options.length === 0) return false; // No states to select from
             this.ensureSelected();
             if (!target.value) {
                 return "Project state must be selected";
@@ -2310,7 +2308,6 @@ var Arup_validations =
                 .attr("data-value");
         }.bind(o);
         o.value = function () {
-            debugger;
             var stateId = this.valueId();
             if (!stateId) return undefined;
             return "/ccrm_arupusstates(" + stateId + ")";
@@ -2322,18 +2319,24 @@ var Arup_validations =
                 // Set company from state if available.
                 if (companyId != null) {
                     $("#arup_company")[0].value = $("#companies option[data-value='" + companyId + "']").attr('value');
-                    Arup_validations.arup_compa
+                    Arup_validations.arup_company.oninput();
                 }
             }
         }.bind(o);
-        o.onfocusout = function () {
-            debugger;
+        o.onfocusout = function() {
             var target = this.htmlNode();
             if (!target.value) {
-                target.value = target.list.options[0].value;
-                this.setError(false);
+                var v = target.list.options[0];
+                if (!!v) {
+                    target.value = v.value;
+                    this.setError(false);
+                } else {
+                    setError();
+                }
+            } else {
+                this.ensureSelected();
             }
-        }
+        }.bind(o);
         return o;
     }(),
     project_city: function () {
@@ -2365,9 +2368,16 @@ var Arup_validations =
                     $("#businesses option[value='" + this.valueName() + "']").attr("data-value") +
                     ")";
             }
-            o.onfocus = function(e) { getBusinesses(e.target) };
+            o.onfocus = function (e) {
+                if (this.isErrored()) {
+                    this.htmlNode().value = null;
+                    this.setError(false);
+                }
+                getBusinesses(e.target);
+            }
+
             o.onfocusout = function(e) {
-                this.ensureSelected(e.target);
+                this.ensureSelected();
                 getSubBusinesses(e.target);
             };
             o.onchange = function(e, _this) {
@@ -2390,7 +2400,16 @@ var Arup_validations =
                 $("#subbusinesses option[value='" + $('#arup_subbusiness').val() + "']").attr("data-value") +
                 ")";
         };
-        o.databind= true;
+        o.onfocus = function(e) {
+            if (this.isErrored()) {
+                this.htmlNode().value = null;
+                this.setError(false);
+            }
+        };
+        o.onfocusout = function (e) {
+            this.ensureSelected();
+        };
+        o.databind = true;
         return o;
     }(),
 
@@ -2415,7 +2434,7 @@ var Arup_validations =
                     }
                 }.bind(o));
 
-            })
+            });
         };
         var indiaCompanyList = []; // Both set from getUserCompany() on load
         var globalCompanyList = [];
@@ -2432,12 +2451,10 @@ var Arup_validations =
                 $("#companies option[value='" + $('#arup_company').val() + "']").attr("data-value") +
                 ")";
         };
-        o.onchange = function(e) {
+        o.oninput = function(e) {
             var target = this.htmlNode();
             oppWizLog("Getting accounting centres for " + $('#arup_company').val());
             getAccountingCentres(target);
-            // Set arup_region from company.
-            debugger;
             Arup_validations.arup_region.val =
                 $("#companies option[value='" + $('#arup_company').val() + "']").attr("data-regionid");
             Arup_validations.K12.checkK12Status();
@@ -2446,12 +2463,13 @@ var Arup_validations =
             var companyList = this.htmlNode2.list;
             if (country === "India") {
                 companyList.innerHTML = this.indiaCompanyList;
+                this.htmlNode2.value = null;
             } else {
                 companyList.innerHTML = this.globalCompanyList;
             }
             this.ensureSelected();
         };
-        o.onfocus = function(e) {
+        o.onfocus = function (e) {
             if (this.isErrored()) {
                 this.htmlNode().value = null;
                 this.setError(false);
