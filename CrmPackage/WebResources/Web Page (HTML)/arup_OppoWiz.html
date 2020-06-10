@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="arup_BootStrap_ThemeCSS">
     <link rel="stylesheet" href="arup_Bootstrap_TableCSS">
     <link rel="stylesheet" href="arup_Bootstrap_MultiselectCSS">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css">
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css">-->
     <link rel="stylesheet" href="/uclient/resources/styles/Styles.css" />
     <link rel="stylesheet" href="arup_OppoWiz.css">
     <script type="text/javascript" src="ccrm_/JavaScripts/Lib/jquery_3.2.0.min"></script>
@@ -35,6 +35,7 @@
             });
 
             // Set default values for all fields.
+            Arup_checkIsArupFieldConfig();
             Arup_setAllDefault();
             Arup_AddFocusOutValidationAll();
             // arup_AddOnChangeAll();
@@ -53,6 +54,15 @@
                                     Xrm.Navigation.openAlertDialog({
                                         text: "Opportunity " + result.name + " has been created",
                                         title: "Opportunity Created"
+                                    }).then(function reload() {
+                                        // Navigate to new opportunity
+                                        debugger;
+                                        var pageInput = {
+                                            pageType: "entityrecord",
+                                            entityName: "opportunity",
+                                            entityId: result.newEntityid,
+                                        };
+                                        Xrm.Navigation.navigateTo(pageInput);
                                     });
                                 },
                                 function (errorDetail) {
@@ -62,7 +72,6 @@
                             Xrm.Utility.showProgressIndicator("Creating Opportunity");
                         },
                         function (errors) {
-                            debugger;
                             ArupValidationErrorDialog(errors);
                          
                         }
@@ -80,7 +89,7 @@
             $('.multiselect-item .caret-container').click();
 
             // Ensure that the intext raido box is autofocused.
-            $("input[name=intorext][value=INT]")[0].focus();
+            $("input[name=intorext][value=NOTINT]")[0].focus();
         });
 
     </script>
@@ -91,7 +100,6 @@
         <h1 class="mainPage">
             <b>New Opportunity Wizard</b>
         </h1>
-        <h4 class="mainPage1">Select opportunity category</h4>
     </div>
     <br>
     <div class="container" width="100%" height="100%" id="mysub">
@@ -128,10 +136,10 @@
                     </p>
                     <form id="URForm">
                         <div class="radio">
-                            <label><input type="radio" name="intorext" value="INT" autofocus>&nbsp;Internal</label>
+                            <label><input type="radio" name="intorext" value="INT" >&nbsp;Internal</label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" name="intorext" value="NOTINT">&nbsp;External</label>
+                            <label><input type="radio" name="intorext" value="NOTINT" autofocus>&nbsp;External</label>
                         </div>
                     </form>
                 </div>
@@ -210,9 +218,10 @@
                 <div class="container" id="CN">
                     <div class="form-group col-lg-12">
                         <label for="contractarrangement">Project Procurement:</label>
-                        <select id="contractarrangement" class="form-control"  title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
+                        <select id="contractarrangement" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
                             <option value="">--</option>
                             <option title="Alliance" value="100000000">Alliance</option>
+                            <option title="Charitable/Pro-Bono" value="100000001">Charitable/Pro-Bono</option>
                             <option title="Design &amp; Construct/Design-Build/ECI" value="1">Design &amp; Construct/Design-Build/ECI</option>
                             <option title="Design-Build-Operate" value="100000002">Design-Build-Operate</option>
                             <option title="Management Contracting/Construction Management" value="3">Management Contracting/Construction Management</option>
@@ -225,7 +234,7 @@
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="client">Client:</label>
-                        <input list="clients" id="client" class="form-control input-form" name="client" title="Input Client" autocomplete="off" placeholder="Client company name" />
+                        <input list="clients" id="client" class="form-control input-form" name="client" title="Input Client" autocomplete="off" placeholder="Unassigned" />
                         <datalist id="clients">
                         </datalist>
                     </div>
@@ -300,7 +309,7 @@
                         </div>
                         <br />
                         <div class="form-group col-lg-12">
-                            <label>Global Services:</label>
+                            <label class="displaysError" >Global Services:</label>
                             <p>
                                 <label><input type="checkbox" name="global_services" value="100000001" /> Advisory Services</label>&nbsp;&nbsp;
                                 <label><input type="checkbox" name="global_services" value="100000000" /> Architecture</label>&nbsp;&nbsp;
@@ -319,16 +328,9 @@
                     <br>
                 </div>
             </form>
-            <div class="wizard-buttons">
-                <button type="button" class="btn btn-default win-close">Exit</button>
-                <button type="button" class="btn btn-default wizard-button-back" style="display: none;" tabindex="-1">Back</button>
-                <button type="button" class="btn btn-default wizard-button-next">Next</button>
-                <button type="button" class="btn btn-primary wizard-button-finish" style="display: none;">Create</button>
-                <button type="button" class="btn btn-primary wizard-button-confirm pull-right" style="display: none;">Confirm</button>
-                <button type="button" class="btn btn-default wizard-button-cancel" style="display: none;">Cancel</button>
-            </div>
+        <div class="wizard-buttons"/>
 
-        </div>
+        
     </div>
 </body>
 </html>

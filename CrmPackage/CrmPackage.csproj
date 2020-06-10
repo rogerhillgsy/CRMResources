@@ -1341,6 +1341,7 @@
       <DisplayName>Opportunity Wizard JS</DisplayName>
       <UniqueName>arup_OppoWiz.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
+      <Description>2628</Description>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\BidReview\arup_bidReviewTabs.html">
       <DisplayName>arup_bidReviewTabs</DisplayName>

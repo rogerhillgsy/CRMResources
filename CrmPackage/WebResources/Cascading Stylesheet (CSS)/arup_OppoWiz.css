@@ -369,7 +369,7 @@ textarea.form-control {
     width: 48%;
 }
 
-.has-error input, .has-error select {
+.has-error input, .has-error select, .has-error label.displaysError {
     border-width: 3px;
     background-color: rgba(255,182,193,128);
 }
