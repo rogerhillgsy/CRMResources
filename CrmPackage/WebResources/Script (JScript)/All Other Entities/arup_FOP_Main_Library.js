@@ -17,17 +17,48 @@ function userInTeamCheck(formContext, TeamName) {
     var IsPresentInTeam = false;
 
     try {
-        var filter = "SystemUserId eq (guid'" + formContext.context.getUserId() + "')";
-        var dataset = "TeamMembershipSet";
-        var retrievedMultiple = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);
-        var results = retrievedMultiple.results;
-
+        var results;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/teammemberships?fetchXml=%3Cfetch%3E%3Centity%20name%3D%22teammembership%22%20%3E%3Cattribute%20name%3D%22teamid%22%20%2F%3E%3Cfilter%20type%3D%22or%22%20%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq-userid%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                results = data.value;
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
         for (i = 0; i < results.length; i++) {
-            var filterTeam = "TeamId eq (guid'" + results[i].TeamId + "')";
-            var datasetTeam = "TeamSet";
-            var retrievedMultipleTeam = ConsultCrm.Sync.RetrieveMultipleRequest(datasetTeam, filterTeam);
-            var resultsTeam = retrievedMultipleTeam.results;
-            if (resultsTeam[0].Name == TeamName) {
+            var resultteam;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/teams?fetchXml=%3Cfetch%3E%3Centity%20name%3D%22team%22%20%3E%3Cattribute%20name%3D%22name%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22teamid%22%20operator%3D%22eq%22%20value%3D%22"+results[i].teamid+"%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function (XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function (data, textStatus, xhr) {
+                    resultteam = data.value;
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                }
+            });
+            if (resultteam[0].name == TeamName) {
                 IsPresentInTeam = true;
                 break;
             }
@@ -87,7 +118,7 @@ function GetOrganisations(formContext) {
     if (formContext.getAttribute("arup_relationshipteamid").getValue() != null) {
         var teamId = formContext.getAttribute("arup_relationshipteamid").getValue()[0].id.replace(/[{}]/g, "");
         var req = new XMLHttpRequest();
-        req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/accounts?$select=name&$filter=(_ccrm_managingteamid_value eq " + teamId + " and statecode eq 0)", true);
+        req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/accounts?$select=name&$filter=(_ccrm_managingteamid_value eq " + teamId + " and statecode eq 0)", true);
         req.setRequestHeader("OData-MaxVersion", "4.0");
         req.setRequestHeader("OData-Version", "4.0");
         req.setRequestHeader("Accept", "application/json");
