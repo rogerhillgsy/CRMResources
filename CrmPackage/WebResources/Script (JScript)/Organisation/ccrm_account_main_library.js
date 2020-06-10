@@ -20,27 +20,58 @@ var ArupRegionName = {
     'Malaysia': 'Malaysia Region'
 };
 
+function formAction(formName, action) {
+    var currentForm = Xrm.Page.ui.formSelector.getCurrentItem();
+    var availableForms = Xrm.Page.ui.formSelector.items.get();
+    if (currentForm.getLabel().toLowerCase() != formName.toLowerCase()) {
+        for (var i in availableForms) {
+            var form = availableForms[i];
+            if (form.getLabel().toLowerCase() == formName.toLowerCase()) {
+                if (action == "hide") {
+                    form.setVisible(false);
+                }
+                if (action == "change") {
+                    form.navigate();
+                }
+                return;
+            }
+        }
+    }
+}
+
 function Form_onload(executionContext) {
     var formContext = executionContext.getFormContext();
+
+    globalDQTeam = isUserInTeamCheck(formContext);
+    debugger;
+    formItem = formContext.ui.formSelector.getCurrentItem();
+    var formName = formItem.getLabel();
+
+    if (!globalDQTeam) {
+        if (formName == "Relationship") {
+            formAction("Organisation", "change");
+        }
+        formAction("Relationship", "hide");
+    } else if (globalDQTeam && formName == "Relationship") {
+        return;
+    }
+
     if (formContext.context.client.getClient() == "Mobile") {
         formContext.ui.tabs.get("ClientOverview").setVisible(false);
     }
 
-    //function for local language
-    uselocaladdress_onchange(formContext);
-
     SSCTeam = isUserInSSCTeam(formContext);
-
-    globalDQTeam = isUserInTeamCheck(formContext);
 
     setCGFields(formContext);
 
     if (formContext.data.entity.attributes.get("ccrm_legalentityname").getValue() == null) {
         copyNameToLEN(formContext);
     }
-
+    
     if (formContext.ui.getFormType() != 1) {
 
+    //function for local language
+        uselocaladdress_onchange(formContext);
         //disable form if organisation name is 'unasigned'
         if (formContext.getAttribute("name").getValue() == 'Unassigned') {
             onLoaddisableFormFields(formContext);
@@ -51,10 +82,11 @@ function Form_onload(executionContext) {
 
         filterLeadsGrid(formContext);
         country_onChange(executionContext);
-        IsRegisteredAddressFromParentRecord(formContext);          
+        IsRegisteredAddressFromParentRecord(formContext);
         toggleSections(formContext);
         prepareCheckOptions(formContext);
         DisplayCOVID19Section(userRegion, formContext);
+        displayRelationshipTab(formContext);
     }
 }
 
@@ -968,11 +1000,11 @@ function toggleSections(formContext) {
     var staterel = formContext.getAttribute("ccrm_enablerelationship").getValue();
     if (staterel) {
         formContext.ui.tabs.get("tab_Activites").setVisible(true);
-        formContext.ui.tabs.get("tab_Activites").sections.get("Interactions").setVisible(true);
+        //formContext.ui.tabs.get("tab_Activites").sections.get("Interactions").setVisible(true);
     }
     else {
         formContext.ui.tabs.get("tab_Activites").setVisible(false);
-        formContext.ui.tabs.get("tab_Activites").sections.get("Interactions").setVisible(false);
+        //formContext.ui.tabs.get("tab_Activites").sections.get("Interactions").setVisible(false);
     }
 }
 
@@ -1248,4 +1280,18 @@ function hideShowAmericasFields(formContext) {
 
     formContext.ui.tabs.get('SUMMARY_TAB').sections.get('SUMMARY_TAB_section_6').setVisible(isVisible);
 
+}
+
+function displayRelationshipTabOnChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    displayRelationshipTab(formContext);
+}
+
+function displayRelationshipTab(formContext) {
+    var relationshipTeam = formContext.getAttribute("ccrm_managingteamid").getValue();
+    if (relationshipTeam == null) {
+        formContext.ui.tabs.get("tab_Relationship_management").setVisible(false);
+    } else {
+        formContext.ui.tabs.get("tab_Relationship_management").setVisible(true);
+    }
 }

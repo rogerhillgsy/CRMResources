@@ -83,80 +83,6 @@ function Form_onload(executionContext) {
 
 }
 
-function detectBrowser() {
-    var g = navigator.userAgent,
-        c = navigator.appName,
-        j = "" + parseFloat(navigator.appVersion),
-        b,
-        d = "",
-        a = "",
-        e = false,
-        f,
-        h = {};
-    if ((f = g.indexOf("MSIE")) != -1) {
-        c = "Microsoft Internet Explorer"; b = g.substring(f + 5, f + 8)
-    }
-    else if ((f = g.indexOf("Chrome")) != -1) {
-        c = "Chrome"; b = parseInt(navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10)
-    }
-    else if ((f = g.indexOf("Safari")) != -1) {
-        c = "Safari"; b = parseInt(navigator.appVersion.match(/Version\/(\d+)\./)[1], 10)
-    }
-    else if ((f = g.indexOf("Firefox")) != -1) { c = "Firefox"; b = g.substring(f + 8) }
-
-    if (navigator.appVersion.indexOf("Win") != -1) {
-        d = "Windows";
-    }
-    else if (navigator.appVersion.indexOf("Mac") != -1) {
-        d = "MacOS";
-    }
-
-    if (navigator.userAgent.indexOf("Windows NT") != -1) {
-        var i = navigator.userAgent.indexOf("Windows NT");
-        a = navigator.userAgent.substring(i + 11, i + 14);
-    }
-    else if (navigator.userAgent.indexOf("Macintosh") != -1) {
-        var i = navigator.userAgent.indexOf("Mac OS X");
-        a = navigator.userAgent.substring(i + 9, i + 13);
-        a = a.replace("_", ".");
-        d = "Macintosh"
-    }
-    else if (navigator.userAgent.indexOf("iPad") != -1) {
-        var i = navigator.userAgent.indexOf("CPU OS");
-        a = navigator.userAgent.substring(i + 6, i + 10);
-        a = a.replace("_", ".");
-        d = "iPad";
-    }
-    if (b >= 7 && b <= 9 && (a >= 5.1 && a <= 6.1) && d == "Windows" && c == "Microsoft Internet Explorer") {
-        e = true;
-    }
-    else if (b == 10 && (a >= 6.1 && a <= 6.2) && d == "Windows" && c == "Microsoft Internet Explorer") {
-        e = true;
-    }
-    else if (b >= 6 && (a >= 5.1 && a <= 6.1) && d == "Windows" && c == "Firefox") {
-        e = true;
-    }
-    else if (b >= 6 && a >= 5 && d == "Macintosh" && c == "Firefox") {
-        e = true;
-    }
-    else if (b >= 5 && a >= 5 && d == "Macintosh" && c == "Safari") {
-        e = true;
-    }
-    else if (b >= 5 && a >= 5 && d == "iPad" && c == "Safari") {
-        e = true;
-    }
-    else if (b >= 13 && (a >= 5.1 && a <= 6.1) && d == "Windows" && c == "Chrome") {
-        e = true;
-    }
-
-    h.BrowserName = c;
-    h.BrowserVersion = b;
-    h.OSName = d;
-    h.OSVersion = a;
-    h.Supported = e;
-    return h
-}
-
 function Form_onsave(executionObj) {
     var formContext = executionObj.getFormContext();
     if (formContext.getAttribute("ccrm_suffix").getValue() == null) {
@@ -484,7 +410,7 @@ function ccrm_projectid_onchange(formContext) {
         formContext.getControl("ccrm_suffix").setDisabled(false);
 
         var rtnJobNumber = getJobNumber(formContext.getAttribute("ccrm_projectid").getValue()[0].id.replace(/[{}]/g, ""), formContext);
-        if (rtnJobNumber != null && formContext.getAttribute("ccrm_suffixarray").getValue() != null) {
+        if (rtnJobNumber.length != 0 && formContext.getAttribute("ccrm_suffixarray").getValue() != null) {
             jobNumber = rtnJobNumber[0];
             jobNumber = jobNumber.substring(0, 6);
             jobNumber = jobNumber + "00";
@@ -601,11 +527,11 @@ function disableFieldsOnForm(formContext) {
 }
 
 function webservice_onchange(formContext) {
-
     formContext.getAttribute("ccrm_suffixarray").setValue(null);
     if (formContext.getAttribute("ccrm_projectid").getValue() != null) {
         var rtnJobNumber = getJobNumber(formContext.getAttribute("ccrm_projectid").getValue()[0].id.replace(/[{}]/g, ""), formContext);
-        if (rtnJobNumber != null) {
+
+        if (rtnJobNumber.length != 0) {
             jobNumber = rtnJobNumber[0];
             jobNumber = jobNumber.substring(0, 6);
             jobNumber = jobNumber + "00";
@@ -627,7 +553,7 @@ function webservice_onchange(formContext) {
 
 //function to populate the client when the contact is selected on the customerid Lookup
 function getJobNumber(projectId, formContext) {
-
+    var numbers = [];
     var req = new XMLHttpRequest();
     req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_projects(" + projectId+")?$select=ccrm_jobnumber,ccrm_parentproject", false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -648,9 +574,9 @@ function getJobNumber(projectId, formContext) {
                 formContext.getAttribute("ccrm_opportunitycjn").setValue(nodeJobNumber);
 
                 if (nodeJobNumber != null) {
-                    return [nodeJobNumber, nodeParentProject];
+                    numbers = [nodeJobNumber, nodeParentProject];                   
                 } else {
-                    return null;
+                    numbers = [];
                 }
 
             } else {
@@ -659,91 +585,36 @@ function getJobNumber(projectId, formContext) {
         }
     };
     req.send();
+    return numbers;
 }
 
 //function to call Available Suffixes webservice
 function callSuffixWebService(jobNumber, formContext) {
 
     formContext.getControl("ccrm_suffix").setDisabled(false);
-    var callingFunctionURL = getServiceURL(formContext);
 
-    //TD 24/04/2013 cross browser required
-    var browserInfo = detectBrowser();
-    var myVersion = parseFloat(browserInfo.BrowserVersion);
+    var parameters = {};
+    parameters.CurrentCJN = jobNumber;
 
-    if (browserInfo.BrowserName == "Microsoft Internet Explorer" && myVersion <= 8.0) {
-        var xml = '<?xml version="1.0" encoding="utf-8"?>';
-        xml = xml + '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
-        xml = xml + '  <soap:Body>';
-        xml = xml + '	<AvailableSuffices xmlns="http://arup.com/crm/progression/">';
-        xml = xml + '	  <project>' + jobNumber + '</project>';
-        xml = xml + '	</AvailableSuffices>';
-        xml = xml + '  </soap:Body>';
-        xml = xml + '</soap:Envelope>';
-
-        xmlHttp = new ActiveXObject('Msxml2.XMLHTTP');
-        xmlHttp.Open('POST', callingFunctionURL, false);
-        xmlHttp.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
-        xmlHttp.setRequestHeader('Content-Length', xml.length);
-        xmlHttp.setRequestHeader('SOAPAction', 'http://arup.com/crm/progression/AvailableSuffices');
-        xmlHttp.send(xml);
-
-        var resultXml = xmlHttp.responseText;
-
-        resultXml1 = resultXml.replace('<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><AvailableSufficesResponse xmlns="http://arup.com/crm/progression/"><AvailableSufficesResult><status>200</status><result>', '');
-        resultXml2 = resultXml1.replace('<message /></AvailableSufficesResult></AvailableSufficesResponse></soap:Body></soap:Envelope>', '');
-        resultXml3 = resultXml2.replace('<result>', '');
-        resultXml4 = resultXml3.replace('</result>', '');
-        resultXml5 = resultXml4.replace('&lt;sxs&gt;&lt;sx&gt;', '');
-        resultXml6 = resultXml5.replace('&lt;/sx&gt;&lt;sx&gt;', ',');
-        var searchMask = "&lt;/sx&gt;&lt;sx&gt;";
-        var regEx = new RegExp(searchMask, "ig");
-        var replaceMask = ",";
-        var result = resultXml6.replace(regEx, replaceMask);
-        resultXml7 = result.replace('&lt;/sx&gt;&lt;/sxs&gt;', '');
-        formContext.getAttribute("ccrm_suffixarray").setValue(resultXml7);
-        showAvailableSuffixes(resultXml7, formContext);
-    }
-    else {
-        var xml = '<?xml version="1.0" encoding="utf-8"?>';
-        xml = xml + '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
-        xml = xml + '  <soap:Body>';
-        xml = xml + '	<AvailableSuffices xmlns="http://arup.com/crm/progression/">';
-        xml = xml + '	  <project>' + jobNumber + '</project>';
-        xml = xml + '	</AvailableSuffices>';
-        xml = xml + '  </soap:Body>';
-        xml = xml + '</soap:Envelope>';
-
-        xmlHttp = new XMLHttpRequest();
-        xmlHttp.open('POST', callingFunctionURL, false);
-        xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
-        xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "GET, POST");
-        xmlHttp.setRequestHeader("Access-Control-Allow-Credentials", "true");
-        xmlHttp.setRequestHeader('Content-Type', 'text/xml');
-        xmlHttp.setRequestHeader('SOAPAction', 'http://arup.com/crm/progression/AvailableSuffices');
-        xml = xml.replace('\"', '"');
-        xmlHttp.send(xml);
-
-        var resultXml = xmlHttp.responseText;
-
-        resultXml1 = resultXml.replace('<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><AvailableSufficesResponse xmlns="http://arup.com/crm/progression/"><AvailableSufficesResult><status>200</status><result>', '');
-        resultXml2 = resultXml1.replace('<message /></AvailableSufficesResult></AvailableSufficesResponse></soap:Body></soap:Envelope>', '');
-        resultXml3 = resultXml2.replace('<result>', '');
-        resultXml4 = resultXml3.replace('</result>', '');
-        resultXml5 = resultXml4.replace('&lt;sxs&gt;&lt;sx&gt;', '');
-        resultXml6 = resultXml5.replace('&lt;/sx&gt;&lt;sx&gt;', ',');
-        var searchMask = "&lt;/sx&gt;&lt;sx&gt;";
-        var regEx = new RegExp(searchMask, "ig");
-        var replaceMask = ",";
-        var result = resultXml6.replace(regEx, replaceMask);
-        resultXml7 = result.replace('&lt;/sx&gt;&lt;/sxs&gt;', '');
-        formContext.getAttribute("ccrm_suffixarray").setValue(resultXml7);
-        showAvailableSuffixes(resultXml7, formContext);
-    }
-}
-
-function fnCallback(XmlHttpRequest, status) {
-    alert(XmlHttpRequest.responseXML);
+    var req = new XMLHttpRequest();
+    req.open("POST", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_A1GetSuffices", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var results = JSON.parse(this.response);
+                formContext.getAttribute("ccrm_suffixarray").setValue(results.SuffixList);
+                showAvailableSuffixes(results.SuffixList, formContext);
+            } else {
+                Xrm.Utility.alertDialog(this.statusText);
+            }
+        }
+    };
+    req.send(JSON.stringify(parameters));
 }
 
 //function showAvailableSuffixes(suffixArray) {
@@ -770,28 +641,6 @@ function showAvailableSuffixes(suffixArray, formContext) {
     if (formContext.getAttribute("ccrm_suffix").getValue() != 1 && formContext.getAttribute("ccrm_createmethod").getValue() != 2) {
         var suffixControl = formContext.getControl("ccrm_suffix");
         suffixControl.removeOption(1);
-    }
-}
-
-function getServiceURL(formContext) {
-    var orgName = formContext.context.getOrgUniqueName().toLowerCase();
-
-    switch (orgName) {
-        case "arupdev": //dev
-            return "https://crmwsp.arup.com/progression.populate.dev/PopulateProgression.asmx";
-            break;
-
-        case "aruptest": //test
-            return "https://crmwsp.arup.com/progression.populate.dev/PopulateProgression.asmx";
-            break;
-
-        case "arupuat": //uat
-            return "https://crmwsp.arup.com/progression.populate.dev/PopulateProgression.asmx";
-            break;
-
-        case "arupgroup": //live
-            return "https://crmwsp.arup.com/progression.populate/PopulateProgression.asmx"; //UPDATE
-            break;
     }
 }
 
