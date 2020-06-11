@@ -340,8 +340,11 @@ p {
 }*/
 
 .suppt {
-    width: 48%;
-    display: inline-block;
+/*    width: 48%;*/
+    display: block;
+}
+textarea.arup-clear[readonly] {
+    background-color: unset;
 }
 
 textarea.form-control {
@@ -349,7 +352,7 @@ textarea.form-control {
     font-size: 16px;
 }
 
-#SS, #UR, #CN {
+#SS, #UR, #CN, #arupDescriptionText{
     max-width: 700px;
     margin-left: 0px;
 }
@@ -381,4 +384,9 @@ textarea.form-control {
 
 .hidden {
     display: none;
+}
+
+.arup-align-items-bottom {
+    align-items: flex-end;
+    display: flex;
 }
