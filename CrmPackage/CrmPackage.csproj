@@ -1410,7 +1410,7 @@
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_opportunitybuttons.html">
       <DisplayName>arup_opportunitybuttons</DisplayName>
-      <UniqueName>arup_opportunitybuttons</UniqueName>
+      <UniqueName>arup_opportunitybuttons.html</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\opportunity_ribbon.js">

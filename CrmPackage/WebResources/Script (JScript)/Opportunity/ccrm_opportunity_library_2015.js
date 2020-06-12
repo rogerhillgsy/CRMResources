@@ -744,7 +744,7 @@ function opportunityType_onChange(executionContext, trigger) {
 }
 
 function addEventToProjPartGrid(formContext) {
-
+    debugger;
     var stageID = formContext.data.process.getActiveStage().getId();
 
     if (stageID != ArupStages.ConfirmJobApproval && stageID != ArupStages.ConfirmJobApproval1 && stageID != ArupStages.ConfirmJobApproval2 && stageID != ArupStages.ConfirmJobApproval3) return;
@@ -757,7 +757,9 @@ function addEventToProjPartGrid(formContext) {
         return;
     }
     // add the function to the onRefresh event
-    grid.addOnLoad(() => setProjectParticipantFlag(formContext));
+ 
+    grid.addOnLoad(function () { setProjectParticipantFlag(formContext); });
+  
 
 }
 
@@ -4615,7 +4617,7 @@ function ccrm_arupcompanyid_onchange(executionContext) {
     var companyval = formContext.getAttribute("ccrm_arupcompanyid").getValue();
     if (companyval != null && companyval.length > 0) {
 
-        formContext.getControl('ccrm_accountingcentreid').removePreSearch(() => AccCentreAddLookupFilter(formContext));
+        formContext.getControl('ccrm_accountingcentreid').removePreSearch(function () { AccCentreAddLookupFilter(formContext); });
         formContext.getControl('ccrm_accountingcentreid').setDisabled(false);
         if (formContext.ui.getFormType() == 1) {
             companyvalid = companyval[0].id;
@@ -7519,7 +7521,8 @@ function ParentOpportunityFilter_ec(executionContext) {
 
 function ParentOpportunityFilter(formContext) {
     SetParentOpportunityRequired(formContext);
-    formContext.getControl("ccrm_parentopportunityid").addPreSearch(() => function () { AddParentOpportunityFilter(formContext); });
+    formContext.getControl("ccrm_parentopportunityid").addPreSearch(function () { AddParentOpportunityFilter(formContext); });
+
 }
 
 function AddParentOpportunityFilter(formContext) {
@@ -7575,7 +7578,8 @@ function AddParentOpportunityFilter(formContext) {
                 "</filter>";
             break;
     }
-    formContext.getControl("ccrm_parentopportunityid").addCustomFilter(() => fetch);
+    //formContext.getControl("ccrm_parentopportunityid").addCustomFilter(() => fetch);
+    formContext.getControl("ccrm_parentopportunityid").addCustomFilter(fetch);
 }
 function VerifyParentOpportunity_ec(executionContext) {
     var formContext = executionContext.getFormContext();
