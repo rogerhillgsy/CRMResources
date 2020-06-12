@@ -1307,6 +1307,11 @@
       <UniqueName>arup_Contact</UniqueName>
       <WebResourceType>PNG</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_FOP_Main_Library.js">
+      <DisplayName>arup_FOP_Main_Library</DisplayName>
+      <UniqueName>new_arup_FOP_Main_Library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_WhatsNewPage.htm">
       <DisplayName>arup_WhatsNewPage</DisplayName>
       <UniqueName>new_arup_WhatsNewPage</UniqueName>

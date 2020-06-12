@@ -43,16 +43,16 @@ function Form_onload(executionContext) {
     var formContext = executionContext.getFormContext();
 
     globalDQTeam = isUserInTeamCheck(formContext);
-    debugger;
+
     formItem = formContext.ui.formSelector.getCurrentItem();
     var formName = formItem.getLabel();
 
     if (!globalDQTeam) {
-        if (formName == "Relationship") {
+        if (formName == "Data Quality Form") {
             formAction("Organisation", "change");
         }
-        formAction("Relationship", "hide");
-    } else if (globalDQTeam && formName == "Relationship") {
+        formAction("Data Quality Form", "hide");
+    } else if (globalDQTeam && formName == "Data Quality Form") {
         return;
     }
 
@@ -727,6 +727,11 @@ function checkDueDiligence(primaryControl) {
             {
                 label: "<b>Proceed Sanctions Check</b>",
                 callback: function () {
+                    var ddTrigger = formContext.getAttribute("arup_checkduediligencetrigger").getValue();
+                    if (ddTrigger) {
+                        formContext.getAttribute("arup_checkduediligencetrigger").setValue(false);
+                        formContext.data.save();
+                    }
                     formContext.getAttribute("arup_checkduediligencetrigger").setValue(true);
                     formContext.data.save();
                 },
