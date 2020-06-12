@@ -262,7 +262,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Approving bid decision");
                         formContext.Arup.BidDicisionConfirmation();
                     },
-                    'hidden': a => !formContext.Arup.IsBidDicisionApprovalEnable(formContext),
+                    'hidden': function () {return !formContext.Arup.IsBidDicisionApprovalEnable(formContext); },
                     'isredbutton': true
                 },
                 {
@@ -271,7 +271,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Move next stage");
                         MoveNext();
                     },
-                    'hidden': a => formContext.Arup.IsBidDicisionApprovalEnable(formContext),
+                    'hidden': function () {return formContext.Arup.IsBidDicisionApprovalEnable(formContext); },
                     'isredbutton': true
 
                 }
@@ -312,7 +312,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Approve Bid Review");
                         formContext.Arup.ApproveBidReview(formContext);
                     },
-                    'hidden': f => !formContext.Arup.IsApproveBidReviewEnabled(formContext),
+                    'hidden': function () {return !formContext.Arup.IsApproveBidReviewEnabled(formContext); },
                     'isredbutton': true
                 },
                 {
@@ -321,7 +321,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Bid Submitted");
                         formContext.Arup.BidSubmitted(formContext);
                     },
-                    'hidden': f => !formContext.Arup.IsBidSubmittedEnabled(formContext),
+                    'hidden': function () {return !formContext.Arup.IsBidSubmittedEnabled(formContext); },
                     'isredbutton': true
                 },
                 {
@@ -331,7 +331,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Move next stage");
                         MoveNext();
                     },
-                    'hidden': f => formContext.Arup.IsBidSubmittedEnabled(formContext) || formContext.Arup.IsApproveBidReviewEnabled(formContext),
+                    'hidden': function () {return formContext.Arup.IsBidSubmittedEnabled(formContext) || formContext.Arup.IsApproveBidReviewEnabled(formContext); },
                     'isredbutton': true
                 }
             ],
@@ -342,7 +342,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Add Project Collaborators");
                         formContext.Arup.AddProjectParticipant(formContext);
                     },
-                    'hidden': f => !formContext.Arup.IsAddProjectParticipantEnabled(formContext),
+                    'hidden': function () {return !formContext.Arup.IsAddProjectParticipantEnabled(formContext); },
                     'isredbutton': false
                 },
                 {
@@ -378,7 +378,6 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'action': function () {
                         ReturnToActiveTab();
                     },
-                    //   hidden: f => formContext.Arup.PreviousTab == null || formContext.Arup.PreviousTab == 'PJN_Costs_Tab',
                     'isredbutton': false
                 }
             ],
@@ -388,7 +387,6 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'action': function () {
                         ReturnToActiveTab();
                     },
-                    //   hidden: f => formContext.Arup.PreviousTab == null || formContext.Arup.PreviousTab == 'Project_Financials_Tab',
                     'isredbutton': false
                 }
             ],
@@ -400,7 +398,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         // formContext.Arup.ApproveGroupLeader(formContext);
                         formContext.Arup.PJNApproveGroupLeader();
                     },
-                    hidden: f => !formContext.Arup.IsGroupLeaderApprovalEnabled(formContext),
+                    hidden: function () {return !formContext.Arup.IsGroupLeaderApprovalEnabled(formContext); },
                     'isredbutton': true
                 },
                 {
@@ -410,7 +408,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         formContext.Arup.PJNApproveRegionalSectorLeader(formContext);
                         //formContext.Arup.ApproveSectorLeader(formContext);
                     },
-                    hidden: f => !formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext),
+                    hidden: function () { return !formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext); },
                     'isredbutton': true
                 },
                 {
@@ -419,7 +417,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Move next stage");
                         formContext.Arup.PJNApproveSectorLeader(formContext);
                     },
-                    hidden: f => !formContext.Arup.IsSectorLeaderApprovalEnabled(formContext),
+                    hidden: function () { return !formContext.Arup.IsSectorLeaderApprovalEnabled(formContext); },
                     'isredbutton': true
                 },
                 {
@@ -428,7 +426,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Move next stage");
                         formContext.Arup.PJNApproveBidDirector(formContext);
                     },
-                    hidden: f => !formContext.Arup.IsBidDirectorApprovalEnabled(formContext),
+                    hidden: function () { return !formContext.Arup.IsBidDirectorApprovalEnabled(formContext); },
                     'isredbutton': true
                 },
                 {
@@ -438,7 +436,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         formContext.Arup.PJNApproveRegionalCOO(formContext);
                         //formContext.Arup.ApproveRegionalCOO(formContext);
                     },
-                    hidden: f => !formContext.Arup.IsRegionalCOOApprovalEnabled(formContext),
+                    hidden: function () { return !formContext.Arup.IsRegionalCOOApprovalEnabled(formContext); },
                     'isredbutton': true
                 },
                 {
@@ -448,8 +446,10 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Move next stage");
                         MoveNext();
                     },
-                    'hidden': f => formContext.Arup.IsGroupLeaderApprovalEnabled(formContext) || formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext)
-                        || formContext.Arup.IsSectorLeaderApprovalEnabled(formContext) || formContext.Arup.IsBidDirectorApprovalEnabled(formContext) || formContext.Arup.IsRegionalCOOApprovalEnabled(formContext),
+                    'hidden': function () { return
+                        formContext.Arup.IsGroupLeaderApprovalEnabled(formContext) || formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext)
+                            || formContext.Arup.IsSectorLeaderApprovalEnabled(formContext) || formContext.Arup.IsBidDirectorApprovalEnabled(formContext) || formContext.Arup.IsRegionalCOOApprovalEnabled(formContext);
+                    },
                     'isredbutton': true
                 }
 
@@ -462,7 +462,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         // formContext.Arup.ApproveGroupLeader(formContext);
                         formContext.Arup.CJNApproveGroupLeader();
                     },
-                    hidden: f => !formContext.Arup.IsCJNGroupLeaderApprovalEnabled(formContext),
+                    hidden: function () { return !formContext.Arup.IsCJNGroupLeaderApprovalEnabled(formContext); },
                     'isredbutton': true
                 },
                 {
@@ -472,7 +472,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         formContext.Arup.CJNApprovePMPD(formContext);
                         //formContext.Arup.ApproveSectorLeader(formContext);
                     },
-                    hidden: f => !formContext.Arup.IsPMPDApprovalEnabled(formContext),
+                    hidden: function () { return !formContext.Arup.IsPMPDApprovalEnabled(formContext); },
                     'isredbutton': true
                 },
                 {
@@ -481,7 +481,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Approve Accounting Centre");
                         formContext.Arup.CJNApproveAccountingCentre(formContext);
                     },
-                    hidden: f => !formContext.Arup.IsAccCentreApprovalEnabled(formContext),
+                    hidden: function () { return !formContext.Arup.IsAccCentreApprovalEnabled(formContext); },
                     'isredbutton': true
                 },
                 {
@@ -490,7 +490,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Approve Finance");
                         formContext.Arup.CJNApproveFinance(formContext);
                     },
-                    hidden: f => !formContext.Arup.IsFinanceApprovalEnabled(formContext),
+                    hidden: function () { return !formContext.Arup.IsFinanceApprovalEnabled(formContext); },
                     'isredbutton': true
                 },
 
