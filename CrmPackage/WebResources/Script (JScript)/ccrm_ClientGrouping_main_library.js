@@ -69,3 +69,29 @@ function relationshipTeam_onChange() {
     req.send();
 
 }
+
+function OpenClientGroupingMatrixReport(primaryControl) {
+    var formContext = primaryControl;
+    var accId, parentaccountid;
+    if (formContext.data != null) {
+        accId = formContext.data.entity.getId().replace('{', '').replace('}', '');
+        //parentaccountid = formContext.getAttribute("parentaccountid").getValue() != undefined ? formContext.getAttribute("parentaccountid").getValue()[0].id.replace('{', '').replace('}', '') : accId;
+    }
+    else {
+        accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
+        //parentaccountid = accId;
+    }
+
+    var customParameters = encodeURIComponent("clientgroupingID=" + accId);
+    var windowOptions = { openInNewWindow: true, height: 800, width: 1200 };
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
+    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer, return version number
+    {
+        Xrm.Navigation.openWebResource('arup_clientgroupingmatrix', windowOptions, customParameters);
+    }
+    else  // If another browser, return 0
+    {
+        Xrm.Navigation.openWebResource('arup_clientgroupingmatrix', windowOptions, customParameters);
+    }
+}

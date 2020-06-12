@@ -1838,6 +1838,11 @@
       <UniqueName>arup_arup_BlankHTML</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_clientgroupingmatrix.htm">
+      <DisplayName>arup_clientgroupingmatrix</DisplayName>
+      <UniqueName>new_arup_clientgroupingmatrix</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_DeclineReason">
       <DisplayName>arup_DeclineReason</DisplayName>
       <UniqueName>arup_arup_DeclineReason</UniqueName>
