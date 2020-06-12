@@ -1632,13 +1632,13 @@ function ArupFieldConfig(name, crmAttribute, id) {
     this.crmAttribute = crmAttribute;
     this.crmAttributeCollection = crmAttribute + "s";
     this.id = id;
+    $(document).ready((function () {
+        // this.htmlNode2 = this.htmlNode();
+        this.htmlNode2 = document.getElementById(this.id);
+    }).bind(this));
 }
 
-this.htmlNode = function () { return document.getElementById(this.id); }
-    $(document).ready((function() {
-        this.htmlNode2 = this.htmlNode(); 
-    }).bind(this));
-    if (typeof this.value !== "function") {
+ArupFieldConfig.prototype.htmlNode = function () { return document.getElementById(this.id); }
         ArupFieldConfig.prototype.setVal = function(value) { this.val = value };
         ArupFieldConfig.prototype.value = function() { return this.val; };
         ArupFieldConfig.prototype.isErrored = function() {
@@ -1725,100 +1725,95 @@ this.htmlNode = function () { return document.getElementById(this.id); }
                     // Get the default list of options for field "attr" and make sure that we only include the ones we want
                     var defaultOpts = this.defaultOptions;
                     var requiredOpts = dependentOptionSets[attr];
+                    var target = Arup_validationsByAttribute[attr];
+                    var targetNode = target.htmlNode();
+                    var defaultOpts = Arup_validationsByAttribute[attr].defaultOptions;
                     // Clear the current option list and add the ones we want.
-                    var target = this.htmlNode().target.innerHTML = null;
-                    for (var i = 0; i < defaultOpts.length; i++) {
-                        var opt = defaultOpts[i];
-                        if (!! requiredOpts[opt.value]) {
-                            target.options.push(document.createElement())
+                    if (!!defaultOpts) {
+                        targetNode.innerHTML= "";
+                        for (var i = 0; i < defaultOpts.length; i++) {
+                            var opt = defaultOpts[i];
+                            if (!!requiredOpts[opt.value]) {
+                                var newOpt = document.createElement("option");
+                                newOpt.setAttribute("value", opt.value);
+                                newOpt.setAttribute("title", opt.title);
+                                if (opt.isReadOnly) target.setAttribute("readonly");
+                                if (opt.isDefault) newOpt.setAttribute("selected");
+                                newOpt.innerHTML = opt.text;
+                                targetNode.options.add(newOpt);
+                            }
                         }
+                    } else {
+                        oppWizLog("No default options defined for " + attr);
                     }
                 }
             }
         };
-        var setDependentField = function (result) {
-            var attribute = result["arup_dependentfieldname"];
-            var value = result["arup_dependentfieldvalue"];
-            var node = Arup_validationsByAttribute[attribute];
-            if (!!attribute && !!node) {
-                node.setVal(value);
-            } else {
-                oppWizLog("!! no dependent value found for " + this.crmAttribute);
-            }
-        };
-        ArupFieldConfig.prototype.setDependentFieldValues = function() {
-            FetchCRMData("arup_crmfieldconfigurations",
-                    "$select=arup_dependentfieldvalue,arup_dependentfieldname,arup_isdependentoptionset,arup_isdependentfielddefaultvalue,arup_isdependentfieldreadonly&" +
-                    "$filter=arup_mainoptionsetfieldname eq '" +
-                    this.crmAttribute +
-                    "' and  arup_mainoptionsetfieldvalue eq '" +
-                    this.value() +
-                    "' and arup_entityname eq 'opportunity'")
-                .then(function resolve(results) {
-                        debugger;
-                        oppWizLog("Retrieved " + results.value.length + " dependent field values");
-                        var dependentOptionSets = {};
-                        for (var i = 0; i < results.value.length; i++) {
-                            var dependentOptionSet = results.value[i]["arup_isdependentoptionset"];
-                            if (dependentOptionSet) {
-                                recordDependentOptions(dependentOptionSets, results.value[i]);
-                            } else {
-                                setDependentField(results.value[i]);
-                            }
-                    }
-                        this.updateDependentOptionSets(dependentOptionSets);
-                    }.bind(this),
-                    restQueryErrorDialog("unable to det dependent data"));
-        };
+var setDependentField = function(result) {
+    var attribute = result["arup_dependentfieldname"];
+    var value = result["arup_dependentfieldvalue"];
+    var node = Arup_validationsByAttribute[attribute];
+    if (!!attribute && !!node) {
+        node.setVal(value);
+    } else {
+        oppWizLog("!! no dependent value found for " + this.crmAttribute);
     }
 };
+ArupFieldConfig.prototype.setDependentFieldValues = function() {
+    FetchCRMData("arup_crmfieldconfigurations",
+            "$select=arup_dependentfieldvalue,arup_dependentfieldname,arup_isdependentoptionset,arup_isdependentfielddefaultvalue,arup_isdependentfieldreadonly&" +
+            "$filter=arup_mainoptionsetfieldname eq '" +
+            this.crmAttribute +
+            "' and  arup_mainoptionsetfieldvalue eq '" +
+            this.value() +
+            "' and arup_entityname eq 'opportunity'")
+        .then(function resolve(results) {
+                oppWizLog("Retrieved " + results.value.length + " dependent field values");
+                var dependentOptionSets = {};
+                for (var i = 0; i < results.value.length; i++) {
+                    var dependentOptionSet = results.value[i]["arup_isdependentoptionset"];
+                    if (dependentOptionSet) {
+                        recordDependentOptions(dependentOptionSets, results.value[i]);
+                    } else {
+                        setDependentField(results.value[i]);
+                    }
+            }
+                this.updateDependentOptionSets(dependentOptionSets);
+            }.bind(this),
+            restQueryErrorDialog("unable to det dependent data"));
+};
+
 
 // Field configuration that always returns true
 function ArupFieldConfigAlwaysTrue(name, crmAttribute, id) {
     ArupFieldConfig.call(this, name, crmAttribute, id);
-    if (!ArupFieldConfigAlwaysTrue.prototype.__constructed) {
-        ArupFieldConfigAlwaysTrue.prototype.value = function () { return true; };
-        ArupFieldConfigAlwaysTrue.prototype.__constructed = true;
-    }
 }
+ArupFieldConfigAlwaysTrue.prototype = new ArupFieldConfig();
+ArupFieldConfigAlwaysTrue.prototype.value = function () { return true; };
+
+
 function ArupFieldConfigAlwaysFalse(name, crmAttribute, id) {
     ArupFieldConfig.call(this, name, crmAttribute, id);
-    if (!ArupFieldConfigAlwaysFalse.prototype.__constructed) {
-        ArupFieldConfigAlwaysFalse.prototype.value = function () { return false; };
-        ArupFieldConfigAlwaysFalse.prototype.__constructed = true;
-    }
 }
+ArupFieldConfigAlwaysFalse.prototype = new ArupFieldConfig();
+ArupFieldConfigAlwaysFalse.prototype.value = function () { return false; };
+
 
 function ArupFieldConfigLookup(name, crmAttribute, id, collectionname) {
     ArupFieldConfig.call(this, name, crmAttribute, id);
-    if (!ArupFieldConfigLookup.prototype.__constructed) {
-        ArupFieldConfigLookup.prototype.value = function () { return "/" + collectionname + "(" + this.val + ")" },
-        ArupFieldConfigLookup.prototype.__constructed = true;
-    }
+    this.collectionname = collectionname;
 }
+ArupFieldConfigLookup.prototype = new ArupFieldConfig();
+ArupFieldConfigLookup.prototype.value = function() { return "/" + this.collectionname + "(" + this.val + ")" };
+
 
 function ArupFieldConfigText(name, crmAttribute, id) {
     ArupFieldConfig.call(this, name, crmAttribute, id);
 };
-
 ArupFieldConfigText.prototype = new ArupFieldConfig();
 ArupFieldConfigText.prototype.setVal = function (value) {
     this.htmlNode2.value = value;
 };
-
-//debugger;
-//    ArupFieldConfig.call(this, name, crmAttribute, id);
-//    if (!ArupFieldConfigText.prototype.__constructed) {
-//        ArupFieldConfigText.prototype = Object.create(ArupFieldConfig.prototype);
-//        Object.defineProperty(ArupFieldConfigText.prototype,
-//            "constructor",
-//            { value: ArupFieldConfigText, enumerable: false, writable: true });
-//        ArupFieldConfigText.prototype.setVal = function(value) {
-//            this.htmlNode2.value = value;
-//        };
-//        ArupFieldConfigText.prototype.__constructed = true;
-//    }
-//}
 
 // For any Arup_validation attributes that appear as "on..." add a corresponding event listener.
 function arup_AddAllEvents() {
@@ -2273,9 +2268,7 @@ var Arup_validations =
             };
         o.onchange = function() {
             validateField($("#endclient")[0]);
-            // TODO - load from parent
-            oppWizLog("****** check contractarrangement -> related opportunity");
-            //  Arup_validations.relatedopportunity.loadFieldsFromparent(e, Arup_validations.relatedopportunity);
+            this.setDependentFieldValues();
         };
         o.value = function() {
             return this.htmlNode().value;
