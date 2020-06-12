@@ -52,7 +52,7 @@ function onSelectOfStage(formContext, selStageId) {
 }
 
 function ShowHideOpportunityTypeAndProjectProcurement(formContext, stageId) {
-    debugger;
+
     if (formContext.getAttribute("statecode").getValue() != 0) { return; }
 
     setTimeout(function () {
@@ -78,7 +78,6 @@ function ShowHideOpportunityTypeAndProjectProcurement(formContext, stageId) {
 //This function is called from 'Close as Lost' button and 'Close as lost/no Bid' button
 //pass opportunity status as Lost / Won from Ribbon Workbench, formcontext is primarycontrol paramter
 function CloseOpportunity(formContext, statusCode) {
-    debugger;
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var clientUrl = formContext.context.getClientUrl();
@@ -154,30 +153,32 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
 
     var ccrm_lostopp_reason = new String();
     var ccrm_lostopp_resaon_values = new String();
+    var ccrm_wonopp_reason = new String();
+    var ccrm_wonopp_resaon_values = new String();
     var dictionary = {};
     var req = new XMLHttpRequest();
 
-    req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostopportunityreasons,arup_lostopportunityreasonvalues,arup_wonopportunityreasons,arup_wonopportunityreasonvalues&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal, false);
+    req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal, false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
     req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.setRequestHeader("Prefer", "odata.include-annotations=OData.Community.Display.V1.FormattedValue");
     req.onreadystatechange = function () {
         if (this.readyState === 4) {
             req.onreadystatechange = null;
             if (this.status === 200) {
                 var results = JSON.parse(this.response);
                 if (statusCode == "lost") {
-                    ccrm_lostopp_reason = results.value[0]["arup_lostopportunityreasons"];
-                    var reasonValue = ccrm_lostopp_reason.split(',');
-                    ccrm_lostopp_resaon_values = results.value[0]["arup_lostopportunityreasonvalues"];
+                    ccrm_lostopp_reason = results.value[0]["arup_lostreasons@OData.Community.Display.V1.FormattedValue"]
+                    var reasonValue = ccrm_lostopp_reason.split(';');
+                    ccrm_lostopp_resaon_values = results.value[0].arup_lostreasons;
                     var reasonkey = ccrm_lostopp_resaon_values.split(',');
                 }
                 else if (statusCode == "won") {
-                    ccrm_wonopp_reason = results.value[0]["arup_wonopportunityreasons"];
-                    var reasonValue = ccrm_wonopp_reason.split(',');
-                    ccrm_wonopp_resaon_values = results.value[0]["arup_wonopportunityreasonvalues"];
+                    ccrm_wonopp_reason = results.value[0]["arup_wonreasons@OData.Community.Display.V1.FormattedValue"]
+                    var reasonValue = ccrm_wonopp_reason.split(';');
+                    ccrm_wonopp_resaon_values = results.value[0].arup_wonreasons;
                     var reasonkey = ccrm_wonopp_resaon_values.split(',');
                 }
 
