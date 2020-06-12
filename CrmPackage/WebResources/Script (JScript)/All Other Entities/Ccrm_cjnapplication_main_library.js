@@ -235,7 +235,7 @@ function fnForceSubmit(formContext) {
 
 function ccrm_createMethodOnChange(executionContext) {
     var formContext = executionContext.getFormContext();
-    ccrm_createmethod_onchange(formContext)
+    ccrm_createmethod_onchange(formContext);
 }
 
 function ccrm_createmethod_onchange(formContext) {
