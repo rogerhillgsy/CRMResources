@@ -944,7 +944,7 @@ function setup_display_other_field(formContext, otherNetworksVal, otherNetworksD
 
 function display_other_field(formContext, otherNetworksVal, otherNetworksDetail, isOtherFieldRequired, isToBeHidden) {
     var value = formContext.getAttribute(otherNetworksVal).getValue();
-   // var notApplicable = false;
+    // var notApplicable = false;
     var otherNetworkDetails = formContext.getControl(otherNetworksDetail);
 
     //if (otherNetworksVal == 'arup_globalservices' && value != null) {
@@ -974,15 +974,15 @@ function display_other_field(formContext, otherNetworksVal, otherNetworksDetail,
         //}
 
         //else {
-            if (!!value && isOtherFieldRequired(value)) {
-                otherNetworkDetails.getAttribute().setRequiredLevel("required");
-                otherNetworkDetails.setVisible(true);
-            } else {
-                otherNetworkDetails.getAttribute().setRequiredLevel("none");
-                if (isToBeHidden) {
-                    otherNetworkDetails.setVisible(false);
-                }
+        if (!!value && isOtherFieldRequired(value)) {
+            otherNetworkDetails.getAttribute().setRequiredLevel("required");
+            otherNetworkDetails.setVisible(true);
+        } else {
+            otherNetworkDetails.getAttribute().setRequiredLevel("none");
+            if (isToBeHidden) {
+                otherNetworkDetails.setVisible(false);
             }
+        }
         //}
     }
 }
@@ -2663,7 +2663,7 @@ function requestPossibleJob(formContext) {
     }
 
     //Set below fields required to generate PJN
-    setRequiredLevelOfFields(formContext, "ccrm_salarycost_num", "ccrm_grossexpenses_num", "ccrm_chargingbasis", "ccrm_bid_transactioncurrencyid","ccrm_totalbidcost_num"); 
+    setRequiredLevelOfFields(formContext, "ccrm_salarycost_num", "ccrm_grossexpenses_num", "ccrm_chargingbasis", "ccrm_bid_transactioncurrencyid","ccrm_totalbidcost_num");
 
     formContext.data.save().then(
         function success(status) {
@@ -2733,7 +2733,7 @@ function requestPossibleJob(formContext) {
             }
         },
         function (status) {
-            console.log("failure status " + status);
+            console.log("failure status " + status.message);
         });
 }
 
@@ -2796,7 +2796,7 @@ function IsFormValid(formContext, IsPJNRequest) {
     var v17 = formContext.getAttribute('ccrm_accountingcentreid').getValue();
     var v18 = formContext.getAttribute('ccrm_arupcompanyid').getValue();
     var v19 = formContext.getAttribute('arup_disciplines').getValue();
-  //  var v25 = formContext.getAttribute('ccrm_contractarrangement').getValue();
+    //  var v25 = formContext.getAttribute('ccrm_contractarrangement').getValue();
     // form fields
     var v20 = formContext.getAttribute('description').getValue();
     var v21 = formContext.getAttribute('ccrm_projectlocationid').getValue();
@@ -2937,13 +2937,13 @@ function IsFormValid(formContext, IsPJNRequest) {
             formContext.ui.clearFormNotification("reqPJNWarnMsg-validfields");
         }, 10000);
         // set notification message - ends
-            return false;
-    
+        return false;
+
     } else {
 
         return true;
     }
-    
+
 }
 
 function moveToDevBid(formContext, stageid) {
@@ -5027,6 +5027,9 @@ function stageNotifications(formContext) {
 
     restoreFieldVal(formContext, stageid);
 
+    if (formContext.data.getIsDirty())
+        formContext.data.save();
+
 }
 
 //Move Previous Stage
@@ -5125,7 +5128,7 @@ function resetAndSetVal(formContext, fields) {
 function hideRibbonButton(formContext, field, value) {
     if (formContext.getAttribute(field).getValue() == 1) {
         formContext.getAttribute(field).setValue(value);
-        setTimeout(function () { formContext.data.save(); }, 500);
+        // setTimeout(function () { formContext.data.save(); }, 500);
         //formContext.data.save();
     }
 }
@@ -5134,7 +5137,7 @@ function showRibbonButton(formContext, field, value) {
     if (formContext.getAttribute(field).getValue() == 0 || formContext.getAttribute(field).getValue() == null) {
         formContext.getAttribute(field).setValue(value);
         //setTimeout(function () { formContext.data.save(null); }, 500);
-        formContext.data.save();
+        //  formContext.data.save();
     }
 }
 
@@ -6125,7 +6128,7 @@ function moveResult(args) {
     var a = args;
 }
 
-function requestConfirmJob(formContext) {
+function IsFormValidForCJN(formContext) {
 
     var arupInternal = formContext.getAttribute('ccrm_arupinternal').getValue();
 
@@ -6177,36 +6180,82 @@ function requestConfirmJob(formContext) {
     if (!arupInternal && !incompleteData && ((v15 == null || v15.length == 0) || (v16 == null || v16.length == 0) || (v17 == null || v17.length == 0) || (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
         incompleteData = true;
 
-    if (v20 == 0) { }
-    else if (incompleteData) {
-        formContext.data.save();
-        formContext.ui.setFormNotification("Please fill in all mandatory fields", "WARNING", "reqCJNWarnMsg-mandfields");
-        setTimeout(function () { formContext.ui.clearFormNotification("reqCJNWarnMsg-mandfields"); }, 10000);
 
-        //highlightField('#header_process_ccrm_chargingbasis', '#ccrm_chargingbasis', (v1 != null) ? true : false);
-        //highlightField('#header_process_ccrm_estexpenseincome_num1', '#ccrm_estexpenseincome_num', (v2 != null) ? true : false);
-        //highlightField('#header_process_ccrm_projecttotalincome_num', '#ccrm_projecttotalincome_num', (v3 != null) ? true : false);
-        //highlightField('#header_process_ccrm_projectmanager_userid1', '#ccrm_projectmanager_userid', (v4 != null) ? true : false);
-        //highlightField('#header_process_ccrm_projectdirector_userid1', '#ccrm_projectdirector_userid', (v5 != null) ? true : false);
-        //highlightField(null, '#ccrm_estprojectresourcecosts_num', (v6 != null) ? true : false);
-        //highlightField('#header_process_ccrm_estarupinvolvementstart', '#ccrm_estarupinvolvementstart', (v7 != null) ? true : false);
-        //highlightField('#header_process_ccrm_estarupinvolvementend', '#ccrm_estarupinvolvementend', (v8 != null) ? true : false);
-        //highlightField('#header_process_ccrm_estimatedvalue_num2', '#ccrm_estimatedvalue_num', (v9 != null) ? true : false);
-        //highlightField(null, '#ccrm_estprojectoverheads_num', (v10 != null) ? true : false);
-        //highlightField('#header_process_ccrm_estprojectexpenses_num1', '#ccrm_estprojectexpenses_num', (v11 != null) ? true : false);
-        //highlightField('#header_process_ccrm_projecttotalcosts_num', '#ccrm_projecttotalcosts_num', (v12 != null) ? true : false);
-        //highlightField('#header_process_ccrm_estprojectprofit_num', '#ccrm_estprojectprofit_num', (v13 != null) ? true : false);
-        //highlightField('#header_process_ccrm_profitasapercentageoffeedec', '#ccrm_profitasapercentageoffeedec', (v14 != null) ? true : false);
-        //highlightField(null, "#ccrm_shorttitle", (v19 != null) ? true : false);
-        formContext.getAttribute("ccrm_shorttitle").setRequiredLevel("required");
+    if (!arupInternal) {
+        setRequiredLevelOfFields(formContext, "arup_projecttype", "arup_services", "arup_projectsector");
+        if (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)
+            setRequiredLevelOfFields(formContext, "ccrm_pilevelmoney_num");
+    }
 
-        if (!arupInternal) {
-            //highlightField('#header_process_arup_projecttype', '', (v15 != null) ? true : false);
-            //highlightField('#header_process_arup_services', '', (v16 != null) ? true : false);
-            //highlightField('#header_process_arup_projectsector', '', (v17 != null) ? true : false);
-            //highlightField('#header_process_ccrm_pilevelmoney_num1', '#ccrm_pilevelmoney_num', (v21 == PI_REQUIREMENT.MIN_COVER && v18 != null) ? true : false);
-        }
-    } else {
+    if (incompleteData || v20 == 0)
+        return false;
+    else
+        return true;
+}
+
+function requestConfirmJob(formContext) {
+    debugger;
+    //var arupInternal = formContext.getAttribute('ccrm_arupinternal').getValue();
+
+    //var v1 = formContext.getAttribute('ccrm_chargingbasis').getValue();
+    //var v2 = formContext.getAttribute('ccrm_estexpenseincome_num').getValue();
+    //var v3 = formContext.getAttribute('ccrm_projecttotalincome_num').getValue();
+    //var v4 = formContext.getAttribute('ccrm_projectmanager_userid').getValue();
+    //var v5 = formContext.getAttribute('ccrm_projectdirector_userid').getValue();
+    //var v6 = formContext.getAttribute('ccrm_estprojectresourcecosts_num').getValue();
+    //var v7 = formContext.getAttribute('ccrm_estarupinvolvementstart').getValue();
+    //var v8 = formContext.getAttribute('ccrm_estarupinvolvementend').getValue();
+    //var v9 = formContext.getAttribute('ccrm_estimatedvalue_num').getValue();
+    //var v10 = formContext.getAttribute('ccrm_estprojectoverheads_num').getValue();
+    //var v11 = formContext.getAttribute('ccrm_estprojectexpenses_num').getValue();
+    //var v12 = formContext.getAttribute('ccrm_projecttotalcosts_num').getValue();
+    //var v13 = formContext.getAttribute('ccrm_estprojectprofit_num').getValue();
+    //var v14 = formContext.getAttribute('ccrm_profitasapercentageoffeedec').getValue();
+    //var v19 = formContext.getAttribute('ccrm_shorttitle').getValue();
+    //// the fields below should only be mandatory for external opporutnities for CJN's
+    //var v15 = formContext.getAttribute('arup_projecttype').getValue();
+    //var v16 = formContext.getAttribute('arup_services').getValue();
+    //var v17 = formContext.getAttribute('arup_projectsector').getValue();
+    //var v18 = formContext.getAttribute('ccrm_pilevelmoney_num').getValue();
+    //var v21 = formContext.getAttribute('ccrm_pirequirement').getValue();
+
+    //var v20 = 0; //needs to be 1
+    //validateAccCenter(formContext, false);
+    //v20 = formContext.getAttribute('ccrm_validaccountingcentre').getValue(); //needs to be 1
+
+    //var incompleteData = false;
+
+    //if (v1 == null ||
+    //    v2 == null ||
+    //    v3 == null ||
+    //    v4 == null ||
+    //    v5 == null ||
+    //    v6 == null ||
+    //    v7 == null ||
+    //    v8 == null ||
+    //    v9 == null ||
+    //    v10 == null ||
+    //    v11 == null ||
+    //    v12 == null ||
+    //    v13 == null ||
+    //    v14 == null ||
+    //    v19 == null) incompleteData = true;
+
+
+    //if (!arupInternal && !incompleteData && ((v15 == null || v15.length == 0) || (v16 == null || v16.length == 0) || (v17 == null || v17.length == 0) || (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
+    //    incompleteData = true;
+
+    //if (v20 == 0) { }
+    //else if (incompleteData) {
+    //    formContext.data.save();
+    //    formContext.ui.setFormNotification("Please fill in all mandatory fields", "WARNING", "reqCJNWarnMsg-mandfields");
+    //    setTimeout(function () { formContext.ui.clearFormNotification("reqCJNWarnMsg-mandfields"); }, 10000);
+
+    //    formContext.getAttribute("ccrm_shorttitle").setRequiredLevel("required");
+
+  
+    //} else {
+    if (IsFormValidForCJN(formContext)) {
         if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
         //[RS - Added project participant check for PBI - 39838]
         var projPartApp = formContext.getAttribute("arup_projpartreqd").getValue();
@@ -6280,6 +6329,8 @@ function requestConfirmJob(formContext) {
                     }
                 ], 'QUESTION', 500, 230, '', true);
         }
+    } else {
+        formContext.data.save();
     }
 }
 
@@ -6519,7 +6570,7 @@ function ProvisionDWBidsSite(formContext) {
                 }
             },
             function (status) {
-                console.log("failure status " + status);
+                console.log("failure status " + status.message);
             });
 
         //if (!isFormValidForBidSite(formContext)) {
@@ -7557,7 +7608,7 @@ function VerifyParentOpportunity(formContext) {
                         //}
                         if (opportunitytype == '770000001') {
                             var projectProcurement = formContext.getAttribute("ccrm_contractarrangement").getValue();
-                            if (projectProcurement == null) {
+                            if (isNaN(projectProcurement)) {
                                 formContext.getAttribute("ccrm_contractarrangement").setValue(result["ccrm_contractarrangement"])
                             }
                         }

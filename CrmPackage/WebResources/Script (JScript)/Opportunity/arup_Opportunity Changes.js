@@ -124,7 +124,7 @@ function CloseOpportunity(formContext, statusCode) {
             }, 1000);
         },
         function (status) {
-            console.log("failure status " + status);
+            console.log("failure status " + status.message);
         });
 }
 
@@ -197,59 +197,67 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
 
 //Below function called from Ribbonworkbench: FormCOntext is primarycontrol paramter
 function CloseOpportunityConfirmation(formContext, statusCode) {
-    var client = formContext.getAttribute("ccrm_client").getValue();
-    var arupInternal = (formContext.getAttribute("ccrm_arupinternal").getValue() == 1) ? true : false;
+    debugger;
+    formContext.data.save().then(
+        function success(status) {
 
-    if (client[0].id != null && client[0].id.toLowerCase() == "{9c3b9071-4d46-e011-9aa7-78e7d1652028}") {
-        Alert.show('<font size="6" color="#FF0000"><b>Unassigned Client</b></font>',
-            '<font size="3" color="#000000"></br>A valid Client is required.</font>',
-            [
-                { label: "<b>OK</b>", setFocus: true },
-            ], "ERROR", 450, 200, '', true);
-    } else {
+            var client = formContext.getAttribute("ccrm_client").getValue();
+            var arupInternal = (formContext.getAttribute("ccrm_arupinternal").getValue() == 1) ? true : false;
 
-        if (!arupInternal) {
+            if (client[0].id != null && client[0].id.toLowerCase() == "{9c3b9071-4d46-e011-9aa7-78e7d1652028}") {
+                Alert.show('<font size="6" color="#FF0000"><b>Unassigned Client</b></font>',
+                    '<font size="3" color="#000000"></br>A valid Client is required.</font>',
+                    [
+                        { label: "<b>OK</b>", setFocus: true },
+                    ], "ERROR", 450, 200, '', true);
+            } else {
 
-            var ackMsg = ConfirmationMessage(formContext);
+                if (!arupInternal) {
 
-            Alert.show('<font size="6" color="#187ACD"><b>Governance Check</b></font>',
-                '<font size="3" color="#000000"></br>' + ackMsg + '</font>',
-                [
-                    {
-                        label: "<b>Confirm</b>",
-                        callback: function () {
-                            if (statusCode == "won") {
-                                CloseOpportunity(formContext, statusCode);
+                    var ackMsg = ConfirmationMessage(formContext);
+
+                    Alert.show('<font size="6" color="#187ACD"><b>Governance Check</b></font>',
+                        '<font size="3" color="#000000"></br>' + ackMsg + '</font>',
+                        [
+                            {
+                                label: "<b>Confirm</b>",
+                                callback: function () {
+                                    if (statusCode == "won") {
+                                        CloseOpportunity(formContext, statusCode);
+                                    }
+                                    if (statusCode == "cjn") {
+                                        requestConfirmJob(formContext);
+                                    }
+                                },
+                                setFocus: true,
+                                preventClose: false
+
+                            },
+                            {
+                                label: "<b>Cancel</b>",
+                                callback: function () {
+
+                                },
+                                setFocus: false,
+                                preventClose: false
                             }
-                            if (statusCode == "cjn") {
-                                requestConfirmJob(formContext);
-                            }
-                        },
-                        setFocus: true,
-                        preventClose: false
+                        ], 'INFO', 800, 430, '', true);
+                }
+                else {
 
-                    },
-                    {
-                        label: "<b>Cancel</b>",
-                        callback: function () {
-
-                        },
-                        setFocus: false,
-                        preventClose: false
+                    if (statusCode == "won") {
+                        CloseOpportunity(formContext, statusCode);
                     }
-                ], 'INFO', 800, 430, '', true);
-        }
-        else {
+                    if (statusCode == "cjn") {
+                        requestConfirmJob(formContext);
+                    }
 
-            if (statusCode == "won") {
-                CloseOpportunity(formContext, statusCode);
+                }
             }
-            if (statusCode == "cjn") {
-                requestConfirmJob(formContext);
-            }
-
-        }
-    }
+        },
+      function(status) {
+          console.log("failure status " + status.message);
+       });
 }
 
 function ConfirmationMessage(formContext) {
@@ -343,7 +351,7 @@ function BidDicisionConfirmation(formContext) {
             }
         },
         function (status) {
-            console.log("failure status " + status);
+            console.log("failure status " + status.message);
         });
 }
 
@@ -410,11 +418,14 @@ function setBidDecisionChairRequired(formContext) {
     if (formContext.getAttribute("ccrm_arupregionid").getValue() != null) {
         regionName = formContext.getAttribute("ccrm_arupregionid").getValue()[0].name.toUpperCase();
     }
-    var isHidden = (regionName == "AUSTRALASIA REGION" || regionName == "MALAYSIA REGION" || regionName == "EAST ASIA REGION" || opportunityType == 770000005 || arupInternal) ? true : false;
+
+    var isRegionValidForBidDecision = (regionName == ArupRegionName.UKMEA.toUpperCase() || regionName == ArupRegionName.Americas.toUpperCase() || regionName == ArupRegionName.Europe.toUpperCase()) ? true : false;
+    var isHidden = (!isRegionValidForBidDecision || opportunityType == 770000005 || arupInternal) ? true : false;
     var requiredLevel = (!isHidden && stage == ArupStages.Lead) ? 'required' : 'none';
 
     formContext.getControl("header_process_arup_biddecisionchair").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionchair").setVisible(!isHidden);
+    formContext.getControl("arup_biddecisionchair1").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionproxy").setVisible(!isHidden);
     formContext.getControl("arup_biddecisiondate").setVisible(!isHidden);
     formContext.getAttribute("arup_biddecisionchair").setRequiredLevel(requiredLevel);
