@@ -23,9 +23,9 @@ ARUP.ccrm_bidreview = {
         var formContext = executionContext.getFormContext();
         // remove an option from question B9a
 
-        if (Xrm.Page.context.client.getClient() != "Mobile") {
-            Xrm.Page.getControl("ccrm_sectionb_data_9_yesno").removeOption(100000002);
-            Xrm.Page.getControl("ccrm_sectione_data_3a_new").removeOption(100000002);
+        if (formContext.context.client.getClient() != "Mobile") {
+            formContext.getControl("ccrm_sectionb_data_9_yesno").removeOption(100000002);
+            formContext.getControl("ccrm_sectione_data_3a_new").removeOption(100000002);
         }
 
         bidReviewHappened = disableFormFields();
@@ -34,13 +34,13 @@ ARUP.ccrm_bidreview = {
 
         if (!bidReviewHappened) {
             //load review Panel 
-            if (Xrm.Page.getAttribute("ccrm_reviewpanel").getValue() == null) {
-                this.loadReviewPanel();
+            if (formContext.getAttribute("ccrm_reviewpanel").getValue() == null) {
+                this.loadReviewPanel(formContext);
                 dataChanged = true;
             }
-            dataChanged = this.loadSupplementData(dataChanged);
-            dataChanged = this.ultimateClientNL(dataChanged);
-            dataChanged = this.prePopulateFields(dataChanged);
+            dataChanged = this.loadSupplementData(formContext, dataChanged);
+            dataChanged = this.ultimateClientNL(formContext, dataChanged);
+            dataChanged = this.prePopulateFields(formContext, dataChanged);
             dataChanged = this.isPartofJV(formContext, dataChanged);
         }
 
@@ -74,16 +74,16 @@ ARUP.ccrm_bidreview = {
         }
 
         //this.twoOptions_onChange("ccrm_managementchanges_yesno", 1);
-        Xrm.Page.ui.tabs.get("tab_BackgroundInfo_tickboxes").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_Client").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_SectionC").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_SectionD").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_SectionE").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_SectionF").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_SectionG").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_SectionH").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_11").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_14").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_BackgroundInfo_tickboxes").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_Client").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_SectionC").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_SectionD").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_SectionE").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_SectionF").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_SectionG").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_SectionH").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_11").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_14").setDisplayState('collapsed');
 
         setInterval(this.changeHeaderTileFormat(), 1000);
 
@@ -94,13 +94,14 @@ ARUP.ccrm_bidreview = {
      *********************************************************
      */
     onSave: function (executionObj) {
+        var formContext = executionObj.getFormContext();
         //to stop users from creating from adv find        
-        if (Xrm.Page.data.entity.attributes.get("ccrm_opportunityid").getValue() == null) {
+        if (formContext.data.entity.attributes.get("ccrm_opportunityid").getValue() == null) {
             alert("Bid Review can only be created from within an Opportunity");
             executionObj.getEventArgs().preventDefault();
         }
-        if (Xrm.Page.data.entity.attributes.get("ccrm_opportunityid").getValue() != null && Xrm.Page.data.entity.getId() == null) {
-            if (this.chkBidReviewCount() == true) {
+        if (formContext.data.entity.attributes.get("ccrm_opportunityid").getValue() != null && formContext.data.entity.getId() == null) {
+            if (this.chkBidReviewCount(formContext) == true) {
                 alert('You cannot create another Bid Review record');
                 executionObj.getEventArgs().preventDefault();
             }
@@ -124,34 +125,55 @@ ARUP.ccrm_bidreview = {
      * against the same opportunity
      *********************************************************
      */
-    chkBidReviewCount: function () {
-        var recordId = Xrm.Page.data.entity.attributes.get("ccrm_opportunityid").getValue()[0].id;
-        var RelationshipName = "ccrm_opportunity_ccrm_bidreview";
+    chkBidReviewCount: function (formContext) {
+        var recordId = formContext.data.entity.attributes.get("ccrm_opportunityid").getValue()[0].id;
+        var bidReviewCount;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20aggregate%3D%22true%22%20%3E%3Centity%20name%3D%22opportunity%22%20%3E%3Cattribute%20name%3D%22ccrm_bidreview%22%20aggregate%3D%22count%22%20alias%3D%22countofbids%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22opportunityid%22%20operator%3D%22eq%22%20value%3D%22" + recordId + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                bidReviewCount = data.value.countofbids;
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+
+        /*var RelationshipName = "ccrm_opportunity_ccrm_bidreview";
         var dataSet = "OpportunitySet";
-        var retrievedAssociated = ConsultCrm.Sync.RetrieveAssociatedRequest(recordId, dataset, RelationshipName);
+        //var retrievedAssociated = ConsultCrm.Sync.RetrieveAssociatedRequest(recordId, dataset, RelationshipName);
         //alert(recordId);
-        var bidReviewCount = retrievedAssociated.results.length;
-        if (bidReviewCount == '1') return true; //records exists
+        //var bidReviewCount = retrievedAssociated.results.length;*/
+        if (bidReviewCount == 1) return true; //records exists
         else return false; //none returned
     },
 
     isPartofJV: function (formContext, dataChanged) {
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id;
         var dataset = "OpportunitySet";
         var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
         if (retrievereq != null) {
             if (retrievereq.ccrm_Arups_Role_in_Project != null) {
 
-                var changedData = (retrievereq.ccrm_Arups_Role_in_Project.Value == 4 && Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() != 1) ||
-                    (retrievereq.ccrm_Arups_Role_in_Project.Value != 4 && Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() != 0);
+                var changedData = (retrievereq.ccrm_Arups_Role_in_Project.Value == 4 && formContext.getAttribute("ccrm_jvbidding_yesno").getValue() != 1) ||
+                    (retrievereq.ccrm_Arups_Role_in_Project.Value != 4 && formContext.getAttribute("ccrm_jvbidding_yesno").getValue() != 0);
                 if (retrievereq.ccrm_Arups_Role_in_Project.Value == 4) {
                     //set drop down to true 
-                    Xrm.Page.getAttribute("ccrm_jvbidding_yesno").setValue(1);
+                    formContext.getAttribute("ccrm_jvbidding_yesno").setValue(1);
                 } else if (retrievereq.ccrm_Arups_Role_in_Project.Value != 4) {
-                    Xrm.Page.getAttribute("ccrm_jvbidding_yesno").setValue(0);
+                    formContext.getAttribute("ccrm_jvbidding_yesno").setValue(0);
                 }
-                Xrm.Page.getAttribute("ccrm_jvbidding_yesno").setSubmitMode("always");
+                formContext.getAttribute("ccrm_jvbidding_yesno").setSubmitMode("always");
                 this.twoOptions_onChange(formContext, "ccrm_jvbidding_yesno", 1);
 
                 if (!dataChanged) { dataChanged = changedData };
@@ -170,10 +192,10 @@ ARUP.ccrm_bidreview = {
      * Retrieve the Ultimate Client Name & Country
      *********************************************************
      */
-    ultimateClientNL: function (dataChanged) {
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
+    ultimateClientNL: function (formContext, dataChanged) {
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
         var changedData;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id;
         var dataset = "OpportunitySet";
         var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
         if (retrievereq !== null) {
@@ -188,11 +210,11 @@ ARUP.ccrm_bidreview = {
                     if (retrievereq !== null) {
                         var clientName = retrievereq.ccrm_countryid.Name;
                         fullReference = fullReference + " - " + clientName;
-                        changedData = valueChanged('ccrm_client_data_2a_new', Xrm.Page.getAttribute("ccrm_client_data_2a_new").getValue(), fullReference);
+                        changedData = valueChanged('ccrm_client_data_2a_new', formContext.getAttribute("ccrm_client_data_2a_new").getValue(), fullReference);
                         if (!dataChanged) { dataChanged = changedData };
                         if (changedData && !bidReviewHappened) {
-                            Xrm.Page.getAttribute("ccrm_client_data_2a_new").setValue(fullReference);
-                            Xrm.Page.getAttribute("ccrm_client_data_2a_new").setSubmitMode("always");
+                            formContext.getAttribute("ccrm_client_data_2a_new").setValue(fullReference);
+                            formContext.getAttribute("ccrm_client_data_2a_new").setSubmitMode("always");
                         }
                     }
                 }
@@ -206,31 +228,31 @@ ARUP.ccrm_bidreview = {
      * Prepopulate Various Fields in the form
      *********************************************************
      */
-    prePopulateFields: function (dataChanged) {
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
+    prePopulateFields: function (formContext, dataChanged) {
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
         var changedData;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id;
         var dataset = "OpportunitySet";
         var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
         if (retrievereq !== null) {
             if (retrievereq.Ccrm_pjna != null) {
-                changedData = valueChanged("PJN", Xrm.Page.getAttribute("ccrm_possiblejobnumber").getValue(), retrievereq.Ccrm_pjna);
+                changedData = valueChanged("PJN", formContext.getAttribute("ccrm_possiblejobnumber").getValue(), retrievereq.Ccrm_pjna);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_possiblejobnumber").setValue(retrievereq.Ccrm_pjna);
-                    Xrm.Page.getAttribute("ccrm_possiblejobnumber").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_possiblejobnumber").setValue(retrievereq.Ccrm_pjna);
+                    formContext.getAttribute("ccrm_possiblejobnumber").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_possiblejobnumber").setDisabled(true);
+                formContext.getControl("ccrm_possiblejobnumber").setDisabled(true);
             }
 
             if (retrievereq.ccrm_projectid != null) {
-                changedData = valueChanged('PID', Xrm.Page.getAttribute("ccrm_projectid_number").getValue(), retrievereq.Ccrm_Reference);
+                changedData = valueChanged('PID', formContext.getAttribute("ccrm_projectid_number").getValue(), retrievereq.Ccrm_Reference);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_projectid_number").setValue(retrievereq.Ccrm_Reference);
-                    Xrm.Page.getAttribute("ccrm_projectid_number").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_projectid_number").setValue(retrievereq.Ccrm_Reference);
+                    formContext.getAttribute("ccrm_projectid_number").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_projectid_number").setDisabled(true);
+                formContext.getControl("ccrm_projectid_number").setDisabled(true);
             }
             if (retrievereq.ccrm_bidmanager_userid != null) {
                 //ccrm_bidmanager_userid
@@ -239,14 +261,14 @@ ARUP.ccrm_bidreview = {
                 lookupVal[0].id = retrievereq.ccrm_bidmanager_userid.Id;
                 lookupVal[0].name = retrievereq.ccrm_bidmanager_userid.Name;
                 lookupVal[0].entityType = retrievereq.ccrm_bidmanager_userid.LogicalName;
-                changedData = valueChanged('BM', Xrm.Page.getAttribute("ccrm_bidmanager_userid").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_bidmanager_userid").getValue()[0].id, lookupVal[0].id);
+                changedData = valueChanged('BM', formContext.getAttribute("ccrm_bidmanager_userid").getValue() == null ? null : formContext.getAttribute("ccrm_bidmanager_userid").getValue()[0].id, lookupVal[0].id);
                 //console.log('BM: ' + '\n' + changedData.toString() + '\n' + Xrm.Page.getAttribute("ccrm_bidmanager_userid").getValue()[0].id + '\n' + lookupVal[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_bidmanager_userid").setValue(lookupVal);
-                    Xrm.Page.getAttribute("ccrm_bidmanager_userid").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_bidmanager_userid").setValue(lookupVal);
+                    formContext.getAttribute("ccrm_bidmanager_userid").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_bidmanager_userid").setDisabled(true);
+                formContext.getControl("ccrm_bidmanager_userid").setDisabled(true);
             }
             if (retrievereq.ccrm_biddirector_userid != null) {
                 //ccrm_biddirector_userid
@@ -255,32 +277,32 @@ ARUP.ccrm_bidreview = {
                 lookupVal[0].id = retrievereq.ccrm_biddirector_userid.Id;
                 lookupVal[0].name = retrievereq.ccrm_biddirector_userid.Name;
                 lookupVal[0].entityType = retrievereq.ccrm_biddirector_userid.LogicalName;
-                changedData = valueChanged('BD', Xrm.Page.getAttribute("ccrm_biddirector_userid").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_biddirector_userid").getValue()[0].id, lookupVal[0].id);
+                changedData = valueChanged('BD', formContext.getAttribute("ccrm_biddirector_userid").getValue() == null ? null : formContext.getAttribute("ccrm_biddirector_userid").getValue()[0].id, lookupVal[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_biddirector_userid").setValue(lookupVal);
-                    Xrm.Page.getAttribute("ccrm_biddirector_userid").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_biddirector_userid").setValue(lookupVal);
+                    formContext.getAttribute("ccrm_biddirector_userid").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_biddirector_userid").setDisabled(true);
+                formContext.getControl("ccrm_biddirector_userid").setDisabled(true);
 
             }
             if (retrievereq.CloseProbability != null) {
-                changedData = valueChanged('Win %', Xrm.Page.getAttribute("ccrm_win_probability").getValue(), retrievereq.CloseProbability);
+                changedData = valueChanged('Win %', formContext.getAttribute("ccrm_win_probability").getValue(), retrievereq.CloseProbability);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_win_probability").setValue(retrievereq.CloseProbability);
-                    Xrm.Page.getAttribute("ccrm_win_probability").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_win_probability").setValue(retrievereq.CloseProbability);
+                    formContext.getAttribute("ccrm_win_probability").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_win_probability").setDisabled(true);
+                formContext.getControl("ccrm_win_probability").setDisabled(true);
             }
             if (retrievereq.Ccrm_estimatedvalue_num != null) {
-                changedData = valueChanged('Fee', Xrm.Page.getAttribute("ccrm_fee").getValue(), retrievereq.Ccrm_estimatedvalue_num);
+                changedData = valueChanged('Fee', formContext.getAttribute("ccrm_fee").getValue(), retrievereq.Ccrm_estimatedvalue_num);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_fee").setValue(retrievereq.Ccrm_estimatedvalue_num);
-                    Xrm.Page.getAttribute("ccrm_fee").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_fee").setValue(retrievereq.Ccrm_estimatedvalue_num);
+                    formContext.getAttribute("ccrm_fee").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_fee").setDisabled(true);
+                formContext.getControl("ccrm_fee").setDisabled(true);
             }
 
             if (retrievereq.ccrm_arupcompanyid != null) {
@@ -290,13 +312,13 @@ ARUP.ccrm_bidreview = {
                 lookupVal[0].id = retrievereq.ccrm_arupcompanyid.Id;
                 lookupVal[0].name = retrievereq.ccrm_arupcompanyid.Name;
                 lookupVal[0].entityType = retrievereq.ccrm_arupcompanyid.LogicalName;
-                changedData = valueChanged('Company', Xrm.Page.getAttribute("ccrm_arupcompanyid").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_arupcompanyid").getValue()[0].id, lookupVal[0].id);
+                changedData = valueChanged('Company', formContext.getAttribute("ccrm_arupcompanyid").getValue() == null ? null : formContext.getAttribute("ccrm_arupcompanyid").getValue()[0].id, lookupVal[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_arupcompanyid").setValue(lookupVal);
-                    Xrm.Page.getAttribute("ccrm_arupcompanyid").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_arupcompanyid").setValue(lookupVal);
+                    formContext.getAttribute("ccrm_arupcompanyid").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_arupcompanyid").setDisabled(true);
+                formContext.getControl("ccrm_arupcompanyid").setDisabled(true);
             }
 
             if (retrievereq.ccrm_bid_transactioncurrencyid != null) {
@@ -305,13 +327,13 @@ ARUP.ccrm_bidreview = {
                 lookupVal[0].id = retrievereq.ccrm_bid_transactioncurrencyid.Id;
                 lookupVal[0].name = retrievereq.ccrm_bid_transactioncurrencyid.Name;
                 lookupVal[0].entityType = retrievereq.ccrm_bid_transactioncurrencyid.LogicalName;
-                changedData = valueChanged('Currency', Xrm.Page.getAttribute("ccrm_currency").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_currency").getValue()[0].id, lookupVal[0].id);
+                changedData = valueChanged('Currency', formContext.getAttribute("ccrm_currency").getValue() == null ? null : formContext.getAttribute("ccrm_currency").getValue()[0].id, lookupVal[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_currency").setValue(lookupVal);
-                    Xrm.Page.getAttribute("ccrm_currency").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_currency").setValue(lookupVal);
+                    formContext.getAttribute("ccrm_currency").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_currency").setDisabled(true);
+                formContext.getControl("ccrm_currency").setDisabled(true);
             }
             if (retrievereq.ccrm_projectlocationid != null) {
                 var lookupVal = new Array();
@@ -319,56 +341,56 @@ ARUP.ccrm_bidreview = {
                 lookupVal[0].id = retrievereq.ccrm_projectlocationid.Id;
                 lookupVal[0].name = retrievereq.ccrm_projectlocationid.Name;
                 lookupVal[0].entityType = retrievereq.ccrm_projectlocationid.LogicalName;
-                changedData = valueChanged('Location', Xrm.Page.getAttribute("ccrm_projectlocationid").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_projectlocationid").getValue()[0].id, lookupVal[0].id);
+                changedData = valueChanged('Location', formContext.getAttribute("ccrm_projectlocationid").getValue() == null ? null : formContext.getAttribute("ccrm_projectlocationid").getValue()[0].id, lookupVal[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_projectlocationid").setValue(lookupVal);
-                    Xrm.Page.getAttribute("ccrm_projectlocationid").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_projectlocationid").setValue(lookupVal);
+                    formContext.getAttribute("ccrm_projectlocationid").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_projectlocationid").setDisabled(true);
+                formContext.getControl("ccrm_projectlocationid").setDisabled(true);
             }
             if (retrievereq.Ccrm_ChargingBasis != null) {
-                changedData = valueChanged('Charging basis', Xrm.Page.getAttribute("ccrm_chargingbasis").getValue(), retrievereq.Ccrm_ChargingBasis.Value);
+                changedData = valueChanged('Charging basis', formContext.getAttribute("ccrm_chargingbasis").getValue(), retrievereq.Ccrm_ChargingBasis.Value);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_chargingbasis").setValue(retrievereq.Ccrm_ChargingBasis.Value);
-                    Xrm.Page.getAttribute("ccrm_chargingbasis").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_chargingbasis").setValue(retrievereq.Ccrm_ChargingBasis.Value);
+                    formContext.getAttribute("ccrm_chargingbasis").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_chargingbasis").setDisabled(true);
+                formContext.getControl("ccrm_chargingbasis").setDisabled(true);
             }
             if (retrievereq.Ccrm_EstArupInvolvementStart != null) {
                 var projectStart = new Date(parseInt(retrievereq.Ccrm_EstArupInvolvementStart.substr(6)));
-                if (Xrm.Page.getAttribute("ccrm_projectstartdate").getValue() == null && projectStart == null)
+                if (formContext.getAttribute("ccrm_projectstartdate").getValue() == null && projectStart == null)
                     changeData = false;
-                else if ((Xrm.Page.getAttribute("ccrm_projectstartdate").getValue() != null && projectStart == null) ||
-                    (Xrm.Page.getAttribute("ccrm_projectstartdate").getValue() == null && projectStart != null))
+                else if ((formContext.getAttribute("ccrm_projectstartdate").getValue() != null && projectStart == null) ||
+                    (formContext.getAttribute("ccrm_projectstartdate").getValue() == null && projectStart != null))
                     changedData = true;
                 else {
-                    changedData = Xrm.Page.getAttribute("ccrm_projectstartdate").getValue().toString().toUpperCase() != projectStart.toString().toUpperCase();
+                    changedData = formContext.getAttribute("ccrm_projectstartdate").getValue().toString().toUpperCase() != projectStart.toString().toUpperCase();
                 }
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_projectstartdate").setValue(projectStart);
-                    Xrm.Page.getAttribute("ccrm_projectstartdate").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_projectstartdate").setValue(projectStart);
+                    formContext.getAttribute("ccrm_projectstartdate").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_projectstartdate").setDisabled(true);
+                formContext.getControl("ccrm_projectstartdate").setDisabled(true);
             }
             if (retrievereq.Ccrm_EstArupInvolvementEnd != null) {
                 var projectEnd = new Date(parseInt(retrievereq.Ccrm_EstArupInvolvementEnd.substr(6)));
-                if (Xrm.Page.getAttribute("ccrm_projectenddate").getValue() == null && projectEnd == null)
+                if (formContext.getAttribute("ccrm_projectenddate").getValue() == null && projectEnd == null)
                     changeData = false;
-                else if ((Xrm.Page.getAttribute("ccrm_projectenddate").getValue() != null && projectEnd == null) ||
-                    (Xrm.Page.getAttribute("ccrm_projectenddate").getValue() == null && projectEnd != null))
+                else if ((formContext.getAttribute("ccrm_projectenddate").getValue() != null && projectEnd == null) ||
+                    (formContext.getAttribute("ccrm_projectenddate").getValue() == null && projectEnd != null))
                     changedData = true;
                 else {
-                    changedData = Xrm.Page.getAttribute("ccrm_projectenddate").getValue().toString().toUpperCase() != projectEnd.toString().toUpperCase();
+                    changedData = formContext.getAttribute("ccrm_projectenddate").getValue().toString().toUpperCase() != projectEnd.toString().toUpperCase();
                 }
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_projectenddate").setValue(projectEnd);
-                    Xrm.Page.getAttribute("ccrm_projectenddate").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_projectenddate").setValue(projectEnd);
+                    formContext.getAttribute("ccrm_projectenddate").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_projectenddate").setDisabled(true);
+                formContext.getControl("ccrm_projectenddate").setDisabled(true);
             }
             if (retrievereq.ccrm_Client !== null) {
                 var lookupValClient = new Array();
@@ -377,13 +399,13 @@ ARUP.ccrm_bidreview = {
                 lookupValClient[0].id = clientId;
                 lookupValClient[0].name = retrievereq.ccrm_Client.Name;
                 lookupValClient[0].entityType = retrievereq.ccrm_Client.LogicalName;
-                changedData = valueChanged('potential client', Xrm.Page.getAttribute("ccrm_potentialclient").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_potentialclient").getValue()[0].id, lookupValClient[0].id);
+                changedData = valueChanged('potential client', formContext.getAttribute("ccrm_potentialclient").getValue() == null ? null : formContext.getAttribute("ccrm_potentialclient").getValue()[0].id, lookupValClient[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_potentialclient").setValue(lookupValClient);
-                    Xrm.Page.getAttribute("ccrm_potentialclient").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_potentialclient").setValue(lookupValClient);
+                    formContext.getAttribute("ccrm_potentialclient").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_potentialclient").setDisabled(true);
+                formContext.getControl("ccrm_potentialclient").setDisabled(true);
                 if (clientId !== null || undefined) {
 
                     var dataset = "AccountSet";
@@ -395,11 +417,11 @@ ARUP.ccrm_bidreview = {
                             lookupValRM[0].id = retrievereqorg.ccrm_keyaccountmanagerid.Id;
                             lookupValRM[0].name = retrievereqorg.ccrm_keyaccountmanagerid.Name;
                             lookupValRM[0].entityType = retrievereqorg.ccrm_keyaccountmanagerid.LogicalName;
-                            changedData = valueChanged('RM', Xrm.Page.getAttribute("ccrm_relationshipmanager").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_relationshipmanager").getValue()[0].id, lookupValRM[0].id);
+                            changedData = valueChanged('RM', formContext.getAttribute("ccrm_relationshipmanager").getValue() == null ? null : formContext.getAttribute("ccrm_relationshipmanager").getValue()[0].id, lookupValRM[0].id);
                             if (!dataChanged) { dataChanged = changedData };
                             if (changedData && !bidReviewHappened) {
-                                Xrm.Page.getAttribute("ccrm_relationshipmanager").setValue(lookupValRM);
-                                Xrm.Page.getAttribute("ccrm_relationshipmanager").setSubmitMode("always");
+                                formContext.getAttribute("ccrm_relationshipmanager").setValue(lookupValRM);
+                                formContext.getAttribute("ccrm_relationshipmanager").setSubmitMode("always");
                             }
                             //if (retrievereqorg.ccrm_keyaccountmanagerid.Id != null) {
                             //    Xrm.Page.getControl("ccrm_relationshipmanager").setDisabled(true);
@@ -413,26 +435,26 @@ ARUP.ccrm_bidreview = {
                             //}
                         }
                         else {
-                            changedData = valueChanged('RM1', Xrm.Page.getAttribute("ccrm_relationshipmanager").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_relationshipmanager").getValue()[0].id, null);
+                            changedData = valueChanged('RM1', formContext.getAttribute("ccrm_relationshipmanager").getValue() == null ? null : formContext.getAttribute("ccrm_relationshipmanager").getValue()[0].id, null);
                             if (!dataChanged) { dataChanged = changedData };
                             if (changedData && !bidReviewHappened) {
-                                Xrm.Page.getAttribute("ccrm_relationshipmanager").setValue(null);
-                                Xrm.Page.getAttribute("ccrm_relationshipmanager").setSubmitMode("always");
+                                formContext.getAttribute("ccrm_relationshipmanager").setValue(null);
+                                formContext.getAttribute("ccrm_relationshipmanager").setSubmitMode("always");
                             }
-                            Xrm.Page.getControl("ccrm_relationshipmanager").setDisabled(true);
-                            Xrm.Page.getControl("ccrm_sectionb_data_9_yesno").setVisible(false);
-                            Xrm.Page.getControl("ccrm_sectionb_data_9_comments").setVisible(false);
+                            formContext.getControl("ccrm_relationshipmanager").setDisabled(true);
+                            formContext.getControl("ccrm_sectionb_data_9_yesno").setVisible(false);
+                            formContext.getControl("ccrm_sectionb_data_9_comments").setVisible(false);
                         }
                         var clientdetails;
                         clientdetails = retrievereqorg.Name;
                         clientdetails += " - " + retrievereqorg.ccrm_countryid.Name;
-                        changedData = valueChanged('ccrm_client_data_1', Xrm.Page.getAttribute("ccrm_client_data_1").getValue(), clientdetails);
+                        changedData = valueChanged('ccrm_client_data_1', formContext.getAttribute("ccrm_client_data_1").getValue(), clientdetails);
                         if (!dataChanged) { dataChanged = changedData };
                         if (changedData && !bidReviewHappened) {
-                            Xrm.Page.getAttribute("ccrm_client_data_1").setValue(clientdetails);
-                            Xrm.Page.getAttribute("ccrm_client_data_1").setSubmitMode("always");
+                            formContext.getAttribute("ccrm_client_data_1").setValue(clientdetails);
+                            formContext.getAttribute("ccrm_client_data_1").setSubmitMode("always");
                         }
-                        Xrm.Page.getControl("ccrm_client_data_1").setDisabled(true);
+                        formContext.getControl("ccrm_client_data_1").setDisabled(true);
                         var clientType = retrievereqorg.ccrm_ClientType.Value;
                         var newClientType;
                         switch (clientType) {
@@ -455,13 +477,13 @@ ARUP.ccrm_bidreview = {
                                 newClientType = null;
                                 break;
                         }
-                        changedData = valueChanged('ccrm_client_data_7_new', Xrm.Page.getAttribute("ccrm_client_data_7_new").getValue(), newClientType);
+                        changedData = valueChanged('ccrm_client_data_7_new', formContext.getAttribute("ccrm_client_data_7_new").getValue(), newClientType);
                         if (!dataChanged) { dataChanged = changedData };
                         if (changedData && !bidReviewHappened) {
-                            Xrm.Page.getAttribute("ccrm_client_data_7_new").setValue(newClientType);
-                            Xrm.Page.getAttribute("ccrm_client_data_7_new").setSubmitMode("always");
+                            formContext.getAttribute("ccrm_client_data_7_new").setValue(newClientType);
+                            formContext.getAttribute("ccrm_client_data_7_new").setSubmitMode("always");
                         }
-                        Xrm.Page.getControl("ccrm_client_data_7_new").setDisabled(true);
+                        formContext.getControl("ccrm_client_data_7_new").setDisabled(true);
                     }
                 }
             }
@@ -474,17 +496,17 @@ ARUP.ccrm_bidreview = {
      * Load the Bid Review Chair from the Calling Opportunity
      *********************************************************
      */
-    loadReviewPanel: function () {
+    loadReviewPanel: function (formContext) {
         //get Opportunity id 
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id;
         var dataset = "OpportunitySet";
         var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
         if (retrievereq != null) {
             //Populate review panel with the opportunity bid chair 
             if (retrievereq.ccrm_bidreviewchair_userId != null && !bidReviewHappened) {
-                Xrm.Page.getAttribute("ccrm_reviewpanel").setValue(retrievereq.ccrm_bidreviewchair_userId.Name);
-                Xrm.Page.getAttribute("ccrm_reviewpanel").setSubmitMode("always");
+                formContext.getAttribute("ccrm_reviewpanel").setValue(retrievereq.ccrm_bidreviewchair_userId.Name);
+                formContext.getAttribute("ccrm_reviewpanel").setSubmitMode("always");
             }
         }
     },
@@ -495,10 +517,10 @@ ARUP.ccrm_bidreview = {
         }
     },
     //LOAD SUPPLEMENTARY DATA
-    loadSupplementData: function (dataChanged) {
+    loadSupplementData: function (formContext, dataChanged) {
         var changedValue;
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id;
         var dataset = "OpportunitySet";
         var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
         if (retrievereq != null) {
@@ -507,31 +529,31 @@ ARUP.ccrm_bidreview = {
                 //Parse the JSON Date                     
                 var bidSubmissiondate = new Date(parseInt(retrievereq.Ccrm_BidSubmission.substr(6)));
 
-                if (Xrm.Page.getAttribute("ccrm_submission_date").getValue() == null && bidSubmissiondate == null)
+                if (formContext.getAttribute("ccrm_submission_date").getValue() == null && bidSubmissiondate == null)
                     changedValue = false;
-                else if ((Xrm.Page.getAttribute("ccrm_submission_date").getValue() != null && bidSubmissiondate == null) ||
-                    (Xrm.Page.getAttribute("ccrm_submission_date").getValue() == null && bidSubmissiondate != null))
+                else if ((formContext.getAttribute("ccrm_submission_date").getValue() != null && bidSubmissiondate == null) ||
+                    (formContext.getAttribute("ccrm_submission_date").getValue() == null && bidSubmissiondate != null))
                     changedValue = true;
                 else {
-                    changedValue = Xrm.Page.getAttribute("ccrm_submission_date").getValue().toString().toUpperCase() != bidSubmissiondate.toString().toUpperCase();
+                    changedValue = formContext.getAttribute("ccrm_submission_date").getValue().toString().toUpperCase() != bidSubmissiondate.toString().toUpperCase();
                 }
                 if (!dataChanged) { dataChanged = changedValue };
                 if (changedValue && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_submission_date").setValue(bidSubmissiondate);
-                    Xrm.Page.getAttribute("ccrm_submission_date").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_submission_date").setValue(bidSubmissiondate);
+                    formContext.getAttribute("ccrm_submission_date").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_submission_date").setDisabled(true);
+                formContext.getControl("ccrm_submission_date").setDisabled(true);
 
             }
             //Populate Scope of work
             if (retrievereq.Ccrm_DescriptionofExtentofArupServices != null) {
-                changedValue = valueChanged('SOW', Xrm.Page.getAttribute("ccrm_scopeofwork").getValue(), retrievereq.Ccrm_DescriptionofExtentofArupServices);
+                changedValue = valueChanged('SOW', formContext.getAttribute("ccrm_scopeofwork").getValue(), retrievereq.Ccrm_DescriptionofExtentofArupServices);
                 if (!dataChanged) { dataChanged = changedValue };
                 if (changedValue && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_scopeofwork").setValue(retrievereq.Ccrm_DescriptionofExtentofArupServices);
-                    Xrm.Page.getAttribute("ccrm_scopeofwork").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_scopeofwork").setValue(retrievereq.Ccrm_DescriptionofExtentofArupServices);
+                    formContext.getAttribute("ccrm_scopeofwork").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_scopeofwork").setDisabled(true);
+                formContext.getControl("ccrm_scopeofwork").setDisabled(true);
             }
         }
         return dataChanged;
@@ -545,7 +567,7 @@ ARUP.ccrm_bidreview = {
     ultimateClient_onChange: function (formContext) {
         //var showSection = false;
         //if (Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").getValue() != 1) //YES 
-        var showSection = Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").getValue() == 0;
+        var showSection = formContext.getAttribute("ccrm_ultimateclient_yesno").getValue() == 0;
         this.showhideSection(formContext, "tab_Client", "tab_Client_section_3a", showSection);
         this.showhideSection(formContext, "tab_Client", "tab_Client_section_2a", showSection);
     },
@@ -579,12 +601,12 @@ ARUP.ccrm_bidreview = {
      * ultimate client id field
      *********************************************************
      */
-    isUltimateClient: function () {
+    isUltimateClient: function (formContext) {
         //compare OpportunitySet?$select=ccrm_ultimateendclientid,CustomerId
         //get Opportunity id
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return;
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return;
 
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id;
         var dataset = "OpportunitySet";
         var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
         if (retrievereq != null) {
@@ -602,10 +624,10 @@ ARUP.ccrm_bidreview = {
      * Opportunity
      *********************************************************
      */
-    isPowerOfAttorney: function () {
+    isPowerOfAttorney: function (formContext) {
         //compare OpportunitySet?$select=Ccrm_PowersofAttorney
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return false;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return false;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id;
         var dataset = "OpportunitySet";
         var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
         if (retrievereq == null) return false;
@@ -619,17 +641,17 @@ ARUP.ccrm_bidreview = {
      */
     twoOptions_onChange: function (formContext, fieldName, value) {
         var showSection;
-        if (Xrm.Page.getAttribute(fieldName).getValue() == value) showSection = true;
+        if (formContext.getAttribute(fieldName).getValue() == value) showSection = true;
         else showSection = false;
         switch (fieldName) {
             case "ccrm_clearbrief_yesno":
                 this.showhideSection(formContext, "tab_SectionC", "tab_SectionC_1a", showSection);
                 break;
             case "ccrm_sectiond_data_1_new":
-                if (Xrm.Page.getAttribute(fieldName).getValue() == 100000001) { //no
+                if (formContext.getAttribute(fieldName).getValue() == 100000001) { //no
                     this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1a", true);
                     this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1b", false);
-                } else if (Xrm.Page.getAttribute(fieldName).getValue() == 100000000) { //yes
+                } else if (formContext.getAttribute(fieldName).getValue() == 100000000) { //yes
                     this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1b", true);
                     this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1a", false);
                 } else {
@@ -649,7 +671,7 @@ ARUP.ccrm_bidreview = {
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_6a", false);
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7abc", false);
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7a", false);
-                switch (Xrm.Page.getAttribute("ccrm_sectione_data_5").getValue()) {
+                switch (formContext.getAttribute("ccrm_sectione_data_5").getValue()) {
                     case 100000006:
                     case 100000007:
                     case 100000008:
@@ -687,18 +709,18 @@ ARUP.ccrm_bidreview = {
             case "ccrm_contractreviewed_yesno":
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7abc", false);
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7a", false);
-                if (Xrm.Page.getAttribute(fieldName).getValue() == 1) { //Yes
+                if (formContext.getAttribute(fieldName).getValue() == 1) { //Yes
                     this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7abc", true);
-                } else if (Xrm.Page.getAttribute(fieldName).getValue() == 0) {
+                } else if (formContext.getAttribute(fieldName).getValue() == 0) {
                     this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7a", true);
                 }
                 break;
             case "ccrm_liabilitylimit_yesno":
-                if (Xrm.Page.getAttribute("ccrm_liabilitylimit_yesno").getValue() == 0) {
+                if (formContext.getAttribute("ccrm_liabilitylimit_yesno").getValue() == 0) {
                     this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13c", true);
                     this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13ab", false);
                 }
-                else if (Xrm.Page.getAttribute("ccrm_liabilitylimit_yesno").getValue() == 1) {
+                else if (formContext.getAttribute("ccrm_liabilitylimit_yesno").getValue() == 1) {
                     this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13c", false);
                     this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13ab", true);
                 }
@@ -709,7 +731,7 @@ ARUP.ccrm_bidreview = {
                 break;
             case "ccrm_sectione_data_13b":
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13c", showSection);
-                if (showSection == true) Xrm.Page.getControl("ccrm_contract_data_9").setLabel("12c. Why would we accept this?");
+                if (showSection == true) formContext.getControl("ccrm_contract_data_9").setLabel("12c. Why would we accept this?");
                 break;
             case "ccrm_bonds_guarantees_yesno":
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_15ab", showSection);
@@ -726,14 +748,14 @@ ARUP.ccrm_bidreview = {
             case "ccrm_hourlyratesincluded_yesno":
                 this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_13a", false);
                 this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_13b", false);
-                if (Xrm.Page.getAttribute(fieldName).getValue() == 1) { //Yes
+                if (formContext.getAttribute(fieldName).getValue() == 1) { //Yes
                     this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_13a", true);
-                } else if (Xrm.Page.getAttribute(fieldName).getValue() == 0) {
+                } else if (formContext.getAttribute(fieldName).getValue() == 0) {
                     this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_13b", true);
                 }
                 break;
             case "ccrm_otherstaff_yesno":
-                if (Xrm.Page.getAttribute("ccrm_subconsultantsresourced_yesno").getValue() == false) {
+                if (formContext.getAttribute("ccrm_subconsultantsresourced_yesno").getValue() == false) {
                     this.showhideSection(formContext, "tab_SectionG", "tab_SectionG_3b", showSection);
                 }
                 break;
@@ -943,7 +965,7 @@ ARUP.ccrm_bidreview = {
             setTimeout(function () { ARUP.ccrm_bidreview.twoOptions_onChange("ccrm_bonds_guarantees_yesno", 1) }, 2000);
             //show/hide Section E question 3
             var showSection = false;
-            if (this.isPowerOfAttorney()) showSection = true;
+            if (this.isPowerOfAttorney(formContext)) showSection = true;
             this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_3a", showSection);
             this.fieldVisibility_onchange("ccrm_onerousrequirements_yesno", 1, "ccrm_contract_data_4a");
             this.fieldVisibility_onchange("ccrm_sectione_data_16", 100000005, "ccrm_sectione_data16_other");
@@ -964,7 +986,7 @@ ARUP.ccrm_bidreview = {
             if (Xrm.Page.ui.getFormType() != 1) {
 
                 if (Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").getValue() != null && !bidReviewHappened) {
-                    if (this.isUltimateClient() == true) Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").setValue(1);
+                    if (this.isUltimateClient(formContext) == true) Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").setValue(1);
                     else Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").setValue(0);
                     Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").setSubmitMode("always");
                 }
