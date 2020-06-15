@@ -681,7 +681,6 @@ function ValidateAccountingCentre(configRecord, id, target) {
     promise.then(
         function receive(result) {
             oppWizLog("Got Accounting centre Data");
-            debugger;
             Arup_validations.arup_group.val = result['_ccrm_arupgroupid_value@OData.Community.Display.V1.FormattedValue'];
             Arup_validations.arup_group_code.val = result.ccrm_arupgroupcode;
             Arup_validations.arup_group_id.val = result.ccrm_arupgroupid.ccrm_arupgroupid;
@@ -1532,12 +1531,20 @@ ArupFieldConfigLookup.prototype = new ArupFieldConfig();
 ArupFieldConfigLookup.prototype.value = function() { return "/" + this.collectionname + "(" + this.val + ")" };
 
 
+function ArupFieldConfigReadOnlyText(name, crmAttribute, id) {
+    ArupFieldConfig.call(this, name, crmAttribute, id);
+};
+ArupFieldConfigReadOnlyText.prototype = new ArupFieldConfig();
+ArupFieldConfigReadOnlyText.prototype.setVal = function (value) {
+    this.htmlNode2.value = value;
+};
+
 function ArupFieldConfigText(name, crmAttribute, id) {
     ArupFieldConfig.call(this, name, crmAttribute, id);
 };
-ArupFieldConfigText.prototype = new ArupFieldConfig();
-ArupFieldConfigText.prototype.setVal = function (value) {
-    this.htmlNode2.value = value;
+ArupFieldConfigText.prototype = new ArupFieldConfigReadOnlyText();
+ArupFieldConfigText.prototype.value = function () {
+    return this.htmlNode().value;
 };
 
 // For any Arup_validation attributes that appear as "on..." add a corresponding event listener.
@@ -2638,9 +2645,9 @@ var Arup_validations =
     PICurrency: new ArupFieldConfig("PI Currency", "ccrm_pi_transactioncurrencyid"),
     LolCurrency: new ArupFieldConfig("Lol Currency","ccrm_limit_transactioncurrencyid"),
     PILevelAmount: new ArupFieldConfig("PI Level Amount","ccrm_pilevelmoney_num"),
-    description: new ArupFieldConfig("Description", "description"),
-    text1: new ArupFieldConfigText("Supporting Text 1", "arup_procurementmessage","ta1"),
-    text2: new ArupFieldConfigText("Supporting Text 2", "arup_supportingtext2", "ta2"),
+    description: new ArupFieldConfigText("Description", "description","description"),
+    text1: new ArupFieldConfigReadOnlyText("Supporting Text 1", "arup_procurementmessage","ta1"),
+    text2: new ArupFieldConfigReadOnlyText("Supporting Text 2", "arup_supportingtext2", "ta2"),
     template: function() {
         var o = new ArupFieldConfig("Opportunity Type", "arup_opportunitytype", "template");
 
