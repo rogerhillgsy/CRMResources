@@ -390,3 +390,7 @@ textarea.form-control {
     align-items: flex-end;
     display: flex;
 }
+
+.am-6 {
+    margin: 6px;
+}

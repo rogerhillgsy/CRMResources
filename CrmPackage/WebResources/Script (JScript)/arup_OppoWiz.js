@@ -9,8 +9,6 @@ var resultJSONRTRM = new Object();
 var resultJSONBPMD = new Object();
 var resultJSONAGC = new Object();
 var dBSelected = [];
-var leadsourceOptions = "";
-//var proctypeOptions = "";
 var proctype = $("#contractarrangement");
 var onceload = true;
 
@@ -50,16 +48,6 @@ $.fn.wizard = function (config) {
                 }
                 return !errors;
 
-                selected = [];
-                $('#SS select').each(function (i,s) {
-                    if ($(this).val() != "") {
-                        selected.push($(this).val());
-                        setError(s, false);
-                    } else {
-                        setError(s);
-                    }
-                });
-
                 if (selected.length < 1) {
 
                     Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
@@ -81,35 +69,6 @@ $.fn.wizard = function (config) {
                         true);
                     return false;
                 }
-
-                // Check that related opportunity is set for Project extension.
-                var opportunityType = $("#opportunityType").val();
-                var relatedParentOppId = $("#opportunities option[value='" + $('#relatedopportunity').val() + "']").attr("data-value");
-
-                if (opportunityType == "770000001" && relatedParentOppId == null) {
-                    Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
-                        '<font size="3" color="#000000"></br>For this opportunity type a related parent opportunity must be given.</font>',
-                        [
-                            {
-                                label: "<b>OK</b>",
-                                callback: function () {
-
-                                },
-                                setFocus: true,
-                                preventClose: false
-                            }
-                        ],
-                        'Warning',
-                        600,
-                        250,
-                        '',
-                        true);
-                    return false;
-                }
-                if (hasError( "#opportunities")) {
-                    return false;
-                }
-                return true;
             }
             if (step == 3) {
                 var errors = ArupPageHasErrors("page3");
@@ -117,86 +76,21 @@ $.fn.wizard = function (config) {
                     ArupValidationErrorDialog(errors);
                 }
                 return !errors;
-
-                selected = [];
-                $('#CN select').each(function () {
-                    if ($(this).val() != "") {
-                        selected.push($(this).val());
-                    }
-                });
-                if (selected.length < 1) {
-
-                    Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
-                        '<font size="3" color="#000000"></br>Please select Project Procurement Type.</font>',
-                        [
-                            {
-                                label: "<b>OK</b>",
-                                callback: function () {
-
-                                },
-                                setFocus: true,
-                                preventClose: false
-                            }
-                        ],
-                        'Warning',
-                        600,
-                        250,
-                        '',
-                        true);
-                    return false;
-                }
-                var clients = $("#client")[0];
-                checkSelected(clients);
-                var endClients = $("#endclient")[0];
-                var opportunityType = $("#opportunityType").val();
-                if (opportunityType == "770000005") {
-                    checkSelected(endClients);
-                }
-                if (hasError("#clients")) {
-                    return false;
-                }
-                if (hasError("#endclients")) {
-                    return false;
-                }
-                return true;
             }
         }
         return false;
     };
     var validateFinish = config.validateFinish || function () { return true; };
 
-    var contBack = function () {
-        var newName4 = "";
-        switch (step) {
-            case 1: newName4 = "Opportunity <br/>Category"; break;
-            case 2: newName4 = "Opportunity <br/>Details 1"; break;
-            case 3: newName4 = "Opportunity <br/>Details 2"; break;
-            case 4: newName4 = "<br/>Remaining Details"; break;
-        }
+    var contBack = function (step) {
+        
         $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");//.append('<div><h3>'+newName4+'</h3></div>');
         step--;
         steps.hide();
         $(steps[step - 1]).show();
-        if (step == 2) // Back from confirmation page, clear the table, clear the freq selections
-        {
-            SelectedEventsWithFreq = [];
-            checkedRows = [];
-            Orgs_selected = [];
-            Region_Selected = [];
-            AGC_Selected = [];
-            dBSelected = [];
 
-//            $("#leadSource1").hide();
-        }
+        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");
 
-        var newName5 = "";
-        switch (step) {
-            case 1: newName5 = "Opportunity <br/>Category"; break;
-            case 2: newName5 = "Opportunity <br/>Basic Details"; break;
-            case 3: newName5 = "Opportunity <br/>Further Details"; break;
-            case 4: newName5 = "<br/>Remaining Details"; break;
-        }
-        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");//.remove('<div><h3>'+newName5+'</h3></div>');
         if (step == 1) {
             btnBack.hide();
             btnExit.show();
@@ -214,6 +108,7 @@ $.fn.wizard = function (config) {
         btnNext.show();
 
     };
+
     //////////////////////
     var step = 1;
     var container = $(this).find(containerSelector);
@@ -247,24 +142,17 @@ $.fn.wizard = function (config) {
         var _nam = "";
         var _col = "";
         switch (s) {
-            case 1: _nam = "Opportunity <br/>Category"; _col = "#B2D135"; break;
-            case 2: _nam = "Opportunity <br/> Basic Details"; _col = "#56BDEA"; break;
-            case 3: _nam = "Opportunity <br/> Further Details"; _col = "#FC5781"; break;
+            case 1: _nam = "Start<br/>&nbsp;"; _col = "#B2D135"; break;
+            case 2: _nam = "Opportunity <br/> Details 1"; _col = "#56BDEA"; break;
+            case 3: _nam = "Opportunity <br/> Details 2"; _col = "#FC5781"; break;
             case 4: _nam = "<br>Remaining Details"; _col = "#FFCD31"; break;
         }
 
         stepsPanel.append('<div class="step-number step-' + s + '"><div class="number" id="num' + s + '"><img src = arup_' + s + ' alt="MI" title="' + _nam + '"></div><h5><b><font color=' + _col + '>' + _nam + '</font></b></h5></div>');
         //stepsPanel.append('');<div id="NN"><h3>'+_nam+'</h3></div>
     }
-    var newName = "";
-    switch (step) {
-        case 1: newName = "Opportunity <br/>Category"; break;
-        case 2: newName = "Opportunity <br/>Basic Details"; break;
-        case 3: newName = "Opportunity <br/>Further Details"; break;
-        case 4: newName = "<br/>Remaining Details"; break;
-    }
 
-    $(this).find(".wizard-steps-panel .step-" + step).toggleClass("doing");//.append('<div><h3>'+newName+'</h3></div>');
+    $(this).find(".wizard-steps-panel .step-" + step).toggleClass("doing");
     //////////////////////
     var contentForModal = "";
     if (isModal) {
@@ -272,8 +160,8 @@ $.fn.wizard = function (config) {
     }
     var btns = "";
     btns += '<button type="button" class="btn btn-default wizard-button-exit pull-left"' + contentForModal + ' >' + exitText + '</button>';
-    btns += '<button type="button" class="btn btn-default wizard-button-cancel pull-left" ' + contentForModal + ' >' + cancelText + '</button>';
     btns += '<button type="button" class="btn btn-default wizard-button-back  pull-left">' + backText + '</button>';
+    btns += '<button type="button" class="btn btn-default wizard-button-cancel pull-left" ' + contentForModal + ' >' + cancelText + '</button>';
     btns += '<button type="button" class="btn btn-default wizard-button-next pull-right">' + nextText + '</button>';
     btns += '<button type="button" class="btn btn-primary wizard-button-finish pull-right" ' + contentForModal + ' >' + finishText + '</button>';
     btns += '<button type="button" class="btn btn-primary wizard-button-confirm pull-right" ' + contentForModal + ' >' + confirmText + '</button>';
@@ -286,99 +174,42 @@ $.fn.wizard = function (config) {
     var btnConfirm = $(this).find(".wizard-button-confirm");
     var btnCancel = $(this).find(".wizard-button-cancel");
 
-    //$(".wizard-steps-panel .step-number .number").eq(0).css({ "background-color": "#B2D135", "border": "4px solid #B2D135" });
-
     btnNext.on("click", function () {
         if (!validateNext(step, steps[step - 1])) {
             return;
         };
 
-        var newName2 = "";
-        switch (step) {
-            case 1: newName2 = "Opportunity <br/>Category"; break;
-            case 2: newName2 = "Opportunity <br/>Basic Details"; break;
-            case 3: newName2 = "Opportunity<br/>Further Details"; break;
-            case 4: newName2 = "<br/>Remaining Details"; break;
-        }
-        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");//.append('<div><h3>'+newName2+'</h3></div>');
+        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");
         step++;
         steps.hide();
         $(steps[step - 1]).show();
-        var newName3 = "";
-        switch (step) {
-            case 1: newName3 = "Opportunity<br/>Category"; break;
-            case 2: newName3 = "Opportunity <br/>Basic Details"; break;
-            case 3: newName3 = "Opportunity <br/>Further Details"; break;
-            case 4: newName3 = "<br/>Remaining Details"; break;
-        }
 
-        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");//.append('<div id="NN"><h3>'+newName3+'</h3></div>');
-        if (step == stepCount) {
+        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");
+        if (step == stepCount) {    
             btnFinish.show();
             btnNext.hide();
             btnBack.hide();
         }
 
-        if (step == 2) {
-            leadsourceOptions = $("#leadSource").html();
-        }
-
-
-        if (step == 3) {
-            //var opptype = $("#opportunityType").val();
-
-            //switch (opptype) {
-            //    case "770000000":
-            //        addAllOptions("procType");
-            //        proctype.css("pointer-events", "auto");
-            //        break;
-            //    case "770000001":
-            //        addAllOptions("procType");
-            //        proctype.val("--");
-            //        proctype.css("pointer-events", "none");
-            //        break;
-            //    case "770000002":
-            //        addAllOptions("procType");
-            //        proctype.css("pointer-events", "auto");
-            //        break;
-            //    case "770000003":
-            //        addAllOptions("procType");
-            //        proctype.val("2");
-            //        proctype.css("pointer-events", "none");
-            //        break;
-            //    case "770000004":
-            //        addAllOptions("procType");
-            //        removeOptions(["100000001", "100000003", "2", "8", "6"], "procType");
-            //        proctype.css("pointer-events", "auto");
-            //        break;
-            //    case "770000005":
-            //        addAllOptions("procType");
-            //        proctype.val("5");
-            //        proctype.css("pointer-events", "none");
-            //        break;
-            //    case "770000006":
-            //        addAllOptions("procType");
-            //        removeOptions(["100000001","100000003", "2"], "procType");
-            //        proctype.css("pointer-events", "auto");
-            //        break;
-            //}
-        }
-
         switch (step) {
-            case 2: $("#opportunityType").focus(); break;
-            case 3: $("#contractarrangement").focus(); ; break;
-            case 4: $("#project_name").focus(); ; break;
+            case 2:
+                Arup_validations.opportunityType.focus();
+                break;
+            case 3:
+                Arup_validations.contractarrangement.setDependentFieldValues();
+                Arup_validations.contractarrangement.focus();
+                break;
+            case 4:
+                Arup_validations.project_country.focus();
+                break;
         }
 
 
         if (step == 4) {
-            //btnConfirm.show();
-            btnCancel.show();
             btnNext.hide();
         }
         else {
             btnConfirm.hide();
-            btnCancel.hide();
         }
         btnExit.hide();
         btnBack.show();
@@ -399,7 +230,7 @@ $.fn.wizard = function (config) {
             dBSelected = [];
             //alert(step);
 
-            contBack();
+            contBack(step);
         }
         //Back from Opportunity Further Details..  Destroy the page before leaving.
         if (step == 3) {
@@ -419,7 +250,7 @@ $.fn.wizard = function (config) {
                         callback: function () {
                             $("#ConNotiTab").bootstrapTable('destroy');
                             selectedRows = [];
-                            contBack();
+                            contBack(step);
                         },
                         setFocus: false,
                         preventClose: false
@@ -432,10 +263,10 @@ $.fn.wizard = function (config) {
                 true);
         }
         if (step == 4) {
-            contBack();
+            contBack(step);
             btnConfirm.hide();
-            btnCancel.hide();
         }
+        SetupSupplementaryTextFields(step);
     });
 
     btnFinish.on("click", function () {
@@ -584,105 +415,6 @@ function callAction(container, steps, step) {
     //Execute request passing the input parameter of the action 
     req.send(window.JSON.stringify(data));
 }
-//var leadSource;
-//function onOpportunityTypeChange(htmlElement) {
-//    oppWizLog("Change from " + htmlElement.value);
-//    leadSource = $("#leadSource");
-//    leadSource.attr("disabled", false);
-//    var type = htmlElement.value;
-//    switch (type) {
-//        case "770000000":
-//            $("#ta1").val("This opportunity is for new work under a new contract.");
-//            $("#ta2").val("");
-//            addAllOptions("leadSource");
-//            leadSource.css("pointer-events", "auto");
-//            break;
-//        case "770000001":
-//            $("#ta1").val("This opportunity is for an extension of an existing project under an existing contract.");
-//            $("#ta2").val("This opportunity will be pre-populated with appropriate information from the Related Parent Opportunity.");
-//            addAllOptions("leadSource");
-//            leadSource.val("100000000");
-//            leadSource.css("pointer-events", "none");
-//            leadSource.attr("disabled", true);
-//            break;
-//        case "770000002":
-//            $("#ta1").val("This opportunity is for an extension of an existing project. This requires a new form of contract.");
-//            $("#ta2").val("This opportunity will be pre-populated with appropriate information from the Related Parent Opportunity.");
-//            addAllOptions("leadSource");
-//            removeOptions(["3", "100000002", "5", "8", "11", "10"], "leadSource");
-//            leadSource.css("pointer-events", "auto");
-//            break;
-//        case "770000003":
-//            $("#ta1").val("This opportunity is to win a place on a new framework, panel, call-off.");
-//            $("#ta2").val("");
-//            addAllOptions("leadSource");
-//            removeOptions(["100000000", "100000002", "5", "6", "11"], "leadSource");
-//            leadSource.css("pointer-events", "auto");
-//            break;
-//        case "770000004":
-//            $("#ta1").val("This opportunity is for new work or task order that will be governed by an existing framework, panel or call-off agreement.");
-//            $("#ta2").val("Please confirm if a CRM framework record exists. If yes, select the CRM framework record; otherwise enter the framework/panel reference.");
-//            addAllOptions("leadSource");
-//            leadSource.val("5");
-//            leadSource.css("pointer-events", "none");
-//            break;
-//        case "770000005":
-//            $("#ta1").val("Arup has been asked to support multiple architects who are all bidding for the same architectural competition.");
-//            $("#ta2").val("This opportunity cannot be progressed past Pre-Bid stage. It will have a fee value set to zero. Each of the competition opportunities will be pre-populated with information from this opportunity.");
-//            addAllOptions("leadSource");
-//            removeOptions(["100000000", "5", "6", "11"], "leadSource");
-//            leadSource.css("pointer-events", "auto");
-//            break;
-//        case "770000006":
-//            $("#ta1").val("This is to be used for each individual entry in an architect competition for which there is a master record.");
-//            $("#ta2").val("This opportunity will be pre-populated with appropriate information from the architectural competition master record.");
-//            addAllOptions("leadSource");
-//            leadSource.val("8");
-//            leadSource.css("pointer-events", "none");
-//            break;
-//    }
-//    checkSelected(htmlElement);
-//    validateField(htmlElement);
-//    validateField(leadSource);
-//    //ensureRelatedOpportunitySelected("#opporunities");
-//}
-
-//function removeOptions(data,type)
-//{
-//    addAllOptions(type);
-//    if (type == "leadSource") {
-
-//        leadSource.children("option").each(function () {
-//            if ($.inArray(this.value, data) !== -1)
-//                this.remove();
-//        });
-//    }
-//    else if (type == "procType") {
-//        proctype.children("option").each(function () {
-//            if ($.inArray(this.value, data) !== -1)
-//                this.remove();
-//        });
-//    }
-//}
-
-//function addAllOptions(type) {
-//    removeAllOptions(type);
-//    if (type == "leadSource") {
-//        leadSource.html(leadsourceOptions);
-//    }
-//    else if (type == "procType") {
-//        proctype.html(leadsourceOptions);
-//    }
-//}
-
-//function removeAllOptions(type) {
-//    if (type == "leadSource") {
-//        leadSource.html("");
-//    }
-//    else if (type == "procType") {
-//        proctype.html();
-//    }
-//}
 
 function getCountries(control, resolve) {
     var input = control.value;
@@ -755,11 +487,12 @@ function getStates() {
                         control.value = "";
                         if (results.value.length == 0) {
                             setError(control, false);
-                            control.readOnly = true;
+                            control.readonly = true;
+                            Arup_validations.project_state.hide(true, "invisible");
                         } else {
-                            control.readOnly = false;
+                            control.readonly = false;
+                            Arup_validations.project_state.hide(false, "invisible");
                             setError(control, false);
-                            control.focus();
                         }
                     },
                     restQueryErrorDialog("Unable to get States List"));
@@ -930,15 +663,6 @@ function getAccountingCentres() {
             control)
         .then(function success(results) {
             Arup_validations.accountingcentre.setOptions( results.value);
-//            Arup_validations.accountingcentre.setOptions(Arup_validations.accountingcentre, document.getElementById('accountingcentres'), results.value);
-                //for (var i = 0; i < results.value.length; i++) {
-                //    var ccrm_arupaccountingcodeid = results.value[i]["ccrm_arupaccountingcodeid"];
-                //    var ccrm_arupcompanycode = results.value[i]["ccrm_arupcompanycode"];
-                //    var ccrm_name = results.value[i]["ccrm_name"];
-
-                //    acc += '<option value="' + ccrm_name + '" data-value="' + ccrm_arupaccountingcodeid + '" > ' + ccrm_name + '</option > ';
-                //}
-                //document.getElementById('accountingcentres').innerHTML = acc;
                 oppWizLog("retrieved " + results.value.length + " accounting centres");
             },
             restQueryErrorDialog("Unable to get Accounting Centre list")
@@ -956,7 +680,9 @@ function ValidateAccountingCentre(configRecord, id, target) {
     var promise = FetchCRMData(targetEntity, accCentreDataQuery, target);
     promise.then(
         function receive(result) {
-            oppWizLog("Got Accounting centre Data");c
+            oppWizLog("Got Accounting centre Data");
+            debugger;
+            Arup_validations.arup_group.val = result['_ccrm_arupgroupid_value@OData.Community.Display.V1.FormattedValue'];
             Arup_validations.arup_group_code.val = result.ccrm_arupgroupcode;
             Arup_validations.arup_group_id.val = result.ccrm_arupgroupid.ccrm_arupgroupid;
             Arup_validations.arup_region.val = result.ccrm_arupgroupid._ccrm_arupregionid_value;
@@ -1286,7 +1012,7 @@ function getOpportunities(inputControl, extraFilter) {
 
 function loadFromParent(_this, fieldsToLoad, fieldsToLoadButIgnore) {
     // Load opportunity fields from parent
-    if (!_this || !_this.valueId || !_this.valueId()) return new Promise();
+    if (!_this || !_this.valueId || !_this.valueId()) return new Promise(function() {});
     var retrieveById = _this.value();
     oppWizLog("load fields from parent " + _this.value());
     oppWizLog(" fields to load = " + fieldsToLoad.join(", "));
@@ -1379,7 +1105,11 @@ function FetchCRMData(entityName, select, target, maxRecords) {
             }
         },
         async: true,
-    });
+    })
+        .catch(function reject(error) {
+            oppWizLog("Error in FetchCRM Data " + error);
+             debugger;
+        });
     promise.catch(function() { oppWizLog("FetchCRMData failed on " + url) });
     promise.always(function() { !!target && target.classList.remove("waiting-for-crm") });
     if (!!target) target.classList.add("waiting-for-crm");
@@ -1388,6 +1118,8 @@ function FetchCRMData(entityName, select, target, maxRecords) {
 
 function restQueryErrorDialog(message, url, reject) {
     return function (xhr, textStatus, errorThrown) {
+        oppWizLog("Error handler called");
+        debugger;
         var errorMessage = textStatus;
         if (!!xhr.responseJSON && !!xhr.responseJSON.error ) {
             errorMessage = xhr.responseJSON.error.message
@@ -1436,32 +1168,6 @@ function ensureUltimateClientSelected(htmlElement) {
         checkSelected(htmlElement);
     }
 }
-
-//function ensureSelected(htmlElement, isNotRequired ) {
-//    // Ensure that the selected value is set to the first item in the data list.
-//    //    var formGroup = closestParent(htmlElement.parentNode, "form-group");
-//    if (htmlElement.readOnly) return;
-//    var target = null;
-//    var targetval = htmlElement.value;
-//    var id = null;
-//    if ( !!targetval ) targetval = targetval.toLowerCase();
-//    if (!!htmlElement.list && htmlElement.list.children.length > 0) {
-//        var dataVals = htmlElement.list.children;
-//        for (var i = 0; i < dataVals.length; i++) {
-//            if (dataVals[i].value.toLowerCase().includes(targetval)) {
-//                target = dataVals[i];
-//                id = dataVals[i].getAttribute("data-value");
-//                break;
-//            }
-//        }
-//    }
-//    if (!!targetval && !id || (!isNotRequired && target == null)) {
-//        setError(htmlElement);
-//    } else {
-//        if (!!target) htmlElement.value = target.value;
-//        setError(htmlElement, false);
-//    }
-//}
 
 function setError(selector, errorOn) {
     if (typeof(errorOn) === 'undefined') errorOn = true;
@@ -1633,122 +1339,140 @@ function ArupFieldConfig(name, crmAttribute, id) {
     this.crmAttributeCollection = crmAttribute + "s";
     this.id = id;
     $(document).ready((function () {
-        // this.htmlNode2 = this.htmlNode();
         this.htmlNode2 = document.getElementById(this.id);
     }).bind(this));
 }
 
 ArupFieldConfig.prototype.htmlNode = function () { return document.getElementById(this.id); }
-        ArupFieldConfig.prototype.setVal = function(value) { this.val = value };
-        ArupFieldConfig.prototype.value = function() { return this.val; };
-        ArupFieldConfig.prototype.isErrored = function() {
-            return this.htmlNode().parentNode.classList.contains("has-error");
+ArupFieldConfig.prototype.setVal = function(value) { this.val = value };
+ArupFieldConfig.prototype.value = function() { return this.val; };
+ArupFieldConfig.prototype.focus= function () { this.htmlNode().focus(); };
+ArupFieldConfig.prototype.isErrored = function() {
+    return this.htmlNode().parentNode.classList.contains("has-error");
+}
+ArupFieldConfig.prototype.setError =
+    function(errorOn) {
+        if (typeof (errorOn) === 'undefined') errorOn = true;
+        var target = this.htmlNode();
+        if (target.length === 0) return true;
+        var formGroup = closestParent(target, "form-group");
+        if (errorOn) {
+            formGroup.classList.remove("has-success");
+            formGroup.classList.add("has-error");
+        } else {
+            formGroup.classList.add("has-success");
+            formGroup.classList.remove("has-error");
         }
-        ArupFieldConfig.prototype.setError =
-            function(errorOn) {
-                if (typeof (errorOn) === 'undefined') errorOn = true;
-                var target = this.htmlNode();
-                if (target.length === 0) return true;
-                var formGroup = closestParent(target, "form-group");
-                if (errorOn) {
-                    formGroup.classList.remove("has-success");
-                    formGroup.classList.add("has-error");
-                } else {
-                    formGroup.classList.add("has-success");
-                    formGroup.classList.remove("has-error");
-                }
-            };
+    };
 
-        ArupFieldConfig.prototype.ensureSelected = function() {
-            var node = this.htmlNode();
-            if (!node) return; // Html element may not be visible.
-            if (node.readOnly) return;
-            var target = null;
-            var id = null;
-            var targetval = node.value;
-            if (!!targetval) targetval = targetval.toLowerCase();
-            if (!!node.list && node.list.children.length > 0) {
-                var dataVals = node.list.children;
-                for (var i = 0; i < dataVals.length; i++) {
-                    if (dataVals[i].value.toLowerCase().includes(targetval)) {
-                        target = dataVals[i];
-                        id = dataVals[i].getAttribute("data-value");
-                        break;
-                    }
-                }
-            }
-            if (!targetval || !!targetval && !id || (!this.isNotRequired && target == null)) {
-                this.setError();
-            } else {
-                if (!!target) node.value = target.value;
-                setError(false);
+ArupFieldConfig.prototype.ensureSelected = function() {
+    var node = this.htmlNode();
+    if (!node) return; // Html element may not be visible.
+    if (node.readOnly) return;
+    var target = null;
+    var id = null;
+    var targetval = node.value;
+    if (!!targetval) targetval = targetval.toLowerCase();
+    if (!!node.list && node.list.children.length > 0) {
+        var dataVals = node.list.children;
+        for (var i = 0; i < dataVals.length; i++) {
+            if (dataVals[i].value.toLowerCase().includes(targetval)) {
+                target = dataVals[i];
+                id = dataVals[i].getAttribute("data-value");
+                break;
             }
         }
+    }
+    if (!targetval || !!targetval && !id ) {
+        this.setError();
+    } else {
+        if (!!target) node.value = target.value;
+        this.setError(false);
+    }
+}
 
-        ArupFieldConfig.prototype.hide = function(hideMe) {
-            if (typeof (hideMe) === 'undefined') hideMe = true;
-            var node = this.htmlNode();
-            if (!node) return;
-            if (hideMe) {
-                node.parentNode.classList.add("hidden");
+ArupFieldConfig.prototype.hide = function(hideMe, className) {
+    if (typeof (hideMe) === 'undefined') hideMe = true;
+    if (typeof (className) === 'undefined') className = "hidden";
+    var node = this.htmlNode();
+    if (!node) return;
+    if (hideMe) {
+        node.parentNode.classList.add(className);
+    } else {
+        node.parentNode.classList.remove(className);
+    }
+}
+
+ArupFieldConfig.prototype.isHidden = function() {
+    var node = this.htmlNode();
+    if (!node) return true;
+    return node.parentNode.classList.contains("hidden");
+};
+ArupFieldConfig.prototype.recordDefaultOptions = function()
+{
+    // copy the default option list to a backup.
+    this.defaultOptions = [];
+    var opts = this.htmlNode().options;
+    for (var i = 0; i < opts.length ; i++) {
+        var opt = opts[i];
+        this.defaultOptions.push({ value: opt.value, title: opt.title, text: opt.innerText });
+    }
+}
+var recordDependentOptions = function (dependentOptionSets, result) {
+    var depField = result["arup_dependentfieldname"];
+    if (!dependentOptionSets[depField] ) dependentOptionSets[depField] = {};
+    var depFieldSettings = dependentOptionSets[depField];
+    var value = result["arup_dependentfieldvalue"];
+    var isDefault = result["arup_isdependentfielddefaultvalue"];
+    var isReadOnly = result["arup_isdependentfieldreadonly"];
+    depFieldSettings[value] = { isDefault: isDefault, isReadOnly: isReadOnly };
+};
+ArupFieldConfig.prototype.updateDependentOptionSets = function(dependentOptionSets) {
+    for (var attr in dependentOptionSets) {
+        if (dependentOptionSets.hasOwnProperty(attr)) {
+            // Get the default list of options for field "attr" and make sure that we only include the ones we want
+            var defaultOpts = this.defaultOptions;
+            var requiredOpts = dependentOptionSets[attr];
+            var target = Arup_validationsByAttribute[attr];
+            target.setError(false);
+            var targetNode = target.htmlNode();
+            targetNode.setAttribute("disabled", "false");
+            var defaultOpts = Arup_validationsByAttribute[attr].defaultOptions;
+            var onlyOneOption = (Object.keys(requiredOpts).length === 1);
+            if (onlyOneOption) {
+                targetNode.setAttribute("disabled", onlyOneOption);
             } else {
-                node.parentNode.classList.remove("hidden");
+                targetNode.removeAttribute('disabled');
             }
-        }
-        ArupFieldConfig.prototype.isHidden = function() {
-            var node = this.htmlNode();
-            if (!node) return true;
-            return node.parentNode.classList.contains("hidden");
-        };
-        ArupFieldConfig.prototype.recordDefaultOptions = function()
-        {
-            // copy the default option list to a backup.
-            this.defaultOptions = [];
-            var opts = this.htmlNode().options;
-            for (var i = 0; i < opts.length ; i++) {
-                var opt = opts[i];
-                this.defaultOptions.push({ value: opt.value, title: opt.title, text: opt.innerText });
-            }
-        }
-        var recordDependentOptions = function (dependentOptionSets, result) {
-            var depField = result["arup_dependentfieldname"];
-            if (!dependentOptionSets[depField] ) dependentOptionSets[depField] = {};
-            var depFieldSettings = dependentOptionSets[depField];
-            var value = result["arup_dependentfieldvalue"];
-            var isDefault = result["arup_isdependentfielddefaultvalue"];
-            var isReadOnly = result["arup_isdependentfieldreadonly"];
-            depFieldSettings[value] = { isDefault: isDefault, isReadOnly: isReadOnly };
-        };
-        ArupFieldConfig.prototype.updateDependentOptionSets = function(dependentOptionSets) {
-            for (var attr in dependentOptionSets) {
-                if (dependentOptionSets.hasOwnProperty(attr)) {
-                    // Get the default list of options for field "attr" and make sure that we only include the ones we want
-                    var defaultOpts = this.defaultOptions;
-                    var requiredOpts = dependentOptionSets[attr];
-                    var target = Arup_validationsByAttribute[attr];
-                    var targetNode = target.htmlNode();
-                    var defaultOpts = Arup_validationsByAttribute[attr].defaultOptions;
-                    // Clear the current option list and add the ones we want.
-                    if (!!defaultOpts) {
-                        targetNode.innerHTML= "";
-                        for (var i = 0; i < defaultOpts.length; i++) {
-                            var opt = defaultOpts[i];
-                            if (!!requiredOpts[opt.value]) {
-                                var newOpt = document.createElement("option");
-                                newOpt.setAttribute("value", opt.value);
-                                newOpt.setAttribute("title", opt.title);
-                                if (opt.isReadOnly) target.setAttribute("readonly");
-                                if (opt.isDefault) newOpt.setAttribute("selected");
-                                newOpt.innerHTML = opt.text;
-                                targetNode.options.add(newOpt);
-                            }
+
+            oppWizLog(" Setting " + Object.keys(requiredOpts).length + " options for " + attr );
+            // Clear the current option list and add the ones we want.
+            if (!!defaultOpts) {
+                targetNode.innerHTML= "";
+                for (var i = 0; i < defaultOpts.length; i++) {
+                    var opt = defaultOpts[i];
+                    if ( !opt.value || !!requiredOpts[opt.value]) {
+                        var newOpt = document.createElement("option");
+                        newOpt.setAttribute("value", opt.value);
+                        newOpt.setAttribute("title", opt.title);
+                        if (opt.isReadOnly) {
+                            targetNode.setAttribute("disabled", "true");
+                            oppWizLog("Setting Readonly on " + attr + " " + opt.value);
                         }
-                    } else {
-                        oppWizLog("No default options defined for " + attr);
+                        if (opt.isDefault || (onlyOneOption && !!opt.value)) {
+                            newOpt.setAttribute("selected","true");
+                            oppWizLog("Setting Default on " + attr + " " + opt.value);
+                        }
+                        newOpt.innerHTML = opt.text;
+                        targetNode.options.add(newOpt);
                     }
                 }
+            } else {
+                oppWizLog("No default options defined for " + attr);
             }
-        };
+        }
+    }
+};
 var setDependentField = function(result) {
     var attribute = result["arup_dependentfieldname"];
     var value = result["arup_dependentfieldvalue"];
@@ -1780,7 +1504,7 @@ ArupFieldConfig.prototype.setDependentFieldValues = function() {
             }
                 this.updateDependentOptionSets(dependentOptionSets);
             }.bind(this),
-            restQueryErrorDialog("unable to det dependent data"));
+            restQueryErrorDialog("unable to get dependent data"));
 };
 
 
@@ -1855,7 +1579,7 @@ function setDefaultByName(name) {
             Arup_validations[name].setDefault();
         } else {
             oppWizLog("Did not find element to set default by name : " + name);
-        }
+        }//
     }
 }
 
@@ -1896,8 +1620,20 @@ var Arup_validations_by_page = {
     page1: ['intorext', 'project_name', 'opporigin' ],
     page2: ['opportunityType', 'relatedopportunity', 'leadSource', 'crmframeworkexists', 'contractagreementref','crmframeworkrecord'],
     page3: ['contractarrangement', 'client', 'endclient'],
-    page4: ['project_country', 'project_state', 'project_city', 'arup_business', 'arup_subbusiness', 'arup_company', 'accountingcentre', 'opporigin', 'global_services','description'],
+    page4: ['project_country', 'project_state', 'project_city', 'arup_business', 'arup_subbusiness', 'arup_company', 'accountingcentre',  'global_services','description'],
 }
+
+function ArupPage(name, id) {
+    this.name = name;
+    this.id = id;
+}
+var Arup_pages = {
+    page1: ['intorext', 'project_name', 'opporigin'],
+    page2: ['opportunityType', 'relatedopportunity', 'leadSource', 'crmframeworkexists', 'contractagreementref', 'crmframeworkrecord'],
+    page3: ['contractarrangement', 'client', 'endclient'],
+    page4: ['project_country', 'project_state', 'project_city', 'arup_business', 'arup_subbusiness', 'arup_company', 'accountingcentre', 'global_services', 'description'],
+}
+
 
 function ArupValidationErrorDialog(errors) {
     var errorEntities = [];
@@ -1984,7 +1720,6 @@ var Arup_validations =
                 frameworkExists.checked = false;
                 frameworkExists.disabled = true;
                 // Procurement type set to Framework/Panel.. (2) and disabled
-                Arup_validations.opportunityType.procTypeFramework(true);
                 Arup_validations.crmframeworkexists.required = true;
                 break;
             case "770000004": // Existing Framework
@@ -1993,7 +1728,6 @@ var Arup_validations =
                 frameworkExists.checked = true;
                 frameworkExists.disabled = false;
                 // unlock procurement type
-                Arup_validations.opportunityType.procTypeFramework(false);
                 Arup_validations.crmframeworkexists.required = true;
                 break;
             default:
@@ -2001,7 +1735,6 @@ var Arup_validations =
                 frameworkExists.parentNode.classList.add("hidden");
                 contractref.parentNode.classList.add("hidden");
                 frameworkrec.parentNode.classList.add("hidden");
-                Arup_validations.opportunityType.procTypeFramework(false);
                 Arup_validations.contractagreementref.required = false;
                 Arup_validations.crmframeworkrecord.required = false;
                 Arup_validations.crmframeworkexists.required = false;
@@ -2012,26 +1745,7 @@ var Arup_validations =
                 Arup_validations.relatedopportunity.required = true;
             }
         };
-        o.procTypeFramework = function(enable) {
-            var procType = document.getElementById("contractarrangement");
-            if (enable) {
-                // Add Framework option to list.
-                procType.disabled = true;
-                var opt = document.createElement('option');
-                opt.value = 2;
-                opt.innerHTML = "Framework/Panel Appointment/On-Call Agreement/Call-Off Order";
-                procType.appendChild(opt);
-                procType.value = 2;
-            } else {
-                // procType.value = undefined;
-                procType.disabled = false;
-                for (var i = procType.options.length - 1; i > 0; i--) {
-                    if (procType.options[i].value == "2") {
-                        procType.options.remove(i);
-                    }
-                }
-            }
-        }
+
         return o;
     }(),
     relatedopportunity: function() {
@@ -2064,9 +1778,7 @@ var Arup_validations =
                 ")";
         };
         o.databind = true;
-        o.autocomplete = function(htmlNode) {
-            getClients(htmlNode);
-        };
+
         var OPPTYPE_PROJECT_EXTENSION_NEW = "770000002";
         var OPPTYPE_PROJECT_EXTENSION_EXISTING = "770000001";
         var OPPTYPE_ARCH_COMP_TEAM_OPPO = "770000006";
@@ -2284,7 +1996,9 @@ var Arup_validations =
         o.hasErrors = function() {
             var target = this.htmlNode();
             this.ensureSelected();
-
+            if (this.isErrored() && target.value != "" ) {
+                return "Specify client";
+            }
             return false;
         }.bind(o);
         o.value = function() {
@@ -2298,9 +2012,6 @@ var Arup_validations =
             }
             return "/accounts(" + clientId + ")";
         };
-        o.autocomplete = function(htmlNode) {
-            getClients(htmlNode);
-        };
         o.databind = true;
         o.oninput = function(e) { getClients(e.target, true) };
         o.onchange = function(e) {
@@ -2308,7 +2019,7 @@ var Arup_validations =
         };
         return o;
     }(),
-    endclient: function () {
+    endclient: function() {
         var o = new ArupFieldConfig("Ultimate/End Client", "ccrm_ultimateendclientid", "endclient");
         o.hasErrors = [
             function() {
@@ -2348,13 +2059,10 @@ var Arup_validations =
                 return undefined;
             }
         };
-        o.autocomplete = function(htmlNode) {
-                getClients(htmlNode);
-            },
-            o.oninput = function(e) { getClients(e.target, false) },
-            o.setValue = function(v) {
-                $('#endclient')[0].value = v;
-            };
+        o.oninput = function(e) { getClients(e.target, false) };
+        o.setValue = function(v) {
+            $('#endclient')[0].value = v;
+        };
         return o;
     }(),
     project_name: function () {
@@ -2828,6 +2536,8 @@ var Arup_validations =
             getUserData(function(result) {
                 if (result.hasOwnProperty("ccrm_accountingcentreid")) {
                     this.val = result["ccrm_accountingcentreid"]["ccrm_arupgroup"];
+                    Arup_validations.arup_group_code.val = result["ccrm_accountingcentreid"]["ccrm_arupgroupcode"];
+                    Arup_validations.arup_group_id.val = result["ccrm_accountingcentreid"]["ccrm_arupgroupid"];
                 } else {
                     oppWizLog("** User data did not contain arup group");
                 }
@@ -2853,41 +2563,8 @@ var Arup_validations =
         };
         return o;
     }(),
-        arup_group_code: function () {
-          var  o = new ArupFieldConfig("Arup Group Code", "ccrm_arupgroupcode");
-            o.setDefault = function(target) {
-                getUserData(function(result) {
-                    if (result.hasOwnProperty("ccrm_accountingcentreid")) {
-                        this.val = result["ccrm_accountingcentreid"]["ccrm_arupgroupcode"];
-                    } else {
-                        oppWizLog("** User data did not contain arup group code");
-                    }
-                });
-            };
-                return o;
-            }(),
-// This is a hidden field - set from CRM on load and not displayed to user.
-    //    name: "Arup Group Code",
-    //    value: function(target, _this) { return _this.val },
-    //    crmAttribute: "ccrm_arupgroupcode",
-    //    setDefault: function(target) {
-    //        getUserData(function(result) {
-    //            if (result.hasOwnProperty("ccrm_accountingcentreid")) {
-    //                this.val = result["ccrm_accountingcentreid"]["ccrm_arupgroupcode"];
-    //            } else {
-    //                oppWizLog("** User data did not contain arup group code");
-    //            }
-    //        });
-    //    },
-    //    val: undefined, // Set dynamically from default or on change of accoutning code.
-    //},
+    arup_group_code: new ArupFieldConfig("Arup Group Code", "ccrm_arupgroupcode"),
     arup_group_id: new ArupFieldConfigLookup("Arup Group Id", "ccrm_arupgroupid",null,"ccrm_arupgroups"),
-    //    {
-    //    name: "Arup Group Id",
-    //    crmAttribute: "ccrm_arupgroupid",
-    //    val: undefined, // Set dynamically from Accounting centre
-    //    value: function(target, _this) { return "/ccrm_arupgroups(" + _this.val + ")" },
-    //},
     K12: function () {
         var o = new ArupFieldConfig("Is it K-12 school?", "arup_k12school","K12");
         o.value = function () {
@@ -2937,7 +2614,7 @@ var Arup_validations =
     description: new ArupFieldConfig("Description", "description"),
     text1: new ArupFieldConfigText("Supporting Text 1", "arup_procurementmessage","ta1"),
     text2: new ArupFieldConfigText("Supporting Text 2", "arup_supportingtext2", "ta2"),
-            template: function () {
+    template: function() {
         var o = new ArupFieldConfig("Opportunity Type", "arup_opportunitytype", "template");
 
         o.setDefault = function() {
@@ -2952,7 +2629,8 @@ var Arup_validations =
         //    // Return the value of the field - default implementation is available in ArupFieldConfig
         //};
         // crmAttribute: "arup_opportunitytype", // Crm attribute tha this field maps to. Provided in ArupFieldConfig constructor above.
-        o.databind = true; // databinding normally goes by "id" at the end of the attribute name. This can be overriden by this field.
+        o.databind =
+            true; // databinding normally goes by "id" at the end of the attribute name. This can be overriden by this field.
         o.setValue = function(value, result) {
             // Optional function called to set the value of this field (i.e. when populated from parent.)
         };
@@ -2963,6 +2641,6 @@ var Arup_validations =
                 // _this is the current config/validation element - Arup_validations.template in this case.
             }.bind(o);
         return o;
-    }(),
+    }()
 }
 
