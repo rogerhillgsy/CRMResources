@@ -99,7 +99,7 @@
         <h1 class="mainPage">
             <b>New Opportunity Wizard</b>
         </h1>
-        <h4 class="mainPage1 am-6 pull-right" id="projectNameTitle"></h4>
+        <h4 class="mainPage1 am-6 pull-right" id="projectNameTitle">&nbsp;</h4>
     </div>
     <br>
     <div class="container" width="100%" height="100%" id="mysub">
@@ -131,7 +131,6 @@
                 <div class="container">
                     <div class="col-lg-8">
                         <div class="wizard-step" style="display: block;" id="UR_Step">
-
                             <div class="container" id="UR">
                                 <form id="URForm">
                                     <div class="arup-align-items-bottom row">
@@ -304,29 +303,30 @@
                                             <label><input type="checkbox" name="global_services" value="100000002" tabindex="30" /> Planning</label>&nbsp;&nbsp;
                                             <label><input type="checkbox" name="global_services" value="770000000" tabindex="31" /> Not Applicable</label>&nbsp;&nbsp;
                                             <label><input type="checkbox" name="global_services" value="100000003" tabindex="32" /> Other</label>
-                                        </p>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="arup_company">Arup Company:</label>
-                                            <input list="companies" id="arup_company" class="form-control input-form" name="arup_company" title="Input Company" autocomplete="aoff" tabindex="23" />
-                                            <datalist id="companies">
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="accountingcentre">Accounting Centre:</label>
-                                            <input list="accountingcentres" id="accountingcentre" class="form-control input-form" name="accountingcentre" title="Input Accounting Centre" autocomplete="off" tabindex="24" />
-                                            <datalist id="accountingcentres">
-                                            </datalist>
-                                        </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="arup_company">Arup Company:</label>
+                                        <input list="companies" id="arup_company" class="form-control input-form" name="arup_company" title="Input Company" autocomplete="aoff" tabindex="23" />
+                                        <datalist id="companies">
+                                        </datalist>
+                                    </div>
+                                    <div class="form-group col-lg-6 invisible">
+                                        <label for="globalservices_other">Global Services (Other):</label>
+                                        <input id="globalservices_other" class="form-control input-form" tabindex="33" autocomplete="off" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="accountingcentre">Accounting Centre:</label>
+                                        <input list="accountingcentres" id="accountingcentre" class="form-control input-form" name="accountingcentre" title="Input Accounting Centre" autocomplete="off" tabindex="24" />
+                                        <datalist id="accountingcentres">
+                                        </datalist>
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="description">Project Summary:</label>
-                                        <textarea id="description" class="form-control input-form" style="min-height: 72px; overflow: auto; height: auto;" maxlength="2000" role="textbox" attrname="description" tabindex="33"></textarea>
+                                        <textarea id="description" class="form-control input-form" style="min-height: 72px; overflow: auto; height: auto;" maxlength="2000" role="textbox" attrname="description" tabindex="34"></textarea>
                                     </div>
                                     <div class="form-group col-lg-6 hidden">
                                         <label for="K12">Is it K-12 School:</label>
-                                        <input type="checkbox" id="K12" name="isK12" />
+                                        <input type="checkbox" id="K12" name="isK12" tabindex="35" />
                                     </div>
                                     <br />
                                 </div>
