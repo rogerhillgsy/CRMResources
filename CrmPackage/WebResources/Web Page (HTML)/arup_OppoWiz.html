@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="arup_BootStrap_ThemeCSS">
     <link rel="stylesheet" href="arup_Bootstrap_TableCSS">
     <link rel="stylesheet" href="arup_Bootstrap_MultiselectCSS">
-    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css">-->
     <link rel="stylesheet" href="/uclient/resources/styles/Styles.css" />
     <link rel="stylesheet" href="arup_OppoWiz.css">
     <script type="text/javascript" src="ccrm_/JavaScripts/Lib/jquery_3.2.0.min"></script>
@@ -136,28 +135,22 @@
                                     <div class="arup-align-items-bottom row">
                                         <div class="form-group col-lg-6">
                                             <h2>Arup Internal </h2>
-                                            <p>
-                                                <b><ins>Select whether the new opportunity is either Internal or External</ins></b>
-                                            </p>
                                             <div class="radio">
                                                 <label><input type="radio" name="intorext" value="INT">&nbsp;Internal</label>
                                             </div>
                                             <div class="radio">
                                                 <label><input type="radio" name="intorext" value="NOTINT" autofocus>&nbsp;External</label>
                                             </div>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label for="project_name">Project Name:</label>
-                                            <input id="project_name" class="form-control input-form" name="project_name" type="text" maxlength="200" attrname="name" autocomplete="off">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-lg-6"></div>
-                                        <div class="form-group col-lg-6">
-                                            <label for="opporigin">Opportunity Originator:</label>
-                                            <input list="users" id="opporigin" class="form-control input-form" name="opporigin" title="Input Staff name" autocomplete="off" placeholder="Arup staff name" />
-                                            <datalist id="users">
-                                            </datalist>
+                                            <div class="form-group">
+                                                <label for="project_name">Project Name:</label>
+                                                <input id="project_name" class="form-control input-form" name="project_name" type="text" maxlength="200" attrname="name" autocomplete="off">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="opporigin">Opportunity Originator:</label>
+                                                <input list="users" id="opporigin" class="form-control input-form" name="opporigin" title="Input Staff name" autocomplete="off" placeholder="Arup staff name" />
+                                                <datalist id="users">
+                                                </datalist>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>

@@ -82,7 +82,7 @@ $.fn.wizard = function (config) {
     };
     var validateFinish = config.validateFinish || function () { return true; };
 
-    var contBack = function (step) {
+    var contBack = function () {
         
         $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");//.append('<div><h3>'+newName4+'</h3></div>');
         step--;
