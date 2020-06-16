@@ -83,7 +83,6 @@ function Form_onload(executionContext) {
         filterLeadsGrid(formContext);
         country_onChange(executionContext);
         IsRegisteredAddressFromParentRecord(formContext);
-        toggleSections(formContext);
         prepareCheckOptions(formContext);
         DisplayCOVID19Section(userRegion, formContext);
         displayRelationshipTab(formContext);
@@ -993,23 +992,6 @@ function AssignRegistrationDetails(results, legalClientName, formContext) {
             ],
             "INFO", 600, 200, '', true);
         formContext.getAttribute("arup_pulldatafromparentrecord").setValue(0);
-    }
-}
-
-function toggleSectionsOnChange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    toggleSections(formContext);
-}
-
-function toggleSections(formContext) {
-    var staterel = formContext.getAttribute("ccrm_enablerelationship").getValue();
-    if (staterel) {
-        formContext.ui.tabs.get("tab_Activites").setVisible(true);
-        //formContext.ui.tabs.get("tab_Activites").sections.get("Interactions").setVisible(true);
-    }
-    else {
-        formContext.ui.tabs.get("tab_Activites").setVisible(false);
-        //formContext.ui.tabs.get("tab_Activites").sections.get("Interactions").setVisible(false);
     }
 }
 
