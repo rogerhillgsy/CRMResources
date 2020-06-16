@@ -946,36 +946,10 @@ function setup_display_other_field(formContext, otherNetworksVal, otherNetworksD
 
 function display_other_field(formContext, otherNetworksVal, otherNetworksDetail, isOtherFieldRequired, isToBeHidden) {
     var value = formContext.getAttribute(otherNetworksVal).getValue();
-    // var notApplicable = false;
     var otherNetworkDetails = formContext.getControl(otherNetworksDetail);
-
-    //if (otherNetworksVal == 'arup_globalservices' && value != null) {
-    //    notApplicable = value.indexOf(770000000) >= 0;
-    //}
 
     if (!!otherNetworkDetails) {
 
-        //if (otherNetworksVal == 'arup_globalservices') {
-
-        //    //if (!!value && isOtherFieldRequired(value) && !notApplicable) {
-        //    if (!!value && value.indexOf(100000003) >= 0 && !notApplicable) {
-        //        otherNetworkDetails.getAttribute().setRequiredLevel("required");
-        //        otherNetworkDetails.setVisible(true);
-        //        return;
-        //    } else if (notApplicable) {
-
-        //        //formContext.getAttribute("ccrm_othernetworksdisp").setValue('Not Applicable');
-        //        //formContext.getAttribute("ccrm_othernetworksval").setValue('770000000');
-        //        formContext.getAttribute("arup_globalservices").setValue([770000000]);
-        //    }
-
-        //    formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
-        //    formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
-        //    formContext.getAttribute("ccrm_othernetworkdetails").setValue(null);
-
-        //}
-
-        //else {
         if (!!value && isOtherFieldRequired(value)) {
             otherNetworkDetails.getAttribute().setRequiredLevel("required");
             otherNetworkDetails.setVisible(true);
@@ -985,7 +959,7 @@ function display_other_field(formContext, otherNetworksVal, otherNetworksDetail,
                 otherNetworkDetails.setVisible(false);
             }
         }
-        //}
+   
     }
 }
 
@@ -5001,12 +4975,12 @@ function stageNotifications(formContext) {
             formContext.ui.clearFormNotification("FinancePendingMsg");
         else {
             formContext.ui.setFormNotification(financeMsg, "WARNING", "FinancePendingMsg");
-            formContext.data.save();
+          //  formContext.data.save();
         }
         setTimeout(function () { formContext.ui.clearFormNotification("FinancePendingMsg"); }, 10000);
     }
     if (stageid == ArupStages.ConfirmJob) {
-        var triggerSave = false;
+      //  var triggerSave = false;
 
         //Added to give notification about Project Participant addition
 
@@ -5018,11 +4992,11 @@ function stageNotifications(formContext) {
             jobnoprogval == null) {
             formContext.getAttribute("ccrm_sys_confirmedjob_buttonhide").setValue(false);
             formContext.getAttribute("ccrm_systemcjnarequesttrigger").setValue(true);
-            triggerSave = true;
+           // triggerSave = true;
         }
-        if (triggerSave) {
-            setTimeout(function () { formContext.data.save(null); }, 500);
-        }
+        //if (triggerSave) {
+        //    setTimeout(function () { formContext.data.save(null); }, 500);
+        //}
     }
 
     FormNotificationForOpportunityType(formContext, formContext.getAttribute("arup_opportunitytype").getValue());
@@ -5081,36 +5055,6 @@ function onMovePrevious(returnStatus) {
 function restoreFieldVal(formContext, stageid) {
 
     var fields = new Array();
-    /* if (stageid == ArupStages.BidDevelopment)
-         fields = [
-             'ccrm_estimatedvalue_num', 'ccrm_projecttotalincome_num', 'ccrm_projectdirector_userid',
-             'ccrm_projectmanager_userid', 'ccrm_estexpenseincome_num', 'ccrm_estprojectresourcecosts_num',
-             'ccrm_estprojectoverheads_num', 'ccrm_projecttotalcosts_num', 'ccrm_profitasapercentageoffeedec',
-             'ccrm_estarupinvolvementstart', 'ccrm_estarupinvolvementend', 'ccrm_estprojectstaffoverheadsrate',
-             'ccrm_estprojectexpenses_num', 'ccrm_estprojectprofit_num', 'ccrm_location', 'ccrm_chargingbasis',
-             'ccrm_bidreviewchair_userid'
-         ];*/
-
-    //Commented section below as it is not required to reset the fields for CRM 2016 BPF at every stage.
-    /*
-    if (stageid == ArupStages.ConfirmJob)
-        fields = [
-            'ccrm_estimatedvalue_num', 'ccrm_projecttotalincome_num', 'ccrm_projectdirector_userid',
-            'ccrm_projectmanager_userid', 'ccrm_estexpenseincome_num', 'ccrm_estprojectresourcecosts_num',
-            'ccrm_estprojectoverheads_num', 'ccrm_projecttotalcosts_num', 'ccrm_profitasapercentageoffeedec',
-            'ccrm_estarupinvolvementstart', 'ccrm_estarupinvolvementend', 'ccrm_pirequirement',
-            'ccrm_estprojectstaffoverheadsrate', 'ccrm_estprojectexpenses_num', 'ccrm_estprojectprofit_num',
-            'ccrm_location', 'ccrm_chargingbasis', 'ccrm_servicesname', 'ccrm_projectsectorname', 'ccrm_theworksname',
-            'ccrm_pilevelmoney_num'
-        ];*/
-    //CRM2016 Bug 34932
-    /*   if (stageid == ArupStages.BidReviewApproval)
-           fields = [
-               'ccrm_bidreviewchair_userid', 'ccrm_servicesname', 'ccrm_projectsectorname', 'ccrm_theworksname',
-               'ccrm_pirequirement', 'ccrm_geographicmanagerproxyconsulted2', 'ccrm_geographicmanagerid',
-               'ccrm_pilevelmoney_num', 'ccrm_contractconditions', 'ccrm_bidreview'
-           ];*/
-
     if (stageid == ArupStages.BidSubmitted)
         fields = ['ccrm_bidsubmission'];
 
@@ -6197,66 +6141,7 @@ function IsFormValidForCJN(formContext) {
 
 function requestConfirmJob(formContext) {
     debugger;
-    //var arupInternal = formContext.getAttribute('ccrm_arupinternal').getValue();
-
-    //var v1 = formContext.getAttribute('ccrm_chargingbasis').getValue();
-    //var v2 = formContext.getAttribute('ccrm_estexpenseincome_num').getValue();
-    //var v3 = formContext.getAttribute('ccrm_projecttotalincome_num').getValue();
-    //var v4 = formContext.getAttribute('ccrm_projectmanager_userid').getValue();
-    //var v5 = formContext.getAttribute('ccrm_projectdirector_userid').getValue();
-    //var v6 = formContext.getAttribute('ccrm_estprojectresourcecosts_num').getValue();
-    //var v7 = formContext.getAttribute('ccrm_estarupinvolvementstart').getValue();
-    //var v8 = formContext.getAttribute('ccrm_estarupinvolvementend').getValue();
-    //var v9 = formContext.getAttribute('ccrm_estimatedvalue_num').getValue();
-    //var v10 = formContext.getAttribute('ccrm_estprojectoverheads_num').getValue();
-    //var v11 = formContext.getAttribute('ccrm_estprojectexpenses_num').getValue();
-    //var v12 = formContext.getAttribute('ccrm_projecttotalcosts_num').getValue();
-    //var v13 = formContext.getAttribute('ccrm_estprojectprofit_num').getValue();
-    //var v14 = formContext.getAttribute('ccrm_profitasapercentageoffeedec').getValue();
-    //var v19 = formContext.getAttribute('ccrm_shorttitle').getValue();
-    //// the fields below should only be mandatory for external opporutnities for CJN's
-    //var v15 = formContext.getAttribute('arup_projecttype').getValue();
-    //var v16 = formContext.getAttribute('arup_services').getValue();
-    //var v17 = formContext.getAttribute('arup_projectsector').getValue();
-    //var v18 = formContext.getAttribute('ccrm_pilevelmoney_num').getValue();
-    //var v21 = formContext.getAttribute('ccrm_pirequirement').getValue();
-
-    //var v20 = 0; //needs to be 1
-    //validateAccCenter(formContext, false);
-    //v20 = formContext.getAttribute('ccrm_validaccountingcentre').getValue(); //needs to be 1
-
-    //var incompleteData = false;
-
-    //if (v1 == null ||
-    //    v2 == null ||
-    //    v3 == null ||
-    //    v4 == null ||
-    //    v5 == null ||
-    //    v6 == null ||
-    //    v7 == null ||
-    //    v8 == null ||
-    //    v9 == null ||
-    //    v10 == null ||
-    //    v11 == null ||
-    //    v12 == null ||
-    //    v13 == null ||
-    //    v14 == null ||
-    //    v19 == null) incompleteData = true;
-
-
-    //if (!arupInternal && !incompleteData && ((v15 == null || v15.length == 0) || (v16 == null || v16.length == 0) || (v17 == null || v17.length == 0) || (v21 == PI_REQUIREMENT.MIN_COVER && v18 == null)))
-    //    incompleteData = true;
-
-    //if (v20 == 0) { }
-    //else if (incompleteData) {
-    //    formContext.data.save();
-    //    formContext.ui.setFormNotification("Please fill in all mandatory fields", "WARNING", "reqCJNWarnMsg-mandfields");
-    //    setTimeout(function () { formContext.ui.clearFormNotification("reqCJNWarnMsg-mandfields"); }, 10000);
-
-    //    formContext.getAttribute("ccrm_shorttitle").setRequiredLevel("required");
-
-  
-    //} else {
+   
     if (IsFormValidForCJN(formContext)) {
         if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
         //[RS - Added project participant check for PBI - 39838]
@@ -7016,7 +6901,7 @@ function isPartOfDQTeam(formContext) {
 
 //Param - teamm name . This function checks whether the logged in user is a member of the team. Returns true if he/ she is a member.
 function userInTeamCheck(formContext, TeamNameInput) {
-    debugger;
+   
     var IsPresentInTeam = false;
 
     try {
