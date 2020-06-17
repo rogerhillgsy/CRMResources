@@ -346,14 +346,10 @@ function fetchContactPhones(contactID) {
 
     Xrm.WebApi.online.retrieveRecord("contact", contactID, "?$select=mobilephone,telephone1").then(
         function success(result) {
-            var mobilephone = result["mobilephone"];
-            var telephone = result["telephone1"];
-            if (mobilephone != null) {
-                Xrm.Page.getAttribute('arup_contactmobile').setValue(mobilephone);
-            }
-            if (telephone != null) {
-                Xrm.Page.getAttribute('arup_contacttelephone').setValue(telephone);
-            }
+            var mobilephone = result["mobilephone"] != null ? result["mobilephone"] : null;
+            var telephone = result["telephone1"] != null ? result["telephone1"] : null;
+            Xrm.Page.getAttribute('arup_contactmobile').setValue(mobilephone);
+            Xrm.Page.getAttribute('arup_contacttelephone').setValue(telephone);
         },
         function (error) {
             Xrm.Utility.alertDialog(error.message);
