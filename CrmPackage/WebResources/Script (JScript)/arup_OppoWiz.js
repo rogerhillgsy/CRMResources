@@ -12,6 +12,37 @@ var dBSelected = [];
 var proctype = $("#contractarrangement");
 var onceload = true;
 
+//(function (doc, win, add, remove, loaded, load) {
+//    doc.ready = new Promise(function (resolve) {
+//        if (doc.readyState === 'complete') {
+//            resolve();
+//        } else {
+//            function onReady() {
+//                resolve();
+//                doc[remove](loaded, onReady, true);
+//                win[remove](load, onReady, true);
+//            }
+//            doc[add](loaded, onReady, true);
+//            win[add](load, onReady, true);
+//        }
+//    });
+//})(document, window, 'addEventListener', 'removeEventListener', 'DOMContentLoaded', 'load');
+
+var loaded = null;
+var AllLoaded = function () {
+    if (loaded == null) {
+        loaded = new Promise(function (resolve, reject) {
+            $(window).on('load',
+                function () {
+                    oppWizLog("All Loaded");
+                    resolve("loaded");
+                });
+        });
+    }
+    return loaded; // Promise that all files have been loaded.
+}
+
+
 $.fn.wizard = function (config) {
     if (!config) {
         config = {};
@@ -631,18 +662,22 @@ function getCompanies(receive) {
 // Create an ajax query/promise to get data for the current user which can then be used
 // Asynchronously by calling getUserData() to populate default values.
 var userDataPromise = function () {
-    var targetEntity = "systemusers(" + parent.Xrm.Page.context.getUserId().replace(/[{}]/g, "") + ")";
-    var userDataQuery =
-        "$select=_ccrm_arupcompanyid_value,ccrm_staffid,fullname,systemuserid&" +
-            "$expand=ccrm_accountingcentreid($select=ccrm_arupaccountingcode,ccrm_arupaccountingcodeid,ccrm_arupcompanycode,ccrm_arupgroup,ccrm_arupgroupcode,ccrm_name,ccrm_practice," +
-            "ccrm_practicecode,ccrm_subpractice,ccrm_subpracticecode,statecode,statuscode),ccrm_arupcompanyid($select=ccrm_arupcompanyid,ccrm_name,statecode,statuscode,_ccrm_arupregionid_value)";
-    var promise = FetchCRMData(targetEntity, userDataQuery, null, 0);
-    promise.then(
-        function receive(results) {
-            oppWizLog("Got User Data");
+    return new Promise(function(resolve, reject) {
+        AllLoaded().then(function() {
+            var targetEntity = "systemusers(" + parent.Xrm.Page.context.getUserId().replace(/[{}]/g, "") + ")";
+            var userDataQuery =
+                "$select=_ccrm_arupcompanyid_value,ccrm_staffid,fullname,systemuserid&" +
+                    "$expand=ccrm_accountingcentreid($select=ccrm_arupaccountingcode,ccrm_arupaccountingcodeid,ccrm_arupcompanycode,ccrm_arupgroup,ccrm_arupgroupcode,ccrm_name,ccrm_practice," +
+                    "ccrm_practicecode,ccrm_subpractice,ccrm_subpracticecode,statecode,statuscode),ccrm_arupcompanyid($select=ccrm_arupcompanyid,ccrm_name,statecode,statuscode,_ccrm_arupregionid_value)";
+            FetchCRMData(targetEntity, userDataQuery, null, 0)
+                .then(
+                    function receive(results) {
+                        oppWizLog("Got User Data");
+                        resolve(results);
+                    },
+                    restQueryErrorDialog("Getting initial user data"));
         });
-    promise.catch(restQueryErrorDialog("Getting initial user data"));
-    return promise;
+    });
 }();
 
 function getUserData(receive) {
@@ -1087,32 +1122,36 @@ function fillOpportunityResults(data) {
 }
 
 function FetchCRMData(entityName, select, target, maxRecords) {
-    maxRecords = (typeof(maxRecords) === "undefined") ? 25 : maxRecords;
-    var url = parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/" + entityName + "?" + select;
-    var promise = $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        datatype: "json",
-        url: url,
-        beforeSend: function(XMLHttpRequest) {
-            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-            XMLHttpRequest.setRequestHeader("Accept", "application/json");
-            if (maxRecords != 0) {
-                XMLHttpRequest.setRequestHeader("Prefer",
-                    "odata.include-annotations=\"*\",odata.maxpagesize=" + maxRecords);
-            }
-        },
-        async: true,
-    })
-        .catch(function reject(error) {
-            oppWizLog("Error in FetchCRM Data " + error);
-             debugger;
-        });
-    promise.catch(function() { oppWizLog("FetchCRMData failed on " + url) });
-    promise.always(function() { !!target && target.classList.remove("waiting-for-crm") });
-    if (!!target) target.classList.add("waiting-for-crm");
-    return promise;
+    var p2 = AllLoaded().then(function() {
+        maxRecords = (typeof(maxRecords) === "undefined") ? 25 : maxRecords;
+        var url = parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/" + entityName + "?" + select;
+        var promise = $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: url,
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    if (maxRecords != 0) {
+                        XMLHttpRequest.setRequestHeader("Prefer",
+                            "odata.include-annotations=\"*\",odata.maxpagesize=" + maxRecords);
+                    }
+                },
+                async: true,
+            })
+            .catch(function reject(error) {
+                oppWizLog("Error in FetchCRM Data " + error);
+                debugger;
+            });
+        promise.catch(function() { oppWizLog("FetchCRMData failed on " + url) });
+        promise.always(function() { !!target && target.classList.remove("waiting-for-crm") });
+        if (!!target) target.classList.add("waiting-for-crm");
+
+        return promise;
+    });
+    return p2;
 }
 
 function restQueryErrorDialog(message, url, reject) {
