@@ -1,6 +1,10 @@
+var isFromContact = false;
+var isToContact = false;
+
 function onForm_Load(executionContext) {
 
-    filterOnLoad();
+    filterOnLoad('from');
+    filterOnLoad('to');
     //duedate_onchange();
     addEventHandler();
 
@@ -10,8 +14,45 @@ function onForm_Load(executionContext) {
 
 }
 
-function onForm_save() {
+function onForm_save(executionContext) {
 
+    if (isFromContact && isToContact) {
+
+        var saveEvent = executionContext.getEventArgs();
+
+        Alert.show('<font size="6" color="#FF9B1E"><b>Error</b></font>',
+            '<font size="3" color="#000000">Both To and From cannot be Contacts</font>',
+            [
+                {
+                    label: "<b>OK</b>",
+                    setFocus: true,
+                    preventClose: false
+                }
+            ],
+            'Error', 500, 250, '', true);
+
+        saveEvent.preventDefault();
+    }
+
+    else {
+        var lookupValue = new Array();
+        var contact = isPartyContact('from');
+
+        Xrm.Page.getAttribute('directioncode').setValue(contact == null ? true : false);
+
+        if (contact == null) {
+            contact = isPartyContact('to');
+        }
+        if (contact != null) {
+            lookupValue[0] = new Object();
+            lookupValue[0].id = contact.id;
+            lookupValue[0].name = contact.name;
+            lookupValue[0].entityType = "contact";
+        }
+
+        Xrm.Page.getAttribute('arup_keyperson').setValue(lookupValue);
+
+    }
 }
 
 function duedate_onchange() {
@@ -23,6 +64,25 @@ function duedate_onchange() {
     //Xrm.Page.getControl('arup_sentiment').setVisible(visible);
     //Xrm.Page.getControl('arup_outcome').setVisible(visible);
 
+}
+
+function isPartyContact(attributeName) {
+
+    var party = Xrm.Page.getAttribute(attributeName);
+    var members = party.getValue();
+    if (members == null) { return; }
+    var contact;
+
+    for (var i = members.length - 1; i >= 0; i--) {
+
+        // If not Contact type, process next element
+        if (members[i].entityType == 'contact') {
+            contact = { id: members[i].id, name: members[i].name };
+            return contact;
+        }
+
+    }
+    return null;
 }
 
 function markAsComplete() {
@@ -129,11 +189,45 @@ function changeLookFor(fieldName) {
     control.setEntityTypes(['contact']);
 }
 
-function filterOnLoad(executionContext) {
+function filterOnLoad(attributeName) {
 
-    var lookupFor = ['contact', 'systemuser'];
-    var fieldList = ['from', 'to'];
-    filterField(fieldList, lookupFor);
+    var lookupFor;
+    var fieldList;
+    var contactID = isPartyContact(attributeName);
+    if (attributeName == 'from') {
+        isFromContact = contactID != null;
+    }
+    else if (attributeName == 'to') {
+        isToContact = contactID != null;
+    }
+    if (contactID != null) {
+        lookupFor = ['systemuser'];
+        fieldList = [attributeName == 'from' ? 'to' : 'from'];
+        filterField(fieldList, lookupFor);
+
+        if (attributeName == 'from' && isToContact)
+            Xrm.Page.getAttribute('to').setValue(null);
+        else if (attributeName == 'to' && isFromContact)
+            Xrm.Page.getAttribute('from').setValue(null);
+
+        lookupFor = ['contact', 'systemuser'];
+        fieldList = [attributeName];
+        filterField(fieldList, lookupFor);
+        return;
+    }
+    else {
+        lookupFor = ['contact', 'systemuser'];
+        if (!isFromContact && !isToContact) {
+            fieldList = ['from', 'to'];
+        }
+        else if (!isFromContact && isToContact) {
+            fieldList = ['to'];
+        }
+        else if (isFromContact && !isToContact) {
+            fieldList = ['from'];
+        }
+        filterField(fieldList, lookupFor);
+    }
 
     // Xrm.Page.getAttribute('regardingobjectid').setLookupTypes('contact');
     //filterField(['contact'], ['regardingobjectid']);
@@ -160,25 +254,34 @@ function setOrganisation(fieldname) {
 
     var party = Xrm.Page.getAttribute(fieldname);
     var members = party.getValue();
-    var organisation = Xrm.Page.getAttribute('arup_organisationid').getValue();
+    var contact;
+    //var organisation = Xrm.Page.getAttribute('arup_organisationid').getValue();
+    var organisation = null;
     var keyPerson = Xrm.Page.getAttribute('regardingobjectid').getValue();
     var lookupOrg = organisation == null;
     var lookupKeyPerson = fieldname == 'to'; /* always overwrite Keyperson as it's a hidden field and cannot be manually set, but only from Call To field */
 
+    filterOnLoad(fieldname);
+
+    contact = isPartyContact(fieldname);
+    if (contact != null) {
+        fetchContactPhones(contact.id);
+    }
+
     if (members == null || (!lookupOrg && !lookupKeyPerson)) { return; }
 
     //loop in reverse to get the value of the first contact
-    if (lookupOrg) {
-        for (var i = members.length - 1; i >= 0; i--) {
+    //if (lookupOrg) {
+    //    for (var i = members.length - 1; i >= 0; i--) {
 
-            // If not Contact type, process next element
-            if (members[i].type != 2 || organisation != null) { continue; }
+    //        // If not Contact type, process next element
+    //        if (members[i].type != 2 || organisation != null) { continue; }
 
-            //fetch contact record and get its Current Organisation to pre-populate Organisation field's value
-            orgFound = fetchCurrentOrganisation(members[i].id, members[i].name, 'arup_organisationid');
-            organisation = Xrm.Page.getAttribute('arup_organisationid').getValue();
-        }
-    }
+    //        //fetch contact record and get its Current Organisation to pre-populate Organisation field's value
+    //        orgFound = fetchCurrentOrganisation(members[i].id, members[i].name, 'arup_organisationid');
+    //        organisation = Xrm.Page.getAttribute('arup_organisationid').getValue();
+    //    }
+    //}
 
     //loop in reverse to get the value of the first contact
     if (lookupKeyPerson) {
@@ -237,6 +340,25 @@ function setLookupField(id, name, entity, field) {
     } else {
         Xrm.Page.getAttribute(field).setValue(null);
     }
+}
+
+function fetchContactPhones(contactID) {
+
+    Xrm.WebApi.online.retrieveRecord("contact", contactID, "?$select=mobilephone,telephone1").then(
+        function success(result) {
+            var mobilephone = result["mobilephone"];
+            var telephone = result["telephone1"];
+            if (mobilephone != null) {
+                Xrm.Page.getAttribute('arup_contactmobile').setValue(mobilephone);
+            }
+            if (telephone != null) {
+                Xrm.Page.getAttribute('arup_contacttelephone').setValue(telephone);
+            }
+        },
+        function (error) {
+            Xrm.Utility.alertDialog(error.message);
+        }
+    );
 }
 
 // runs on Exit button
