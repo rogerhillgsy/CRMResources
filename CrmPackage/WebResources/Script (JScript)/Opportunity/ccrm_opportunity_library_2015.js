@@ -4349,6 +4349,8 @@ function SimilarBidsDuplicate(formContext) {
         : '';
     paramstr += '&id=' + formContext.data.entity.getId();
 
+    paramstr += '&clientURL=' + formContext.context.getClientUrl();
+
     var pageInput = {
         pageType: "webresource",
         webresourceName: "ccrm_duplicatebids",
