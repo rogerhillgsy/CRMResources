@@ -43,7 +43,7 @@ function Form_onload(executionContext) {
     var formContext = executionContext.getFormContext();
 
     globalDQTeam = isUserInTeamCheck(formContext);
-
+    formContext.getControl('arup_duediligencecheck').removeOption(2);
     formItem = formContext.ui.formSelector.getCurrentItem();
     var formName = formItem.getLabel();
 
@@ -86,6 +86,7 @@ function Form_onload(executionContext) {
         prepareCheckOptions(formContext);
         DisplayCOVID19Section(userRegion, formContext);
         displayRelationshipTab(formContext);
+
     }
 }
 

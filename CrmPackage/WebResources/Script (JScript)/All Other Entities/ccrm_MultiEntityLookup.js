@@ -432,35 +432,61 @@ function filterEventsBasedOnUserCurrency(formContext) {
 }
 
 function addCustomCurrencyFilter(formContext) {
-    var functionName = "addCustomCurrencyFilter";
-    var recordId = formContext.data.entity.getId();
     var userId = formContext.context.getUserId();
     userId = userId.substring(1, userId.length - 1);
-    var currencyFetchfromUser = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>\
-    <entity name='usersettings' >\
-    <attribute name='transactioncurrencyid' />\
-    <filter>\
-      <condition attribute='systemuserid' operator='eq' value='"+ userId + "' />\
-    </filter>\
-    <link-entity name='transactioncurrency' from='transactioncurrencyid' to='transactioncurrencyid' link-type='inner' alias='currency' >\
-      <attribute name='isocurrencycode' />\
-      <attribute name='currencyname' />\
-    </link-entity>\
-     </entity>\
-    </fetch>"
-    var currencyRecord = XrmServiceToolkit.Soap.Fetch(currencyFetchfromUser);
+    var transactioncurrencyid_value = null;
+    var userCurrency = "GBP";
 
-    if (currencyRecord.length > 0) {
-        if (currencyRecord[0].attributes["currency.isocurrencycode"] != undefined) {
-            userCurrency = currencyRecord[0].attributes["currency.isocurrencycode"].value;
-            if (userCurrency != "GBP" && userCurrency != "HKD" && userCurrency != "USD" && userCurrency != "AUD" && userCurrency != "EUR")
-                userCurrency = "GBP";
+    var req = new XMLHttpRequest();
+    req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/usersettingscollection(" + userId + ")?$select=_transactioncurrencyid_value", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var result = JSON.parse(this.response);
+                transactioncurrencyid_value = result["_transactioncurrencyid_value"];
+
+            } else {
+                Xrm.Utility.alertDialog(this.statusText);
+            }
         }
+    };
+    req.send();
+
+    if (transactioncurrencyid_value != null) {
+        var req = new XMLHttpRequest();
+        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/transactioncurrencies("+transactioncurrencyid_value+")?$select=currencyname,isocurrencycode", false);
+        req.setRequestHeader("OData-MaxVersion", "4.0");
+        req.setRequestHeader("OData-Version", "4.0");
+        req.setRequestHeader("Accept", "application/json");
+        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+        req.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 200) {
+                    var result = JSON.parse(this.response);
+                    var currencyname = result["currencyname"];
+                    var isocurrencycode = result["isocurrencycode"];
+
+                    if (isocurrencycode != "" || isocurrencycode != null) {
+                        userCurrency = isocurrencycode;
+                        if (userCurrency != "GBP" && userCurrency != "HKD" && userCurrency != "USD" && userCurrency != "AUD" && userCurrency != "EUR")
+                            userCurrency = "GBP";
+                    } 
+                } else {
+                    Xrm.Utility.alertDialog(this.statusText);
+                }
+            }
+        };
+        req.send();
     }
-    else {
-        userCurrency = "GBP";
-    }
-    //var userCurrency = "GBP";
+
     var filter = "<filter type='and'>\
       <filter type='or'>\
         <filter type='and'>\
