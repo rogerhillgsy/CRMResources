@@ -86,7 +86,6 @@ function Form_onload(executionContext) {
         prepareCheckOptions(formContext);
         DisplayCOVID19Section(userRegion, formContext);
         displayRelationshipTab(formContext);
-
     }
 }
 
@@ -486,15 +485,6 @@ function uselocaladdress_onchange(formContext) {
     sectionObj.setVisible(isVisible);
 }
 
-//function arup_highriskclient_onchange(formContext) {
-//    var relationshipManager = formContext.getAttribute("ccrm_keyaccountmanagerid").getValue() == null ? 'Relationship Manager for this client.' : formContext.getAttribute("ccrm_keyaccountmanagerid").getValue()[0].name + ', the Client Relationship manager.';
-//    var highRisk = formContext.getAttribute("arup_highriskclient").getValue();
-//    if (highRisk) {
-//        Notify.addOpp("<span style='font-weight:bold; color: white'>Before pursuing any opportunities with this client, please contact " + relationshipManager + " </span>", "WARNING", "highriskclient");
-//    }
-//    else { Notify.remove("highriskclient"); }
-//}
-
 function setDate(execContext) {
     var formContext = execContext.getFormContext();
     alert("Set Date function is called");
@@ -726,12 +716,7 @@ function checkDueDiligence(primaryControl) {
         [
             {
                 label: "<b>Proceed Sanctions Check</b>",
-                callback: function () {
-                    var ddTrigger = formContext.getAttribute("arup_checkduediligencetrigger").getValue();
-                    if (ddTrigger) {
-                        formContext.getAttribute("arup_checkduediligencetrigger").setValue(false);
-                        formContext.data.save();
-                    }
+                callback: function () {                   
                     formContext.getAttribute("arup_checkduediligencetrigger").setValue(true);
                     formContext.data.save();
                 },
