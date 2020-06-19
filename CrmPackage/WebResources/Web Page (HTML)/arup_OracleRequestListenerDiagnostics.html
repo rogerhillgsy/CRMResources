@@ -1,0 +1,85 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Oracle Request Listener Diagnostics</title>
+    <link rel="stylesheet" href="arup_BootStrapCSS">
+    <link rel="stylesheet" href="arup_BootStrap_ThemeCSS">
+    <link rel="stylesheet" href="arup_Bootstrap_TableCSS">
+    <link rel="stylesheet" href="arup_Bootstrap_MultiselectCSS">
+    <link rel="stylesheet" href="/uclient/resources/styles/Styles.css" />
+    <link rel="stylesheet" href="arup_OppoWiz.css">
+    <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <h1> Oracle Request Listener Diagnostics</h1>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <button id="PingButton">Ping Oracle Request Listener</button>  CRM Action A03 --> CodeActivity --> ServiceEndpoint --> Ping Azure App service
+        <div id="ping">
+            <textarea id="PingResult" rows="4" class="arup-clear form-control" placeholder="Ping result"></textarea>
+        </div>
+    </div>
+            <div class="row">
+                <div id="checkConnection">
+                    <button id="CheckConnectionButton">Check connection to Oracle</button> CRM Action A14 --> CodeActivity --> ServiceEndpoint --> Azure App service (Check Endpoint) --> Oracle database
+                    <textarea id="CheckConnectionResult" rows="10" class="arup-clear form-control" placeholder="Check connection result"></textarea>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            (function (doc, win, add, remove, loaded, load) {
+                doc.ready = new Promise(function (resolve) {
+                    if (doc.readyState === 'complete') {
+                        resolve();
+                    } else {
+                        function onReady() {
+                            resolve();
+                            doc[remove](loaded, onReady, true);
+                            win[remove](load, onReady, true);
+                        }
+                        doc[add](loaded, onReady, true);
+                        win[add](load, onReady, true);
+                    }
+                });
+            })(document, window, 'addEventListener', 'removeEventListener', 'DOMContentLoaded', 'load');
+
+            function AddButtonCallback(buttonId, actionName, resultAreaId) {
+                document.getElementById(buttonId).addEventListener('click', function () {
+                    var arup_actionrequest = {
+                        getMetadata: function () {
+                            return {
+                                boundParameter: null,
+                                parameterTypes: {},
+                                operationType: 0,
+                                operationName: actionName
+                            };
+                        }
+                    };
+                    debugger;
+
+                    Xrm.WebApi.online.execute(arup_actionrequest).then(
+                        function success(result) {
+                            if (result.ok) {
+                                var results = JSON.parse(result.responseText);
+                                var resultArea = document.getElementById(resultAreaId);
+                                resultArea.innerText = results.Result;
+                            }
+                        },
+                        function (error) {
+                            Xrm.Utility.alertDialog(actionName + error.message);
+                        }
+                    );
+                });
+            };
+
+            debugger;
+            document.ready.then(() => {
+                AddButtonCallback("PingButton", "arup_A03Ping", "PingResult");
+                AddButtonCallback("CheckConnectionButton", "arup_A14CheckConnection", "CheckConnectionResult");
+            });
+        </script>
+</body>
+</html>

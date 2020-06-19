@@ -5,41 +5,41 @@
 <body style="overflow-wrap: break-word;">
     ﻿
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <link rel="stylesheet" href="arup_BootStrapCSS">
-    <link rel="stylesheet" href="arup_BootStrap_ThemeCSS">
-    <link rel="stylesheet" href="arup_Bootstrap_TableCSS">
-    <link rel="stylesheet" href="arup_Bootstrap_MultiselectCSS">
-    <link rel="stylesheet" href="/uclient/resources/styles/Styles.css" />
-    <link rel="stylesheet" href="arup_OppoWiz.css">
-    <script type="text/javascript" src="ccrm_/JavaScripts/Lib/jquery_3.2.0.min"></script>
-    <script type="text/javascript" src="arup_BootStrap.min"></script>
-    <script type="text/javascript" src="arup_Bootstrap_TableJS"></script>
-    <script type="text/javascript" src="arup_Bootstrap_MultiselectJS"></script>
-    <script type="text/javascript" src="arup_OppoWiz.js"></script>
-    <script type="text/javascript" src="mag_/js/alert.js"></script>
-    <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
-    <script src="arup_SDK.WebAPI_min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            //Initialize tooltips
-            $(".win-close").click(function (e) {
-                // Debugger  - do we need to stop the user pressing "Back" button on the browser/
-                debugger;
-                window.close();
-            });
+<link rel="stylesheet" href="arup_BootStrapCSS">
+<link rel="stylesheet" href="arup_BootStrap_ThemeCSS">
+<link rel="stylesheet" href="arup_Bootstrap_TableCSS">
+<link rel="stylesheet" href="arup_Bootstrap_MultiselectCSS">
+<link rel="stylesheet" href="/uclient/resources/styles/Styles.css" />
+<link rel="stylesheet" href="arup_OppoWiz.css">
+<script type="text/javascript" src="ccrm_/JavaScripts/Lib/jquery_3.2.0.min"></script>
+<script type="text/javascript" src="arup_BootStrap.min"></script>
+<script type="text/javascript" src="arup_Bootstrap_TableJS"></script>
+<script type="text/javascript" src="arup_Bootstrap_MultiselectJS"></script>
+<script type="text/javascript" src="arup_OppoWiz.js"></script>
+<script type="text/javascript" src="mag_/js/alert.js"></script>
+<script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
+<script src="arup_SDK.WebAPI_min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Initialize tooltips
+        $(".win-close").click(function (e) {
+            // Debugger  - do we need to stop the user pressing "Back" button on the browser/
+            debugger;
+            window.close();
+        });
 
-            // Set default values for all fields.
-            Arup_setAllDefault();
-            Arup_createAttributeMap();
-            Arup_AddFocusOutValidationAll();
-            arup_AddAllEvents();
+        // Set default values for all fields.
+        Arup_setAllDefault();
+        Arup_createAttributeMap();
+        Arup_AddFocusOutValidationAll();
+        arup_AddAllEvents();
 
-            $("#mysub").wizard({
+        $("#mysub").wizard({
                 exitText: 'exit',
                 onfinish: function (e) {
                     ArupValidateAll().then(
@@ -76,277 +76,255 @@
                     );
                 }
             }
-            );
+        );
 
-            // Prevent any submit events - a different mechanism is used to add data to the CRM system.
-            $("form").on("submit",
-                function (e) {
-                    e.preventDefault();
-                });
+        // Prevent any submit events - a different mechanism is used to add data to the CRM system.
+        $("form").on("submit",
+            function (e) {
+                e.preventDefault();
+            });
 
-            $('.multiselect-item .caret-container').click();
+        $('.multiselect-item .caret-container').click();
 
-            // Ensure that the intext raido box is autofocused.
-            $("input[name=intorext][value=NOTINT]")[0].focus();
-        });
+        // Ensure that the intext raido box is autofocused.
+        $("input[name=intorext][value=NOTINT]")[0].focus();
+    });
 
-    </script>
-    <style type="text/css">
+</script>
+<style type="text/css">
     </style>
-    <br>
+<br>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="wizard-steps-panel steps-quantity-4 col-lg-8" onkeyup="nextOnReturn(this)">
-                <div class="step-number step-1 doing">
-                    <div class="number">
-                        <div class="img-circle">
-                            <img src="arup_userrolejpg">
-                        </div>
-                    </div>
-                </div>
-                <div class="step-number step-2">
-                    <div class="number">2</div>
-                </div>
-                <div class="step-number step-3">
-                    <div class="number">3</div>
-                </div>
-                <div class="step-number step-4">
-                    <div class="number">4</div>
-                </div>
-            </div>
-            <div class="col-lg4">
-                <br>
-                <h2 class="mainPage">
-                    <b>New Opportunity Wizard</b>
-                </h2>
-                <h4 class="mainPage1 am-6 pull-right" id="projectNameTitle">&nbsp;</h4>
-            </div>
+<div class="container-fluid" id="mysub">
+<div class="row arup_mb40">
+    <div id="wizard-steps-panel" class="wizard-steps-panel col-sm-8" ></div>
+    <div class="col-sm-4">
+        <br>
+        <h4 class="mainPage pull-right">
+            <b>New Opportunity Wizard</b>
+        </h4>
         </div>
+        <div class="col-sm-4">
+        <h4 class="mainPage1 pull-right" id="projectNameTitle">&nbsp;</h4>
+        </div>
+    </div>
 
-        <div class="container-fluid" id="mysub">
-            <div class="row">
-                <div class="wizard-content col-lg-4">
+<div class="row">
+    <div class="wizard-content col-md-12">
 
-                    <!--<br /> -->
-                    <div class="container">
-                        <br>
-                        <br>
-                    </div>
-                    <div class="container">
-                        <div class="col-lg-8">
-                            <div class="wizard-step" style="display: block;" id="UR_Step">
-                                <div class="container" id="UR">
-                                    <form id="URForm">
-                                        <div class="arup-align-items-bottom row">
-                                            <div class="form-group col-lg-6">
-                                                <h2>Arup Internal </h2>
-                                                <div class="radio">
-                                                    <label><input type="radio" name="intorext" value="INT">&nbsp;Internal</label>
-                                                </div>
-                                                <div class="radio">
-                                                    <label><input type="radio" name="intorext" value="NOTINT" autofocus>&nbsp;External</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="project_name">Project Name:</label>
-                                                    <input id="project_name" class="form-control input-form" name="project_name" type="text" maxlength="200" attrname="name" autocomplete="off">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="opporigin">Opportunity Originator:</label>
-                                                    <input list="users" id="opporigin" class="form-control input-form" name="opporigin" title="Input Staff name" autocomplete="off" placeholder="Arup staff name" />
-                                                    <datalist id="users">
-                                                    </datalist>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <br>
-                                <br>
-                            </div>
-                            <div class="wizard-step" style="display: none;" id="SS_Step">
-                                <div class="container" id="SS">
-                                    <form class="" id="main">
-                                        <div class="form-group">
-                                            <label for="opportunityType">Opportunity Type:</label>
-                                            <select id="opportunityType" class="form-control" autofocus>
-                                                <option value="" selected>Select Opportunity Type</option>
-                                                <option value="770000000" title="New Opportunity">New Opportunity</option>
-                                                <option value="770000001" title="Project extension - existing contract">Project extension - existing contract</option>
-                                                <option value="770000002" title="Project extension – new contract">Project extension – new contract</option>
-                                                <option value="770000003" title="New Framework/Panel/Call-Off">New Framework/Panel/Call-Off</option>
-                                                <option value="770000004" title="Project under existing Framework/Panel/Call-Off">Project under existing Framework/Panel/Call-Off</option>
-                                                <option value="770000005" title="Architectural competition with multiple Arup teams – master record">Architectural competition with multiple Arup teams – master record</option>
-                                                <option value="770000006" title="Architectural competition with multiple Arup teams – team opportunity">Architectural competition with multiple Arup teams – team opportunity</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="relatedopportunity">Related Parent Opportunity:</label>
-                                            <input list="opportunities" id="relatedopportunity" class="form-control" name="relatedopportunity" placeholder="Input related parent opportunity" autocomplete="off" />
-                                            <datalist id="opportunities">
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="leadSource">Lead Source:</label>
-                                            <!----<span class="glyphicon glyphicon-lock"></span>-->
-                                            <select id="leadSource" class="form-control" title="Enter Source of Opportunity">
-                                                <option value="" selected>Select Lead Source</option>
-                                                <option value="100000000" title="Arup bid to supply same/further services, as an extension to an existing project. (One Arup team delivering to the client).">Addition to existing services</option>
-                                                <option value="100000002" title="Arup has identified an opportunity, suggested the project idea, then submitted a bid to a client.">Arup project (idea) creation</option>
-                                                <option value="5" title="Arup invited to bid, as one of a shortlist previously chosen via a panel, framework agreement or other process.">Framework/Panel</option>
-                                                <option value="6" title="Arup team cross-sell separate expertise, and introduce an additional Arup team.  (More than one Arup team delivering to the client).">Internal Referral and cross-selling</option>
-                                                <option value="3" title="Arup is the only firm invited to bid, without competition.">Invitation - Arup Only</option>
-                                                <option value="8" title="Arup invited to bid, as one of a limited number of competitors.">Invitation to Compete</option>
-                                                <option value="11" title="Arup bid follows long-term activities to build a relationship with the client, and demonstrate our capabilities, aiming to become the ‘first choice for project’.">Long-Term Opportunity</option>
-                                                <option value="10" title="Arup chose to bid following a public open invitation.">Public Advertisement/OJEU</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-lg-6 hidden">
-                                            <label for="crmframeworkexists">CRM Framework Record Exists:</label>
-                                            <input type="checkbox" id="crmframeworkexists" name="hasframework" checked="" />
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group  hidden">
-                                                <label for="contractagreementref">Contract Agreement Ref #:</label>
-                                                <input id="contractagreementref" class="form-control input-form" placeholder="Contract ref #" autocomplete="off" />
-                                            </div>
-                                            <div class="form-group hidden">
-                                                <label for="crmframeworkrecord">CRM Framework Record:</label>
-                                                <input list="frameworkrecs" id="crmframeworkrecord" class="form-control" name="crmframeworkrecord" placeholder="Select CRM Framework" autocomplete="off" />
-                                                <datalist id="frameworkrecs">
-                                                </datalist>
+        <!--<br /> -->
+            <div class="container-fluid">
+                <div class="col-md-12">
+                    <div class="wizard-step" style="display: block;" id="UR_Step">
+                        <div class="container-fluid" id="UR">
+                            <form id="URForm">
+                                <div class="arup-align-items-bottom row">
+                                    <div class="form-group col-md-4">
+                                        <label>Internal or External Project?</label>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <input id="internal" type="radio" name="intorext" value="INT"><label for="internal">&nbsp;Internal&nbsp;</label>
+                                                <input id="external" type="radio" name="intorext" value="NOTINT" autofocus><label for="external">&nbsp;External</label>
                                             </div>
                                         </div>
                                         <br />
-                                        <br />
-                                    </form>
-                                </div>
-                                <br>
-                                <br>
-                            </div>
-                            <div class="wizard-step" style="display: none;" id="CN_Step">
-                                <div class="container" id="CN">
-                                    <div class="form-group col-lg-12">
-                                        <label for="contractarrangement">Project Procurement:</label>
-                                        <select id="contractarrangement" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
-                                            <option value="">--</option>
-                                            <option title="Alliance" value="100000000">Alliance</option>
-                                            <option title="Charitable/Pro-Bono" value="100000001">Charitable/Pro-Bono</option>
-                                            <option title="Design &amp; Construct/Design-Build/ECI" value="1">Design &amp; Construct/Design-Build/ECI</option>
-                                            <option title="Design-Build-Operate" value="100000002">Design-Build-Operate</option>
-                                            <option title="Framework/Panel Appointment/On-Call Agreement/Call-Off Order" value="2">Framework/Panel Appointment/On-Call Agreement/Call-Off Order</option>
-                                            <option title="Management Contracting/Construction Management" value="3">Management Contracting/Construction Management</option>
-                                            <option title="Novation to D&amp;C Contractor" value="100000003">Novation to D&C Contractor</option>
-                                            <option title="Public Private Partnership" value="4">Public Private Partnership</option>
-                                            <option title="Traditional or Direct Appointment to Client" value="5">Traditional or Direct Appointment to Client</option>
-                                            <option title="Traditional or Direct Appointment to Client with Potential Future Novation" value="8">Traditional or Direct Appointment to Client with Potential Future Novation</option>
-                                            <option title="Turnkey" value="6">Turnkey</option>
-                                            <option title="Other" value="7">Other</option>
-                                        </select>
+                                        <div class="form-group">
+                                            <label for="project_name">Project Name:</label>
+                                            <input id="project_name" class="form-control input-form" name="project_name" type="text" maxlength="200" attrname="name" autocomplete="off">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="opporigin">Opportunity Originator:</label>
+                                            <input list="users" id="opporigin" class="form-control input-form" name="opporigin" title="Input Staff name" autocomplete="off" placeholder="Arup staff name" />
+                                            <datalist id="users">
+                                            </datalist>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-lg-6">
-                                        <label for="client">Client:</label>
-                                        <input list="clients" id="client" class="form-control input-form" name="client" title="Input Client" autocomplete="off" placeholder="Unassigned" />
-                                        <datalist id="clients">
-                                        </datalist>
+                                        <div class="suppt form-group col-md-4">
+                                            <textarea class="arup-clear form-control" id="ta1-1" rows="8" tabindex="-1" readonly></textarea>
+                                        </div>
+                                        <div class="suppt form-group col-md-4">
+                                            <textarea class="arup-clear form-control" id="ta2-2" rows="8" tabindex="-1" readonly></textarea>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-lg-6">
-                                        <label for="endclient">Ultimate/End Client:</label>
-                                        <input list="endclients" id="endclient" class="form-control input-form" name="endclient" title="Input End Client" autocomplete="off" placeholder=" Ultimate client name" />
-                                        <datalist id="endclients">
-                                        </datalist>
-                                    </div>
-                                </div>
-                                <br>
-                                <br>
-                            </div>
-                            <form id="page4">
-                                <div class="wizard-step" style="display: none;" id="WC_Step">
-                                    <div class="container" id="WC">
-                                        <div class="form-group col-lg-6">
-                                            <label for="project_country">Project Country:</label>
-                                            <input list="countries" id="project_country" class="form-control input-form" name="project_country" title="Input project country" autocomplete="off" tabindex="20" />
-                                            <datalist id="countries">
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label for="arup_business">Arup Business:</label>
-                                            <input list="businesses" id="arup_business" class="form-control input-form" name="arup_business" title="Input arup business" autocomplete="off" placeholder="Business Area" tabindex="25" />
-                                            <datalist id="businesses">
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label for="project_city">Project Town/City:</label>
-                                            <input list="cities" id="project_city" class="form-control input-form" name="project_city" title="Input project city" autocomplete="off" tabindex="21" />
-                                            <datalist id="cities">
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label for="arup_subbusiness">Arup Sub Business:</label>
-                                            <input list="subbusinesses" id="arup_subbusiness" class="form-control input-form" name="arup_subbusiness" title="Input arup sub business" autocomplete="off" placeholder="Business sub-area" tabindex="26" />
-                                            <datalist id="subbusinesses">
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group col-lg-6 invisible">
-                                            <label for="project_state">Project State/Province:</label>
-                                            <input list="states" id="project_state" class="form-control input-form" name="project_state" title="Input project state" autocomplete="off" tabindex="22" />
-                                            <datalist id="states">
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label class="displaysError">Global Services:</label>
-                                            <p>
-                                                <label><input type="checkbox" name="global_services" value="100000001" tabindex="27" /> Advisory Services</label>&nbsp;&nbsp;
-                                                <label><input type="checkbox" name="global_services" value="100000000" tabindex="28" /> Architecture</label>&nbsp;&nbsp;
-                                                <label><input type="checkbox" name="global_services" value="100000006" tabindex="29" /> Digital</label>&nbsp;&nbsp;
-                                                <label><input type="checkbox" name="global_services" value="100000002" tabindex="30" /> Planning</label>&nbsp;&nbsp;
-                                                <label><input type="checkbox" name="global_services" value="770000000" tabindex="31" /> Not Applicable</label>&nbsp;&nbsp;
-                                                <label><input type="checkbox" name="global_services" value="100000003" tabindex="32" /> Other</label>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label for="arup_company">Arup Company:</label>
-                                            <input list="companies" id="arup_company" class="form-control input-form" name="arup_company" title="Input Company" autocomplete="aoff" tabindex="23" />
-                                            <datalist id="companies">
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group col-lg-6 invisible">
-                                            <label for="globalservices_other">Global Services (Other):</label>
-                                            <input id="globalservices_other" class="form-control input-form" tabindex="33" autocomplete="off" />
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label for="accountingcentre">Accounting Centre:</label>
-                                            <input list="accountingcentres" id="accountingcentre" class="form-control input-form" name="accountingcentre" title="Input Accounting Centre" autocomplete="off" tabindex="24" />
-                                            <datalist id="accountingcentres">
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label for="description">Project Summary:</label>
-                                            <textarea id="description" class="form-control input-form" style="min-height: 72px; overflow: auto; height: auto;" maxlength="2000" role="textbox" attrname="description" tabindex="34"></textarea>
-                                        </div>
-                                        <div class="form-group col-lg-6 hidden">
-                                            <label for="K12">Is it K-12 School:</label>
-                                            <input type="checkbox" id="K12" name="isK12" tabindex="35" />
-                                        </div>
-                                        <br />
-                                    </div>
-                                    <br>
-                                    <br>
-                                </div>
                             </form>
                         </div>
-                        <div id="arupDescriptionText" >
-                            <div class="suppt form-group col-lg-4">
-                                <textarea class="arup-clear form-control" id="ta1" rows="5" tabindex="-1" readonly></textarea>
+                        <br>
+                        <br>
+                    </div>
+                    <div class="wizard-step" style="display: none;" id="SS_Step">
+                        <div class="container" id="SS">
+                            <form class="" id="main">
+                                <div class="form-group">
+                                    <label for="opportunityType">Opportunity Type:</label>
+                                    <select id="opportunityType" class="form-control" autofocus>
+                                        <option value="" selected>Select Opportunity Type</option>
+                                        <option value="770000000" title="New Opportunity">New Opportunity</option>
+                                        <option value="770000001" title="Project extension - existing contract">Project extension - existing contract</option>
+                                        <option value="770000002" title="Project extension – new contract">Project extension – new contract</option>
+                                        <option value="770000003" title="New Framework/Panel/Call-Off">New Framework/Panel/Call-Off</option>
+                                        <option value="770000004" title="Project under existing Framework/Panel/Call-Off">Project under existing Framework/Panel/Call-Off</option>
+                                        <option value="770000005" title="Architectural competition with multiple Arup teams – master record">Architectural competition with multiple Arup teams – master record</option>
+                                        <option value="770000006" title="Architectural competition with multiple Arup teams – team opportunity">Architectural competition with multiple Arup teams – team opportunity</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="relatedopportunity">Related Parent Opportunity:</label>
+                                    <input list="opportunities" id="relatedopportunity" class="form-control" name="relatedopportunity" placeholder="Input related parent opportunity" autocomplete="off" />
+                                    <datalist id="opportunities">
+                                    </datalist>
+                                </div>
+                                <div class="form-group">
+                                    <label for="leadSource">Lead Source:</label>
+                                    <!----<span class="glyphicon glyphicon-lock"></span>-->
+                                    <select id="leadSource" class="form-control" title="Enter Source of Opportunity">
+                                        <option value="" selected>Select Lead Source</option>
+                                        <option value="100000000" title="Arup bid to supply same/further services, as an extension to an existing project. (One Arup team delivering to the client).">Addition to existing services</option>
+                                        <option value="100000002" title="Arup has identified an opportunity, suggested the project idea, then submitted a bid to a client.">Arup project (idea) creation</option>
+                                        <option value="5" title="Arup invited to bid, as one of a shortlist previously chosen via a panel, framework agreement or other process.">Framework/Panel</option>
+                                        <option value="6" title="Arup team cross-sell separate expertise, and introduce an additional Arup team.  (More than one Arup team delivering to the client).">Internal Referral and cross-selling</option>
+                                        <option value="3" title="Arup is the only firm invited to bid, without competition.">Invitation - Arup Only</option>
+                                        <option value="8" title="Arup invited to bid, as one of a limited number of competitors.">Invitation to Compete</option>
+                                        <option value="11" title="Arup bid follows long-term activities to build a relationship with the client, and demonstrate our capabilities, aiming to become the ‘first choice for project’.">Long-Term Opportunity</option>
+                                        <option value="10" title="Arup chose to bid following a public open invitation.">Public Advertisement/OJEU</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6 hidden">
+                                    <label for="crmframeworkexists">CRM Framework Record Exists:</label>
+                                    <input type="checkbox" id="crmframeworkexists" name="hasframework" checked="" />
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group  hidden">
+                                        <label for="contractagreementref">Contract Agreement Ref #:</label>
+                                        <input id="contractagreementref" class="form-control input-form" placeholder="Contract ref #" autocomplete="off" />
+                                    </div>
+                                    <div class="form-group hidden">
+                                        <label for="crmframeworkrecord">CRM Framework Record:</label>
+                                        <input list="frameworkrecs" id="crmframeworkrecord" class="form-control" name="crmframeworkrecord" placeholder="Select CRM Framework" autocomplete="off" />
+                                        <datalist id="frameworkrecs">
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                            </form>
+                        </div>
+                        <br>
+                        <br>
+                    </div>
+                    <div class="wizard-step" style="display: none;" id="CN_Step">
+                        <div class="container" id="CN">
+                            <div class="form-group col-lg-12">
+                                <label for="contractarrangement">Project Procurement:</label>
+                                <select id="contractarrangement" class="form-control" title="Regardless of Arup’s role, this PROJECT is being procured / delivered as a [choose “project procurement”]" attrname="ccrm_contractarrangement">
+                                    <option value="">--</option>
+                                    <option title="Alliance" value="100000000">Alliance</option>
+                                    <option title="Charitable/Pro-Bono" value="100000001">Charitable/Pro-Bono</option>
+                                    <option title="Design &amp; Construct/Design-Build/ECI" value="1">Design &amp; Construct/Design-Build/ECI</option>
+                                    <option title="Design-Build-Operate" value="100000002">Design-Build-Operate</option>
+                                    <option title="Framework/Panel Appointment/On-Call Agreement/Call-Off Order" value="2">Framework/Panel Appointment/On-Call Agreement/Call-Off Order</option>
+                                    <option title="Management Contracting/Construction Management" value="3">Management Contracting/Construction Management</option>
+                                    <option title="Novation to D&amp;C Contractor" value="100000003">Novation to D&C Contractor</option>
+                                    <option title="Public Private Partnership" value="4">Public Private Partnership</option>
+                                    <option title="Traditional or Direct Appointment to Client" value="5">Traditional or Direct Appointment to Client</option>
+                                    <option title="Traditional or Direct Appointment to Client with Potential Future Novation" value="8">Traditional or Direct Appointment to Client with Potential Future Novation</option>
+                                    <option title="Turnkey" value="6">Turnkey</option>
+                                    <option title="Other" value="7">Other</option>
+                                </select>
                             </div>
-                            <div class="suppt form-group col-lg-4">
-                                <textarea class="arup-clear form-control" id="ta2" rows="5" tabindex="-1" readonly></textarea>
+                            <div class="form-group col-lg-6">
+                                <label for="client">Client:</label>
+                                <input list="clients" id="client" class="form-control input-form" name="client" title="Input Client" autocomplete="off" placeholder="Unassigned" />
+                                <datalist id="clients">
+                                </datalist>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="endclient">Ultimate/End Client:</label>
+                                <input list="endclients" id="endclient" class="form-control input-form" name="endclient" title="Input End Client" autocomplete="off" placeholder=" Ultimate client name" />
+                                <datalist id="endclients">
+                                </datalist>
                             </div>
                         </div>
+                        <br>
+                        <br>
                     </div>
-                </div>
-            </div>
+                    <form id="page4">
+                        <div class="wizard-step" style="display: none;" id="WC_Step">
+                            <div class="container" id="WC">
+                                <div class="form-group col-lg-6">
+                                    <label for="project_country">Project Country:</label>
+                                    <input list="countries" id="project_country" class="form-control input-form" name="project_country" title="Input project country" autocomplete="off" tabindex="20" />
+                                    <datalist id="countries">
+                                    </datalist>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="arup_business">Arup Business:</label>
+                                    <input list="businesses" id="arup_business" class="form-control input-form" name="arup_business" title="Input arup business" autocomplete="off" placeholder="Business Area" tabindex="25" />
+                                    <datalist id="businesses">
+                                    </datalist>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="project_city">Project Town/City:</label>
+                                    <input list="cities" id="project_city" class="form-control input-form" name="project_city" title="Input project city" autocomplete="off" tabindex="21" />
+                                    <datalist id="cities">
+                                    </datalist>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="arup_subbusiness">Arup Sub Business:</label>
+                                    <input list="subbusinesses" id="arup_subbusiness" class="form-control input-form" name="arup_subbusiness" title="Input arup sub business" autocomplete="off" placeholder="Business sub-area" tabindex="26" />
+                                    <datalist id="subbusinesses">
+                                    </datalist>
+                                </div>
+                                <div class="form-group col-lg-6 invisible">
+                                    <label for="project_state">Project State/Province:</label>
+                                    <input list="states" id="project_state" class="form-control input-form" name="project_state" title="Input project state" autocomplete="off" tabindex="22" />
+                                    <datalist id="states">
+                                    </datalist>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label class="displaysError">Global Services:</label>
+                                    <p>
+                                        <label><input type="checkbox" name="global_services" value="100000001" tabindex="27" /> Advisory Services</label>&nbsp;&nbsp;
+                                        <label><input type="checkbox" name="global_services" value="100000000" tabindex="28" /> Architecture</label>&nbsp;&nbsp;
+                                        <label><input type="checkbox" name="global_services" value="100000006" tabindex="29" /> Digital</label>&nbsp;&nbsp;
+                                        <label><input type="checkbox" name="global_services" value="100000002" tabindex="30" /> Planning</label>&nbsp;&nbsp;
+                                        <label><input type="checkbox" name="global_services" value="770000000" tabindex="31" /> Not Applicable</label>&nbsp;&nbsp;
+                                        <label><input type="checkbox" name="global_services" value="100000003" tabindex="32" /> Other</label>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="arup_company">Arup Company:</label>
+                                    <input list="companies" id="arup_company" class="form-control input-form" name="arup_company" title="Input Company" autocomplete="aoff" tabindex="23" />
+                                    <datalist id="companies">
+                                    </datalist>
+                                </div>
+                                <div class="form-group col-lg-6 invisible">
+                                    <label for="globalservices_other">Global Services (Other):</label>
+                                    <input id="globalservices_other" class="form-control input-form" tabindex="33" autocomplete="off" />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="accountingcentre">Accounting Centre:</label>
+                                    <input list="accountingcentres" id="accountingcentre" class="form-control input-form" name="accountingcentre" title="Input Accounting Centre" autocomplete="off" tabindex="24" />
+                                    <datalist id="accountingcentres">
+                                    </datalist>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="description">Project Summary:</label>
+                                    <textarea id="description" class="form-control input-form" style="min-height: 72px; overflow: auto; height: auto;" maxlength="2000" role="textbox" attrname="description" tabindex="34"></textarea>
+                                </div>
+                                <div class="form-group col-lg-6 hidden">
+                                    <label for="K12">Is it K-12 School:</label>
+                                    <input type="checkbox" id="K12" name="isK12" tabindex="35" />
+                                </div>
+                                <br />
+                            </div>
+                            <br>
+                            <br>
+                        </div>
+                    </form>
         </div>
-        <div class="wizard-buttons" />
         </div>
+</div>
+</div>
+<div class="wizard-buttons" ></div>
+</div>
 </body>
 </html>
