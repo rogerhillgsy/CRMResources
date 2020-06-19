@@ -12,21 +12,21 @@ var dBSelected = [];
 var proctype = $("#contractarrangement");
 var onceload = true;
 
-//(function (doc, win, add, remove, loaded, load) {
-//    doc.ready = new Promise(function (resolve) {
-//        if (doc.readyState === 'complete') {
-//            resolve();
-//        } else {
-//            function onReady() {
-//                resolve();
-//                doc[remove](loaded, onReady, true);
-//                win[remove](load, onReady, true);
-//            }
-//            doc[add](loaded, onReady, true);
-//            win[add](load, onReady, true);
-//        }
-//    });
-//})(document, window, 'addEventListener', 'removeEventListener', 'DOMContentLoaded', 'load');
+(function (doc, win, add, remove, loaded, load) {
+    doc.ready = new Promise(function (resolve) {
+        if (doc.readyState === 'complete') {
+            resolve();
+        } else {
+            function onReady() {
+                resolve();
+                doc[remove](loaded, onReady, true);
+                win[remove](load, onReady, true);
+            }
+            doc[add](loaded, onReady, true);
+            win[add](load, onReady, true);
+        }
+    });
+})(document, window, 'addEventListener', 'removeEventListener', 'DOMContentLoaded', 'load');
 
 var loaded = null;
 var AllLoaded = function () {
@@ -41,6 +41,117 @@ var AllLoaded = function () {
     }
     return loaded; // Promise that all files have been loaded.
 }
+
+function WizardStepsPanel(divId, buttonDiv, config) {
+    this.divName = divId;
+    this.currentStep = 0;
+    this.div = document.getElementById(divId);
+    if (!this.div) throw Error("Unable to find root element for Wizard Steps Panel: " + divId);
+    this.config = config;
+    var steps = this.config.steps;
+    if (!steps) throw new Error("No Steps were specified");
+    this.div.classList.add("steps-quantity-" + steps.length);
+    for (var s = 0; s < steps.length; s++) {
+        var stepConfig = steps[s];
+        var c = document.createElement("div");
+        c.classList.add("step-number", "step-" + (s + 1));
+        c.innerHTML = '<div class="number" id="num' + (s + 1 ) +
+            '"><img src = arup_' + (s+1) + ' alt="MI" title="' + stepConfig.name + '"></div><h5><b><font color=' +
+            stepConfig.colour + '>' + stepConfig.name + '</font></b></h5>';
+        this.div.append(c);
+         //var v = this.div.append('<div class="step-number step-' + s + '"><div class="number" id="num' + s +
+         //   '"><img src = arup_' + s + ' alt="MI" title="' + stepConfig.name + '"></div><h5><b><font color=' +
+         //    stepConfig.colour + '>' + stepConfig.name + '</font></b></h5></div>');
+         stepConfig.div = c;
+    }
+    this.StepTo(0);
+}
+WizardStepsPanel.prototype.StepTo = function (stepNum) {
+    var currentStep = this.config.steps[this.currentStep];
+    if (typeof (currentStep.onLeave) === "function") currentStep.onLeave();
+    currentStep.div.classList.remove("doing");
+    currentStep.div.classList.add("done");
+    this.currentStep = stepNum;
+    var nextStep = this.config.steps[stepNum];
+    nextStep.div.classList.add("doing");
+    if (typeof (nextStep.onEnter) === "function") nextStep.onEnter();
+}
+WizardStepsPanel.prototype.StepNext = function () {
+    this.StepTo(this.currentStep + 1);
+}
+WizardStepsPanel.prototype.StepBack = function () {
+    this.StepTo(this.currentStep - 1);
+}
+WizardStepsPanel.prototype.DisplayButtons = function () {
+    this.StepTo(this.currentStep - 1);
+}
+var wizardStepsPanel;
+document.ready.then(function() {
+    wizardStepsPanel = new WizardStepsPanel("wizard-steps-panel", "wizard-buttons",
+        { steps : [
+            {
+                name: "Start<br/>&nbsp;",
+                colour: "#B2D135",
+                onEnter: function () {
+                    document.getElementById("external").focus();
+                },
+                buttons: ['cancel','next' ]
+            },
+            {
+                name: "Opportunity <br/> Details 1",
+                colour: "#56BDEA",
+                onEnter: function() {
+                    Arup_validations.opportunityType.focus();
+                },
+                buttons: ['back', 'cancel', 'next' ]
+            },
+            {
+                name: "Opportunity <br/> Details 2",
+                colour: "#FC5781",
+                onEnter: function() {
+                    Arup_validations.contractarrangement.setDependentFieldValues();
+                    Arup_validations.contractarrangement.focus();
+                },
+                buttons: ['back', 'cancel', 'next']
+            },
+            {
+                name: "<br>Remaining Details",
+                colour: "#FFCD31",
+                onEnter: function() {
+                    Arup_validations.project_country.focus();
+                },
+                buttons: ['back','cancel', 'finish']
+            }
+        ],
+            buttons : {
+                cancel : { label: "Cancel", action: 'exit' },
+                next: { label: "Next", action: 'next' },
+                back: { label: "Back", action: 'back' },
+                finish : { label: "Finish", action: 'save' },
+            },
+            commands: {
+                exit : function() {
+                    var pageInput = { pageType: "entitylist", entityName: "opportunity" };
+                    Xrm.Navigation.navigateTo(pageInput).catch(function() {
+                        throw new Error("Unable to navigate back to opportunity list")
+                    });
+                },
+                next : function() {
+                    // If valid
+                    // Move next
+                },
+                back: function () {
+                    // If valid
+                    // Move back
+                },
+                save: function () {
+                    // If valid
+                    // Move back
+                },
+            }
+
+        });
+});
 
 
 $.fn.wizard = function (config) {
@@ -115,12 +226,13 @@ $.fn.wizard = function (config) {
 
     var contBack = function () {
         
-        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");//.append('<div><h3>'+newName4+'</h3></div>');
-        step--;
+        //$(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");//.append('<div><h3>'+newName4+'</h3></div>');
+        //step--;
+        wizardStepsPanel.StepBack();
         steps.hide();
-        $(steps[step - 1]).show();
+        $(steps[wizardStepsPanel.currentStep]).show();
 
-        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");
+//        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");
 
         if (step == 1) {
             btnBack.hide();
@@ -165,26 +277,26 @@ $.fn.wizard = function (config) {
 
         });
     };
-    $(this).find(".wizard-steps-panel").remove();
-    container.prepend('<div class="wizard-steps-panel steps-quantity-' + stepCount + '"></div>');
-    var stepsPanel = $(this).find(".wizard-steps-panel");
+    //$(this).find(".wizard-steps-panel").remove();
+    //container.prepend('<div class="wizard-steps-panel col-lg-8 steps-quantity-' + stepCount + '"></div>');
+    //var stepsPanel = $(this).find(".wizard-steps-panel");
 
-    for (s = 1; s <= stepCount; s++) {
-        var _nam = "";
-        var _col = "";
-        switch (s) {
-            case 1: _nam = "Start<br/>&nbsp;"; _col = "#B2D135"; break;
-            case 2: _nam = "Opportunity <br/> Details 1"; _col = "#56BDEA"; break;
-            case 3: _nam = "Opportunity <br/> Details 2"; _col = "#FC5781"; break;
-            case 4: _nam = "<br>Remaining Details"; _col = "#FFCD31"; break;
-        }
+    //for (s = 1; s <= stepCount; s++) {
+    //    var _nam = "";
+    //    var _col = "";
+    //    switch (s) {
+    //        case 1: _nam = "Start<br/>&nbsp;"; _col = "#B2D135"; break;
+    //        case 2: _nam = "Opportunity <br/> Details 1"; _col = "#56BDEA"; break;
+    //        case 3: _nam = "Opportunity <br/> Details 2"; _col = "#FC5781"; break;
+    //        case 4: _nam = "<br>Remaining Details"; _col = "#FFCD31"; break;
+    //    }
 
-        stepsPanel.append('<div class="step-number step-' + s + '"><div class="number" id="num' + s + '"><img src = arup_' + s + ' alt="MI" title="' + _nam + '"></div><h5><b><font color=' + _col + '>' + _nam + '</font></b></h5></div>');
-        //stepsPanel.append('');<div id="NN"><h3>'+_nam+'</h3></div>
-    }
+    //    stepsPanel.append('<div class="step-number step-' + s + '"><div class="number" id="num' + s + '"><img src = arup_' + s + ' alt="MI" title="' + _nam + '"></div><h5><b><font color=' + _col + '>' + _nam + '</font></b></h5></div>');
+    //    //stepsPanel.append('');<div id="NN"><h3>'+_nam+'</h3></div>
+    // }
 
-    $(this).find(".wizard-steps-panel .step-" + step).toggleClass("doing");
-    //////////////////////
+    //$(this).find(".wizard-steps-panel .step-" + step).toggleClass("doing");
+    ////////////////////////
     var contentForModal = "";
     if (isModal) {
         contentForModal = ' data-dismiss="modal"';
@@ -206,16 +318,17 @@ $.fn.wizard = function (config) {
     var btnCancel = $(this).find(".wizard-button-cancel");
 
     btnNext.on("click", function () {
-        if (!validateNext(step, steps[step - 1])) {
+        if (!validateNext(step, steps[wizardStepsPanel.currentStep])) {
             return;
         };
 
-        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");
-        step++;
+        wizardStepsPanel.StepNext();
+        //$(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");
+        //step++;
         steps.hide();
-        $(steps[step - 1]).show();
+        $(steps[wizardStepsPanel.currentStep]).show();
 
-        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");
+        //  $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");
         if (step == stepCount) {    
             btnFinish.show();
             btnNext.hide();
@@ -246,7 +359,7 @@ $.fn.wizard = function (config) {
         btnBack.show();
         $('.multiselect-item .caret-container').click();
 
-        SetupSupplementaryTextFields(step);
+       // SetupSupplementaryTextFields(step);
     });
 
     btnExit.on("click", function () { location.reload(); });
@@ -297,7 +410,7 @@ $.fn.wizard = function (config) {
             contBack(step);
             btnConfirm.hide();
         }
-        SetupSupplementaryTextFields(step);
+//        SetupSupplementaryTextFields(step);
     });
 
     btnFinish.on("click", function () {
@@ -343,44 +456,6 @@ $.fn.wizard = function (config) {
 
 };
 
-
-function freqChange(selObj) {
-    var pareRow = selObj.parent().parent();
-    var _rowName = pareRow.children()[1].innerHTML;
-    //Check if the row name is exisiting in the already selected items to capture scenario of changing the freq by userAgent
-    for (var i = 0, l = SelectedEventsWithFreq.length; i < l; i++) {
-        if (SelectedEventsWithFreq[i].id.localeCompare(_rowName) == 0) {
-            SelectedEventsWithFreq.splice(i, 1);
-            break;
-        }
-    }
-    var findSelected;
-    var selOptionVal;
-    var alloptions = selObj.children();
-    for (var i = 0, l = alloptions.length; i < l; i++) {
-        if (alloptions[i].selected == true) {
-            selOptionVal = alloptions[i].innerHTML;
-        }
-    }
-    var objToAdd = { id: _rowName, name: _rowName, freq: selOptionVal }
-    SelectedEventsWithFreq.push(objToAdd);
-}
-
-function checkAllWork(tableID, resultJSON) {
-    $.each(resultJSON, function (index, value) {
-        var _nam = value.name;
-        if (checkedRows.length > 0) {
-            //checkedRows.push({id: row.name, name: row.name, freq: row.sel.value});
-            var addedRow = false;
-            for (var i = 0, l = checkedRows.length; i < l; i++) {
-                if (checkedRows[i].id.localeCompare(_nam) == 0 && checkedRows[i].tabName.localeCompare(tableID) == 0) {
-                    addedRow = true;
-                }
-            }
-            if (!addedRow) { checkedRows.push({ id: _nam, name: _nam, freq: "", tabName: tableID }); }
-        } else { checkedRows.push({ id: _nam, name: _nam, freq: "", tabName: tableID }); }
-    });
-}
 
 function callAction(container, steps, step) {
 
@@ -831,13 +906,14 @@ function getFrameworkRecs(control) {
             oppWizLog("Start getting frameworks" + input);
             control.classList.add("fetching-data");
             FetchCRMData("arup_frameworks",
-                    "$select=arup_name,arup_frameworkid,arup_arupregionname,_arup_client_value&$filter=contains(arup_name,'" +
+                    "$select=arup_name,arup_frameworkid,arup_region,_arup_client_value&$filter=contains(arup_name,'" +
                     encodeURIComponent(input) +
                     "')" +
                     encodeURIComponent(" and statecode eq 0") +
                     "&$orderby=arup_name asc",
                     control)
                 .then(function success(results) {
+                        debugger; // Need to check how arup_region value comes back.
                         var frameworks = "";
                         for (var i = 0; i < results.value.length; i++) {
                             var frameworkname = results.value[i]["arup_name"];
@@ -1325,8 +1401,8 @@ function ValidateByName(target) {
 
 function Arup_setAllDefault() {
     for (var v in Arup_validations) {
-        if (Arup_validations.hasOwnProperty(v)) {
-            setDefaultByName(v);
+        if (typeof Arup_validations[v].setDefault === "function") {
+            Arup_validations[v].setDefault();
         }
     }
 }
@@ -1337,22 +1413,25 @@ function Arup_createAttributeMap() {
     for (var v in Arup_validations) {
         if (Arup_validations.hasOwnProperty(v)) {
             var node = Arup_validations[v];
-            Arup_validationsByAttribute[node.crmAttribute] = node;
+            if (typeof Arup_validationsByAttribute[node.crmAttribute] === "undefined") {
+                Arup_validationsByAttribute[node.crmAttribute] = [];
+            }
+            Arup_validationsByAttribute[node.crmAttribute].push(node);
         }
     }
 }
 
-function SetupSupplementaryTextFields(step) {
-    if (step !== 4) {
-        Arup_validations.text1.hide(false);
-        Arup_validations.text2.hide(false);
-        Arup_validations.text1.setVal("");
-        Arup_validations.text2.setVal("");
-    } else {
-        Arup_validations.text1.hide();
-        Arup_validations.text2.hide();
-    }
-}
+//function SetupSupplementaryTextFields(step) {
+//    if (step !== 4) {
+//        Arup_validations.text1.hide(false);
+//        Arup_validations.text2.hide(false);
+//        Arup_validations.text1.setVal("");
+//        Arup_validations.text2.setVal("");
+//    } else {
+//        Arup_validations.text1.hide();
+//        Arup_validations.text2.hide();
+//    }
+//}
 
 // Attach focusout validation to all fields.
 function Arup_AddFocusOutValidationAll() {
@@ -1517,7 +1596,9 @@ var setDependentField = function(result) {
     var value = result["arup_dependentfieldvalue"];
     var node = Arup_validationsByAttribute[attribute];
     if (!!attribute && !!node) {
-        node.setVal(value);
+        for (var i = 0; i < node.length; i++) {
+            node[i].setVal(value);
+        }
     } else {
         oppWizLog("!! no dependent value found for " + this.crmAttribute);
     }
@@ -1575,7 +1656,9 @@ function ArupFieldConfigReadOnlyText(name, crmAttribute, id) {
 };
 ArupFieldConfigReadOnlyText.prototype = new ArupFieldConfig();
 ArupFieldConfigReadOnlyText.prototype.setVal = function (value) {
-    this.htmlNode2.value = value;
+    this.value = value;
+    var node = this.htmlNode();
+    if (!!node) node.value = value;
 };
 
 function ArupFieldConfigText(name, crmAttribute, id) {
@@ -1616,32 +1699,32 @@ function arup_AddAllEvents() {
     }
 }
 
-function setDefaultByName(name) {
-    var target = document.getElementById(name) || document.getElementsByName(name)[0];
-    if (!!target) {
-        setDefaultByElement(target);
-    } else {
-        // There are some fields that are not displayed on the form. need to allow for these.
-        if (!!Arup_validations[name] && typeof (Arup_validations[name].setDefault) === "function") {
-            Arup_validations[name].setDefault();
-        } else {
-            oppWizLog("Did not find element to set default by name : " + name);
-        }//
-    }
-}
+//function setDefaultByName(name) {
+//    var target = document.getElementById(name) || document.getElementsByName(name)[0];
+//    if (!!target) {
+//        setDefaultByElement(target);
+//    } else {
+//        // There are some fields that are not displayed on the form. need to allow for these.
+//        if (!!Arup_validations[name] && typeof (Arup_validations[name].setDefault) === "function") {
+//            Arup_validations[name].setDefault();
+//        } else {
+//            oppWizLog("Did not find element to set default by name : " + name);
+//        }//
+//    }
+//}
 
-function setDefaultByElement(target) {
-    var id = target.id || target.name;
-    if (!id) return;
-    if (!!Arup_validations[id]) {
-        oppWizLog("Set default value for " + id);
-        if (typeof (Arup_validations[id].setDefault) == "string") {
-            target.value = Arup_validations[id].setDefault;
-        } else if (typeof (Arup_validations[id].setDefault) === "function") {
-            Arup_validations[id].setDefault();
-        }
-    }
-}
+//function setDefaultByElement(target) {
+//    var id = target.id || target.name;
+//    if (!id) return;
+//    if (!!Arup_validations[id]) {
+//        oppWizLog("Set default value for " + id);
+//        if (typeof (Arup_validations[id].setDefault) == "string") {
+//            target.value = Arup_validations[id].setDefault;
+//        } else if (typeof (Arup_validations[id].setDefault) === "function") {
+//            Arup_validations[id].setDefault();
+//        }
+//    }
+//}
 
 function ArupPageHasErrors(pageid) {
     if (Arup_validations_by_page.hasOwnProperty(pageid)) {
@@ -1724,7 +1807,7 @@ var Arup_validations =
         o.value = function() {
             return $('input[name="intorext"]:checked')[0].value == "INT";
         };
-        o.setDefault = function() {
+        o.setDefault = function () {
             $("input[name=intorext][value=NOTINT]")[0].checked = true;
             this.setDependentFieldValues();
         };
@@ -2685,9 +2768,13 @@ var Arup_validations =
     LolCurrency: new ArupFieldConfig("Lol Currency","ccrm_limit_transactioncurrencyid"),
     PILevelAmount: new ArupFieldConfig("PI Level Amount","ccrm_pilevelmoney_num"),
     description: new ArupFieldConfigText("Description", "description","description"),
-    text1: new ArupFieldConfigReadOnlyText("Supporting Text 1", "arup_procurementmessage","ta1"),
-    text2: new ArupFieldConfigReadOnlyText("Supporting Text 2", "arup_supportingtext2", "ta2"),
-    template: function() {
+    text11: new ArupFieldConfigReadOnlyText("Supporting Text 1", "arup_procurementmessage","ta1-1"),
+    text21: new ArupFieldConfigReadOnlyText("Supporting Text 2", "arup_supportingtext2", "ta2-1"),
+    text12: new ArupFieldConfigReadOnlyText("Supporting Text 1", "arup_procurementmessage", "ta1-2"),
+    text22: new ArupFieldConfigReadOnlyText("Supporting Text 2", "arup_supportingtext2", "ta2-2"),
+    text13: new ArupFieldConfigReadOnlyText("Supporting Text 1", "arup_procurementmessage", "ta1-3"),
+    text23: new ArupFieldConfigReadOnlyText("Supporting Text 2", "arup_supportingtext2", "ta2-3"),
+            template: function() {
         var o = new ArupFieldConfig("Opportunity Type", "arup_opportunitytype", "template");
 
         o.setDefault = function() {

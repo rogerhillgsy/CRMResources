@@ -1342,6 +1342,11 @@
       <UniqueName>new_ccrm_MultiEntityLookup</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script (JScript)\arup_OracleRequestListenerDiagnostics.js">
+      <DisplayName>Oracle Request Listener Diagnostics JS</DisplayName>
+      <UniqueName>arup_OracleRequestListenerDiagnostics.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\BidReview\arup_bidReviewTabs.html">
       <DisplayName>arup_bidReviewTabs</DisplayName>
       <UniqueName>new_arup_bidReviewTabs</UniqueName>
@@ -1856,6 +1861,11 @@
       <DisplayName>arup_lead_detailssection_html</DisplayName>
       <UniqueName>arup_arup_lead_detailssection_html</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page (HTML)\arup_OracleRequestListenerDiagnostics.html">
+      <DisplayName>Oracle Request Listener Diagnostics</DisplayName>
+      <UniqueName>arup_OracleRequestListenerDiagnostics.html</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_homepage.html">
       <DisplayName>ccrm_homepage</DisplayName>
