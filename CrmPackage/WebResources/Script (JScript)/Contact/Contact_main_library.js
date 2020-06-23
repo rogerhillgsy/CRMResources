@@ -338,14 +338,43 @@ function onchange_ccrm_uselocallanguage(executionContext) {
 
 //function to make additional language fields visible
 function ccrm_uselocallanguage_onchange(formContext) {
+
     if (formContext.getAttribute("ccrm_uselocallanguage").getValue() == true) {
         //unhide the additional address section
-        formContext.ui.tabs.get("tab_Address").sections.get("tab_additional_address_section").setVisible(true);
+        formContext.ui.tabs.get("tab_Address").sections.get("tab_additional_address_section").setVisible(true); 
+        formContext.getAttribute("ccrm_address2countrypicklist").setRequiredLevel('required');
+        formContext.getAttribute("address2_line1").setRequiredLevel('required');
     }
     else {
         //hide the additional address section
         formContext.ui.tabs.get("tab_Address").sections.get("tab_additional_address_section").setVisible(false);
+        formContext.getAttribute("ccrm_address2countrypicklist").setRequiredLevel('none');
+        formContext.getAttribute("ccrm_address2state").setRequiredLevel('none');
+        formContext.getAttribute("address2_line1").setRequiredLevel('none');
     }
+}
+
+function resetAddr2StatesProvinces(executionContext) {
+    var formContext = executionContext.getFormContext();
+    formContext.getAttribute("ccrm_address2state").setValue(null);
+    formContext.getAttribute("address2_stateorprovince").setValue(null);
+    formContext.getAttribute("address2_line1").setValue(null);
+}
+
+function onChangeAdditionalCountry(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var CountryName = formContext.getAttribute("ccrm_address2countrypicklist").getValue();
+    if (CountryName != null) {
+        CountryName = CountryName[0].name.toUpperCase();
+        var states = stateRequired(CountryName);
+        var reqLevel = states == false ? 'none' : 'required';
+
+        formContext.getAttribute("ccrm_address2countrypicklist").setRequiredLevel('required');
+        formContext.getControl("ccrm_address2state").setVisible(states);
+        formContext.getAttribute("ccrm_address2state").setRequiredLevel(reqLevel);
+        formContext.getControl("address2_stateorprovince").setVisible(!states);
+        formContext.getAttribute("address2_line1").setRequiredLevel('required');
+    }   
 }
 
 function Form_onsave(eventArgs) {
@@ -886,3 +915,5 @@ function contactType_onchange(formContext) {
         }
     }
 }
+
+
