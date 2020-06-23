@@ -58,16 +58,24 @@
                             };
                         }
                     };
-                    debugger;
 
                     Xrm.WebApi.online.execute(arup_actionrequest).then(
                         function success(result) {
                             if (result.ok) {
-                                var results = JSON.parse(result.responseText);
                                 var resultArea = document.getElementById(resultAreaId);
-                                resultArea.innerText = results.Result;
-                            }
-                        },
+                                if (result.responseText) { // Cope with different responses in web resource vs dashboard.?
+                                    var results = JSON.parse(result.responseText);
+                                    resultArea.innerText = results.Result;
+                                } else {
+                                    result.json().then(function (response) {
+                                        resultArea.innerText = response.Result;
+                                    },
+                                        function error(e) {
+                                            debugger;
+                                            console.log("Error calling action " + e );
+                                        });
+                                }
+                            }                        },
                         function (error) {
                             Xrm.Utility.alertDialog(actionName + error.message);
                         }
@@ -75,7 +83,6 @@
                 });
             };
 
-            debugger;
             document.ready.then(() => {
                 AddButtonCallback("PingButton", "arup_A03Ping", "PingResult");
                 AddButtonCallback("CheckConnectionButton", "arup_A14CheckConnection", "CheckConnectionResult");

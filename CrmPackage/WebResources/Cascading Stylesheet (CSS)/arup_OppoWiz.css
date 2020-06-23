@@ -269,10 +269,6 @@ td:nth-child(3) {
     width: 30px;
 }
 
-button.btn.btn-default.wizard-button-cancel {
-    margin-left: 37%;
-}
-
 #wait {
     position: center;
     height: 100px;
@@ -360,6 +356,11 @@ textarea.form-control {
     max-width: 650px;
     margin-right: auto;
     margin-left: auto;
+}
+
+.wizard-buttons .btn {
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 .form-control.input-form {
