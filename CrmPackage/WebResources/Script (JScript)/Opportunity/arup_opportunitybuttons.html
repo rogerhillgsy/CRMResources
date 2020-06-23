@@ -219,7 +219,12 @@ There will be several copies of the web resource visible in the debugger as "aru
                             span.id = "button" + id++;
                         }
                         span.onclick = button.action;
-                        span.innerHTML = button.label;
+                        // Check for static or dynamic value for the label.
+                        if (button.label instanceof Function) {
+                            span.innerHTML = button.label();
+                        } else {
+                            span.innerHTML = button.label;
+                        }
                         span.className = "mainButton";
 
                         if (!button.isredbutton)
