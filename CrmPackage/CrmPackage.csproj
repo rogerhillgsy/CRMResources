@@ -1398,8 +1398,8 @@
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_opportunitybuttoncommands.js">
-      <DisplayName>arup_opportunitybuttoncommands</DisplayName>
-      <UniqueName>arup_opportunitybuttoncommands</UniqueName>
+      <DisplayName>Opportunity Button Commands</DisplayName>
+      <UniqueName>arup_opportunitybuttoncommands.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_opportunitybuttons.html">

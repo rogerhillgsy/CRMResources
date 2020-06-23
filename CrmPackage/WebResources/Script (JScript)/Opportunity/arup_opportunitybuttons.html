@@ -244,7 +244,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 }
             }
         }
-
+        debugger;
         // Declare the configuration of each button: label, action to take when pressed and whether the button should be hidden.
         buttonConfigs = {
 
@@ -374,7 +374,8 @@ There will be several copies of the web resource visible in the debugger as "aru
                 {
 
                     // TOD: return to active stage
-                    'label': 'Back to the ' + formContext.Arup.ActiveTabName.replace(/[_]/g, " "),
+                 //   'label': 'Back to the ' + formContext.Arup.ActiveTabName.replace(/[_]/g, " "),
+                     'label': (typeof formContext != "undefined") ? 'Back to the ' + formContext.Arup.ActiveTabName.replace(/[_]/g, " ") : 'Back to the Active Stage',
                     'action': function () {
                         ReturnToActiveTab();
                     },
@@ -446,9 +447,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Move next stage");
                         MoveNext();
                     },
-                    'hidden': function () { return
-                        formContext.Arup.IsGroupLeaderApprovalEnabled(formContext) || formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext)
-                            || formContext.Arup.IsSectorLeaderApprovalEnabled(formContext) || formContext.Arup.IsBidDirectorApprovalEnabled(formContext) || formContext.Arup.IsRegionalCOOApprovalEnabled(formContext);
+                    hidden: function () { return (formContext.Arup.IsGroupLeaderApprovalEnabled(formContext) || formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext) || formContext.Arup.IsSectorLeaderApprovalEnabled(formContext) || formContext.Arup.IsBidDirectorApprovalEnabled(formContext) || formContext.Arup.IsRegionalCOOApprovalEnabled(formContext));
                     },
                     'isredbutton': true
                 }
