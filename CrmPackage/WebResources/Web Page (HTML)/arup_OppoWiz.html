@@ -39,45 +39,6 @@
         Arup_AddFocusOutValidationAll();
         arup_AddAllEvents();
 
-        //$("#mysub").wizard({
-        //        exitText: 'exit',
-        //        onfinish: function (e) {
-        //            ArupValidateAll().then(
-        //                //var form = document.querySelector("form#page4");
-        //                //Arup.validateOppWiz.validate(form).then(
-        //                function () {
-        //                    saveOpportunity().then(
-        //                        function (result) {
-        //                            Xrm.Utility.closeProgressIndicator();
-        //                            Xrm.Navigation.openAlertDialog({
-        //                                text: "Opportunity " + result.name + " has been created",
-        //                                title: "Opportunity Created"
-        //                            }).then(function reload() {
-        //                                // Navigate to new opportunity
-        //                                debugger;
-        //                                var pageInput = {
-        //                                    pageType: "entityrecord",
-        //                                    entityName: "opportunity",
-        //                                    entityId: result.newEntityid,
-        //                                };
-        //                                Xrm.Navigation.navigateTo(pageInput);
-        //                            });
-        //                        },
-        //                        function (errorDetail) {
-        //                            Xrm.Utility.closeProgressIndicator();
-        //                            Xrm.Navigation.openErrorDialog(errorDetail);
-        //                        });
-        //                    Xrm.Utility.showProgressIndicator("Creating Opportunity");
-        //                },
-        //                function (errors) {
-        //                    ArupValidationErrorDialog(errors);
-
-        //                }
-        //            );
-        //        }
-        //    }
-        //);
-
         // Prevent any submit events - a different mechanism is used to add data to the CRM system.
         $("form").on("submit",
             function (e) {
