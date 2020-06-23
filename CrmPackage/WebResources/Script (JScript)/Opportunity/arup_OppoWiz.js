@@ -831,7 +831,7 @@ function getUserData(receive) {
 }
 
 function getAccountingCentres() {
-    var input = $("#companies option[value='" + $('#arup_company').val() + "']").attr("data-accvalue");
+    var input = Arup_validations.arup_company.selectedAttribute("data-accvalue");
     if (input != undefined);
     var control = $("#accountingcentre")[0];
     control.value = "";
@@ -1518,7 +1518,7 @@ function Arup_AddFocusOutValidationAll() {
     }
 }
 
-// Class definition for configurations defined by ArupFieldConfig.
+// base Class definition for configurations defined by ArupFieldConfig.
 function ArupFieldConfig(name, crmAttribute, id) {
     this.name = name;
     this.crmAttribute = crmAttribute;
@@ -1741,6 +1741,31 @@ ArupFieldConfigText.prototype = new ArupFieldConfigReadOnlyText();
 ArupFieldConfigText.prototype.value = function () {
     return this.htmlNode().value;
 };
+
+
+function ArupFieldConfigOptionList( name, crmAttribute, id) {
+    ArupFieldConfig.call(this, name, crmAttribute, id);
+};
+ArupFieldConfigOptionList.prototype = new ArupFieldConfig();
+ArupFieldConfigOptionList.prototype.selectedOption = function () {
+    var target = this.htmlNode();
+    var selected = target.selectedOptions;
+    if (!selected) return document.createElement("option");
+    return selected[0];
+};
+ArupFieldConfigOptionList.prototype.selectedAttribute = function(attributeName) {
+    var selected = this.selectedOption();
+    return selected.getAttribute(attributeName);
+};
+ArupFieldConfigOptionList.prototype.selectedId = function () {
+    return this.selectedAttribute("data-value");
+}
+ArupFieldConfigOptionList.prototype.isSelected = function () {
+    var target = this.htmlNode();
+    var selected = target.selectedOptions;
+    return (!!selected);
+}
+
 
 // For any Arup_validation attributes that appear as "on..." add a corresponding event listener.
 function arup_AddAllEvents() {
@@ -2447,7 +2472,7 @@ var Arup_validations =
 
 
     arup_company: function() {
-        var o = new ArupFieldConfig("Arup Company", "ccrm_arupcompanyid", "arup_company");
+        var o = new ArupFieldConfigOptionList("Arup Company", "ccrm_arupcompanyid", "arup_company");
         o.setDefault = new function() {
             getCompanies(function(result) {
                 getUserData(function(result) {
@@ -2471,9 +2496,7 @@ var Arup_validations =
         o.indiaCompanyList = []; // Both set from getUserCompany() on load
         o.globalCompanyList = [];
         o.hasErrors = function() {
-            var htmlNode = this.htmlNode();
-            this.ensureSelected(htmlNode);
-            if (!htmlNode.value) {
+            if (!this.isSelected()) {
                 return "Arup Company must be selected";
             } else
                 return false;
@@ -2483,34 +2506,38 @@ var Arup_validations =
                 $("#companies option[value='" + $('#arup_company').val() + "']").attr("data-value") +
                 ")";
         };
-        o.oninput = function(e) {
-            var target = this.htmlNode();
-            oppWizLog("Getting accounting centres for " + $('#arup_company').val());
-            getAccountingCentres(target);
-            Arup_validations.arup_region.val =
-                $("#companies option[value='" + $('#arup_company').val() + "']").attr("data-regionid");
+
+        o.oninput = function (e) {
+            debugger;
+            var selected = this.selectedOption();
+            if (!selected) {
+                oppWizLog("Arup Company - no value selected");
+                return;
+            }
+            oppWizLog("Getting accounting centres for " + selected.value + " - " + selected.getAttribute('data-value'));
+            if (!selected.value) return;
+            getAccountingCentres();
+            Arup_validations.arup_region.val = this.selectedAttribute("data-regionid");
+//                $("#companies option[value='" + $('#arup_company').val() + "']").attr("data-regionid");
             Arup_validations.K12.checkK12Status();
         };
-        o.checkForIndiaCompanyList = function(country) {
-            var companyList = this.htmlNode2.list;
+
+        o.checkForIndiaCompanyList = function (country) {
+            debugger;
+            var company = this.htmlNode2;
+            var currentSelection = company.value;
             if (country === "India") {
-                companyList.innerHTML = this.indiaCompanyList;
+                company.innerHTML = this.indiaCompanyList;
                 this.htmlNode2.value = null;
             } else {
-                companyList.innerHTML = this.globalCompanyList;
+                company.innerHTML = this.globalCompanyList;
             }
-            this.ensureSelected();
+            company.value = currentSelection;
         };
-        o.onfocus = function(e) {
-            if (this.isErrored()) {
-                this.htmlNode().value = null;
-                this.setError(false);
-            }
-        }
         return o;
     }(),
     accountingcentre: function() {
-        var o = new ArupFieldConfig("Accounting Centre", "ccrm_accountingcentreid", "accountingcentre");
+        var o = new ArupFieldConfigOptionList("Accounting Centre", "ccrm_accountingcentreid", "accountingcentre");
         o.setDefault2 = function() { // Called from arup_company after accounting centre list is loaded.
             getUserData(function(result) {
                 if (result.hasOwnProperty("ccrm_accountingcentreid")) {
@@ -2523,9 +2550,7 @@ var Arup_validations =
             }.bind(o));
         };
         o.hasErrors = function() {
-            var htmlNode = this.htmlNode();
-            this.ensureSelected();
-            if (!htmlNode.value) {
+            if (!this.isSelected()) {
                 return "Accounting centre must be selected";
             } else
                 return false;
@@ -2554,7 +2579,7 @@ var Arup_validations =
                     ccrm_name +
                     '</option > ';
             }
-            this.htmlNode().list.innerHTML = acc;
+            this.htmlNode().innerHTML = acc;
         };
         o.onchange = function(e) {
             // Validate accounting centre and fill in any dependencies.
