@@ -42,8 +42,7 @@ function formAction(formName, action) {
 function Form_onload(executionContext) {
     var formContext = executionContext.getFormContext();
 
-    globalDQTeam = isUserInTeamCheck(formContext);
-    formContext.getControl('arup_duediligencecheck').removeOption(2);
+    globalDQTeam = isUserInTeamCheck(formContext);  
     formItem = formContext.ui.formSelector.getCurrentItem();
     var formName = formItem.getLabel();
 
@@ -64,7 +63,7 @@ function Form_onload(executionContext) {
 
     setCGFields(formContext);
 
-    if (formContext.data.entity.attributes.get("ccrm_legalentityname").getValue() == null) {
+    if (formContext.getAttribute("ccrm_legalentityname").getValue() == null) {
         copyNameToLEN(formContext);
     }
     
@@ -86,6 +85,7 @@ function Form_onload(executionContext) {
         prepareCheckOptions(formContext);
         DisplayCOVID19Section(userRegion, formContext);
         displayRelationshipTab(formContext);
+        formContext.getControl('arup_duediligencecheck').removeOption(2);
     }
 }
 
@@ -502,10 +502,10 @@ function copyNameToLegal(execContext) {
 }
 
 function copyNameToLEN(formContext) {
-    var validated = formContext.data.entity.attributes.get("ccrm_lastvalidatedbyid").getValue();
-    var clientName = formContext.data.entity.attributes.get("name").getValue();
-    if (validated == null && clientName != null) {
-        formContext.data.entity.attributes.get("ccrm_legalentityname").setValue(clientName);
+    var validated = formContext.getAttribute("ccrm_lastvalidatedbyid").getValue();
+    var clientName = formContext.getAttribute("name").getValue();
+    if (validated.length == 1 && clientName != null) {
+        formContext.getAttribute("ccrm_legalentityname").setValue(clientName);
     }
 }
 
@@ -716,7 +716,13 @@ function checkDueDiligence(primaryControl) {
         [
             {
                 label: "<b>Proceed Sanctions Check</b>",
-                callback: function () {                   
+                callback: function () {
+                    var ddTrigger = formContext.getAttribute("arup_checkduediligencetrigger").getValue();
+                    if (ddTrigger) {
+                        formContext.getAttribute("arup_checkduediligencetrigger").setValue(false);
+                        formContext.data.save();
+                        return;                     
+                    }
                     formContext.getAttribute("arup_checkduediligencetrigger").setValue(true);
                     formContext.data.save();
                 },
