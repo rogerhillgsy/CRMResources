@@ -41,7 +41,7 @@ ARUP.ccrm_bidreview = {
             dataChanged = this.loadSupplementData(formContext, dataChanged);
             dataChanged = this.ultimateClientNL(formContext, dataChanged);
             dataChanged = this.prePopulateFields(formContext, dataChanged);
-            dataChanged = this.isPartofJV(formContext, dataChanged);
+            dataChanged = this.isPartofJV(executionContext, dataChanged);
         }
 
         if (bidReviewHappened) {
@@ -157,7 +157,8 @@ ARUP.ccrm_bidreview = {
         else return false; //none returned
     },
 
-    isPartofJV: function (formContext, dataChanged) {
+    isPartofJV: function (executionContext, dataChanged) {
+        var formContext = executionContext.getFormContext();
         if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
         var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id;
         var ccrm_arups_role_in_project;
@@ -197,7 +198,7 @@ ARUP.ccrm_bidreview = {
                     formContext.getAttribute("ccrm_jvbidding_yesno").setValue(0);
                 }
                 formContext.getAttribute("ccrm_jvbidding_yesno").setSubmitMode("always");
-                this.twoOptions_onChange(formContext, "ccrm_jvbidding_yesno", 1);
+                this.twoOptions_onChange(executionContext, "ccrm_jvbidding_yesno", 1);
 
                 if (!dataChanged) { dataChanged = changedData };
 
@@ -797,7 +798,8 @@ ARUP.ccrm_bidreview = {
      * show Questions 2a and 3a else hide them
      *********************************************************
      */
-    ultimateClient_onChange: function (formContext) {
+    ultimateClient_onChange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
         //var showSection = false;
         //if (Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").getValue() != 1) //YES 
         var showSection = formContext.getAttribute("ccrm_ultimateclient_yesno").getValue() == 0;
@@ -920,7 +922,8 @@ ARUP.ccrm_bidreview = {
      * Toggle hidden question visibility
      *********************************************************
      */
-    twoOptions_onChange: function (formContext, fieldName, value) {
+    twoOptions_onChange: function (executionContext, fieldName, value) {
+        var formContext = executionContext.getFormContext();
         var showSection;
         if (formContext.getAttribute(fieldName).getValue() == value) showSection = true;
         else showSection = false;
@@ -1218,11 +1221,11 @@ ARUP.ccrm_bidreview = {
         if (formContext.ui.tabs.get("tab_SectionC").getDisplayState() == "expanded") {
 
             this.ccrm_defineddeliverables_yesno_onChange(executionContext);
-            this.ccrm_unusualreq_yesno_onChange();
-            ccrm_sectionc_data_7_onChange();
-            this.twoOptions_onChange(formContext, "ccrm_clearbrief_yesno", 0);
-            this.arup_sectiond_question9_onChange(formContext);
-            this.arup_sectiond_question10_onChange(formContext);
+            this.ccrm_unusualreq_yesno_onChange(executionContext);
+            ccrm_sectionc_data_7_onChange(executionContext);
+            this.twoOptions_onChange(executionContext, "ccrm_clearbrief_yesno", 0);
+            this.arup_sectiond_question9_onChange(executionContext);
+            this.arup_sectiond_question10_onChange(executionContext);
 
         }
     },
@@ -1236,7 +1239,7 @@ ARUP.ccrm_bidreview = {
         //handle field toggling when section E is expanded only 
         if (formContext.ui.tabs.get("tab_SectionD").getDisplayState() == "expanded") {
 
-            this.twoOptions_onChange(formContext, "ccrm_sectiond_data_1_new", 0);
+            this.twoOptions_onChange(executionContext, "ccrm_sectiond_data_1_new", 0);
             //this.twoOptions_onChange("ccrm_managementchanges_yesno", 1);
             this.fieldVisibility_onchange(executionContext, "ccrm_sectiond_data_5", 100000001, "ccrm_schedule_data_5");
             this.fieldVisibility_onchange(executionContext, "ccrm_approvalreq_yesno", 1, "ccrm_h1_project_data_9");
@@ -1257,7 +1260,7 @@ ARUP.ccrm_bidreview = {
             //hide sections 3b and 3c 
             this.showhideSection(formContext, "tab_SectionG", "tab_SectionG_3b", false);
             this.showhideSection(formContext, "tab_SectionG", "tab_SectionG_3c", false);
-            this.twoOptions_onChange(formContext, "ccrm_otherstaff_yesno", 1);
+            this.twoOptions_onChange(executionContext, "ccrm_otherstaff_yesno", 1);
             this.fieldVisibility_onchange(executionContext, "ccrm_resourcesavailable_yesno", 0, "ccrm_sectiong_data_3a_comments");
             this.fieldVisibility_onchange(executionContext, "ccrm_hsneedsconsidered_yesno", 0, "ccrm_technical_data_9");
             this.fieldVisibility_onchange(executionContext, "ccrm_projecthsneeds_yesno", 1, "ccrm_technical_data_11");
@@ -1267,7 +1270,7 @@ ARUP.ccrm_bidreview = {
             this.fieldVisibility_onchange(executionContext, "ccrm_sectiong_3bi_optionset", 100000001, "ccrm_sectiong_3bi_name");
             this.fieldVisibility_onchange(executionContext, "ccrm_sectiong_3bii_optionset", 100000001, "ccrm_sectiong_3bii_name");
             this.fieldVisibility_onchange(executionContext, "ccrm_sectiong_3biii_optionset", 100000001, "ccrm_sectiong_3biii_name");
-            this.twoOptions_onChange(formContext, "ccrm_subconsultantsresourced_yesno", 1);
+            this.twoOptions_onChange(executionContext, "ccrm_subconsultantsresourced_yesno", 1);
 
         }
     },
@@ -1287,12 +1290,12 @@ ARUP.ccrm_bidreview = {
             setup_display_other_field("arup_bondstype", "ccrm_sectione_data15a_other", "100000004");
             //check if we are bidding as part of JV 
             //if (Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() == null || Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() == 100000000)
-            this.twoOptions_onChange(formContext, "ccrm_sectione_data_5", 0);
+            this.twoOptions_onChange(executionContext, "ccrm_sectione_data_5", 0);
             //this.twoOptions_onChange("ccrm_tcattached_yesno", 0);
-            this.twoOptions_onChange(formContext, "ccrm_contractreviewed_yesno", 0);
-            this.twoOptions_onChange(formContext, "ccrm_liabilitylimit_yesno", 1);
-            this.twoOptions_onChange(formContext, "ccrm_sectione_data_13b", 100000003);
-            setTimeout(function () { ARUP.ccrm_bidreview.twoOptions_onChange("ccrm_bonds_guarantees_yesno", 1) }, 2000);
+            this.twoOptions_onChange(executionContext, "ccrm_contractreviewed_yesno", 0);
+            this.twoOptions_onChange(executionContext, "ccrm_liabilitylimit_yesno", 1);
+            this.twoOptions_onChange(executionContext, "ccrm_sectione_data_13b", 100000003);
+            setTimeout(function () { ARUP.ccrm_bidreview.twoOptions_onChange(executionContext, "ccrm_bonds_guarantees_yesno", 1) }, 2000);
             //show/hide Section E question 3
             var showSection = false;
             if (this.isPowerOfAttorney(formContext)) showSection = true;
@@ -1321,7 +1324,7 @@ ARUP.ccrm_bidreview = {
                     formContext.getAttribute("ccrm_ultimateclient_yesno").setSubmitMode("always");
                 }
 
-                this.ultimateClient_onChange(formContext);
+                this.ultimateClient_onChange(executionContext);
                 //this.relationshipManager_onChange();
                 this.fieldVisibility_onchange(executionContext, "ccrm_client_data_5_new", 100000000, "ccrm_client_data_5a_new");
                 this.WebResource_sectionB_question8_onChange(executionContext);
@@ -1342,9 +1345,9 @@ ARUP.ccrm_bidreview = {
         if (formContext.ui.tabs.get("tab_SectionF").getDisplayState() == "expanded") {
             //check charging basis 
             this.chkChargingBasis(formContext);
-            this.twoOptions_onChange(formContext, "ccrm_resourceconsultants_yesno", 1);
-            this.twoOptions_onChange(formContext, "ccrm_negativeforecast_yesno", 1);
-            this.twoOptions_onChange(formContext, "ccrm_hourlyratesincluded_yesno", 0);
+            this.twoOptions_onChange(executionContext, "ccrm_resourceconsultants_yesno", 1);
+            this.twoOptions_onChange(executionContext, "ccrm_negativeforecast_yesno", 1);
+            this.twoOptions_onChange(executionContext, "ccrm_hourlyratesincluded_yesno", 0);
             this.fieldVisibility_onchange(executionContext, "arup_sectiongquestion1a", 1, "arup_sectiongq1b");
             this.fieldVisibility_onchange(executionContext, "arup_sectio0ngq1c", 1, "arup_sectiongq1d");
             this.fieldVisibility_onchange(executionContext, "ccrm_competitivebidtype", 100000002, "ccrm_sectionf_data_1a_multi");
@@ -1358,9 +1361,9 @@ ARUP.ccrm_bidreview = {
             this.fieldVisibility_onchange(executionContext, "ccrm_chargingbasis", 20, "ccrm_sectionf_data_3b");
             setup_display_other_field("arup_keyindicators", "ccrm_h1project_data_4", "100000005");
             this.duediligence_onchange(executionContext);
-            this.twoOptions_onChange(formContext, "ccrm_paytermsmonthly_yesno", 0);
+            this.twoOptions_onChange(executionContext, "ccrm_paytermsmonthly_yesno", 0);
             //check whether fees and costs are in different currencies 
-            this.chkFeesandCostCurrency(formContext);
+            this.chkFeesandCostCurrency(executionContext);
             this.chkKeyIndicators(formContext);
         }
     },
@@ -1476,21 +1479,22 @@ ARUP.ccrm_bidreview = {
         if (Xrm.Page.getAttribute(sourceField).getValue() == sourceFieldValue || Xrm.Page.getAttribute(sourceField).getValue() == null) Xrm.Page.getControl(targetField).setVisible(false);
         else Xrm.Page.getControl(targetField).setVisible(true);
     },
-    chkFeesandCostCurrency: function (formContext) {
+    chkFeesandCostCurrency: function (executionContext) {
         //console.log("Executing Function");
+        var formContext = executionContext.getFormContext();
         this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_5", true);
         if (formContext.getAttribute("ccrm_feepaymentcurrency").getValue() != null && formContext.getAttribute("ccrm_costcurrency").getValue() != null) {
             if (formContext.getAttribute("ccrm_feepaymentcurrency").getValue()[0].id == formContext.getAttribute("ccrm_costcurrency").getValue()[0].id) this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_5", false);
         }
         if (formContext.getAttribute("ccrm_feepaymentcurrency").getValue() == null && formContext.getAttribute("ccrm_costcurrency").getValue() == null) this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_5", false);
     },
-    arup_sectiond_question9_onChange: function (formContext) {
-
+    arup_sectiond_question9_onChange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
         this.showhideSection(formContext, "tab_SectionC", "tabD_section9", formContext.getAttribute("arup_sectiond_question9").getValue() == '0');
 
     },
-    arup_sectiond_question10_onChange: function (formContext) {
-
+    arup_sectiond_question10_onChange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
         this.showhideSection(formContext, "tab_SectionC", "tabD_Section10a", formContext.getAttribute("arup_sectiond_question10").getValue() == '0');
 
     },
@@ -1628,7 +1632,7 @@ ARUP.ccrm_bidreview = {
 }
 //New Functions added: Charmain as discussed, you have a lot of annonymous functions here, but because they are being re-used multiple times, it didn't make sense so I added this one.
 
-function ccrm_sectionc_data_7_onChange() {
+function ccrm_sectionc_data_7_onChange(executionContext) {
 
     HideFields(executionContext, "ccrm_sectionc_data_7", 100000001, 100000003, "ccrm_technical_data_8");
 
