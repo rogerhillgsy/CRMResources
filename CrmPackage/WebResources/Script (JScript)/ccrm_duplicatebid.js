@@ -44,7 +44,7 @@ function getFilter() {
 
         if ($('#disciplines').val()) {
             if ($('#disciplines').val() != 'No')
-                filterStr += " and contains(ccrm_disciplinesname, '" + $('#disciplines').val() + "')";//" and substringof('" + $('#disciplines').val() + "',Ccrm_DisciplinesName)";
+                filterStr += " and Microsoft.Dynamics.CRM.ContainValues(PropertyName='arup_disciplines',PropertyValues=%5B'" + $('#disciplines').val() + "'%5D)";//(, '" + $('#disciplines').val() + "')";//" and substringof('" + $('#disciplines').val() + "',Ccrm_DisciplinesName)";
         }
 
         if ($('#scope').val()) {
@@ -68,7 +68,7 @@ function GetResultData(clientUrl) {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         datatype: "json",
-        url: clientUrl + "/api/data/v9.1/opportunities?$select=_ccrm_arupbusinessid_value,_ccrm_bidmanager_userid_value,ccrm_bidreview,ccrm_disciplinesname,ccrm_estarupinvolvementstart,ccrm_estimatedvalue_num,_ccrm_project_transactioncurrencyid_value,_customerid_value,name,opportunityid" + getFilter(),
+        url: clientUrl + "/api/data/v9.1/opportunities?$select=_ccrm_arupbusinessid_value,_ccrm_bidmanager_userid_value,ccrm_bidreview,arup_disciplines,ccrm_estarupinvolvementstart,ccrm_estimatedvalue_num,_ccrm_project_transactioncurrencyid_value,_customerid_value,name,opportunityid" + getFilter(),
         beforeSend: function (XMLHttpRequest) {
             XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
             XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -77,7 +77,7 @@ function GetResultData(clientUrl) {
         },
         async: false,
         success: function (data, textStatus, xhr) {
-            var results = data;
+            //var results = data;
             retrievedBids = data.value;
         },
         error: function (xhr, textStatus, errorThrown) {
