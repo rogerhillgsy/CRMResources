@@ -191,12 +191,7 @@ document.ready.then(function() {
                             saveOpportunity().then(
                                 function (result) {
                                     Xrm.Utility.closeProgressIndicator();
-                                    //Xrm.Navigation.openAlertDialog({
-                                    //    text: "Opportunity " + result.name + " has been created",
-                                    //    title: "Opportunity Created"
-                                    //}).then(function reload() {
                                         // Navigate to new opportunity
-                                        debugger;
                                         var pageInput = {
                                             pageType: "entityrecord",
                                             entityName: "opportunity",
@@ -703,9 +698,6 @@ function getBusinesses() {
                             ccrm_name +
                             " - " +
                             ccrm_arupbusinesscode +
-                            "[" +
-                            _ccrm_arupmarketid_value_formatted +
-                            "]" +
                             '</option > ';
                     }
                     control.list.innerHTML = businesses;
@@ -982,7 +974,6 @@ function getFrameworkRecs(control) {
                     "&$orderby=arup_name asc",
                     control)
                 .then(function success(results) {
-                        debugger; // Need to check how arup_region value comes back.
                         var frameworks = "";
                         for (var i = 0; i < results.value.length; i++) {
                             var frameworkname = results.value[i]["arup_name"];
@@ -1626,7 +1617,7 @@ ArupFieldConfig.prototype.updateDependentOptionSets = function(dependentOptionSe
                 target.setError(false);
                 var targetNode = target.htmlNode();
                 targetNode.setAttribute("disabled", "false");
-                var defaultOpts = Arup_validationsByAttribute[attr].defaultOptions;
+                var defaultOpts = target.defaultOptions;
                 var onlyOneOption = (Object.keys(requiredOpts).length === 1);
                 if (onlyOneOption) {
                     targetNode.setAttribute("disabled", onlyOneOption);
@@ -1764,6 +1755,10 @@ ArupFieldConfigOptionList.prototype.isSelected = function () {
     var target = this.htmlNode();
     var selected = target.selectedOptions;
     return (!!selected);
+}
+ArupFieldConfigOptionList.prototype.setVal = function (value) {
+    var target = this.htmlNode();
+    target.value = value;
 }
 
 
@@ -2080,7 +2075,6 @@ var Arup_validations =
                         promise.then(
                             function resolve(result) {
                                 // Set endclient from client.
-                                debugger;
                                 Arup_validations.endclient.setValue(
                                     result[Arup_validations.client.crmAttribute]);
                             });
@@ -2375,7 +2369,9 @@ var Arup_validations =
             if (country == "United States of America" || country == "Canada") {
                 // Set company from state if available.
                 if (companyId != null) {
-                    $("#arup_company")[0].value = $("#companies option[data-value='" + companyId + "']").attr('value');
+                    var option =
+                        Arup_validations.arup_company.htmlNode2.querySelector("option[data-value='" + companyId + "']");
+                    Arup_validations.arup_company.setVal(option.value);
                     Arup_validations.arup_company.oninput();
                 }
             }
@@ -2508,7 +2504,6 @@ var Arup_validations =
         };
 
         o.oninput = function (e) {
-            debugger;
             var selected = this.selectedOption();
             if (!selected) {
                 oppWizLog("Arup Company - no value selected");
@@ -2518,12 +2513,10 @@ var Arup_validations =
             if (!selected.value) return;
             getAccountingCentres();
             Arup_validations.arup_region.val = this.selectedAttribute("data-regionid");
-//                $("#companies option[value='" + $('#arup_company').val() + "']").attr("data-regionid");
             Arup_validations.K12.checkK12Status();
         };
 
         o.checkForIndiaCompanyList = function (country) {
-            debugger;
             var company = this.htmlNode2;
             var currentSelection = company.value;
             if (country === "India") {
@@ -2843,7 +2836,7 @@ var Arup_validations =
             }
         }.bind(o);
 
-        o.checkK12Status = function(e, source) {
+        o.checkK12Status = function (e, source) {
             return checkK12Required();
         };
         return o;
