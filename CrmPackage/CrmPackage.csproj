@@ -1342,11 +1342,6 @@
       <UniqueName>new_ccrm_MultiEntityLookup</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script (JScript)\arup_OracleRequestListenerDiagnostics.js">
-      <DisplayName>Oracle Request Listener Diagnostics JS</DisplayName>
-      <UniqueName>arup_OracleRequestListenerDiagnostics.js</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\BidReview\arup_bidReviewTabs.html">
       <DisplayName>arup_bidReviewTabs</DisplayName>
       <UniqueName>new_arup_bidReviewTabs</UniqueName>

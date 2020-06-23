@@ -42,9 +42,12 @@ var AllLoaded = function () {
     return loaded; // Promise that all files have been loaded.
 }
 
-function WizardStepsPanel(divId, buttonDiv, config) {
+function WizardStepsPanel(divId, buttonDiv, containerDiv, stepPanelClass, config) {
     this.divName = divId;
+    this.divButtons = buttonDiv;
     this.currentStep = 0;
+    this.container = document.querySelector(containerDiv);
+    this.steps = this.container.querySelectorAll(stepPanelClass);
     this.div = document.getElementById(divId);
     if (!this.div) throw Error("Unable to find root element for Wizard Steps Panel: " + divId);
     this.config = config;
@@ -65,6 +68,7 @@ function WizardStepsPanel(divId, buttonDiv, config) {
          stepConfig.div = c;
     }
     this.StepTo(0);
+    this.DisplayButtons();
 }
 WizardStepsPanel.prototype.StepTo = function (stepNum) {
     var currentStep = this.config.steps[this.currentStep];
@@ -74,7 +78,6 @@ WizardStepsPanel.prototype.StepTo = function (stepNum) {
     this.currentStep = stepNum;
     var nextStep = this.config.steps[stepNum];
     nextStep.div.classList.add("doing");
-    if (typeof (nextStep.onEnter) === "function") nextStep.onEnter();
 }
 WizardStepsPanel.prototype.StepNext = function () {
     this.StepTo(this.currentStep + 1);
@@ -82,12 +85,44 @@ WizardStepsPanel.prototype.StepNext = function () {
 WizardStepsPanel.prototype.StepBack = function () {
     this.StepTo(this.currentStep - 1);
 }
-WizardStepsPanel.prototype.DisplayButtons = function () {
-    this.StepTo(this.currentStep - 1);
+WizardStepsPanel.prototype.DisplayButtons = function() {
+    var buttonDiv = document.getElementById(this.divButtons);
+    if (!buttonDiv) throw new Error("Button location not defined :" + this.divButtons);
+    buttonDiv.innerHTML = "";
+    var buttons = this.config.steps[this.currentStep].buttons;
+    var panel = this;
+    for (var i = 0; i < buttons.length; i++) {
+        var buttonName = buttons[i];
+        var buttonConfig = this.config.buttons[buttonName];
+        var commandConfig = this.config.commands[buttonConfig.action];
+        var newButton = document.createElement('button');
+        newButton.classList.add('btn', 'btn-default', 'wizard-button-' + buttonName);
+        newButton.innerText = buttonConfig.label;
+        newButton.command = commandConfig;
+        newButton.addEventListener('click',
+            function(e) {
+                this.command.apply(panel, e);
+            });
+        buttonDiv.appendChild(newButton);
+    };
+}
+WizardStepsPanel.prototype.Validate = function () {
+    var page = "page" + (this.currentStep+1);
+    var errors = ArupPageHasErrors(page);
+    if (errors) {
+        ArupValidationErrorDialog(errors);
+    }
+    return !errors;
+}
+WizardStepsPanel.prototype.ShowCurrentStep = function() {
+    $(this.steps).hide();
+    $(this.steps[this.currentStep]).show();
+    var nextStep = this.config.steps[this.currentStep];
+    if (typeof (nextStep.onEnter) === "function") nextStep.onEnter();
 }
 var wizardStepsPanel;
 document.ready.then(function() {
-    wizardStepsPanel = new WizardStepsPanel("wizard-steps-panel", "wizard-buttons",
+    wizardStepsPanel = new WizardStepsPanel("wizard-steps-panel", "wizard-buttons", ".wizard-content",".wizard-step",
         { steps : [
             {
                 name: "Start<br/>&nbsp;",
@@ -100,7 +135,7 @@ document.ready.then(function() {
             {
                 name: "Opportunity <br/> Details 1",
                 colour: "#56BDEA",
-                onEnter: function() {
+                onEnter: function () {
                     Arup_validations.opportunityType.focus();
                 },
                 buttons: ['back', 'cancel', 'next' ]
@@ -130,23 +165,57 @@ document.ready.then(function() {
                 finish : { label: "Finish", action: 'save' },
             },
             commands: {
-                exit : function() {
+                exit: function (e) {
                     var pageInput = { pageType: "entitylist", entityName: "opportunity" };
                     Xrm.Navigation.navigateTo(pageInput).catch(function() {
                         throw new Error("Unable to navigate back to opportunity list")
                     });
                 },
-                next : function() {
-                    // If valid
+                next: function(e) {
+                    if (!this.Validate()) {
+                        return;
+                    };
                     // Move next
+                    this.StepNext();
+                    this.ShowCurrentStep();
+                    this.DisplayButtons();
                 },
                 back: function () {
-                    // If valid
-                    // Move back
+                    this.StepBack();
+                    this.ShowCurrentStep();
+                    this.DisplayButtons();
                 },
                 save: function () {
-                    // If valid
-                    // Move back
+                    ArupValidateAll().then(
+                        function () {
+                            saveOpportunity().then(
+                                function (result) {
+                                    Xrm.Utility.closeProgressIndicator();
+                                    //Xrm.Navigation.openAlertDialog({
+                                    //    text: "Opportunity " + result.name + " has been created",
+                                    //    title: "Opportunity Created"
+                                    //}).then(function reload() {
+                                        // Navigate to new opportunity
+                                        debugger;
+                                        var pageInput = {
+                                            pageType: "entityrecord",
+                                            entityName: "opportunity",
+                                            entityId: result.newEntityid,
+                                        };
+                                        Xrm.Navigation.navigateTo(pageInput);
+                                    //});
+                                },
+                                function (errorDetail) {
+                                    Xrm.Utility.closeProgressIndicator();
+                                    Xrm.Navigation.openErrorDialog(errorDetail);
+                                });
+                            Xrm.Utility.showProgressIndicator("Creating Opportunity");
+                        },
+                        function (errors) {
+                            ArupValidationErrorDialog(errors);
+
+                        }
+                    );
                 },
             }
 
@@ -154,129 +223,129 @@ document.ready.then(function() {
 });
 
 
-$.fn.wizard = function (config) {
-    if (!config) {
-        config = {};
-    };
-    var containerSelector = config.containerSelector || ".wizard-content";
-    var stepSelector = config.stepSelector || ".wizard-step";
-    var steps = $(this).find(containerSelector + " " + stepSelector);
-    var stepCount = steps.length;
-    var exitText = config.exit || 'Exit';
-    var backText = config.back || 'Back';
-    var nextText = config.next || 'Next';
-    var finishText = config.finish || 'Finish';
-    var confirmText = config._confirm || 'Confirm';
-    var cancelText = config._cancel || 'Cancel';
-    var isModal = config.isModal || true;
+//$.fn.wizard = function (config) {
+//    if (!config) {
+//        config = {};
+//    };
+//    var containerSelector = config.containerSelector || ".wizard-content";
+//    var stepSelector = config.stepSelector || ".wizard-step";
+//    var steps = $(this).find(containerSelector + " " + stepSelector);
+//    var stepCount = steps.length;
+//    var exitText = config.exit || 'Exit';
+//    var backText = config.back || 'Back';
+//    var nextText = config.next || 'Next';
+//    var finishText = config.finish || 'Finish';
+//    var confirmText = config._confirm || 'Confirm';
+//    var cancelText = config._cancel || 'Cancel';
+//    var isModal = config.isModal || true;
 
-    var validateNext = config.validateNext || function () {
-        if (step == 1) // Move to selection?
-        {
-            var errors = ArupPageHasErrors("page1");
-            if (errors) {
-                ArupValidationErrorDialog(errors);
-            }
-            return !errors;
-        }
+//    var validateNext = config.validateNext || function () {
+//        if (step == 1) // Move to selection?
+//        {
+//            var errors = ArupPageHasErrors("page1");
+//            if (errors) {
+//                ArupValidationErrorDialog(errors);
+//            }
+//            return !errors;
+//        }
 
-        else {
+//        else {
 
-            //Step 2 - display of the selected fields.
-            if (step == 2) {
-                var errors = ArupPageHasErrors("page2");
-                if (errors) {
-                    ArupValidationErrorDialog(errors);
-                }
-                return !errors;
+//            //Step 2 - display of the selected fields.
+//            if (step == 2) {
+//                var errors = ArupPageHasErrors("page2");
+//                if (errors) {
+//                    ArupValidationErrorDialog(errors);
+//                }
+//                return !errors;
 
-                if (selected.length < 1) {
+//                if (selected.length < 1) {
 
-                    Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
-                        '<font size="3" color="#000000"></br>Please select Opportunity Type and/or Lead source.</font>',
-                        [
-                            {
-                                label: "<b>OK</b>",
-                                callback: function () {
+//                    Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
+//                        '<font size="3" color="#000000"></br>Please select Opportunity Type and/or Lead source.</font>',
+//                        [
+//                            {
+//                                label: "<b>OK</b>",
+//                                callback: function () {
 
-                                },
-                                setFocus: true,
-                                preventClose: false
-                            }
-                        ],
-                        'Warning',
-                        600,
-                        250,
-                        '',
-                        true);
-                    return false;
-                }
-            }
-            if (step == 3) {
-                var errors = ArupPageHasErrors("page3");
-                if (errors) {
-                    ArupValidationErrorDialog(errors);
-                }
-                return !errors;
-            }
-        }
-        return false;
-    };
-    var validateFinish = config.validateFinish || function () { return true; };
+//                                },
+//                                setFocus: true,
+//                                preventClose: false
+//                            }
+//                        ],
+//                        'Warning',
+//                        600,
+//                        250,
+//                        '',
+//                        true);
+//                    return false;
+//                }
+//            }
+//            if (step == 3) {
+//                var errors = ArupPageHasErrors("page3");
+//                if (errors) {
+//                    ArupValidationErrorDialog(errors);
+//                }
+//                return !errors;
+//            }
+//        }
+//        return false;
+//    };
+//    var validateFinish = config.validateFinish || function () { return true; };
 
-    var contBack = function () {
+//    var contBack = function () {
         
-        //$(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");//.append('<div><h3>'+newName4+'</h3></div>');
-        //step--;
-        wizardStepsPanel.StepBack();
-        steps.hide();
-        $(steps[wizardStepsPanel.currentStep]).show();
+//        //$(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");//.append('<div><h3>'+newName4+'</h3></div>');
+//        //step--;
+//        wizardStepsPanel.StepBack();
+//        steps.forEach(function(s) { s.hidden = true;  });
+//        $(steps[wizardStepsPanel.currentStep]).show();
 
-//        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");
+////        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");
 
-        if (step == 1) {
-            btnBack.hide();
-            btnExit.show();
-        }
+//    //    if (step == 1) {
+//    //        btnBack.hide();
+//    //        btnExit.show();
+//    //    }
 
-        if (step == 3) {
-            btnConfirm.show();
-            btnNext.hide();
-        } else {
-            btnConfirm.hide();
-        }
+//    //    if (step == 3) {
+//    //        btnConfirm.show();
+//    //        btnNext.hide();
+//    //    } else {
+//    //        btnConfirm.hide();
+//    //    }
 
-        btnCancel.show();
-        btnFinish.hide();
-        btnNext.show();
+//    //    btnCancel.show();
+//    //    btnFinish.hide();
+//    //    btnNext.show();
 
-    };
+//    };
 
-    //////////////////////
-    var step = 1;
-    var container = $(this).find(containerSelector);
-    steps.hide();
-    $(steps[0]).show();
-    if (isModal) {
-        $(this).on('hidden.bs.modal', function () {
-            step = 1;
-            $($(containerSelector + " .wizard-steps-panel .step-number")
-                .removeClass("done")
-                .removeClass("doing")[0])
-                .toggleClass("doing");
+//    //////////////////////
+//    var step = 1;
+//    var container = $(this).find(containerSelector);
+//    steps.hide();
+//    $(steps[0]).show();
+//    if (isModal) {
+//        $(this).on('hidden.bs.modal', function () {
+//            step = 1;
+//            $($(containerSelector + " .wizard-steps-panel .step-number")
+//                .removeClass("done")
+//                .removeClass("doing")[0])
+//                .toggleClass("doing");
 
-            $($(containerSelector + " .wizard-step")
-                .hide()[0])
-                .show();
+//            $($(containerSelector + " .wizard-step")
+//                .hide()[0])
+//                .show();
 
-            btnBack.hide();
-            btnExit.show();
-            btnFinish.hide();
-            btnNext.show();
-            btnConfirm.hide();
+//            //btnBack.hide();
+//            //btnExit.show();
+//            //btnFinish.hide();
+//            //btnNext.show();
+//            //btnConfirm.hide();
 
-        });
-    };
+//        });
+//    };
     //$(this).find(".wizard-steps-panel").remove();
     //container.prepend('<div class="wizard-steps-panel col-lg-8 steps-quantity-' + stepCount + '"></div>');
     //var stepsPanel = $(this).find(".wizard-steps-panel");
@@ -297,230 +366,230 @@ $.fn.wizard = function (config) {
 
     //$(this).find(".wizard-steps-panel .step-" + step).toggleClass("doing");
     ////////////////////////
-    var contentForModal = "";
-    if (isModal) {
-        contentForModal = ' data-dismiss="modal"';
-    }
-    var btns = "";
-    btns += '<button type="button" class="btn btn-default wizard-button-exit pull-left"' + contentForModal + ' >' + exitText + '</button>';
-    btns += '<button type="button" class="btn btn-default wizard-button-back  pull-left">' + backText + '</button>';
-    btns += '<button type="button" class="btn btn-default wizard-button-cancel pull-left" ' + contentForModal + ' >' + cancelText + '</button>';
-    btns += '<button type="button" class="btn btn-default wizard-button-next pull-right">' + nextText + '</button>';
-    btns += '<button type="button" class="btn btn-primary wizard-button-finish pull-right" ' + contentForModal + ' >' + finishText + '</button>';
-    btns += '<button type="button" class="btn btn-primary wizard-button-confirm pull-right" ' + contentForModal + ' >' + confirmText + '</button>';
-    $(this).find(".wizard-buttons").html("");
-    $(this).find(".wizard-buttons").append(btns);
-    var btnExit = $(this).find(".wizard-button-exit");
-    var btnBack = $(this).find(".wizard-button-back");
-    var btnFinish = $(this).find(".wizard-button-finish");
-    var btnNext = $(this).find(".wizard-button-next");
-    var btnConfirm = $(this).find(".wizard-button-confirm");
-    var btnCancel = $(this).find(".wizard-button-cancel");
+    //var contentForModal = "";
+    //if (isModal) {
+    //    contentForModal = ' data-dismiss="modal"';
+    //}
+    //var btns = "";
+    //btns += '<button type="button" class="btn btn-default wizard-button-exit pull-left"' + contentForModal + ' >' + exitText + '</button>';
+    //btns += '<button type="button" class="btn btn-default wizard-button-back  pull-left">' + backText + '</button>';
+    //btns += '<button type="button" class="btn btn-default wizard-button-cancel pull-left" ' + contentForModal + ' >' + cancelText + '</button>';
+    //btns += '<button type="button" class="btn btn-default wizard-button-next pull-right">' + nextText + '</button>';
+    //btns += '<button type="button" class="btn btn-primary wizard-button-finish pull-right" ' + contentForModal + ' >' + finishText + '</button>';
+    //btns += '<button type="button" class="btn btn-primary wizard-button-confirm pull-right" ' + contentForModal + ' >' + confirmText + '</button>';
+    //$(this).find(".wizard-buttons").html("");
+    //$(this).find(".wizard-buttons").append(btns);
+    //var btnExit = $(this).find(".wizard-button-exit");
+    //var btnBack = $(this).find(".wizard-button-back");
+    //var btnFinish = $(this).find(".wizard-button-finish");
+    //var btnNext = $(this).find(".wizard-button-next");
+    //var btnConfirm = $(this).find(".wizard-button-confirm");
+    //var btnCancel = $(this).find(".wizard-button-cancel");
 
-    btnNext.on("click", function () {
-        if (!validateNext(step, steps[wizardStepsPanel.currentStep])) {
-            return;
-        };
+    //btnNext.on("click", function () {
+        //if (!validateNext(step, steps[wizardStepsPanel.currentStep])) {
+        //    return;
+        //};
 
-        wizardStepsPanel.StepNext();
-        //$(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");
-        //step++;
-        steps.hide();
-        $(steps[wizardStepsPanel.currentStep]).show();
+    //    wizardStepsPanel.StepNext();
+    //    //$(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");
+    //    //step++;
+    //    steps.hide();
+    //    $(steps[wizardStepsPanel.currentStep]).show();
 
-        //  $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");
-        if (step == stepCount) {    
-            btnFinish.show();
-            btnNext.hide();
-            btnBack.hide();
-        }
+    //    //  $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");
+    //    if (step == stepCount) {    
+    //        btnFinish.show();
+    //        btnNext.hide();
+    //        btnBack.hide();
+    //    }
 
-        switch (step) {
-            case 2:
-                Arup_validations.opportunityType.focus();
-                break;
-            case 3:
-                Arup_validations.contractarrangement.setDependentFieldValues();
-                Arup_validations.contractarrangement.focus();
-                break;
-            case 4:
-                Arup_validations.project_country.focus();
-                break;
-        }
-
-
-        if (step == 4) {
-            btnNext.hide();
-        }
-        else {
-            btnConfirm.hide();
-        }
-        btnExit.hide();
-        btnBack.show();
-        $('.multiselect-item .caret-container').click();
-
-       // SetupSupplementaryTextFields(step);
-    });
-
-    btnExit.on("click", function () { location.reload(); });
-
-    btnCancel.on("click", function () { location.reload(); });
-
-    btnBack.on("click", function () {
-        if (step == 2) {
-            //resultJSON = new Object();
-            SelectedEventsWithFreq = [];
-            checkedRows = [];
-            dBSelected = [];
-            //alert(step);
-
-            contBack(step);
-        }
-        //Back from Opportunity Further Details..  Destroy the page before leaving.
-        if (step == 3) {
-            Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
-                '<font size="3" color="#000000"></br>The previously selected events and the relevant data will be lost.</br>Do you want to continue?</font>',
-                [
-                    {
-                        label: "<b>Cancel</b>",
-                        callback: function () {
-                            return;
-                        },
-                        setFocus: true,
-                        preventClose: false
-                    },
-                    {
-                        label: "<b>OK - Go Back</b>",
-                        callback: function () {
-                            $("#ConNotiTab").bootstrapTable('destroy');
-                            selectedRows = [];
-                            contBack(step);
-                        },
-                        setFocus: false,
-                        preventClose: false
-                    }
-                ],
-                'Warning',
-                600,
-                250,
-                '',
-                true);
-        }
-        if (step == 4) {
-            contBack(step);
-            btnConfirm.hide();
-        }
-//        SetupSupplementaryTextFields(step);
-    });
-
-    btnFinish.on("click", function () {
-        if (!validateFinish(step, steps[step - 1])) {
-            return;
-        };
-        if (!!config.onfinish) {
-            config.onfinish();
-        }
-    });
-
-    btnConfirm.on("click", function () {
-        //Call the CRM action...
-        displayWaiting();
-        callAction(container, steps, step);
-        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");
-        step++;
-        steps.hide();
-        $(steps[step - 1]).show();
-        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");//.append('<div id="NN"><h3>'+newName3+'</h3></div>');
-
-        if (step == stepCount) {
-            btnFinish.show();
-            btnNext.hide();
-            btnBack.hide();
-        }
-        if (step == 3) {
-            btnConfirm.show();
-            btnCancel.show();
-            btnNext.hide();
-        }
-        else { btnConfirm.hide(); btnCancel.hide(); }
-        btnExit.hide();
-        $(".wizard-step").hide();
-        $(".wizard-buttons").hide();
-
-    });
-
-    btnBack.hide();
-    btnFinish.hide();
-    btnConfirm.hide();
-    return this;
-
-};
+    //    switch (step) {
+    //        case 2:
+    //            Arup_validations.opportunityType.focus();
+    //            break;
+    //        case 3:
+    //            Arup_validations.contractarrangement.setDependentFieldValues();
+    //            Arup_validations.contractarrangement.focus();
+    //            break;
+    //        case 4:
+    //            Arup_validations.project_country.focus();
+    //            break;
+    //    }
 
 
-function callAction(container, steps, step) {
+    //    if (step == 4) {
+    //        btnNext.hide();
+    //    }
+    //    else {
+    //        btnConfirm.hide();
+    //    }
+    //    btnExit.hide();
+    //    btnBack.show();
+    //    $('.multiselect-item .caret-container').click();
 
-    var serverURL = Xrm.Page.context.getClientUrl();
-    //query to send the request to the global Action 
-    var query = "arup_MySubsscriptionWizardAction";
-    //set the current loggedin userid in to _inputParameter of the 
-    var _userID = getCRMUserID();
-    var selectedRowsJSON = JSON.stringify(selectedRows);
-    //Pass the input parameters of action
-    var data = {
-        "UserID": _userID,
-        "SelectedJSON": selectedRowsJSON
-    };
-    //Create the HttpRequestObject to send WEB API Request 
-    var req = new XMLHttpRequest();
-    //Post the WEB API Request 
-    req.open("POST", serverURL + "/api/data/v8.2/" + query, true);
-    req.setRequestHeader("Accept", "application/json");
-    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    req.setRequestHeader("OData-MaxVersion", "4.0");
-    req.setRequestHeader("OData-Version", "4.0");
-    req.onreadystatechange = function () {
-        if (this.readyState == 4 /* complete */) {
-            req.onreadystatechange = null;
-            if (this.status == 200) {
-                //You can get the output parameter of the action with name as given below
-                result = JSON.parse(this.response);
-                var returnedJSON = JSON.parse(result.CUStatus);
-                //remove the waiting 
-                $("#wait").remove();
-                $("#waitmsg").remove();
-                $(".wizard-step").show();
-                $(".wizard-buttons").show();
-                $("#UR_Step").hide();
-                $("#SS_Step").hide();
-                $("#CN_Step").hide();
-                //prepare the table...
-                $('#CRMResult').bootstrapTable({
+    //   // SetupSupplementaryTextFields(step);
+    //});
 
-                    data: returnedJSON
+//    btnExit.on("click", function () { location.reload(); });
 
-                });
+//    btnCancel.on("click", function () { location.reload(); });
 
-            } else {
-                if (this.status == 204) {
-                    $("#wait").remove();
-                    $("#waitmsg").remove();
-                    $(".wizard-step").show();
-                    $(".wizard-buttons").show();
-                    $("#UR_Step").hide();
-                    $("#SS_Step").hide();
-                    $("#CN_Step").hide();
-                    $('body').append("<div id=\"204\"><h3>Completed adding the subscriptions.</h3></div> ");
-                }
-                else {
-                    var error = JSON.parse(this.response).error;
-                    alert(error.message);
-                }
-            }
-        }
-    };
-    //Execute request passing the input parameter of the action 
-    req.send(window.JSON.stringify(data));
-}
+//    btnBack.on("click", function () {
+//        if (step == 2) {
+//            //resultJSON = new Object();
+//            SelectedEventsWithFreq = [];
+//            checkedRows = [];
+//            dBSelected = [];
+//            //alert(step);
+
+//            contBack(step);
+//        }
+//        //Back from Opportunity Further Details..  Destroy the page before leaving.
+//        if (step == 3) {
+//            Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
+//                '<font size="3" color="#000000"></br>The previously selected events and the relevant data will be lost.</br>Do you want to continue?</font>',
+//                [
+//                    {
+//                        label: "<b>Cancel</b>",
+//                        callback: function () {
+//                            return;
+//                        },
+//                        setFocus: true,
+//                        preventClose: false
+//                    },
+//                    {
+//                        label: "<b>OK - Go Back</b>",
+//                        callback: function () {
+//                            $("#ConNotiTab").bootstrapTable('destroy');
+//                            selectedRows = [];
+//                            contBack(step);
+//                        },
+//                        setFocus: false,
+//                        preventClose: false
+//                    }
+//                ],
+//                'Warning',
+//                600,
+//                250,
+//                '',
+//                true);
+//        }
+//        if (step == 4) {
+//            contBack(step);
+//            btnConfirm.hide();
+//        }
+////        SetupSupplementaryTextFields(step);
+//    });
+
+//    btnFinish.on("click", function () {
+//        if (!validateFinish(step, steps[step - 1])) {
+//            return;
+//        };
+//        if (!!config.onfinish) {
+//            config.onfinish();
+//        }
+//    });
+
+//    btnConfirm.on("click", function () {
+//        //Call the CRM action...
+//        displayWaiting();
+//        callAction(container, steps, step);
+//        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing").toggleClass("done");
+//        step++;
+//        steps.hide();
+//        $(steps[step - 1]).show();
+//        $(container).find(".wizard-steps-panel .step-" + step).toggleClass("doing");//.append('<div id="NN"><h3>'+newName3+'</h3></div>');
+
+//        if (step == stepCount) {
+//            btnFinish.show();
+//            btnNext.hide();
+//            btnBack.hide();
+//        }
+//        if (step == 3) {
+//            btnConfirm.show();
+//            btnCancel.show();
+//            btnNext.hide();
+//        }
+//        else { btnConfirm.hide(); btnCancel.hide(); }
+//        btnExit.hide();
+//        $(".wizard-step").hide();
+//        $(".wizard-buttons").hide();
+
+//    });
+
+//    btnBack.hide();
+//    btnFinish.hide();
+//    btnConfirm.hide();
+//    return this;
+
+//};
+
+
+//function callAction(container, steps, step) {
+
+//    var serverURL = Xrm.Page.context.getClientUrl();
+//    //query to send the request to the global Action 
+//    var query = "arup_MySubsscriptionWizardAction";
+//    //set the current loggedin userid in to _inputParameter of the 
+//    var _userID = getCRMUserID();
+//    var selectedRowsJSON = JSON.stringify(selectedRows);
+//    //Pass the input parameters of action
+//    var data = {
+//        "UserID": _userID,
+//        "SelectedJSON": selectedRowsJSON
+//    };
+//    //Create the HttpRequestObject to send WEB API Request 
+//    var req = new XMLHttpRequest();
+//    //Post the WEB API Request 
+//    req.open("POST", serverURL + "/api/data/v8.2/" + query, true);
+//    req.setRequestHeader("Accept", "application/json");
+//    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+//    req.setRequestHeader("OData-MaxVersion", "4.0");
+//    req.setRequestHeader("OData-Version", "4.0");
+//    req.onreadystatechange = function () {
+//        if (this.readyState == 4 /* complete */) {
+//            req.onreadystatechange = null;
+//            if (this.status == 200) {
+//                //You can get the output parameter of the action with name as given below
+//                result = JSON.parse(this.response);
+//                var returnedJSON = JSON.parse(result.CUStatus);
+//                //remove the waiting 
+//                $("#wait").remove();
+//                $("#waitmsg").remove();
+//                $(".wizard-step").show();
+//                $(".wizard-buttons").show();
+//                $("#UR_Step").hide();
+//                $("#SS_Step").hide();
+//                $("#CN_Step").hide();
+//                //prepare the table...
+//                $('#CRMResult').bootstrapTable({
+
+//                    data: returnedJSON
+
+//                });
+
+//            } else {
+//                if (this.status == 204) {
+//                    $("#wait").remove();
+//                    $("#waitmsg").remove();
+//                    $(".wizard-step").show();
+//                    $(".wizard-buttons").show();
+//                    $("#UR_Step").hide();
+//                    $("#SS_Step").hide();
+//                    $("#CN_Step").hide();
+//                    $('body').append("<div id=\"204\"><h3>Completed adding the subscriptions.</h3></div> ");
+//                }
+//                else {
+//                    var error = JSON.parse(this.response).error;
+//                    alert(error.message);
+//                }
+//            }
+//        }
+//    };
+//    //Execute request passing the input parameter of the action 
+//    req.send(window.JSON.stringify(data));
+//}
 
 function getCountries(control, resolve) {
     var input = control.value;
@@ -718,7 +787,7 @@ var companyPromise = function() {
             }
             Arup_validations.arup_company.globalCompanyList = companies;
             Arup_validations.arup_company.indiaCompanyList = indiaCompanies;
-            control.list.innerHTML = companies;
+            control.innerHTML = companies;
             oppWizLog("retrieved " + results.value.length + " companies");
 
         });
@@ -1551,47 +1620,50 @@ ArupFieldConfig.prototype.updateDependentOptionSets = function(dependentOptionSe
             // Get the default list of options for field "attr" and make sure that we only include the ones we want
             var defaultOpts = this.defaultOptions;
             var requiredOpts = dependentOptionSets[attr];
-            var target = Arup_validationsByAttribute[attr];
-            target.setError(false);
-            var targetNode = target.htmlNode();
-            targetNode.setAttribute("disabled", "false");
-            var defaultOpts = Arup_validationsByAttribute[attr].defaultOptions;
-            var onlyOneOption = (Object.keys(requiredOpts).length === 1);
-            if (onlyOneOption) {
-                targetNode.setAttribute("disabled", onlyOneOption);
-            } else {
-                targetNode.removeAttribute('disabled');
-            }
-
-            oppWizLog(" Setting " + Object.keys(requiredOpts).length + " options for " + attr );
-            // Clear the current option list and add the ones we want.
-            if (!!defaultOpts) {
-                targetNode.innerHTML= "";
-                for (var i = 0; i < defaultOpts.length; i++) {
-                    var opt = defaultOpts[i];
-                    if ( !opt.value || !!requiredOpts[opt.value]) {
-                        var newOpt = document.createElement("option");
-                        newOpt.setAttribute("value", opt.value);
-                        newOpt.setAttribute("title", opt.title);
-                        if (opt.isReadOnly) {
-                            targetNode.setAttribute("disabled", "true");
-                            oppWizLog("Setting Readonly on " + attr + " " + opt.value);
-                        }
-                        if (opt.isDefault || (onlyOneOption && !!opt.value)) {
-                            newOpt.setAttribute("selected","true");
-                            oppWizLog("Setting Default on " + attr + " " + opt.value);
-                        }
-                        newOpt.innerHTML = opt.text;
-                        targetNode.options.add(newOpt);
-                    }
+            var targets = Arup_validationsByAttribute[attr];
+            for (var j = 0; j < targets.length; j++) {
+                var target = targets[j];
+                target.setError(false);
+                var targetNode = target.htmlNode();
+                targetNode.setAttribute("disabled", "false");
+                var defaultOpts = Arup_validationsByAttribute[attr].defaultOptions;
+                var onlyOneOption = (Object.keys(requiredOpts).length === 1);
+                if (onlyOneOption) {
+                    targetNode.setAttribute("disabled", onlyOneOption);
+                } else {
+                    targetNode.removeAttribute('disabled');
                 }
-            } else {
-                oppWizLog("No default options defined for " + attr);
+
+                oppWizLog(" Setting " + Object.keys(requiredOpts).length + " options for " + attr);
+                // Clear the current option list and add the ones we want.
+                if (!!defaultOpts) {
+                    targetNode.innerHTML = "";
+                    for (var i = 0; i < defaultOpts.length; i++) {
+                        var opt = defaultOpts[i];
+                        if (!opt.value || !!requiredOpts[opt.value]) {
+                            var newOpt = document.createElement("option");
+                            newOpt.setAttribute("value", opt.value);
+                            newOpt.setAttribute("title", opt.title);
+                            if (opt.isReadOnly) {
+                                targetNode.setAttribute("disabled", "true");
+                                oppWizLog("Setting Readonly on " + attr + " " + opt.value);
+                            }
+                            if (opt.isDefault || (onlyOneOption && !!opt.value)) {
+                                newOpt.setAttribute("selected", "true");
+                                oppWizLog("Setting Default on " + attr + " " + opt.value);
+                            }
+                            newOpt.innerHTML = opt.text;
+                            targetNode.options.add(newOpt);
+                        }
+                    }
+                } else {
+                    oppWizLog("No default options defined for " + attr);
+                }
             }
         }
     }
 };
-var setDependentField = function(result) {
+var setDependentField = function (result) {
     var attribute = result["arup_dependentfieldname"];
     var value = result["arup_dependentfieldvalue"];
     var node = Arup_validationsByAttribute[attribute];
@@ -1612,6 +1684,7 @@ ArupFieldConfig.prototype.setDependentFieldValues = function() {
             this.value() +
             "' and arup_entityname eq 'opportunity'")
         .then(function resolve(results) {
+                $(".dependentField").val(""); // Clear any dependent fields.
                 oppWizLog("Retrieved " + results.value.length + " dependent field values");
                 var dependentOptionSets = {};
                 for (var i = 0; i < results.value.length; i++) {
@@ -2395,8 +2468,8 @@ var Arup_validations =
 
             });
         };
-        var indiaCompanyList = []; // Both set from getUserCompany() on load
-        var globalCompanyList = [];
+        o.indiaCompanyList = []; // Both set from getUserCompany() on load
+        o.globalCompanyList = [];
         o.hasErrors = function() {
             var htmlNode = this.htmlNode();
             this.ensureSelected(htmlNode);
