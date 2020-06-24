@@ -647,7 +647,7 @@ function getAttributes() {
             if (field.crmAttribute.endsWith("id") || field.hasOwnProperty("databind") && field.databind) {
                 bind = "@odata.bind";
             }
-            oppWizLog("field is " + name);
+           // oppWizLog("field is " + name);
             var val = field.value();
             if (typeof(val) !== "undefined") attrs[name + bind] = val;
         }
@@ -1003,9 +1003,10 @@ function hasError(selector) {
     return false;
 }
 
-function oppWizLog(message) {
-    console.log(message);
-}
+var oppWizLog = console.log.bind(window.console);
+//function oppWizLog(message) {
+//    console.log(message);
+//}
 
 function oppWizLogObject(o, name) {
     oppWizLog(name);
@@ -1960,7 +1961,8 @@ var Arup_validations =
             if (!stateId) return undefined;
             return "/ccrm_arupusstates(" + stateId + ")";
         }.bind(o);
-        o.onchange = function(e) {
+        o.onchange = function (e) {
+            oppWizLog("Changing arup_state to " + this.value());
             var companyId = $("#states option[value='" + e.target.value + "']").attr("company-id-value");
             var country = $("#project_country").val().toLowerCase();
             if (country == "united states of america" || country == "canada") {
@@ -2095,9 +2097,7 @@ var Arup_validations =
                 return false;
         };
         o.value = function() {
-            return "/ccrm_arupcompanies(" +
-                $("#companies option[value='" + $('#arup_company').val() + "']").attr("data-value") +
-                ")";
+            return "/ccrm_arupcompanies(" + this.selectedId() + ")";
         };
 
         o.oninput = function (e) {
@@ -2112,6 +2112,9 @@ var Arup_validations =
             Arup_validations.arup_region.val = this.selectedAttribute("data-regionid");
             Arup_validations.K12.checkK12Status();
         };
+        o.onchange = function(e) {
+            debugger;
+        }
 
         o.checkForIndiaCompanyList = function (country) {
             var company = this.htmlNode2;
