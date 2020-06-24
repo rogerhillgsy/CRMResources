@@ -911,6 +911,10 @@ function FetchCRMData(entityName, select, target, maxRecords) {
             })
             .catch(function reject(error) {
                 oppWizLog("Error in FetchCRM Data " + error);
+                oppWizLog("For entity name : " + entityName + " select : " + select);
+                if (!!error && !!error.responseJSON) {
+                    oppWizLog(" message from server : " + error.responseJSON.message );
+                }
                 debugger;
             });
         promise.catch(function() { oppWizLog("FetchCRMData failed on " + url) });
@@ -2143,11 +2147,8 @@ var Arup_validations =
         }.bind(o);
         o.value = function() {
             return "/ccrm_arupaccountingcodes(" +
-                this.valueId() +
+                this.selectedId() +
                 ")";
-        };
-        o.valueId = function() {
-            return $("#accountingcentres option[value='" + $('#accountingcentre').val() + "']").attr("data-value");
         };
         o.currentAccountingCentre = null;
         o.setOptions = function(results) {
@@ -2171,7 +2172,7 @@ var Arup_validations =
             // Validate accounting centre and fill in any dependencies.
             if (!this.currentAccountingCentre ||
                 !!this.currentAccountingCentre && this.currentAccountingCentre !== e.target.value) {
-                ValidateAccountingCentre(this, this.valueId(), e.target).then(function() {
+                ValidateAccountingCentre(this, this.selectedId(), e.target).then(function() {
                         this.currentAccountingCentre = e.target.value;
                     })
                     .then(function() {
