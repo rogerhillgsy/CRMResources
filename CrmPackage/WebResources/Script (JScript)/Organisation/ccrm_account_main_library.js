@@ -42,8 +42,7 @@ function formAction(formName, action) {
 function Form_onload(executionContext) {
     var formContext = executionContext.getFormContext();
 
-    globalDQTeam = isUserInTeamCheck(formContext);
-
+    globalDQTeam = isUserInTeamCheck(formContext);  
     formItem = formContext.ui.formSelector.getCurrentItem();
     var formName = formItem.getLabel();
 
@@ -64,7 +63,7 @@ function Form_onload(executionContext) {
 
     setCGFields(formContext);
 
-    if (formContext.data.entity.attributes.get("ccrm_legalentityname").getValue() == null) {
+    if (formContext.getAttribute("ccrm_legalentityname").getValue() == null) {
         copyNameToLEN(formContext);
     }
     
@@ -83,10 +82,10 @@ function Form_onload(executionContext) {
         filterLeadsGrid(formContext);
         country_onChange(executionContext);
         IsRegisteredAddressFromParentRecord(formContext);
-        toggleSections(formContext);
         prepareCheckOptions(formContext);
         DisplayCOVID19Section(userRegion, formContext);
         displayRelationshipTab(formContext);
+        formContext.getControl('arup_duediligencecheck').removeOption(2);
     }
 }
 
@@ -486,15 +485,6 @@ function uselocaladdress_onchange(formContext) {
     sectionObj.setVisible(isVisible);
 }
 
-//function arup_highriskclient_onchange(formContext) {
-//    var relationshipManager = formContext.getAttribute("ccrm_keyaccountmanagerid").getValue() == null ? 'Relationship Manager for this client.' : formContext.getAttribute("ccrm_keyaccountmanagerid").getValue()[0].name + ', the Client Relationship manager.';
-//    var highRisk = formContext.getAttribute("arup_highriskclient").getValue();
-//    if (highRisk) {
-//        Notify.addOpp("<span style='font-weight:bold; color: white'>Before pursuing any opportunities with this client, please contact " + relationshipManager + " </span>", "WARNING", "highriskclient");
-//    }
-//    else { Notify.remove("highriskclient"); }
-//}
-
 function setDate(execContext) {
     var formContext = execContext.getFormContext();
     alert("Set Date function is called");
@@ -512,10 +502,10 @@ function copyNameToLegal(execContext) {
 }
 
 function copyNameToLEN(formContext) {
-    var validated = formContext.data.entity.attributes.get("ccrm_lastvalidatedbyid").getValue();
-    var clientName = formContext.data.entity.attributes.get("name").getValue();
-    if (validated == null && clientName != null) {
-        formContext.data.entity.attributes.get("ccrm_legalentityname").setValue(clientName);
+    var validated = formContext.getAttribute("ccrm_lastvalidatedbyid").getValue();
+    var clientName = formContext.getAttribute("name").getValue();
+    if (validated.length == 1 && clientName != null) {
+        formContext.getAttribute("ccrm_legalentityname").setValue(clientName);
     }
 }
 
@@ -731,6 +721,7 @@ function checkDueDiligence(primaryControl) {
                     if (ddTrigger) {
                         formContext.getAttribute("arup_checkduediligencetrigger").setValue(false);
                         formContext.data.save();
+                        return;                     
                     }
                     formContext.getAttribute("arup_checkduediligencetrigger").setValue(true);
                     formContext.data.save();
@@ -993,23 +984,6 @@ function AssignRegistrationDetails(results, legalClientName, formContext) {
             ],
             "INFO", 600, 200, '', true);
         formContext.getAttribute("arup_pulldatafromparentrecord").setValue(0);
-    }
-}
-
-function toggleSectionsOnChange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    toggleSections(formContext);
-}
-
-function toggleSections(formContext) {
-    var staterel = formContext.getAttribute("ccrm_enablerelationship").getValue();
-    if (staterel) {
-        formContext.ui.tabs.get("tab_Activites").setVisible(true);
-        //formContext.ui.tabs.get("tab_Activites").sections.get("Interactions").setVisible(true);
-    }
-    else {
-        formContext.ui.tabs.get("tab_Activites").setVisible(false);
-        //formContext.ui.tabs.get("tab_Activites").sections.get("Interactions").setVisible(false);
     }
 }
 
