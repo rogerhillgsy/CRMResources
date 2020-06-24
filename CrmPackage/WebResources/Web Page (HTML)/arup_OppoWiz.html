@@ -227,73 +227,73 @@
                     <form id="page4">
                         <div class="wizard-step" style="display: none;" id="WC_Step">
                             <div class="container-fluid" id="WC">
-                                <div class="form-group col-lg-6">
-                                    <label for="project_country">Project Country:</label>
-                                    <input list="countries" id="project_country" class="form-control input-form" name="project_country" title="Input project country" autocomplete="off" tabindex="20" />
-                                    <datalist id="countries">
-                                    </datalist>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="arup_business">Arup Business:</label>
-                                    <input list="businesses" id="arup_business" class="form-control input-form" name="arup_business" title="Input arup business" autocomplete="off" placeholder="Business Area" tabindex="25" />
-                                    <datalist id="businesses">
-                                    </datalist>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="project_city">Project Town/City:</label>
-                                    <input list="cities" id="project_city" class="form-control input-form" name="project_city" title="Input project city" autocomplete="off" tabindex="21" />
-                                    <datalist id="cities">
-                                    </datalist>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="arup_subbusiness">Arup Sub Business:</label>
-                                    <input list="subbusinesses" id="arup_subbusiness" class="form-control input-form" name="arup_subbusiness" title="Input arup sub business" autocomplete="off" placeholder="Business sub-area" tabindex="26" />
-                                    <datalist id="subbusinesses">
-                                    </datalist>
-                                </div>
-                                <div class="form-group col-lg-6 invisible">
-                                    <label for="project_state">Project State/Province:</label>
-                                    <input list="states" id="project_state" class="form-control input-form" name="project_state" title="Input project state" autocomplete="off" tabindex="22" />
-                                    <datalist id="states">
-                                    </datalist>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label class="displaysError">Global Services:</label>
-                                    <p>
-                                        <label><input type="checkbox" name="global_services" value="100000001" tabindex="27" /> Advisory Services</label>&nbsp;&nbsp;
-                                        <label><input type="checkbox" name="global_services" value="100000000" tabindex="28" /> Architecture</label>&nbsp;&nbsp;
-                                        <label><input type="checkbox" name="global_services" value="100000006" tabindex="29" /> Digital</label>&nbsp;&nbsp;
-                                        <label><input type="checkbox" name="global_services" value="100000002" tabindex="30" /> Planning</label>&nbsp;&nbsp;
-                                        <label><input type="checkbox" name="global_services" value="770000000" tabindex="31" /> Not Applicable</label>&nbsp;&nbsp;
-                                        <label><input type="checkbox" name="global_services" value="100000003" tabindex="32" /> Other</label>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="arup_company">Arup Company:</label>
-                                    <select id="arup_company" class="form-control" name="arup_company" title="Input Company" tabindex="23" placeholder="Arup Company"></select>
-                                    <!--<input list="companies" id="arup_company" class="form-control input-form" name="arup_company" title="Input Company" autocomplete="aoff" tabindex="23" />
-                                    <datalist id="companies">
-                                    </datalist>-->
-                                </div>
-                                <div class="form-group col-lg-6 invisible">
-                                    <label for="globalservices_other">Global Services (Other):</label>
-                                    <input id="globalservices_other" class="form-control input-form" tabindex="33" autocomplete="off" />
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="accountingcentre">Accounting Centre:</label>
-                                    <select id="accountingcentre" class="form-control" name="accountingcentre" title="Input Accounting Centre" autocomplete="off" tabindex="24" ></select>
-                                    <!--<input list="accountingcentres" id="accountingcentre" class="form-control input-form" name="accountingcentre" title="Input Accounting Centre" autocomplete="off" tabindex="24" />
-                                    <datalist id="accountingcentres">
-                                    </datalist>-->
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="description">Project Summary:</label>
-                                    <textarea id="description" class="form-control input-form" style="min-height: 72px; overflow: auto; height: auto;" maxlength="2000" role="textbox" attrname="description" tabindex="34"></textarea>
-                                </div>
-                                <div class="form-group col-lg-6 hidden">
-                                    <label for="K12">Is it K-12 School:</label>
-                                    <input type="checkbox" id="K12" name="isK12" tabindex="35" />
-                                </div>
-                                <br />
+                                <form id="Other Details">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="project_country">Project Country:</label>
+                                            <input list="countries" id="project_country" class="form-control input-form" name="project_country" title="Input project country" autocomplete="off" tabindex="20" />
+                                            <datalist id="countries">
+                                            </datalist>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="project_city">Project Town/City:</label>
+                                            <input list="cities" id="project_city" class="form-control input-form" name="project_city" title="Input project city" autocomplete="off" tabindex="21" />
+                                            <datalist id="cities">
+                                            </datalist>
+                                        </div>
+                                        <div class="form-group invisible">
+                                            <label for="project_state">Project State/Province:</label>
+                                            <input list="states" id="project_state" class="form-control input-form" name="project_state" title="Input project state" autocomplete="off" tabindex="22" />
+                                            <datalist id="states">
+                                            </datalist>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="arup_company">Arup Company:</label>
+                                            <select id="arup_company" class="form-control" name="arup_company" title="Input Company" tabindex="23" placeholder="Arup Company"></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="accountingcentre">Accounting Centre:</label>
+                                            <select id="accountingcentre" class="form-control" name="accountingcentre" title="Input Accounting Centre" autocomplete="off" tabindex="24"></select>
+                                        </div>
+                                        <div class="form-group hidden">
+                                            <label for="K12">Is it K-12 School:</label>
+                                            <input type="checkbox" id="K12" name="isK12" tabindex="35" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="arup_business">Arup Business:</label>
+                                            <input list="businesses" id="arup_business" class="form-control input-form" name="arup_business" title="Input arup business" autocomplete="off" placeholder="Business Area" tabindex="25" />
+                                            <datalist id="businesses">
+                                            </datalist>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="arup_subbusiness">Arup Sub Business:</label>
+                                            <input list="subbusinesses" id="arup_subbusiness" class="form-control input-form" name="arup_subbusiness" title="Input arup sub business" autocomplete="off" placeholder="Business sub-area" tabindex="26" />
+                                            <datalist id="subbusinesses">
+                                            </datalist>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="displaysError">Global Services:</label>
+                                            <p>
+                                                <label><input type="checkbox" name="global_services" value="100000001" tabindex="27" /> Advisory Services</label>&nbsp;&nbsp;
+                                                <label><input type="checkbox" name="global_services" value="100000000" tabindex="28" /> Architecture</label>&nbsp;&nbsp;
+                                                <label><input type="checkbox" name="global_services" value="100000006" tabindex="29" /> Digital</label>&nbsp;&nbsp;
+                                                <label><input type="checkbox" name="global_services" value="100000002" tabindex="30" /> Planning</label>&nbsp;&nbsp;
+                                                <label><input type="checkbox" name="global_services" value="770000000" tabindex="31" /> Not Applicable</label>&nbsp;&nbsp;
+                                                <label><input type="checkbox" name="global_services" value="100000003" tabindex="32" /> Other</label>
+                                        </div>
+
+                                        <div class="form-group invisible">
+                                            <label for="globalservices_other">Global Services (Other):</label>
+                                            <input id="globalservices_other" class="form-control input-form" tabindex="33" autocomplete="off" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">Project Summary:</label>
+                                            <textarea id="description" class="form-control input-form" style="min-height: 100px; overflow: auto; height: auto;" maxlength="2000" role="textbox" attrname="description" tabindex="34"></textarea>
+                                        </div>
+                                    </div>                                    <br />
+                                </form>
                             </div>
                             <br>
                             <br>
