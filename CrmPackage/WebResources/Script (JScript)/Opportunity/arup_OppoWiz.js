@@ -369,6 +369,7 @@ function getSubBusinesses() {
     );
 }
 
+// Use companyPromise to ensure that we only need to fetch company data once in an asynchronous way so that it is available when needed.
 var companyPromise = function() {
     var p = FetchCRMData("ccrm_arupcompanies",
         "$select=ccrm_acccentrelookupcode,ccrm_arupcompanycode,ccrm_arupcompanyid,ccrm_name,_ccrm_arupregionid_value&$filter=statuscode" +
@@ -387,6 +388,9 @@ var companyPromise = function() {
                 var ccrm_arupcompanyid = results.value[i]["ccrm_arupcompanyid"];
                 var ccrm_arupregionid = results.value[i]["_ccrm_arupregionid_value"];
                 var ccrm_name = results.value[i]["ccrm_name"];
+                var formattedCompanyCode = ccrm_arupcompanycode.length <= 4
+                    ? "____".substr(0, 4 - ccrm_arupcompanycode.length) + ccrm_arupcompanycode
+                    : ccrm_arupcompanycode;
                 var option = '<option value="' +
                     ccrm_name +
                     '" data-value="' +
@@ -396,7 +400,7 @@ var companyPromise = function() {
                     '" data-regionid="' + 
                     ccrm_arupregionid +
                     '" > ' +
-                    ccrm_arupcompanycode +
+                    formattedCompanyCode +
                     " - " +
                     ccrm_name +
                     '</option > ';
@@ -459,7 +463,7 @@ function getAccountingCentres() {
             "$select=ccrm_arupaccountingcodeid,ccrm_arupcompanycode,ccrm_name&$filter=ccrm_arupcompanycode" +
             encodeURIComponent(" eq '" + input + "' and  statuscode eq 1 ") +
             "&$orderby=ccrm_name asc",
-            control)
+            control,0)
         .then(function success(results) {
             Arup_validations.accountingcentre.setOptions( results.value);
                 oppWizLog("retrieved " + results.value.length + " accounting centres");
@@ -643,7 +647,7 @@ function getAttributes() {
             if (field.crmAttribute.endsWith("id") || field.hasOwnProperty("databind") && field.databind) {
                 bind = "@odata.bind";
             }
-//            oppWizLog("field is " + name);
+            oppWizLog("field is " + name);
             var val = field.value();
             if (typeof(val) !== "undefined") attrs[name + bind] = val;
         }
@@ -663,7 +667,7 @@ function CreateOpportunity(attributes) {
     var impersonateUserId;
 
     var promise = new Promise(function (resolve, reject) {
-        Xrm.WebApi.retrieveMultipleRecords("ccrm_arupinterfacesetting",
+        parent.Xrm.WebApi.retrieveMultipleRecords("ccrm_arupinterfacesetting",
                 "?$select=ccrm_setting&$filter=ccrm_name eq ('Arup.CreateOpportunity.UserId')")
             .then(function(result) {
                     if (result.entities.length != 1) {
@@ -1336,10 +1340,10 @@ function ArupFieldConfigReadOnlyText(name, crmAttribute, id) {
 };
 ArupFieldConfigReadOnlyText.prototype = new ArupFieldConfig();
 ArupFieldConfigReadOnlyText.prototype.setVal = function (value) {
-    this.value = value;
     var node = this.htmlNode();
     if (!!node) node.value = value;
 };
+ArupFieldConfigReadOnlyText.prototype.value = function() { return; };
 
 function ArupFieldConfigText(name, crmAttribute, id) {
     ArupFieldConfig.call(this, name, crmAttribute, id);
