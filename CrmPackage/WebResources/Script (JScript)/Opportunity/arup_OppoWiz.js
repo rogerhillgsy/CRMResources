@@ -1944,7 +1944,7 @@ var Arup_validations =
         o.hasErrors = function() {
             var target = this.htmlNode();
             if (!target.value && target.list.options.length === 0) return false; // No states to select from
-            this.ensureSelected();
+//            this.ensureSelected();
             if (!target.value) {
                 return "Project state must be selected";
             } else
@@ -1962,8 +1962,8 @@ var Arup_validations =
         }.bind(o);
         o.onchange = function(e) {
             var companyId = $("#states option[value='" + e.target.value + "']").attr("company-id-value");
-            var country = $("#project_country").val();
-            if (country == "United States of America" || country == "Canada") {
+            var country = $("#project_country").val().toLowerCase();
+            if (country == "united states of america" || country == "canada") {
                 // Set company from state if available.
                 if (companyId != null) {
                     var option =
