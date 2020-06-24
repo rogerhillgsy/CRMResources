@@ -633,6 +633,7 @@ function FormOnload(executionContext) {
             onSelectOfStage(formContext, currentStage);
             ShowHideOpportunityTypeAndProjectProcurement(formContext, currentStage);
             if (!!formContext.data.process) {
+                formContext.data.process.addOnPreStageChange(function (executionContext) { PreStageChange(executionContext) });
                 formContext.data.process.addOnStageSelected(function () { StageSelected(formContext) });
                 formContext.data.process.addOnStageChange(function () { StageChange_event(formContext) });
             }
@@ -2505,8 +2506,21 @@ function SetValidField(formContext, fieldName, val, warningMsg, warMsgName) {
 }
 // Common Methods - Ends 
 
-function StageSelected(formContext) {
+function PreStageChange(executionContext) {
+    debugger;
+    var eventArgs = executionContext.getEventArgs();
+    if (eventArgs.getDirection() == "Previous") {
+       var formContext = executionContext.getFormContext();      
+        if (!formContext.data.isValid()) {
+            eventArgs.preventDefault();
+            formContext.ui.setFormNotification("Please fill in all mandatory fields required for " + eventArgs.getStage().getName() + " stage before moving back to previous stage", "WARNING", "reqFieldsStageChangeWarnMsg-mandfields");
+            setTimeout(function () { formContext.ui.clearFormNotification("reqFieldsStageChangeWarnMsg-mandfields"); }, 10000);
+        }
+    }
+}
 
+function StageSelected(formContext) {
+    debugger;
     //var formContext = executionContext.getFormContext();
     // var eventAgrs = executionContext.getEventArgs();
     // var selectedStage = eventAgrs.getStage();
