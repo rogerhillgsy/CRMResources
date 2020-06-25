@@ -192,9 +192,9 @@ function CloseOpportunityConfirmation(formContext, statusCode) {
                 }
             }
         },
-      function(status) {
-          console.log("failure status " + status.message);
-       });
+        function (status) {
+            console.log("failure status " + status.message);
+        });
 }
 
 function ConfirmationMessage(formContext) {
@@ -253,35 +253,35 @@ function BidDicisionConfirmation(formContext) {
 
     formContext.data.save().then(
         function success(status) {
-            if (IsFormValid(formContext, 'BDA')){
-            setTimeout(function () {
+            if (IsFormValid(formContext, 'BDA')) {
+                setTimeout(function () {
 
-            var ackMsg = BidConfirmationMessage(formContext, bidDecisionChair);
+                    var ackMsg = BidConfirmationMessage(formContext, bidDecisionChair);
 
-            Alert.show('<font size="6" color="#187ACD"><b>Opportunity - Decision to Bid</b></font>',
-                '<font size="3" color="#000000"></br></br>' + ackMsg + '</font>',
-                [
-                    {
-                        label: "<b>Confirm</b>",
-                        callback: function () {
-                            var approvalType = "BidDecisionChairApproval";
-                            approveCallbackAction(formContext, approvalType);
-                            moveToNextTrigger = true;
-                        },
-                        setFocus: true,
-                        preventClose: false
+                    Alert.show('<font size="6" color="#187ACD"><b>Opportunity - Decision to Bid</b></font>',
+                        '<font size="3" color="#000000"></br></br>' + ackMsg + '</font>',
+                        [
+                            {
+                                label: "<b>Confirm</b>",
+                                callback: function () {
+                                    var approvalType = "BidDecisionChairApproval";
+                                    approveCallbackAction(formContext, approvalType);
+                                    moveToNextTrigger = true;
+                                },
+                                setFocus: true,
+                                preventClose: false
 
-                    },
-                    {
-                        label: "<b>Cancel</b>",
-                        callback: function () {
+                            },
+                            {
+                                label: "<b>Cancel</b>",
+                                callback: function () {
 
-                        },
-                        setFocus: false,
-                        preventClose: false
-                    }
-                ], 'QUESTION', 800, 470, '', true);
-        }, 2000);
+                                },
+                                setFocus: false,
+                                preventClose: false
+                            }
+                        ], 'QUESTION', 800, 470, '', true);
+                }, 2000);
             }
             else {
                 formContext.data.save();
@@ -326,6 +326,7 @@ function BidConfirmationMessage(formContext, bidDecisionChair) {
 
 function setupArupInternal(executionContext) {
     var formContext = executionContext.getFormContext();
+    showSDGFields(formContext, arupInternal);
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     if (!arupInternal) { return; }
 
@@ -338,7 +339,6 @@ function setupArupInternal(executionContext) {
     formContext.getControl("ccrm_arupuniversityiiaresearchinitiative").setVisible(false);
     formContext.getControl("ccrm_estprojectvalue_num").setVisible(false);
     formContext.getControl("arup_projpartreqd").setVisible(false);
-
 }
 
 function setBidDecisionChairRequired_ec(executionContext) {
@@ -609,4 +609,30 @@ function setOrganisationChecks(formContext, arup_duediligencecheck) {
         }
     };
     req.send(JSON.stringify(entity));
+}
+
+function showSDGFields(formContext, arupInternal) {
+    if (arupInternal) {
+        formContext.getControl("header_process_arup_keymarkets").setVisible(false);
+        formContext.getControl("header_process_arup_sharedvalues").setVisible(false);
+        formContext.getControl("header_process_arup_safeguardplanet").setVisible(false);
+        formContext.getControl("header_process_arup_partnership").setVisible(false);
+        formContext.getControl("header_process_arup_betterway").setVisible(false);
+        formContext.getControl("arup_keymarkets").setVisible(false);
+        formContext.getControl("arup_sharedvalues").setVisible(false);
+        formContext.getControl("arup_safeguardplanet").setVisible(false);
+        formContext.getControl("arup_partnership").setVisible(false);
+        formContext.getControl("arup_betterway").setVisible(false);
+    } else {
+        formContext.getAttribute("header_process_arup_keymarkets").setRequiredLevel("required");
+        formContext.getAttribute("header_process_arup_sharedvalues").setRequiredLevel("required");
+        formContext.getAttribute("header_process_arup_safeguardplanet").setRequiredLevel("required");
+        formContext.getAttribute("header_process_arup_partnership").setRequiredLevel("required");
+        formContext.getAttribute("header_process_arup_betterway").setRequiredLevel("required");
+        formContext.getAttribute("arup_keymarkets").setRequiredLevel("required");
+        formContext.getAttribute("arup_sharedvalues").setRequiredLevel("required");
+        formContext.getAttribute("arup_safeguardplanet").setRequiredLevel("required");
+        formContext.getAttribute("arup_partnership").setRequiredLevel("required");
+        formContext.getAttribute("arup_betterway").setRequiredLevel("required");
+    }
 }
