@@ -325,9 +325,9 @@ function BidConfirmationMessage(formContext, bidDecisionChair) {
 }
 
 function setupArupInternal(executionContext) {
-    var formContext = executionContext.getFormContext();
-    showSDGFields(formContext, arupInternal);
+    var formContext = executionContext.getFormContext(); 
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+    showSDGFields(formContext, arupInternal);
     if (!arupInternal) { return; }
 
     formContext.getControl("ccrm_countryofclientregistrationid").setVisible(false);
@@ -612,23 +612,20 @@ function setOrganisationChecks(formContext, arup_duediligencecheck) {
 }
 
 function showSDGFields(formContext, arupInternal) {
+    debugger;
     if (arupInternal) {
         formContext.getControl("header_process_arup_keymarkets").setVisible(false);
         formContext.getControl("header_process_arup_sharedvalues").setVisible(false);
         formContext.getControl("header_process_arup_safeguardplanet").setVisible(false);
         formContext.getControl("header_process_arup_partnership").setVisible(false);
         formContext.getControl("header_process_arup_betterway").setVisible(false);
+        
         formContext.getControl("arup_keymarkets").setVisible(false);
         formContext.getControl("arup_sharedvalues").setVisible(false);
         formContext.getControl("arup_safeguardplanet").setVisible(false);
         formContext.getControl("arup_partnership").setVisible(false);
         formContext.getControl("arup_betterway").setVisible(false);
     } else {
-        formContext.getAttribute("header_process_arup_keymarkets").setRequiredLevel("required");
-        formContext.getAttribute("header_process_arup_sharedvalues").setRequiredLevel("required");
-        formContext.getAttribute("header_process_arup_safeguardplanet").setRequiredLevel("required");
-        formContext.getAttribute("header_process_arup_partnership").setRequiredLevel("required");
-        formContext.getAttribute("header_process_arup_betterway").setRequiredLevel("required");
         formContext.getAttribute("arup_keymarkets").setRequiredLevel("required");
         formContext.getAttribute("arup_sharedvalues").setRequiredLevel("required");
         formContext.getAttribute("arup_safeguardplanet").setRequiredLevel("required");
