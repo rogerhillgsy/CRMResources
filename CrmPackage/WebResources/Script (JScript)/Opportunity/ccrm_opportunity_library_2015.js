@@ -145,7 +145,7 @@ function exitForm(formContext) {
                             if (oppAttributes[i].getRequiredLevel() == 'required') {
                                 highlight = formContext.getAttribute(oppAttributes[i].getName()).getValue() != null;
                                 if (highlight == false && cansave == true) { cansave = false; }
-                                highlightField(null, '#' + oppAttributes[i].getName(), highlight);
+                              //  highlightField(null, '#' + oppAttributes[i].getName(), highlight);
                             }
                         }
                     }
@@ -698,7 +698,7 @@ function FormOnload(executionContext) {
         if (formContext.ui.getFormType() == 1) {
             formContext.getControl('ccrm_leadoriginator').setFocus();
         }
-        clearSpace();
+  
     }
 }
 
@@ -1279,6 +1279,7 @@ function setLookupFiltering(formContext) {
 }
 
 function UpdateRegionalLookup(formContext, lookupFieldName, filterChkFieldName, isBPFField) {
+    debugger;
     addUserLookupFilter(formContext, "ccrm_arupregionid", lookupFieldName, filterChkFieldName);
     if (isBPFField) {
         filterBPFUserLookup(lookupFieldName);
@@ -1887,26 +1888,14 @@ function customerid_onChange(formContext, strSave) {
     if (formContext.getAttribute("customerid").getValue() == null)
         SetValidField(formContext, fieldName, false, warnMsg, warnMsgName);
     else if (formContext.getAttribute("customerid").getValue()[0].name == 'Unassigned' && arupInternal != true) {
-        //if (!!tab) {
-        //    var section = tab.sections.get("tab_7_section_1");
-        //    if (!!section) {
-        //        section.setVisible(false);
-        //    }
-        //}
         if (strSave)
             SetValidField(formContext, fieldName, true, warnMsg, warnMsgName);
         else
             SetValidField(formContext, fieldName, false, warnMsg, warnMsgName);
         result = true;
     } else {
-        //if (!!tab) {
-        //    var section = tab.sections.get("tab_7_section_1");
-        //    if (!!section) {
-        //        section.setVisible(false);
-        //    }
-        //}
         SetValidField(formContext, fieldName, true, null, warnMsgName);
-        highlightField(null, '#ccrm_client', true);
+      //  highlightField(null, '#ccrm_client', true);
     }
     return result;
 }
@@ -2041,20 +2030,17 @@ function ccrm_arupbusinessid_onChange(formContext, valueChanged) {
     var chargingBasis = formContext.getAttribute('ccrm_chargingbasis').getValue();
 
     if (business == null) {
-        highlightField('#header_process_ccrm_chargingbasis', '#ccrm_chargingbasis', true);
         formContext.getAttribute("ccrm_chargingbasis").setRequiredLevel('none');
     }
     else if (business != null &&
         business == 'Charity & Community' &&
         formContext.getAttribute("ccrm_chargingbasis").getRequiredLevel() == 'required') {
-        highlightField('#header_process_ccrm_chargingbasis', '#ccrm_chargingbasis', true);
         formContext.getAttribute("ccrm_chargingbasis").setRequiredLevel('none');
     }
     else if (business != null &&
         business != 'Charity & Community' &&
         currentStage == ArupStages.BidReviewApproval) {
         //currentStage != ArupStages.CrossRegion) {
-        highlightField('#header_process_ccrm_chargingbasis', '#ccrm_chargingbasis', (chargingBasis != null) ? true : false);
         formContext.getAttribute("ccrm_chargingbasis").setRequiredLevel('required');
     }
 }
@@ -2603,18 +2589,19 @@ function ccrm_bidreviewoutcome_onChange(formContext) {
     }, 1000);
 }
 
-// Ribbon possible job no Btn click events 
-function highlightField(headerfield, formfield, clear) {
-    var bgcolor = 'rgba(255, 179, 179, 1)';
-    if (clear == true)
-        bgcolor = 'transparent';
-    //CRM 2016 Bug 34818
-    if (headerfield)
-        window.parent.$(headerfield).css('background-color', bgcolor);
 
-    if (formfield)
-        window.parent.$(formfield).css('background-color', bgcolor);
-}
+//function highlightField(headerfield, formfield, clear) {
+//    var bgcolor = 'rgba(255, 179, 179, 1)';
+//    if (clear == true)
+//        bgcolor = 'transparent';
+//    //CRM 2016 Bug 34818
+//    if (headerfield)
+//        window.parent.$(headerfield).css('background-color', bgcolor);
+
+//    if (formfield)
+//        window.parent.$(formfield).css('background-color', bgcolor);
+//}
+
 //This function is called from Ribbon button 'Request Possible JOb' and crmparameter 'prmarycontrol' from the ribbon is the formContext
 function requestPossibleJob(formContext) {
     debugger;
@@ -2965,19 +2952,14 @@ function CrossRegionFieldsFilled(formContext) {
     var result = true;
     var countrymgrconsulted = formContext.getAttribute("ccrm_geographicmanagerproxyconsulted2").getValue();
     if (countrymgrconsulted == null) {
-        highlightField('#header_process_ccrm_geographicmanagerproxyconsulted2',
-            "#ccrm_geographicmanagerproxyconsulted2");
         result = false;
     }
     var notconsultval = formContext.getAttribute("ccrm_reasonfornotconsultingcountrymanager").getValue();
     if (countrymgrconsulted == 2 && notconsultval == null) {
-        highlightField('#header_process_ccrm_reasonfornotconsultingcountrymanager',
-            "#ccrm_reasonfornotconsultingcountrymanager");
         result = false;
     }
     var dtconsulted = formContext.getAttribute("ccrm_dateconsulted").getValue();
     if (countrymgrconsulted == 1 && dtconsulted == null) {
-        highlightField('#header_process_ccrm_dateconsulted', "#ccrm_dateconsulted");
         result = false;
     }
     return result;
@@ -2993,28 +2975,16 @@ function HighlightCrossRegionFields(formContext, isCrossRegion) {
             var showNotification = false;
 
             if (countrymgrconsulted == null) {
-                highlightField('#header_process_ccrm_geographicmanagerproxyconsulted2',
-                    "#ccrm_geographicmanagerproxyconsulted2");
                 showNotification = true;
-            } else
-                highlightField('#header_process_ccrm_geographicmanagerproxyconsulted2',
-                    "#ccrm_geographicmanagerproxyconsulted2",
-                    true);
+            } 
 
             if (countrymgrconsulted == 2 && notconsultval == null) {
-                highlightField('#header_process_ccrm_reasonfornotconsultingcountrymanager',
-                    "#ccrm_reasonfornotconsultingcountrymanager");
                 showNotification = true;
-            } else
-                highlightField('#header_process_ccrm_reasonfornotconsultingcountrymanager',
-                    "#ccrm_reasonfornotconsultingcountrymanager",
-                    true);
+            } 
 
             if (countrymgrconsulted == 1 && dtconsulted == null) {
-                highlightField('#header_process_ccrm_dateconsulted', "#ccrm_dateconsulted");
                 showNotification = true;
-            } else highlightField('#header_process_ccrm_dateconsulted', "#ccrm_dateconsulted", true);
-
+            } 
 
             if (showNotification) {
                 // Please complete the cross country checks before requesting a possible Job number
@@ -5036,14 +5006,9 @@ function onStageChange(formContext, result) {
                 }
             }
         });
-        highlightField(null, '#ccrm_estexpenseincome_num', true);
-        highlightField(null, '#ccrm_chargingbasis', true);
-        highlightField(null, '#ccrm_estprojectresourcecosts_num', true);
-        highlightField(null, '#arup_expenses_num', true);
-        highlightField(null, '#ccrm_estprojectexpenses_num', true);
-        highlightField(null, '#ccrm_projecttotalcosts_num', true);
+
         if (customerid_onChange(formContext)) {
-            highlightField(null, '#ccrm_client', false);
+          //  highlightField(null, '#ccrm_client', false);
         }
         formContext.data.process.movePrevious(onMovePrevious);
         formContext.ui.clearFormNotification("FinancePendingMsg");
@@ -5502,84 +5467,66 @@ function CheckMandatoryFields(formContext) {
 
     if (formContext.getAttribute('ccrm_bidreview').getValue() == null) {
         result = false;
-        highlightField('#header_process_ccrm_bidreview', '#ccrm_bidreview');
-    } else highlightField('#header_process_ccrm_bidreview', '#ccrm_bidreview', true);
+    } 
 
     if (formContext.getAttribute('ccrm_bidreviewchair_userid').getValue() == null) {
         result = false;
-        highlightField('#header_process_ccrm_bidreviewchair_userid', '#ccrm_bidreviewchair_userid');
-    } else highlightField('#header_process_ccrm_bidreviewchair_userid', '#ccrm_bidreviewchair_userid', true);
+    }
 
     if (formContext.getAttribute('ccrm_estimatedvalue_num').getValue() == null) {
         result = false;
-        highlightField(null, '#ccrm_estimatedvalue_num');
-    } else highlightField(null, '#ccrm_estimatedvalue_num', true);
+    } 
 
     if (formContext.getAttribute('ccrm_estexpenseincome_num').getValue() == null) {
         result = false;
-        highlightField(null, '#ccrm_estexpenseincome_num');
-    } else highlightField(null, '#ccrm_estexpenseincome_num', true);
+    }
 
     if (formContext.getAttribute('ccrm_estprojectresourcecosts_num').getValue() == null) {
         result = false;
-        highlightField(null, '#ccrm_estprojectresourcecosts_num');
-    } else highlightField(null, '#ccrm_estprojectresourcecosts_num', true);
+    } 
 
     if (formContext.getAttribute('ccrm_projectmanager_userid').getValue() == null) {
         result = false;
-        highlightField(null, '#ccrm_projectmanager_userid');
-    } else highlightField(null, '#ccrm_projectmanager_userid', true);
+    } 
 
     if (formContext.getAttribute('ccrm_projectdirector_userid').getValue() == null) {
         result = false;
-        highlightField(null, '#ccrm_projectdirector_userid');
-    } else highlightField(null, '#ccrm_projectdirector_userid', true);
+    }
 
     if (formContext.getAttribute('ccrm_estarupinvolvementstart').getValue() == null) {
         result = false;
-        highlightField(null, '#ccrm_estarupinvolvementstart');
-    } else highlightField(null, '#ccrm_estarupinvolvementstart', true);
+    }
 
     if (formContext.getAttribute('ccrm_estarupinvolvementend').getValue() == null) {
         result = false;
-        highlightField(null, '#ccrm_estarupinvolvementend');
-    } else highlightField(null, '#ccrm_estarupinvolvementend', true);
+    } 
 
     if (formContext.getAttribute('ccrm_descriptionofextentofarupservices').getValue() == null) {
         result = false;
-        highlightField(null, '#ccrm_descriptionofextentofarupservices');
-    } else highlightField(null, '#ccrm_descriptionofextentofarupservices', true);
+    }
+
     if (!arupInternal) {
 
         if (formContext.getAttribute('ccrm_contractconditions').getValue() == null) {
             result = false;
-            highlightField('#header_process_ccrm_contractconditions1', '#header_process_ccrm_contractconditions');
-        } else highlightField('#header_process_ccrm_contractconditions1', '#header_process_ccrm_contractconditions', true);
+        }
 
         if (formContext.getAttribute('ccrm_pirequirement').getValue() == null) {
             result = false;
-            highlightField('#header_process_ccrm_pirequirement', null);
-        } else highlightField('#header_process_ccrm_pirequirement', null, true);
+        }
 
         if (formContext.getAttribute('ccrm_pi_transactioncurrencyid').getValue() == null) {
             result = false;
-            highlightField('#header_process_ccrm_pi_transactioncurrencyid1', null);
-        } else highlightField('#header_process_ccrm_pi_transactioncurrencyid1', null, true);
+        } 
 
         if (formContext.getAttribute('ccrm_pirequirement').getValue() == PI_REQUIREMENT.MIN_COVER && formContext.getAttribute('ccrm_pilevelmoney_num').getValue() == null) {
             result = false;
-            highlightField('#header_process_ccrm_pilevelmoney_num', null);
-        } else highlightField('#header_process_ccrm_pilevelmoney_num', null, true);
+        } 
     }
 
     if (formContext.getAttribute('ccrm_chargingbasis').getValue() == null && formContext.getAttribute('ccrm_arupbusinessid').getValue()[0].name != 'Charity & Community') {
         result = false;
-        highlightField('#header_process_ccrm_chargingbasis', null);
-        highlightField(null, '#ccrm_chargingbasis');
-    } else {
-        highlightField('#header_process_ccrm_chargingbasis', null, true);
-        highlightField(null, '#ccrm_chargingbasis', true);
-    }
+    } 
 
     return result;
 }
@@ -5598,7 +5545,8 @@ function CheckFinanceFields(formContext) {
     if (stageid == ArupStages.BidDevelopment || stageid == ArupStages.BidReviewApproval) {
         if (formContext.getAttribute('ccrm_estimatedvalue_num').getValue() == null) {
             result = false;
-        } else highlightField(null, '#ccrm_estimatedvalue_num', true);
+        } 
+
         if (formContext.getAttribute('ccrm_estexpenseincome_num').getValue() == null) {
             result = false;
             formContext.getAttribute("ccrm_estexpenseincome_num").setRequiredLevel('required');
@@ -5626,40 +5574,18 @@ function CheckFinanceFields(formContext) {
         } else {
             formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").setRequiredLevel('none');
         }
-        /*
-                if (formContext.getAttribute('ccrm_estprojectexpenses_num').getValue() == null) {
-                    result = false;
-                    highlightField(null, '#ccrm_estprojectexpenses_num');
-                    formContext.getAttribute("ccrm_estprojectexpenses_num").setRequiredLevel('required');
-                } else {
-                    highlightField(null, '#ccrm_estprojectexpenses_num', true);
-                    formContext.getAttribute("ccrm_estprojectexpenses_num").setRequiredLevel('none');
-                }
-        */
+
         if (formContext.getAttribute('arup_expenses_num').getValue() == null) {
             result = false;
             formContext.getAttribute("arup_expenses_num").setRequiredLevel('required');
         } else {
             formContext.getAttribute("arup_expenses_num").setRequiredLevel('none');
         }
-        /*
-                if (formContext.getAttribute('ccrm_projecttotalcosts_num').getValue() == null) {
-                    result = false;
-                    highlightField(null, '#ccrm_projecttotalcosts_num');
-                    formContext.getAttribute("ccrm_projecttotalcosts_num").setRequiredLevel('required');
-                } else {
-                    highlightField(null, '#ccrm_projecttotalcosts_num', true);
-                    formContext.getAttribute("ccrm_projecttotalcosts_num").setRequiredLevel('none');
-                }
-        */
+  
         if (formContext.getAttribute('ccrm_chargingbasis').getValue() == null && formContext.getAttribute('ccrm_arupbusinessid').getValue()[0].name != 'Charity & Community') {
             result = false;
-            highlightField(null, '#ccrm_chargingbasis');
-            highlightField('#header_process_ccrm_chargingbasis', null);
             formContext.getAttribute("ccrm_chargingbasis").setRequiredLevel('required');
         } else {
-            highlightField(null, '#ccrm_chargingbasis', true);
-            highlightField(null, '#ccrm_chargingbasis', true);
             formContext.getAttribute("ccrm_chargingbasis").setRequiredLevel('none');
         }
 
@@ -6244,14 +6170,10 @@ function ccrm_geographicmanagerproxyconsulted2_onchange(executionContext) {
         formContext.getAttribute("ccrm_reasonfornotconsultingcountrymanager").setRequiredLevel("required");
         formContext.getAttribute("ccrm_dateconsulted").setRequiredLevel("none");
         formContext.getAttribute("ccrm_dateconsulted").setValue(null);
-        highlightField('#header_process_ccrm_reasonfornotconsultingcountrymanager', '#ccrm_reasonfornotconsultingcountrymanager');
-        highlightField('#header_process_ccrm_dateconsulted', '#ccrm_dateconsulted', true);
     } else if (countrymgrconsulted == 1) {
         formContext.getAttribute("ccrm_reasonfornotconsultingcountrymanager").setRequiredLevel("none");
         formContext.getAttribute("ccrm_reasonfornotconsultingcountrymanager").setValue(null);
         formContext.getAttribute("ccrm_dateconsulted").setRequiredLevel("required");
-        highlightField('#header_process_ccrm_reasonfornotconsultingcountrymanager', '#ccrm_reasonfornotconsultingcountrymanager', true);
-        highlightField('#header_process_ccrm_dateconsulted', '#ccrm_dateconsulted');
     }
 }
 
@@ -6336,7 +6258,7 @@ function openNewCJNAForm(formContext, reserve) {
 
 //sync bid manager with project manager
 function Syncbidmanager_userid(executionContext) {
-
+    debugger;
     formContext = executionContext.getFormContext();
     if (formContext.getAttribute("ccrm_bidmanager_userid").getValue() != null) {
         //Added by Jugal on 5-4-2018 for 47489
@@ -7695,32 +7617,6 @@ function existingcrmframework_onchange(formContext, trigger) {
     }
 }
 
-function clearSpace() {
-
-    var corTabP1 = window.parent.document.getElementsByName("Summary_section_4")[0];
-    if (corTabP1 != undefined) {
-        window.parent.document.getElementsByName("Summary_section_4")[0].style.padding = "0px";
-        //   window.parent.document.getElementsByName("Summary_section_4")[0].style.marginTop = "0px";
-    }
-
-    var corTabP2 = window.parent.document.getElementsByName("Extend_Arup_Services_Section")[0];
-    if (corTabP2 != undefined) {
-        window.parent.document.getElementsByName("Extend_Arup_Services_Section")[0].style.padding = "0px";
-        //    window.parent.document.getElementsByName("Extend_Arup_Services_Section")[0].style.marginTop = "0px";
-    }
-
-    var corTabP3 = window.parent.document.getElementsByName("client_details_section")[0];
-    if (corTabP3 != undefined) {
-        window.parent.document.getElementsByName("client_details_section")[0].style.padding = "0px";
-        //    window.parent.document.getElementsByName("client_details_section")[0].style.marginTop = "0px";
-    }
-
-    var corTabP4 = window.parent.document.getElementsByName("Project_Details_Tab_section_4")[0];
-    if (corTabP4 != undefined) {
-        window.parent.document.getElementsByName("Project_Details_Tab_section_4")[0].style.padding = "0px";
-        //    window.parent.document.getElementsByName("Project_Details_Tab_section_4")[0].style.marginTop = "0px";
-    }
-}
 
 function setTimeoutfn_ec(executionContext, attributeName) {
     var formContext = executionContext.getFormContext();
@@ -7810,23 +7706,6 @@ function FormNotificationForOpportunityType(formContext, opportunityTypeValue) {
         formContext.ui.setFormNotification("This opportunity cannot be pushed past Pre-Bid stage because its type is Architectural competition with multiple Arup teams – master record", "INFORMATION", "OpportunityType-MasterRecord");
     } else {
         formContext.ui.clearFormNotification('OpportunityType-MasterRecord');
-    }
-}
-
-function clearSpace() {
-    var corTabP1 = window.parent.document.getElementsByName("Summary_section_4")[0];
-    if (corTabP1 != undefined) {
-        window.parent.document.getElementsByName("Summary_section_4")[0].style.padding = "0px";
-    }
-
-    var corTabP2 = window.parent.document.getElementsByName("Extend_Arup_Services_Section")[0];
-    if (corTabP2 != undefined) {
-        window.parent.document.getElementsByName("Extend_Arup_Services_Section")[0].style.padding = "0px";
-    }
-
-    var corTabP3 = window.parent.document.getElementsByName("client_details_section")[0];
-    if (corTabP3 != undefined) {
-        window.parent.document.getElementsByName("client_details_section")[0].style.padding = "0px";
     }
 }
 
