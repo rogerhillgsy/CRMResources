@@ -26,12 +26,8 @@
 //    alert("Calling legacy function refreshRibbonOnChange");
 //    Xrm.Page.ui.refreshRibbon();
 //}
-function teamLog(s) {
-    console.log(s);
-}
-function teamError(s) {
-    console.error(s);
-}
+var teamLog = console.log.bind(window.console);
+var teamError = console.error.bind(window.console);
 
 function formOnLoadTeams(executionContext) {
     // Ensure that Business unit is set to Arup
@@ -45,6 +41,7 @@ function formOnLoadTeams(executionContext) {
         SetupForRelationshipTeam(formContext);
         LockFields(formContext, ["arup_teamcategory"]);
     }
+    formContext.getControl("Members").addOnLoad(HandleTeamGridUpdate); // Ensure that tabs are updated when member is added to team.
 }
 
 function SetDefaultBusinessUnit(formContext) {
@@ -88,6 +85,10 @@ function LockFields(formContext, lockFields, locked) {
     }
 }
 
+function HandleTeamGridUpdate(gridContext) {
+    teamLog("Handling Grid Change");
+    SetupForRelationshipTeam(gridContext.getFormContext());
+}
 function SetupForRelationshipTeam(formContext) {
     var teamCategory = formContext.getAttribute("arup_teamcategory").getValue();
     var thisTeam = formContext.getAttribute("name").getValue();
@@ -102,6 +103,7 @@ function SetupForRelationshipTeam(formContext) {
             },
                 function reject(message) {
                     teamLog(`Was not allowed team member : ${message}`);
+                    SetTabVisibilty(formContext, "default");
                 }
         );
         MakeAllSectionsVisible(formContext, "Team Set-Up");
@@ -109,14 +111,12 @@ function SetupForRelationshipTeam(formContext) {
 }
 
 function MakeAllSectionsVisible(formContext, targetTab) {
-    debugger;
     const tabs = formContext.ui.tabs.get();
     for (let t in tabs) {
         if (Object.prototype.hasOwnProperty.call(tabs, t)) {
             const tab = tabs[t];
             const tabName = tab.getLabel();
             if (tabName === targetTab) {
-                debugger;
                 const sections = tab.sections.get();
                 for (let s in sections) {
                     if (Object.prototype.hasOwnProperty.call(sections, s)) {
