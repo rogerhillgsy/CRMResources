@@ -1961,9 +1961,8 @@ var Arup_validations =
             if (!stateId) return undefined;
             return "/ccrm_arupusstates(" + stateId + ")";
         }.bind(o);
-        o.onchange = function (e) {
-            oppWizLog("Changing arup_state to " + this.value());
-            var companyId = $("#states option[value='" + e.target.value + "']").attr("company-id-value");
+        var updateDependencies = function() {
+            var companyId = $("#states option[value='" + this.htmlNode().value + "']").attr("company-id-value");
             var country = $("#project_country").val().toLowerCase();
             if (country == "united states of america" || country == "canada") {
                 // Set company from state if available.
@@ -1975,6 +1974,11 @@ var Arup_validations =
                 }
             }
         }.bind(o);
+        o.onchange = function (e) {
+            oppWizLog("Changing arup_state to " + this.value());
+            updateDependencies();
+        }.bind(o);
+
         o.onfocusout = function() {
             var target = this.htmlNode();
             if (!target.value) {
@@ -1988,6 +1992,7 @@ var Arup_validations =
             } else {
                 this.ensureSelected();
             }
+            if (!this.isErrored()) updateDependencies();
         }.bind(o);
         return o;
     }(),
@@ -2304,9 +2309,9 @@ var Arup_validations =
         // This is a hidden field - set from client when we save.pa
         var o = new ArupFieldConfig("Customer (Copy)", "customerid_account");
         o.value = function() {
-                return Arup_validations.client.value();
-            },
-            o.databind = true;
+            return Arup_validations.client.value();
+        };
+        o.databind = true;
         return o;
     }(),
     shortTitle: function(){
@@ -2441,7 +2446,6 @@ var Arup_validations =
     valid_accounting_centre: new ArupFieldConfigAlwaysTrue("Valid Accounting Centre", "ccrm_validaccountingcentre"),
     valid_contact: new ArupFieldConfigAlwaysFalse("Valid Contact", "ccrm_validcontact"),
     show_pjn: new ArupFieldConfigAlwaysTrue("Show PJN Button","ccrm_showpjnbutton"),
-
     country_category: new ArupFieldConfig("Country Category Code", "ccrm_countrycategory"),
     probProjProceeding: new ArupFieldConfig("Probability of Project Proceeding", "ccrm_probabilityofprojectproceeding"),
     probOfWin: new ArupFieldConfig("Probability of Win", "closeprobability"),
@@ -2454,7 +2458,16 @@ var Arup_validations =
     PIRequirement: new ArupFieldConfig("PI Requirement", "ccrm_pirequirement"),
     PICurrency: new ArupFieldConfig("PI Currency", "ccrm_pi_transactioncurrencyid"),
     LolCurrency: new ArupFieldConfig("Lol Currency","ccrm_limit_transactioncurrencyid"),
-    PILevelAmount: new ArupFieldConfig("PI Level Amount","ccrm_pilevelmoney_num"),
+    PILevelAmount: new ArupFieldConfig("PI Level Amount", "ccrm_pilevelmoney_num"),
+    OpportunityAdmin: function() {
+        // This is a hidden field - set from client when we save.pa
+        var o = new ArupFieldConfig("Opportunity Administrator", "ccrm_businessadministrator_userid");
+        o.value = function() {
+            return "/systemusers(" + parent.Xrm.Page.context.getUserId().replace('[\{\}]') + ")";
+        };
+        o.databind = true;
+        return o;
+    }(),  
     description: new ArupFieldConfigText("Description", "description","description"),
     text11: new ArupFieldConfigReadOnlyText("Supporting Text 1", "arup_procurementmessage","ta1-1"),
     text21: new ArupFieldConfigReadOnlyText("Supporting Text 2", "arup_supportingtext2", "ta2-1"),
