@@ -42,7 +42,7 @@ function formAction(formName, action) {
 function Form_onload(executionContext) {
     var formContext = executionContext.getFormContext();
 
-    globalDQTeam = isUserInTeamCheck(formContext);  
+    globalDQTeam = isUserInTeamCheck(formContext);
     formItem = formContext.ui.formSelector.getCurrentItem();
     var formName = formItem.getLabel();
 
@@ -66,10 +66,10 @@ function Form_onload(executionContext) {
     if (formContext.getAttribute("ccrm_legalentityname").getValue() == null) {
         copyNameToLEN(formContext);
     }
-    
+
     if (formContext.ui.getFormType() != 1) {
 
-    //function for local language
+        //function for local language
         uselocaladdress_onchange(formContext);
         //disable form if organisation name is 'unasigned'
         if (formContext.getAttribute("name").getValue() == 'Unassigned') {
@@ -721,7 +721,7 @@ function checkDueDiligence(primaryControl) {
                     if (ddTrigger) {
                         formContext.getAttribute("arup_checkduediligencetrigger").setValue(false);
                         formContext.data.save();
-                        return;                     
+                        return;
                     }
                     formContext.getAttribute("arup_checkduediligencetrigger").setValue(true);
                     formContext.data.save();
@@ -773,7 +773,8 @@ function disableOrgFormFields(formContext, checkDD) {
                 for (var i in tabsections) {
                     if (tabsections[i].getVisible() == true) {
                         var secname = tabsections[i].getName();
-                        sectiondisable(secname, true, formContext);
+                        if (secname != "SUMMARY_TAB_section_7")
+                            sectiondisable(secname, true, formContext);
                     }
                 }
             }
