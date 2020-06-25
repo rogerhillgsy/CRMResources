@@ -1342,12 +1342,6 @@
       <UniqueName>new_ccrm_MultiEntityLookup</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_OppoWiz.js">
-      <DisplayName>Opportunity Wizard JS</DisplayName>
-      <UniqueName>arup_OppoWiz.js</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-      <Description>2628</Description>
-    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\BidReview\arup_bidReviewTabs.html">
       <DisplayName>arup_bidReviewTabs</DisplayName>
       <UniqueName>new_arup_bidReviewTabs</UniqueName>
@@ -1404,14 +1398,19 @@
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_opportunitybuttoncommands.js">
-      <DisplayName>arup_opportunitybuttoncommands</DisplayName>
-      <UniqueName>arup_opportunitybuttoncommands</UniqueName>
+      <DisplayName>Opportunity Button Commands</DisplayName>
+      <UniqueName>arup_opportunitybuttoncommands.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_opportunitybuttons.html">
       <DisplayName>arup_opportunitybuttons</DisplayName>
       <UniqueName>arup_opportunitybuttons.html</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_OppoWiz.js">
+      <DisplayName>Opportunity Wizard JS</DisplayName>
+      <UniqueName>arup_OppoWiz.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\opportunity_ribbon.js">
       <DisplayName>opportunity_ribbon</DisplayName>
@@ -1512,11 +1511,6 @@
       <DisplayName>arup_documentsFolder.js</DisplayName>
       <UniqueName>arup_documentsFolder.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script (JScript)\arup_FOP_Main_Library.js">
-      <DisplayName>arup_FOP_Main_Library</DisplayName>
-      <UniqueName>arup_arup_FOP_Main_Library</UniqueName>
-      <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\arup_frameworksecured_library.js">
       <DisplayName>arup_frameworksecured_library.js</DisplayName>
@@ -1862,6 +1856,11 @@
       <DisplayName>arup_lead_detailssection_html</DisplayName>
       <UniqueName>arup_arup_lead_detailssection_html</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page (HTML)\arup_OracleRequestListenerDiagnostics.html">
+      <DisplayName>Oracle Request Listener Diagnostics</DisplayName>
+      <UniqueName>arup_OracleRequestListenerDiagnostics.html</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_homepage.html">
       <DisplayName>ccrm_homepage</DisplayName>

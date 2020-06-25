@@ -172,15 +172,22 @@ There will be several copies of the web resource visible in the debugger as "aru
 
         // Go back to the previous tab.
         function ReturnToActiveTab() {
-            //var previousTab = formContext.Arup.PreviousTab;
-            //if (previousTab != null) {
-            //    DisplayTab(previousTab);
-            //}
-
+  
             var activeTabName = formContext.Arup.ActiveTabName;
             if (activeTabName != null) {
                 DisplayTab(activeTabName);
             }
+        }
+
+        //to get the dynamic text for Back Button
+        function GetLabelTextForBackButton() {
+            var backButtonText;
+            if (formContext.Arup.ActiveTabName != undefined)
+                 backButtonText = 'Back to the ' + formContext.Arup.ActiveTabName.replace(/[_]/g, " ");
+            else 
+                 backButtonText = 'Back to the Active Stage';
+
+            return backButtonText;
         }
 
         // Ensure that the named tab is visible.
@@ -219,7 +226,12 @@ There will be several copies of the web resource visible in the debugger as "aru
                             span.id = "button" + id++;
                         }
                         span.onclick = button.action;
-                        span.innerHTML = button.label;
+                        // Check for static or dynamic value for the label.
+                        if (button.label instanceof Function) {
+                            span.innerHTML = button.label();
+                        } else {
+                            span.innerHTML = button.label;
+                        }
                         span.className = "mainButton";
 
                         if (!button.isredbutton)
@@ -244,7 +256,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 }
             }
         }
-
+        debugger;
         // Declare the configuration of each button: label, action to take when pressed and whether the button should be hidden.
         buttonConfigs = {
 
@@ -374,7 +386,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 {
 
                     // TOD: return to active stage
-                    'label': 'Back to the ' + formContext.Arup.ActiveTabName.replace(/[_]/g, " "),
+                    'label': function () { return GetLabelTextForBackButton(); },
                     'action': function () {
                         ReturnToActiveTab();
                     },
@@ -383,7 +395,7 @@ There will be several copies of the web resource visible in the debugger as "aru
             ],
             'Project_Financials_Tab': [
                 {
-                    'label': 'Back to the ' + formContext.Arup.ActiveTabName.replace(/[_]/g, " "),
+                    'label': function () { return GetLabelTextForBackButton(); },
                     'action': function () {
                         ReturnToActiveTab();
                     },
@@ -446,9 +458,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         Log("Move next stage");
                         MoveNext();
                     },
-                    'hidden': function () { return
-                        formContext.Arup.IsGroupLeaderApprovalEnabled(formContext) || formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext)
-                            || formContext.Arup.IsSectorLeaderApprovalEnabled(formContext) || formContext.Arup.IsBidDirectorApprovalEnabled(formContext) || formContext.Arup.IsRegionalCOOApprovalEnabled(formContext);
+                    hidden: function () { return (formContext.Arup.IsGroupLeaderApprovalEnabled(formContext) || formContext.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext) || formContext.Arup.IsSectorLeaderApprovalEnabled(formContext) || formContext.Arup.IsBidDirectorApprovalEnabled(formContext) || formContext.Arup.IsRegionalCOOApprovalEnabled(formContext));
                     },
                     'isredbutton': true
                 }
@@ -498,7 +508,7 @@ There will be several copies of the web resource visible in the debugger as "aru
             'Notes_tab': [
                 {
                     // TOD: return to active stage
-                    'label': 'Back to the ' + formContext.Arup.ActiveTabName.replace(/[_]/g, " "),
+                    'label': function () { return GetLabelTextForBackButton(); },
                     'action': function () {
                         ReturnToActiveTab();
                     },
