@@ -489,7 +489,6 @@ function uselocaladdress_onchange(formContext) {
 
 function setDate(execContext) {
     var formContext = execContext.getFormContext();
-    alert("Set Date function is called");
     var field = formContext.getAttribute("ccrm_lastvalidatedbyid").getValue();
 
     if (field != null) {
