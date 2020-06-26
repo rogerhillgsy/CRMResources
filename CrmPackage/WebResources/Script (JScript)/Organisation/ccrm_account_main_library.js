@@ -167,9 +167,10 @@ function onLoaddisableFormFields(formContext) {
     }
 }
 
-function userInTeamCheck(primaryControl, TeamName) {
+function userInTeamCheck(primaryControl) {
     var formContext = primaryControl;
-    isUserInTeamCheck(formContext);
+    var userInTeam = isUserInTeamCheck(formContext);
+    return userInTeam;
 }
 
 //Param - teamm name . This function checks whether the logged in user is a member of the team. Returns true if he/ she is a member.
@@ -199,7 +200,8 @@ function isUserInTeamCheck(formContext) {
 
 function userInSSCTeam(primaryControl) {
     var formContext = primaryControl;
-    isUserInSSCTeam(formContext);
+    var userInTeam = isUserInSSCTeam(formContext);
+    return userInTeam;
 }
 
 function isUserInSSCTeam(formContext) {
@@ -504,7 +506,7 @@ function copyNameToLegal(execContext) {
 function copyNameToLEN(formContext) {
     var validated = formContext.getAttribute("ccrm_lastvalidatedbyid").getValue();
     var clientName = formContext.getAttribute("name").getValue();
-    if (validated.length == 1 && clientName != null) {
+    if (validated != null && clientName != null) {
         formContext.getAttribute("ccrm_legalentityname").setValue(clientName);
     }
 }
