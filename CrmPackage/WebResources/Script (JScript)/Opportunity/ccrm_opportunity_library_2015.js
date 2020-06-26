@@ -1282,7 +1282,7 @@ function UpdateRegionalLookup(formContext, lookupFieldName, filterChkFieldName, 
     debugger;
     addUserLookupFilter(formContext, "ccrm_arupregionid", lookupFieldName, filterChkFieldName);
     if (isBPFField) {
-        filterBPFUserLookup(lookupFieldName);
+        filterBPFUserLookup(lookupFieldName);        
     }
 }
 //CRM 2016 Known Issues 2.1.1
@@ -1486,7 +1486,18 @@ function addUserLookupFilter(formContext, opportunityFieldName, lookupFieldName,
             "<cell name='ccrm_arupofficeid' width='150' />" +
             "</row>" +
             "</grid>";
-        formContext.getControl(lookupFieldName).addCustomView(viewId, "systemuser", viewName, viewFetchXml, layoutXml, true);
+        //formContext.getControl(lookupFieldName).addCustomView(viewId, "systemuser", viewName, viewFetchXml, layoutXml, true);
+        formContext.getControl(lookupFieldName).setDefaultView("{26B373CD-C7CC-E811-8115-005056B509E1}"); 
+        var customerUserFilter = "<filter type='and'>" +
+            "<condition attribute='accessmode' operator='ne' value='3' />" +
+            "<condition attribute='arup_employmentstatus' value='770000000' operator='eq'/>" +
+            "<condition attribute='internalemailaddress' operator='like' value='%@arup.com%'/>" +
+            accLevFilter +
+            "<condition attribute='" + filterChkFieldName + "' operator='contain-values'>" +
+            "<value>" + regionAccreditationOptionSetValues + "</value>" +
+            "</condition>" +
+            "</filter>";
+        formContext.getControl(lookupFieldName).addCustomFilter(customerUserFilter, "systemuser");
 
     }
 }
