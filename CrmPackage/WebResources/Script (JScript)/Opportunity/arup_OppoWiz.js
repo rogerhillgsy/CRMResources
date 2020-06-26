@@ -434,7 +434,7 @@ var userDataPromise = function () {
         AllLoaded().then(function() {
             var targetEntity = "systemusers(" + parent.Xrm.Page.context.getUserId().replace(/[{}]/g, "") + ")";
             var userDataQuery =
-                "$select=_ccrm_arupcompanyid_value,ccrm_staffid,fullname,systemuserid&" +
+                "$select=_ccrm_arupcompanyid_value,ccrm_staffid,fullname,_ccrm_arupofficeid_value,systemuserid&" +
                     "$expand=ccrm_accountingcentreid($select=ccrm_arupaccountingcode,ccrm_arupaccountingcodeid,ccrm_arupcompanycode,ccrm_arupgroup,ccrm_arupgroupcode,ccrm_name,ccrm_practice," +
                     "ccrm_practicecode,ccrm_subpractice,ccrm_subpracticecode,statecode,statuscode),ccrm_arupcompanyid($select=ccrm_arupcompanyid,ccrm_name,statecode,statuscode,_ccrm_arupregionid_value)";
             FetchCRMData(targetEntity, userDataQuery, null, 0)
@@ -649,7 +649,7 @@ function getAttributes() {
             }
            // oppWizLog("field is " + name);
             var val = field.value();
-            if (typeof(val) !== "undefined") attrs[name + bind] = val;
+            if (typeof(val) !== "undefined" && val !== "" ) attrs[name + bind] = val;
         }
     }
     return attrs;
@@ -1331,13 +1331,49 @@ function ArupFieldConfigAlwaysFalse(name, crmAttribute, id) {
 ArupFieldConfigAlwaysFalse.prototype = new ArupFieldConfig();
 ArupFieldConfigAlwaysFalse.prototype.value = function () { return false; };
 
+function ArupFieldConfigTextRequired(name, crmAttribute, id) {
+    ArupFieldConfig.call(this, name, crmAttribute, id);
+}
+
+ArupFieldConfigTextRequired.prototype = new ArupFieldConfig();
+ArupFieldConfigTextRequired.prototype.hasErrors = function () {
+    var empty = !this.value();
+    var visible = !this.isHidden();
+    return visible && empty ? name + " is required" :  false;
+}
+ArupFieldConfigTextRequired.prototype.value = function() {
+    return this.htmlNode().value;
+}
 
 function ArupFieldConfigLookup(name, crmAttribute, id, collectionname) {
     ArupFieldConfig.call(this, name, crmAttribute, id);
-    this.collectionname = collectionname;
+    this.collectionname = collectionname || !!crmAttribute ? crmAttribute.replace(/id$/,"s") : undefined;
 }
 ArupFieldConfigLookup.prototype = new ArupFieldConfig();
 ArupFieldConfigLookup.prototype.value = function() { return "/" + this.collectionname + "(" + this.val + ")" };
+
+// This is intended for a value read from the user record that needs to be saved with the opportunity (but not edited by the user in any way)
+function ArupFieldConfigLookupFromUser(name, crmAttribute, id, collectionname, sysUserAttribute, extendField) {
+    ArupFieldConfigLookup.call(this, name, crmAttribute, id, collectionname);
+    this.userAttribute = sysUserAttribute || crmAttribute.endsWith("id") ? "_" + crmAttribute + "_value" : crmAttribute;
+    this.extendField = extendField;
+}
+ArupFieldConfigLookupFromUser.prototype = new ArupFieldConfigLookup();
+ArupFieldConfigLookupFromUser.prototype.setDefault = function () {
+    getUserData(function (result) {
+        if (result.hasOwnProperty(this.userAttribute)) {
+            // Attribute directly on system user
+            this.val = result[this.userAttribute];
+        } else {
+            if (result.hasOwnProperty(this.extendField)) {
+                // Attribute accessed by an extend() clause in the query
+                this.val = result[this.extendField][this.userAttribute];
+            } else {
+                oppWizLog("** User data did not contain " + name + "/" + this.userAttribute+ " / " + this.extendField);
+            }
+        }
+    }.bind(this));
+}
 
 
 function ArupFieldConfigReadOnlyText(name, crmAttribute, id) {
@@ -2289,22 +2325,7 @@ var Arup_validations =
         });
         return o;
     }(),
-    globalservices_other: function() {
-        var o = new ArupFieldConfig("Global Services (Other)", "ccrm_othernetworkdetails", "globalservices_other");
-        o.value = function() {
-            return this.htmlNode().value;
-        };
-        o.hasErrors = function() {
-            if (!this.isHidden()) {
-                if (!this.value) {
-                    return "Value must be specified for 'Global Services (Other)";
-                }
-            }
-            return false;
-        }
-        return o;
-    }(),
-
+    globalservices_other: new ArupFieldConfigTextRequired("Global Services (Other)", "ccrm_othernetworkdetails", "globalservices_other"),
     customerCopy: function (){
         // This is a hidden field - set from client when we save.pa
         var o = new ArupFieldConfig("Customer (Copy)", "customerid_account");
@@ -2394,24 +2415,8 @@ var Arup_validations =
         };
         return o;
     }(),
-    arup_region: function() {
-        var o = new ArupFieldConfig("Arup region", "ccrm_arupregionid");
-        // This is a hidden field - set from CRM on load and not displayed to user.
-        o.value = function() {
-            return "/ccrm_arupregions(" + this.val + ")";
-        }.bind(o);
-
-        o.setDefault = function() {
-            getUserData(function(result) {
-                if (result.hasOwnProperty("ccrm_arupcompanyid")) {
-                    this.val = result["ccrm_arupcompanyid"]["_ccrm_arupregionid_value"];
-                } else {
-                    oppWizLog("** User data did not contain arup region");
-                }
-            }.bind(o));
-        };
-        return o;
-    }(),
+    arup_region: new ArupFieldConfigLookupFromUser("Arup region", "ccrm_arupregionid", null, null, null, "ccrm_arupcompanyid"),
+    arup_office: new ArupFieldConfigLookupFromUser("Arup Office id", "ccrm_arupofficeid"),
     arup_group_code: new ArupFieldConfig("Arup Group Code", "ccrm_arupgroupcode"),
     arup_group_id: new ArupFieldConfigLookup("Arup Group Id", "ccrm_arupgroupid",null,"ccrm_arupgroups"),
     K12: function () {
@@ -2463,12 +2468,12 @@ var Arup_validations =
         // This is a hidden field - set from client when we save.pa
         var o = new ArupFieldConfig("Opportunity Administrator", "ccrm_businessadministrator_userid");
         o.value = function() {
-            return "/systemusers(" + parent.Xrm.Page.context.getUserId().replace('[\{\}]') + ")";
+            return "/systemusers(" + parent.Xrm.Page.context.getUserId().replace(/[{}]/g,'') + ")";
         };
         o.databind = true;
         return o;
     }(),  
-    description: new ArupFieldConfigText("Description", "description","description"),
+    description: new ArupFieldConfigTextRequired("Description", "description","description"),
     text11: new ArupFieldConfigReadOnlyText("Supporting Text 1", "arup_procurementmessage","ta1-1"),
     text21: new ArupFieldConfigReadOnlyText("Supporting Text 2", "arup_supportingtext2", "ta2-1"),
     text12: new ArupFieldConfigReadOnlyText("Supporting Text 1", "arup_procurementmessage", "ta1-2"),
