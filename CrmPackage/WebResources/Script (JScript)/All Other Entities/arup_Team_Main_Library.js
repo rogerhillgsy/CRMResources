@@ -85,6 +85,19 @@ function LockFields(formContext, lockFields, locked) {
     }
 }
 
+function hideFields(formContext, fieldsToHide, ishide) {
+    ishide = ishide || false;
+    for (var f = 0; f < fieldsToHide.length; f++) {
+        var field = fieldsToHide[f];
+        var attribute = formContext.getControl(field);
+        if (!attribute) {
+            teamError("Not able to find attribute to hide: " + field);
+        } else {
+            attribute.setVisible(ishide);
+        }
+    }
+}
+
 function HandleTeamGridUpdate(gridContext) {
     teamLog("Handling Grid Change");
     SetupForRelationshipTeam(gridContext.getFormContext());
@@ -98,15 +111,19 @@ function SetupForRelationshipTeam(formContext) {
         // Make fields mandatory
         IfTeamMember(formContext, [thisTeam, 'Development', 'Global Data Quality'])
             .then(function resolve(results) {
-                    teamLog("Setting all tabs visible for user");
-                    SetTabVisibilty(formContext, "all");
+                teamLog("Setting all tabs visible for user");
+                SetTabVisibilty(formContext, "all");
             },
                 function reject(message) {
                     teamLog(`Was not allowed team member : ${message}`);
                     SetTabVisibilty(formContext, "default");
                 }
-        );
+            );
         MakeAllSectionsVisible(formContext, "Team Set-Up");
+        SetClientValues(formContext);
+    }
+    else {
+        hideFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"], false);
     }
 }
 
@@ -193,4 +210,39 @@ function setTabVisibilityByList(formContext, include, exclude) {
             }
         }
     }
+}
+
+function SetClientValues(formContext) {
+    var lco = formContext.getAttribute("ccrm_leadclientorganisation").getValue()[0];
+    var ccrm_clienttype_formatted;
+    var ccrm_clienttype;
+    var clientsector;
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        datatype: "json",
+        url: formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + lco.id.replace("{", "").replace("}", "") + ")?$select=ccrm_clienttype,arup_clientsector",
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+            XMLHttpRequest.setRequestHeader("Accept", "application/json");
+            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+        },
+        async: false,
+        success: function (data, textStatus, xhr) {
+            var result = data;
+            ccrm_clienttype = result["ccrm_clienttype"];
+            ccrm_clienttype_formatted = result["ccrm_clienttype@OData.Community.Display.V1.FormattedValue"];
+            clientsector = result["arup_clientsector@OData.Community.Display.V1.FormattedValue"];
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+        }
+    });
+    formContext.getAttribute("ccrm_clienttype").setValue(ccrm_clienttype);
+    formContext.getAttribute("ccrm_client_sustainability").setValue(clientsector);
+    LockFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"]);
+    hideFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"], true);
+    if (formContext.data.getIsDirty())
+        formContext.data.save();
 }
