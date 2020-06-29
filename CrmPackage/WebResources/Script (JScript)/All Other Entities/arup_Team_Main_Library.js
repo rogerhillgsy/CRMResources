@@ -263,18 +263,7 @@ function exitForm(primaryControl) {
             {
                 label: "<b>Save and Exit</b>",
                 callback: function () {
-                    var acctAttributes = formContext.data.entity.attributes.get();
-                    var highlight = true;
-                    var cansave = true;
-                    if (acctAttributes != null) {
-                        for (var i in acctAttributes) {
-                            if (acctAttributes[i].getRequiredLevel() == 'required') {
-                                highlight = formContext.getAttribute(acctAttributes[i].getName()).getValue() != null;
-                                if (highlight == false && cansave == true) { cansave = false; }
-                            }
-                        }
-                    }
-                    if (cansave) { formContext.data.entity.save("saveandclose"); }
+                        formContext.data.entity.save("saveandclose");
                 },
                 setFocus: true,
                 preventClose: false
