@@ -373,4 +373,10 @@ function closeForm() {
     Xrm.Navigation.navigateTo(pageInput).catch(function() {
         throw new Error("Unable to navigate back to team list");
     });
+    formContext.getAttribute("ccrm_clienttype").setValue(ccrm_clienttype);
+    formContext.getAttribute("ccrm_client_sustainability").setValue(clientsector);
+    LockFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"]);
+    hideFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"], true);
+    if (formContext.data.getIsDirty())
+        formContext.data.save();
 }
