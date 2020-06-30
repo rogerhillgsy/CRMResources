@@ -1,37 +1,12 @@
-///* Legacy  - not used? */
-//function openFOPForm() {
-//    alert("Calling legacy function openFOPForm");
-//    var team = {
-//        entityType: "team",
-//        id: Xrm.Page.data.entity.getId(),
-//        name: Xrm.Page.getAttribute("name").getValue()
-//    };
-
-//    // Set default values for the FOP form
-//    var formParameters = {};
-//    formParameters["arup_relationshipteamid"] = team.id;
-//    formParameters["arup_relationshipteamidname"] = team.name;
-
-//    var windowOptions = {
-//        openInNewWindow: true
-//    };
-
-//    //pop up form with default values
-//    Xrm.Utility.openEntityForm("arup_fieldofplay", null, formParameters, windowOptions);
-
-//}
-
-///* Legacy - not used? */
-//function refreshRibbonOnChange() {
-//    alert("Calling legacy function refreshRibbonOnChange");
-//    Xrm.Page.ui.refreshRibbon();
-//}
 var teamLog = console.log.bind(window.console);
 var teamError = console.error.bind(window.console);
+const CREATE_FORM = 1;
+String.prototype.normalizeGuid = function () {
+    return this.replace(/[{}]/g, '');
+}
 
 function formOnLoadTeams(executionContext) {
     // Ensure that Business unit is set to Arup
-    const CREATE_FORM = 1;
     var formContext = executionContext.getFormContext();
     var formType = formContext.ui.getFormType();
     if (formType === CREATE_FORM) {
@@ -42,6 +17,12 @@ function formOnLoadTeams(executionContext) {
         LockFields(formContext, ["arup_teamcategory"]);
     }
     formContext.getControl("Members").addOnLoad(HandleTeamGridUpdate); // Ensure that tabs are updated when member is added to team.
+
+    // Ensure that the Team admin, manager and sponsor are all team members.
+    EnsureIsTeamMember(formContext, "administratorid");
+    EnsureIsTeamMember(formContext, "ccrm_relationshipmanager");
+    EnsureIsTeamMember(formContext, "ccrm_arupsponsor");
+    EnsureClientValuesSet(formContext);
 }
 
 function SetDefaultBusinessUnit(formContext) {
@@ -71,9 +52,8 @@ function SetFieldsNotRequired(formContext, notRequiredFields, required) {
     }
 }
 
-
 function LockFields(formContext, lockFields, locked) {
-    locked = locked|| true;
+    locked = typeof locked === "undefined" ? true : locked;
     for (var f = 0; f < lockFields.length; f++) {
         var field = lockFields[f];
         var attribute = formContext.getAttribute(field);
@@ -115,12 +95,11 @@ function SetupForRelationshipTeam(formContext) {
                 SetTabVisibilty(formContext, "all");
             },
                 function reject(message) {
-                    teamLog(`Was not allowed team member : ${message}`);
+                    teamLog("Current user is not part of this relationship team - just show team setup tabs.");
                     SetTabVisibilty(formContext, "default");
                 }
             );
         MakeAllSectionsVisible(formContext, "Team Set-Up");
-        SetClientValues(formContext);
     }
     else {
         hideFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"], false);
@@ -146,8 +125,8 @@ function MakeAllSectionsVisible(formContext, targetTab) {
     }
 }
 
-function IfTeamMember(formContext, teams) {
-    var userId = Xrm.Utility.getGlobalContext().userSettings.userId;
+function IfTeamMember(formContext, teams, userId) {
+    userId = userId || Xrm.Utility.getGlobalContext().userSettings.userId;
     var p1 = new Promise(function(resolve, reject) {
         Xrm.WebApi.retrieveRecord("systemuser",
             userId,
@@ -212,32 +191,187 @@ function setTabVisibilityByList(formContext, include, exclude) {
     }
 }
 
+// Ensure that whent he lead client organisation attribute is set update dependent fields.
+function EnsureClientValuesSet(formContext) {
+    return new Promise(function(resolve, reject) {
+            var targetField = formContext.getAttribute("ccrm_leadclientorganisation");
+            targetField.addOnChange(
+                function onChange(executionContext) {
+                    var formContext = executionContext.getFormContext();
+                    return SetClientValues(formContext);
+                });
+        })
+        .catch(function(e) {
+            teamError("Failed to set lead client org dependent values \r\n" + e);
+        });
+}
+
 function SetClientValues(formContext) {
-    var lco = formContext.getAttribute("ccrm_leadclientorganisation").getValue()[0];
-    var ccrm_clienttype_formatted;
-    var ccrm_clienttype;
-    var clientsector;
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        datatype: "json",
-        url: formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + lco.id.replace("{", "").replace("}", "") + ")?$select=ccrm_clienttype,arup_clientsector",
-        beforeSend: function (XMLHttpRequest) {
-            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-            XMLHttpRequest.setRequestHeader("Accept", "application/json");
-            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    var lco = formContext.getAttribute("ccrm_leadclientorganisation").getValue();
+    if (!lco) return;
+    lco = lco[0].id.normalizeGuid();
+    Xrm.WebApi.retrieveRecord("account",
+            lco,
+            "?$select=ccrm_clienttype,arup_clientsector")
+        .then(function (result) {
+            setField(formContext, result, "ccrm_clienttype");
+            setField(formContext, result, "ccrm_client_sustainability", "arup_clientsector@OData.Community.Display.V1.FormattedValue");
+        })
+        .catch(function fail(e) {
+            teamError("Error retrieving client values from lead org");
+        });
+}
+
+function setField(formContext, results, targetAttribute, sourceField) {
+    if (!sourceField) sourceField = targetAttribute;
+    var attr = formContext.getAttribute(targetAttribute);
+    if (!attr) {
+        teamError("Target attribute " + targetAttribute + " did not exist");
+        return;
+    }
+    var value = results[sourceField];
+    if (!value) {
+        teamError("Source field " + sourceField + " not found");
+    }
+    teamLog("Set attribute " + targetAttribute + ' to "' + value + '"');
+    attr.setValue(value);
+}
+
+function EnsureIsTeamMember(formContext, attributeName) {
+    // Need to ensure two things.
+    // 1. That the user designated by the attribute is currently a member, and add them if they are not. (Deals with create issue)
+    // 2. When the attribute value changes. Add the user to the team members grid. (But don't remove the old user from the grid.)
+    // Use promises to ensure we don't hold up form load.
+    var p = new Promise(function(resolve, reject) {
+            var targetUser = formContext.getAttribute(attributeName);
+            var thisTeam = formContext.getAttribute("name").getValue();
+
+        if (!targetUser) return;
+
+            // Deal with changes to user field.
+            targetUser.addOnChange(
+                function onChange(executionContext) {
+                    var formContext = executionContext.getFormContext();
+                    var formType = formContext.ui.getFormType();
+                    if (formType !== CREATE_FORM) {
+                        var newUser = executionContext.getEventSource();
+                        var thisTeam = formContext.getAttribute("name").getValue();
+                        if (!!newUser) newUser = newUser.getValue();
+                        if (!!newUser) MakeTeamMember(formContext, newUser, thisTeam);
+                    }
+                });
+
+            if ( !targetUser.getValue()) return; // No user value set, so ignore.
+            var targetUserValue = targetUser.getValue();
+
+            // Deal with creation issue - Team admin will not initially be a member.
+            MakeTeamMember(formContext, targetUserValue, thisTeam);
+        })
+        .catch(function(e) {
+            teamError("Failed to set default team member :" + attributeName + "\r\n" + e);
+        });
+}
+
+function MakeTeamMember(formContext, user, team) {
+    IfTeamMember(formContext, [team], user[0].id.normalize()).then(
+        function isAlreadyTeamMember() {
+            teamLog("OK - " + user[0].name + " is already team member");
         },
-        async: false,
-        success: function (data, textStatus, xhr) {
-            var result = data;
-            ccrm_clienttype = result["ccrm_clienttype"];
-            ccrm_clienttype_formatted = result["ccrm_clienttype@OData.Community.Display.V1.FormattedValue"];
-            clientsector = result["arup_clientsector@OData.Community.Display.V1.FormattedValue"];
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+        function isNotTeamMember(e) {
+            if (e === "No Matching team") {
+                teamLog("Add " + user[0].name + " as member of team: " + team);
+                return AddTeamMember(formContext, user[0], team);
+            } else {
+                teamError("Checking if team member :" + e.message);
+            }
+        });
+}
+
+function AddTeamMember(formContext, user, team) {
+    var addMembersTeamRequest = {
+        entity: formContext.data.entity.getEntityReference(),
+        Members: [
+            {
+                systemuserid: user.id.normalizeGuid(),
+                "@odata.type": "Microsoft.Dynamics.CRM.systemuser"
+            }
+        ],
+        getMetadata: function() {
+            return {
+                boundParameter: "entity",
+                parameterTypes: {
+                    "entity": {
+                        "typeName": "mscrm.team",
+                        "structuralProperty": 5
+                    },
+                    "Members": {
+                        "typeName": "Collection(mscrm.systemuser)",
+                        "structuralProperty": 4
+                    }
+                },
+                operationType: 0,
+                operationName: "AddMembersTeam",
+            };
+
         }
+    }
+    addMembersTeamRequest.entity.id = addMembersTeamRequest.entity.id.normalizeGuid();
+    return Xrm.WebApi.online.execute(addMembersTeamRequest)
+        .then(function success() {
+                var grid = formContext.getControl("Members");
+                grid.refresh();
+            },
+            function fail(e) {
+                debugger;
+                teamError("Failed to add user " + user.name + " to team " + team + "\r\n" + e.message);
+            });
+}
+
+
+// runs on Exit button in ribbon
+function exitForm(primaryControl) {
+    var formContext = primaryControl;
+    //see if the form is dirty
+    var ismodified = formContext.data.entity.getIsDirty();
+    if (ismodified == false) {
+        formContext.ui.close();
+        return;
+    }
+
+    Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
+        '<font size="3" color="#000000"></br>Some fields on the form have been changed.</br>Click "Save and Exit" button to save your changes and exit.</br>Click "Exit Only" button to exit without saving.</font>',
+        [
+            {
+                label: "<b>Save and Exit</b>",
+                callback: closeForm,
+                setFocus: true,
+                preventClose: false
+            },
+            {
+                label: "<b>Exit Only</b>",
+                callback: function () {
+                    //get list of dirty fields
+                    var acctAttributes = formContext.data.entity.attributes.get();
+                    if (acctAttributes != null) {
+                        for (var i in acctAttributes) {
+                            if (acctAttributes[i].getIsDirty()) {
+                                formContext.getAttribute(acctAttributes[i].getName()).setSubmitMode("never");
+                            }
+                        }
+                        closeForm();
+                    }
+                },
+                setFocus: false,
+                preventClose: false
+            }
+        ],
+        'Warning', 600, 250, '', true);
+}
+
+function closeForm() {
+    var pageInput = { pageType: "entitylist", entityName: "team" };
+    Xrm.Navigation.navigateTo(pageInput).catch(function() {
+        throw new Error("Unable to navigate back to team list");
     });
     formContext.getAttribute("ccrm_clienttype").setValue(ccrm_clienttype);
     formContext.getAttribute("ccrm_client_sustainability").setValue(clientsector);

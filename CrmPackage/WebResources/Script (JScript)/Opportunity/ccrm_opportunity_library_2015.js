@@ -1191,6 +1191,8 @@ function setLookupFiltering(formContext) {
 
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
 
+    preCachePMPD(formContext);
+
     //bid director
     formContext.getControl("ccrm_biddirector_userid").addPreSearch(function () {
         UpdateRegionalLookup(formContext, "ccrm_biddirector_userid", "arup_pdregionaccreditation", false);
@@ -1279,10 +1281,9 @@ function setLookupFiltering(formContext) {
 }
 
 function UpdateRegionalLookup(formContext, lookupFieldName, filterChkFieldName, isBPFField) {
-    debugger;
     addUserLookupFilter(formContext, "ccrm_arupregionid", lookupFieldName, filterChkFieldName);
     if (isBPFField) {
-        filterBPFUserLookup(lookupFieldName);
+        filterBPFUserLookup(lookupFieldName);        
     }
 }
 //CRM 2016 Known Issues 2.1.1
@@ -1313,6 +1314,53 @@ function getArupRegionName(formContext, opportunityFieldName) {
             arupRegionName = region[0].name;
     }
     return [region, arupRegionName];
+}
+
+var callCache = {};
+// Cache calls to pure functions (i.e. given the same arguments, they return the same value)
+// This is particular helpful for calls out to the CRM rest interface.
+function CachedCallTo(targetFunction ) {
+    if (typeof callCache[targetFunction] === "undefined") callCache[targetFunction] = {};
+    var cachedCall = callCache[targetFunction];
+    var callArgs = [];
+    for (var i = 1; i < arguments.length; i++) {
+        callArgs.push(arguments[i]);
+    }
+    var callKey = callArgs.map(function(a) { return typeof a === "undefined" ? "undefined" : a; }).join("--");
+    if (typeof cachedCall[callKey] === "undefined") {
+        cachedCall[callKey] = targetFunction.call();
+    }
+    return cachedCall[callKey];
+}
+
+function preCachePMPD(formContext) {
+    // Precache PM and PD data.
+    var x = new Promise(function(resolve, reject) {
+        var fieldsToPreCache = [
+            "ccrm_projectmanager_userid", "ccrm_projectmanager_userid1", "ccrm_projectmanager_userid2",
+            "ccrm_projectdirector_userid", "ccrm_projectdirector_userid1",
+            "ccrm_projectdirector_userid2", "header_process_ccrm_projectdirector_userid",
+            "header_process_ccrm_projectmanager_userid", "header_process_ccrm_projectdirector_userid1",
+            "header_process_ccrm_projectmanager_userid1"
+        ];
+        var arupRegionData = getArupRegionName(formContext, "ccrm_arupregionid");
+        var arupRegionName = "";
+        if (arupRegionData[0] != null) {
+            arupRegionName = arupRegionData[1];
+        }
+        for (var i = 0; i < fieldsToPreCache.length; i++) {
+            var lookupFieldName = fieldsToPreCache[i];
+            CachedCallTo(function () { return GetAccLevelFilter(formContext, arupRegionName, lookupFieldName) }, arupRegionName, lookupFieldName);
+        };
+        resolve("All done");
+    }).then(
+        function () { console.log("Pre-cache completed") })
+    .catch(
+        function(e) {
+            console.log("Error in pre-caching");
+            debugger;
+        });
+
 }
 
 function GetAccLevelFilter(formContext, arupRegionName, lookupFieldName) {
@@ -1430,7 +1478,7 @@ function addUserLookupFilter(formContext, opportunityFieldName, lookupFieldName,
         arupRegionName = arupRegionData[1];
     }
 
-    var accLevFilter = GetAccLevelFilter(formContext, arupRegionName, lookupFieldName);
+    var accLevFilter = CachedCallTo(function() { return GetAccLevelFilter(formContext, arupRegionName, lookupFieldName) }, arupRegionName, lookupFieldName );
 
     if (region != null) {
         var regionAccreditationOptionSetValues = GetPMPDRegionAccreditationValues(region[0].id.replace(/[{}]/g, "").toLowerCase());
@@ -1486,7 +1534,18 @@ function addUserLookupFilter(formContext, opportunityFieldName, lookupFieldName,
             "<cell name='ccrm_arupofficeid' width='150' />" +
             "</row>" +
             "</grid>";
-        formContext.getControl(lookupFieldName).addCustomView(viewId, "systemuser", viewName, viewFetchXml, layoutXml, true);
+        //formContext.getControl(lookupFieldName).addCustomView(viewId, "systemuser", viewName, viewFetchXml, layoutXml, true);
+        formContext.getControl(lookupFieldName).setDefaultView("{26B373CD-C7CC-E811-8115-005056B509E1}"); 
+        var customerUserFilter = "<filter type='and'>" +
+            "<condition attribute='accessmode' operator='ne' value='3' />" +
+            "<condition attribute='arup_employmentstatus' value='770000000' operator='eq'/>" +
+            "<condition attribute='internalemailaddress' operator='like' value='%@arup.com%'/>" +
+            accLevFilter +
+            "<condition attribute='" + filterChkFieldName + "' operator='contain-values'>" +
+            "<value>" + regionAccreditationOptionSetValues + "</value>" +
+            "</condition>" +
+            "</filter>";
+        formContext.getControl(lookupFieldName).addCustomFilter(customerUserFilter, "systemuser");
 
     }
 }

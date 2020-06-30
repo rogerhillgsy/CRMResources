@@ -334,7 +334,7 @@ Xrm.Page.Arup = (
                                     Log("result is " + result);
                                     if (result == "success") {
                                         obj.SetupTabsForStage(formContext);
-                                        successCallback();
+                                        !!successCallback();
                                     } else {
                                         Xrm.Navigation.openAlertDialog({
                                             title: "Process error",

@@ -1312,6 +1312,11 @@
       <UniqueName>new_arup_FOP_Main_Library</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_Team_Main_Library.js">
+      <DisplayName>arup_Team_Main_Library</DisplayName>
+      <UniqueName>arup_Team_Main_Library.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_WhatsNewPage.htm">
       <DisplayName>arup_WhatsNewPage</DisplayName>
       <UniqueName>new_arup_WhatsNewPage</UniqueName>
@@ -1545,11 +1550,6 @@
     <CRMWebResource Include="WebResources\Script (JScript)\arup_Task_Main_Library.js">
       <DisplayName>arup_Task_Main_Library</DisplayName>
       <UniqueName>arup_arup_Task_Main_Library</UniqueName>
-      <WebResourceType>NotSupported</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script (JScript)\arup_Team_Main_Library.js">
-      <DisplayName>arup_Team_Main_Library</DisplayName>
-      <UniqueName>arup_Team_Main_Library.js</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_TEST.js">
