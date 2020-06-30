@@ -10,44 +10,6 @@ function onSelectOfStage(formContext, selStageId) {
     cacheValueBM = formContext.getAttribute("ccrm_bidmanager_userid").getValue();
     cacheValueBD = formContext.getAttribute("ccrm_biddirector_userid").getValue();
 
-    var opptype = formContext.getAttribute("arup_opportunitytype").getValue();
-    var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
-    var bidDevTabToShow = arupInternal ? "Bid_Development_Tab_Internal" : "Bid_Development_Tab_External";
-    var bidDevTabToHide = !arupInternal ? "Bid_Development_Tab_Internal" : "Bid_Development_Tab_External";
-    var isPJNApprovalStage = IsPJNApprovalStage(selStageId);
-
-    // TODO: - This section needs to be re-examined in the light of the new Opportunity form structure.
-    //switch (selStageId) {
-    //    case ArupStages.BidReviewApproval:
-    //        formContext.ui.tabs.get("Project_Details_Tab").setDisplayState("collapsed");
-    //        formContext.ui.tabs.get("Summary").setDisplayState("expanded");
-    //        break;
-    //    case ArupStages.BidSubmitted:
-    //        formContext.ui.tabs.get("Summary").setDisplayState("collapsed");
-    //        formContext.ui.tabs.get("Project_Details_Tab").setDisplayState("expanded");
-    //        break;
-    //    case ArupStages.ConfirmJob:
-    //        formContext.ui.tabs.get("Summary").setDisplayState("expanded");
-    //        formContext.ui.tabs.get("Project_Details_Tab").setDisplayState("collapsed");
-    //        break;
-    //}
-
-    //if (arupInternal) {
-
-    //    if (opptype == '770000004') {
-    //        formContext.ui.tabs.get(bidDevTabToShow).setVisible(true);
-    //    }
-
-    //    formContext.ui.tabs.get("Bid_Details_Tab").sections.get("Bid_Details_Tab_section_7").setVisible(false);
-    //    formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_6_section_3").setVisible(false);
-    //    formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_7_section_5").setVisible(false);
-    //    formContext.ui.tabs.get("Summary").sections.get("Organisation_Checks_Section").setVisible(false);
-    //}
-
-    //if (formContext.ui.tabs.get(bidDevTabToHide).getVisible() == true) {
-    //    formContext.ui.tabs.get(bidDevTabToHide).setVisible(false);
-    //}
-
     setBidDecisionChairRequired(formContext);
 }
 
@@ -57,7 +19,6 @@ function ShowHideOpportunityTypeAndProjectProcurement(formContext, stageId) {
 
     setTimeout(function () {
         if (stageId != null && stageId != undefined) {
-            // var selStageId = formContext.getAttribute("stageid").getValue();
 
             if (stageId == ArupStages.Lead || isPartOfDQTeam(formContext)) {
 
@@ -81,7 +42,6 @@ function CloseOpportunity(formContext, statusCode) {
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var clientUrl = formContext.context.getClientUrl();
-    //var stepName = getStepName(formContext,oppId);
     var activeStageId = formContext.data.process.getActiveStage().getId();
     var oppDetails = getOpportunityReasons(formContext.context.getClientUrl(), activeStageId, statusCode, arupInternal);
 
@@ -109,7 +69,6 @@ function CloseOpportunity(formContext, statusCode) {
                     };
                     Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
                         function success(returnValue) {
-                            //  formContext.data.entity.save();
                             OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
                         },
                         function error() {
@@ -126,28 +85,6 @@ function CloseOpportunity(formContext, statusCode) {
             console.log("failure status " + status.message);
         });
 }
-
-//function getStepName(formContext,oppId) {
-//    var stepname = new String();
-//    var req = new XMLHttpRequest();
-//    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_bpf_b253053047ef4eddbed29e34f6c23731s?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%3E%3Centity%20name%3D%22ccrm_bpf_b253053047ef4eddbed29e34f6c23731%22%3E%3Cattribute%20name%3D%22businessprocessflowinstanceid%22%20%2F%3E%3Cfilter%20type%3D%22and%22%3E%3Ccondition%20attribute%3D%22bpf_opportunityid%22%20operator%3D%22eq%22%20uiname%3D%22%26quot%3BPomeroy%26quot%3B%C2%A0-%C2%A014%C2%A0Macleay%C2%A0St%22%20uitype%3D%22opportunity%22%20value%3D%22%7B" +
-//        oppId + "%7D%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22processstage%22%20from%3D%22processstageid%22%20to%3D%22activestageid%22%20alias%3D%22ab%22%3E%3Cattribute%20name%3D%22stagename%22%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
-//    req.setRequestHeader("OData-MaxVersion", "4.0");
-//    req.setRequestHeader("OData-Version", "4.0");
-//    req.setRequestHeader("Accept", "application/json");
-//    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-//    req.onreadystatechange = function () {
-//        if (this.readyState === 4) {
-//            req.onreadystatechange = null;
-//            if (this.status === 200) {
-//                var results = JSON.parse(this.response);
-//                stepname = results.value[0].ab_x002e_stagename;
-//            }
-//        }
-//    };
-//    req.send();
-//    return stepname;
-//}
 
 function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInternal) {
 
@@ -198,7 +135,6 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
 
 //Below function called from Ribbonworkbench: FormCOntext is primarycontrol paramter
 function CloseOpportunityConfirmation(formContext, statusCode) {
-    debugger;
     formContext.data.save().then(
         function success(status) {
 
@@ -256,9 +192,9 @@ function CloseOpportunityConfirmation(formContext, statusCode) {
                 }
             }
         },
-      function(status) {
-          console.log("failure status " + status.message);
-       });
+        function (status) {
+            console.log("failure status " + status.message);
+        });
 }
 
 function ConfirmationMessage(formContext) {
@@ -317,35 +253,35 @@ function BidDicisionConfirmation(formContext) {
 
     formContext.data.save().then(
         function success(status) {
-            if (IsFormValid(formContext, 'BDA')){
-            setTimeout(function () {
+            if (IsFormValid(formContext, 'BDA')) {
+                setTimeout(function () {
 
-            var ackMsg = BidConfirmationMessage(formContext, bidDecisionChair);
+                    var ackMsg = BidConfirmationMessage(formContext, bidDecisionChair);
 
-            Alert.show('<font size="6" color="#187ACD"><b>Opportunity - Decision to Bid</b></font>',
-                '<font size="3" color="#000000"></br></br>' + ackMsg + '</font>',
-                [
-                    {
-                        label: "<b>Confirm</b>",
-                        callback: function () {
-                            var approvalType = "BidDecisionChairApproval";
-                            approveCallbackAction(formContext, approvalType);
-                            moveToNextTrigger = true;
-                        },
-                        setFocus: true,
-                        preventClose: false
+                    Alert.show('<font size="6" color="#187ACD"><b>Opportunity - Decision to Bid</b></font>',
+                        '<font size="3" color="#000000"></br></br>' + ackMsg + '</font>',
+                        [
+                            {
+                                label: "<b>Confirm</b>",
+                                callback: function () {
+                                    var approvalType = "BidDecisionChairApproval";
+                                    approveCallbackAction(formContext, approvalType);
+                                    moveToNextTrigger = true;
+                                },
+                                setFocus: true,
+                                preventClose: false
 
-                    },
-                    {
-                        label: "<b>Cancel</b>",
-                        callback: function () {
+                            },
+                            {
+                                label: "<b>Cancel</b>",
+                                callback: function () {
 
-                        },
-                        setFocus: false,
-                        preventClose: false
-                    }
-                ], 'QUESTION', 800, 470, '', true);
-        }, 2000);
+                                },
+                                setFocus: false,
+                                preventClose: false
+                            }
+                        ], 'QUESTION', 800, 470, '', true);
+                }, 2000);
             }
             else {
                 formContext.data.save();
@@ -391,6 +327,7 @@ function BidConfirmationMessage(formContext, bidDecisionChair) {
 function setupArupInternal(executionContext) {
     var formContext = executionContext.getFormContext();
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+    showSDGFields(formContext, arupInternal);
     if (!arupInternal) { return; }
 
     formContext.getControl("ccrm_countryofclientregistrationid").setVisible(false);
@@ -402,7 +339,6 @@ function setupArupInternal(executionContext) {
     formContext.getControl("ccrm_arupuniversityiiaresearchinitiative").setVisible(false);
     formContext.getControl("ccrm_estprojectvalue_num").setVisible(false);
     formContext.getControl("arup_projpartreqd").setVisible(false);
-
 }
 
 function setBidDecisionChairRequired_ec(executionContext) {
@@ -488,18 +424,6 @@ function showAlertMessage(formContext, attribute, errorMessage) {
             },
         ], "ERROR", 550, 200, '', true);
 }
-
-//function errorHandlerBidDecision() {
-//    Alert.show('<font size="6" color="#FF0000"><b>Stop</b></font>',
-//        '<font size="3" color="#000000"></br>Bid Decision Chair cannot be empty.</font>',
-//        [
-//            {
-//                label: "<b>OK</b>",
-//                setFocus: true,
-//                preventClose: false
-//            },
-//        ], "ERROR", 450, 200, '', true);
-//}
 
 function BidReviewApprovalConfirmation(formContext, approvalType) {
     var ackMsg = BidReviewApprovalConfirmationMessage(formContext);
@@ -600,21 +524,21 @@ function retreiveOrganisationChecks(executionContext) {
                         var result = JSON.parse(this.response);
 
                         var arup_creditcheck = result["arup_creditcheck"];
-                        formContext.getAttribute("arup_creditcheck").setValue(arup_creditcheck);
-                        // setCreditCheckLight(formContext);
-
+                        var arup_creditValue = result["arup_creditcheck@OData.Community.Display.V1.FormattedValue"];
+                        if (arup_creditValue != null) {
+                            formContext.getAttribute("arup_creditcheck").setValue(arup_creditcheck);
+                        } else {
+                            formContext.getAttribute("arup_creditcheck").setValue(null);
+                        }
+                            
                         var arup_duediligencecheck = result["arup_duediligencecheck"];
                         if (arup_duediligencecheck != null) { // If Sanctions is null on Client
                             formContext.getAttribute("arup_duediligencecheck").setValue(arup_duediligencecheck);
+                        } else {
+                            formContext.getAttribute("arup_duediligencecheck").setValue(null);
+                        }
 
-                            // var arup_duediligencetooltip = result["arup_duediligencetooltip"];
-                            // formContext.getAttribute("arup_duediligencetooltip").setValue(arup_duediligencetooltip);
-
-                            // var arup_duediligencemultipleresult = result["arup_duediligencemultipleresult"];
-                            // if (formContext.getAttribute("arup_duediligencemultipleresult").getValue() != arup_duediligencemultipleresult)
-                            //     formContext.getAttribute("arup_duediligencemultipleresult").setValue(arup_duediligencemultipleresult);
-
-                        } else if (oppSanctionCheck != null && !clientDirty) { // If sanctions is null on Opportunity
+                        if (oppSanctionCheck != null && !clientDirty) { // If sanctions is null on Opportunity
                             formContext.getAttribute("arup_duediligencecheck").setValue(oppSanctionCheck);
                             formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
                         } else if (!clientDirty) { // If Client is not dirty //Top right coner in Design                                            
@@ -632,87 +556,6 @@ function retreiveOrganisationChecks(executionContext) {
             };
             req.send();
         }
-    }
-}
-
-function setCreditCheckLight(formContext) {
-    var arup_creditcheck = formContext.getAttribute("arup_creditcheck").getValue();
-    var sourceUrl = formContext.getControl("WebResource_Credit_Check").getSrc();
-    var sourceString = sourceUrl.toString();
-    var url = sourceString.substring(0, sourceString.lastIndexOf('/'));
-    var targetUrl, resource, title = "";
-    if (arup_creditcheck != null) {
-        switch (arup_creditcheck) {
-            case 1:
-                resource = "/arup_Green_Light";
-                title = "Low Risk";
-                break;
-            case 2:
-                resource = "/arup_Amber_Light";
-                title = "Medium Risk";
-                break;
-            case 3:
-                resource = "/arup_Red_Light";
-                title = "High Risk";
-                break;
-            case 4:
-                resource = "/arup_Grey_Light";
-                title = "Not Performed / No Information";
-                break;
-            default:
-                break;
-        }
-    } else {
-        resource = "/arup_Grey_Light";
-        title = "Not Performed / No Information";
-    }
-
-    targetUrl = url.concat(resource);
-    formContext.getControl("WebResource_Credit_Check").setSrc(targetUrl);
-    formContext.getControl("WebResource_Credit_Check").getObject().title = title;
-}
-
-function setDueDiligenceCheckLight(executionContext) {
-    var formContext = executionContext.getFormContext();
-    var arup_duediligencecheck = formContext.getAttribute("arup_duediligencecheck").getValue();
-    var webResourceDueDiligenceCheck = formContext.getControl("WebResource_Due_Diligence_Check");
-    if (webResourceDueDiligenceCheck != null) {
-        var sourceUrl = formContext.getControl("WebResource_Due_Diligence_Check").getSrc();
-        var sourceString = sourceUrl.toString();
-        var url = sourceString.substring(0, sourceString.lastIndexOf('/'));
-        var targetUrl, resource, title = "";
-        if (arup_duediligencecheck != null) {
-            switch (arup_duediligencecheck) {
-                case 1:
-                    resource = "/arup_Green_Light";
-                    title = "No Sanctions";
-                    break;
-                case 2:
-                    resource = "/arup_Green_Light";
-                    title = "No Sanctions (OOL)";
-                    break;
-                case 3:
-                    resource = "/arup_Red_Light";
-                    title = "Sanctioned";
-                    break;
-                case 7:
-                    resource = "/arup_Grey_Light";
-                    title = "Not Checked";
-                    break;
-                case 8:
-                    resource = "/arup_Grey_Light";
-                    title = "Manual Check Needed";
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            resource = "/arup_Grey_Light";
-            title = "Not Checked";
-        }
-        targetUrl = url.concat(resource);
-        formContext.getControl("WebResource_Due_Diligence_Check").setSrc(targetUrl);
-        formContext.getControl("WebResource_Due_Diligence_Check").getObject().title = title;
     }
 }
 
@@ -745,7 +588,7 @@ function checkOrganisationChecks(executionContext) {
             };
             req.send();
         }
-    }, 2000);
+    }, 5000);
 }
 
 function setOrganisationChecks(formContext, arup_duediligencecheck) {
@@ -774,4 +617,26 @@ function setOrganisationChecks(formContext, arup_duediligencecheck) {
         }
     };
     req.send(JSON.stringify(entity));
+}
+
+function showSDGFields(formContext, arupInternal) {
+    if (arupInternal) {
+        formContext.getControl("header_process_arup_keymarkets").setVisible(false);
+        formContext.getControl("header_process_arup_sharedvalues").setVisible(false);
+        formContext.getControl("header_process_arup_safeguardplanet").setVisible(false);
+        formContext.getControl("header_process_arup_partnership").setVisible(false);
+        formContext.getControl("header_process_arup_betterway").setVisible(false);
+
+        formContext.getControl("arup_keymarkets").setVisible(false);
+        formContext.getControl("arup_sharedvalues").setVisible(false);
+        formContext.getControl("arup_safeguardplanet").setVisible(false);
+        formContext.getControl("arup_partnership").setVisible(false);
+        formContext.getControl("arup_betterway").setVisible(false);
+    } else {
+        formContext.getAttribute("arup_keymarkets").setRequiredLevel("required");
+        formContext.getAttribute("arup_sharedvalues").setRequiredLevel("required");
+        formContext.getAttribute("arup_safeguardplanet").setRequiredLevel("required");
+        formContext.getAttribute("arup_partnership").setRequiredLevel("required");
+        formContext.getAttribute("arup_betterway").setRequiredLevel("required");
+    }
 }

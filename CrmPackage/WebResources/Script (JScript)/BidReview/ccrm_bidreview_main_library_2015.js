@@ -23,25 +23,25 @@ ARUP.ccrm_bidreview = {
         var formContext = executionContext.getFormContext();
         // remove an option from question B9a
 
-        if (Xrm.Page.context.client.getClient() != "Mobile") {
-            Xrm.Page.getControl("ccrm_sectionb_data_9_yesno").removeOption(100000002);
-            Xrm.Page.getControl("ccrm_sectione_data_3a_new").removeOption(100000002);
+        if (formContext.context.client.getClient() != "Mobile") {
+            formContext.getControl("ccrm_sectionb_data_9_yesno").removeOption(100000002);
+            formContext.getControl("ccrm_sectione_data_3a_new").removeOption(100000002);
         }
 
-        bidReviewHappened = disableFormFields();
+        bidReviewHappened = disableFormFields(executionContext);
 
-        this.tab_SectionH_onLoad();
+        this.tab_SectionH_onLoad(executionContext);
 
         if (!bidReviewHappened) {
             //load review Panel 
-            if (Xrm.Page.getAttribute("ccrm_reviewpanel").getValue() == null) {
-                this.loadReviewPanel();
+            if (formContext.getAttribute("ccrm_reviewpanel").getValue() == null) {
+                this.loadReviewPanel(formContext);
                 dataChanged = true;
             }
-            dataChanged = this.loadSupplementData(dataChanged);
-            dataChanged = this.ultimateClientNL(dataChanged);
-            dataChanged = this.prePopulateFields(dataChanged);
-            dataChanged = this.isPartofJV(formContext, dataChanged);
+            dataChanged = this.loadSupplementData(formContext, dataChanged);
+            dataChanged = this.ultimateClientNL(formContext, dataChanged);
+            dataChanged = this.prePopulateFields(formContext, dataChanged);
+            dataChanged = this.isPartofJV(executionContext, dataChanged);
         }
 
         if (bidReviewHappened) {
@@ -74,16 +74,16 @@ ARUP.ccrm_bidreview = {
         }
 
         //this.twoOptions_onChange("ccrm_managementchanges_yesno", 1);
-        Xrm.Page.ui.tabs.get("tab_BackgroundInfo_tickboxes").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_Client").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_SectionC").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_SectionD").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_SectionE").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_SectionF").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_SectionG").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_SectionH").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_11").setDisplayState('collapsed');
-        Xrm.Page.ui.tabs.get("tab_14").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_BackgroundInfo_tickboxes").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_Client").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_SectionC").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_SectionD").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_SectionE").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_SectionF").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_SectionG").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_SectionH").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_11").setDisplayState('collapsed');
+        formContext.ui.tabs.get("tab_14").setDisplayState('collapsed');
 
         setInterval(this.changeHeaderTileFormat(), 1000);
 
@@ -94,13 +94,14 @@ ARUP.ccrm_bidreview = {
      *********************************************************
      */
     onSave: function (executionObj) {
+        var formContext = executionObj.getFormContext();
         //to stop users from creating from adv find        
-        if (Xrm.Page.data.entity.attributes.get("ccrm_opportunityid").getValue() == null) {
+        if (formContext.data.entity.attributes.get("ccrm_opportunityid").getValue() == null) {
             alert("Bid Review can only be created from within an Opportunity");
             executionObj.getEventArgs().preventDefault();
         }
-        if (Xrm.Page.data.entity.attributes.get("ccrm_opportunityid").getValue() != null && Xrm.Page.data.entity.getId() == null) {
-            if (this.chkBidReviewCount() == true) {
+        if (formContext.data.entity.attributes.get("ccrm_opportunityid").getValue() != null && formContext.data.entity.getId() == null) {
+            if (this.chkBidReviewCount(formContext) == true) {
                 alert('You cannot create another Bid Review record');
                 executionObj.getEventArgs().preventDefault();
             }
@@ -124,35 +125,80 @@ ARUP.ccrm_bidreview = {
      * against the same opportunity
      *********************************************************
      */
-    chkBidReviewCount: function () {
-        var recordId = Xrm.Page.data.entity.attributes.get("ccrm_opportunityid").getValue()[0].id;
-        var RelationshipName = "ccrm_opportunity_ccrm_bidreview";
+    chkBidReviewCount: function (formContext) {
+        var recordId = formContext.data.entity.attributes.get("ccrm_opportunityid").getValue()[0].id;
+        var bidReviewCount;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: formContext.context.getClientUrl() + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20aggregate%3D%22true%22%20%3E%3Centity%20name%3D%22opportunity%22%20%3E%3Cattribute%20name%3D%22ccrm_bidreview%22%20aggregate%3D%22count%22%20alias%3D%22countofbids%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22opportunityid%22%20operator%3D%22eq%22%20value%3D%22" + recordId + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                bidReviewCount = data.value.countofbids;
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+
+        /*var RelationshipName = "ccrm_opportunity_ccrm_bidreview";
         var dataSet = "OpportunitySet";
-        var retrievedAssociated = ConsultCrm.Sync.RetrieveAssociatedRequest(recordId, dataset, RelationshipName);
+        //var retrievedAssociated = ConsultCrm.Sync.RetrieveAssociatedRequest(recordId, dataset, RelationshipName);
         //alert(recordId);
-        var bidReviewCount = retrievedAssociated.results.length;
-        if (bidReviewCount == '1') return true; //records exists
+        //var bidReviewCount = retrievedAssociated.results.length;*/
+        if (bidReviewCount == 1) return true; //records exists
         else return false; //none returned
     },
 
-    isPartofJV: function (formContext, dataChanged) {
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
-        var dataset = "OpportunitySet";
-        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
-        if (retrievereq != null) {
-            if (retrievereq.ccrm_Arups_Role_in_Project != null) {
+    isPartofJV: function (executionContext, dataChanged) {
+        var formContext = executionContext.getFormContext();
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id;
+        var ccrm_arups_role_in_project;
+        var result;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: formContext.context.getClientUrl() + "/api/data/v9.1/opportunities(" + opportunityId.replace("{", "").replace("}", "") + ")?$select=ccrm_arups_role_in_project",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                result = data;
+                ccrm_arups_role_in_project = result["ccrm_arups_role_in_project"];
+                var ccrm_arups_role_in_project_formatted = result["ccrm_arups_role_in_project@OData.Community.Display.V1.FormattedValue"];
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+        /*var dataset = "OpportunitySet";
+        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);*/
+        if (result != null) {
+            if (ccrm_arups_role_in_project != null) {
 
-                var changedData = (retrievereq.ccrm_Arups_Role_in_Project.Value == 4 && Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() != 1) ||
-                    (retrievereq.ccrm_Arups_Role_in_Project.Value != 4 && Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() != 0);
-                if (retrievereq.ccrm_Arups_Role_in_Project.Value == 4) {
+                var changedData = (ccrm_arups_role_in_project == 4 && formContext.getAttribute("ccrm_jvbidding_yesno").getValue() != 1) ||
+                    (ccrm_arups_role_in_project != 4 && formContext.getAttribute("ccrm_jvbidding_yesno").getValue() != 0);
+                if (ccrm_arups_role_in_project == 4) {
                     //set drop down to true 
-                    Xrm.Page.getAttribute("ccrm_jvbidding_yesno").setValue(1);
-                } else if (retrievereq.ccrm_Arups_Role_in_Project.Value != 4) {
-                    Xrm.Page.getAttribute("ccrm_jvbidding_yesno").setValue(0);
+                    formContext.getAttribute("ccrm_jvbidding_yesno").setValue(1);
+                } else if (ccrm_arups_role_in_project != 4) {
+                    formContext.getAttribute("ccrm_jvbidding_yesno").setValue(0);
                 }
-                Xrm.Page.getAttribute("ccrm_jvbidding_yesno").setSubmitMode("always");
-                this.twoOptions_onChange(formContext, "ccrm_jvbidding_yesno", 1);
+                formContext.getAttribute("ccrm_jvbidding_yesno").setSubmitMode("always");
+                this.twoOptions_onChange(executionContext, "ccrm_jvbidding_yesno", 1);
 
                 if (!dataChanged) { dataChanged = changedData };
 
@@ -170,29 +216,77 @@ ARUP.ccrm_bidreview = {
      * Retrieve the Ultimate Client Name & Country
      *********************************************************
      */
-    ultimateClientNL: function (dataChanged) {
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
+    ultimateClientNL: function (formContext, dataChanged) {
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
         var changedData;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
-        var dataset = "OpportunitySet";
-        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
-        if (retrievereq !== null) {
-            if (retrievereq.ccrm_ultimateendclientid !== null) {
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
+        var result;
+        var _ccrm_ultimateendclientid_value;
+        var _ccrm_ultimateendclientid_value_formatted;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: formContext.context.getClientUrl() + "/api/data/v9.1/opportunities(" + opportunityId + ")?$select=_ccrm_ultimateendclientid_value",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                result = data;
+                _ccrm_ultimateendclientid_value = result["_ccrm_ultimateendclientid_value"];
+                _ccrm_ultimateendclientid_value_formatted = result["_ccrm_ultimateendclientid_value@OData.Community.Display.V1.FormattedValue"];
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+        //var dataset = "OpportunitySet";
+        //var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
+        if (result !== null) {
+            if (_ccrm_ultimateendclientid_value !== null) {
                 var fullReference = null;
-                var ultimateClientName = retrievereq.ccrm_ultimateendclientid.Name;
-                var ultimateClientId = retrievereq.ccrm_ultimateendclientid.Id;
+                var ultimateClientName = _ccrm_ultimateendclientid_value_formatted;
+                var ultimateClientId = _ccrm_ultimateendclientid_value;
                 fullReference = ultimateClientName;
                 if (ultimateClientId !== null || undefined) {
-                    var dataset = "AccountSet";
-                    var retrievereq = ConsultCrm.Sync.RetrieveRequest(ultimateClientId, dataset);
+                    var retrievereq;
+                    var _ccrm_countryid_value;
+                    var _ccrm_countryid_value_formatted;
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        datatype: "json",
+                        url: formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + ultimateClientId + ")?$select=_ccrm_countryid_value",
+                        beforeSend: function (XMLHttpRequest) {
+                            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                            XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                        },
+                        async: false,
+                        success: function (data, textStatus, xhr) {
+                            retrievereq = data;
+                            _ccrm_countryid_value = retrievereq["_ccrm_countryid_value"];
+                            _ccrm_countryid_value_formatted = retrievereq["_ccrm_countryid_value@OData.Community.Display.V1.FormattedValue"];
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                        }
+                    });
+                    /*var dataset = "AccountSet";
+                    var retrievereq = ConsultCrm.Sync.RetrieveRequest(ultimateClientId, dataset);*/
                     if (retrievereq !== null) {
-                        var clientName = retrievereq.ccrm_countryid.Name;
+                        var clientName = _ccrm_countryid_value_formatted;
                         fullReference = fullReference + " - " + clientName;
-                        changedData = valueChanged('ccrm_client_data_2a_new', Xrm.Page.getAttribute("ccrm_client_data_2a_new").getValue(), fullReference);
+                        changedData = valueChanged('ccrm_client_data_2a_new', formContext.getAttribute("ccrm_client_data_2a_new").getValue(), fullReference);
                         if (!dataChanged) { dataChanged = changedData };
                         if (changedData && !bidReviewHappened) {
-                            Xrm.Page.getAttribute("ccrm_client_data_2a_new").setValue(fullReference);
-                            Xrm.Page.getAttribute("ccrm_client_data_2a_new").setSubmitMode("always");
+                            formContext.getAttribute("ccrm_client_data_2a_new").setValue(fullReference);
+                            formContext.getAttribute("ccrm_client_data_2a_new").setSubmitMode("always");
                         }
                     }
                 }
@@ -206,200 +300,313 @@ ARUP.ccrm_bidreview = {
      * Prepopulate Various Fields in the form
      *********************************************************
      */
-    prePopulateFields: function (dataChanged) {
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
+    prePopulateFields: function (formContext, dataChanged) {
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
         var changedData;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
-        var dataset = "OpportunitySet";
-        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
-        if (retrievereq !== null) {
-            if (retrievereq.Ccrm_pjna != null) {
-                changedData = valueChanged("PJN", Xrm.Page.getAttribute("ccrm_possiblejobnumber").getValue(), retrievereq.Ccrm_pjna);
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
+        var result;
+        var _ccrm_arupcompanyid_value;
+        var _ccrm_arupcompanyid_value_formatted;
+        var _ccrm_arupcompanyid_value_lookuplogicalname;
+        var _ccrm_bid_transactioncurrencyid_value;
+        var _ccrm_bid_transactioncurrencyid_value_formatted;
+        var _ccrm_bid_transactioncurrencyid_value_lookuplogicalname;
+        var _ccrm_biddirector_userid_value;
+        var _ccrm_biddirector_userid_value_formatted;
+        var _ccrm_biddirector_userid_value_lookuplogicalname;
+        var _ccrm_bidmanager_userid_value;
+        var _ccrm_bidmanager_userid_value_formatted;
+        var _ccrm_bidmanager_userid_value_lookuplogicalname;
+        var ccrm_chargingbasis;
+        var ccrm_chargingbasis_formatted;
+        var _ccrm_client_value;
+        var _ccrm_client_value_formatted;
+        var _ccrm_client_value_lookuplogicalname;
+        var ccrm_estarupinvolvementend;
+        var ccrm_estarupinvolvementstart;
+        var ccrm_estimatedvalue_num;
+        var ccrm_pjna;
+        var _ccrm_projectid_value;
+        var _ccrm_projectlocationid_value;
+        var _ccrm_projectlocationid_value_lookuplogicalname;
+        var ccrm_reference;
+        var closeprobability;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: formContext.context.getClientUrl() + "/api/data/v9.1/opportunities(" + opportunityId + ")?$select=_ccrm_arupcompanyid_value,_ccrm_bid_transactioncurrencyid_value,_ccrm_biddirector_userid_value,_ccrm_bidmanager_userid_value,ccrm_chargingbasis,_ccrm_client_value,ccrm_estarupinvolvementend,ccrm_estarupinvolvementstart,ccrm_estimatedvalue_num,ccrm_pjna,_ccrm_projectid_value,_ccrm_projectlocationid_value,ccrm_reference,closeprobability",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                result = data;
+                _ccrm_arupcompanyid_value = result["_ccrm_arupcompanyid_value"];
+                _ccrm_arupcompanyid_value_formatted = result["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"];
+                _ccrm_arupcompanyid_value_lookuplogicalname = result["_ccrm_arupcompanyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                _ccrm_bid_transactioncurrencyid_value = result["_ccrm_bid_transactioncurrencyid_value"];
+                _ccrm_bid_transactioncurrencyid_value_formatted = result["_ccrm_bid_transactioncurrencyid_value@OData.Community.Display.V1.FormattedValue"];
+                _ccrm_bid_transactioncurrencyid_value_lookuplogicalname = result["_ccrm_bid_transactioncurrencyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                _ccrm_biddirector_userid_value = result["_ccrm_biddirector_userid_value"];
+                _ccrm_biddirector_userid_value_formatted = result["_ccrm_biddirector_userid_value@OData.Community.Display.V1.FormattedValue"];
+                _ccrm_biddirector_userid_value_lookuplogicalname = result["_ccrm_biddirector_userid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                _ccrm_bidmanager_userid_value = result["_ccrm_bidmanager_userid_value"];
+                _ccrm_bidmanager_userid_value_formatted = result["_ccrm_bidmanager_userid_value@OData.Community.Display.V1.FormattedValue"];
+                _ccrm_bidmanager_userid_value_lookuplogicalname = result["_ccrm_bidmanager_userid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                ccrm_chargingbasis = result["ccrm_chargingbasis"];
+                ccrm_chargingbasis_formatted = result["ccrm_chargingbasis@OData.Community.Display.V1.FormattedValue"];
+                _ccrm_client_value = result["_ccrm_client_value"];
+                _ccrm_client_value_formatted = result["_ccrm_client_value@OData.Community.Display.V1.FormattedValue"];
+                _ccrm_client_value_lookuplogicalname = result["_ccrm_client_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                ccrm_estarupinvolvementend = result["ccrm_estarupinvolvementend"];
+                ccrm_estarupinvolvementstart = result["ccrm_estarupinvolvementstart"];
+                ccrm_estimatedvalue_num = result["ccrm_estimatedvalue_num"];
+                ccrm_estimatedvalue_num_formatted = result["ccrm_estimatedvalue_num@OData.Community.Display.V1.FormattedValue"];
+                ccrm_pjna = result["ccrm_pjna"];
+                _ccrm_projectid_value = result["_ccrm_projectid_value"];
+                _ccrm_projectid_value_formatted = result["_ccrm_projectid_value@OData.Community.Display.V1.FormattedValue"];
+                _ccrm_projectlocationid_value = result["_ccrm_projectlocationid_value"];
+                _ccrm_projectlocationid_value_formatted = result["_ccrm_projectlocationid_value@OData.Community.Display.V1.FormattedValue"];
+                _ccrm_projectlocationid_value_lookuplogicalname = result["_ccrm_projectlocationid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                ccrm_reference = result["ccrm_reference"];
+                closeprobability = result["closeprobability"];
+                closeprobability_formatted = result["closeprobability@OData.Community.Display.V1.FormattedValue"];
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+        /*var dataset = "OpportunitySet";
+        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);*/
+        if (result !== null) {
+            if (ccrm_pjna != null) {
+                changedData = valueChanged("PJN", formContext.getAttribute("ccrm_possiblejobnumber").getValue(), ccrm_pjna);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_possiblejobnumber").setValue(retrievereq.Ccrm_pjna);
-                    Xrm.Page.getAttribute("ccrm_possiblejobnumber").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_possiblejobnumber").setValue(ccrm_pjna);
+                    formContext.getAttribute("ccrm_possiblejobnumber").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_possiblejobnumber").setDisabled(true);
+                formContext.getControl("ccrm_possiblejobnumber").setDisabled(true);
             }
 
-            if (retrievereq.ccrm_projectid != null) {
-                changedData = valueChanged('PID', Xrm.Page.getAttribute("ccrm_projectid_number").getValue(), retrievereq.Ccrm_Reference);
+            if (_ccrm_projectid_value != null) {
+                changedData = valueChanged('PID', formContext.getAttribute("ccrm_projectid_number").getValue(), ccrm_reference);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_projectid_number").setValue(retrievereq.Ccrm_Reference);
-                    Xrm.Page.getAttribute("ccrm_projectid_number").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_projectid_number").setValue(ccrm_reference);
+                    formContext.getAttribute("ccrm_projectid_number").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_projectid_number").setDisabled(true);
+                formContext.getControl("ccrm_projectid_number").setDisabled(true);
             }
-            if (retrievereq.ccrm_bidmanager_userid != null) {
+            if (_ccrm_bidmanager_userid_value != null) {
                 //ccrm_bidmanager_userid
                 var lookupVal = new Array();
                 lookupVal[0] = new Object();
-                lookupVal[0].id = retrievereq.ccrm_bidmanager_userid.Id;
-                lookupVal[0].name = retrievereq.ccrm_bidmanager_userid.Name;
-                lookupVal[0].entityType = retrievereq.ccrm_bidmanager_userid.LogicalName;
-                changedData = valueChanged('BM', Xrm.Page.getAttribute("ccrm_bidmanager_userid").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_bidmanager_userid").getValue()[0].id, lookupVal[0].id);
+                lookupVal[0].id = _ccrm_bidmanager_userid_value;
+                lookupVal[0].name = _ccrm_bidmanager_userid_value_formatted;
+                lookupVal[0].entityType = _ccrm_bidmanager_userid_value_lookuplogicalname;
+                changedData = valueChanged('BM', formContext.getAttribute("ccrm_bidmanager_userid").getValue() == null ? null : formContext.getAttribute("ccrm_bidmanager_userid").getValue()[0].id, lookupVal[0].id);
                 //console.log('BM: ' + '\n' + changedData.toString() + '\n' + Xrm.Page.getAttribute("ccrm_bidmanager_userid").getValue()[0].id + '\n' + lookupVal[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_bidmanager_userid").setValue(lookupVal);
-                    Xrm.Page.getAttribute("ccrm_bidmanager_userid").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_bidmanager_userid").setValue(lookupVal);
+                    formContext.getAttribute("ccrm_bidmanager_userid").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_bidmanager_userid").setDisabled(true);
+                formContext.getControl("ccrm_bidmanager_userid").setDisabled(true);
             }
-            if (retrievereq.ccrm_biddirector_userid != null) {
+            if (_ccrm_biddirector_userid_value != null) {
                 //ccrm_biddirector_userid
                 var lookupVal = new Array();
                 lookupVal[0] = new Object();
-                lookupVal[0].id = retrievereq.ccrm_biddirector_userid.Id;
-                lookupVal[0].name = retrievereq.ccrm_biddirector_userid.Name;
-                lookupVal[0].entityType = retrievereq.ccrm_biddirector_userid.LogicalName;
-                changedData = valueChanged('BD', Xrm.Page.getAttribute("ccrm_biddirector_userid").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_biddirector_userid").getValue()[0].id, lookupVal[0].id);
+                lookupVal[0].id = _ccrm_biddirector_userid_value;
+                lookupVal[0].name = _ccrm_biddirector_userid_value_formatted;
+                lookupVal[0].entityType = _ccrm_biddirector_userid_value_lookuplogicalname;
+                changedData = valueChanged('BD', formContext.getAttribute("ccrm_biddirector_userid").getValue() == null ? null : formContext.getAttribute("ccrm_biddirector_userid").getValue()[0].id, lookupVal[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_biddirector_userid").setValue(lookupVal);
-                    Xrm.Page.getAttribute("ccrm_biddirector_userid").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_biddirector_userid").setValue(lookupVal);
+                    formContext.getAttribute("ccrm_biddirector_userid").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_biddirector_userid").setDisabled(true);
+                formContext.getControl("ccrm_biddirector_userid").setDisabled(true);
 
             }
-            if (retrievereq.CloseProbability != null) {
-                changedData = valueChanged('Win %', Xrm.Page.getAttribute("ccrm_win_probability").getValue(), retrievereq.CloseProbability);
+            if (closeprobability != null) {
+                changedData = valueChanged('Win %', formContext.getAttribute("ccrm_win_probability").getValue(), closeprobability);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_win_probability").setValue(retrievereq.CloseProbability);
-                    Xrm.Page.getAttribute("ccrm_win_probability").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_win_probability").setValue(closeprobability);
+                    formContext.getAttribute("ccrm_win_probability").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_win_probability").setDisabled(true);
+                formContext.getControl("ccrm_win_probability").setDisabled(true);
             }
-            if (retrievereq.Ccrm_estimatedvalue_num != null) {
-                changedData = valueChanged('Fee', Xrm.Page.getAttribute("ccrm_fee").getValue(), retrievereq.Ccrm_estimatedvalue_num);
+            if (ccrm_estimatedvalue_num != null) {
+                changedData = valueChanged('Fee', formContext.getAttribute("ccrm_fee").getValue(), ccrm_estimatedvalue_num);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_fee").setValue(retrievereq.Ccrm_estimatedvalue_num);
-                    Xrm.Page.getAttribute("ccrm_fee").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_fee").setValue(ccrm_estimatedvalue_num);
+                    formContext.getAttribute("ccrm_fee").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_fee").setDisabled(true);
+                formContext.getControl("ccrm_fee").setDisabled(true);
             }
 
-            if (retrievereq.ccrm_arupcompanyid != null) {
+            if (_ccrm_arupcompanyid_value != null) {
                 //ccrm_bidmanager_userid
                 var lookupVal = new Array();
                 lookupVal[0] = new Object();
-                lookupVal[0].id = retrievereq.ccrm_arupcompanyid.Id;
-                lookupVal[0].name = retrievereq.ccrm_arupcompanyid.Name;
-                lookupVal[0].entityType = retrievereq.ccrm_arupcompanyid.LogicalName;
-                changedData = valueChanged('Company', Xrm.Page.getAttribute("ccrm_arupcompanyid").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_arupcompanyid").getValue()[0].id, lookupVal[0].id);
+                lookupVal[0].id = _ccrm_arupcompanyid_value;
+                lookupVal[0].name = _ccrm_arupcompanyid_value_formatted;
+                lookupVal[0].entityType = _ccrm_arupcompanyid_value_lookuplogicalname;
+                changedData = valueChanged('Company', formContext.getAttribute("ccrm_arupcompanyid").getValue() == null ? null : formContext.getAttribute("ccrm_arupcompanyid").getValue()[0].id, lookupVal[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_arupcompanyid").setValue(lookupVal);
-                    Xrm.Page.getAttribute("ccrm_arupcompanyid").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_arupcompanyid").setValue(lookupVal);
+                    formContext.getAttribute("ccrm_arupcompanyid").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_arupcompanyid").setDisabled(true);
+                formContext.getControl("ccrm_arupcompanyid").setDisabled(true);
             }
 
-            if (retrievereq.ccrm_bid_transactioncurrencyid != null) {
+            if (_ccrm_bid_transactioncurrencyid_value != null) {
                 var lookupVal = new Array();
                 lookupVal[0] = new Object();
-                lookupVal[0].id = retrievereq.ccrm_bid_transactioncurrencyid.Id;
-                lookupVal[0].name = retrievereq.ccrm_bid_transactioncurrencyid.Name;
-                lookupVal[0].entityType = retrievereq.ccrm_bid_transactioncurrencyid.LogicalName;
-                changedData = valueChanged('Currency', Xrm.Page.getAttribute("ccrm_currency").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_currency").getValue()[0].id, lookupVal[0].id);
+                lookupVal[0].id = _ccrm_bid_transactioncurrencyid_value;
+                lookupVal[0].name = _ccrm_bid_transactioncurrencyid_value_formatted;
+                lookupVal[0].entityType = _ccrm_bid_transactioncurrencyid_value_lookuplogicalname;
+                changedData = valueChanged('Currency', formContext.getAttribute("ccrm_currency").getValue() == null ? null : formContext.getAttribute("ccrm_currency").getValue()[0].id, lookupVal[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_currency").setValue(lookupVal);
-                    Xrm.Page.getAttribute("ccrm_currency").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_currency").setValue(lookupVal);
+                    formContext.getAttribute("ccrm_currency").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_currency").setDisabled(true);
+                formContext.getControl("ccrm_currency").setDisabled(true);
             }
-            if (retrievereq.ccrm_projectlocationid != null) {
+            if (_ccrm_projectlocationid_value != null) {
                 var lookupVal = new Array();
                 lookupVal[0] = new Object();
-                lookupVal[0].id = retrievereq.ccrm_projectlocationid.Id;
-                lookupVal[0].name = retrievereq.ccrm_projectlocationid.Name;
-                lookupVal[0].entityType = retrievereq.ccrm_projectlocationid.LogicalName;
-                changedData = valueChanged('Location', Xrm.Page.getAttribute("ccrm_projectlocationid").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_projectlocationid").getValue()[0].id, lookupVal[0].id);
+                lookupVal[0].id = _ccrm_projectlocationid_value;
+                lookupVal[0].name = _ccrm_projectlocationid_value_formatted;
+                lookupVal[0].entityType = _ccrm_projectlocationid_value_lookuplogicalname;
+                changedData = valueChanged('Location', formContext.getAttribute("ccrm_projectlocationid").getValue() == null ? null : formContext.getAttribute("ccrm_projectlocationid").getValue()[0].id, lookupVal[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_projectlocationid").setValue(lookupVal);
-                    Xrm.Page.getAttribute("ccrm_projectlocationid").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_projectlocationid").setValue(lookupVal);
+                    formContext.getAttribute("ccrm_projectlocationid").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_projectlocationid").setDisabled(true);
+                formContext.getControl("ccrm_projectlocationid").setDisabled(true);
             }
-            if (retrievereq.Ccrm_ChargingBasis != null) {
-                changedData = valueChanged('Charging basis', Xrm.Page.getAttribute("ccrm_chargingbasis").getValue(), retrievereq.Ccrm_ChargingBasis.Value);
+            if (ccrm_chargingbasis != null) {
+                changedData = valueChanged('Charging basis', formContext.getAttribute("ccrm_chargingbasis").getValue(), ccrm_chargingbasis);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_chargingbasis").setValue(retrievereq.Ccrm_ChargingBasis.Value);
-                    Xrm.Page.getAttribute("ccrm_chargingbasis").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_chargingbasis").setValue(ccrm_chargingbasis);
+                    formContext.getAttribute("ccrm_chargingbasis").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_chargingbasis").setDisabled(true);
+                formContext.getControl("ccrm_chargingbasis").setDisabled(true);
             }
-            if (retrievereq.Ccrm_EstArupInvolvementStart != null) {
-                var projectStart = new Date(parseInt(retrievereq.Ccrm_EstArupInvolvementStart.substr(6)));
-                if (Xrm.Page.getAttribute("ccrm_projectstartdate").getValue() == null && projectStart == null)
+            if (ccrm_estarupinvolvementstart != null) {
+                var projectStart = new Date(ccrm_estarupinvolvementstart);//new Date(parseInt(retrievereq.Ccrm_EstArupInvolvementStart.substr(6)));
+                if (formContext.getAttribute("ccrm_projectstartdate").getValue() == null && projectStart == null)
                     changeData = false;
-                else if ((Xrm.Page.getAttribute("ccrm_projectstartdate").getValue() != null && projectStart == null) ||
-                    (Xrm.Page.getAttribute("ccrm_projectstartdate").getValue() == null && projectStart != null))
+                else if ((formContext.getAttribute("ccrm_projectstartdate").getValue() != null && projectStart == null) ||
+                    (formContext.getAttribute("ccrm_projectstartdate").getValue() == null && projectStart != null))
                     changedData = true;
                 else {
-                    changedData = Xrm.Page.getAttribute("ccrm_projectstartdate").getValue().toString().toUpperCase() != projectStart.toString().toUpperCase();
+                    changedData = formContext.getAttribute("ccrm_projectstartdate").getValue().toString().toUpperCase() != projectStart.toString().toUpperCase();
                 }
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_projectstartdate").setValue(projectStart);
-                    Xrm.Page.getAttribute("ccrm_projectstartdate").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_projectstartdate").setValue(projectStart);
+                    formContext.getAttribute("ccrm_projectstartdate").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_projectstartdate").setDisabled(true);
+                formContext.getControl("ccrm_projectstartdate").setDisabled(true);
             }
-            if (retrievereq.Ccrm_EstArupInvolvementEnd != null) {
-                var projectEnd = new Date(parseInt(retrievereq.Ccrm_EstArupInvolvementEnd.substr(6)));
-                if (Xrm.Page.getAttribute("ccrm_projectenddate").getValue() == null && projectEnd == null)
+            if (ccrm_estarupinvolvementend != null) {
+                var projectEnd = new Date(ccrm_estarupinvolvementend);
+                if (formContext.getAttribute("ccrm_projectenddate").getValue() == null && projectEnd == null)
                     changeData = false;
-                else if ((Xrm.Page.getAttribute("ccrm_projectenddate").getValue() != null && projectEnd == null) ||
-                    (Xrm.Page.getAttribute("ccrm_projectenddate").getValue() == null && projectEnd != null))
+                else if ((formContext.getAttribute("ccrm_projectenddate").getValue() != null && projectEnd == null) ||
+                    (formContext.getAttribute("ccrm_projectenddate").getValue() == null && projectEnd != null))
                     changedData = true;
                 else {
-                    changedData = Xrm.Page.getAttribute("ccrm_projectenddate").getValue().toString().toUpperCase() != projectEnd.toString().toUpperCase();
+                    changedData = formContext.getAttribute("ccrm_projectenddate").getValue().toString().toUpperCase() != projectEnd.toString().toUpperCase();
                 }
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_projectenddate").setValue(projectEnd);
-                    Xrm.Page.getAttribute("ccrm_projectenddate").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_projectenddate").setValue(projectEnd);
+                    formContext.getAttribute("ccrm_projectenddate").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_projectenddate").setDisabled(true);
+                formContext.getControl("ccrm_projectenddate").setDisabled(true);
             }
-            if (retrievereq.ccrm_Client !== null) {
+            if (_ccrm_client_value !== null) {
                 var lookupValClient = new Array();
                 lookupValClient[0] = new Object();
-                var clientId = retrievereq.ccrm_Client.Id;
+                var clientId = _ccrm_client_value;
                 lookupValClient[0].id = clientId;
-                lookupValClient[0].name = retrievereq.ccrm_Client.Name;
-                lookupValClient[0].entityType = retrievereq.ccrm_Client.LogicalName;
-                changedData = valueChanged('potential client', Xrm.Page.getAttribute("ccrm_potentialclient").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_potentialclient").getValue()[0].id, lookupValClient[0].id);
+                lookupValClient[0].name = _ccrm_client_value_formatted;
+                lookupValClient[0].entityType = _ccrm_client_value_lookuplogicalname;
+                changedData = valueChanged('potential client', formContext.getAttribute("ccrm_potentialclient").getValue() == null ? null : formContext.getAttribute("ccrm_potentialclient").getValue()[0].id, lookupValClient[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_potentialclient").setValue(lookupValClient);
-                    Xrm.Page.getAttribute("ccrm_potentialclient").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_potentialclient").setValue(lookupValClient);
+                    formContext.getAttribute("ccrm_potentialclient").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_potentialclient").setDisabled(true);
+                formContext.getControl("ccrm_potentialclient").setDisabled(true);
                 if (clientId !== null || undefined) {
-
-                    var dataset = "AccountSet";
-                    var retrievereqorg = ConsultCrm.Sync.RetrieveRequest(clientId, dataset);
+                    var retrievereqorg;
+                    var ccrm_clienttype;
+                    var ccrm_clienttype_formatted;
+                    var _ccrm_countryid_value;
+                    var _ccrm_countryid_value_formatted;
+                    var _ccrm_countryid_value_lookuplogicalname;
+                    var _ccrm_keyaccountmanagerid_value;
+                    var _ccrm_keyaccountmanagerid_value_formatted;
+                    var _ccrm_keyaccountmanagerid_value_lookuplogicalname;
+                    var name;
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        datatype: "json",
+                        url: formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + clientId + ")?$select=ccrm_clienttype,_ccrm_countryid_value,_ccrm_keyaccountmanagerid_value,name",
+                        beforeSend: function (XMLHttpRequest) {
+                            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                            XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                        },
+                        async: false,
+                        success: function (data, textStatus, xhr) {
+                            retrievereqorg = data;
+                            ccrm_clienttype = retrievereqorg["ccrm_clienttype"];
+                            ccrm_clienttype_formatted = retrievereqorg["ccrm_clienttype@OData.Community.Display.V1.FormattedValue"];
+                            _ccrm_countryid_value = retrievereqorg["_ccrm_countryid_value"];
+                            _ccrm_countryid_value_formatted = retrievereqorg["_ccrm_countryid_value@OData.Community.Display.V1.FormattedValue"];
+                            _ccrm_countryid_value_lookuplogicalname = retrievereqorg["_ccrm_countryid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                            _ccrm_keyaccountmanagerid_value = retrievereqorg["_ccrm_keyaccountmanagerid_value"];
+                            _ccrm_keyaccountmanagerid_value_formatted = retrievereqorg["_ccrm_keyaccountmanagerid_value@OData.Community.Display.V1.FormattedValue"];
+                            _ccrm_keyaccountmanagerid_value_lookuplogicalname = retrievereqorg["_ccrm_keyaccountmanagerid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                            name = retrievereqorg["name"];
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                        }
+                    });
+                    /*var dataset = "AccountSet";
+                    var retrievereqorg = ConsultCrm.Sync.RetrieveRequest(clientId, dataset);*/
                     if (retrievereqorg !== null) {
-                        if (retrievereqorg.ccrm_keyaccountmanagerid.Id != null) {
+                        if (_ccrm_keyaccountmanagerid_value != null) {
                             var lookupValRM = new Array();
                             lookupValRM[0] = new Object();
-                            lookupValRM[0].id = retrievereqorg.ccrm_keyaccountmanagerid.Id;
-                            lookupValRM[0].name = retrievereqorg.ccrm_keyaccountmanagerid.Name;
-                            lookupValRM[0].entityType = retrievereqorg.ccrm_keyaccountmanagerid.LogicalName;
-                            changedData = valueChanged('RM', Xrm.Page.getAttribute("ccrm_relationshipmanager").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_relationshipmanager").getValue()[0].id, lookupValRM[0].id);
+                            lookupValRM[0].id = _ccrm_keyaccountmanagerid_value;
+                            lookupValRM[0].name = _ccrm_keyaccountmanagerid_value_formatted;
+                            lookupValRM[0].entityType = _ccrm_keyaccountmanagerid_value_lookuplogicalname;
+                            changedData = valueChanged('RM', formContext.getAttribute("ccrm_relationshipmanager").getValue() == null ? null : formContext.getAttribute("ccrm_relationshipmanager").getValue()[0].id, lookupValRM[0].id);
                             if (!dataChanged) { dataChanged = changedData };
                             if (changedData && !bidReviewHappened) {
-                                Xrm.Page.getAttribute("ccrm_relationshipmanager").setValue(lookupValRM);
-                                Xrm.Page.getAttribute("ccrm_relationshipmanager").setSubmitMode("always");
+                                formContext.getAttribute("ccrm_relationshipmanager").setValue(lookupValRM);
+                                formContext.getAttribute("ccrm_relationshipmanager").setSubmitMode("always");
                             }
                             //if (retrievereqorg.ccrm_keyaccountmanagerid.Id != null) {
                             //    Xrm.Page.getControl("ccrm_relationshipmanager").setDisabled(true);
@@ -413,27 +620,27 @@ ARUP.ccrm_bidreview = {
                             //}
                         }
                         else {
-                            changedData = valueChanged('RM1', Xrm.Page.getAttribute("ccrm_relationshipmanager").getValue() == null ? null : Xrm.Page.getAttribute("ccrm_relationshipmanager").getValue()[0].id, null);
+                            changedData = valueChanged('RM1', formContext.getAttribute("ccrm_relationshipmanager").getValue() == null ? null : formContext.getAttribute("ccrm_relationshipmanager").getValue()[0].id, null);
                             if (!dataChanged) { dataChanged = changedData };
                             if (changedData && !bidReviewHappened) {
-                                Xrm.Page.getAttribute("ccrm_relationshipmanager").setValue(null);
-                                Xrm.Page.getAttribute("ccrm_relationshipmanager").setSubmitMode("always");
+                                formContext.getAttribute("ccrm_relationshipmanager").setValue(null);
+                                formContext.getAttribute("ccrm_relationshipmanager").setSubmitMode("always");
                             }
-                            Xrm.Page.getControl("ccrm_relationshipmanager").setDisabled(true);
-                            Xrm.Page.getControl("ccrm_sectionb_data_9_yesno").setVisible(false);
-                            Xrm.Page.getControl("ccrm_sectionb_data_9_comments").setVisible(false);
+                            formContext.getControl("ccrm_relationshipmanager").setDisabled(true);
+                            formContext.getControl("ccrm_sectionb_data_9_yesno").setVisible(false);
+                            formContext.getControl("ccrm_sectionb_data_9_comments").setVisible(false);
                         }
                         var clientdetails;
-                        clientdetails = retrievereqorg.Name;
-                        clientdetails += " - " + retrievereqorg.ccrm_countryid.Name;
-                        changedData = valueChanged('ccrm_client_data_1', Xrm.Page.getAttribute("ccrm_client_data_1").getValue(), clientdetails);
+                        clientdetails = name;
+                        clientdetails += " - " + _ccrm_countryid_value_formatted;
+                        changedData = valueChanged('ccrm_client_data_1', formContext.getAttribute("ccrm_client_data_1").getValue(), clientdetails);
                         if (!dataChanged) { dataChanged = changedData };
                         if (changedData && !bidReviewHappened) {
-                            Xrm.Page.getAttribute("ccrm_client_data_1").setValue(clientdetails);
-                            Xrm.Page.getAttribute("ccrm_client_data_1").setSubmitMode("always");
+                            formContext.getAttribute("ccrm_client_data_1").setValue(clientdetails);
+                            formContext.getAttribute("ccrm_client_data_1").setSubmitMode("always");
                         }
-                        Xrm.Page.getControl("ccrm_client_data_1").setDisabled(true);
-                        var clientType = retrievereqorg.ccrm_ClientType.Value;
+                        formContext.getControl("ccrm_client_data_1").setDisabled(true);
+                        var clientType = ccrm_clienttype;
                         var newClientType;
                         switch (clientType) {
                             case 100000000:
@@ -455,13 +662,13 @@ ARUP.ccrm_bidreview = {
                                 newClientType = null;
                                 break;
                         }
-                        changedData = valueChanged('ccrm_client_data_7_new', Xrm.Page.getAttribute("ccrm_client_data_7_new").getValue(), newClientType);
+                        changedData = valueChanged('ccrm_client_data_7_new', formContext.getAttribute("ccrm_client_data_7_new").getValue(), newClientType);
                         if (!dataChanged) { dataChanged = changedData };
                         if (changedData && !bidReviewHappened) {
-                            Xrm.Page.getAttribute("ccrm_client_data_7_new").setValue(newClientType);
-                            Xrm.Page.getAttribute("ccrm_client_data_7_new").setSubmitMode("always");
+                            formContext.getAttribute("ccrm_client_data_7_new").setValue(newClientType);
+                            formContext.getAttribute("ccrm_client_data_7_new").setSubmitMode("always");
                         }
-                        Xrm.Page.getControl("ccrm_client_data_7_new").setDisabled(true);
+                        formContext.getControl("ccrm_client_data_7_new").setDisabled(true);
                     }
                 }
             }
@@ -474,17 +681,42 @@ ARUP.ccrm_bidreview = {
      * Load the Bid Review Chair from the Calling Opportunity
      *********************************************************
      */
-    loadReviewPanel: function () {
+    loadReviewPanel: function (formContext) {
         //get Opportunity id 
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
-        var dataset = "OpportunitySet";
-        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
-        if (retrievereq != null) {
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
+        var result;
+        var _ccrm_bidreviewchair_userid_value;
+        var _ccrm_bidreviewchair_userid_value_formatted;
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: formContext.context.getClientUrl() + "/api/data/v9.1/opportunities(" + opportunityId + ")?$select=_ccrm_bidreviewchair_userid_value",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                result = data;
+                _ccrm_bidreviewchair_userid_value = result["_ccrm_bidreviewchair_userid_value"];
+                _ccrm_bidreviewchair_userid_value_formatted = result["_ccrm_bidreviewchair_userid_value@OData.Community.Display.V1.FormattedValue"];
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+        /*var dataset = "OpportunitySet";
+        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);*/
+        if (result != null) {
             //Populate review panel with the opportunity bid chair 
-            if (retrievereq.ccrm_bidreviewchair_userId != null && !bidReviewHappened) {
-                Xrm.Page.getAttribute("ccrm_reviewpanel").setValue(retrievereq.ccrm_bidreviewchair_userId.Name);
-                Xrm.Page.getAttribute("ccrm_reviewpanel").setSubmitMode("always");
+            if (_ccrm_bidreviewchair_userid_value != null && !bidReviewHappened) {
+                formContext.getAttribute("ccrm_reviewpanel").setValue(_ccrm_bidreviewchair_userid_value_formatted);
+                formContext.getAttribute("ccrm_reviewpanel").setSubmitMode("always");
             }
         }
     },
@@ -495,43 +727,67 @@ ARUP.ccrm_bidreview = {
         }
     },
     //LOAD SUPPLEMENTARY DATA
-    loadSupplementData: function (dataChanged) {
+    loadSupplementData: function (formContext, dataChanged) {
         var changedValue;
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
-        var dataset = "OpportunitySet";
-        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
-        if (retrievereq != null) {
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return dataChanged;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
+        var result;
+        var ccrm_bidsubmission;
+        var ccrm_descriptionofextentofarupservices;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: formContext.context.getClientUrl() + "/api/data/v9.1/opportunities(" + opportunityId + ")?$select=ccrm_bidsubmission,ccrm_descriptionofextentofarupservices",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                result = data;
+                ccrm_bidsubmission = result["ccrm_bidsubmission"];
+                ccrm_descriptionofextentofarupservices = result["ccrm_descriptionofextentofarupservices"];
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+        /*var dataset = "OpportunitySet";
+        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);*/
+        if (result != null) {
             //populate submission date
-            if (retrievereq.Ccrm_BidSubmission != null) {
+            if (ccrm_bidsubmission != null) {
                 //Parse the JSON Date                     
-                var bidSubmissiondate = new Date(parseInt(retrievereq.Ccrm_BidSubmission.substr(6)));
+                var bidSubmissiondate = new Date(ccrm_bidsubmission);
 
-                if (Xrm.Page.getAttribute("ccrm_submission_date").getValue() == null && bidSubmissiondate == null)
+                if (formContext.getAttribute("ccrm_submission_date").getValue() == null && bidSubmissiondate == null)
                     changedValue = false;
-                else if ((Xrm.Page.getAttribute("ccrm_submission_date").getValue() != null && bidSubmissiondate == null) ||
-                    (Xrm.Page.getAttribute("ccrm_submission_date").getValue() == null && bidSubmissiondate != null))
+                else if ((formContext.getAttribute("ccrm_submission_date").getValue() != null && bidSubmissiondate == null) ||
+                    (formContext.getAttribute("ccrm_submission_date").getValue() == null && bidSubmissiondate != null))
                     changedValue = true;
                 else {
-                    changedValue = Xrm.Page.getAttribute("ccrm_submission_date").getValue().toString().toUpperCase() != bidSubmissiondate.toString().toUpperCase();
+                    changedValue = formContext.getAttribute("ccrm_submission_date").getValue().toString().toUpperCase() != bidSubmissiondate.toString().toUpperCase();
                 }
                 if (!dataChanged) { dataChanged = changedValue };
                 if (changedValue && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_submission_date").setValue(bidSubmissiondate);
-                    Xrm.Page.getAttribute("ccrm_submission_date").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_submission_date").setValue(bidSubmissiondate);
+                    formContext.getAttribute("ccrm_submission_date").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_submission_date").setDisabled(true);
+                formContext.getControl("ccrm_submission_date").setDisabled(true);
 
             }
             //Populate Scope of work
-            if (retrievereq.Ccrm_DescriptionofExtentofArupServices != null) {
-                changedValue = valueChanged('SOW', Xrm.Page.getAttribute("ccrm_scopeofwork").getValue(), retrievereq.Ccrm_DescriptionofExtentofArupServices);
+            if (ccrm_descriptionofextentofarupservices != null) {
+                changedValue = valueChanged('SOW', formContext.getAttribute("ccrm_scopeofwork").getValue(), ccrm_descriptionofextentofarupservices);
                 if (!dataChanged) { dataChanged = changedValue };
                 if (changedValue && !bidReviewHappened) {
-                    Xrm.Page.getAttribute("ccrm_scopeofwork").setValue(retrievereq.Ccrm_DescriptionofExtentofArupServices);
-                    Xrm.Page.getAttribute("ccrm_scopeofwork").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_scopeofwork").setValue(ccrm_descriptionofextentofarupservices);
+                    formContext.getAttribute("ccrm_scopeofwork").setSubmitMode("always");
                 }
-                Xrm.Page.getControl("ccrm_scopeofwork").setDisabled(true);
+                formContext.getControl("ccrm_scopeofwork").setDisabled(true);
             }
         }
         return dataChanged;
@@ -542,10 +798,11 @@ ARUP.ccrm_bidreview = {
      * show Questions 2a and 3a else hide them
      *********************************************************
      */
-    ultimateClient_onChange: function (formContext) {
+    ultimateClient_onChange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
         //var showSection = false;
         //if (Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").getValue() != 1) //YES 
-        var showSection = Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").getValue() == 0;
+        var showSection = formContext.getAttribute("ccrm_ultimateclient_yesno").getValue() == 0;
         this.showhideSection(formContext, "tab_Client", "tab_Client_section_3a", showSection);
         this.showhideSection(formContext, "tab_Client", "tab_Client_section_2a", showSection);
     },
@@ -579,19 +836,44 @@ ARUP.ccrm_bidreview = {
      * ultimate client id field
      *********************************************************
      */
-    isUltimateClient: function () {
+    isUltimateClient: function (formContext) {
         //compare OpportunitySet?$select=ccrm_ultimateendclientid,CustomerId
         //get Opportunity id
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return;
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return;
 
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
-        var dataset = "OpportunitySet";
-        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
-        if (retrievereq != null) {
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
+        var result;
+        var _ccrm_ultimateendclientid_value;
+        var _customerid_value;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: formContext.context.getClientUrl() + "/api/data/v9.1/opportunities(" + opportunityId + ")?$select=_ccrm_ultimateendclientid_value,_customerid_value",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                result = data;
+                _ccrm_ultimateendclientid_value = result["_ccrm_ultimateendclientid_value"];
+                _ccrm_ultimateendclientid_value_formatted = result["_ccrm_ultimateendclientid_value@OData.Community.Display.V1.FormattedValue"];
+                _customerid_value = result["_customerid_value"];
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+        /*var dataset = "OpportunitySet";
+        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);*/
+        if (result != null) {
             //populate review panel with the opportunity bid chair 
-            if (retrievereq.ccrm_ultimateendclientid.Id != null) {
+            if (_ccrm_ultimateendclientid_value != null) {
                 //compare ultimate client to client
-                return retrievereq.CustomerId.Id == retrievereq.ccrm_ultimateendclientid.Id;
+                return _customerid_value == _ccrm_ultimateendclientid_value;
             } else return false;
         }
     },
@@ -602,14 +884,37 @@ ARUP.ccrm_bidreview = {
      * Opportunity
      *********************************************************
      */
-    isPowerOfAttorney: function () {
+    isPowerOfAttorney: function (formContext) {
         //compare OpportunitySet?$select=Ccrm_PowersofAttorney
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return false;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
-        var dataset = "OpportunitySet";
-        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
-        if (retrievereq == null) return false;
-        return retrievereq.Ccrm_PowersofAttorney;
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return false;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
+        var result;
+        var ccrm_powersofattorney;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: formContext.context.getClientUrl() + "/api/data/v9.1/opportunities(" + opportunityId + ")?$select=ccrm_powersofattorney",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                result = data;
+                ccrm_powersofattorney = result["ccrm_powersofattorney"];
+                var ccrm_powersofattorney_formatted = result["ccrm_powersofattorney@OData.Community.Display.V1.FormattedValue"];
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+        /*var dataset = "OpportunitySet";
+        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);*/
+        if (result == null) return false;
+        return ccrm_powersofattorney;
 
     },
     /*
@@ -617,19 +922,20 @@ ARUP.ccrm_bidreview = {
      * Toggle hidden question visibility
      *********************************************************
      */
-    twoOptions_onChange: function (formContext, fieldName, value) {
+    twoOptions_onChange: function (executionContext, fieldName, value) {
+        var formContext = executionContext.getFormContext();
         var showSection;
-        if (Xrm.Page.getAttribute(fieldName).getValue() == value) showSection = true;
+        if (formContext.getAttribute(fieldName).getValue() == value) showSection = true;
         else showSection = false;
         switch (fieldName) {
             case "ccrm_clearbrief_yesno":
                 this.showhideSection(formContext, "tab_SectionC", "tab_SectionC_1a", showSection);
                 break;
             case "ccrm_sectiond_data_1_new":
-                if (Xrm.Page.getAttribute(fieldName).getValue() == 100000001) { //no
+                if (formContext.getAttribute(fieldName).getValue() == 100000001) { //no
                     this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1a", true);
                     this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1b", false);
-                } else if (Xrm.Page.getAttribute(fieldName).getValue() == 100000000) { //yes
+                } else if (formContext.getAttribute(fieldName).getValue() == 100000000) { //yes
                     this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1b", true);
                     this.showhideSection(formContext, "tab_SectionD", "tab_SectionD_1a", false);
                 } else {
@@ -649,7 +955,7 @@ ARUP.ccrm_bidreview = {
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_6a", false);
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7abc", false);
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7a", false);
-                switch (Xrm.Page.getAttribute("ccrm_sectione_data_5").getValue()) {
+                switch (formContext.getAttribute("ccrm_sectione_data_5").getValue()) {
                     case 100000006:
                     case 100000007:
                     case 100000008:
@@ -687,18 +993,18 @@ ARUP.ccrm_bidreview = {
             case "ccrm_contractreviewed_yesno":
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7abc", false);
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7a", false);
-                if (Xrm.Page.getAttribute(fieldName).getValue() == 1) { //Yes
+                if (formContext.getAttribute(fieldName).getValue() == 1) { //Yes
                     this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7abc", true);
-                } else if (Xrm.Page.getAttribute(fieldName).getValue() == 0) {
+                } else if (formContext.getAttribute(fieldName).getValue() == 0) {
                     this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7a", true);
                 }
                 break;
             case "ccrm_liabilitylimit_yesno":
-                if (Xrm.Page.getAttribute("ccrm_liabilitylimit_yesno").getValue() == 0) {
+                if (formContext.getAttribute("ccrm_liabilitylimit_yesno").getValue() == 0) {
                     this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13c", true);
                     this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13ab", false);
                 }
-                else if (Xrm.Page.getAttribute("ccrm_liabilitylimit_yesno").getValue() == 1) {
+                else if (formContext.getAttribute("ccrm_liabilitylimit_yesno").getValue() == 1) {
                     this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13c", false);
                     this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13ab", true);
                 }
@@ -709,7 +1015,7 @@ ARUP.ccrm_bidreview = {
                 break;
             case "ccrm_sectione_data_13b":
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_13c", showSection);
-                if (showSection == true) Xrm.Page.getControl("ccrm_contract_data_9").setLabel("12c. Why would we accept this?");
+                if (showSection == true) formContext.getControl("ccrm_contract_data_9").setLabel("12c. Why would we accept this?");
                 break;
             case "ccrm_bonds_guarantees_yesno":
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_15ab", showSection);
@@ -726,14 +1032,14 @@ ARUP.ccrm_bidreview = {
             case "ccrm_hourlyratesincluded_yesno":
                 this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_13a", false);
                 this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_13b", false);
-                if (Xrm.Page.getAttribute(fieldName).getValue() == 1) { //Yes
+                if (formContext.getAttribute(fieldName).getValue() == 1) { //Yes
                     this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_13a", true);
-                } else if (Xrm.Page.getAttribute(fieldName).getValue() == 0) {
+                } else if (formContext.getAttribute(fieldName).getValue() == 0) {
                     this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_13b", true);
                 }
                 break;
             case "ccrm_otherstaff_yesno":
-                if (Xrm.Page.getAttribute("ccrm_subconsultantsresourced_yesno").getValue() == false) {
+                if (formContext.getAttribute("ccrm_subconsultantsresourced_yesno").getValue() == false) {
                     this.showhideSection(formContext, "tab_SectionG", "tab_SectionG_3b", showSection);
                 }
                 break;
@@ -758,7 +1064,7 @@ ARUP.ccrm_bidreview = {
     loadRelationshipManager: function () {
         //retrieve the opportunity client
         if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null || bidReviewHappened) return;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
+        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
         var dataset = "OpportunitySet";
         var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
         if (retrievereq != null)
@@ -787,12 +1093,35 @@ ARUP.ccrm_bidreview = {
      */
     chkChargingBasis: function (formContext) {
         //retrieve the opportunity client
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
-        var dataset = "OpportunitySet";
-        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
-        if (retrievereq != null) {
-            var visible = retrievereq.Ccrm_ChargingBasis.Value == 20;
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
+        var result;
+        var ccrm_chargingbasis;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: formContext.context.getClientUrl() + "/api/data/v9.1/opportunities(" + opportunityId + ")?$select=ccrm_chargingbasis",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                result = data;
+                ccrm_chargingbasis = result["ccrm_chargingbasis"];
+                var ccrm_chargingbasis_formatted = result["ccrm_chargingbasis@OData.Community.Display.V1.FormattedValue"];
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+        /*var dataset = "OpportunitySet";
+        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);*/
+        if (result != null) {
+            var visible = ccrm_chargingbasis == 20;
             this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_3b", visible);
         }
     },
@@ -803,15 +1132,41 @@ ARUP.ccrm_bidreview = {
      * to Yes
      *********************************************************
      */
-    chkBonds_GuaranteeRequirement: function () {
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null || bidReviewHappened) return;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
-        var dataset = "OpportunitySet";
-        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
-        if (retrievereq != null) {
-            if (retrievereq.Ccrm_BondsRequired == true && retrievereq.Ccrm_PerformanceGuarantees == true) Xrm.Page.getAttribute("ccrm_bonds_guarantees_yesno").setValue(1);
-            else Xrm.Page.getAttribute("ccrm_bonds_guarantees_yesno").setValue(0);
-            Xrm.Page.getAttribute("ccrm_bonds_guarantees_yesno").setSubmitMode("always");
+    chkBonds_GuaranteeRequirement: function (formContext) {
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null || bidReviewHappened) return;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
+        var result;
+        var ccrm_bondsrequired;
+        var ccrm_performanceguarantees;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: formContext.context.getClientUrl() + "/api/data/v9.1/opportunities(" + opportunityId + ")?$select=ccrm_bondsrequired,ccrm_performanceguarantees",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                result = data;
+                ccrm_bondsrequired = result["ccrm_bondsrequired"];
+               // var ccrm_bondsrequired_formatted = result["ccrm_bondsrequired@OData.Community.Display.V1.FormattedValue"];
+                ccrm_performanceguarantees = result["ccrm_performanceguarantees"];
+                //var ccrm_performanceguarantees_formatted = result["ccrm_performanceguarantees@OData.Community.Display.V1.FormattedValue"];
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+        /*var dataset = "OpportunitySet";
+        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);*/
+        if (result != null) {
+            if (ccrm_bondsrequired == true && ccrm_performanceguarantees == true) formContext.getAttribute("ccrm_bonds_guarantees_yesno").setValue(1);
+            else formContext.getAttribute("ccrm_bonds_guarantees_yesno").setValue(0);
+            formContext.getAttribute("ccrm_bonds_guarantees_yesno").setSubmitMode("always");
         }
     },
     /*
@@ -821,10 +1176,10 @@ ARUP.ccrm_bidreview = {
      */
     //Function hides the H-Tab and sections based on values selected in Section A Options
     //Can be re-factored
-    tab_SectionH_onLoad: function () {
-
-        var h1OptionObject = Xrm.Page.data.entity.attributes.get("ccrm_h1option_new");
-        var h2OptionObject = Xrm.Page.data.entity.attributes.get("ccrm_h2option_new");
+    tab_SectionH_onLoad: function (executionContext) {
+        var formContext = executionContext.getFormContext();
+        var h1OptionObject = formContext.data.entity.attributes.get("ccrm_h1option_new");
+        var h2OptionObject = formContext.data.entity.attributes.get("ccrm_h2option_new");
         var h1Option = null;
         var h2Option = null;
         if (h1OptionObject != null) { h1Option = h1OptionObject.getValue(); }
@@ -832,26 +1187,26 @@ ARUP.ccrm_bidreview = {
         if (h1Option == null || h1Option == 100000000) { h1Option = false; }
         if (h2Option == null || h2Option == 100000000) { h2Option = false; }
 
-        Xrm.Page.ui.tabs.get("tab_SectionH").sections.get("tab_SectionH_h1").setVisible(h1Option);
-        Xrm.Page.ui.tabs.get("tab_SectionH").sections.get("tab_SectionH_h2").setVisible(h2Option);
+        formContext.ui.tabs.get("tab_SectionH").sections.get("tab_SectionH_h1").setVisible(h1Option);
+        formContext.ui.tabs.get("tab_SectionH").sections.get("tab_SectionH_h2").setVisible(h2Option);
 
     },
-    tab_SectionH_onstatechange: function () {
-
+    tab_SectionH_onstatechange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
         //handle field toggling when section H is expanded only 
-        if (Xrm.Page.ui.tabs.get("tab_SectionH").getDisplayState() == "expanded") {
+        if (formContext.ui.tabs.get("tab_SectionH").getDisplayState() == "expanded") {
 
-            this.fieldVisibility_onchange("ccrm_clientvisit_yesno", 1, "ccrm_sectionh_data_1a");
-            this.fieldVisibility_onchange("ccrm_exchangeinoperation_yesno", 1, "ccrm_h2_project_data_8");
-            this.fieldVisibility_onchange("ccrm_designcertified_yesno", 1, "ccrm_certificationscostcovered_yesno"); //ADM 
-            this.fieldVisibility_onchange("ccrm_designcertified_yesno", 1, "ccrm_h5adetails");
-            this.fieldVisibility_onchange("ccrm_subconsultantswork_yesno", 1, "ccrm_sectionh2_data_2a"); //ADM 
-            this.fieldVisibility_onchange("ccrm_legislativerequirements_yesno", 0, "ccrm_h24details"); //ADM 
-            this.fieldVisibility_onchange("ccrm_certificationscostcovered_yesno", 0, "ccrm_h5adetails"); //ADM 
-            HideFields("ccrm_sectionh2_data_4a", 100000003, 100000002, "ccrm_h4adetails");
-            this.arup_sectioni_questioni2_1_onChange();
+            this.fieldVisibility_onchange(executionContext, "ccrm_clientvisit_yesno", 1, "ccrm_sectionh_data_1a");
+            this.fieldVisibility_onchange(executionContext, "ccrm_exchangeinoperation_yesno", 1, "ccrm_h2_project_data_8");
+            this.fieldVisibility_onchange(executionContext, "ccrm_designcertified_yesno", 1, "ccrm_certificationscostcovered_yesno"); //ADM 
+            this.fieldVisibility_onchange(executionContext, "ccrm_designcertified_yesno", 1, "ccrm_h5adetails");
+            this.fieldVisibility_onchange(executionContext, "ccrm_subconsultantswork_yesno", 1, "ccrm_sectionh2_data_2a"); //ADM 
+            this.fieldVisibility_onchange(executionContext, "ccrm_legislativerequirements_yesno", 0, "ccrm_h24details"); //ADM 
+            this.fieldVisibility_onchange(executionContext, "ccrm_certificationscostcovered_yesno", 0, "ccrm_h5adetails"); //ADM 
+            HideFields(executionContext, "ccrm_sectionh2_data_4a", 100000003, 100000002, "ccrm_h4adetails");
+            this.arup_sectioni_questioni2_1_onChange(executionContext);
 
-            this.tab_SectionH_onLoad();
+            this.tab_SectionH_onLoad(executionContext);
 
         }
     },
@@ -863,14 +1218,14 @@ ARUP.ccrm_bidreview = {
     tab_SectionC_onstatechange: function (executionContext) {
         var formContext = executionContext.getFormContext();
         //handle field toggling when section E is expanded only 
-        if (Xrm.Page.ui.tabs.get("tab_SectionC").getDisplayState() == "expanded") {
+        if (formContext.ui.tabs.get("tab_SectionC").getDisplayState() == "expanded") {
 
-            this.ccrm_defineddeliverables_yesno_onChange();
-            this.ccrm_unusualreq_yesno_onChange();
-            ccrm_sectionc_data_7_onChange();
-            this.twoOptions_onChange(formContext, "ccrm_clearbrief_yesno", 0);
-            this.arup_sectiond_question9_onChange(formContext);
-            this.arup_sectiond_question10_onChange(formContext);
+            this.ccrm_defineddeliverables_yesno_onChange(executionContext);
+            this.ccrm_unusualreq_yesno_onChange(executionContext);
+            ccrm_sectionc_data_7_onChange(executionContext);
+            this.twoOptions_onChange(executionContext, "ccrm_clearbrief_yesno", 0);
+            this.arup_sectiond_question9_onChange(executionContext);
+            this.arup_sectiond_question10_onChange(executionContext);
 
         }
     },
@@ -882,12 +1237,12 @@ ARUP.ccrm_bidreview = {
     tab_SectionD_onstatechange: function (executionContext) {
         var formContext = executionContext.getFormContext();
         //handle field toggling when section E is expanded only 
-        if (Xrm.Page.ui.tabs.get("tab_SectionD").getDisplayState() == "expanded") {
+        if (formContext.ui.tabs.get("tab_SectionD").getDisplayState() == "expanded") {
 
-            this.twoOptions_onChange(formContext, "ccrm_sectiond_data_1_new", 0);
+            this.twoOptions_onChange(executionContext, "ccrm_sectiond_data_1_new", 0);
             //this.twoOptions_onChange("ccrm_managementchanges_yesno", 1);
-            this.fieldVisibility_onchange("ccrm_sectiond_data_5", 100000001, "ccrm_schedule_data_5");
-            this.fieldVisibility_onchange("ccrm_approvalreq_yesno", 1, "ccrm_h1_project_data_9");
+            this.fieldVisibility_onchange(executionContext, "ccrm_sectiond_data_5", 100000001, "ccrm_schedule_data_5");
+            this.fieldVisibility_onchange(executionContext, "ccrm_approvalreq_yesno", 1, "ccrm_h1_project_data_9");
 
         }
 
@@ -905,17 +1260,17 @@ ARUP.ccrm_bidreview = {
             //hide sections 3b and 3c 
             this.showhideSection(formContext, "tab_SectionG", "tab_SectionG_3b", false);
             this.showhideSection(formContext, "tab_SectionG", "tab_SectionG_3c", false);
-            this.twoOptions_onChange(formContext, "ccrm_otherstaff_yesno", 1);
-            this.fieldVisibility_onchange("ccrm_resourcesavailable_yesno", 0, "ccrm_sectiong_data_3a_comments");
-            this.fieldVisibility_onchange("ccrm_hsneedsconsidered_yesno", 0, "ccrm_technical_data_9");
-            this.fieldVisibility_onchange("ccrm_projecthsneeds_yesno", 1, "ccrm_technical_data_11");
-            this.fieldVisibility_onchange("ccrm_sectiong_3bivoptionset", 0, "ccrm_sectiong_3bivoptionsetdetails");
-            this.resourcechecked_onchange();
-            ShowSections("ccrm_resourceconsultants_yesno", 1, "tab_SectionG", "tab_SectionG_3b", "tab_SectionG_3c"); //ADM
-            this.fieldVisibility_onchange("ccrm_sectiong_3bi_optionset", 100000001, "ccrm_sectiong_3bi_name");
-            this.fieldVisibility_onchange("ccrm_sectiong_3bii_optionset", 100000001, "ccrm_sectiong_3bii_name");
-            this.fieldVisibility_onchange("ccrm_sectiong_3biii_optionset", 100000001, "ccrm_sectiong_3biii_name");
-            this.twoOptions_onChange(formContext, "ccrm_subconsultantsresourced_yesno", 1);
+            this.twoOptions_onChange(executionContext, "ccrm_otherstaff_yesno", 1);
+            this.fieldVisibility_onchange(executionContext, "ccrm_resourcesavailable_yesno", 0, "ccrm_sectiong_data_3a_comments");
+            this.fieldVisibility_onchange(executionContext, "ccrm_hsneedsconsidered_yesno", 0, "ccrm_technical_data_9");
+            this.fieldVisibility_onchange(executionContext, "ccrm_projecthsneeds_yesno", 1, "ccrm_technical_data_11");
+            this.fieldVisibility_onchange(executionContext, "ccrm_sectiong_3bivoptionset", 0, "ccrm_sectiong_3bivoptionsetdetails");
+            this.resourcechecked_onchange(executionContext);
+            ShowSections(executionContext, "ccrm_resourceconsultants_yesno", 1, "tab_SectionG", "tab_SectionG_3b", "tab_SectionG_3c"); //ADM
+            this.fieldVisibility_onchange(executionContext, "ccrm_sectiong_3bi_optionset", 100000001, "ccrm_sectiong_3bi_name");
+            this.fieldVisibility_onchange(executionContext, "ccrm_sectiong_3bii_optionset", 100000001, "ccrm_sectiong_3bii_name");
+            this.fieldVisibility_onchange(executionContext, "ccrm_sectiong_3biii_optionset", 100000001, "ccrm_sectiong_3biii_name");
+            this.twoOptions_onChange(executionContext, "ccrm_subconsultantsresourced_yesno", 1);
 
         }
     },
@@ -927,27 +1282,27 @@ ARUP.ccrm_bidreview = {
     tab_SectionE_onstatechange: function (executionContext) {
         var formContext = executionContext.getFormContext();
         //handle field toggling when section E is expanded only 
-        if (Xrm.Page.ui.tabs.get("tab_SectionE").getDisplayState() == "expanded") {
+        if (formContext.ui.tabs.get("tab_SectionE").getDisplayState() == "expanded") {
 
             //check if bonds or guarantees are required 
-            this.chkBonds_GuaranteeRequirement();
+            this.chkBonds_GuaranteeRequirement(formContext);
             //setup OTHER field if type of bond required == 'OTHER'
             setup_display_other_field("arup_bondstype", "ccrm_sectione_data15a_other", "100000004");
             //check if we are bidding as part of JV 
             //if (Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() == null || Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() == 100000000)
-            this.twoOptions_onChange(formContext, "ccrm_sectione_data_5", 0);
+            this.twoOptions_onChange(executionContext, "ccrm_sectione_data_5", 0);
             //this.twoOptions_onChange("ccrm_tcattached_yesno", 0);
-            this.twoOptions_onChange(formContext, "ccrm_contractreviewed_yesno", 0);
-            this.twoOptions_onChange(formContext, "ccrm_liabilitylimit_yesno", 1);
-            this.twoOptions_onChange(formContext, "ccrm_sectione_data_13b", 100000003);
-            setTimeout(function () { ARUP.ccrm_bidreview.twoOptions_onChange("ccrm_bonds_guarantees_yesno", 1) }, 2000);
+            this.twoOptions_onChange(executionContext, "ccrm_contractreviewed_yesno", 0);
+            this.twoOptions_onChange(executionContext, "ccrm_liabilitylimit_yesno", 1);
+            this.twoOptions_onChange(executionContext, "ccrm_sectione_data_13b", 100000003);
+            setTimeout(function () { ARUP.ccrm_bidreview.twoOptions_onChange(executionContext, "ccrm_bonds_guarantees_yesno", 1) }, 2000);
             //show/hide Section E question 3
             var showSection = false;
-            if (this.isPowerOfAttorney()) showSection = true;
+            if (this.isPowerOfAttorney(formContext)) showSection = true;
             this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_3a", showSection);
-            this.fieldVisibility_onchange("ccrm_onerousrequirements_yesno", 1, "ccrm_contract_data_4a");
-            this.fieldVisibility_onchange("ccrm_sectione_data_16", 100000005, "ccrm_sectione_data16_other");
-            this.fieldVisibility_onchange("arup_bondstype", 100000004, "ccrm_sectione_data15a_other");
+            this.fieldVisibility_onchange(executionContext, "ccrm_onerousrequirements_yesno", 1, "ccrm_contract_data_4a");
+            this.fieldVisibility_onchange(executionContext, "ccrm_sectione_data_16", 100000005, "ccrm_sectione_data16_other");
+            this.fieldVisibility_onchange(executionContext, "arup_bondstype", 100000004, "ccrm_sectione_data15a_other");
 
         }
     },
@@ -961,20 +1316,20 @@ ARUP.ccrm_bidreview = {
         var formContext = executionContext.getFormContext();
         if (formContext.ui.tabs.get("tab_Client").getDisplayState() == "expanded") {
 
-            if (Xrm.Page.ui.getFormType() != 1) {
+            if (formContext.ui.getFormType() != 1) {
 
-                if (Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").getValue() != null && !bidReviewHappened) {
-                    if (this.isUltimateClient() == true) Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").setValue(1);
-                    else Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").setValue(0);
-                    Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").setSubmitMode("always");
+                if (formContext.getAttribute("ccrm_ultimateclient_yesno").getValue() != null && !bidReviewHappened) {
+                    if (this.isUltimateClient(formContext) == true) formContext.getAttribute("ccrm_ultimateclient_yesno").setValue(1);
+                    else formContext.getAttribute("ccrm_ultimateclient_yesno").setValue(0);
+                    formContext.getAttribute("ccrm_ultimateclient_yesno").setSubmitMode("always");
                 }
 
-                this.ultimateClient_onChange(formContext);
+                this.ultimateClient_onChange(executionContext);
                 //this.relationshipManager_onChange();
-                this.fieldVisibility_onchange("ccrm_client_data_5_new", 100000000, "ccrm_client_data_5a_new");
-                this.WebResource_sectionB_question8_onChange();
-                this.fieldVisibility_onchange("ccrm_client_payment_performance", 100000001, "ccrm_client_data_3");
-                this.securedFunding_onChange();
+                this.fieldVisibility_onchange(executionContext, "ccrm_client_data_5_new", 100000000, "ccrm_client_data_5a_new");
+                this.WebResource_sectionB_question8_onChange(executionContext);
+                this.fieldVisibility_onchange(executionContext, "ccrm_client_payment_performance", 100000001, "ccrm_client_data_3");
+                this.securedFunding_onChange(executionContext);
 
             }
         }
@@ -987,29 +1342,29 @@ ARUP.ccrm_bidreview = {
     tab_SectionF_onstatechange: function (executionContext) {
         var formContext = executionContext.getFormContext();
         //console.log("Executing Function");
-        if (Xrm.Page.ui.tabs.get("tab_SectionF").getDisplayState() == "expanded") {
+        if (formContext.ui.tabs.get("tab_SectionF").getDisplayState() == "expanded") {
             //check charging basis 
             this.chkChargingBasis(formContext);
-            this.twoOptions_onChange(formContext, "ccrm_resourceconsultants_yesno", 1);
-            this.twoOptions_onChange(formContext, "ccrm_negativeforecast_yesno", 1);
-            this.twoOptions_onChange(formContext, "ccrm_hourlyratesincluded_yesno", 0);
-            this.fieldVisibility_onchange("arup_sectiongquestion1a", 1, "arup_sectiongq1b");
-            this.fieldVisibility_onchange("arup_sectio0ngq1c", 1, "arup_sectiongq1d");
-            this.fieldVisibility_onchange("ccrm_competitivebidtype", 100000002, "ccrm_sectionf_data_1a_multi");
-            this.fieldVisibility_onchange("ccrm_bidassessmentbasis", 100000003, "ccrm_sectionf_data_1b_multi");
-            this.fieldVisibility_onchange("ccrm_sectionf_data_2c", 100000004, "ccrm_fees_data_5");
-            this.fieldVisibility_onchange("ccrm_conditionalpayments_yesno", 1, "ccrm_fees_data_19");
-            this.fieldVisibility_onchange("ccrm_netfees_yesno", 0, "ccrm_sectionf_data_4_multi");
-            this.fieldVisibility_onchange("ccrm_sectionf_data_5f_yesno", 1, "ccrm_sectionf_data_5f_details"); //ADM
-            this.fieldVisibility_onchange("ccrm_similarpayterms_yesno", 0, "ccrm_sectionf_data8d_multi");
-            this.fieldVisibility_onchange("ccrm_quotesreceived_yesno", 0, "ccrm_sectionf_data8b_multi");
-            this.fieldVisibility_onchange("ccrm_chargingbasis", 20, "ccrm_sectionf_data_3b");
+            this.twoOptions_onChange(executionContext, "ccrm_resourceconsultants_yesno", 1);
+            this.twoOptions_onChange(executionContext, "ccrm_negativeforecast_yesno", 1);
+            this.twoOptions_onChange(executionContext, "ccrm_hourlyratesincluded_yesno", 0);
+            this.fieldVisibility_onchange(executionContext, "arup_sectiongquestion1a", 1, "arup_sectiongq1b");
+            this.fieldVisibility_onchange(executionContext, "arup_sectio0ngq1c", 1, "arup_sectiongq1d");
+            this.fieldVisibility_onchange(executionContext, "ccrm_competitivebidtype", 100000002, "ccrm_sectionf_data_1a_multi");
+            this.fieldVisibility_onchange(executionContext, "ccrm_bidassessmentbasis", 100000003, "ccrm_sectionf_data_1b_multi");
+            this.fieldVisibility_onchange(executionContext, "ccrm_sectionf_data_2c", 100000004, "ccrm_fees_data_5");
+            this.fieldVisibility_onchange(executionContext, "ccrm_conditionalpayments_yesno", 1, "ccrm_fees_data_19");
+            this.fieldVisibility_onchange(executionContext, "ccrm_netfees_yesno", 0, "ccrm_sectionf_data_4_multi");
+            this.fieldVisibility_onchange(executionContext, "ccrm_sectionf_data_5f_yesno", 1, "ccrm_sectionf_data_5f_details"); //ADM
+            this.fieldVisibility_onchange(executionContext, "ccrm_similarpayterms_yesno", 0, "ccrm_sectionf_data8d_multi");
+            this.fieldVisibility_onchange(executionContext, "ccrm_quotesreceived_yesno", 0, "ccrm_sectionf_data8b_multi");
+            this.fieldVisibility_onchange(executionContext, "ccrm_chargingbasis", 20, "ccrm_sectionf_data_3b");
             setup_display_other_field("arup_keyindicators", "ccrm_h1project_data_4", "100000005");
-            this.duediligence_onchange();
-            this.twoOptions_onChange(formContext, "ccrm_paytermsmonthly_yesno", 0);
+            this.duediligence_onchange(executionContext);
+            this.twoOptions_onChange(executionContext, "ccrm_paytermsmonthly_yesno", 0);
             //check whether fees and costs are in different currencies 
-            this.chkFeesandCostCurrency(formContext);
-            this.chkKeyIndicators();
+            this.chkFeesandCostCurrency(executionContext);
+            this.chkKeyIndicators(formContext);
         }
     },
     //FUNCTION LIST --------------------------------------------------------------------------------------------------
@@ -1024,19 +1379,19 @@ ARUP.ccrm_bidreview = {
         }
     },
 
-    ccrm_defineddeliverables_yesno_onChange: function () {
+    ccrm_defineddeliverables_yesno_onChange: function (executionContext) {
 
-        this.fieldVisibility_onchange("ccrm_defineddeliverables_yesno", 0, "ccrm_technical_data_5");
+        this.fieldVisibility_onchange(executionContext, "ccrm_defineddeliverables_yesno", 0, "ccrm_technical_data_5");
 
     },
 
-    arup_sectioni_questioni2_1_onChange: function () {
+    arup_sectioni_questioni2_1_onChange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
+        var visible = formContext.getAttribute("arup_sectioni_questioni2_1").getValue() == 1;
 
-        var visible = Xrm.Page.getAttribute("arup_sectioni_questioni2_1").getValue() == 1;
-
-        Xrm.Page.getControl("WebResource_sectionH2_question1").setVisible(visible);
-        Xrm.Page.getControl("ccrm_sectionh2_data_1a").setVisible(visible);
-        Xrm.Page.getControl("ccrm_sectionh2_data_1b").setVisible(visible);
+        formContext.getControl("WebResource_sectionH2_question1").setVisible(visible);
+        formContext.getControl("ccrm_sectionh2_data_1a").setVisible(visible);
+        formContext.getControl("ccrm_sectionh2_data_1b").setVisible(visible);
 
     },
 
@@ -1048,15 +1403,15 @@ ARUP.ccrm_bidreview = {
 
     //},
 
-    ccrm_unusualreq_yesno_onChange: function () {
+    ccrm_unusualreq_yesno_onChange: function (executionContext) {
 
-        this.fieldVisibility_onchange("ccrm_unusualreq_yesno", 1, "ccrm_technical_data_4");
+        this.fieldVisibility_onchange(executionContext, "ccrm_unusualreq_yesno", 1, "ccrm_technical_data_4");
 
     },
 
-    WebResource_sectionB_question8_onChange: function () {
+    WebResource_sectionB_question8_onChange: function (executionContext) {
 
-        this.fieldVisibility_onchange("ccrm_sectionb_data_8", 100000000, "ccrm_client_data_5");
+        this.fieldVisibility_onchange(executionContext, "ccrm_sectionb_data_8", 100000000, "ccrm_client_data_5");
 
     },
 
@@ -1070,50 +1425,53 @@ ARUP.ccrm_bidreview = {
     //    }
     //},
 
-    resourcechecked_onchange: function () {
+    resourcechecked_onchange: function (executionContext) {
         //console.log("Executing Function");
+        var formContext = executionContext.getFormContext();
 
         //this.fieldVisibility_onchange("ccrm_resourceschecked_yesno", 1, "ccrm_h1project_data_2");
 
-        if (Xrm.Page.getAttribute("ccrm_resourceschecked_yesno").getValue() == 0) {
-            Xrm.Page.getControl("ccrm_h1project_data_2").setVisible(true);
-            this.fieldVisibility_onchange("ccrm_resourceschecked_yesno", 0, "ccrm_h1project_data_2");
-            Xrm.Page.getControl("ccrm_h1project_data_2").setLabel("4a. Please provide details");
+        if (formContext.getAttribute("ccrm_resourceschecked_yesno").getValue() == 0) {
+            formContext.getControl("ccrm_h1project_data_2").setVisible(true);
+            this.fieldVisibility_onchange(executionContext, "ccrm_resourceschecked_yesno", 0, "ccrm_h1project_data_2");
+            formContext.getControl("ccrm_h1project_data_2").setLabel("4a. Please provide details");
         }
-        else if (Xrm.Page.getAttribute("ccrm_resourceschecked_yesno").getValue() == 1) {
-            Xrm.Page.getControl("ccrm_h1project_data_2").setVisible(true);
-            this.fieldVisibility_onchange("ccrm_resourceschecked_yesno", 1, "ccrm_h1project_data_2");
-            Xrm.Page.getControl("ccrm_h1project_data_2").setLabel("4a. By whom?");
+        else if (formContext.getAttribute("ccrm_resourceschecked_yesno").getValue() == 1) {
+            formContext.getControl("ccrm_h1project_data_2").setVisible(true);
+            this.fieldVisibility_onchange(executionContext, "ccrm_resourceschecked_yesno", 1, "ccrm_h1project_data_2");
+            formContext.getControl("ccrm_h1project_data_2").setLabel("4a. By whom?");
         }
-        else Xrm.Page.getControl("ccrm_h1project_data_2").setVisible(false);
+        else formContext.getControl("ccrm_h1project_data_2").setVisible(false);
     },
-    duediligence_onchange: function () {
+    duediligence_onchange: function (executionContext) {
         //console.log("Executing Function");
-        if (Xrm.Page.getAttribute("ccrm_duediligence_yesno").getValue() == 0) {
+        var formContext = executionContext.getFormContext();
+        if (formContext.getAttribute("ccrm_duediligence_yesno").getValue() == 0) {
             this.fieldVisibility_onchange("ccrm_duediligence_yesno", 0, "ccrm_h1_project_data_7");
-            Xrm.Page.getControl("ccrm_h1_project_data_7").setLabel("12a.i Please provide details");
-        } else if (Xrm.Page.getAttribute("ccrm_duediligence_yesno").getValue() == 1) {
+            formContext.getControl("ccrm_h1_project_data_7").setLabel("12a.i Please provide details");
+        } else if (formContext.getAttribute("ccrm_duediligence_yesno").getValue() == 1) {
             this.fieldVisibility_onchange("ccrm_duediligence_yesno", 1, "ccrm_h1_project_data_7");
-            Xrm.Page.getControl("ccrm_h1_project_data_7").setLabel("12a.i Did the due diligence raise any issues?");
-        } else Xrm.Page.getControl("ccrm_h1_project_data_7").setVisible(false);
+            formContext.getControl("ccrm_h1_project_data_7").setLabel("12a.i Did the due diligence raise any issues?");
+        } else formContext.getControl("ccrm_h1_project_data_7").setVisible(false);
     },
 
-    securedFunding_onChange: function () {
+    securedFunding_onChange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
+        if (formContext.getAttribute("ccrm_client_data_6_new") == null || formContext.getAttribute("ccrm_client_data_6a_new") == null) { return; }
 
-        if (Xrm.Page.getAttribute("ccrm_client_data_6_new") == null || Xrm.Page.getAttribute("ccrm_client_data_6a_new") == null) { return; }
-
-        var securedValue = Xrm.Page.getAttribute("ccrm_client_data_6_new").getValue();
+        var securedValue = formContext.getAttribute("ccrm_client_data_6_new").getValue();
         var visible = securedValue == 100000002 || securedValue == 100000001;
-        Xrm.Page.getControl("ccrm_client_data_6a_new").setVisible(visible);
+        formContext.getControl("ccrm_client_data_6a_new").setVisible(visible);
 
     },
 
-    fieldVisibility_onchange: function (sourceField, sourceFieldValue, targetField) {
+    fieldVisibility_onchange: function (executionContext, sourceField, sourceFieldValue, targetField) {
         //console.log("Executing Function");
-        if (Xrm.Page.getAttribute(sourceField) == null || Xrm.Page.getAttribute(targetField) == null) { return; }
+        var formContext = executionContext.getFormContext();
+        if (formContext.getAttribute(sourceField) == null || formContext.getAttribute(targetField) == null) { return; }
 
-        var visible = Xrm.Page.getAttribute(sourceField).getValue() == sourceFieldValue;
-        Xrm.Page.getControl(targetField).setVisible(visible);
+        var visible = formContext.getAttribute(sourceField).getValue() == sourceFieldValue;
+        formContext.getControl(targetField).setVisible(visible);
 
     },
     fieldVisibility_onchange_inv: function (sourceField, sourceFieldValue, targetField) {
@@ -1121,32 +1479,33 @@ ARUP.ccrm_bidreview = {
         if (Xrm.Page.getAttribute(sourceField).getValue() == sourceFieldValue || Xrm.Page.getAttribute(sourceField).getValue() == null) Xrm.Page.getControl(targetField).setVisible(false);
         else Xrm.Page.getControl(targetField).setVisible(true);
     },
-    chkFeesandCostCurrency: function (formContext) {
+    chkFeesandCostCurrency: function (executionContext) {
         //console.log("Executing Function");
+        var formContext = executionContext.getFormContext();
         this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_5", true);
-        if (Xrm.Page.getAttribute("ccrm_feepaymentcurrency").getValue() != null && Xrm.Page.getAttribute("ccrm_costcurrency").getValue() != null) {
-            if (Xrm.Page.getAttribute("ccrm_feepaymentcurrency").getValue()[0].id == Xrm.Page.getAttribute("ccrm_costcurrency").getValue()[0].id) this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_5", false);
+        if (formContext.getAttribute("ccrm_feepaymentcurrency").getValue() != null && formContext.getAttribute("ccrm_costcurrency").getValue() != null) {
+            if (formContext.getAttribute("ccrm_feepaymentcurrency").getValue()[0].id == formContext.getAttribute("ccrm_costcurrency").getValue()[0].id) this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_5", false);
         }
-        if (Xrm.Page.getAttribute("ccrm_feepaymentcurrency").getValue() == null && Xrm.Page.getAttribute("ccrm_costcurrency").getValue() == null) this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_5", false);
+        if (formContext.getAttribute("ccrm_feepaymentcurrency").getValue() == null && formContext.getAttribute("ccrm_costcurrency").getValue() == null) this.showhideSection(formContext, "tab_SectionF", "tab_SectionF_5", false);
     },
-    arup_sectiond_question9_onChange: function (formContext) {
-
-        this.showhideSection(formContext, "tab_SectionC", "tabD_section9", Xrm.Page.getAttribute("arup_sectiond_question9").getValue() == '0');
-
-    },
-    arup_sectiond_question10_onChange: function (formContext) {
-
-        this.showhideSection(formContext, "tab_SectionC", "tabD_Section10a", Xrm.Page.getAttribute("arup_sectiond_question10").getValue() == '0');
+    arup_sectiond_question9_onChange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
+        this.showhideSection(formContext, "tab_SectionC", "tabD_section9", formContext.getAttribute("arup_sectiond_question9").getValue() == '0');
 
     },
-    chkKeyIndicators: function () {
+    arup_sectiond_question10_onChange: function (executionContext) {
+        var formContext = executionContext.getFormContext();
+        this.showhideSection(formContext, "tab_SectionC", "tabD_Section10a", formContext.getAttribute("arup_sectiond_question10").getValue() == '0');
+
+    },
+    chkKeyIndicators: function (formContext) {
         //console.log("Executing Function");
-        var strKeyIndicators = Xrm.Page.getAttribute("arup_keyindicators").getValue();
-        if (strKeyIndicators == null) Xrm.Page.getControl("ccrm_h1project_data_4").setVisible(false);
+        var strKeyIndicators = formContext.getAttribute("arup_keyindicators").getValue();
+        if (strKeyIndicators == null) formContext.getControl("ccrm_h1project_data_4").setVisible(false);
         else {
             var n = strKeyIndicators.indexOf("100000005");
-            if (n >= 0) Xrm.Page.getControl("ccrm_h1project_data_4").setVisible(true);
-            else Xrm.Page.getControl("ccrm_h1project_data_4").setVisible(false);
+            if (n >= 0) formContext.getControl("ccrm_h1project_data_4").setVisible(true);
+            else formContext.getControl("ccrm_h1project_data_4").setVisible(false);
         }
     },
     /*
@@ -1155,15 +1514,15 @@ ARUP.ccrm_bidreview = {
      * review report
      *********************************************************
      */
-    openBidReviewReport: function () {
+    openBidReviewReport: function (formContext) {
         //console.log("Executing Function");
         var rdlName = "Bid%20Review.rdl";
         var reportGuid = ARUP.ccrm_bidreview.getReportId("Bid Review");
         if (reportGuid != null) {
             var entityType = "10075"
-            var entityGuid = Xrm.Page.data.entity.getId();
-            var entityGuid = Xrm.Page.data.entity.getId();
-            var url = Xrm.Page.context.getClientUrl() + "/crmreports/viewer/viewer.aspx?action=run&context=records&helpID=" + rdlName + "&id={" + reportGuid + "}&records=" + entityGuid +
+            var entityGuid = formContext.data.entity.getId();
+            var entityGuid = formContext.data.entity.getId();
+            var url = formContext.context.getClientUrl() + "/crmreports/viewer/viewer.aspx?action=run&context=records&helpID=" + rdlName + "&id={" + reportGuid + "}&records=" + entityGuid +
                 "&recordstype=" + entityType;
             window.open(url, "Bid Review Report", "toolbar=0,menubar=0,resizable=1");
         }
@@ -1174,14 +1533,34 @@ ARUP.ccrm_bidreview = {
      *********************************************************
      */
     getReportId: function (reportName) {
-        //console.log("Executing Function");
+        /*console.log("Executing Function");
         //ReportSet?$select=ReportId&$filter=Name eq 'Bid Review'        
         var dataset = "ReportSet";
         var filter = "Name eq '" + reportName + "'";
-        var retrievemult = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);
-        if (retrievemult != null && retrievemult.results.length > 0) {
-            var retrievedreq = retrievemult.results[0];
-            return retrievedreq.ReportId
+        var retrievemult = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);*/
+        var results;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/reports?fetchXml=%3Cfetch%3E%3Centity%20name%3D%22report%22%3E%3Cattribute%20name%3D%22reportid%22%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22name%22%20operator%3D%22eq%22%20value%3D%22bid%20review%22%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                results = data.value;
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+        if (results != null && results.length > 0) {
+            var retrievedreq = results[0];
+            return retrievedreq.reportid
         } else return null;
     },
     projectstartdate_onChange: function () {
@@ -1198,9 +1577,33 @@ ARUP.ccrm_bidreview = {
         //console.log("Executing Function");
         //retrieve ccrm_bidreview and ccrm_arupbidstartdate from Opportunity
         if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
-        var dataset = "OpportunitySet";
-        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
+        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
+        var result;
+        var ccrm_arupbidstartdate;
+        var ccrm_bidreview;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities(" + opportunityId + ")?$select=ccrm_arupbidstartdate,ccrm_bidreview",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            },
+            async: false,
+            success: function (data, textStatus, xhr) {
+                result = data;
+                ccrm_arupbidstartdate = result["ccrm_arupbidstartdate"];
+                ccrm_bidreview = result["ccrm_bidreview"];
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            }
+        });
+        /*var dataset = "OpportunitySet";
+        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);*/
         if (retrievereq != null) {
             var bidreviewdate = retrievereq.Ccrm_BidReview;
             var bidstartdate = retrievereq.Ccrm_ArupBidStartDate;
@@ -1229,9 +1632,9 @@ ARUP.ccrm_bidreview = {
 }
 //New Functions added: Charmain as discussed, you have a lot of annonymous functions here, but because they are being re-used multiple times, it didn't make sense so I added this one.
 
-function ccrm_sectionc_data_7_onChange() {
+function ccrm_sectionc_data_7_onChange(executionContext) {
 
-    HideFields("ccrm_sectionc_data_7", 100000001, 100000003, "ccrm_technical_data_8");
+    HideFields(executionContext, "ccrm_sectionc_data_7", 100000001, 100000003, "ccrm_technical_data_8");
 
 }
 
@@ -1272,38 +1675,40 @@ function display_other_field(otherFieldVal, otherFieldDetail, isOtherFieldRequir
     }
 }
 
-function HideFields(sourcefield, valueA, valueB, targetField) {
-    var currentAttribute = Xrm.Page.data.entity.attributes.get(sourcefield).getValue();
+function HideFields(executionContext, sourcefield, valueA, valueB, targetField) {
+    var formContext = executionContext.getFormContext();
+    var currentAttribute = formContext.data.entity.attributes.get(sourcefield).getValue();
     if (currentAttribute !== null) {
         if ((currentAttribute == valueA) || (currentAttribute == valueB)) {
-            Xrm.Page.ui.controls.get(targetField).setVisible(false);
+            formContext.ui.controls.get(targetField).setVisible(false);
         } else {
-            Xrm.Page.ui.controls.get(targetField).setVisible(true);
+            formContext.ui.controls.get(targetField).setVisible(true);
         }
     }
 }
 //Hide 2 SECTIONS
 
-function ShowSections(sourcefield, valueA, tab_Section, sectionA, sectionB) {
-    var currentAttribute = Xrm.Page.data.entity.attributes.get(sourcefield).getValue();
+function ShowSections(executionContext, sourcefield, valueA, tab_Section, sectionA, sectionB) {
+    var formContext = executionContext.getFormContext();
+    var currentAttribute = formContext.data.entity.attributes.get(sourcefield).getValue();
     if (currentAttribute != null) {
         if (currentAttribute == valueA) {
             //Show Section
-            Xrm.Page.ui.tabs.get(tab_Section).sections.get(sectionA).setVisible(true);
-            Xrm.Page.ui.tabs.get(tab_Section).sections.get(sectionB).setVisible(true);
+            formContext.ui.tabs.get(tab_Section).sections.get(sectionA).setVisible(true);
+            formContext.ui.tabs.get(tab_Section).sections.get(sectionB).setVisible(true);
         } else {
-            Xrm.Page.ui.tabs.get(tab_Section).sections.get(sectionA).setVisible(false);
-            Xrm.Page.ui.tabs.get(tab_Section).sections.get(sectionB).setVisible(false);
+            formContext.ui.tabs.get(tab_Section).sections.get(sectionA).setVisible(false);
+            formContext.ui.tabs.get(tab_Section).sections.get(sectionB).setVisible(false);
         }
     }
 }
 //There is a bug with Q6, investigate further
 
-function disableFormFields() {
+function disableFormFields(executionContext) {
+    var formContext = executionContext.getFormContext();
+    if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return false;
 
-    if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return false;
-
-    var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id;
+    var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id;
     var bidReviewApproved = false;
 
     SDK.REST.retrieveRecord(opportunityId, "Opportunity", 'ccrm_BidReviewOutcome', null, function (retrievedreq) {
@@ -1362,4 +1767,57 @@ function multiselectfields_onchange(executioncontext, fieldname, fieldothername,
             formcontext.getAttribute(targetfield).setValue(targetvalue + ", " + fieldothervalue);
         }
     }   
+}
+
+// runs on Exit button
+function exitForm(primaryControl) {
+    var formContext = primaryControl;
+    //see if the form is dirty
+    var ismodified = formContext.data.entity.getIsDirty();
+    if (ismodified == false) {
+        formContext.ui.close();
+        return;
+    }
+
+    Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
+        '<font size="3" color="#000000"></br>Some fields on the form have been changed.</br>Click "Save and Exit" button to save your changes and exit.</br>Click "Exit Only" button to exit without saving.</font>',
+        [
+            {
+                label: "<b>Save and Exit</b>",
+                callback: function () {
+                    var acctAttributes = formContext.data.entity.attributes.get();
+                    var highlight = true;
+                    var cansave = true;
+                    if (acctAttributes != null) {
+                        for (var i in acctAttributes) {
+                            if (acctAttributes[i].getRequiredLevel() == 'required') {
+                                highlight = formContext.getAttribute(acctAttributes[i].getName()).getValue() != null;
+                                if (highlight == false && cansave == true) { cansave = false; }
+                            }
+                        }
+                    }
+                    if (cansave) { formContext.data.entity.save("saveandclose"); }
+                },
+                setFocus: true,
+                preventClose: false
+            },
+            {
+                label: "<b>Exit Only</b>",
+                callback: function () {
+                    //get list of dirty fields
+                    var acctAttributes = formContext.data.entity.attributes.get();
+                    if (acctAttributes != null) {
+                        for (var i in acctAttributes) {
+                            if (acctAttributes[i].getIsDirty()) {
+                                formContext.getAttribute(acctAttributes[i].getName()).setSubmitMode("never");
+                            }
+                        }
+                        setTimeout(function () { formContext.ui.close(); }, 1000);
+                    }
+                },
+                setFocus: false,
+                preventClose: false
+            }
+        ],
+        'Warning', 600, 250, '', true);
 }

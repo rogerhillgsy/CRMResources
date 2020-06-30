@@ -189,7 +189,7 @@
                                                     <td id="parentOrg"></td>
                                                     <td>
                                                         <div class="table-responsive" id="ConnectionButtons" style="float:right;background-color: lightgray; ">
-                                                            <button id='homeButton' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_HomeIcon' style='height:25px' title='Home' /></button>
+                                                            <button id='homeButton' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer; background-image:url(arup_HomeIcon)' onclick="onclickHomeButton()" title="Home"> </button>
                                                             <button id='zoom_in' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphzoomin' style='height:25px' title='Zoom In' /></button>
                                                             <button id='zoom_out' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphzoomout' style='height:25px' title='Zoom Out' /></button>
                                                             <button id='zoom_init' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphreset' style='height:25px' title='Reset Zoom' /></button>
@@ -245,14 +245,14 @@
                                     </Label>-->
 
                                     <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
-                                        <input type="checkbox" value="1" id="chkContacts" />
+                                        <input type="checkbox" value="1" id="chkContacts" onclick="oncheckContacts()" />
                                         <label for="chkContacts" style="margin-bottom:0px">
                                             Contacts
                                         </label>
                                         <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="contactsount"></span>
                                     </Label>
                                     <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
-                                        <input type="checkbox" value="1" id="chkActivities" disabled="disabled" />
+                                        <input type="checkbox" value="1" id="chkActivities" disabled="disabled" onclick="oncheckActivities()" />
                                         <label for="chkActivities" style="margin-bottom:0px">
                                             Activities
                                         </label>
@@ -396,7 +396,7 @@
                 accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
                 parentaccountid = accId;
             }
-            debugger;
+            //debugger;
             clientGroupingId = getUrlVars();
             try {
                 PopulateBasicAccProfile();
@@ -450,7 +450,7 @@
             var userList = [];
             if (userRecords.length > 0) {
                 for (var i = 0; i < userRecords.length; i++) {
-                    //debugger;
+                    ////debugger;
                     var sysuserid = userRecords[i].attributes.accountid.value;
                     var fullname = userRecords[i].attributes.name != undefined ? userRecords[i].attributes.name.value : "";
                     //var Office = userRecords[i].attributes.Office != undefined ? userRecords[i].attributes.Office.name : "";
@@ -476,7 +476,7 @@
                     "<button id='zoom_init' style='margin : 1px; float: right; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphreset' style='height:25px' title='Reset Zoom' /></button>" +
                     "<button id='zoom_out' style='margin : 1px; float: right; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphzoomout' style='height:25px' title='Zoom Out' /></button> " +
                     "<button id='zoom_in' style='margin : 1px; float: right; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphzoomin' style='height:25px' title='Zoom In' /></button>" +
-                    "<button id='homeButton' style='margin : 1px; float: right; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_HomeIcon' style='height:25px' title='Home' /></button>"
+                    "<button id='homeButton' style='margin : 1px; float: right; border: 1px white; padding: 0px; cursor: pointer;' onclick='onclickHomeButton()'> <input type='image' src='arup_HomeIcon' style='height:25px' title='Home' /></button>"
                 );
                 $("#connectionMatrix").css("height", "75%");
             }
@@ -490,7 +490,7 @@
                     "<button id='zoom_init' style='margin : 1px; float: right; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphreset' style='height:25px' title='Reset Zoom' /></button>" +
                     "<button id='zoom_out' style='margin : 1px; float: right; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphzoomout' style='height:25px' title='Zoom Out' /></button> " +
                     "<button id='zoom_in' style='margin : 1px; float: right; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphzoomin' style='height:25px' title='Zoom In' /></button>" +
-                    "<button id='homeButton' style='margin : 1px; float: right; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_HomeIcon' style='height:25px' title='Home' /></button>"
+                    "<button id='homeButton' style='margin : 1px; float: right; border: 1px white; padding: 0px; cursor: pointer;'  onclick='onclickHomeButton()'> <input type='image' src='arup_HomeIcon' style='height:25px' title='Home' /></button>"
                 );
                 $("#connectionMatrix").css("height", "90%");
                 $('#connForcelay').css("height", "1100px");
@@ -499,7 +499,7 @@
         }
 
         function PopulateConnection(ContactAccountRoleDM, ContactAccountRoleInf, ContacAccountRoleEmp, ContactAccountRoleOthers, ContactAccountRoleCS) {
-            debugger;
+            //debugger;
             ConnectionContactData = "";
             InititializeGraphDivs();
             InitializeHomeButtonClick();
@@ -516,6 +516,7 @@
                 "</fetch>";
             fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
             var userList = [];
+            initialOrgList = [];
             Xrm.WebApi.retrieveMultipleRecords('account', fetchXML
             ).then(function success(result) {
                 for (var i = 0; i < result.entities.length; i++) {
@@ -584,7 +585,7 @@
                 "</fetch>";
             var oppty = XrmServiceToolkit.Soap.Fetch(fetchXML);
             if (oppty.length > 0) {
-                //debugger;
+                ////debugger;
                 var result = oppty[0].attributes;
                 var basicProfile = {
                     //accountId: result.accountid.value,
@@ -616,7 +617,7 @@
             }
         }
         function AssociateProfileDataWithReport(profileData) {
-            //debugger;
+            ////debugger;
             //var address = '';
             //if (profileData.address1_Line1 != null && profileData.address1_Line1.length > 0) {
             //    address = address + profileData.address1_Line1.replace('\t', '').replace('\r', '').replace('\f', '') + " ";
@@ -801,7 +802,7 @@
         var currentscale = 1.5;
 
         function DrawMatrixForceLayout(div, conData, isUserClick) {
-            debugger;
+            //debugger;
             if (isUserClick == undefined)
                 isUserClick = false;
 
@@ -830,595 +831,9 @@
                 if (!isUserClick)
                     nodelink.links.push({ source: accName, target: conData[i].organizationid, value: 2 });
             }
-            //var arupContact = d3.nest()
-            //    .key(function (d) { return d['Name']; })
-            //    .entries(conData);
-            ////var clientContact = d3.nest()
-            ////    .key(function (d) { return d['ccrm_clientgroupings']; })
-            ////    .entries(conData);
-            //arupContact.forEach(function (ac, i) {
-            //    //var userpro = conData.filter(function (currentValue, index, arr) { if (currentValue['CRM User'] == ac.key) return true; });
-            //    nodelink.nodes.push({
-            //        id: ac.key, group: 2, rad: 7, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
-            //        , phone: ac.values[0].EmpPhone, jobtitleorCountry: ac.values[0].EmpCountry, userid: ac.values[0].userid,
-            //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
-            //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
-            //        userRegion: ac.values[0].userRegion, orgOpenOpptys: ac.values[0].orgOpenOpptys, userTitle: ac.values[0].userTitle
-            //    });
-            //    if (!isUserClick)
-            //        nodelink.links.push({ source: accName, target: ac.key, value: 2 });
-            //})
 
-            //var contactsids = [];
-            //clientContact.forEach(function (ac, i) {
-            //    //var contactpro = conData.filter(function (currentValue, index, arr) { if (currentValue['Contact'] == ac.key) return true; });
-            //    var ContactRadius = 4;
-            //    var ContactGroup = 3
-            //    if (ac.values[0].AccountRole == "1")  // Decision Maker
-            //    {
-            //        ContactRadius = 10;
-            //        ContactGroup = 6;
-            //    }
-            //    else if (ac.values[0].AccountRole == "3") // Influencer
-            //    {
-            //        ContactRadius = 10;
-            //        ContactGroup = 6;
-            //    }
-            //    nodelink.nodes.push({
-            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].ContactImage,
-            //        name: ac.values[0].Contact, phone: ac.values[0].ContactPhone, jobtitleorCountry: ac.values[0].JobTitle, userid: "200",
-            //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
-            //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
-            //        userRegion: ac.values[0].userRegion, orgOpenOpptys: ac.values[0].orgOpenOpptys, userTitle: ac.values[0].userTitle
-            //    });
-            //    //  contactsids.push(ac.values[0].ContactId);
 
-            //})
-
-            //conData.forEach(function (cc, i) {
-            //    nodelink.links.push({ source: clientGroupingId, target: cc['UserId'], value: 1 });
-            //})
-
-
-            debugger;
-
-            var svgwidth = $("#connForcelay").width()
-
-            var svg = d3.select("#connForcelay"),
-                width = +svgwidth,
-                height = +svg.attr("height");
-
-            var zoom = d3.zoom().scaleExtent([1 / 2, 4]).on("zoom", zoomed);
-
-            svg.call(zoom);
-
-
-            //svg.append("rect")
-            //    .attr("width", width)
-            //    .attr("height", height)
-            //    .style("fill", "none")
-            //    .style("pointer-events", "all");
-
-            var g = svg.append("g");
-
-
-            //////////////////////////
-            var config = {
-                "avatar_size": 10
-            }
-
-            var body = d3.select("body");
-            var defs = svg.append('svg:defs');
-            data = [{
-                posx: 30,
-                posy: 20,
-                posx1: 25,
-                posy1: 15,
-                img: "arup_graphOrg",
-                color: "#875005",
-                "label": "Client Grouping",
-                width: 20
-            }, {
-                posx: 170,
-                posy: 20,
-                posx1: 165,
-                posy1: 15,
-                    img: "arup_graphOrg",
-                    color: "#875005",
-                    "label": "Organisations",
-                    width: 20
-            }, {
-                posx: 310,
-                posy: 20,
-                posx1: 305,
-                posy1: 15,
-                    img: "arup_/Images/Contact.png",
-                    color: "#32325F",
-                    "label": "Contacts",
-                    width: 10
-            },
-            {
-                posx: 450,
-                posy: 20,
-                posx1: 445,
-                posy1: 15,
-                img: "arup_graphActivities",
-                color: "#1982AF",
-                "label": "Activities",
-                width: 10
-            }
-
-            ];
-
-            data.forEach(function (d, i) {
-                svg.append("circle")
-                    .attr('cx', d.posx)
-                    .attr('cy', d.posy)
-                    .attr('r', config.avatar_size)
-                    .style("stroke-width", 1)
-                    .attr("fill", d.color)
-                    .style("stroke", d.color)
-
-                svg.append('clipPath')
-                    .attr('id', 'clipObj' + i)
-                    .append('circle')
-                    .attr('cx', d.posx)
-                    .attr('cy', d.posy)
-                    .attr('r', config.avatar_size)
-
-            })
-
-            data.forEach(function (d, i) {
-                var xaxis, yaxis, width
-                if (d.label == "Organisations" || d.label == "Client Grouping") {
-                    width = config.avatar_size * 3;
-                    xaxis = parseInt(d.posx - (config.avatar_size + config.avatar_size * .5));
-                    yaxis = parseInt(d.posy - (config.avatar_size + config.avatar_size * .5));
-                }
-                else {
-                    width = config.avatar_size + config.avatar_size * .1;
-                    xaxis = parseInt(d.posx - config.avatar_size + config.avatar_size * .45);
-                    yaxis = parseInt(d.posy - config.avatar_size + config.avatar_size * .45)
-                }
-                svg.append('image')
-                    .attr('xlink:href', d.img)
-                    .attr('width', width)
-                    .attr('height', width)
-                    .attr('x', xaxis)
-                    .attr('y', yaxis)
-                    // .attr('transform', 'translate(' + parseInt(d.posx1) + ',' + parseInt(d.posy1) + ')')
-                    // .attr('transform', 'translate(' + parseInt(d.posx - config.avatar_size + config.avatar_size * .45) + ',' + parseInt(d.posy - config.avatar_size + config.avatar_size * .45) + ')')
-                    .attr('clip-path', "url(#clipObj" + i + ")")
-
-            })
-            var text = svg.selectAll("text")
-                .data(data)
-                .enter()
-                .append("text");
-
-
-            var textLabels = text
-                .attr("x", function (d) { return d.posx + 15; })
-                .attr("y", function (d) { return d.posy + 5; })
-                .text(function (d) { return d.label; });
-
-
-            ////////////////////////////
-
-
-
-            function zoomed() {
-                g.attr('transform', 'translate(' + d3.event.transform.x + ',' + d3.event.transform.y + ') scale(' + d3.event.transform.k + ')');
-                currentscale = d3.event.transform.k;
-            };
-
-            if (currentscale != "") {
-                svg.transition()
-                    .delay(100)
-                    .duration(700)
-                    .call(zoom.scaleTo, currentscale);
-
-            }
-
-            function transition(zoomLevel) {
-                svg.transition()
-                    .delay(100)
-                    .duration(700)
-                    .call(zoom.scaleBy, zoomLevel);
-                //.call(zoom.transform, transform);
-                //.on("end", function() { canvas.call(transition); });
-            }
-
-            d3.selectAll('button').on('click', function () {
-                if (this.id === 'zoom_in') {
-                    transition(1.2); // increase on 0.2 each time
-                }
-                if (this.id === 'zoom_out') {
-                    transition(0.8); // deacrease on 0.2 each time
-                }
-                if (this.id === 'zoom_init') {
-                    svg.transition()
-                        .delay(100)
-                        .duration(700)
-                        .call(zoom.scaleTo, 1.5); // return to initial state
-                }
-                if (this.id === 'btnresize') {
-                    if (sizetoggle == 0) {
-                        $(div).css("height", "90%");
-                        $('.row').css("width", "100%");
-                        $('#connForcelay').css("height", "1100px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-10').addClass('col-md-9 ml-sm-auto col-lg-12');
-                        //$('#seconddivgraph').hide();
-                        $('#clientconnectionHelp').hide();
-                        $('#showhideNav').hide();
-                        $('#seconddivgraph').css({ 'margin-top': '0px' });
-
-                        sizetoggle = 1;
-                    }
-                    else {
-                        $(div).css("height", "75%");
-                        $('.row').css("width", "100%");
-                        $('#connForcelay').css("height", "800px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-12').addClass('col-md-9 ml-sm-auto col-lg-10');
-                        //$('#seconddivgraph').show();
-                        $('#clientconnectionHelp').show();
-                        $('#showhideNav').show();
-                        $('#seconddivgraph').css({ 'margin-top': '65px' });
-                        sizetoggle = 0;
-                    }
-                }
-
-            });
-
-            var color = d3.scaleOrdinal(d3.schemeCategory20);
-
-
-            var simulation = d3.forceSimulation()
-                .force("link", d3.forceLink().id(function (d) { return d.id; }).distance(function (d, i) { return 30 + i }))
-                .force("charge", d3.forceManyBody().strength(-100))
-                .force("center", d3.forceCenter(width / 2, height / 2));
-
-
-            var link = g.append("g")
-                .attr("class", "links")
-                .selectAll("line")
-                .data(nodelink.links)
-                .enter().append("line")
-                .style("stroke-dasharray", (0, function (d) {
-                    if (d.value == 1) {
-                        return 3;
-                    }
-                    else { return 0; }
-                }))
-                .style('stroke', function (d) {
-                    //debugger;
-                    if (isManagedClient) {
-                        if (d.source == relationshipManager || d.target == relationshipManager) {
-                            return "#28AF73";
-                        }
-                        else if (relTeamMembers.indexOf(d.source) > -1 || relTeamMembers.indexOf(d.target) > -1) {
-                            return "#A0235F";
-                        }
-                    }
-                })
-                .attr("stroke-width", function (d) { return Math.sqrt(d.value); });
-
-            var node = g.append("g")
-                .attr("class", "nodes")
-                .selectAll("circle")
-                .data(nodelink.nodes)
-                .enter().append("g")
-                .on('dblclick', releasenode)
-                .call(d3.drag()
-                    .on("start", dragstarted)
-                    .on("drag", dragged)
-                    .on("end", dragended));
-
-            var circle = node.append("circle")
-                .attr("r", function (d) { return d.rad; })
-                .attr("fill", function (d) { return GetNodeBackGrdClr(d, color) })
-                .style("stroke", function (d) { return GetNodeBackGrdClr(d, color) })
-                .style("stroke-width", function (d) { return GetNodeBackGrdStrokeWidth(d) })
-                .on("click", function (d) {
-                    tooltip.style("visibility", "hidden");
-                    getDataforUser(d.userid, d.id)
-                })
-                .on("mouseover", function (d) {
-                    connectedNodes(d);
-                    var tooltipcontent = getToolTipsForConnection(d);
-                    tooltip.html(tooltipcontent);
-                    return tooltip.style("visibility", "visible");
-                    // tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
-
-                })
-                .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
-                .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
-
-            // add circle clip
-            var clipPath = node.append("clipPath")
-                .attr("id", function (d, i) {
-                    return "clipCircle_" + i
-                })
-                .append("circle")
-                .attr("r", function (d) { return d.rad });
-
-
-            var tooltip = d3.select("body")
-                .append("div")
-                .style("position", "absolute")
-                .style("z-index", "12")
-                .style("visibility", "hidden")
-                .style("background", "#5C9BD1")
-                .style("color", "white")
-                .style("padding", "5px")
-                .style("margin", "2px")
-                .style("font-size", "12px")
-                .style("box-shadow", "0px 5px 15px 0px rgba(0,0,0,0.3)")
-                .text("a simple tooltip");
-
-            var image = node.append('svg:image').attr('class', 'entityImage').attr('xlink:href', function (d) {
-                if (d.imageUrl != GetGlobalContext().getClientUrl()) {
-                    return d.imageUrl;
-                }
-                else {
-                    return 'arup_/Images/Contact.png';
-                }
-            })
-                .attr('width', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
-                        return d.rad * 3;
-                    }
-                    else {
-                        return d.rad + d.rad * .1;
-                    }
-                })
-                .attr('height', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
-                        return d.rad * 3;
-                    }
-                    else {
-                        return d.rad + d.rad * .1;
-                    }
-                })
-                .attr("clip-path", function (d, i) { return "url(#clipCircle_" + i + ")" })
-                .on("click", function (d) {
-                    tooltip.style("visibility", "hidden");
-                    getDataforUser(d.userid, d.id)
-                })
-                .on("mouseover", function (d) {
-                    connectedNodes(d);
-                    var tooltipcontent = getToolTipsForConnection(d);
-                    tooltip.html(tooltipcontent); return tooltip.style("visibility", "visible");
-
-                    //  tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
-                })
-                .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
-                .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
-
-            var nodeText = node.append('svg:text').attr('class', 'nodetext').text(function (d) {
-                var name = d.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-                if (name.length > 20) {
-                    name = name.substring(0, 20) + "...";
-                }
-                if (isManagedClient) {
-                    if (d.id == relationshipManager) {
-                        return name + " (RM)";
-                    }
-                    else if (relTeamMembers.indexOf(d.id) > -1) {
-                        return name + " (RT)";
-                    }
-                    else {
-                        return name;
-                    }
-                }
-                return name;
-            }).style("text-anchor", "middle");
-
-
-            //var title = node.append("title")
-            //     .text(function (d) { return d.id; });
-
-            simulation
-                .nodes(nodelink.nodes)
-                .on("tick", ticked);
-
-            simulation.force("link")
-                .links(nodelink.links);
-
-            function ticked() {
-                link
-                    .attr("x1", function (d) { return d.source.x; })
-                    .attr("y1", function (d) { return d.source.y; })
-                    .attr("x2", function (d) { return d.target.x; })
-                    .attr("y2", function (d) { return d.target.y; });
-
-                circle
-                    .attr("cx", function (d) { return d.x; })
-                    .attr("cy", function (d) { return d.y; });
-
-                clipPath
-                    .attr("cx", function (d) { return d.x; })
-                    .attr("cy", function (d) { return d.y; });
-
-                image
-                    .attr("x", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
-                            return d.x - d.rad - d.rad * .5;
-                        }
-                        else {
-                            return d.x - d.rad + d.rad * .45;
-                        }
-                    })
-                    .attr("y", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
-                            return d.y - d.rad - d.rad * .5;
-                        }
-                        else {
-                            return d.y - d.rad + d.rad * .45;
-                        }
-
-                    });
-
-
-                nodeText
-                    .attr("dx", function (d) { return d.x - function (d) { return d.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "") }.length / 2 * 3; })
-                    .attr("dy", function (d) {
-                        if (d.group == 1) {
-                            return d.y - 11;
-                        }
-                        else if (d.group == 2) {
-                            return d.y - 8;
-                        }
-                        else if (d.group == 6) {
-                            return d.y - 11;
-                        }
-                        else {
-                            return d.y - 5;
-                        }
-                    });
-
-
-            }
-
-
-            function dragstarted(d) {
-                if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-                d.fx = d.x;
-                d.fy = d.y;
-            }
-
-            function dragged(d) {
-                d.fx = d3.event.x;
-                d.fy = d3.event.y;
-            }
-
-            function dragended(d) {
-                if (!d3.event.active) simulation.alphaTarget(0);
-                //d.fx = null;
-                //d.fy = null;
-                d.fx = d.x;
-                d.fy = d.y;
-            }
-
-            function releasenode(d) {
-                //d.fx = false; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
-                //force.resume();
-                if (!d3.event.active) simulation.alphaTarget(0);
-                d.fx = null;
-                d.fy = null;
-            }
-
-            ////////////////////////////////////////////////////////////////////////////////
-
-            function connectedNodes(d) {
-                var connectedlinks = link.filter(function (e) {
-                    //return e.source.id == d.id || e.target.id == d.id; //connected links
-                    if (e.source.id == d.id || e.target.id == d.id) {
-                        node.filter(function (k) {
-                            return k.id != d.id;
-                        }).style('stroke-opacity', 0.1);
-                        return d.id;
-                    }
-                }).style('stroke', 'red')
-                    .attr('r', 15);
-
-
-                var disconnectedlinks =
-                    link.filter(function (e) {
-                        return e.source.id != d.id && e.target.id != d.id; //disconnected links
-                    }).style('stroke-opacity', 0.1)
-                        .attr('r', 15);
-            }
-            function removehighlighting(d) {
-                var connectedlinks = link.filter(function (e) {
-                    if (e.source.id == d.id || e.target.id == d.id) { //connected links
-                        node.filter(function (k) {
-                            return k.id != d.id;
-                        }).style('stroke-opacity', 0.6);
-                        return d.id;
-                    }
-                })
-                    .style('stroke', function (d) {
-                        //debugger;
-                        if (isManagedClient) {
-                            if (d.source.id == relationshipManager || d.target.id == relationshipManager) {
-                                return "#28AF73";
-                            }
-                            else if (relTeamMembers.indexOf(d.source.id) > -1 || relTeamMembers.indexOf(d.target.id) > -1) {
-                                return "#A0235F";
-                            }
-                            else return '#999'
-                        }
-                        else return '#999'
-
-                    }).attr('r', 15)
-
-                var disconnectedlinks =
-                    link.filter(function (e) {
-                        return e.source.id != d.id && e.target.id != d.id; //disconnected links
-                    }).style('stroke-opacity', 0.6)
-                        .attr('r', 15);
-
-            }
-            /////////////////////////////////////////////////////
-
-
-
-        }
-
-        function DrawMatrixForceLayout1(div, conData, uniqueOrgList, isUserClick) {
-            debugger;
-            if (isUserClick == undefined)
-                isUserClick = false;
-
-            var nodelink = Object();
-            nodelink.nodes = [];
-            nodelink.links = [];
-
-            if (!isUserClick) {
-                nodelink.nodes.push({
-                    id: accName, name: accName, group: 1, rad: 10, imageUrl: 'arup_graphOrg'
-                });
-            }
-
-            for (var i = 0; i < uniqueOrgList.length; i++) {
-
-                if (!isUserClick) {
-                    nodelink.nodes.push({
-                        id: uniqueOrgList[i].organizationid, name: uniqueOrgList[i].organizationname, group: 1, rad: 10, imageUrl: 'arup_graphOrg'
-                    });
-                }
-            }
-
-            for (var i = 0; i < conData.length; i++) {
-
-                if (!isUserClick) {
-                    nodelink.nodes.push({
-                        id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[i].contactimage
-                    });
-                }
-            }
-
-            for (var i = 0; i < uniqueOrgList.length; i++) {
-
-                if (!isUserClick)
-                    //nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid, value: 2 });
-                    nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid});
-            }
-            debugger;
-
-            for (var i = 0; i < conData.length; i++) {
-                for (var j = 0; j < uniqueOrgList.length; j++) {
-                    if (conData[i].organizationid == uniqueOrgList[j].organizationid) {
-                        if (!isUserClick) {
-                            var nodelinkIndex = uniqueOrgList.length + 1 + i + 1;
-                            //nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid, value: nodelinkIndex });
-                            nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid });
-                            break;
-                        }
-                    }
-                }
-            }
+            //debugger;
 
             var svgwidth = $("#connForcelay").width()
 
@@ -1465,25 +880,6 @@
                 color: "#875005",
                 "label": "Organisations",
                 width: 20
-            }, {
-                posx: 310,
-                posy: 20,
-                posx1: 305,
-                posy1: 15,
-                img: "arup_/Images/Contact.png",
-                color: "#32325F",
-                    "label": "Contacts",
-                width: 10
-            },
-            {
-                posx: 450,
-                posy: 20,
-                posx1: 445,
-                posy1: 15,
-                img: "arup_graphActivities",
-                color: "#1982AF",
-                "label": "Activities",
-                width: 10
             }
 
             ];
@@ -1529,8 +925,6 @@
                     .attr('clip-path', "url(#clipObj" + i + ")")
 
             })
-
-
             var text = svg.selectAll("text")
                 .data(data)
                 .enter()
@@ -1631,7 +1025,7 @@
                     else { return 0; }
                 }))
                 .style('stroke', function (d) {
-                    //debugger;
+                    ////debugger;
                     if (isManagedClient) {
                         if (d.source == relationshipManager || d.target == relationshipManager) {
                             return "#28AF73";
@@ -1879,7 +1273,526 @@
                     }
                 })
                     .style('stroke', function (d) {
-                        //debugger;
+                        ////debugger;
+                        if (isManagedClient) {
+                            if (d.source.id == relationshipManager || d.target.id == relationshipManager) {
+                                return "#28AF73";
+                            }
+                            else if (relTeamMembers.indexOf(d.source.id) > -1 || relTeamMembers.indexOf(d.target.id) > -1) {
+                                return "#A0235F";
+                            }
+                            else return '#999'
+                        }
+                        else return '#999'
+
+                    }).attr('r', 15)
+
+                var disconnectedlinks =
+                    link.filter(function (e) {
+                        return e.source.id != d.id && e.target.id != d.id; //disconnected links
+                    }).style('stroke-opacity', 0.6)
+                        .attr('r', 15);
+
+            }
+        }
+
+        function DrawMatrixForceLayout1(div, conData, uniqueOrgList, isUserClick) {
+            //debugger;
+            if (isUserClick == undefined)
+                isUserClick = false;
+
+            var nodelink = Object();
+            nodelink.nodes = [];
+            nodelink.links = [];
+
+            if (!isUserClick) {
+                nodelink.nodes.push({
+                    id: accName, name: accName, group: 1, rad: 10, imageUrl: 'arup_graphOrg'
+                });
+            }
+
+            for (var i = 0; i < uniqueOrgList.length; i++) {
+
+                if (!isUserClick) {
+                    nodelink.nodes.push({
+                        id: uniqueOrgList[i].organizationid, name: uniqueOrgList[i].organizationname, group: 1, rad: 10, imageUrl: 'arup_graphOrg'
+                    });
+                }
+            }
+
+            for (var i = 0; i < conData.length; i++) {
+
+                if (!isUserClick) {
+                    nodelink.nodes.push({
+                        id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[i].contactimage
+                    });
+                }
+            }
+
+            for (var i = 0; i < uniqueOrgList.length; i++) {
+
+                if (!isUserClick)
+                    //nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid, value: 2 });
+                    nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid });
+            }
+            //debugger;
+
+            for (var i = 0; i < conData.length; i++) {
+                for (var j = 0; j < uniqueOrgList.length; j++) {
+                    if (conData[i].organizationid == uniqueOrgList[j].organizationid) {
+                        if (!isUserClick) {
+                            var nodelinkIndex = uniqueOrgList.length + 1 + i + 1;
+                            //nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid, value: nodelinkIndex });
+                            nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid });
+                            break;
+                        }
+                    }
+                }
+            }
+
+            var svgwidth = $("#connForcelay").width()
+
+            var svg = d3.select("#connForcelay"),
+                width = +svgwidth,
+                height = +svg.attr("height");
+
+            var zoom = d3.zoom().scaleExtent([1 / 2, 4]).on("zoom", zoomed);
+
+            svg.call(zoom);
+
+            var g = svg.append("g");
+
+
+            //////////////////////////
+            var config = {
+                "avatar_size": 10
+            }
+
+            var body = d3.select("body");
+            var defs = svg.append('svg:defs');
+            data = [{
+                posx: 30,
+                posy: 20,
+                posx1: 25,
+                posy1: 15,
+                img: "arup_graphOrg",
+                color: "#875005",
+                "label": "Client Grouping",
+                width: 20
+            }, {
+                posx: 170,
+                posy: 20,
+                posx1: 165,
+                posy1: 15,
+                img: "arup_graphOrg",
+                color: "#875005",
+                "label": "Organisations",
+                width: 20
+            }, {
+                posx: 310,
+                posy: 20,
+                posx1: 305,
+                posy1: 15,
+                img: "arup_/Images/Contact.png",
+                color: "#32325F",
+                "label": "Contacts",
+                width: 10
+            }
+
+            ];
+
+            data.forEach(function (d, i) {
+                svg.append("circle")
+                    .attr('cx', d.posx)
+                    .attr('cy', d.posy)
+                    .attr('r', config.avatar_size)
+                    .style("stroke-width", 1)
+                    .attr("fill", d.color)
+                    .style("stroke", d.color)
+
+                svg.append('clipPath')
+                    .attr('id', 'clipObj' + i)
+                    .append('circle')
+                    .attr('cx', d.posx)
+                    .attr('cy', d.posy)
+                    .attr('r', config.avatar_size)
+
+            })
+
+            data.forEach(function (d, i) {
+                var xaxis, yaxis, width
+                if (d.label == "Organisations" || d.label == "Client Grouping") {
+                    width = config.avatar_size * 3;
+                    xaxis = parseInt(d.posx - (config.avatar_size + config.avatar_size * .5));
+                    yaxis = parseInt(d.posy - (config.avatar_size + config.avatar_size * .5));
+                }
+                else {
+                    width = config.avatar_size + config.avatar_size * .1;
+                    xaxis = parseInt(d.posx - config.avatar_size + config.avatar_size * .45);
+                    yaxis = parseInt(d.posy - config.avatar_size + config.avatar_size * .45)
+                }
+                svg.append('image')
+                    .attr('xlink:href', d.img)
+                    .attr('width', width)
+                    .attr('height', width)
+                    .attr('x', xaxis)
+                    .attr('y', yaxis)
+                    // .attr('transform', 'translate(' + parseInt(d.posx1) + ',' + parseInt(d.posy1) + ')')
+                    // .attr('transform', 'translate(' + parseInt(d.posx - config.avatar_size + config.avatar_size * .45) + ',' + parseInt(d.posy - config.avatar_size + config.avatar_size * .45) + ')')
+                    .attr('clip-path', "url(#clipObj" + i + ")")
+
+            })
+
+
+            var text = svg.selectAll("text")
+                .data(data)
+                .enter()
+                .append("text");
+
+
+            var textLabels = text
+                .attr("x", function (d) { return d.posx + 15; })
+                .attr("y", function (d) { return d.posy + 5; })
+                .text(function (d) { return d.label; });
+
+
+            ////////////////////////////
+
+
+
+            function zoomed() {
+                g.attr('transform', 'translate(' + d3.event.transform.x + ',' + d3.event.transform.y + ') scale(' + d3.event.transform.k + ')');
+                currentscale = d3.event.transform.k;
+            };
+
+            if (currentscale != "") {
+                svg.transition()
+                    .delay(100)
+                    .duration(700)
+                    .call(zoom.scaleTo, currentscale);
+
+            }
+
+            function transition(zoomLevel) {
+                svg.transition()
+                    .delay(100)
+                    .duration(700)
+                    .call(zoom.scaleBy, zoomLevel);
+                //.call(zoom.transform, transform);
+                //.on("end", function() { canvas.call(transition); });
+            }
+
+            d3.selectAll('button').on('click', function () {
+                if (this.id === 'zoom_in') {
+                    transition(1.2); // increase on 0.2 each time
+                }
+                if (this.id === 'zoom_out') {
+                    transition(0.8); // deacrease on 0.2 each time
+                }
+                if (this.id === 'zoom_init') {
+                    svg.transition()
+                        .delay(100)
+                        .duration(700)
+                        .call(zoom.scaleTo, 1.5); // return to initial state
+                }
+                if (this.id === 'btnresize') {
+                    if (sizetoggle == 0) {
+                        $(div).css("height", "90%");
+                        $('.row').css("width", "100%");
+                        $('#connForcelay').css("height", "1100px");
+                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-10').addClass('col-md-9 ml-sm-auto col-lg-12');
+                        //$('#seconddivgraph').hide();
+                        $('#clientconnectionHelp').hide();
+                        $('#showhideNav').hide();
+                        $('#seconddivgraph').css({ 'margin-top': '0px' });
+
+                        sizetoggle = 1;
+                    }
+                    else {
+                        $(div).css("height", "75%");
+                        $('.row').css("width", "100%");
+                        $('#connForcelay').css("height", "800px");
+                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-12').addClass('col-md-9 ml-sm-auto col-lg-10');
+                        //$('#seconddivgraph').show();
+                        $('#clientconnectionHelp').show();
+                        $('#showhideNav').show();
+                        $('#seconddivgraph').css({ 'margin-top': '65px' });
+                        sizetoggle = 0;
+                    }
+                }
+
+            });
+
+            var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+
+            var simulation = d3.forceSimulation()
+                .force("link", d3.forceLink().id(function (d) { return d.id; }).distance(function (d, i) { return 30 + i }))
+                .force("charge", d3.forceManyBody().strength(-100))
+                .force("center", d3.forceCenter(width / 2, height / 2));
+
+
+            var link = g.append("g")
+                .attr("class", "links")
+                .selectAll("line")
+                .data(nodelink.links)
+                .enter().append("line")
+                .style("stroke-dasharray", (0, function (d) {
+                    if (d.value == 1) {
+                        return 3;
+                    }
+                    else { return 0; }
+                }))
+                .style('stroke', function (d) {
+                    ////debugger;
+                    if (isManagedClient) {
+                        if (d.source == relationshipManager || d.target == relationshipManager) {
+                            return "#28AF73";
+                        }
+                        else if (relTeamMembers.indexOf(d.source) > -1 || relTeamMembers.indexOf(d.target) > -1) {
+                            return "#A0235F";
+                        }
+                    }
+                })
+                .attr("stroke-width", function (d) { return Math.sqrt(d.value); });
+
+            var node = g.append("g")
+                .attr("class", "nodes")
+                .selectAll("circle")
+                .data(nodelink.nodes)
+                .enter().append("g")
+                .on('dblclick', releasenode)
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+
+            var circle = node.append("circle")
+                .attr("r", function (d) { return d.rad; })
+                .attr("fill", function (d) { return GetNodeBackGrdClr(d, color) })
+                .style("stroke", function (d) { return GetNodeBackGrdClr(d, color) })
+                .style("stroke-width", function (d) { return GetNodeBackGrdStrokeWidth(d) })
+                .on("click", function (d) {
+                    tooltip.style("visibility", "hidden");
+                    getDataforUser(d.userid, d.id)
+                })
+                .on("mouseover", function (d) {
+                    connectedNodes(d);
+                    var tooltipcontent = getToolTipsForConnection(d);
+                    tooltip.html(tooltipcontent);
+                    return tooltip.style("visibility", "visible");
+                    // tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
+
+                })
+                .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
+                .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
+
+            // add circle clip
+            var clipPath = node.append("clipPath")
+                .attr("id", function (d, i) {
+                    return "clipCircle_" + i
+                })
+                .append("circle")
+                .attr("r", function (d) { return d.rad });
+
+
+            var tooltip = d3.select("body")
+                .append("div")
+                .style("position", "absolute")
+                .style("z-index", "12")
+                .style("visibility", "hidden")
+                .style("background", "#5C9BD1")
+                .style("color", "white")
+                .style("padding", "5px")
+                .style("margin", "2px")
+                .style("font-size", "12px")
+                .style("box-shadow", "0px 5px 15px 0px rgba(0,0,0,0.3)")
+                .text("a simple tooltip");
+
+            var image = node.append('svg:image').attr('class', 'entityImage').attr('xlink:href', function (d) {
+                if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    return d.imageUrl;
+                }
+                else {
+                    return 'arup_/Images/Contact.png';
+                }
+            })
+                .attr('width', function (d) {
+                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        return d.rad * 3;
+                    }
+                    else {
+                        return d.rad + d.rad * .1;
+                    }
+                })
+                .attr('height', function (d) {
+                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        return d.rad * 3;
+                    }
+                    else {
+                        return d.rad + d.rad * .1;
+                    }
+                })
+                .attr("clip-path", function (d, i) { return "url(#clipCircle_" + i + ")" })
+                .on("click", function (d) {
+                    tooltip.style("visibility", "hidden");
+                    getDataforUser(d.userid, d.id)
+                })
+                .on("mouseover", function (d) {
+                    connectedNodes(d);
+                    var tooltipcontent = getToolTipsForConnection(d);
+                    tooltip.html(tooltipcontent); return tooltip.style("visibility", "visible");
+
+                    //  tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
+                })
+                .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
+                .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
+
+            var nodeText = node.append('svg:text').attr('class', 'nodetext').text(function (d) {
+                var name = d.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+                if (name.length > 20) {
+                    name = name.substring(0, 20) + "...";
+                }
+                if (isManagedClient) {
+                    if (d.id == relationshipManager) {
+                        return name + " (RM)";
+                    }
+                    else if (relTeamMembers.indexOf(d.id) > -1) {
+                        return name + " (RT)";
+                    }
+                    else {
+                        return name;
+                    }
+                }
+                return name;
+            }).style("text-anchor", "middle");
+
+
+            //var title = node.append("title")
+            //     .text(function (d) { return d.id; });
+
+            simulation
+                .nodes(nodelink.nodes)
+                .on("tick", ticked);
+
+            simulation.force("link")
+                .links(nodelink.links);
+
+            function ticked() {
+                link
+                    .attr("x1", function (d) { return d.source.x; })
+                    .attr("y1", function (d) { return d.source.y; })
+                    .attr("x2", function (d) { return d.target.x; })
+                    .attr("y2", function (d) { return d.target.y; });
+
+                circle
+                    .attr("cx", function (d) { return d.x; })
+                    .attr("cy", function (d) { return d.y; });
+
+                clipPath
+                    .attr("cx", function (d) { return d.x; })
+                    .attr("cy", function (d) { return d.y; });
+
+                image
+                    .attr("x", function (d) {
+                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                            return d.x - d.rad - d.rad * .5;
+                        }
+                        else {
+                            return d.x - d.rad + d.rad * .45;
+                        }
+                    })
+                    .attr("y", function (d) {
+                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                            return d.y - d.rad - d.rad * .5;
+                        }
+                        else {
+                            return d.y - d.rad + d.rad * .45;
+                        }
+
+                    });
+
+
+                nodeText
+                    .attr("dx", function (d) { return d.x - function (d) { return d.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "") }.length / 2 * 3; })
+                    .attr("dy", function (d) {
+                        if (d.group == 1) {
+                            return d.y - 11;
+                        }
+                        else if (d.group == 2) {
+                            return d.y - 8;
+                        }
+                        else if (d.group == 6) {
+                            return d.y - 11;
+                        }
+                        else {
+                            return d.y - 5;
+                        }
+                    });
+
+
+            }
+
+
+            function dragstarted(d) {
+                if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(d) {
+                d.fx = d3.event.x;
+                d.fy = d3.event.y;
+            }
+
+            function dragended(d) {
+                if (!d3.event.active) simulation.alphaTarget(0);
+                //d.fx = null;
+                //d.fy = null;
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function releasenode(d) {
+                //d.fx = false; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
+                //force.resume();
+                if (!d3.event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+
+            function connectedNodes(d) {
+                var connectedlinks = link.filter(function (e) {
+                    //return e.source.id == d.id || e.target.id == d.id; //connected links
+                    if (e.source.id == d.id || e.target.id == d.id) {
+                        node.filter(function (k) {
+                            return k.id != d.id;
+                        }).style('stroke-opacity', 0.1);
+                        return d.id;
+                    }
+                }).style('stroke', 'red')
+                    .attr('r', 15);
+
+
+                var disconnectedlinks =
+                    link.filter(function (e) {
+                        return e.source.id != d.id && e.target.id != d.id; //disconnected links
+                    }).style('stroke-opacity', 0.1)
+                        .attr('r', 15);
+            }
+            function removehighlighting(d) {
+                var connectedlinks = link.filter(function (e) {
+                    if (e.source.id == d.id || e.target.id == d.id) { //connected links
+                        node.filter(function (k) {
+                            return k.id != d.id;
+                        }).style('stroke-opacity', 0.6);
+                        return d.id;
+                    }
+                })
+                    .style('stroke', function (d) {
+                        ////debugger;
                         if (isManagedClient) {
                             if (d.source.id == relationshipManager || d.target.id == relationshipManager) {
                                 return "#28AF73";
@@ -1960,7 +1873,7 @@
         }
 
         function DrawMatrixForceLayout2(div, conData, uniqueOrgList, activityList, isUserClick) {
-            debugger;
+            //debugger;
             if (isUserClick == undefined)
                 isUserClick = false;
 
@@ -2022,7 +1935,7 @@
                     }
                 }
             }
-            debugger;
+            //debugger;
             //Linking Activities with Related Contacts
             for (var i = 0; i < activityList.length; i++) {
                 for (var j = 0; j < conData.length; j++) {
@@ -2089,59 +2002,59 @@
                 posy1: 15,
                 img: "arup_/Images/Contact.png",
                 color: "#32325F",
-                    "label": "Contacts",
+                "label": "Contacts",
                 width: 10
-                },
-                {
-                    posx: 450,
-                    posy: 20,
-                    posx1: 445,
-                    posy1: 6,
-                    img: "arup_graphphonecall",
-                    color: "#1D8657",
-                    "label": "Phone Calls",
-                    width: 16
-                },
-                {
-                    posx: 590,
-                    posy: 20,
-                    posx1: 585,
-                    posy1: 6,
-                    img: "arup_graphtask",
-                    color: "#1D8657",
-                    "label": "Tasks",
-                    width: 16
-                },
-                {
-                    posx: 730,
-                    posy: 20,
-                    posx1: 725,
-                    posy1: 6,
-                    img: "arup_graphappointment",
-                    color: "#1D8657",
-                    "label": "Appointments",
-                    width: 16
-                },
-                {
-                    posx: 870,
-                    posy: 20,
-                    posx1: 865,
-                    posy1: 6,
-                    img: "arup_graphemail",
-                    color: "#1D8657",
-                    "label": "Emails",
-                    width: 16
-                },
-                {
-                    posx: 1010,
-                    posy: 20,
-                    posx1: 1005,
-                    posy1: 6,
-                    img: "arup_graphActivities",
-                    color: "#1D8657",
-                    "label": "Other Activities",
-                    width: 20
-                }
+            },
+            {
+                posx: 450,
+                posy: 20,
+                posx1: 445,
+                posy1: 6,
+                img: "arup_graphphonecall",
+                color: "#1D8657",
+                "label": "Phone Calls",
+                width: 16
+            },
+            {
+                posx: 590,
+                posy: 20,
+                posx1: 585,
+                posy1: 6,
+                img: "arup_graphtask",
+                color: "#1D8657",
+                "label": "Tasks",
+                width: 16
+            },
+            {
+                posx: 730,
+                posy: 20,
+                posx1: 725,
+                posy1: 6,
+                img: "arup_graphappointment",
+                color: "#1D8657",
+                "label": "Appointments",
+                width: 16
+            },
+            {
+                posx: 870,
+                posy: 20,
+                posx1: 865,
+                posy1: 6,
+                img: "arup_graphemail",
+                color: "#1D8657",
+                "label": "Emails",
+                width: 16
+            },
+            {
+                posx: 1010,
+                posy: 20,
+                posx1: 1005,
+                posy1: 6,
+                img: "arup_graphActivities",
+                color: "#1D8657",
+                "label": "Other Activities",
+                width: 20
+            }
 
             ];
 
@@ -2286,7 +2199,7 @@
                     else { return 0; }
                 }))
                 .style('stroke', function (d) {
-                    //debugger;
+                    ////debugger;
                     if (isManagedClient) {
                         if (d.source == relationshipManager || d.target == relationshipManager) {
                             return "#28AF73";
@@ -2554,7 +2467,7 @@
                     }
                 })
                     .style('stroke', function (d) {
-                        //debugger;
+                        ////debugger;
                         if (isManagedClient) {
                             if (d.source.id == relationshipManager || d.target.id == relationshipManager) {
                                 return "#28AF73";
@@ -2753,7 +2666,7 @@
 
             if (connections.length > 0) {
                 for (var i = 0; i < connections.length; i++) {
-                    //debugger;
+                    ////debugger;
                     var connection = connections[i];
                     var contact = connection.attributes.Contact != undefined ? connection.attributes.Contact.name : "";
                     var contactid = connection.attributes.Contact != undefined ? connection.attributes.Contact.id : "";
@@ -2938,7 +2851,7 @@
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
-            //debugger;
+            ////debugger;
             var connections = XrmServiceToolkit.Soap.Fetch(fetchXML);
             var contacts = XrmServiceToolkit.Soap.Fetch(fetchXMLCon);
             var connectionLst = [];
@@ -2947,7 +2860,7 @@
 
             if (connections.length > 0) {
                 for (var i = 0; i < connections.length; i++) {
-                    //debugger;
+                    ////debugger;
                     var connection = connections[i];
                     var orgTownCity = connection.attributes.orgtowncity != undefined ? connection.attributes.orgtowncity.value : "";
                     var orgDepartment = connection.attributes.orgdepartment != undefined ? connection.attributes.orgdepartment.value : "";
@@ -3666,11 +3579,12 @@
                 "</link-entity>" +
                 "</entity>" +
                 "</fetch>";
-            debugger;
+            //debugger;
             fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
             var contactList = [];
             var organizationList = [];
             var organizations = [];
+            initialContactList = [];
             Xrm.WebApi.retrieveMultipleRecords('contact', fetchXML
             ).then(function success(result) {
                 for (var i = 0; i < result.entities.length; i++) {
@@ -3715,7 +3629,7 @@
             //var contactList = [];
             //if (userRecords.length > 0) {
             //    for (var i = 0; i < userRecords.length; i++) {
-            //        //debugger;
+            //        ////debugger;
             //        var contactid = userRecords[i].attributes.contactid.value;
             //        var fullname = userRecords[i].attributes.fullname != undefined ? userRecords[i].attributes.fullname.value : "";
             //        var parentcustomerid = userRecords[i].attributes.parentcustomerid != undefined ? userRecords[i].attributes.parentcustomerid.value : "";
@@ -3731,9 +3645,9 @@
         }
 
         function DrawMatrixForceLayoutActivities(div, conData, ShowMarketingList, ShowActivities) {
-            debugger;
-            if (isActivitiesChecked == 1)
-                return;
+            //debugger;
+            //if (isActivitiesChecked == 1)
+                //return;
             var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
                 "<entity name='activitypointer'>" +
                 "<attribute name='subject' />" +
@@ -3759,7 +3673,7 @@
                     var subject = result.entities[i]["subject"] != undefined ? result.entities[i]["subject"] : "";
                     var parentcustomerid = result.entities[i]["ParentContact.contactid"] != undefined ? result.entities[i]["ParentContact.contactid"] : "";
                     var actvititytypecode = result.entities[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] != undefined ? result.entities[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] : "";
-                    var activity = { activityid: activityid, subject: subject, parentcustomerid: parentcustomerid, actvititytypecode: actvititytypecode};
+                    var activity = { activityid: activityid, subject: subject, parentcustomerid: parentcustomerid, actvititytypecode: actvititytypecode };
                     activityList.push(activity);
                 }
 
@@ -3934,7 +3848,7 @@
 
             if (connections.length > 0) {
                 for (var i = 0; i < connections.length; i++) {
-                    //debugger;
+                    ////debugger;
                     var connection = connections[i];
                     var Opportunityid = connection.attributes.opptyid != undefined ? connection.attributes.opptyid.value : "";
                     var OpportunityName = connection.attributes.opptyname != undefined ? connection.attributes.opptyname.value : "";
@@ -5018,196 +4932,49 @@
 
         }
         function InitializeHomeButtonClick() {
+        }
             ////
-            $('#homeButton').on('click', function () {
-                $('#chkContacts').prop('checked', false);
+        function  onclickHomeButton() {
+            //debugger;
+            $('#chkContacts').prop('checked', false);
                 $('#chkActivities').prop('checked', false);
                 $('#chkActivities').prop('disabled', true);
                 initialContactList = '';
-                initialOrgList='';
+                initialOrgList = '';
                 window.location.reload();
-            });
+            }
 
-            $("#chkContacts").change(function () {
-                debugger;
+         function oncheckContacts() {
+                //debugger;
                 //if (ConnectionContactData != "") {
                 var chkAct = $("#chkContacts").is(':checked') ? true : false;
                 InititializeGraphDivs();
-                InitializeHomeButtonClick();
-                if (this.checked) {
+                //InitializeHomeButtonClick();
+             if (chkAct) {
                     DrawMatrixForceLayoutContacts("#connectionMatrix", ConnectionContactData, true, chkAct);
-                    //$('#chkActivities').prop('checked', false);
+                    $('#chkActivities').prop('checked', false);
                     $('#chkActivities').prop('disabled', false);
                 }
-                else {
-                    DrawMatrixForceLayoutContacts("#connectionMatrix", ConnectionContactData, false, chkAct);
+             else {
+                 OnLoad();
+                 $('#chkActivities').prop('checked', false);
+                 $('#chkActivities').prop('disabled', true);
                 }
                 //}
-            });
+            }
 
-            $("#chkActivities").change(function () {
-                debugger;
+            function oncheckActivities() {
+                //debugger;
                 InititializeGraphDivs();
-                InitializeHomeButtonClick();
+                //InitializeHomeButtonClick();
                 var chkAct = $("#chkActivities").is(':checked') ? true : false;
-                if (this.checked) {
+                if (chkAct) {
                     DrawMatrixForceLayoutActivities("#connectionMatrix", ConnectionContactData, true, chkAct);
                 }
                 else {
-                    DrawMatrixForceLayoutActivities("#connectionMatrix", ConnectionContactData, false, chkAct);
-                }
-
-            });
-
-
-            ////
-
-            $('#print').on('click', function () {
-                debugger;
-
-
-                var title = "Connection Matrix";
-                var mywindow = window.open('', 'PRINT', "width=1200%,height=800px");
-                mywindow.document.write('<html><head><title>' + title + '</title>');
-                mywindow.document.write("</head><body style='background:none !important; margin-left:-0px;font-size:6pt !important' >");
-
-                var htmlcontent = document.getElementById("connectionMatrix").innerHTML;
-                mywindow.document.write(htmlcontent);
-                mywindow.document.write('</body></html>');
-                // mywindow.focus();
-
-                // myWindow.resizeBy(-300, -300);
-                mywindow.document.close(); // necessary for IE >= 10
-                mywindow.focus(); // necessary for IE >= 10*/
-                mywindow.print();
-                mywindow.close();
-                return true;
-            });
-
-            var angle = 0;
-            //$('#ButtonRotate').on('click', function () {
-            //    angle += 90;
-            //    debugger;
-            //    $("#connForcelay").animate({
-            //        transform: "r" + angle + ",400,250"
-            //    }, 500);
-
-            //});
-
-        }
-        $("#chkMarketingList").change(function () {
-            if (ConnectionContactData != "") {
-                var chkAct = $("#chkContactActivities").is(':checked') ? true : false;
-                InititializeGraphDivs();
-                InitializeHomeButtonClick();
-                if (this.checked) {
                     DrawMatrixForceLayoutContacts("#connectionMatrix", ConnectionContactData, true, chkAct);
                 }
-                else {
-                    DrawMatrixForceLayoutContacts("#connectionMatrix", ConnectionContactData, false, chkAct);
-                }
             }
-        });
-
-        $("#chkShowAllConnectionsforUser").change(function () {
-            InititializeGraphDivs();
-            InitializeHomeButtonClick();
-            if (this.checked) {
-                PopulateConnectionForuser(currentselectedUserid, false);
-            }
-            else {
-                PopulateConnectionForuser(currentselectedUserid);
-            }
-
-        });
-        $("#chkContactActivities").change(function () {
-            if (ConnectionContactData != "") {
-                var chkAct = $("#chkMarketingList").is(':checked') ? true : false;
-                InititializeGraphDivs();
-                InitializeHomeButtonClick();
-                if (this.checked) {
-                    DrawMatrixForceLayoutContacts("#connectionMatrix", ConnectionContactData, chkAct, true);
-                }
-                else {
-                    DrawMatrixForceLayoutContacts("#connectionMatrix", ConnectionContactData, chkAct, false);
-                }
-            }
-        });
-        $("input[name='opportunitystatus']").change(function () {
-            var selection = $(this).val();
-            var chkShowBidTeam = $("#chkShowBidTeam").is(':checked') ? true : false;
-            var chkShowInternal = $("#chkShowInternal").is(':checked') ? true : false;
-            OpportunityMatrix(currentorgid, currentorgname, currentOpportunityid, chkShowBidTeam, selection, chkShowInternal);
-        });
-        $("input[name='RadOrg']").change(function () {
-            var selection = $(this).val();
-            if (selection == "O") {
-                $('#chkDecisonMaker').prop('checked', false);
-                //$('#chkInfluencer').prop('checked', false);
-                //$('#chkEmployee').prop('checked', false);
-                //$('#chkOthers').prop('checked', false);
-
-                //  PopulateOpportunities();
-                currentorgid = "";
-                currentorgname = "";
-                currentOpportunityid = "";
-                OpportunityMatrix();
-                $('#chkDecisonMaker').prop('disabled', true);
-                $('input[name="opportunitystatus"]').prop('disabled', false);
-                $('#chkShowBidTeam').prop('disabled', false);
-                $('#chkShowInternal').prop('disabled', false);
-                $("input[name=opportunitystatus]").prop("checked", false);
-                //$('#chkInfluencer').prop('disabled', true);
-                //$('#chkEmployee').prop('disabled', true);
-                //$('#chkOthers').prop('disabled', true);
-            }
-            else {
-                // $('#chkDecisonMaker').prop('checked', true);
-                //$('#chkInfluencer').prop('checked', true);
-                //$('#chkEmployee').prop('checked', true);
-                //$('#chkOthers').prop('checked', true);
-                $('#chkShowBidTeam').prop('checked', false);
-                $('#chkShowBidTeam').prop('disabled', true);
-                $('#chkShowInternal').prop('checked', false);
-                $('#chkShowInternal').prop('disabled', true);
-                $('input[name="opportunitystatus"]').prop('disabled', true);
-                PopulateConnection(true, true, true, true, true);
-                $('#chkDecisonMaker').prop('disabled', false);
-                //$('#chkInfluencer').prop('disabled', false);
-                //$('#chkEmployee').prop('disabled', false);
-                //$('#chkOthers').prop('disabled', false);
-            }
-        });
-        $("#chkDecisonMaker").change(function () {
-            if (this.checked) {
-                PopulateConnection(true, false, false, false, false);
-            }
-            else {
-                PopulateConnection(true, true, true, true, true);
-            }
-        });
-        $("#chkShowBidTeam").change(function () {
-            var statusvalue = $("input[name='opportunitystatus']:checked").val();
-            var chkShowInternal = $("#chkShowInternal").is(':checked') ? true : false;
-            if (this.checked) {
-                OpportunityMatrix(currentorgid, currentorgname, currentOpportunityid, true, statusvalue, chkShowInternal);
-            }
-            else {
-                OpportunityMatrix(currentorgid, currentorgname, currentOpportunityid, false, statusvalue, chkShowInternal);
-            }
-        });
-
-        $("#chkShowInternal").change(function () {
-            var statusvalue = $("input[name='opportunitystatus']:checked").val();
-            var showbidteams = $("#chkShowBidTeam").is(':checked') ? true : false;
-            if (this.checked) {
-                OpportunityMatrix(currentorgid, currentorgname, currentOpportunityid, showbidteams, statusvalue, "1");
-            }
-            else {
-                OpportunityMatrix(currentorgid, currentorgname, currentOpportunityid, showbidteams, statusvalue, "");
-            }
-        });
-
     </script>
 </body>
 </html>

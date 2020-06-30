@@ -26,48 +26,68 @@ function getDataParam() {
 function RunReportClick() {
     $('#dataTable').html('');
     getDataParam();
-    GetResultData();
+    var clientUrl = decodeURIComponent(oppObj.clientURL);
+    GetResultData(clientUrl);
 }
 
 function getFilter() {
-    var filterStr = '&$filter=StateCode/Value eq 0'; // open opp
+    var filterStr = "&$filter=statecode eq 0";//'&$filter=StateCode/Value eq 0'; // open opp
     if (oppObj != null) {
         if (oppObj.id != null) {
-            filterStr += " and OpportunityId ne (guid'" + oppObj.id + "')";
+            filterStr += " and opportunityid ne '" + oppObj.id.replace("%7b", "").replace("%7d", "") + "'";//" and OpportunityId ne (guid'" + oppObj.id + "')";
         }
         if ($('#business').val() == 'yes') {
             if (oppObj.business != null) {
-                filterStr += " and ccrm_arupbusinessid/Id eq (guid'" + oppObj.business + "')";
+                filterStr += " and  _ccrm_arupbusinessid_value eq '" + oppObj.business.replace("%7b", "").replace("%7d", "") + "'";
             }
         }
 
         if ($('#disciplines').val()) {
             if ($('#disciplines').val() != 'No')
-                filterStr += " and substringof('" + $('#disciplines').val() + "',Ccrm_DisciplinesName)";
+                filterStr += " and contains(ccrm_disciplinesname, '" + $('#disciplines').val() + "')";//" and substringof('" + $('#disciplines').val() + "',Ccrm_DisciplinesName)";
         }
 
         if ($('#scope').val()) {
             if ($('#scope').val() == 'country') {
-                filterStr += " and ccrm_projectlocationid/Id eq (guid'" + oppObj.projcountry + "')";
+                filterStr += " and  _ccrm_projectlocationid_value eq '" + oppObj.projcountry + "'";
             }
         }
     }
     return filterStr;
 }
 
-function GetResultData() {
-    var serverUrl;
-    serverUrl = Xrm.Page.context.getClientUrl();
-    var ODataPath = serverUrl + "/XRMServices/2011/OrganizationData.svc";
-    var queryUrl = ODataPath + "/OpportunitySet?$select=Ccrm_DisciplinesName,Ccrm_estimatedvalue_num,ccrm_project_transactioncurrencyid,OpportunityId,Name,ccrm_bidmanager_userid,CustomerId,ccrm_arupbusinessid,Ccrm_EstArupInvolvementStart" + getFilter();
+function GetResultData(clientUrl) {
+    //var serverUrl;
+    //serverUrl = formContext.context.getClientUrl();
+    //var ODataPath = serverUrl + "/XRMServices/2011/OrganizationData.svc";
+    //var queryUrl = ODataPath + "/OpportunitySet?$select=Ccrm_DisciplinesName,Ccrm_estimatedvalue_num,ccrm_project_transactioncurrencyid,OpportunityId,Name,ccrm_bidmanager_userid,CustomerId,ccrm_arupbusinessid,Ccrm_EstArupInvolvementStart" + getFilter();
 
     // call our new method
-    var retrievedBids = getODataRecords(queryUrl);
-
+    var retrievedBids;// = getODataRecords(queryUrl);
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        datatype: "json",
+        url: clientUrl + "/api/data/v9.1/opportunities?$select=_ccrm_arupbusinessid_value,_ccrm_bidmanager_userid_value,ccrm_bidreview,ccrm_disciplinesname,ccrm_estarupinvolvementstart,ccrm_estimatedvalue_num,_ccrm_project_transactioncurrencyid_value,_customerid_value,name,opportunityid" + getFilter(),
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+            XMLHttpRequest.setRequestHeader("Accept", "application/json");
+            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+        },
+        async: false,
+        success: function (data, textStatus, xhr) {
+            var results = data;
+            retrievedBids = data.value;
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+        }
+    });
     var noResult = false;
     if (retrievedBids != null) {
-        if (retrievedBids.results.length > 0) {
-            renderData(retrievedBids.results);
+        if (retrievedBids.length > 0) {
+            renderData(clientUrl, retrievedBids);
         }
         else
             noResult = true;
@@ -87,7 +107,7 @@ function GetResultData() {
 
 }
 
-function renderData(json) {
+function renderData(clientUrl,json) {
 
     var tr, th;
 
@@ -102,69 +122,23 @@ function renderData(json) {
     th.append("<td class='header'>Project Currency</td>");
     $('#dataTable').append(th);
     var dateValue;
-    var oppUrl = Xrm.Page.context.getClientUrl() + "/main.aspx?etn=opportunity&pagetype=entityrecord&id=";
-    var accUrl = Xrm.Page.context.getClientUrl() + "/main.aspx?etn=account&pagetype=entityrecord&id=";
+    var oppUrl = clientUrl + "/main.aspx?etn=opportunity&pagetype=entityrecord&id=";
+    var accUrl = clientUrl + "/main.aspx?etn=account&pagetype=entityrecord&id=";
     for (var i = 0; i < json.length; i++) {
         tr = $('<tr />');
         tr.append("<td class='row'>" + (i + 1) + "</td>");
-        tr.append("<td class='row'>" + json[i].ccrm_bidmanager_userid.Name + "</td>");
-        tr.append("<td class='row'><a target='blank' href='" + oppUrl + json[i].OpportunityId + "'>" + json[i].Name + "</a></td>");
-        tr.append("<td class='row'><a target='blank' href='" + accUrl + json[i].CustomerId.Id + "'>" + json[i].CustomerId.Name + "</a></td>");
-        tr.append("<td class='row'>" + json[i].ccrm_arupbusinessid.Name + "</td>");
-        if (json[i].Ccrm_EstArupInvolvementStart) {
-            dateValue = new Date(parseInt(json[i].Ccrm_EstArupInvolvementStart.replace("/Date(", "").replace(")/", ""), 10)).format('dd/MM/yyyy');
+        tr.append("<td class='row'>" + json[i]["_ccrm_bidmanager_userid_value@OData.Community.Display.V1.FormattedValue"] + "</td>");
+        tr.append("<td class='row'><a target='blank' href='" + oppUrl + json[i]["opportunityid"] + "'>" + json[i]["name"] + "</a></td>");
+        tr.append("<td class='row'><a target='blank' href='" + accUrl + json[i]["_customerid_value"] + "'>" + json[i]["_customerid_value@OData.Community.Display.V1.FormattedValue"] + "</a></td>");
+        tr.append("<td class='row'>" + json[i]["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"] + "</td>");
+        if (json[i]["ccrm_estarupinvolvementstart"]) {
+            dateValue = json[i]["ccrm_estarupinvolvementstart@OData.Community.Display.V1.FormattedValue"];//new Date(parseInt(json[i]["ccrm_estarupinvolvementstart"].replace("/Date(", "").replace(")/", ""), 10)).format('dd/MM/yyyy');
         }
         else
             dateValue = '';
         tr.append("<td class='row'>" + dateValue + "</td>");
-        tr.append("<td class='row'>" + json[i].Ccrm_estimatedvalue_num + "</td>");
-        tr.append("<td class='row'>" + json[i].ccrm_project_transactioncurrencyid.Name + "</td>");
+        tr.append("<td class='row'>" + json[i]["ccrm_estimatedvalue_num@OData.Community.Display.V1.FormattedValue"] + "</td>");
+        tr.append("<td class='row'>" + json[i]["_ccrm_project_transactioncurrencyid_value@OData.Community.Display.V1.FormattedValue"] + "</td>");
         $('#dataTable').append(tr);
-
-
     }
-}
-
-function getODataRecords(ODataUrl) {
-    var resultLimit = 990;
-    //  return an object with a similar structure as the OData endpoint
-    var allRecords = new Object();
-    allRecords.results = new Array();
-
-    //  loop until we have an url to query
-    var queryUrl = ODataUrl;
-    while (queryUrl != null) {
-
-        //  build the request
-        var ODataRequest = new XMLHttpRequest();
-        ODataRequest.open("GET", queryUrl, false); // false = synchronous request
-        ODataRequest.setRequestHeader("Accept", "application/json");
-        ODataRequest.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-        ODataRequest.send();
-
-        if (ODataRequest.status === 200) {
-            var parsedResults = JSON.parse(ODataRequest.responseText).d;
-            if (parsedResults != null && parsedResults.results != null) {
-
-                console.log(parsedResults.results.length);
-                //  add the results to our object
-                for (var i = 0; i < parsedResults.results.length; i++) {
-                    allRecords.results.push(parsedResults.results[i]);
-                }
-
-                // check if there are more records and set the new url, otherwise  set to null the url
-                if (parsedResults.__next != null && allRecords.results.length < resultLimit) {
-                    queryUrl = parsedResults.__next;
-                }
-                else {
-                    queryUrl = null;
-                }
-            }
-        } else {
-            // if the request has errors  stop and return a null result
-            queryUrl = null;
-            allRecords = null;
-        }
-    }
-    return allRecords;
 }
