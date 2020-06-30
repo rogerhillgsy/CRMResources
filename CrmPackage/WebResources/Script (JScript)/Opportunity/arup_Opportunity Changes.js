@@ -325,7 +325,7 @@ function BidConfirmationMessage(formContext, bidDecisionChair) {
 }
 
 function setupArupInternal(executionContext) {
-    var formContext = executionContext.getFormContext(); 
+    var formContext = executionContext.getFormContext();
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     showSDGFields(formContext, arupInternal);
     if (!arupInternal) { return; }
@@ -524,13 +524,21 @@ function retreiveOrganisationChecks(executionContext) {
                         var result = JSON.parse(this.response);
 
                         var arup_creditcheck = result["arup_creditcheck"];
-                        formContext.getAttribute("arup_creditcheck").setValue(arup_creditcheck);
-
+                        var arup_creditValue = result["arup_creditcheck@OData.Community.Display.V1.FormattedValue"];
+                        if (arup_creditValue != null) {
+                            formContext.getAttribute("arup_creditcheck").setValue(arup_creditcheck);
+                        } else {
+                            formContext.getAttribute("arup_creditcheck").setValue(null);
+                        }
+                            
                         var arup_duediligencecheck = result["arup_duediligencecheck"];
                         if (arup_duediligencecheck != null) { // If Sanctions is null on Client
                             formContext.getAttribute("arup_duediligencecheck").setValue(arup_duediligencecheck);
+                        } else {
+                            formContext.getAttribute("arup_duediligencecheck").setValue(null);
+                        }
 
-                        } else if (oppSanctionCheck != null && !clientDirty) { // If sanctions is null on Opportunity
+                        if (oppSanctionCheck != null && !clientDirty) { // If sanctions is null on Opportunity
                             formContext.getAttribute("arup_duediligencecheck").setValue(oppSanctionCheck);
                             formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
                         } else if (!clientDirty) { // If Client is not dirty //Top right coner in Design                                            
@@ -580,7 +588,7 @@ function checkOrganisationChecks(executionContext) {
             };
             req.send();
         }
-    }, 2000);
+    }, 5000);
 }
 
 function setOrganisationChecks(formContext, arup_duediligencecheck) {
@@ -612,14 +620,13 @@ function setOrganisationChecks(formContext, arup_duediligencecheck) {
 }
 
 function showSDGFields(formContext, arupInternal) {
-    debugger;
     if (arupInternal) {
         formContext.getControl("header_process_arup_keymarkets").setVisible(false);
         formContext.getControl("header_process_arup_sharedvalues").setVisible(false);
         formContext.getControl("header_process_arup_safeguardplanet").setVisible(false);
         formContext.getControl("header_process_arup_partnership").setVisible(false);
         formContext.getControl("header_process_arup_betterway").setVisible(false);
-        
+
         formContext.getControl("arup_keymarkets").setVisible(false);
         formContext.getControl("arup_sharedvalues").setVisible(false);
         formContext.getControl("arup_safeguardplanet").setVisible(false);

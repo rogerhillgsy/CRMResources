@@ -20,9 +20,9 @@ var ArupRegionName = {
     'Malaysia': 'Malaysia Region'
 };
 
-function formAction(formName, action) {
-    var currentForm = Xrm.Page.ui.formSelector.getCurrentItem();
-    var availableForms = Xrm.Page.ui.formSelector.items.get();
+function formAction(formName, action, formContext) {
+    var currentForm = formContext.ui.formSelector.getCurrentItem();
+    var availableForms = formContext.ui.formSelector.items.get();
     if (currentForm.getLabel().toLowerCase() != formName.toLowerCase()) {
         for (var i in availableForms) {
             var form = availableForms[i];
@@ -48,9 +48,9 @@ function Form_onload(executionContext) {
 
     if (!globalDQTeam) {
         if (formName == "Data Quality Form") {
-            formAction("Organisation", "change");
+            formAction("Organisation", "change", formContext);
         }
-        formAction("Data Quality Form", "hide");
+        formAction("Data Quality Form", "hide", formContext);
     } else if (globalDQTeam && formName == "Data Quality Form") {
         return;
     }
@@ -434,31 +434,6 @@ function interfaceErrorBanner(errorType, errorRetries, errorMsg) {
     SetNotificationAlert("CRITICAL", errorType + " | Number of retries: " + errorRetries);
 }
 
-function setSharePointParameters() {
-    //function to set default sharepoint patameters - 1 for create
-    Xrm.Page.getAttribute("ccrm_sys_sharepoint_status").setValue(1);
-    Xrm.Page.getAttribute("ccrm_sys_sharepoint_trigger").setValue(true);
-    //force submit
-    Xrm.Page.getAttribute("ccrm_sys_sharepoint_status").setSubmitMode("always");
-    Xrm.Page.getAttribute("ccrm_sys_sharepoint_trigger").setSubmitMode("always");
-}
-
-function fnSharePoint() {
-    //show sharepoint tab when url is defined
-    if (Xrm.Page.getAttribute("ccrm_sys_sharepoint_url").getValue() != null) {
-        //show tab
-        Xrm.Page.ui.tabs.get("tab_Documents").setVisible(true);
-
-        //display the iframe redirect to sharepoint url
-        var sharepointUrl = Xrm.Page.getAttribute("ccrm_sys_sharepoint_url").getValue();
-        Xrm.Page.getControl("IFRAME_SharePointURL").setSrc(sharepointUrl);
-    }
-    else {
-        //hide tab
-        Xrm.Page.ui.tabs.get("tab_Documents").setVisible(false);
-    }
-}
-
 //create sharepoint button
 function fnBtnCreateSharePoint(primaryControl) {
     var formContext = primaryControl;
@@ -526,6 +501,8 @@ function setCGFields(formContext) {
         setTimeout(function () { formContext.ui.clearFormNotification("DQLOCKED"); }, 15000);
     }
 }
+// CODE CAN BE REMOVED as the function was used in old Organisation form (on save) -- 30/06/2020
+/*
 
 //Date - 04/04/2016 
 //Below function will be executed on save event whenever status changed. 
@@ -576,7 +553,7 @@ function checkParentClientGrouping(parentFieldName) {
             cgExists = result["_ccrm_clientgroupings_value@OData.Community.Display.V1.FormattedValue"] != null;
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -672,6 +649,7 @@ function setLookupNull(fieldName) {
         lookupObject.setValue(null);
     }
 }
+*/
 
 function arup_expressedconsent_onChange(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -1185,7 +1163,7 @@ function GetCurrentUserDetails(formContext) {
                 var result = JSON.parse(this.response);
                 userRegion = result["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -1284,12 +1262,11 @@ function relationshipTeamOnChange(executionContext) {
 }
 
 function retreiveTeamDetails(formContext) {
-    debugger;
     var relationshipTeam = formContext.getAttribute("ccrm_managingteamid").getValue();
     if (relationshipTeam != null) {
         var relTeamId = relationshipTeam[0].id.replace('{', '').replace('}', '');
         var req = new XMLHttpRequest();
-        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/teams(" + relTeamId + ")?$select=ccrm_arup150,_ccrm_arupsponsor_value,ccrm_clientoverview,ccrm_clientprioritisation,_ccrm_relationshipmanager_value,ccrm_relationshiptype", true);
+        req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/teams(" + relTeamId + ")?$select=ccrm_arup150,_ccrm_arupsponsor_value,ccrm_clientoverview,ccrm_clientprioritisation,_ccrm_relationshipmanager_value,ccrm_relationshiptype", true);
         req.setRequestHeader("OData-MaxVersion", "4.0");
         req.setRequestHeader("OData-Version", "4.0");
         req.setRequestHeader("Accept", "application/json");
@@ -1373,7 +1350,7 @@ function retreiveTeamDetails(formContext) {
                         formContext.getAttribute("ccrm_arupboardsponsor").setValue(null);
                     }
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
