@@ -191,7 +191,7 @@ function setTabVisibilityByList(formContext, include, exclude) {
     }
 }
 
-// Ensure that whent he lead client organisation attribute is set update dependent fields.
+// Ensure that when the lead client organisation attribute is set we update dependent fields.
 function EnsureClientValuesSet(formContext) {
     return new Promise(function(resolve, reject) {
             var targetField = formContext.getAttribute("ccrm_leadclientorganisation");
@@ -331,36 +331,20 @@ function AddTeamMember(formContext, user, team) {
 // runs on Exit button in ribbon
 function exitForm(primaryControl) {
     var formContext = primaryControl;
-    //see if the form is dirty
-    var ismodified = formContext.data.entity.getIsDirty();
-    if (ismodified == false) {
-        formContext.ui.close();
-        return;
-    }
+    if (closeIfUnmodifiedOrInactive(formContext)) return;
 
     Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
         '<font size="3" color="#000000"></br>Some fields on the form have been changed.</br>Click "Save and Exit" button to save your changes and exit.</br>Click "Exit Only" button to exit without saving.</font>',
         [
             {
                 label: "<b>Save and Exit</b>",
-                callback: closeForm,
+                callback: saveAndCloseForm(formContext),
                 setFocus: true,
                 preventClose: false
             },
             {
                 label: "<b>Exit Only</b>",
-                callback: function () {
-                    //get list of dirty fields
-                    var acctAttributes = formContext.data.entity.attributes.get();
-                    if (acctAttributes != null) {
-                        for (var i in acctAttributes) {
-                            if (acctAttributes[i].getIsDirty()) {
-                                formContext.getAttribute(acctAttributes[i].getName()).setSubmitMode("never");
-                            }
-                        }
-                        closeForm();
-                    }
-                },
+                callback: closeForm(formContext),
                 setFocus: false,
                 preventClose: false
             }
@@ -368,15 +352,52 @@ function exitForm(primaryControl) {
         'Warning', 600, 250, '', true);
 }
 
-function closeForm() {
-    var pageInput = { pageType: "entitylist", entityName: "team" };
-    Xrm.Navigation.navigateTo(pageInput).catch(function() {
-        throw new Error("Unable to navigate back to team list");
-    });
-    formContext.getAttribute("ccrm_clienttype").setValue(ccrm_clienttype);
-    formContext.getAttribute("ccrm_client_sustainability").setValue(clientsector);
-    LockFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"]);
-    hideFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"], true);
-    if (formContext.data.getIsDirty())
-        formContext.data.save();
+function closeIfUnmodifiedOrInactive(formContext) {
+    //see if the form is dirty
+    var ismodified = formContext.data.entity.getIsDirty();
+    if (ismodified == false) {
+        formContext.ui.close();
+        return true;
+    } else {
+        var formType = formContext.ui.getFormType();
+        if (ismodified == true && (formType === 3 || formType === 4)) {  // Readonly or disabled
+            closeForm(formContext);
+         
+            return true;
+        }
+    }
+    return false;
+}
+
+function saveAndCloseForm(formContext) {
+    return function() {
+        formContext.data.save("saveandclose")
+            .then(function(e) {
+                teamLog("Saved form...");
+                Xrm.Navigation.navigateTo({
+                    pageType: "entitylist",
+                    entityName: "team"
+                });
+            })
+            .catch(
+                function error(e) {
+                    teamError("Failed to save and close form " + e.message);
+                    debugger;
+                });
+    }
+}
+
+function closeForm(formContext) {
+    return function() {
+        new Promise(function(resolve) {
+                formContext.data.entity.attributes.forEach(function(a) {
+                    if (a.getIsDirty()) {
+                        a.setSubmitMode("never");
+                    }
+                });
+                setTimeout(resolve, 1000);
+            })
+            .then(function() { formContext.ui.close() })
+            .catch(function(e) { teamError("Error closing form :" + e.message) });
+    }
 }
