@@ -443,7 +443,7 @@ function OnChangeToDirtyField(a) {
 }
 
 function FormOnload(executionContext) {
-    debugger;
+   
     var formContext = executionContext.getFormContext();
     if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
         if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
@@ -745,7 +745,7 @@ function opportunityType_onChange(executionContext, trigger) {
 }
 
 function addEventToProjPartGrid(formContext) {
-    debugger;
+  
     var stageID = formContext.data.process.getActiveStage().getId();
 
     if (stageID != ArupStages.ConfirmJobApproval && stageID != ArupStages.ConfirmJobApproval1 && stageID != ArupStages.ConfirmJobApproval2 && stageID != ArupStages.ConfirmJobApproval3) return;
@@ -1599,7 +1599,7 @@ function EAAccreditaionLevRequired(formContext) {
 }
 
 function FormOnSave(executionContext) {
-    debugger;
+ 
     formContext = executionContext.getFormContext();
 
     var preventSave = false;
@@ -2199,7 +2199,7 @@ function ccrm_opportunitytype_onchange_ec(executionContext) {
 }
 // Set Valid Opp Track Code --  Starts
 function ccrm_opportunitytype_onchange(formContext) {
-    debugger;
+  
     //refresh ribbon when track is small oppo
     formContext.ui.refreshRibbon();
     oppoType(formContext);
@@ -2552,7 +2552,7 @@ function SetValidField(formContext, fieldName, val, warningMsg, warMsgName) {
 // Common Methods - Ends 
 
 function PreStageChange(executionContext) {
-    debugger;
+   
     var eventArgs = executionContext.getEventArgs();
     if (eventArgs.getDirection() == "Previous") {
         var formContext = executionContext.getFormContext();
@@ -2560,16 +2560,16 @@ function PreStageChange(executionContext) {
         if (eventArgs.getStage().getName() == "DEVELOPING BID")
             setRequiredLevelOfFields(formContext, "none", "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission", "ccrm_estexpenseincome_num", "ccrm_projecttotalincome_num", "ccrm_estprojectresourcecosts_num", "ccrm_estprojectstaffoverheadsrate", "arup_expenses_num", "ccrm_chargingbasis", "ccrm_pilevelmoney_num", "ccrm_limitofliabilityagreement", "ccrm_limitamount_num");
 
-        if (!formContext.data.isValid()) {
-            eventArgs.preventDefault();
-            formContext.ui.setFormNotification("Please fill in all mandatory fields required for " + eventArgs.getStage().getName() + " stage before moving back to previous stage", "WARNING", "reqFieldsStageChangeWarnMsg-mandfields");
-            setTimeout(function () { formContext.ui.clearFormNotification("reqFieldsStageChangeWarnMsg-mandfields"); }, 10000);
-        }
+        //if (!formContext.data.isValid()) {
+        //    eventArgs.preventDefault();
+        //    formContext.ui.setFormNotification("Please fill in all mandatory fields required for " + eventArgs.getStage().getName() + " stage before moving back to previous stage", "WARNING", "reqFieldsStageChangeWarnMsg-mandfields");
+        //    setTimeout(function () { formContext.ui.clearFormNotification("reqFieldsStageChangeWarnMsg-mandfields"); }, 10000);
+        //}
     }
 }
 
 function StageSelected(formContext) {
-    debugger;
+
     //var formContext = executionContext.getFormContext();
     // var eventAgrs = executionContext.getEventArgs();
     // var selectedStage = eventAgrs.getStage();
@@ -2652,6 +2652,17 @@ function ccrm_bidreviewoutcome_onChange(formContext) {
     }, 1000);
 }
 
+function VerifyProjectProcurement(formContext) {
+    if (formContext.getAttribute('arup_opportunitytype').getValue() == '770000001' && formContext.getAttribute('ccrm_contractarrangement').getValue() == null) {
+        if (formContext.getControl('ccrm_contractarrangement').getDisabled())
+            formContext.getControl('ccrm_contractarrangement').setDisabled(false);
+
+            formContext.ui.setFormNotification("The parent opportunity does not contain a project procurement. Please update project procurement on this opportunity.", "WARNING", "ProjectProcurementonParentOptyWarnMsg");
+            setTimeout(function () { formContext.ui.clearFormNotification("ProjectProcurementonParentOptyWarnMsg"); }, 10000);
+
+            
+    }
+}
 
 //function highlightField(headerfield, formfield, clear) {
 //    var bgcolor = 'rgba(255, 179, 179, 1)';
@@ -2667,7 +2678,7 @@ function ccrm_bidreviewoutcome_onChange(formContext) {
 
 //This function is called from Ribbon button 'Request Possible JOb' and crmparameter 'prmarycontrol' from the ribbon is the formContext
 function requestPossibleJob(formContext) {
-    debugger;
+ 
 
     //Shruti : to test set focus to required field-pre bid tab by setting focus to one of its field
     if (formContext.getControl("ccrm_client") != null || formContext.getControl("ccrm_client") != 'undefined')
@@ -2704,6 +2715,7 @@ function requestPossibleJob(formContext) {
 
     //Set below fields required to generate PJN
     setRequiredLevelOfFields(formContext, 'required', "ccrm_salarycost_num", "ccrm_grossexpenses_num", "ccrm_chargingbasis", "ccrm_bid_transactioncurrencyid", "ccrm_totalbidcost_num");
+    VerifyProjectProcurement(formContext);
 
     formContext.data.save().then(
         function success(status) {
@@ -3769,7 +3781,7 @@ function SetApproverID(formContext, approverIDs) {
 
 // Ribbon Approval Btn click events , formCOntext is primaryControl crmparamter passed from ribbon
 function ApprovalButtonClick(formContext, type, approvalType, statusField, userField, dateField) {
-    debugger;
+ 
     var ackMsg = ApprovalConfirmationMessage(approvalType);
     var alertType;
     if (IsFormValid(formContext)) {
@@ -4919,7 +4931,7 @@ function HideApprovalButtonForRiskChange(regionName) {
 }
 
 function stageNotifications(formContext) {
-    debugger;
+  
     setLookupFiltering(formContext); // appy filter to user fields
 
     var pjnrequested = false;
@@ -5839,7 +5851,7 @@ function ValidatePJNGrpLdr() {
 }
 //This function is called from Ribbon :ccrm.opportunity.SectorLeaderApproval.Command
 function CJNApprovalButtonClick(formContext, type, approvalType, statusField, userField, dateField) {
-    debugger;
+
     if (!IsFormValid(formContext)) { return };
 
     var ackMsg = ApprovalConfirmationMessage(approvalType);
@@ -6147,7 +6159,7 @@ function IsFormValidForCJN(formContext) {
 }
 
 function requestConfirmJob(formContext) {
-    debugger;
+ 
 
     if (IsFormValidForCJN(formContext)) {
         if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
@@ -6323,7 +6335,7 @@ function openNewCJNAForm(formContext, reserve) {
 
 //sync bid manager with project manager
 function Syncbidmanager_userid(executionContext) {
-    debugger;
+   
     formContext = executionContext.getFormContext();
     if (formContext.getAttribute("ccrm_bidmanager_userid").getValue() != null) {
         //Added by Jugal on 5-4-2018 for 47489
@@ -6397,7 +6409,7 @@ function Syncbiddirector_userid(executionContext) {
 }
 
 function ProvisionDWBidsSite(formContext) {
-    debugger;
+   
     if (formContext.getAttribute("arup_bidsiterequested").getValue() != true) {
         var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
 
@@ -6689,7 +6701,7 @@ function ReOpenOpportunityRequest(formContext) {
 
 //formContext is primaryCOntrol crmparamter
 function ReopenOpp(formContext) {
-    debugger;
+ 
     var overallStatus = formContext.getAttribute("statecode").getValue();
     if (overallStatus == 1) {
         Alert.show('<font face="Segoe UI Light" font size="6" color="0472C4">Information</font>',
@@ -6845,7 +6857,7 @@ function projectParticipantExists(formContext) {
 }
 
 function addProjectParticipant(primaryControl) {
-    debugger;
+   
     var formContext = primaryControl;
     if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
     var parameters = {}; //set null parameters as we there is no need to set any other field
@@ -6947,7 +6959,7 @@ function onChange_PJN(executionContext) {
 }
 
 function approveCallbackAction(formContext, approvalType) {
-    debugger;
+  
     var parameters = {};
     var approveruser = {};
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
@@ -7501,7 +7513,10 @@ function VerifyParentOpportunity(formContext) {
                         if (opportunitytype == '770000001') {
                             var projectProcurement = formContext.getAttribute("ccrm_contractarrangement").getValue();
                             if (isNaN(projectProcurement)) {
-                                formContext.getAttribute("ccrm_contractarrangement").setValue(result["ccrm_contractarrangement"])
+                                if (result["ccrm_contractarrangement"] == null || result["ccrm_contractarrangement"] == "undefined")
+                                    formContext.getAttribute("ccrm_contractarrangement").setValue(cachefields['ccrm_contractarrangement'])
+                                else
+                                    formContext.getAttribute("ccrm_contractarrangement").setValue(result["ccrm_contractarrangement"])
                             }
                         }
                         // var statecode_formatted = result["statecode@OData.Community.Display.V1.FormattedValue"];
