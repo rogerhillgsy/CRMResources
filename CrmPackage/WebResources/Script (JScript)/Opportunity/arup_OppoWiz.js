@@ -2473,7 +2473,23 @@ var Arup_validations =
         o.databind = true;
         return o;
     }(),  
-    description: new ArupFieldConfigTextRequired("Description", "description","description"),
+    createdby : function() {
+        var o = new ArupFieldConfig("CreatedBy", "createdby");
+        o.value = function() {
+            return "/systemusers(" + parent.Xrm.Page.context.getUserId().replace(/[{}]/g, '') + ")";
+        };
+        o.databind = true;
+        return o;
+    }(),
+    owner: function () {
+        var o = new ArupFieldConfig("Owner", "ownerid");
+        o.value = function () {
+            return "/systemusers(" + parent.Xrm.Page.context.getUserId().replace(/[{}]/g, '') + ")";
+        };
+        o.databind = true;
+        return o;
+    }(),
+        description: new ArupFieldConfigTextRequired("Description", "description","description"),
     text11: new ArupFieldConfigReadOnlyText("Supporting Text 1", "arup_procurementmessage","ta1-1"),
     text21: new ArupFieldConfigReadOnlyText("Supporting Text 2", "arup_supportingtext2", "ta2-1"),
     text12: new ArupFieldConfigReadOnlyText("Supporting Text 1", "arup_procurementmessage", "ta1-2"),
