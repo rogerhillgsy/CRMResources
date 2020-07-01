@@ -1,7 +1,6 @@
 // Phone call on save - ""arup_organisationid"", "arup_fieldofplayid"
 // Task on save - "ccrm_relatedorganisationid", "arup_fieldofplayid"
 function ShowHideFieldOfPlay(executionContext, organisationIdFieldName, fieldOfPlayFieldName) {
-    debugger;
     var formContext = executionContext.getFormContext();
     var orgId = formContext.getAttribute(organisationIdFieldName);
     if ( !!orgId && orgId.getValue() != null) {
@@ -16,8 +15,10 @@ function ShowHideFieldOfPlay(executionContext, organisationIdFieldName, fieldOfP
                         formContext.getAttribute(fieldOfPlayFieldName).setValue("");
                     }
             })
-        .catch( function error(e) {
-                    Xrm.Utility.alertDialog(e.message);
-                });
+            .catch(function error(e) {
+                var alertStrings = { confirmButtonLabel: "OK", text: e.message, title: "Alert" };
+                var alertOptions = { height: 120, width: 260 };
+                Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+            });
     }
 }
