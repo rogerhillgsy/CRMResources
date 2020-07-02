@@ -1204,7 +1204,8 @@ function OpenOverviewReport(primaryControl) {
 
 function OpenConnMatrixReport(primaryControl) {
     var formContext = primaryControl;
-    var accId, parentaccountid;
+    var accId, parentaccountid, clientURL;
+    clientURL = formContext.context.getClientUrl();
     if (formContext.data != null) {
         accId = formContext.data.entity.getId().replace('{', '').replace('}', '');
         parentaccountid = formContext.getAttribute("parentaccountid").getValue() != undefined ? formContext.getAttribute("parentaccountid").getValue()[0].id.replace('{', '').replace('}', '') : accId;
@@ -1214,7 +1215,7 @@ function OpenConnMatrixReport(primaryControl) {
         parentaccountid = accId;
     }
 
-    var customParameters = encodeURIComponent("accountID=" + accId + "&parentAccID=" + parentaccountid);
+    var customParameters = encodeURIComponent("accountID=" + accId + "&parentAccID=" + parentaccountid + "&clientURL=" + clientURL);
     var windowOptions = { openInNewWindow: true, height: 800, width: 1200 };
     var ua = window.navigator.userAgent;
     var msie = ua.indexOf("MSIE ");
