@@ -1,4 +1,4 @@
-/// <reference path="All Other Entities/arup_exitFormFunctions.js"/>"/>
+/// <reference path="arup_exitFormFunctions.js"/>"/>
 
 /**
  * @description Form onload event for Project Collaborator main form.

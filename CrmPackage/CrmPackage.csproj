@@ -1452,14 +1452,9 @@
       <UniqueName>new_ccrm_BidReview_Label</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\BidReview\Ccrm_bidreview_main_library.js">
-      <DisplayName>Ccrm_bidreview_main_library</DisplayName>
-      <UniqueName>new_Ccrm_bidreview_main_library</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\BidReview\ccrm_bidreview_main_library_2015.js">
-      <DisplayName>ccrm_bidreview_main_library_2015</DisplayName>
-      <UniqueName>new_ccrm_bidreview_main_library_2015</UniqueName>
+    <CRMWebResource Include="WebResources\Script (JScript)\BidReview\ccrm_bidreview_main_library_2015.js">
+      <DisplayName>Bidreview main library</DisplayName>
+      <UniqueName>ccrm_bidreview_main_library_2015.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Organisation\arup_CreditChecks.js">
