@@ -34,7 +34,7 @@
 						if (this.status === 204) {
 							window.close();
 						} else {
-							Xrm.Utility.alertDialog(this.statusText);
+                            Xrm.Navigation.openAlertDialog(this.statusText);
 						}
 					}
 				};
