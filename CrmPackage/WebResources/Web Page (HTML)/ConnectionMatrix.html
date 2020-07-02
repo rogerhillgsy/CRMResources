@@ -377,7 +377,7 @@
                 accId = parameters.split('&')[0].split('=')[1];
                 parentaccountid = parameters.split('&')[1].split('=')[1];
                 if (accId != parentaccountid) {
-                    var fetchXML = "<fetch>" +
+                    /*var fetchXML = "<fetch>" +
                                       "<entity name='account' >" +
                                         "<attribute name='accountid' />" +
                                         "<filter>" +
@@ -386,10 +386,30 @@
                                         "</filter>" +
                                       "</entity>" +
                                     "</fetch>";
-                    var accounts = XrmServiceToolkit.Soap.Fetch(fetchXML);
+                    var accounts = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
+                    var accounts;
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        datatype: "json",
+                        url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%3E%3Centity%20name%3D%22account%22%20%3E%3Cattribute%20name%3D%22accountid%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq-or-above%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22parentaccountid%22%20operator%3D%22null%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                        beforeSend: function(XMLHttpRequest) {
+                            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                            XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                        },
+                        async: false,
+                        success: function(data, textStatus, xhr) {
+                            accounts = data.value;
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                        }
+                    });
 
                     if (accounts.length > 0) {
-                        parentaccountid = accounts[0].id;
+                        parentaccountid = accounts[0].accountid;
                     }
                 }
             }
@@ -416,7 +436,7 @@
         }
 
         function PopulateManagingTeamMembers() {
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' top='5' distinct='true'>" +
+          /*  var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' top='5' distinct='true'>" +
                           "<entity name='systemuser'>" +
                             "<attribute name='fullname' />" +
                             "<attribute name='systemuserid' />" +
@@ -435,16 +455,36 @@
                             "</link-entity>" +
                           "</entity>" +
                         "</fetch>";
-            var userRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
+            var userRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
+            var userRecords;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/systemusers?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20top%3D%225%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22systemuser%22%20%3E%3Cattribute%20name%3D%22fullname%22%20%2F%3E%3Cattribute%20name%3D%22systemuserid%22%20%2F%3E%3Cattribute%20name%3D%22title%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_arupofficeid%22%20alias%3D%22Office%22%20%2F%3E%3Cattribute%20name%3D%22businessunitid%22%20alias%3D%22Business%22%20%2F%3E%3Corder%20attribute%3D%22fullname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22teammembership%22%20from%3D%22systemuserid%22%20to%3D%22systemuserid%22%20visible%3D%22false%22%20intersect%3D%22true%22%20%3E%3Clink-entity%20name%3D%22team%22%20from%3D%22teamid%22%20to%3D%22teamid%22%20alias%3D%22af%22%20%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22ccrm_managingteamid%22%20to%3D%22teamid%22%20alias%3D%22ag%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20value%3D%22" + accId + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    userRecords = data.value;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                }
+            });
             var userList = [];
             if (userRecords.length > 0) {
                 for (var i = 0; i < userRecords.length; i++) {
                     //debugger;
-                    var sysuserid = userRecords[i].attributes.systemuserid.value;
-                    var fullname = userRecords[i].attributes.fullname != undefined ? userRecords[i].attributes.fullname.value : "";
-                    var Office = userRecords[i].attributes.Office != undefined ? userRecords[i].attributes.Office.name : "";
-                    var title = userRecords[i].attributes.title != undefined ? userRecords[i].attributes.title.value : "";
-                    var business = userRecords[i].attributes.Business != undefined ? userRecords[i].attributes.Business.name : "";
+                    var sysuserid = userRecords[i].systemuserid;
+                    var fullname = userRecords[i].fullname != undefined ? userRecords[i].fullname : "";
+                    var Office = userRecords[i].Office != undefined ? userRecords[i]["Office@OData.Community.Display.V1.FormattedValue"] : "";
+                    var title = userRecords[i].title != undefined ? userRecords[i].title.value : "";
+                    var business = userRecords[i].Business != undefined ? userRecords[i]["Business@OData.Community.Display.V1.FormattedValue"] : "";
 
                     var user = { "Name": fullname, "Arup Office": Office, Title: title, Business: business, UserID: sysuserid };
                     userList.push(user);
@@ -1783,8 +1823,8 @@
 
         var ChildOrgids = [];
         function getChildOrganisations(organisationid) {
-
-            var fetchxml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+            var Orgaccounts;
+            /*var fetchxml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
                               "<entity name='account'>" +
                                 "<attribute name='accountid' />" +
                                  "<filter type='and'>" +
@@ -1792,16 +1832,33 @@
                                 "</filter>" +
                               "</entity>" +
                             "</fetch>"
-            var Orgaccounts = XrmServiceToolkit.Soap.Fetch(fetchxml);
-
-            if (Orgaccounts.length > 0) {
-                for (var i = 0; i < Orgaccounts.length; i++) {
-                    var accountid = Orgaccounts[i].attributes.accountid != undefined ? Orgaccounts[i].attributes.accountid.value : "";
-                    if (accountid != "") {
-                        ChildOrgids.push(accountid);
-                        getChildOrganisations(accountid);
-                    }
+            var Orgaccounts = XrmServiceToolkit.Soap.Fetch(fetchxml);*/
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/accounts(" + organisationid + ")?$select=accountid",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    Orgaccounts = data;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
                 }
+            });
+            if (Orgaccounts.length > 0) {
+                var accountid = Orgaccounts["accountid"] != undefined ? Orgaccounts["accountid"] : "";
+                if (accountid != "") {
+                    ChildOrgids.push(accountid);
+                    getChildOrganisations(accountid);
+                }
+                
 
             }
         }
@@ -3613,7 +3670,7 @@
 
         function loadChildOpportunityData(currentaccId, opportunityid, showBidTeams, opptystatuscode,showInternal)
         {
-            //Child org Opportunities data
+            /*Child org Opportunities data
             var fetchxml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
                                "<entity name='account'>" +
                                "<attribute name='name' alias ='orgname' />" +
@@ -3628,15 +3685,35 @@
                                "</filter>" +
                                "</entity>" +
                            "</fetch>"
-            var Organisations = XrmServiceToolkit.Soap.Fetch(fetchxml);
+            var Organisations = XrmServiceToolkit.Soap.Fetch(fetchxml);*/
+            var Organisations;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%20%3E%3Centity%20name%3D%22account%22%20%3E%3Cattribute%20name%3D%22name%22%20alias%3D%22orgname%22%20%2F%3E%3Cattribute%20name%3D%22accountid%22%20alias%3D%22orgid%22%20%2F%3E%3Cattribute%20name%3D%22address1_city%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_address1attentiondepartment%22%20alias%3D%22orgdepartment%22%20%2F%3E%3Cattribute%20name%3D%22arup_openopportunitiescalc%22%20alias%3D%22orgopenopptys%22%20%2F%3E%3Corder%20attribute%3D%22name%22%20descending%3D%22false%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22parentaccountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + currentaccId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22arup_openopportunitiescalc%22%20operator%3D%22gt%22%20value%3D%220%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function (data, textStatus, xhr) {
+                    Organisations = data.value;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                }
+            });
             if (Organisations.length > 0) {
                 for (var i = 0; i < Organisations.length; i++) {
                     var connection = Organisations[i];
-                    var childOrgName = connection.attributes.orgname != undefined ? connection.attributes.orgname.value : "";
-                    var childOrgid = connection.attributes.orgid != undefined ? connection.attributes.orgid.value : "";
-                    var childTownCity = connection.attributes.address1_city != undefined ? connection.attributes.address1_city.value : "";
-                    var childDepartment = connection.attributes.orgdepartment != undefined ? connection.attributes.orgdepartment.value : "";
-                    var childOpenOpptys = connection.attributes.orgopenopptys != undefined ? connection.attributes.orgopenopptys.value : "";
+                    var childOrgName = connection.orgname != undefined ? connection.orgname : "";
+                    var childOrgid = connection.orgid != undefined ? connection.orgid : "";
+                    var childTownCity = connection.address1_city != undefined ? connection.address1_city : "";
+                    var childDepartment = connection.orgdepartment != undefined ? connection.orgdepartment : "";
+                    var childOpenOpptys = connection.orgopenopptys != undefined ? connection.orgopenopptys : "";
 
                     Opportunitynodelink.nodes.push({
                         id: childOrgid, name: childOrgName, NodeName: childOrgName, group: 1, rad: 8, imageUrl: '../../arup_graphOrg', phone: "", jobtitleorCountry: "", userid: "100"
