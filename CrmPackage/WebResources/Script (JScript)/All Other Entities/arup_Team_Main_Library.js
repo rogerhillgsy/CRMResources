@@ -338,7 +338,7 @@ function exitForm(primaryControl) {
         [
             {
                 label: "<b>Save and Exit</b>",
-                callback: saveAndCloseForm(formContext),
+                callback: saveAndCloseForm(formContext, "team"),
                 setFocus: true,
                 preventClose: false
             },
@@ -369,15 +369,21 @@ function closeIfUnmodifiedOrInactive(formContext) {
     return false;
 }
 
-function saveAndCloseForm(formContext) {
-    return function() {
-        formContext.data.save("saveandclose")
+function saveAndCloseForm(formContext, entityLogicalName ) {
+    return function () {
+        const SAVE_AND_CLOSE = 2; // Note this is for info only (for OnSave handlers), does not cause the form to close.
+        formContext.data.save( { saveMode : SAVE_AND_CLOSE })
             .then(function(e) {
                 teamLog("Saved form...");
-                Xrm.Navigation.navigateTo({
-                    pageType: "entitylist",
-                    entityName: "team"
-                });
+                if (!!entityLogicalName) {
+                    // Simply using formContext.ui.close() tends to leave us on the same form, so navigate to the entity list.
+                    Xrm.Navigation.navigateTo({
+                        pageType: "entitylist",
+                        entityName: "team"
+                    });
+                } else {
+                    formContext.ui.close();
+                }
             })
             .catch(
                 function error(e) {
