@@ -131,7 +131,7 @@ function Form_onsave(executionObj) {
                 if (this.status === 204) {
                     //Success - No Return Data - Do Something
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
@@ -580,7 +580,7 @@ function getJobNumber(projectId, formContext) {
                 }
 
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -597,7 +597,7 @@ function callSuffixWebService(jobNumber, formContext) {
     parameters.CurrentCJN = jobNumber;
 
     var req = new XMLHttpRequest();
-    req.open("POST", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_A1GetSuffices", false);
+    req.open("POST", formContext.context.getClientUrl() + "/api/data/v9.1/arup_A1GetSuffices", false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -610,7 +610,7 @@ function callSuffixWebService(jobNumber, formContext) {
                 formContext.getAttribute("ccrm_suffixarray").setValue(results.SuffixList);
                 showAvailableSuffixes(results.SuffixList, formContext);
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };

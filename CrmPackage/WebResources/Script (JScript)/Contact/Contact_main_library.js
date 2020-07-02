@@ -25,7 +25,7 @@ function form_onLoad(executionContext) {
         setInterval(changeHeaderTileFormat, 1000);
     }
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
-    setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 15000);
+    setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 60000);
     contactType_onchange(formContext);
     canadaSectionVisibility(formContext);
     formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
@@ -826,7 +826,7 @@ function onChange_ContactType(executionContext) {
 
 function contactType_onchange(formContext) {
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
-    setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 15000);
+    setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 60000);
 
     var contactTypeValue = formContext.getAttribute("arup_contacttype");
     if (contactTypeValue == null) return;

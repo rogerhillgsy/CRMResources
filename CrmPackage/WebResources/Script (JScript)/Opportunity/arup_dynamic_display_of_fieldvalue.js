@@ -37,7 +37,7 @@ function GetDependentOptionSetFieldValues(executionContext, mainOptionsetFieldNa
                         formContext.getControl(dependentOptionsetFieldName).setDisabled(optionsetReadOnly);
                 }
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -120,7 +120,7 @@ function GetDependentFieldValues(executionContext) {
                     }
                 }
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
