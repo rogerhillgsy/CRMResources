@@ -323,11 +323,12 @@ function stateRequired(CountryName) {
     return states;
 }
 
+/*
 //Fetch All Opportunity Including all child Organisations belongs to current Organisations
 function filterOpportunitiesGrid() {
     //get the subgrid 
     var objSubGrid = document.getElementById("openopportunities");
-
+    alert("filterOpportunitiesGrid");
     //CRM loads subgrid after form is loaded.. so when we are adding script on form load.. need to wait until sub grid is loaded. 
     if (objSubGrid == null) {
         setTimeout(filterOpportunitiesGrid, 2000);
@@ -376,7 +377,7 @@ function filterOpportunitiesGrid() {
         //Refresh grid to show filtered records only. 
         objSubGrid.control.Refresh();
     }
-}
+}*/
 
 function filterLeadsGrid(formContext) {
     //get the subgrid 
@@ -664,6 +665,7 @@ function arup_expressedconsent_onChange(executionContext) {
 }
 
 function OpenOrgOverviewReport() {
+    alert("OpenOrgOverviewReport");
     var rdlName = "Client%20Overview.rdl";
     var reportGuid = "2545f84b-6a02-e211-b3a3-005056af0014";
     var entityType = "1";
@@ -727,14 +729,15 @@ function checkOrganisationStatusOnLoad(executionContext) {
     }
 }
 
-function checkOrganisationStatus() {
-    var orgStatus = Xrm.Page.getAttribute("statuscode").getValue();
-    if (orgStatus != null && orgStatus == 770000000) {
-        disableOrgFormFields(formContext, false);
-    } else {
-        enableFormFields(formContext);
-    }
-}
+//function checkOrganisationStatus() {
+//    alert("checkOrganisationStatus ");
+//    var orgStatus = Xrm.Page.getAttribute("statuscode").getValue();
+//    if (orgStatus != null && orgStatus == 770000000) {
+//        disableOrgFormFields(formContext, false);
+//    } else {
+//        enableFormFields(formContext);
+//    }
+//}
 
 function disableFormFields(primaryControl, checkDD) {
     var formContext = primaryControl;
@@ -1054,12 +1057,12 @@ function AssignOrganisationAddressToRegisteredAddress(formContext) {
     }
 
     formContext.getAttribute("ccrm_countryofcoregistrationid").fireOnChange();
-    formContext.getAttribute("arup_address3street1").setValue(Xrm.Page.getAttribute("address1_line1").getValue());
-    formContext.getAttribute("arup_address3street2").setValue(Xrm.Page.getAttribute("address1_line2").getValue());
-    formContext.getAttribute("arup_address3street3").setValue(Xrm.Page.getAttribute("address1_line3").getValue());
-    formContext.getAttribute("arup_address3towncity").setValue(Xrm.Page.getAttribute("address1_city").getValue());
-    formContext.getAttribute("arup_address3zippostalcode").setValue(Xrm.Page.getAttribute("address1_postalcode").getValue());
-    formContext.getAttribute("arup_address3statecountyprovince").setValue(Xrm.Page.getAttribute("address1_stateorprovince").getValue());
+    formContext.getAttribute("arup_address3street1").setValue(formContext.getAttribute("address1_line1").getValue());
+    formContext.getAttribute("arup_address3street2").setValue(formContext.getAttribute("address1_line2").getValue());
+    formContext.getAttribute("arup_address3street3").setValue(formContext.getAttribute("address1_line3").getValue());
+    formContext.getAttribute("arup_address3towncity").setValue(formContext.getAttribute("address1_city").getValue());
+    formContext.getAttribute("arup_address3zippostalcode").setValue(formContext.getAttribute("address1_postalcode").getValue());
+    formContext.getAttribute("arup_address3statecountyprovince").setValue(formContext.getAttribute("address1_stateorprovince").getValue());
 
     var ccrm_countrystate = formContext.getAttribute("ccrm_countrystate");
     if (ccrm_countrystate != null) {
