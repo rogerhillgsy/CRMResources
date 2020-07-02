@@ -193,7 +193,7 @@ There will be several copies of the web resource visible in the debugger as "aru
         function DisplayTab(newTabName) {
             console.log("Display tab:" + newTabName);
             formContext.Arup.PreviousTab = tabName;
-            Xrm.Page.Arup.DisplayTab(newTabName, formContext);
+            parent.Xrm.Page.Arup.DisplayTab(newTabName, formContext);
         }
 
         // Move to next step in BPF

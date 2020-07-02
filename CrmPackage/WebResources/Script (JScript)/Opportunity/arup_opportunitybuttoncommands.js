@@ -23,7 +23,7 @@ Xrm.Page.Arup = (
             return attr;
         };
 
-        function Log(s) { console.log(s); };
+        Log = console.log.bind(window.console);
         var tabStateChangeCallbackAdded = false;
         var buttonChangeCallbacks = {};
 
@@ -36,26 +36,6 @@ Xrm.Page.Arup = (
             //
             // Functions related to specific buttons ---------------------
             //
-            //    RequestPossibleJob: function () {
-            //        requestPossibleJob(formContext);
-            //},
-
-            //RequestPossibleJobEnabled: function(formContext) {
-            //    // ccrm_possiblejobnumberrequired = 1
-            //    // Not in create state
-            //    // ccrm_showpjnbutton != 0
-            //    // statuscode != 3
-            //    // statecode != disabled (1)
-            //    // Has write access to opportunity.
-
-            //    var pjnrequired = GetAttribute(formContext, "ccrm_possiblejobnumberrequired");
-            //    var isCreate = formContext.ui.getFormType() == 1;
-            //    var showPJNButton = GetAttribute(formContext, "ccrm_showpjnbutton");
-            //    var statuscode = GetAttribute(formContext, "statuscode");
-            //    var statecode = GetAttribute(formContext, "statecode");
-            //    return pjnrequired != 1 && !isCreate && showPJNButton == 1 && statuscode != 3 && statecode != 1;
-            //},
-
             BidDicisionConfirmation: function () {
                 BidDicisionConfirmation(formContext);
             },
