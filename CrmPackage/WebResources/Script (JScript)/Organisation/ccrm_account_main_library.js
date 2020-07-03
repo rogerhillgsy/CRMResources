@@ -1191,7 +1191,9 @@ function makeCovid19FieldsRequired(checkboxfield, usernamefield, formContext) {
 
 function OpenOverviewReport(primaryControl) {
     var formContext = primaryControl;
-    var accId, parentaccountid;
+    var accId, parentaccountid, clientURL;
+    clientURL = formContext.context.getClientUrl();
+    var systemUser = formContext.context.getUserId().replace('{', '').replace('}', '');
     if (formContext.data != null) {
         accId = formContext.data.entity.getId().replace('{', '').replace('}', '');
         parentaccountid = formContext.getAttribute("parentaccountid").getValue() != undefined ? formContext.getAttribute("parentaccountid").getValue()[0].id.replace('{', '').replace('}', '') : accId;
@@ -1201,7 +1203,7 @@ function OpenOverviewReport(primaryControl) {
         parentaccountid = accId;
     }
 
-    var customParameters = encodeURIComponent("accountID=" + accId + "&parentAccID=" + parentaccountid);
+    var customParameters = encodeURIComponent("accountID=" + accId + "&parentAccID=" + parentaccountid + "&clientURL=" + clientURL + "&systemuser=" + systemUser);
     var windowOptions = { openInNewWindow: true, height: 800, width: 1100 };
     Xrm.Navigation.openWebResource('ccrm_/HTML/ClientOverViewReport.html', windowOptions, customParameters);
 }

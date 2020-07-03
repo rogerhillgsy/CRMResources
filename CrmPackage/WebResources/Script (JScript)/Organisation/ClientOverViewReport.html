@@ -496,7 +496,7 @@
 
 
     <script>
-        var accId, accName, parentaccountid, exchangeratevalue = 1, currencyname = "UK Pound Sterling", dateformat = 'dd MMM yy', currencyid = '%7bE83F8C2A-1F39-E011-8CBD-D8D385B829F8%7d';
+        var accId, accName, parentaccountid, clientURL, exchangeratevalue = 1, currencyname = "UK Pound Sterling", dateformat = 'dd MMM yy', currencyid = '%7bE83F8C2A-1F39-E011-8CBD-D8D385B829F8%7d';
         var data = [];
         var childOrgAccIds = [];
         var basicProfile = [];
@@ -518,8 +518,11 @@
             if (parameters != undefined) {
                 accId = parameters.split('&')[0].split('=')[1];
                 parentaccountid = parameters.split('&')[1].split('=')[1];
+                clientURL = parameters.split('&')[2].split('=')[1];
+                systemUser = parameters.split('&')[3].split('=')[1];
+                var accounts;
                 if (accId != parentaccountid) {
-                    var fetchXML = "<fetch>" +
+                    /*var fetchXML = "<fetch>" +
                         "<entity name='account' >" +
                         "<attribute name='accountid' />" +
                         "<filter>" +
@@ -528,8 +531,28 @@
                         "</filter>" +
                         "</entity>" +
                         "</fetch>";
-                    var accounts = XrmServiceToolkit.Soap.Fetch(fetchXML);
-
+                    var accounts = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        datatype: "json",
+                        url: clientURL + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%3E%3Centity%20name%3D%22account%22%20%3E%3Cattribute%20name%3D%22accountid%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq-or-above%22%20value%3D%224e196e94-a366-e111-b7c5-78e7d16510d0%22%20%2F%3E%3Ccondition%20attribute%3D%22parentaccountid%22%20operator%3D%22null%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                        beforeSend: function(XMLHttpRequest) {
+                            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                            XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                        },
+                        async: false,
+                        success: function(data, textStatus, xhr) {
+                            accounts = data.value;
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            var alertStrings = { confirmButtonLabel: "OK", text: textStatus, title: "Alert" };
+                            var alertOptions = { height: 120, width: 260 };
+                            Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        }
+                    });
                     if (accounts.length > 0) {
                         parentaccountid = accounts[0].id;
                     }
@@ -624,7 +647,7 @@
         }
 
         function GetExchangeRate() {
-            var fetchXmlExchangeRate = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true'>" +
+          /*  var fetchXmlExchangeRate = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true'>" +
                 "<entity name='transactioncurrency'>" +
                 " <attribute name='transactioncurrencyid' />" +
                 "<attribute name='exchangerate' />" +
@@ -642,24 +665,47 @@
                 "</entity>" +
                 "</fetch>"
 
-            var fetchexchangerates = XrmServiceToolkit.Soap.Fetch(fetchXmlExchangeRate);
+            var fetchexchangerates = XrmServiceToolkit.Soap.Fetch(fetchXmlExchangeRate);*/
+            var fetchexchangerates;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/transactioncurrencies?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22transactioncurrency%22%20%3E%3Cattribute%20name%3D%22transactioncurrencyid%22%20%2F%3E%3Cattribute%20name%3D%22exchangerate%22%20%2F%3E%3Cattribute%20name%3D%22isocurrencycode%22%20%2F%3E%3Cattribute%20name%3D%22currencyname%22%20%2F%3E%3Cattribute%20name%3D%22currencyprecision%22%20%2F%3E%3Corder%20attribute%3D%22currencyname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22ccrm_arupcompany%22%20from%3D%22ccrm_currencyid%22%20to%3D%22transactioncurrencyid%22%20alias%3D%22av%22%20%3E%3Clink-entity%20name%3D%22systemuser%22%20from%3D%22ccrm_arupcompanyid%22%20to%3D%22ccrm_arupcompanyid%22%20alias%3D%22aw%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq-userid%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    fetchexchangerates = data.value;
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    //Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                }
+            });
 
             if (fetchexchangerates.length > 0) {
                 for (var i = 0; i < fetchexchangerates.length; i++) {
                     //debugger;
                     var exchangeNode = fetchexchangerates[i];
-                    if (exchangeNode.attributes.exchangerate != undefined) {
+                    if (exchangeNode.exchangerate != undefined) {
 
-                        exchangeratevalue = exchangeNode.attributes.exchangerate.value;
-                        currencyname = exchangeNode.attributes.currencyname.value;
-                        currencyid = exchangeNode.attributes.transactioncurrencyid.value;
+                        exchangeratevalue = exchangeNode.exchangerate;
+                        currencyname = exchangeNode.currencyname;
+                        currencyid = exchangeNode.transactioncurrencyid;
                     }
                 }
             }
         }
 
         function GetUserDateSettings() {
-            var fetchXmlDateSettings = "<fetch mapping='logical' >" +
+           /* var fetchXmlDateSettings = "<fetch mapping='logical' >" +
                 "<entity name='usersettings' >" +
                 "<attribute name='dateseparator' />" +
                 "<attribute name='dateformatstring' />" +
@@ -669,16 +715,39 @@
                 "</entity>" +
                 "</fetch>"
 
-            var fetchdatesettings = XrmServiceToolkit.Soap.Fetch(fetchXmlDateSettings);
+            var fetchdatesettings = XrmServiceToolkit.Soap.Fetch(fetchXmlDateSettings);*/
+            var fetchdatesettings;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/usersettingscollection?fetchXml=%3Cfetch%20mapping%3D%22logical%22%20%3E%3Centity%20name%3D%22usersettings%22%20%3E%3Cattribute%20name%3D%22dateseparator%22%20%2F%3E%3Cattribute%20name%3D%22dateformatstring%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq-userid%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    fetchdatesettings = data.value;
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    //Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                }
+            });
 
             if (fetchdatesettings.length > 0) {
                 for (var i = 0; i < fetchdatesettings.length; i++) {
                     //debugger;
                     var datesettingNode = fetchdatesettings[i];
-                    if (datesettingNode.attributes.dateformatstring != undefined) {
+                    if (datesettingNode.dateformatstring != undefined) {
 
-                        var dateseperator = datesettingNode.attributes.dateseparator.value;
-                        dateformat = datesettingNode.attributes.dateformatstring.value.replace("/", dateseperator).replace("/", dateseperator);
+                        var dateseperator = datesettingNode.dateseparator;
+                        dateformat = datesettingNode.dateformatstring.replace("/", dateseperator).replace("/", dateseperator);
 
                     }
                 }
@@ -689,12 +758,12 @@
             var currid = currencyid;
             var rdlName = encodeURIComponent("RecordHierarchyOrgOnly.rdl");
             var rdlID = "%7b" + encodeURIComponent("E584FEA1-A31B-E311-8706-D8D385B829F8") + "%7d";
-            var userID = Xrm.Page.context.getUserId().replace("{", "").replace("}","");
+            var userID = systemUser;
 
-            var reportBaseURL = GetGlobalContext().getClientUrl() + "/crmreports/viewer/viewer.aspx?action=run&helpID=";
+            var reportBaseURL = clientURL + "/crmreports/viewer/viewer.aspx?action=run&helpID=";
             var sqlreportbaseurl = "http://azpsrsd365d01/ReportServer/Pages/ReportViewer.aspx?/Paginated+Reports/";
             var childOrgURL = reportBaseURL + rdlName + "&id=" + rdlID + "&p:recordid=" + accId + "&p:OrgName=" + encodeURIComponent(accName);
-            var crmurl = encodeURIComponent(GetGlobalContext().getClientUrl());
+            var crmurl = encodeURIComponent(clientURL);
             d3.select('#childOrgs').attr('href', childOrgURL).attr('target', '_blank');
 
             rdlName = "Client+Overview+Won+Opportunities";
@@ -723,7 +792,7 @@
         }
 
         function PopulateNotes() {
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' count='5'>" +
+            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' count='5'>" +
                 "<entity name='annotation'>" +
                 "<attribute name='annotationid' />" +
                 "<attribute name='subject' />" +
@@ -744,17 +813,39 @@
                 "</entity>" +
                 "</fetch>";
             //debugger;
-            var notes = XrmServiceToolkit.Soap.Fetch(fetchXML);
+            var notes = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
+            var notes;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/annotations?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%20count%3D%225%22%20%3E%3Centity%20name%3D%22annotation%22%20%3E%3Cattribute%20name%3D%22annotationid%22%20%2F%3E%3Cattribute%20name%3D%22subject%22%20%2F%3E%3Cattribute%20name%3D%22annotationid%22%20%2F%3E%3Cattribute%20name%3D%22notetext%22%20%2F%3E%3Cattribute%20name%3D%22createdon%22%20%2F%3E%3Cattribute%20name%3D%22createdby%22%20%2F%3E%3Corder%20attribute%3D%22createdon%22%20descending%3D%22true%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22createdbyname%22%20operator%3D%22not-like%22%20value%3D%22%25CRM%20Admin%25%22%20%2F%3E%3Ccondition%20attribute%3D%22notetext%22%20operator%3D%22not-like%22%20value%3D%22%25credit%25%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22objectid%22%20alias%3D%22ab%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    notes = data.value;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                }
+            });
             var noteLst = [];
             if (notes.length > 0) {
                 for (var i = 0; i < notes.length; i++) {
                     //debugger;
                     var note = notes[i];
-                    if (note.attributes.notetext != undefined && note.attributes.notetext.value.length > 0) {
+                    if (note.notetext != undefined && note.notetext.length > 0) {
 
-                        var text = note.attributes.notetext.value;
-                        var createdBy = note.attributes.createdby.name;
-                        var createdOn = note.attributes.createdon.formattedValue;
+                        var text = note.notetext;
+                        var createdBy = note["_createdby_value@OData.Community.Display.V1.FormattedValue"];
+                        var createdOn = note["createdon@OData.Community.Display.V1.FormattedValue"];
 
                         var comment = {
                             "Note": text, "Created By": createdBy, "Created On": createdOn
@@ -799,7 +890,7 @@
             //    "</link-entity>" +
             //  "</entity>" +
             //"</fetch>";
-            var fetchXML = "<fetch distinct='true' >" +
+            /*var fetchXML = "<fetch distinct='true' >" +
                 "<entity name='connection' >" +
                 "<attribute name='record1id' alias='Contact' />" +
                 "<attribute name='record2id' alias='CRM_User' />" +
@@ -831,15 +922,37 @@
                 "</fetch>";
 
             //debugger;
-            var connections = XrmServiceToolkit.Soap.Fetch(fetchXML);
+            var connections = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
+            var connections;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/connections?fetchXml=%3Cfetch%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22connection%22%20%3E%3Cattribute%20name%3D%22record1id%22%20alias%3D%22Contact%22%20%2F%3E%3Cattribute%20name%3D%22record2id%22%20alias%3D%22CRM_User%22%20%2F%3E%3Corder%20attribute%3D%22record1id%22%20descending%3D%22false%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22statuscodename%22%20operator%3D%22eq%22%20value%3D%22Active%22%20%2F%3E%3Ccondition%20attribute%3D%22record1objecttypecode%22%20operator%3D%22eq%22%20value%3D%222%22%20%2F%3E%3Ccondition%20attribute%3D%22record2objecttypecode%22%20operator%3D%22eq%22%20value%3D%228%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22contact%22%20from%3D%22contactid%22%20to%3D%22record1id%22%20link-type%3D%22inner%22%20alias%3D%22co%22%20%3E%3Cattribute%20name%3D%22accountrolecode%22%20%2F%3E%3Cattribute%20name%3D%22jobtitle%22%20%2F%3E%3Cattribute%20name%3D%22emailaddress1%22%20%2F%3E%3Cattribute%20name%3D%22accountrolecodename%22%20%2F%3E%3Cattribute%20name%3D%22contactid%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22statuscodename%22%20operator%3D%22eq%22%20value%3D%22Active%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22parentcustomerid%22%20link-type%3D%22inner%22%20alias%3D%22ac%22%20%3E%3Cattribute%20name%3D%22accountid%22%20%2F%3E%3Cattribute%20name%3D%22name%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22statuscodename%22%20operator%3D%22eq%22%20value%3D%22Active%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    connections = data.value;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                }
+            });
             var connectionLst = [];
             if (connections.length > 0) {
                 for (var i = 0; i < connections.length; i++) {
                     //debugger;
                     var connection = connections[i];
-                    var contact = connection.attributes.Contact != undefined ? connection.attributes.Contact.name : "";
-                    var jobTitle = connection.attributes['co.jobtitle'] != undefined ? connection.attributes['co.jobtitle'].value : "";
-                    var userName = connection.attributes.CRM_User != undefined ? connection.attributes.CRM_User.name : "";
+                    var contact = connection.Contact != undefined ? connection.Contact : "";
+                    var jobTitle = connection['co.jobtitle'] != undefined ? connection['co.jobtitle'] : "";
+                    var userName = connection.CRM_User != undefined ? connection.CRM_User : "";
 
                     var conn = {
                         "Contact": contact, "Job Title": jobTitle, "CRM User": userName
@@ -852,7 +965,7 @@
         }
 
         function PopulateRecentActivities() {
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true' count='5'>" +
+            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true' count='5'>" +
                 "<entity name='activitypointer'>" +
                 "<attribute name='activitytypecode' />" +
                 "<attribute name='subject' />" +
@@ -893,15 +1006,37 @@
                 "</entity>" +
                 "</fetch>";
             //debugger;
-            var activityRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
+            var activityRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
+            var activityRecords;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/activitypointers?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20count%3D%225%22%20%3E%3Centity%20name%3D%22activitypointer%22%20%3E%3Cattribute%20name%3D%22activitytypecode%22%20%2F%3E%3Cattribute%20name%3D%22subject%22%20%2F%3E%3Cattribute%20name%3D%22activityid%22%20%2F%3E%3Cattribute%20name%3D%22instancetypecode%22%20%2F%3E%3Cattribute%20name%3D%22ownerid%22%20%2F%3E%3Cattribute%20name%3D%22createdon%22%20%2F%3E%3Cattribute%20name%3D%22statecode%22%20%2F%3E%3Corder%20attribute%3D%22createdon%22%20descending%3D%22true%22%20%2F%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22regardingobjectid%22%20alias%3D%22aj%22%20link-type%3D%22outer%22%20%2F%3E%3Clink-entity%20name%3D%22contact%22%20from%3D%22contactid%22%20to%3D%22regardingobjectid%22%20alias%3D%22ac%22%20link-type%3D%22outer%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22isworkflowcreated%22%20operator%3D%22eq%22%20value%3D%220%22%20%2F%3E%3Ccondition%20attribute%3D%22statecode%22%20operator%3D%22in%22%20%3E%3Cvalue%3E1%3C%2Fvalue%3E%3Cvalue%3E3%3C%2Fvalue%3E%3Cvalue%3E0%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20attribute%3D%22activitytypecode%22%20operator%3D%22in%22%20%3E%3Cvalue%3E4201%3C%2Fvalue%3E%3Cvalue%3E4202%3C%2Fvalue%3E%3Cvalue%3E4204%3C%2Fvalue%3E%3Cvalue%3E4207%3C%2Fvalue%3E%3Cvalue%3E4210%3C%2Fvalue%3E%3Cvalue%3E4212%3C%2Fvalue%3E%3C%2Fcondition%3E%3Cfilter%20type%3D%22or%22%20%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22under%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20entityname%3D%22ac%22%20attribute%3D%22parentcustomerid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22regardingobjectid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + parentaccountid + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    activityRecords = data.value;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                }
+            });
             var recentActivitylst = [], planedActivitylst = [];
             if (activityRecords.length > 0) {
                 for (var i = 0; i < activityRecords.length; i++) {
                     //debugger;
                     var activity = activityRecords[i];
-                    var subject = activity.attributes.subject != undefined ? activity.attributes.subject.value : "";
-                    var createdDate = activity.attributes.createdon != undefined ? activity.attributes.createdon.formattedValue : "";
-                    var owner = activity.attributes.ownerid != undefined ? activity.attributes.ownerid.name : "";
+                    var subject = activity.subject != undefined ? activity.subject : "";
+                    var createdDate = activity.createdon != undefined ? activity["createdon@OData.Community.Display.V1.FormattedValue"] : "";
+                    var owner = activity._ownerid_value != undefined ? activity["_ownerid_value@OData.Community.Display.V1.FormattedValue"] : "";
 
                     var acc = {
                         "Description": subject, "Date": createdDate, "Owner": owner
@@ -926,7 +1061,7 @@
             var opportRecords;
             var opportRecordsUlt;
             var req = new XMLHttpRequest();
-            req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'customerid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee_base'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'StateCode'%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'in'%3E%3Cvalue%3E2%3C%2Fvalue%3E%3Cvalue%3E1%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'customerid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee_base'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'StateCode'%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'in'%3E%3Cvalue%3E2%3C%2Fvalue%3E%3Cvalue%3E1%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -937,7 +1072,9 @@
                     if (this.status === 200) {
                         opportRecords = JSON.parse(this.response).value;
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+                        var alertOptions = { height: 120, width: 260 };
+                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
                     }
                 }
             };
@@ -967,7 +1104,7 @@
                 "</entity>" +
                 "</fetch>";
             var req = new XMLHttpRequest();
-            req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'ccrm_ultimateendclientid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee_base'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'StateCode'%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'in'%3E%3Cvalue%3E2%3C%2Fvalue%3E%3Cvalue%3E1%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'ccrm_ultimateendclientid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee_base'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'StateCode'%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'in'%3E%3Cvalue%3E2%3C%2Fvalue%3E%3Cvalue%3E1%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -978,7 +1115,9 @@
                     if (this.status === 200) {
                         opportRecordsUlt = JSON.parse(this.response).value;
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+                        var alertOptions = { height: 120, width: 260 };
+                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
                     }
                 }
             };
@@ -1081,7 +1220,7 @@
             //    "</link-entity>" +
             //  "</entity>" +
             //"</fetch>";
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+           /* var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
                 "<entity name='account'>" +
                 "<attribute name='accountid' />" +
                 "<filter type='and'>" +
@@ -1089,13 +1228,35 @@
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
-            var accountRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
+            var accountRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
+            var accountRecords;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%20%3E%3Centity%20name%3D%22account%22%20%3E%3Cattribute%20name%3D%22accountid%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq-or-under%22%20uitype%3D%22account%22%20value%3D%2214b80354-a481-ea11-a811-002248003e25%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    accountRecords = data.value;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                }
+            });
             //var childOrgAccIds = [];
             //debugger;
             if (accountRecords.length > 0) {
                 for (var i = 0; i < accountRecords.length; i++) {
                     //debugger;
-                    var accountId = accountRecords[i].attributes.accountid.value;
+                    var accountId = accountRecords[i].accountid;
 
                     var acc = { "AccountId": accountId/*, "ActiveLeads": fetchLeads(accountId)*/ };
                     childOrgAccIds.push(acc);
@@ -1106,7 +1267,7 @@
         function PopulateTop5LostOppors() {
             var opportRecords;
             var req = new XMLHttpRequest();
-            req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20top%3D'5'%20aggregate%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20alias%3D'LostOpp_count'%20aggregate%3D'count'%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%20groupby%3D'true'%2F%3E%3Corder%20alias%3D'LostOpp_count'%20descending%3D'true'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'outer'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'bj'%20link-type%3D'outer'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Cfilter%20type%3D'or'%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3Ccondition%20entityname%3D%20'bj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20top%3D'5'%20aggregate%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20alias%3D'LostOpp_count'%20aggregate%3D'count'%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%20groupby%3D'true'%2F%3E%3Corder%20alias%3D'LostOpp_count'%20descending%3D'true'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'outer'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'bj'%20link-type%3D'outer'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Cfilter%20type%3D'or'%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3Ccondition%20entityname%3D%20'bj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -1117,7 +1278,9 @@
                     if (this.status === 200) {
                         opportRecords = JSON.parse(this.response).value;
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+                        var alertOptions = { height: 120, width: 260 };
+                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
                     }
                 }
             };
@@ -1202,7 +1365,7 @@
 
         function PopulateTop10OpenOppors() {
             //wrond query during convert
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' count='10'>" +
+            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' count='10'>" +
                 "<entity name='opportunity'>" +
                 "<attribute name='opportunityid' />" +
                 "<attribute name='name' />" +
@@ -1233,18 +1396,39 @@
                 "</entity>" +
                 "</fetch>";
             //debugger;
-            var opportRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
+            var opportRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%20count%3D%2210%22%20%3E%3Centity%20name%3D%22opportunity%22%20%3E%3Cattribute%20name%3D%22opportunityid%22%20%2F%3E%3Cattribute%20name%3D%22name%22%20%2F%3E%3Cattribute%20name%3D%22estimatedvalue_base%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_projectmanager_userid%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_projectdirector_userid%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_probabilityofprojectproceeding%22%20alias%3D%22Probability_of_Proceeding%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_estarupinvolvementstart%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_closeprobability_synced%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_bidmanager_userid%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_biddirector_userid%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_arupregionid%22%20%2F%3E%3Cattribute%20name%3D%22statuscode%22%20alias%3D%22StatusCode%22%20%2F%3E%3Cattribute%20name%3D%22statecode%22%20%2F%3E%3Corder%20attribute%3D%22estimatedvalue_base%22%20descending%3D%22true%22%20%2F%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22customerid%22%20alias%3D%22aj%22%20link-type%3D%22inner%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22statecode%22%20operator%3D%22eq%22%20value%3D%220%22%20%2F%3E%3Ccondition%20attribute%3D%22statuscode%22%20operator%3D%22ne%22%20value%3D%223%22%20%2F%3E%3Ccondition%20attribute%3D%22statuscode%22%20operator%3D%22not-null%22%20%2F%3E%3Cfilter%20type%3D%22or%22%20%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22under%22%20uitype%3D%22account%22%20value%3D%22" + parentaccountid + "%22%20%2F%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + parentaccountid + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    opportRecords = data.value;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                }
+            });
             var opporLst = [];
             if (opportRecords.length > 0) {
                 for (var i = 0; i < opportRecords.length; i++) {
                     //debugger;
-                    var name = opportRecords[i].attributes.name != undefined ? opportRecords[i].attributes.name.value : "";
-                    var projectDirector = opportRecords[i].attributes.ccrm_projectdirector_userid != undefined ? opportRecords[i].attributes.ccrm_projectdirector_userid.name : "";
-                    var status = opportRecords[i].attributes.StatusCode.formattedValue;
-                    var fee = opportRecords[i].attributes.estimatedvalue_base != undefined ? opportRecords[i].attributes.estimatedvalue_base.value * exchangeratevalue : 0.00;
-                    var probWin = opportRecords[i].attributes.ccrm_closeprobability_synced != undefined ? opportRecords[i].attributes.ccrm_closeprobability_synced.value : "";
-                    var probPros = opportRecords[i].attributes.Probability_of_Proceeding != undefined ? opportRecords[i].attributes.Probability_of_Proceeding.value : "";
-                    var arupStartDate = opportRecords[i].attributes.ccrm_estarupinvolvementstart != undefined ? opportRecords[i].attributes.ccrm_estarupinvolvementstart.value.format(dateformat) : "";
+                    var name = opportRecords[i].name != undefined ? opportRecords[i].name : "";
+                    var projectDirector = opportRecords[i]._ccrm_projectdirector_userid_value != undefined ? opportRecords[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
+                    var status = opportRecords[i]["StatusCode@OData.Community.Display.V1.FormattedValue"];
+                    var fee = opportRecords[i].estimatedvalue_base != undefined ? opportRecords[i].estimatedvalue_base * exchangeratevalue : 0.00;
+                    var probWin = opportRecords[i].ccrm_closeprobability_synced != undefined ? opportRecords[i].ccrm_closeprobability_synced : "";
+                    var probPros = opportRecords[i].Probability_of_Proceeding != undefined ? opportRecords[i].Probability_of_Proceeding : "";
+                    var arupStartDate = opportRecords[i].ccrm_estarupinvolvementstart != undefined ? opportRecords[i]["ccrm_estarupinvolvementstart@OData.Community.Display.V1.FormattedValue"] : "";
 
 
                     var oppor = {
@@ -1262,7 +1446,7 @@
             var opportRecords;
             var opportRecordsUlt;
             var req = new XMLHttpRequest();
-            req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'customerid'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Cfilter%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'"+parentaccountid+"'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'opportunityclose'%20from%3D'opportunityid'%20to%3D'opportunityid'%20alias%3D'ab'%3E%3Cattribute%20name%3D'actualend'%20%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'customerid'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Cfilter%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'"+parentaccountid+"'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'opportunityclose'%20from%3D'opportunityid'%20to%3D'opportunityid'%20alias%3D'ab'%3E%3Cattribute%20name%3D'actualend'%20%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -1273,7 +1457,10 @@
                     if (this.status === 200) {
                         opportRecords = JSON.parse(this.response).value;
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+                        var alertOptions = { height: 120, width: 260 };
+                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        //Xrm.Utility.alertDialog(this.statusText);
                     }
                 }
             };
@@ -1308,7 +1495,7 @@
                 "</fetch>";
             //Fetch XML for ultimate client
             var req = new XMLHttpRequest();
-            req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'customerid'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Cfilter%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'opportunityclose'%20from%3D'opportunityid'%20to%3D'opportunityid'%20alias%3D'ab'%3E%3Cattribute%20name%3D'actualend'%20%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'customerid'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Cfilter%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'opportunityclose'%20from%3D'opportunityid'%20to%3D'opportunityid'%20alias%3D'ab'%3E%3Cattribute%20name%3D'actualend'%20%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -1319,7 +1506,9 @@
                     if (this.status === 200) {
                         opportRecordsUlt = JSON.parse(this.response).value;
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+                        var alertOptions = { height: 120, width: 260 };
+                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
                     }
                 }
             };
@@ -1474,7 +1663,7 @@
         }
 
         function PopulateManagingTeamMembers() {
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' top='5' distinct='true'>" +
+            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' top='5' distinct='true'>" +
                 "<entity name='systemuser'>" +
                 "<attribute name='fullname' />" +
                 "<attribute name='systemuserid' />" +
@@ -1493,15 +1682,38 @@
                 "</link-entity>" +
                 "</entity>" +
                 "</fetch>";
-            var userRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
+            var userRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
+            var userRecords;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/systemusers?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20top%3D%225%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22systemuser%22%20%3E%3Cattribute%20name%3D%22fullname%22%20%2F%3E%3Cattribute%20name%3D%22systemuserid%22%20%2F%3E%3Cattribute%20name%3D%22title%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_arupofficeid%22%20alias%3D%22Office%22%20%2F%3E%3Cattribute%20name%3D%22businessunitid%22%20alias%3D%22Business%22%20%2F%3E%3Corder%20attribute%3D%22fullname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22teammembership%22%20from%3D%22systemuserid%22%20to%3D%22systemuserid%22%20visible%3D%22false%22%20intersect%3D%22true%22%20%3E%3Clink-entity%20name%3D%22team%22%20from%3D%22teamid%22%20to%3D%22teamid%22%20alias%3D%22af%22%20%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22ccrm_managingteamid%22%20to%3D%22teamid%22%20alias%3D%22ag%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20value%3D%22" + accId + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    userRecords = data.value;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+
+                }
+            });
             var userList = [];
             if (userRecords.length > 0) {
                 for (var i = 0; i < userRecords.length; i++) {
                     //debugger;
-                    var fullname = userRecords[i].attributes.fullname != undefined ? userRecords[i].attributes.fullname.value : "";
-                    var Office = userRecords[i].attributes.Office != undefined ? userRecords[i].attributes.Office.name : "";
-                    var title = userRecords[i].attributes.title != undefined ? userRecords[i].attributes.title.value : "";
-                    var business = userRecords[i].attributes.Business != undefined ? userRecords[i].attributes.Business.name : "";
+                    var fullname = userRecords[i].fullname != undefined ? userRecords[i].fullname : "";
+                    var Office = userRecords[i].Office != undefined ? userRecords[i]["Office@OData.Community.Display.V1.FormattedValue"] : "";
+                    var title = userRecords[i].title != undefined ? userRecords[i].title : "";
+                    var business = userRecords[i].Business != undefined ? userRecords[i]["Business@OData.Community.Display.V1.FormattedValue"] : "";
 
                     var user = { "Name": fullname, "Arup Office": Office, Title: title, Business: business };
                     userList.push(user);
@@ -1513,7 +1725,7 @@
         function PopulateBasicAccProfile() {
             var oppty;
             var req = new XMLHttpRequest();
-            req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'account'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'status'%20%2F%3E%3Cattribute%20name%3D'primarycontactid'%20%2F%3E%3Cattribute%20name%3D'parentaccountid'%20alias%3D'ParentOrganisation'%2F%3E%3Cattribute%20name%3D'ccrm_managingteamid'%20alias%3D'ManagingTeam'%2F%3E%3Cattribute%20name%3D'ccrm_clienttype'%20alias%3D'Clienttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientsectorpicklistname'%20alias%3D'ClientSectors'%2F%3E%3Cattribute%20name%3D'websiteurl'%20alias%3D'weburl'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%3D'telephone'%2F%3E%3Cattribute%20name%3D'ccrm_keyaccountmanagerid'%2F%3E%3Cattribute%20name%3D'description'%2F%3E%3Cattribute%20name%3D'address1_postalcode'%20%2F%3E%3Cattribute%20name%3D'address1_line3'%20%2F%3E%3Cattribute%20name%3D'address1_line2'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'accountid'%20operator%3D'eq'%20value%3D'"+accId+"'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            req.open("GET", clientURL + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'account'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'status'%20%2F%3E%3Cattribute%20name%3D'primarycontactid'%20%2F%3E%3Cattribute%20name%3D'parentaccountid'%20alias%3D'ParentOrganisation'%2F%3E%3Cattribute%20name%3D'ccrm_managingteamid'%20alias%3D'ManagingTeam'%2F%3E%3Cattribute%20name%3D'ccrm_clienttype'%20alias%3D'Clienttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientsectorpicklistname'%20alias%3D'ClientSectors'%2F%3E%3Cattribute%20name%3D'websiteurl'%20alias%3D'weburl'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%3D'telephone'%2F%3E%3Cattribute%20name%3D'ccrm_keyaccountmanagerid'%2F%3E%3Cattribute%20name%3D'description'%2F%3E%3Cattribute%20name%3D'address1_postalcode'%20%2F%3E%3Cattribute%20name%3D'address1_line3'%20%2F%3E%3Cattribute%20name%3D'address1_line2'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'accountid'%20operator%3D'eq'%20value%3D'"+accId+"'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -1524,7 +1736,9 @@
                     if (this.status === 200) {
                         oppty = JSON.parse(this.response).value;
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+                        var alertOptions = { height: 120, width: 260 };
+                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
                     }
                 }
             };
@@ -1676,7 +1890,7 @@
             //    "</filter>" +
             //  "</entity>" +
             //"</fetch>";
-            var oppOpFetchXml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
+            /*var oppOpFetchXml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
                 "<entity name='opportunity'>" +
                 "<attribute name='customerid' alias='ClientName' />" +
                 "<attribute name='statuscode' alias='StatusCode' />" +
@@ -1693,16 +1907,38 @@
                 "</entity>" +
                 "</fetch>";
             //debugger;
-            var opportRecords = XrmServiceToolkit.Soap.Fetch(oppOpFetchXml);
+            var opportRecords = XrmServiceToolkit.Soap.Fetch(oppOpFetchXml);*/
+            var opportRecords;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%20%3E%3Centity%20name%3D%22opportunity%22%20%3E%3Cattribute%20name%3D%22customerid%22%20alias%3D%22ClientName%22%20%2F%3E%3Cattribute%20name%3D%22statuscode%22%20alias%3D%22StatusCode%22%20%2F%3E%3Cattribute%20name%3D%22estimatedvalue_base%22%20alias%3D%22fee%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_proj_factoredincome_curr_base%22%20alias%3D%22Factored_fee%22%20%2F%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22customerid%22%20alias%3D%22aj%22%20link-type%3D%22inner%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22statecode%22%20operator%3D%22eq%22%20value%3D%220%22%20%2F%3E%3Ccondition%20attribute%3D%22statuscode%22%20operator%3D%22ne%22%20value%3D%223%22%20%2F%3E%3Ccondition%20attribute%3D%22statuscode%22%20operator%3D%22not-null%22%20%2F%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22eq-or-under%22%20uitype%3D%22account%22%20value%3D%22" + parentaccountid + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    opportRecords = data.value;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                }
+            });
             var opporLst = [];
             if (opportRecords.length > 0) {
                 for (var i = 0; i < opportRecords.length; i++) {
 
-                    var clientName = opportRecords[i].attributes.ClientName.id.toUpperCase() == parentaccountid.toUpperCase() ? opportRecords[i].attributes.ClientName.name : "Related Child Org";
+                    var clientName = opportRecords[i].ClientName.toUpperCase() == parentaccountid.toUpperCase() ? opportRecords[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "Related Child Org";
                     //var clientName = opportRecords[i].attributes.ClientName != undefined ? opportRecords[i].attributes.ClientName.name : "";
-                    var feeBase = opportRecords[i].attributes.fee != undefined ? opportRecords[i].attributes.fee.value * exchangeratevalue : 0.00;
-                    var factoredFee = opportRecords[i].attributes.Factored_fee != undefined ? opportRecords[i].attributes.Factored_fee.value : "";
-                    var phase = GetPhase(opportRecords[i].attributes.StatusCode);
+                    var feeBase = opportRecords[i].fee != undefined ? opportRecords[i].fee * exchangeratevalue : 0.00;
+                    var factoredFee = opportRecords[i].Factored_fee != undefined ? opportRecords[i].Factored_fee : "";
+                    var phase = GetPhase(opportRecords[i].StatusCode);
                     var oppor = { phase: phase, clientName: clientName, feeBase: feeBase, factoredFee: factoredFee };
                     opporLst.push(oppor);
                 }
@@ -1715,7 +1951,7 @@
             var opportRecords;
             var opportRecordsUlt;
             var req = new XMLHttpRequest();
-            req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_probabilityofprojectproceeding'%20alias%3D'Probability_of_Proceeding'%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Cattribute%20name%3D'closeprobability'%20%2F%3E%3Cattribute%20name%3D'ccrm_bidmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_biddirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'customerid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee'%20%2F%3E%3Cattribute%20name%3D'ccrm_proj_factoredincome_curr_base'%20alias%3D'Factored_fee'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'ne'%20value%3D'3'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'not-null'%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_probabilityofprojectproceeding'%20alias%3D'Probability_of_Proceeding'%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Cattribute%20name%3D'closeprobability'%20%2F%3E%3Cattribute%20name%3D'ccrm_bidmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_biddirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'customerid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee'%20%2F%3E%3Cattribute%20name%3D'ccrm_proj_factoredincome_curr_base'%20alias%3D'Factored_fee'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'ne'%20value%3D'3'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'not-null'%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -1726,7 +1962,9 @@
                     if (this.status === 200) {
                         opportRecords = JSON.parse(this.response).value;
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+                        var alertOptions = { height: 120, width: 260 };
+                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
                     }
                 }
             };
@@ -1770,7 +2008,7 @@
 
             //Fetch for ultimate client
             var req = new XMLHttpRequest();
-            req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_probabilityofprojectproceeding'%20alias%3D'Probability_of_Proceeding'%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Cattribute%20name%3D'closeprobability'%20%2F%3E%3Cattribute%20name%3D'ccrm_bidmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_biddirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'ccrm_ultimateendclientid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee'%20%2F%3E%3Cattribute%20name%3D'ccrm_proj_factoredincome_curr_base'%20alias%3D'Factored_fee'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'ne'%20value%3D'3'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'not-null'%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_probabilityofprojectproceeding'%20alias%3D'Probability_of_Proceeding'%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Cattribute%20name%3D'closeprobability'%20%2F%3E%3Cattribute%20name%3D'ccrm_bidmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_biddirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'ccrm_ultimateendclientid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee'%20%2F%3E%3Cattribute%20name%3D'ccrm_proj_factoredincome_curr_base'%20alias%3D'Factored_fee'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'ne'%20value%3D'3'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'not-null'%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -1781,7 +2019,9 @@
                     if (this.status === 200) {
                         opportRecordsUlt = JSON.parse(this.response).value;
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+                        var alertOptions = { height: 120, width: 260 };
+                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
                     }
                 }
             };
@@ -1957,9 +2197,9 @@
         }
 
         function fetchLeads(acctid, op) {
-
+            var leads;
             if (op) {
-                var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+               /* var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
                 "<entity name='lead'>" +
                 "<attribute name='fullname' />" +
                 "<attribute name='statecode' />" +
@@ -1977,10 +2217,31 @@
                 "</filter>" +
                 "</link-entity>" +
                 "</entity>" +
-                "</fetch>";
+                "</fetch>";*/
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    url: clientURL + "/api/data/v9.1/leads?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%20%3E%3Centity%20name%3D%22lead%22%20%3E%3Cattribute%20name%3D%22fullname%22%20%2F%3E%3Cattribute%20name%3D%22statecode%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_arupinternal%22%20%2F%3E%3Cattribute%20name%3D%22ownerid%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_country%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_client%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_arupbusiness%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_accountingcentreid%22%20%2F%3E%3Cattribute%20name%3D%22leadid%22%20%2F%3E%3Corder%20attribute%3D%22fullname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22ccrm_client%22%20alias%3D%22ab%22%20link-type%3D%22inner%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22under%22%20value%3D%22" + acctid + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                    beforeSend: function(XMLHttpRequest) {
+                        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                    },
+                    async: false,
+                    success: function(data, textStatus, xhr) {
+                        leads = data.value;
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                        var alertOptions = { height: 120, width: 260 };
+                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    }
+                });
             }
             else {
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
                 "<entity name='lead'>" +
                 "<attribute name='fullname' />" +
                 "<attribute name='statecode' />" +
@@ -1996,23 +2257,44 @@
                 "<condition attribute='ccrm_client' operator='eq' value='" + acctid + "' />" +
                 "</filter>" +
                 "</entity>" +
-                "</fetch>";
+                "</fetch>";*/
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    url: clientURL + "/api/data/v9.1/leads?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%20%3E%3Centity%20name%3D%22lead%22%20%3E%3Cattribute%20name%3D%22fullname%22%20%2F%3E%3Cattribute%20name%3D%22statecode%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_arupinternal%22%20%2F%3E%3Cattribute%20name%3D%22ownerid%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_country%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_client%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_arupbusiness%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_accountingcentreid%22%20%2F%3E%3Cattribute%20name%3D%22leadid%22%20%2F%3E%3Corder%20attribute%3D%22fullname%22%20descending%3D%22false%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22ccrm_client%22%20operator%3D%22eq%22%20value%3D%22" + acctid + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                    beforeSend: function(XMLHttpRequest) {
+                        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                    },
+                    async: false,
+                    success: function(data, textStatus, xhr) {
+                        leads = data.value;
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                        var alertOptions = { height: 120, width: 260 };
+                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    }
+                });
             }
-            var leads = XrmServiceToolkit.Soap.Fetch(fetchXML);
+            //var leads = XrmServiceToolkit.Soap.Fetch(fetchXML);
             var leadsList = [];
 
             for (var i = 0; i < leads.length; i++) {
-                var fullname = leads[i].attributes.fullname != undefined ? leads[i].attributes.fullname.value : " ";
-                var status = leads[i].attributes.statecode != undefined ? leads[i].attributes.statecode.value : " ";
-                var arupbusiness = leads[i].attributes.ccrm_arupbusiness != undefined ? leads[i].attributes.ccrm_arupbusiness.name : " ";
-                var accountcentreid = leads[i].attributes.ccrm_accountingcentreid != undefined ? leads[i].attributes.ccrm_accountingcentreid.name : " ";
-                var leadid = leads[i].attributes.leadid != undefined ? leads[i].attributes.leadid.value : " ";
+                var fullname = leads[i].fullname != undefined ? leads[i].fullname : " ";
+                var status = leads[i].statecode != undefined ? leads[i].statecode : " ";
+                var arupbusiness = leads[i]._ccrm_arupbusiness_value != undefined ? leads[i]["_ccrm_arupbusiness_value@OData.Community.Display.V1.FormattedValue"] : " ";
+                var accountcentreid = leads[i]._ccrm_accountingcentreid_value != undefined ? leads[i]["_ccrm_accountingcentreid_value@OData.Community.Display.V1.FormattedValue"] : " ";
+                var leadid = leads[i].leadid != undefined ? leads[i].leadid : " ";
                 var ld = { "Name": fullname, "Status": status, "Arup Business": arupbusiness, "Accounting Centre": accountcentreid, "leadid": leadid };
                 leadsList.push(ld);
             }
             var o = leadsList.filter(function (currentValue, index, arr) {
-                if (currentValue.Status == 0) {
-                    delete currentValue.Status;
+                if (currentValue.status == 0) {
+                    delete currentValue.status;
                     return currentValue;
                 }
             });
@@ -2212,10 +2494,10 @@
                 })
                 .html(function (d) {
                     if (div == '#top10OpenOportunities' && d.column == 'Title') {
-                        return '<a href=\"' + GetGlobalContext().getClientUrl() + '/main.aspx?etc=3&pagetype=entityrecord&id=%7b' + d.OpportunityId + '%7d' + '\" target=\"_blank\">' + d.value + '</a>';
+                        return '<a href=\"' + clientURL + '/main.aspx?etc=3&pagetype=entityrecord&id=%7b' + d.OpportunityId + '%7d' + '\" target=\"_blank\">' + d.value + '</a>';
                     }
                     if (div == '#leadsList' && d.column == 'Name') {
-                        return '<a href=\"' + GetGlobalContext().getClientUrl() + '/main.aspx?pagetype=entityrecord&etc=4&id=%7b' + d.leadId + '%7d' + '\" target=\"_blank\">' + d.value + '</a>';
+                        return '<a href=\"' + clientURL + '/main.aspx?pagetype=entityrecord&etc=4&id=%7b' + d.leadId + '%7d' + '\" target=\"_blank\">' + d.value + '</a>';
                     }
                     else {
                         return d.value;
