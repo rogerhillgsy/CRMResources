@@ -541,6 +541,7 @@ function retreiveOrganisationChecks(executionContext) {
                         if (oppSanctionCheck != null && !clientDirty) { // If sanctions is null on Opportunity
                             formContext.getAttribute("arup_duediligencecheck").setValue(oppSanctionCheck);
                             formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
+                            formContext.data.save();
                         } else if (!clientDirty) { // If Client is not dirty //Top right coner in Design                                            
                             formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
                             formContext.data.save();

@@ -141,10 +141,11 @@ function Form_onsave(executionObj) {
 
 // SET AvailableSuffixes URL
 // CANNOT FIND FUNCTION
-function getAvailableSuffixesURL(interfaceName) {
+function getAvailableSuffixesURL(executionObj, interfaceName) {
     //get the attributes
+    var formContext = executionObj.getFormContext();
     var req = new XMLHttpRequest();
-    req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/ccrm_arupinterfacesettings?$filter=ccrm_name eq '" + interfaceName+"'", false);
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_arupinterfacesettings?$filter=ccrm_name eq '" + interfaceName+"'", false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
