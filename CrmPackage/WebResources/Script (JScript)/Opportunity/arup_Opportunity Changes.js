@@ -530,28 +530,31 @@ function retreiveOrganisationChecks(executionContext) {
                         } else {
                             formContext.getAttribute("arup_creditcheck").setValue(null);
                         }
-                            
+
                         var arup_duediligencecheck = result["arup_duediligencecheck"];
                         if (arup_duediligencecheck != null) { // If Sanctions is null on Client
                             formContext.getAttribute("arup_duediligencecheck").setValue(arup_duediligencecheck);
                         } else {
                             formContext.getAttribute("arup_duediligencecheck").setValue(null);
-                        }
-
-                        if (oppSanctionCheck != null && !clientDirty) { // If sanctions is null on Opportunity
-                            formContext.getAttribute("arup_duediligencecheck").setValue(oppSanctionCheck);
                             formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
                             formContext.data.save();
-                        } else if (!clientDirty) { // If Client is not dirty //Top right coner in Design                                            
+                        }
+
+                        //if (arup_duediligencecheck != null && !clientDirty) { // If sanctions is null on Opportunity
+                        //    formContext.getAttribute("arup_duediligencecheck").setValue(oppSanctionCheck);
+                        //    formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
+                        //    formContext.data.save();
+                        //} else
+                        if (clientDirty) { // If Client is not dirty //Top right coner in Design                                            
                             formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
                             formContext.data.save();
                             setTimeout(function () {
                                 formContext.getAttribute("arup_sanctionschecktrigger").fireOnChange();
                             }, 3000);
                         }
-                        setTimeout(function () {
-                            formContext.getAttribute("arup_duediligencecheck").fireOnChange();
-                        }, 1000);
+                        //setTimeout(function () {
+                        //    formContext.getAttribute("arup_duediligencecheck").fireOnChange();
+                        //}, 1000);
                     }
                 }
             };
