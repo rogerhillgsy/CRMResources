@@ -332,7 +332,7 @@ function getCurrentUserDetails(formContext) {
                             var retrivedOfficeCountry = GetOfficeCountryID(formContext, result.userOfficeID);
                             userCountry = retrivedOfficeCountry.Name.toUpperCase();
                             if (retrivedOfficeCountry != null && userCountry == 'AUSTRALIA') {
-                                ausCompany = getAusCompanyDetails(formContext, '5002');
+                                ausCompany = getAusCompanyDetails('5002');
                             }
 
                         }
@@ -361,28 +361,29 @@ function getCurrentUserDetails(formContext) {
     return result;
 }
 
-function getAusCompanyDetails(formContext, companyCode) {
+
+function getAusCompanyDetails(companyCode) {
 
     var companyDetails = new Object();
 
     var req = new XMLHttpRequest();
-    req.open("GET", formContext.context.getClientUrl() + "/XRMServices/2011/OrganizationData.svc/Ccrm_arupcompanySet?$select=Ccrm_arupcompanyId,Ccrm_name&$filter=Ccrm_ArupCompanyCode eq '" + companyCode + "' and statecode/Value eq 0", false);
+    req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/ccrm_arupcompanies?$select=ccrm_arupcompanyid,ccrm_name&$filter=ccrm_arupcompanycode eq '" + companyCode + "' and  statecode eq 0", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
     req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
     req.onreadystatechange = function () {
         if (this.readyState === 4) {
-
-            this.onreadystatechange = null;
-
+            req.onreadystatechange = null;
             if (this.status === 200) {
-                var returned = JSON.parse(this.responseText).d;
-                var results = returned.results;
-                if (results.length > 0) {
-                    companyDetails.companyId = results[0].Ccrm_arupcompanyId;
-                    companyDetails.CompanyName = results[0].Ccrm_name;
+                var results = JSON.parse(this.response);
+                for (var i = 0; i < results.value.length; i++) {
+                    companyDetails.companyId = results.value[i]["ccrm_arupcompanyid"];
+                    companyDetails.CompanyName = results.value[i]["ccrm_name"];
                 }
             } else {
-                Xrm.Navigation.openAlertDialog(this.statusText);
+                Xrm.Utility.alertDialog(this.statusText);
             }
         }
     };
@@ -446,31 +447,25 @@ function FormOnload(executionContext) {
    
     var formContext = executionContext.getFormContext();
     if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
-        if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
+       // if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
             var state = formContext.getAttribute("statecode").getValue();
             var bpfStatus = formContext.data.process.getStatus();
-            if (state == 1 && bpfStatus == 'active') {
-                if (currentStage == ArupStages.ConfirmJobApproval ||
-                    currentStage == ArupStages.ConfirmJobApproval1 ||
-                    currentStage == ArupStages.ConfirmJobApproval2 ||
-                    currentStage == ArupStages.ConfirmJobApproval3) {
+            if (state == 1 && bpfStatus == 'active')
+            {        
                     formContext.data.process.setStatus('finished');
-                } else {
-                    formContext.data.process.setStatus('aborted');
-                }
-            }
+             } 
+              
             if (state == 2) {
                 if (bpfStatus == 'active') {
                     formContext.data.process.setStatus('aborted');
                 }
             }
             if (state == 0) {
-                //var bpfStatus = formContext.data.process.getStatus();
                 if (bpfStatus != 'active') {
                     formContext.data.process.setStatus('active');
                 }
             }
-        }
+     //   }
 
         currUserData = getCurrentUserDetails(formContext);
         var opportunityType = formContext.getAttribute("arup_opportunitytype").getValue();
@@ -7489,7 +7484,7 @@ function VerifyParentOpportunity_ec(executionContext) {
 function VerifyParentOpportunity(formContext) {
 
     var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue();
-    if (opportunitytype == '770000001' || opportunitytype == '770000002') {
+    if (opportunitytype == '770000001') {
         var parentOpportunity = formContext.getAttribute("ccrm_parentopportunityid").getValue();
         if (parentOpportunity != null && parentOpportunity != "undefined") {
             var parentOpportunityId = parentOpportunity[0].id.replace('{', '').replace('}', '');
@@ -7506,20 +7501,15 @@ function VerifyParentOpportunity(formContext) {
                     req.onreadystatechange = null;
                     if (this.status === 200) {
                         var result = JSON.parse(this.response);
-                        var statecode = result["statecode"];
-                        //if (statecode != 1) {
-                        //    formContext.getAttribute("ccrm_parentopportunityid").setValue(null);
-                        //}
+
                         if (opportunitytype == '770000001') {
-                            var projectProcurement = formContext.getAttribute("ccrm_contractarrangement").getValue();
-                            if (isNaN(projectProcurement)) {
+                       
                                 if (result["ccrm_contractarrangement"] == null || result["ccrm_contractarrangement"] == "undefined")
                                     formContext.getAttribute("ccrm_contractarrangement").setValue(cachefields['ccrm_contractarrangement'])
                                 else
                                     formContext.getAttribute("ccrm_contractarrangement").setValue(result["ccrm_contractarrangement"])
-                            }
+                       
                         }
-                        // var statecode_formatted = result["statecode@OData.Community.Display.V1.FormattedValue"];
                     } else {
                         Xrm.Navigation.openAlertDialog(this.statusText);
                     }
@@ -7661,10 +7651,10 @@ function existingcrmframework_onchange_ec(executionContext, trigger) {
 
 function existingcrmframework_onchange(formContext, trigger) {
     var crmframeworkchk = formContext.getAttribute("arup_isthereanexistingcrmframeworkrecord").getValue();
-    var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
-    var newOpportunity = formContext.ui.getFormType() == 1;
-    var frameworkId = (arupInternal == true && !newOpportunity) ? 'arup_framework1' : 'arup_framework';
-    var frameworkAgreement = (arupInternal == true && !newOpportunity) ? 'ccrm_agreementnumber1' : 'ccrm_agreementnumber';
+   // var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+   // var newOpportunity = formContext.ui.getFormType() == 1;
+    //var frameworkId = (arupInternal == true && !newOpportunity) ? 'arup_framework1' : 'arup_framework';
+   // var frameworkAgreement = (arupInternal == true && !newOpportunity) ? 'ccrm_agreementnumber1' : 'ccrm_agreementnumber';
 
     if (crmframeworkchk == 1) {
 
@@ -7672,27 +7662,27 @@ function existingcrmframework_onchange(formContext, trigger) {
             formContext.getAttribute("ccrm_agreementnumber").setValue(null);
         }
 
-        formContext.getControl(frameworkId).setVisible(true);
+        formContext.getControl("arup_framework").setVisible(true);
         formContext.getAttribute("arup_framework").setRequiredLevel("required");
-        formContext.getControl(frameworkAgreement).setVisible(false);
+        formContext.getControl("ccrm_agreementnumber").setVisible(false);
         formContext.getAttribute("ccrm_agreementnumber").setRequiredLevel("none");
     }
     else if (crmframeworkchk == 0) {
         if (trigger == 'change') {
             formContext.getAttribute("arup_framework").setValue(null);
         }
-        formContext.getControl(frameworkId).setVisible(false);
+        formContext.getControl("arup_framework").setVisible(false);
         formContext.getAttribute("arup_framework").setRequiredLevel("none");
-        formContext.getControl(frameworkAgreement).setVisible(true);
+        formContext.getControl("ccrm_agreementnumber").setVisible(true);
         formContext.getAttribute("ccrm_agreementnumber").setRequiredLevel("required");
     }
     else if (crmframeworkchk == null) {
         if (trigger == 'change') {
             formContext.getAttribute("arup_framework").setValue(null);
         }
-        formContext.getControl(frameworkId).setVisible(false);
+        formContext.getControl("arup_framework").setVisible(false);
         formContext.getAttribute("arup_framework").setRequiredLevel("none");
-        formContext.getControl(frameworkAgreement).setVisible(false);
+        formContext.getControl("ccrm_agreementnumber").setVisible(false);
         formContext.getAttribute("ccrm_agreementnumber").setRequiredLevel("none");
     }
 }
