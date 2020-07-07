@@ -513,7 +513,7 @@ function FormOnload(executionContext) {
             //set scroll bar height
             $('#processControlScrollbar').children().height(20);
             customerid_onChange(formContext);
-            //ccrm_contractlimitofliability_OnChange();
+           
 
             feeIncomeCheck(formContext);
 
@@ -1012,21 +1012,21 @@ function GetCurrentApprover(formContext) {
     return resultCurrentApprover;
 }
 
+//Shruti: Can not find the calling code for this function
+//function GetCurrentApproversAsync(formContext, gotCurrentApproversCallback) {
+//    ///<summary>Asynchronously Fetch a list of current approvers</summary>
+//    /// <param name="gotCurrentApproversCallback">A callback function to be invoked with a string containing the current approvers.</param>
 
-function GetCurrentApproversAsync(formContext, gotCurrentApproversCallback) {
-    ///<summary>Asynchronously Fetch a list of current approvers</summary>
-    /// <param name="gotCurrentApproversCallback">A callback function to be invoked with a string containing the current approvers.</param>
 
-
-    Xrm.WebApi.online.retrieveRecord("opportunity", formContext.data.entity.getId(), "?$select=ccrm_currentapprovers").then(
-        function success(result) {
-            gotCurrentApproversCallback(result["ccrm_currentapprovers"]);
-        },
-        function (error) {
-            Xrm.Navigation.openAlertDialog(error.message);
-        }
-    );
-}
+//    Xrm.WebApi.online.retrieveRecord("opportunity", formContext.data.entity.getId(), "?$select=ccrm_currentapprovers").then(
+//        function success(result) {
+//            gotCurrentApproversCallback(result["ccrm_currentapprovers"]);
+//        },
+//        function (error) {
+//            Xrm.Navigation.openAlertDialog(error.message);
+//        }
+//    );
+//}
 
 function SetCurrentApproverNotification(formContext, currentApproverData) {
     if (currentApproverData) {
@@ -2506,33 +2506,34 @@ function fetchArupRegion(ClientUrl, arupGroupId) {
     return lookup;
 }
 
+//Shruti : can not find the calling code for this function
 //set notification lookup - called by the setRegionLookup function and onchange of arup company
-function setNotificationLookup(arupRegionID) {
-    Xrm.WebApi.online.retrieveMultipleRecords("ccrm_notificationlist", "?$select=ccrm_name,ccrm_notificationlistid&$filter=_ccrm_arupregionid_value eq " + arupRegionID + "&$top=1").then(
-        function success(results) {
-            if (results.length > 0) {
-                var Id = results.entities[0]["ccrm_notificationlistid"];
-                if (Id.indexOf('{') == -1)
-                    Id = '{' + Id;
-                if (Id.indexOf('}') == -1)
-                    Id = Id + '}';
-                Id = Id.toUpperCase();
+//function setNotificationLookup(arupRegionID) {
+//    Xrm.WebApi.online.retrieveMultipleRecords("ccrm_notificationlist", "?$select=ccrm_name,ccrm_notificationlistid&$filter=_ccrm_arupregionid_value eq " + arupRegionID + "&$top=1").then(
+//        function success(results) {
+//            if (results.length > 0) {
+//                var Id = results.entities[0]["ccrm_notificationlistid"];
+//                if (Id.indexOf('{') == -1)
+//                    Id = '{' + Id;
+//                if (Id.indexOf('}') == -1)
+//                    Id = Id + '}';
+//                Id = Id.toUpperCase();
 
-                var lookup = new Array();
-                lookup[0] = new Object();
-                lookup[0].id = Id;
-                lookup[0].name = results.entities[0]["ccrm_name"];
-                lookup[0].entityType = "ccrm_notificationlist";
-                return lookup;
-            } else {
-                return null;
-            };
-        },
-        function (error) {
-            Xrm.Navigation.openAlertDialog(error.message);
-        }
-    );
-}
+//                var lookup = new Array();
+//                lookup[0] = new Object();
+//                lookup[0].id = Id;
+//                lookup[0].name = results.entities[0]["ccrm_name"];
+//                lookup[0].entityType = "ccrm_notificationlist";
+//                return lookup;
+//            } else {
+//                return null;
+//            };
+//        },
+//        function (error) {
+//            Xrm.Navigation.openAlertDialog(error.message);
+//        }
+//    );
+//}
 // Set Valid Acc Center Code --  ends 
 
 // Common Methods - Starts 
@@ -3636,21 +3637,22 @@ function getFinanceApproverForCompany(formContext, companyid) {
     return output;
 }
 
-function UserNameCheck(fullName) {
-    var result = true;
+//Shruti: can not find the calling code for it
+//function UserNameCheck(fullName) {
+//    var result = true;
 
-    Xrm.WebApi.online.retrieveMultipleRecords("systemuser", "?$select=fullname&$filter=fullname eq '" + fullName + "'").then(
-        function success(results) {
-            if (results.length > 1) {
-                result = false;
-            }
-        },
-        function (error) {
-            Xrm.Navigation.openAlertDialog(error.message);
-        }
-    );
-    return result;
-}
+//    Xrm.WebApi.online.retrieveMultipleRecords("systemuser", "?$select=fullname&$filter=fullname eq '" + fullName + "'").then(
+//        function success(results) {
+//            if (results.length > 1) {
+//                result = false;
+//            }
+//        },
+//        function (error) {
+//            Xrm.Navigation.openAlertDialog(error.message);
+//        }
+//    );
+//    return result;
+//}
 
 function ValidateApproval(formContext, msg, approvaltype) {
     var output = new Object();
@@ -3934,13 +3936,14 @@ function MoveToBidDevelopment(formContext, approveonRiskChange) {
     return result;
 }
 
+function ccrm_confidential_onchange_ec(executionContext, mode) {
+    var formContext = executionContext.getFormContext();
+    ccrm_confidential_onchange(formContext, mode);
+}
+
 // ON CHANGE FUNCTIONS
 // FINANCIAL ON CHANGE
 function ccrm_confidential_onchange(formContext, mode) {
-
-    if (mode != 0)
-        formContext = formContext.getFormContext();
-
     var isConfidential;
 
     switch (mode) {
@@ -4837,71 +4840,72 @@ function setRequiredFields_BidSubmitted(executionContext) {
     formContext.getAttribute("arup_projectsector").setRequiredLevel(reqLevel); //Project Sector
 }
 
-function checkOrganisationData(executionContext) {
-    var formContext = executionContext.getFormContext();
-    if (formContext.getAttribute("customerid").getValue() != null) {
-        var clientId = formContext.getAttribute("customerid").getValue()[0].id;
+//Shruti : can not find the calling code for it.
+//function checkOrganisationData(executionContext) {
+//    var formContext = executionContext.getFormContext();
+//    if (formContext.getAttribute("customerid").getValue() != null) {
+//        var clientId = formContext.getAttribute("customerid").getValue()[0].id;
 
-        var req = new XMLHttpRequest();
-        req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + clientId.replace('{', '').replace('}', '') + ")?$select=_ccrm_countryofcoregistrationid_value,arup_clientsector", false);
-        req.setRequestHeader("OData-MaxVersion", "4.0");
-        req.setRequestHeader("OData-Version", "4.0");
-        req.setRequestHeader("Accept", "application/json");
-        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-        req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-        req.onreadystatechange = function () {
-            if (this.readyState === 4) {
-                req.onreadystatechange = null;
-                if (this.status === 200) {
-                    var result = JSON.parse(this.response);
-                    if (retrievedreq != null) {
-                        var clientSector = (result["arup_clientsector"] != null)
-                            ? result["arup_clientsector"]
-                            : null;
-                        var countryOfCompanyReg = (result["_ccrm_countryofcoregistrationid_value"] != null)
-                            ? result["_ccrm_countryofcoregistrationid_value"]
-                            : null;
-                        if (clientSector == null) {
+//        var req = new XMLHttpRequest();
+//        req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + clientId.replace('{', '').replace('}', '') + ")?$select=_ccrm_countryofcoregistrationid_value,arup_clientsector", false);
+//        req.setRequestHeader("OData-MaxVersion", "4.0");
+//        req.setRequestHeader("OData-Version", "4.0");
+//        req.setRequestHeader("Accept", "application/json");
+//        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+//        req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+//        req.onreadystatechange = function () {
+//            if (this.readyState === 4) {
+//                req.onreadystatechange = null;
+//                if (this.status === 200) {
+//                    var result = JSON.parse(this.response);
+//                    if (retrievedreq != null) {
+//                        var clientSector = (result["arup_clientsector"] != null)
+//                            ? result["arup_clientsector"]
+//                            : null;
+//                        var countryOfCompanyReg = (result["_ccrm_countryofcoregistrationid_value"] != null)
+//                            ? result["_ccrm_countryofcoregistrationid_value"]
+//                            : null;
+//                        if (clientSector == null) {
 
-                            Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
-                                '<font size="3" color="#000000"></br>You must provide a value for Client Sector for the Client</font>',
-                                [
-                                    { label: "<b>OK</b.", setFocus: true },
-                                ],
-                                "WARNING",
-                                400,
-                                250,
-                                '',
-                                true);
+//                            Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
+//                                '<font size="3" color="#000000"></br>You must provide a value for Client Sector for the Client</font>',
+//                                [
+//                                    { label: "<b>OK</b.", setFocus: true },
+//                                ],
+//                                "WARNING",
+//                                400,
+//                                250,
+//                                '',
+//                                true);
 
-                            return false;
-                        }
-                        if (countryOfCompanyReg == null) {
+//                            return false;
+//                        }
+//                        if (countryOfCompanyReg == null) {
 
-                            Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
-                                '<font size="3" color="#000000"></br>You must provide a value for Country of Company Registration for the Client</font>',
-                                [
-                                    { label: "<b>OK</b>", setFocus: true },
-                                ],
-                                "WARNING",
-                                400,
-                                250,
-                                '',
-                                true);
+//                            Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
+//                                '<font size="3" color="#000000"></br>You must provide a value for Country of Company Registration for the Client</font>',
+//                                [
+//                                    { label: "<b>OK</b>", setFocus: true },
+//                                ],
+//                                "WARNING",
+//                                400,
+//                                250,
+//                                '',
+//                                true);
 
-                            return false;
-                        }
-                    } else
-                        return false;
-                } else {
-                    Xrm.Navigation.openAlertDialog(this.statusText);
-                }
-            }
-        };
-        req.send();
+//                            return false;
+//                        }
+//                    } else
+//                        return false;
+//                } else {
+//                    Xrm.Navigation.openAlertDialog(this.statusText);
+//                }
+//            }
+//        };
+//        req.send();
 
-    }
-}
+//    }
+//}
 
 function HideApprovalButtonForRiskChange(regionName) {
     var regionName, oppType;
@@ -5955,77 +5959,78 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
     }
 }
 
+// Shruti : can not find the calling code for below function. This function is disabled at Possible Job Number Required Field
 //function for the oppo progress button 
-possibleJNRequired_onChange = function (formContext) {
+//possibleJNRequired_onChange = function (formContext) {
 
-    // Job required = true - we will simulate the get job number button 
+//    // Job required = true - we will simulate the get job number button 
 
-    if (formContext.getAttribute("ccrm_possiblejobnumberrequired").getValue() == 1) {
-        if (formContext.getAttribute("ccrm_sys_dtp_gateway").getValue() != true) {
-            var regionName = formContext.getAttribute("ccrm_arupregionid").getValue()[0].name;
-            formContext.getAttribute("ccrm_sys_dtp_gateway").setValue(true);
-            //setRequiredFields_DecisionToProceed();
-            formContext.getAttribute("ccrm_pjn_opportunitytype").setValue(OpportunityType.Full);
-            if (regionName == "East Asia Region" || regionName == "Australasia Region" || regionName == "Malaysia Region"
-                && regionName != null) {
-                formContext.getAttribute("ccrm_sys_dtb_approval").setValue(false);
-            }
-            formContext.ui.refreshRibbon();
-        }
-    }
-    // set bid review gateway value from ribbon button Request Bid Review without Possible Job Number (2)
-    else if (formContext.getAttribute("ccrm_possiblejobnumberrequired").getValue() == 0) {
-        if (formContext.getAttribute("ccrm_sys_bidreview_gateway").getValue() != true) {
-            formContext.getAttribute("ccrm_sys_bidreview_gateway").setValue(true);
-            formContext.getAttribute("ccrm_pjn_opportunitytype").setValue(OpportunityType.Simple);
-            formContext.ui.refreshRibbon();
-        }
-    }
-    if (formContext.getAttribute("ccrm_arupregionid").getValue() != null) {
-        var regionName = formContext.getAttribute("ccrm_arupregionid").getValue()[0].name;
-        if ((regionName == "UKMEA Region" || regionName == "UKIMEA Region" || regionName == "UKIMEA" || regionName == "UKMEA" ||
-            regionName == "Americas Region" ||
-            regionName == "Europe" ||
-            regionName == "Corporate Services" ||
-            regionName == "Digital Technology") &&
-            formContext.getAttribute("ccrm_pjna").getValue() != "Requested") {
-            var msgOut = "By clicking OK you will assign a possible job number. No approval requests will be sent.\n\nYou must ensure that you have completed all the requirements of your regional bid policy and attached supporting evidence - such as a Decision to Proceed record signed by a Director.\n\nIf you are not sure if you have complied with your regional requirements please consult a Director before progressing.";
-            var response = window.confirm(msgOut);
-            if (response) {
-                formContext.getAttribute("ccrm_sys_dtb_approval").setValue(true);
-                formContext.getAttribute("ccrm_sys_pjnrequesteduser_trigger").setValue(true);
-                formContext.getAttribute("ccrm_sys_phasename").setValue("Possible Job – Bid in Development");
-                formContext.getAttribute("ccrm_pjna").setValue("Requested");
+//    if (formContext.getAttribute("ccrm_possiblejobnumberrequired").getValue() == 1) {
+//        if (formContext.getAttribute("ccrm_sys_dtp_gateway").getValue() != true) {
+//            var regionName = formContext.getAttribute("ccrm_arupregionid").getValue()[0].name;
+//            formContext.getAttribute("ccrm_sys_dtp_gateway").setValue(true);
+//            //setRequiredFields_DecisionToProceed();
+//            formContext.getAttribute("ccrm_pjn_opportunitytype").setValue(OpportunityType.Full);
+//            if (regionName == "East Asia Region" || regionName == "Australasia Region" || regionName == "Malaysia Region"
+//                && regionName != null) {
+//                formContext.getAttribute("ccrm_sys_dtb_approval").setValue(false);
+//            }
+//            formContext.ui.refreshRibbon();
+//        }
+//    }
+//    // set bid review gateway value from ribbon button Request Bid Review without Possible Job Number (2)
+//    else if (formContext.getAttribute("ccrm_possiblejobnumberrequired").getValue() == 0) {
+//        if (formContext.getAttribute("ccrm_sys_bidreview_gateway").getValue() != true) {
+//            formContext.getAttribute("ccrm_sys_bidreview_gateway").setValue(true);
+//            formContext.getAttribute("ccrm_pjn_opportunitytype").setValue(OpportunityType.Simple);
+//            formContext.ui.refreshRibbon();
+//        }
+//    }
+//    if (formContext.getAttribute("ccrm_arupregionid").getValue() != null) {
+//        var regionName = formContext.getAttribute("ccrm_arupregionid").getValue()[0].name;
+//        if ((regionName == "UKMEA Region" || regionName == "UKIMEA Region" || regionName == "UKIMEA" || regionName == "UKMEA" ||
+//            regionName == "Americas Region" ||
+//            regionName == "Europe" ||
+//            regionName == "Corporate Services" ||
+//            regionName == "Digital Technology") &&
+//            formContext.getAttribute("ccrm_pjna").getValue() != "Requested") {
+//            var msgOut = "By clicking OK you will assign a possible job number. No approval requests will be sent.\n\nYou must ensure that you have completed all the requirements of your regional bid policy and attached supporting evidence - such as a Decision to Proceed record signed by a Director.\n\nIf you are not sure if you have complied with your regional requirements please consult a Director before progressing.";
+//            var response = window.confirm(msgOut);
+//            if (response) {
+//                formContext.getAttribute("ccrm_sys_dtb_approval").setValue(true);
+//                formContext.getAttribute("ccrm_sys_pjnrequesteduser_trigger").setValue(true);
+//                formContext.getAttribute("ccrm_sys_phasename").setValue("Possible Job – Bid in Development");
+//                formContext.getAttribute("ccrm_pjna").setValue("Requested");
 
-                formContext.ui.setFormNotification("A possible Job number is being generated it may take a couple of minutes to appear on the opportunity screen and couple of hours to appear on the financial systems.", "INFO", "PJNProgress");
-                setTimeout(function () { formContext.ui.clearFormNotification("PJNProgress"); }, 10000);
-                formContext.data.save();
-            } else {
-                formContext.getAttribute("ccrm_possiblejobnumberrequired").setValue(null);
-                resetSysFlags(formContext);
-                formContext.getAttribute("ccrm_showpjnbutton").setValue(1);
-                formContext.data.save();
-            }
-        }
-        // All Other regions
-        else {
-            if (regionName == "East Asia Region" || regionName == "Australasia Region" || regionName == "Malaysia Region") {
+//                formContext.ui.setFormNotification("A possible Job number is being generated it may take a couple of minutes to appear on the opportunity screen and couple of hours to appear on the financial systems.", "INFO", "PJNProgress");
+//                setTimeout(function () { formContext.ui.clearFormNotification("PJNProgress"); }, 10000);
+//                formContext.data.save();
+//            } else {
+//                formContext.getAttribute("ccrm_possiblejobnumberrequired").setValue(null);
+//                resetSysFlags(formContext);
+//                formContext.getAttribute("ccrm_showpjnbutton").setValue(1);
+//                formContext.data.save();
+//            }
+//        }
+//        // All Other regions
+//        else {
+//            if (regionName == "East Asia Region" || regionName == "Australasia Region" || regionName == "Malaysia Region") {
 
-                formContext.getAttribute("ccrm_sys_dtb_approval").setValue(false);
-                formContext.getAttribute("ccrm_sys_op_trigger").setValue('1'); //opportunity progress workflow trigger - OP: 1.0: Trigger            
-                formContext.getAttribute("ccrm_sys_pjnrequesteduser_trigger").setValue(true);
-                //sets the trigger to set the pjn user from plugin - also used to lock down the track fields
-                formContext.getAttribute("ccrm_sys_pjnrequesteduser_trigger").setSubmitMode("always");
-                customerid_onChange(formContext); //check if a valid customer is set and if not set a notification                
-                ccrm_opportunitytype_onchange(formContext);
-                //check if the opportunity has a valid track and if not set a notification
-                formContext.ui.setFormNotification("Your request for a Possible Job Number has been logged. Decision to Proceed approvals are being generated.", "INFO", "PJNProgress");
-                setTimeout(function () { formContext.ui.clearFormNotification("PJNProgress"); }, 10000);
-                formContext.data.save();
-            }
-        }
-    }
-}
+//                formContext.getAttribute("ccrm_sys_dtb_approval").setValue(false);
+//                formContext.getAttribute("ccrm_sys_op_trigger").setValue('1'); //opportunity progress workflow trigger - OP: 1.0: Trigger            
+//                formContext.getAttribute("ccrm_sys_pjnrequesteduser_trigger").setValue(true);
+//                //sets the trigger to set the pjn user from plugin - also used to lock down the track fields
+//                formContext.getAttribute("ccrm_sys_pjnrequesteduser_trigger").setSubmitMode("always");
+//                customerid_onChange(formContext); //check if a valid customer is set and if not set a notification                
+//                ccrm_opportunitytype_onchange(formContext);
+//                //check if the opportunity has a valid track and if not set a notification
+//                formContext.ui.setFormNotification("Your request for a Possible Job Number has been logged. Decision to Proceed approvals are being generated.", "INFO", "PJNProgress");
+//                setTimeout(function () { formContext.ui.clearFormNotification("PJNProgress"); }, 10000);
+//                formContext.data.save();
+//            }
+//        }
+//    }
+//}
 
 //function to reset system flags
 function resetSysFlags(formContext) {
@@ -6548,55 +6553,6 @@ function OpenDWBidsSiteLink(formContext) {
     //}
 }
 
-//function ccrm_contractlimitofliability_OnChange() {
-
-//    return;
-
-//    //debugger;
-//    var strCLL = formContext.getAttribute('ccrm_contractlimitofliability').getValue();
-//    /* 6 - limited; 3 - unlimited */
-//    if (strCLL != 6) {
-//        formContext.getAttribute("ccrm_limitofliabilityagreement").setRequiredLevel("none");
-//        formContext.getAttribute('ccrm_limitofliabilityagreement').setValue(null);
-//        formContext.getControl("ccrm_limitofliabilityagreement").setDisabled(true);
-//        if (formContext.getControl("header_process_ccrm_limitofliabilityagreement") != null)
-//            formContext.getControl("header_process_ccrm_limitofliabilityagreement").setDisabled(true);
-//        formContext.getAttribute('ccrm_limitamount_num').setValue(null);
-//        formContext.getControl("ccrm_limitamount_num").setDisabled(true);
-//        if (formContext.getControl("header_process_ccrm_limitamount_num") != null)
-//            formContext.getControl("header_process_ccrm_limitamount_num").setDisabled(true);
-//        formContext.getAttribute("ccrm_limitofliabilityagreement").setSubmitMode("always");
-//        formContext.getAttribute('ccrm_limitamount_num').setValue(null);
-//        formContext.getAttribute("ccrm_limitamount_num").setSubmitMode("always");
-//        formContext.getAttribute("ccrm_limitamount_num").setRequiredLevel("none");
-//    } else {
-//        if (formContext.getAttribute("statecode").getValue() == 0) {
-//            formContext.getControl("ccrm_limitofliabilityagreement").setDisabled(false);
-//        }
-//        formContext.getControl("ccrm_limitofliabilityagreement").setVisible(true);
-//        if (formContext.getControl("header_process_ccrm_limitofliabilityagreement") != null && formContext.getAttribute("statecode").getValue() == 0) {
-//            formContext.getControl("header_process_ccrm_limitofliabilityagreement").setDisabled(false);
-//        }
-//        formContext.getAttribute("ccrm_limitofliabilityagreement").setRequiredLevel("required");
-//    }
-//}
-
-//function ccrm_limitofliabilityagreement_OnChange() {
-//    var strLL = formContext.getAttribute('ccrm_limitofliabilityagreement').getValue();
-//    if (strLL != 1) {
-//        formContext.getControl("ccrm_limitamount_num").setDisabled(true);
-//        if (formContext.getControl("header_process_ccrm_limitamount_num") != null)
-//            formContext.getControl("header_process_ccrm_limitamount_num").setDisabled(true);
-//        formContext.getAttribute('ccrm_limitamount_num').setValue(null);
-//        formContext.getAttribute("ccrm_limitamount_num").setSubmitMode("always");
-//        formContext.getAttribute("ccrm_limitamount_num").setRequiredLevel("none");
-//    } else {
-//        formContext.getControl("ccrm_limitamount_num").setDisabled(false);
-//        if (formContext.getControl("header_process_ccrm_limitamount_num") != null)
-//            formContext.getControl("header_process_ccrm_limitamount_num").setDisabled(false);
-//        formContext.getAttribute("ccrm_limitamount_num").setRequiredLevel("required");
-//    }
-//}
 
 //CRM2016 Needs confirmation
 function show_hiddenrow(attributeName, supressTabCallback) {
