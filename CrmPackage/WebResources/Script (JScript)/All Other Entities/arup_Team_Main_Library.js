@@ -1,3 +1,5 @@
+/// <reference path="arup_exitFormFunctions.js"/>"
+
 var teamLog = console.log.bind(window.console);
 var teamError = console.error.bind(window.console);
 const CREATE_FORM = 1;
@@ -328,82 +330,10 @@ function AddTeamMember(formContext, user, team) {
 }
 
 
-// runs on Exit button in ribbon
-function exitForm(primaryControl) {
-    var formContext = primaryControl;
-    if (closeIfUnmodifiedOrInactive(formContext)) return;
-
-    Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
-        '<font size="3" color="#000000"></br>Some fields on the form have been changed.</br>Click "Save and Exit" button to save your changes and exit.</br>Click "Exit Only" button to exit without saving.</font>',
-        [
-            {
-                label: "<b>Save and Exit</b>",
-                callback: saveAndCloseForm(formContext, "team"),
-                setFocus: true,
-                preventClose: false
-            },
-            {
-                label: "<b>Exit Only</b>",
-                callback: closeForm(formContext),
-                setFocus: false,
-                preventClose: false
-            }
-        ],
-        'Warning', 600, 250, '', true);
-}
-
-function closeIfUnmodifiedOrInactive(formContext) {
-    //see if the form is dirty
-    var ismodified = formContext.data.entity.getIsDirty();
-    if (ismodified == false) {
-        formContext.ui.close();
-        return true;
-    } else {
-        var formType = formContext.ui.getFormType();
-        if (ismodified == true && (formType === 3 || formType === 4)) {  // Readonly or disabled
-            closeForm(formContext);
-         
-            return true;
-        }
-    }
-    return false;
-}
-
-function saveAndCloseForm(formContext, entityLogicalName ) {
-    return function () {
-        const SAVE_AND_CLOSE = 2; // Note this is for info only (for OnSave handlers), does not cause the form to close.
-        formContext.data.save( { saveMode : SAVE_AND_CLOSE })
-            .then(function(e) {
-                teamLog("Saved form...");
-                if (!!entityLogicalName) {
-                    // Simply using formContext.ui.close() tends to leave us on the same form, so navigate to the entity list.
-                    Xrm.Navigation.navigateTo({
-                        pageType: "entitylist",
-                        entityName: "team"
-                    });
-                } else {
-                    formContext.ui.close();
-                }
-            })
-            .catch(
-                function error(e) {
-                    teamError("Failed to save and close form " + e.message);
-                    debugger;
-                });
-    }
-}
-
-function closeForm(formContext) {
-    return function() {
-        new Promise(function(resolve) {
-                formContext.data.entity.attributes.forEach(function(a) {
-                    if (a.getIsDirty()) {
-                        a.setSubmitMode("never");
-                    }
-                });
-                setTimeout(resolve, 1000);
-            })
-            .then(function() { formContext.ui.close() })
-            .catch(function(e) { teamError("Error closing form :" + e.message) });
-    }
+/**
+ * @description Called from the command bar exit button
+ * @param {any} formContext
+ */
+function exitForm(formContext) {
+    ArupExit.exitForm(formContext, "team");
 }
