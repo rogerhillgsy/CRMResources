@@ -45,7 +45,20 @@ function Form_onload(executionContext) {
     globalDQTeam = isUserInTeamCheck(formContext);
     formItem = formContext.ui.formSelector.getCurrentItem();
     var formName = formItem.getLabel();
-
+    var isDQForm = false;
+    if (formName == "Data Quality Form") {
+        isDQForm = true;
+    }
+    if (isDQForm) {
+        var wrControl = formContext.getControl("WebResource_Relationship_Interactions");
+        if (wrControl) {
+            wrControl.getContentWindow().then(
+                function (contentWindow) {
+                    contentWindow.setClientApiContext(Xrm, formContext);
+                }
+            )
+        }
+    }
     if (!globalDQTeam) {
         if (formName == "Data Quality Form") {
             formAction("Organisation", "change", formContext);
