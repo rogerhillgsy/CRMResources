@@ -1,17 +1,9 @@
 ﻿function form_OnLoad(executionContext) {
-
     setInterval(changeHeaderTileFormat, 1000);
     multiDiscipline_onChange(executionContext);
-
-}
-
-function form_OnSave() {
-
-
 }
 
 function changeHeaderTileFormat() {
-
     //This may not be a supported way to change the header tile width
     var headertiles = window.parent.document.getElementsByClassName("ms-crm-HeaderTileElement");
     if (headertiles != null) {
@@ -20,24 +12,28 @@ function changeHeaderTileFormat() {
             headertiles[i].style.maxWidth = "300px";
         }
     }
-
 }
 
-function openSecuredFramework() {
-
-    var frameworkId = Xrm.Page.data.entity.getId().replace('{', '').replace('}', '');
+function openSecuredFramework(primaryControl) {
+    var formContext = primaryControl;
+    var frameworkId = formContext.data.entity.getId().replace('{', '').replace('}', '');
     if (frameworkId == null) return;
 
     // check if arup_frameworksecured record has already been created
-    var frameworkIdSecured = findSecureRecord(frameworkId);
+    var frameworkIdSecured = findSecureRecord(frameworkId, formContext);
     // open a form with existing record in it
     if (frameworkIdSecured != null) {
-        Xrm.Utility.openEntityForm("arup_frameworksecured", frameworkIdSecured);
+
+        var entityFormOptions = {};
+        entityFormOptions["entityName"] = "arup_frameworksecured";
+        entityFormOptions["entityId"] = frameworkIdSecured;
+        // Set default values for the Contact form
+        Xrm.Navigation.openForm(entityFormOptions);
         return;
     }
 
-    var ownerName = Xrm.Page.getAttribute("ownerid").getValue()[0].name;
-    var creatorName = Xrm.Page.getAttribute("createdby").getValue()[0].name;
+    var ownerName = formContext.getAttribute("ownerid").getValue()[0].name;
+    var creatorName = formContext.getAttribute("createdby").getValue()[0].name;
     var message = (ownerName == creatorName) ? 'Contact ' + ownerName + ' to request access.' : 'Contact either ' + ownerName + ' or ' + creatorName + ' to request access.';
 
     Alert.show('<font size="6" color="#FF0000"><b>Access Denied</b></font>',
@@ -48,11 +44,11 @@ function openSecuredFramework() {
 
 }
 
-function findSecureRecord(frameWorkId) {
+function findSecureRecord(frameWorkId, formContext) {
 
     var req = new XMLHttpRequest();
     var arup_frameworksecuredid = null;
-    req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v8.2/arup_frameworksecureds?$select=arup_frameworksecuredid&$filter=_arup_frameworkid_value eq " + frameWorkId, false);
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/arup_frameworksecureds?$select=arup_frameworksecuredid&$filter=_arup_frameworkid_value eq " + frameWorkId, false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -68,7 +64,7 @@ function findSecureRecord(frameWorkId) {
                     break;
                 }
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -77,9 +73,9 @@ function findSecureRecord(frameWorkId) {
 
 }
 
-function OpenAttachmentPage() {
-
-    var url = "WebResources/arup_UploadAttachments?id=" + Xrm.Page.data.entity.getId() + "&typename=arup_framework&data=FrameWorkFoldersGrid";
+function OpenAttachmentPage(primaryControl) {
+    var formContext = primaryControl;
+    var url = "WebResources/arup_UploadAttachments?id=" + formContext.data.entity.getId() + "&typename=arup_framework&data=FrameWorkFoldersGrid";
     window.open(url, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=400");
 
 }
@@ -91,12 +87,12 @@ function errorHandler(error) {
 }
 
 // runs on Exit button
-function exitForm() {
-
+function exitForm(primaryControl) {
+    var formContext = primaryControl;
     //see if the form is dirty
-    var ismodified = Xrm.Page.data.entity.getIsDirty();
+    var ismodified = formContext.data.entity.getIsDirty();
     if (ismodified == false) {
-        Xrm.Page.ui.close();
+        formContext.ui.close();
         return;
     }
 
@@ -106,19 +102,19 @@ function exitForm() {
             {
                 label: "<b>Save and Exit</b>",
                 callback: function () {
-                    var acctAttributes = Xrm.Page.data.entity.attributes.get();
+                    var acctAttributes = formContext.data.entity.attributes.get();
                     var highlight = true;
                     var cansave = true;
                     if (acctAttributes != null) {
                         for (var i in acctAttributes) {
                             if (acctAttributes[i].getRequiredLevel() == 'required') {
-                                highlight = Xrm.Page.getAttribute(acctAttributes[i].getName()).getValue() != null;
+                                highlight = formContext.getAttribute(acctAttributes[i].getName()).getValue() != null;
                                 if (highlight == false && cansave == true) { cansave = false; }
 
                             }
                         }
                     }
-                    if (cansave) { Xrm.Page.data.entity.save("saveandclose"); }
+                    if (cansave) { formContext.data.entity.save("saveandclose"); }
                 },
                 setFocus: true,
                 preventClose: false
@@ -127,14 +123,14 @@ function exitForm() {
                 label: "<b>Exit Only</b>",
                 callback: function () {
                     //get list of dirty fields
-                    var acctAttributes = Xrm.Page.data.entity.attributes.get();
+                    var acctAttributes = formContext.data.entity.attributes.get();
                     if (acctAttributes != null) {
                         for (var i in acctAttributes) {
                             if (acctAttributes[i].getIsDirty()) {
-                                Xrm.Page.getAttribute(acctAttributes[i].getName()).setSubmitMode("never");
+                                formContext.getAttribute(acctAttributes[i].getName()).setSubmitMode("never");
                             }
                         }
-                        setTimeout(function () { Xrm.Page.ui.close(); }, 1000);
+                        setTimeout(function () { formContext.ui.close(); }, 1000);
                     }
                 },
                 setFocus: false,
