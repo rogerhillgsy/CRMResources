@@ -11,7 +11,6 @@ function form_onLoad(executionContext) {
         formContext.ui.tabs.get("HubSpot").setDisplayState('collapsed');
 
         ccrm_uselocallanguage_onchange(formContext);
-
         //sync up country with countryid field
         ccrm_countryid_onchange(formContext);
 
@@ -423,6 +422,11 @@ function setDate(date) {
         formContext.getAttribute("ccrm_lastvalidateddate").setValue(new Date());
         formContext.getAttribute("ccrm_lastvalidateddate").setSubmitMode("always");
     }
+}
+
+function countryid_onchange() {
+    var formContext = executionContext.getFormContext();
+    ccrm_countryid_onchange(formContext);
 }
 
 function ccrm_countryid_onchange(formContext) {
