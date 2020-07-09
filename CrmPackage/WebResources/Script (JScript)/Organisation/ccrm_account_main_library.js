@@ -1,4 +1,4 @@
-///<reference path="../Intellisense/Xrm.Page.2013.js"/>
+//<reference path="../Intellisense/Xrm.Page.2013.js"/>
 
 parent.validateUrlProtocol = function () { return 1; }
 var globalDQTeam = false;
@@ -665,15 +665,15 @@ function arup_expressedconsent_onChange(executionContext) {
         "INFO", 600, 200, '', true);
 }
 
-function OpenOrgOverviewReport() {
-    alert("OpenOrgOverviewReport");
-    var rdlName = "Client%20Overview.rdl";
-    var reportGuid = "2545f84b-6a02-e211-b3a3-005056af0014";
-    var entityType = "1";
-    var entityGuid = Xrm.Page.data.entity.getId();
-    var url = Xrm.Page.context.getClientUrl() + "/crmreports/viewer/viewer.aspx?action=run&context=records&helpID=" + rdlName + "&id={" + reportGuid + "}&records=" + entityGuid + "&recordstype=" + entityType;
-    window.open(url, null, 800, 600, true, false, null);
-}
+//function OpenOrgOverviewReport() {
+//    alert("OpenOrgOverviewReport");
+//    var rdlName = "Client%20Overview.rdl";
+//    var reportGuid = "2545f84b-6a02-e211-b3a3-005056af0014";
+//    var entityType = "1";
+//    var entityGuid = Xrm.Page.data.entity.getId();
+//    var url = Xrm.Page.context.getClientUrl() + "/crmreports/viewer/viewer.aspx?action=run&context=records&helpID=" + rdlName + "&id={" + reportGuid + "}&records=" + entityGuid + "&recordstype=" + entityType;
+//    window.open(url, null, 800, 600, true, false, null);
+//}
 
 
 function OpenClientOverviewReport(accountID, selectedRecCount) {
