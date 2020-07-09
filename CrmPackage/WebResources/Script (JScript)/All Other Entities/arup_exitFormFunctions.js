@@ -26,7 +26,7 @@ var ArupExit;
                 },
                 {
                     label: "<b>Exit Only</b>",
-                    callback: this.closeForm(formContext),
+                    callback: this.closeForm(formContext, entityLogicalName),
                     setFocus: false,
                     preventClose: false
                 }
@@ -43,13 +43,12 @@ var ArupExit;
         //see if the form is dirty
         var ismodified = formContext.data.entity.getIsDirty();
         if (ismodified == false) {
-            formContext.ui.close();
+            closeOrView(formContext, entityLogicalName);
             return true;
         } else {
             var formType = formContext.ui.getFormType();
             if (ismodified == true && (formType === 3 || formType === 4)) { // Readonly or disabled
-                this.closeForm(formContext, entityLogicalName);
-
+                closeOrView(formContext, entityLogicalName);
                 return true;
             }
         }
@@ -70,8 +69,8 @@ var ArupExit;
 
     function saveAndCloseForm(formContext, entityLogicalName) {
         return function() {
-                // Note parameter this is for info only (for OnSave handlers), does not cause the form to close.
-                const SAVE_AND_CLOSE = 2; 
+            // Note parameter this is for info only (for OnSave handlers), does not cause the form to close.
+            const SAVE_AND_CLOSE = 2;
             formContext.data.save({ saveMode: SAVE_AND_CLOSE })
                 .then(function(e) {
                     exitLog("Saved form...");
@@ -79,8 +78,14 @@ var ArupExit;
                 })
                 .catch(
                     function error(e) {
-                        exitError("Failed to save and close form " + e.message);
-                        debugger;
+                        if (entityLogicalName === "appointment" && e.errorCode === 2200000005) {
+                            // Saving appointments seems to work, depsite the fact that an error is thrown. Odd.
+                            exitLog("Saved appointment with custom setting issue...");
+                            closeOrView(formContext, entityLogicalName);
+                        } else {
+                            exitError("Failed to save and close form " + e.message);
+                            debugger;
+                        }
                     });
         }
     }

@@ -43,7 +43,7 @@ There will be several copies of the web resource visible in the debugger as "aru
             margin: 4px;
         }
 
-        .mainButton {
+        /*.mainButton {
             -webkit-border-radius: 6px;
             -moz-border-radius: 6px;
             border-radius: 5px;
@@ -75,7 +75,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 -moz-border-radius: 6px;
                 border-radius: 6px;
                 text-decoration: none;
-            }
+            }*/
 
             .mainButton:active {
                 background: #D42316;
@@ -85,7 +85,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 -webkit-transform: translate(4px, 4px);
             }
 
-        .greenButton {
+        /*.greenButton {
             -webkit-border-radius: 6px;
             -moz-border-radius: 6px;
             border-radius: 5px;
@@ -116,9 +116,9 @@ There will be several copies of the web resource visible in the debugger as "aru
                 -moz-border-radius: 6px;
                 border-radius: 6px;
                 text-decoration: none;
-            }
+            }*/
 
-            .greenButton:active {
+            .blueButton:active {
                 background: #91ac27;
                 box-shadow: 1px 1px 2px 2px #ab918f;
                 -webkit-box-shadow: 1px 1px 1px 1px #ab918f;
@@ -152,6 +152,71 @@ There will be several copies of the web resource visible in the debugger as "aru
             font-weight: 400;
             padding-left: 70px;
         }
+
+
+        .blueButton {
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px;
+            color: #FFFFFF;
+            font-family: Arial;
+            min-width: 280px;
+            width: 80%;
+            font-size: 16px;
+            font-weight: 400;
+            padding-top: 10px;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            background-color:#2DAAE1;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+            margin: 4px;
+            cursor: pointer;
+        }
+
+
+
+
+    .mainButton {
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px;
+            color: #FFFFFF;
+            font-family: Arial;
+            min-width: 280px;
+            width: 80%;
+            font-size: 16px;
+            font-weight: 400;
+            padding-top: 10px;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            background-color: #1AAC72;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+            margin: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+    }
+                        
+                        
+                        
+    .mainButton:hover {
+            background: #14553C;
+            text-decoration: none;
+    }
+                        
+    .blueButton:hover {
+            background: #0F5573;
+            text-decoration: none;
+    }                  
+                        
+
     </style>
 
     <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
@@ -245,7 +310,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         span.className = "mainButton";
 
                         if (!button.isredbutton)
-                            span.className = "greenButton";
+                            span.className = "blueButton";
 
                         if (button.islabel)
                             span.className = "label";
