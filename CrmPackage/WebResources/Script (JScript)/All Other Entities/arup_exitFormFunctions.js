@@ -49,7 +49,6 @@ var ArupExit;
             var formType = formContext.ui.getFormType();
             if (ismodified == true && (formType === 3 || formType === 4)) { // Readonly or disabled
                 closeOrView(formContext, entityLogicalName);
-
                 return true;
             }
         }
@@ -78,8 +77,14 @@ var ArupExit;
                 })
                 .catch(
                     function error(e) {
-                        exitError("Failed to save and close form " + e.message);
-                        debugger;
+                        if (entityLogicalName === "appointment" && e.errorCode === 2200000005) {
+                            // Saving appointments seems to work, depsite the fact that an error is thrown. Odd.
+                            exitLog("Saved appointment with custom setting issue...");
+                            closeOrView(formContext, entityLogicalName);
+                        } else {
+                            exitError("Failed to save and close form " + e.message);
+                            debugger;
+                        }
                     });
         }
     }
