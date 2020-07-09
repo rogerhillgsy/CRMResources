@@ -13,7 +13,7 @@ var ArupExit;
 
     function exitForm(primaryControl, entityLogicalName) {
         var formContext = primaryControl;
-        if (this.closeIfUnmodifiedOrInactive(formContext)) return;
+        if (this.closeIfUnmodifiedOrInactive(formContext, entityLogicalName)) return;
 
         Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
             '<font size="3" color="#000000"></br>Some fields on the form have been changed.</br>Click "Save and Exit" button to save your changes and exit.</br>Click "Exit Only" button to exit without saving.</font>',

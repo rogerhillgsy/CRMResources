@@ -197,7 +197,7 @@ function interfaceErrorBanner(errorType, errorRetries, errorMsg, formContext) {
     SetNotificationAlert("CRITICAL", errorType + " | Number of retries: " + errorRetries + " | " + errorMsg, null, formContext);
 }
 
-function ccrm_projectsuffix_onChange() {
+function ccrm_projectsuffix_onChange(executionContext) {
     var formContext = executionContext.getFormContext();
     ccrm_projectsuffixisforintcostmonitoringonly_onChange(formContext);
 }
@@ -455,7 +455,7 @@ function getProject(formContext) {
                 if (_ccrm_parentopportunityid_value != null) {
 
                     var reqP = new XMLHttpRequest();
-                    reqP.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/ccrm_projects?$select=ccrm_name,ccrm_projectid&$filter=_ccrm_opportunityid_value eq " + _ccrm_parentopportunityid_value, true);
+                    reqP.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_projects?$select=ccrm_name,ccrm_projectid&$filter=_ccrm_opportunityid_value eq " + _ccrm_parentopportunityid_value, true);
                     reqP.setRequestHeader("OData-MaxVersion", "4.0");
                     reqP.setRequestHeader("OData-Version", "4.0");
                     reqP.setRequestHeader("Accept", "application/json");
@@ -487,7 +487,7 @@ function getProject(formContext) {
                                                             lookup[0].name = ccrm_name;
                                                             lookup[0].entityType = 'ccrm_project';
                                                             formContext.getAttribute('ccrm_projectid').setValue(lookup);
-                                                            ccrm_projectid_onchange();
+                                                            ccrm_projectid_onchange(formContext);
 
                                                         }, false, false),
                                                     new Alert.Button("Cancel", function () { }, true, false)

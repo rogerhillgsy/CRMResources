@@ -244,6 +244,9 @@ Xrm.Page.Arup = (
                 return hideButtonProjectCollaborator(formContext);
             },
 
+            IsInternalOpportunity: function (formContext) {
+                return GetAttribute(formContext, "ccrm_arupinternal");
+            },
 
             // General Utility functions ----------------------
             SetupTabsForStage: function (formContext) {

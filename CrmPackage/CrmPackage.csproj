@@ -1322,6 +1322,11 @@
       <UniqueName>arup_projectparticipant_library</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_Task_Main_Library.js">
+      <DisplayName>arup_Task_Main_Library</DisplayName>
+      <UniqueName>arup_Task_Main_Library.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_Team_Main_Library.js">
       <DisplayName>arup_Team_Main_Library</DisplayName>
       <UniqueName>arup_Team_Main_Library.js</UniqueName>
@@ -1338,8 +1343,8 @@
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\ccrm_case_main_library.js">
-      <DisplayName>ccrm_case_main_library</DisplayName>
-      <UniqueName>new_ccrm_case_main_library</UniqueName>
+      <DisplayName>s</DisplayName>
+      <UniqueName>ccrm_case_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\Ccrm_cjnapplication_main_library.js">
@@ -1545,11 +1550,6 @@
     <CRMWebResource Include="WebResources\Script (JScript)\arup_Phonecall_Main_Library.js">
       <DisplayName>arup_Phonecall_Main_Library</DisplayName>
       <UniqueName>arup_arup_Phonecall_Main_Library</UniqueName>
-      <WebResourceType>NotSupported</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script (JScript)\arup_Task_Main_Library.js">
-      <DisplayName>arup_Task_Main_Library</DisplayName>
-      <UniqueName>arup_arup_Task_Main_Library</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_TEST.js">
