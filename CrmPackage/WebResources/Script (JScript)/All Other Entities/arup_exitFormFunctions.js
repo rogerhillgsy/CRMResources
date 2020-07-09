@@ -69,8 +69,9 @@ var ArupExit;
 
     function saveAndCloseForm(formContext, entityLogicalName) {
         return function() {
-                // Note parameter this is for info only (for OnSave handlers), does not cause the form to close.
-            formContext.data.save({ saveMode: 2 })
+            // Note parameter this is for info only (for OnSave handlers), does not cause the form to close.
+            const SAVE_AND_CLOSE = 2;
+            formContext.data.save({ saveMode: SAVE_AND_CLOSE })
                 .then(function(e) {
                     exitLog("Saved form...");
                     closeOrView(formContext, entityLogicalName);
