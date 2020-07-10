@@ -405,7 +405,9 @@
                             accounts = data.value;
                         },
                         error: function(xhr, textStatus, errorThrown) {
-                            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                            var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                            var alertOptions = { height: 120, width: 260 };
+                            Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
                         }
                     });
 
@@ -3704,7 +3706,9 @@
                     Organisations = data.value;
                 },
                 error: function(xhr, textStatus, errorThrown) {
-                    Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
                 }
             });
             if (Organisations.length > 0) {
