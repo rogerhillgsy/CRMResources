@@ -89,7 +89,7 @@
                             if (this.status === 200) {
                                 var results = JSON.parse(this.response);
                                 if (results.value.length != 0) {
-                                    getConnectionDetails(results);
+                                    getConnectionDetails(formContext, results);
                                 }
 								else{
 									PrepareTable(null, null);
@@ -102,7 +102,7 @@
             }
         }
 
-        function getConnectionDetails(contactResults) {
+        function getConnectionDetails(formContext, contactResults) {
             // get all connections regarding the contact
             var distinctContacts = [];
             var contactsLen = contactResults.value.length;
@@ -155,10 +155,10 @@
                 }
                 req.send();
             }
-            mergeRelationshipDetails(connectionIds, contactResults);
+            mergeRelationshipDetails(formContext, connectionIds, contactResults);
         }
 
-        function mergeRelationshipDetails(connectionResults, ContactResults) {
+        function mergeRelationshipDetails(formContext, connectionResults, ContactResults) {
             Xrm = parent.Xrm;
             var connectionLen = connectionResults.length;
             var connectionList = [];
@@ -198,10 +198,10 @@
 					}
 				}
 			}
-            PrepareTable(ContactResults, connectionList);
+            PrepareTable(formContext, ContactResults, connectionList);
         }
 
-        function PrepareTable(results, connectionList) {
+        function PrepareTable(formContext, results, connectionList) {
             //Create a table and header using the DOM
             var oTable = document.createElement("table");
             oTable.setAttribute("class", "hovertable");
