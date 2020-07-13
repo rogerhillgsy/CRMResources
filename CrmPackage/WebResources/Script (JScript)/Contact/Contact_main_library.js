@@ -921,32 +921,18 @@ function contactType_onchange(formContext) {
         }
     }
 }
-
 function defaultCustomerToAccountOnChange(executionContext) {
     var formContext = executionContext.getFormContext();
     defaultCustomerToAccount(formContext);
 }
 
 function qc_defaultCustomerToAccount(formContext) {
-    formContext.getControl("parentcustomerid").addPreSearch(function () {
-        addFilter(formContext);
-    });
+    formContext.getControl("parentcustomerid").setEntityTypes(["account"]);
 }
 
 function defaultCustomerToAccount(formContext) {
-    formContext.getControl("parentcustomerid").addPreSearch(function () {
-        addFilter(formContext);
-    });
-
-    formContext.getControl("header_parentcustomerid").addPreSearch(function () {
-        var customerAccountFilter = "<filter type='and'><condition attribute='contactid' operator='null' /></filter>";
-        formContext.getControl("header_parentcustomerid").addCustomFilter(customerAccountFilter, "contact");
-    });
-}
-
-function addFilter(formContext) {
-    var customerAccountFilter = "<filter type='and'><condition attribute='contactid' operator='null' /></filter>";
-    formContext.getControl("parentcustomerid").addCustomFilter(customerAccountFilter, "contact");
+    formContext.getControl("parentcustomerid").setEntityTypes(["account"]);
+    formContext.getControl("header_parentcustomerid").setEntityTypes(["account"]);
 }
 
 
