@@ -7,6 +7,8 @@ var statusCodeName = { "New": 100000000, "Assigned": 100000001 };
 
 function Form_onload(executioncontext) {
     var formContext = executioncontext.getFormContext();
+    defaultCustomerToAccount(formContext);
+
     // -- Form Creation
     if (formContext.ui.getFormType() == 1) {
         //force submit
@@ -20,8 +22,7 @@ function Form_onload(executioncontext) {
         lookupItem.entityType = 'systemuser';
         lookupData[0] = lookupItem;
         formContext.getAttribute('ccrm_assignedtosync_userid').setValue(lookupData);
-
-
+       
         //set sharepoint parameters
         //setSharePointParameters();
 
@@ -141,7 +142,8 @@ function contractStatus_onchange(executioncontext) {
 
 function customerid_onchange(executioncontext) {
     var formContext = executioncontext.getFormContext();
-    clientChange(formContext);
+    defaultCustomerToAccount(formContext);
+    clientChange(formContext);   
 }
 
 function arupContractingCompany_onchange(executioncontext) {
@@ -568,8 +570,8 @@ function setAssignedToSyncFromConverted(formContext) {
     }
 }
 
-function fnSharePoint(formContext) {
-
+function fnSharePoint(executionContext) {
+    var formContext = executionContext.getFormContext();
     //show sharepoint tab when url is defined
     var sharepointUrl = formContext.getAttribute("ccrm_sys_sharepoint_url").getValue();
     if (sharepointUrl != null) {
@@ -592,8 +594,8 @@ function confidentialFlag(formContext) {
     }
 }
 
-function OpenDocumentStore(formContext) {
-
+function OpenDocumentStore(primaryControl) {
+    var formContext = primaryControl;
     var sharepointUrl = formContext.getAttribute("ccrm_sys_sharepoint_url").getValue();
 
     if (sharepointUrl) {
@@ -603,6 +605,7 @@ function OpenDocumentStore(formContext) {
     }
 
 }
-////////////
-// End General Functions
-///////////
+
+function defaultCustomerToAccount(formContext) {
+    formContext.getControl("customerid").setEntityTypes(["account"]);
+}
