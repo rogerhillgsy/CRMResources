@@ -28,16 +28,23 @@ function GetDependentOptionSetFieldValues(executionContext, mainOptionsetFieldNa
                     OptionSetAddRemove(dependentOptionsetFieldName, results, formContext);
 
                     if (setDefaultValue == true) {
-                        formContext.getAttribute(dependentOptionsetFieldName).setValue(parseInt(optionsetDefaultValue));
+                        if (optionsetDefaultValue != null)
+                            formContext.getAttribute(dependentOptionsetFieldName).setValue(parseInt(optionsetDefaultValue));
+                        else
+                            formContext.getAttribute(dependentOptionsetFieldName).setValue(null);
                     }
-                    else if (isOptionSetSelectedValueValid)
-                        formContext.getAttribute(dependentOptionsetFieldName).setValue(parseInt(optionsetSelectedValue));
+                    else {
+                        if (isOptionSetSelectedValueValid)
+                            formContext.getAttribute(dependentOptionsetFieldName).setValue(parseInt(optionsetSelectedValue));
+                        else
+                            formContext.getAttribute(dependentOptionsetFieldName).setValue(null);
+                    }
 
                     if (formContext.getAttribute("statecode") == null || formContext.getAttribute("statecode").getValue() == 0)
                         formContext.getControl(dependentOptionsetFieldName).setDisabled(optionsetReadOnly);
                 }
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -120,7 +127,7 @@ function GetDependentFieldValues(executionContext) {
                     }
                 }
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };

@@ -1,12 +1,20 @@
 <html><head>
     <script type="text/javascript">
+        //var formContext;
+        function setClientApiContext(xrm, formContext) {
+            // Optionally set Xrm and formContext as global variables on the page.
+            //window.Xrm = xrm;
+           // formContext = formContext;
+            getOrgRelationships(formContext);
+            // Add script logic here that uses xrm or the formContext.
+        }
 
-        function getOrgRelationships() {
+        function getOrgRelationships(formContext) {
             if (document.readyState == "complete") {
                 Xrm = parent.Xrm;
-                if (Xrm.Page.data != null) {
-                    var orgId = Xrm.Page.data.entity.getId();
-                    var strUrl = Xrm.Page.context.getClientUrl();
+                if (formContext) {
+                    var orgId = formContext.data.entity.getId();
+                    var strUrl = formContext.context.getClientUrl();
 
                     var contactFetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
 						"<entity name='contact' >" +
@@ -81,7 +89,7 @@
                             if (this.status === 200) {
                                 var results = JSON.parse(this.response);
                                 if (results.value.length != 0) {
-                                    getConnectionDetails(results);
+                                    getConnectionDetails(formContext, results);
                                 }
 								else{
 									PrepareTable(null, null);
@@ -94,7 +102,7 @@
             }
         }
 
-        function getConnectionDetails(contactResults) {
+        function getConnectionDetails(formContext, contactResults) {
             // get all connections regarding the contact
             var distinctContacts = [];
             var contactsLen = contactResults.value.length;
@@ -106,7 +114,7 @@
 
             var contactsLen = contactResults.value.length;
             var connectionIds = [];
-            var strUrl = Xrm.Page.context.getClientUrl();
+            var strUrl = formContext.context.getClientUrl();
             var contactID;
             for (var i = 0; i < distinctContacts.length ; ++i) {
                 var contactId = distinctContacts[i];
@@ -147,18 +155,18 @@
                 }
                 req.send();
             }
-            mergeRelationshipDetails(connectionIds, contactResults);
+            mergeRelationshipDetails(formContext, connectionIds, contactResults);
         }
 
-        function mergeRelationshipDetails(connectionResults, ContactResults) {
+        function mergeRelationshipDetails(formContext, connectionResults, ContactResults) {
             Xrm = parent.Xrm;
             var connectionLen = connectionResults.length;
             var connectionList = [];
             var connectionIds = [];
 			var lenConRes = ContactResults.value.length;
-			
-            if (Xrm.Page.data != null) {
-                var strUrl = Xrm.Page.context.getClientUrl();
+
+            if (formContext.data != null) {
+                var strUrl = formContext.context.getClientUrl();
                 for (var i = 0; i < connectionLen; ++i) {
                     var connectionArrayLen = connectionResults[i].value.length;
 
@@ -190,10 +198,10 @@
 					}
 				}
 			}
-            PrepareTable(ContactResults, connectionList);
+            PrepareTable(formContext, ContactResults, connectionList);
         }
 
-        function PrepareTable(results, connectionList) {
+        function PrepareTable(formContext, results, connectionList) {
             //Create a table and header using the DOM
             var oTable = document.createElement("table");
             oTable.setAttribute("class", "hovertable");
@@ -264,8 +272,8 @@
 
 					var oTRowTD1 = document.createElement("td");
 					var contactId = con.contactid.replace('{', '').replace('}', '');
-					var recordLink = '<a href="' +
-						Xrm.Page.context.getClientUrl() +
+                    var recordLink = '<a href="' +
+                        formContext.context.getClientUrl() +
 						"/main.aspx?etn=contact&pagetype=entityrecord&id=%7B" +
 						contactId +
 						"%7D" +
@@ -305,8 +313,8 @@
 						}
 						if (connectionFlag) {
 							var userId = connectionList[j]._record2id_value.replace('{', '').replace('}', '');
-							var recordLink = '<a href="' +
-								Xrm.Page.context.getClientUrl() +
+                            var recordLink = '<a href="' +
+                                formContext.context.getClientUrl() +
 								"/main.aspx?etn=systemuser&pagetype=entityrecord&id=%7B" +
 								userId +
 								"%7D" +
@@ -371,8 +379,8 @@
 						activityName = con["pc_x002e_activitytypecode@OData.Community.Display.V1.FormattedValue"];
 					}
 					if (activityFlag) {
-						var recordLink = '<a href="' +
-							Xrm.Page.context.getClientUrl() +
+                        var recordLink = '<a href="' +
+                            formContext.context.getClientUrl() +
 							"/main.aspx?etn=" +
 							activityType +
 							"&pagetype=entityrecord&id=%7B" +
@@ -593,6 +601,6 @@
     <meta>
     <meta>
 <meta><meta><meta><meta><meta><meta></head>
-<body onload="getOrgRelationships();" onfocusout="parent.setEmailRange();" style="overflow-wrap: break-word;">
+<body onload="" onfocusout="parent.setEmailRange();" style="overflow-wrap: break-word;">
 
 </body></html>

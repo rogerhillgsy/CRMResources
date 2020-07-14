@@ -1,97 +1,116 @@
-//var timer = setInterval(function () { GetSubgrid(); }, 1000);
+"use strict";
 
-function Form_onload() {
-
-    gridOnLoad();
-
-}
-
-function gridOnLoad() {
-
-    var objSubGrid = document.getElementById("ClientsGroupOrganisations");
-
-    if (objSubGrid == null) {
-        setTimeout(gridOnLoad, 2000);
-        return;
+function OpenClientGroupingMatrixReport(primaryControl) {
+    var formContext = primaryControl;
+    var accId;
+    if (formContext.data != null) {
+        accId = formContext.data.entity.getId().replace('{', '').replace('}', '');
     }
     else {
-        //when subgrid is loaded, get GUID
-        var GUIDvalue = Xrm.Page.data.entity.getId();
+        accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
     }
+
+    var customParameters = encodeURIComponent("clientgroupingID=" + accId);
+    var windowOptions = { openInNewWindow: true, height: 800, width: 1200 };
+    Xrm.Navigation.openWebResource('arup_clientgroupingmatrix', windowOptions, customParameters);
 }
 
-function relationshipTeam_onChange() {
+function exitForm() {
 
-    var teamId = Xrm.Page.getAttribute('ccrm_managingteam').getValue();
+    //see if the form is dirty
+    var ismodified = Xrm.Page.data.entity.getIsDirty();
+    if (ismodified == false) {
+        Xrm.Page.ui.close();
+        return;
+    }
+
+    var attributesList;
+
+    Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
+        '<font size="3" color="#000000"></br>Some fields on the form have been changed.</br>Click "Save and Exit" button to save your changes and exit the Client Grouping.</br>Click "Exit Only" button to exit the Client Grouping without saving.</font>',
+        [
+            {
+                label: "<b>Save and Exit</b>",
+                callback: function () {
+                    attributesList = Xrm.Page.data.entity.attributes.get();
+                    var highlight = true;
+                    var cansave = true;
+                    if (attributesList != null) {
+                        for (var i in attributesList) {
+                            if (attributesList[i].getRequiredLevel() == 'required') {
+                                highlight = Xrm.Page.getAttribute(attributesList[i].getName()).getValue() != null;
+                                if (highlight == false && cansave == true) { cansave = false; }
+                            }
+                        }
+                    }
+                    if (cansave) { Xrm.Page.data.entity.save("saveandclose"); }
+                },
+                setFocus: true,
+                preventClose: false
+            },
+            {
+                label: "<b>Exit Only</b>",
+                callback: function () {
+                    //get list of dirty fields
+                    attributesList = Xrm.Page.data.entity.attributes.get();
+                    if (attributesList != null) {
+                        for (var i in attributesList) {
+                            if (attributesList[i].getIsDirty()) {
+                                Xrm.Page.getAttribute(attributesList[i].getName()).setSubmitMode("never");
+                            }
+                        }
+                        setTimeout(function () { Xrm.Page.ui.close(); }, 1000);
+                    }
+                },
+                setFocus: false,
+                preventClose: false
+            }
+        ],
+        'Warning', 600, 250, '', true);
+}
+
+//  RBH - 1/7/20 - Not clear if this is still needed - the Client grouping main form still refers to it, but it doesn't seem to do anything.
+function relationshipTeam_onChange(executionContext) {
+    debugger;
+    var formContext = executionContext.getFormContext();
+    var teamId = formContext.getAttribute('ccrm_managingteam').getValue();
     if (teamId == null) {
-
-        Xrm.Page.getAttribute('ccrm_accounttype').setValue(null);
-        Xrm.Page.getAttribute('ccrm_relationshipmanager').setValue(null);
+        var a = formContext.getAttribute('ccrm_accounttype');
+        !!a && a.setValue(null);
+        a = formContext.getAttribute('ccrm_relationshipmanager');
+        !!a && a.setValue(null);
         return;
     }
 
     teamId = teamId[0].id.replace('{', '').replace('}', '');
 
-    var req = new XMLHttpRequest();
-    req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v8.2/teams(" + teamId + ")?$select=_ccrm_relationshipmanager_value,ccrm_relationshiptype", true);
-    req.setRequestHeader("OData-MaxVersion", "4.0");
-    req.setRequestHeader("OData-Version", "4.0");
-    req.setRequestHeader("Accept", "application/json");
-    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-    req.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            req.onreadystatechange = null;
-            if (this.status === 200) {
-                var result = JSON.parse(this.response);
-                var _ccrm_relationshipmanager_value = result["_ccrm_relationshipmanager_value"];
-                var _ccrm_relationshipmanager_value_formatted = result["_ccrm_relationshipmanager_value@OData.Community.Display.V1.FormattedValue"];
-                var _ccrm_relationshipmanager_value_lookuplogicalname = result["_ccrm_relationshipmanager_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
-                var ccrm_relationshiptype = result["ccrm_relationshiptype"];
+    Xrm.WebApi.retrieveRecord("team",  teamId,
+            "?$select=_ccrm_relationshipmanager_value,ccrm_relationshiptype")
+        .then(function success(result) {
+            var _ccrm_relationshipmanager_value = result["_ccrm_relationshipmanager_value"];
+            var _ccrm_relationshipmanager_value_formatted =
+                result["_ccrm_relationshipmanager_value@OData.Community.Display.V1.FormattedValue"];
+            var ccrm_relationshiptype = result["ccrm_relationshiptype"];
 
-                Xrm.Page.getAttribute('ccrm_accounttype').setValue(ccrm_relationshiptype);
-                if (_ccrm_relationshipmanager_value == null) {
-                    Xrm.Page.getAttribute('ccrm_relationshipmanager').setValue(null);
-                } else {
-                    var lookup = new Array();
-                    lookup[0] = new Object();
-                    lookup[0].id = _ccrm_relationshipmanager_value;
-                    lookup[0].name = _ccrm_relationshipmanager_value_formatted;
-                    lookup[0].entityType = 'systemuser';
-                    Xrm.Page.getAttribute('ccrm_relationshipmanager').setValue(lookup);
-                }
-
+            var a = formContext.getAttribute('ccrm_accounttype');
+            !!a && a.setValue(ccrm_relationshiptype);
+            if (_ccrm_relationshipmanager_value == null) {
+                a = formContext.getAttribute('ccrm_relationshipmanager');
+                !!a && a.setValue(null);
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                var lookup = new Array();
+                lookup[0] = new Object();
+                lookup[0].id = _ccrm_relationshipmanager_value;
+                lookup[0].name = _ccrm_relationshipmanager_value_formatted;
+                lookup[0].entityType = 'systemuser';
+                a = formContext.getAttribute('ccrm_relationshipmanager');
+                !!a && a.setValue(lookup);
             }
-        }
-    };
-    req.send();
 
-}
-
-function OpenClientGroupingMatrixReport(primaryControl) {
-    var formContext = primaryControl;
-    var accId, parentaccountid;
-    if (formContext.data != null) {
-        accId = formContext.data.entity.getId().replace('{', '').replace('}', '');
-        //parentaccountid = formContext.getAttribute("parentaccountid").getValue() != undefined ? formContext.getAttribute("parentaccountid").getValue()[0].id.replace('{', '').replace('}', '') : accId;
-    }
-    else {
-        accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
-        //parentaccountid = accId;
-    }
-
-    var customParameters = encodeURIComponent("clientgroupingID=" + accId);
-    var windowOptions = { openInNewWindow: true, height: 800, width: 1200 };
-    var ua = window.navigator.userAgent;
-    var msie = ua.indexOf("MSIE ");
-    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer, return version number
-    {
-        Xrm.Navigation.openWebResource('arup_clientgroupingmatrix', windowOptions, customParameters);
-    }
-    else  // If another browser, return 0
-    {
-        Xrm.Navigation.openWebResource('arup_clientgroupingmatrix', windowOptions, customParameters);
-    }
+        })
+        .catch(function error(e) {
+            var alertStrings = { confirmButtonLabel: "OK", text: e.message, title: "Alert" };
+            var alertOptions = { height: 120, width: 260 };
+            Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+        });
 }

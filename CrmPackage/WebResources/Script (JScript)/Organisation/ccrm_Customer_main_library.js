@@ -1,27 +1,27 @@
-// To fire  On Change Event of Check Box immediately
-function RegisterCheckboxClick(attr) {
+//// To fire  On Change Event of Check Box immediately
+//function RegisterCheckboxClick(attr) {
 
-    var ctrl = Xrm.Page.getControl(attr);
-    var a = ctrl.getAttribute();
-    var el = document.getElementById(attr);
+//    var ctrl = Xrm.Page.getControl(attr);
+//    var a = ctrl.getAttribute();
+//    var el = document.getElementById(attr);
 
-    // Build Toggle Function
-    var f = "var ef=function() { " +
-        "var a = Xrm.Page.data.entity.attributes.get(attr); " +
-        "a.setValue(!a.getValue()); a.fireOnChange();" +
-        " };";
+//    // Build Toggle Function
+//    var f = "var ef=function() { " +
+//        "var a = Xrm.Page.data.entity.attributes.get(attr); " +
+//        "a.setValue(!a.getValue()); a.fireOnChange();" +
+//        " };";
 
-    eval(f);
+//    eval(f);
 
 
-    // Attach to click event
-    if (myBrowserName() == "Microsoft Internet Explorer" && myIEVersion() <= 8) {
-        el.attachEvent('onclick', ef, false);//this one up to IE8 	//  
-    }
-    else {
-        el.addEventListener('onclick', ef, false);  //IE9+ FireFox Chrome //   
-    }
-}
+//    // Attach to click event
+//    if (myBrowserName() == "Microsoft Internet Explorer" && myIEVersion() <= 8) {
+//        el.attachEvent('onclick', ef, false);//this one up to IE8 	//  
+//    }
+//    else {
+//        el.addEventListener('onclick', ef, false);  //IE9+ FireFox Chrome //   
+//    }
+//}
 
 function form_OnLoad(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -51,6 +51,7 @@ function clear_state(executionContext) {
     }
 }
 
+/*
 DoNotContactMethodsPickList = function () {
 
     ShowAllPickListItems("preferredcontactmethodcode");
@@ -69,7 +70,7 @@ DoNotContactMethodsPickList = function () {
 
     if (Xrm.Page.getAttribute("donotemail").getValue() == true || Xrm.Page.getAttribute("donotbulkemail").getValue() == true || Xrm.Page.getAttribute("donotphone").getValue() == true || Xrm.Page.getAttribute("donotfax").getValue() == true || Xrm.Page.getAttribute("donotpostalmail").getValue() == true)
         HidePickListItem("preferredcontactmethodcode", "1");
-}
+}*/
 
 function stateVisibility(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -139,6 +140,7 @@ ccrm_countryid_onchange = function () {
 
 //function to sync up country with countryid field
 syncCountry = function () {
+    alert("Hello Raul")
     if (Xrm.Page.getAttribute("ccrm_countryid").getValue() != null) {
         //sync up country with countryid field
         Xrm.Page.getAttribute("address1_country").setValue(Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].name);
@@ -148,24 +150,24 @@ syncCountry = function () {
     }
 }
 
+// CODE Coomented as fields are not used on the form. TO BE DELETED after Testing
+//function HidePickListItem(listID, option) {
+//    var objList = Xrm.Page.getControl(listID);
+//    objList.removeOption(option);
+//}
 
-function HidePickListItem(listID, option) {
-    var objList = Xrm.Page.getControl(listID);
-    objList.removeOption(option);
-}
+//function ShowAllPickListItems(listID) {
 
-function ShowAllPickListItems(listID) {
+//    var optionsetControl = Xrm.Page.getControl(listID);
+//    if (optionsetControl != null) {
 
-    var optionsetControl = Xrm.Page.getControl(listID);
-    if (optionsetControl != null) {
-
-        var options = optionsetControl.getAttribute().getOptions();
-        optionsetControl.clearOptions();
-        for (var i = 0; i < options.length; i++) {
-            optionsetControl.addOption(options[i], i + 1);
-        }
-    }
-}
+//        var options = optionsetControl.getAttribute().getOptions();
+//        optionsetControl.clearOptions();
+//        for (var i = 0; i < options.length; i++) {
+//            optionsetControl.addOption(options[i], i + 1);
+//        }
+//    }
+//}
 
 function phoneOnChange(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -336,7 +338,7 @@ function phoneOnChange(executionContext) {
                 }
             },
             function (error) {
-                Xrm.Utility.alertDialog(error.message);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         );
     } else {

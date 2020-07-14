@@ -1,3 +1,4 @@
+/// <reference path="../All Other Entities/arup_exitFormFunctions.js"/>"/>
 if (typeof (ARUP) == "undefined") {
     ARUP = {};
 }
@@ -97,12 +98,12 @@ ARUP.ccrm_bidreview = {
         var formContext = executionObj.getFormContext();
         //to stop users from creating from adv find        
         if (formContext.data.entity.attributes.get("ccrm_opportunityid").getValue() == null) {
-            alert("Bid Review can only be created from within an Opportunity");
+            alertDialog("Bid Review can only be created from within an Opportunity");
             executionObj.getEventArgs().preventDefault();
         }
         if (formContext.data.entity.attributes.get("ccrm_opportunityid").getValue() != null && formContext.data.entity.getId() == null) {
             if (this.chkBidReviewCount(formContext) == true) {
-                alert('You cannot create another Bid Review record');
+                alertDialog('You cannot create another Bid Review record');
                 executionObj.getEventArgs().preventDefault();
             }
         }
@@ -144,7 +145,7 @@ ARUP.ccrm_bidreview = {
                 bidReviewCount = data.value.countofbids;
             },
             error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                alertDialog(textStatus + " " + errorThrown);
             }
         });
 
@@ -181,7 +182,7 @@ ARUP.ccrm_bidreview = {
                 var ccrm_arups_role_in_project_formatted = result["ccrm_arups_role_in_project@OData.Community.Display.V1.FormattedValue"];
             },
             error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                alertDialog(textStatus + " " + errorThrown);
             }
         });
         /*var dataset = "OpportunitySet";
@@ -241,7 +242,7 @@ ARUP.ccrm_bidreview = {
                 _ccrm_ultimateendclientid_value_formatted = result["_ccrm_ultimateendclientid_value@OData.Community.Display.V1.FormattedValue"];
             },
             error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                alertDialog(textStatus + " " + errorThrown);
             }
         });
         //var dataset = "OpportunitySet";
@@ -274,7 +275,7 @@ ARUP.ccrm_bidreview = {
                             _ccrm_countryid_value_formatted = retrievereq["_ccrm_countryid_value@OData.Community.Display.V1.FormattedValue"];
                         },
                         error: function (xhr, textStatus, errorThrown) {
-                            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                            alertDialog(textStatus + " " + errorThrown);
                         }
                     });
                     /*var dataset = "AccountSet";
@@ -294,8 +295,7 @@ ARUP.ccrm_bidreview = {
         }
         return dataChanged;
     },
-    /*
-         /*
+     /*
      *********************************************************
      * Prepopulate Various Fields in the form
      *********************************************************
@@ -377,7 +377,7 @@ ARUP.ccrm_bidreview = {
                 closeprobability_formatted = result["closeprobability@OData.Community.Display.V1.FormattedValue"];
             },
             error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                alertDialog(textStatus + " " + errorThrown);
             }
         });
         /*var dataset = "OpportunitySet";
@@ -410,7 +410,6 @@ ARUP.ccrm_bidreview = {
                 lookupVal[0].name = _ccrm_bidmanager_userid_value_formatted;
                 lookupVal[0].entityType = _ccrm_bidmanager_userid_value_lookuplogicalname;
                 changedData = valueChanged('BM', formContext.getAttribute("ccrm_bidmanager_userid").getValue() == null ? null : formContext.getAttribute("ccrm_bidmanager_userid").getValue()[0].id, lookupVal[0].id);
-                //console.log('BM: ' + '\n' + changedData.toString() + '\n' + Xrm.Page.getAttribute("ccrm_bidmanager_userid").getValue()[0].id + '\n' + lookupVal[0].id);
                 if (!dataChanged) { dataChanged = changedData };
                 if (changedData && !bidReviewHappened) {
                     formContext.getAttribute("ccrm_bidmanager_userid").setValue(lookupVal);
@@ -590,7 +589,7 @@ ARUP.ccrm_bidreview = {
                             name = retrievereqorg["name"];
                         },
                         error: function (xhr, textStatus, errorThrown) {
-                            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                            alertDialog(textStatus + " " + errorThrown);
                         }
                     });
                     /*var dataset = "AccountSet";
@@ -608,16 +607,6 @@ ARUP.ccrm_bidreview = {
                                 formContext.getAttribute("ccrm_relationshipmanager").setValue(lookupValRM);
                                 formContext.getAttribute("ccrm_relationshipmanager").setSubmitMode("always");
                             }
-                            //if (retrievereqorg.ccrm_keyaccountmanagerid.Id != null) {
-                            //    Xrm.Page.getControl("ccrm_relationshipmanager").setDisabled(true);
-                            //    Xrm.Page.getControl("ccrm_sectionb_data_9_yesno").setVisible(false);
-                            //    Xrm.Page.getControl("ccrm_sectionb_data_9_comments").setVisible(false);
-                            //}
-                            //else {
-                            //    Xrm.Page.getControl("ccrm_relationshipmanager").setDisabled(true);
-                            //    Xrm.Page.getControl("ccrm_sectionb_data_9_yesno").setVisible(true);
-                            //    Xrm.Page.getControl("ccrm_sectionb_data_9_comments").setVisible(true);
-                            //}
                         }
                         else {
                             changedData = valueChanged('RM1', formContext.getAttribute("ccrm_relationshipmanager").getValue() == null ? null : formContext.getAttribute("ccrm_relationshipmanager").getValue()[0].id, null);
@@ -707,7 +696,7 @@ ARUP.ccrm_bidreview = {
                 _ccrm_bidreviewchair_userid_value_formatted = result["_ccrm_bidreviewchair_userid_value@OData.Community.Display.V1.FormattedValue"];
             },
             error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                alertDialog(textStatus + " " + errorThrown);
             }
         });
         /*var dataset = "OpportunitySet";
@@ -752,7 +741,7 @@ ARUP.ccrm_bidreview = {
                 ccrm_descriptionofextentofarupservices = result["ccrm_descriptionofextentofarupservices"];
             },
             error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                alertDialog(textStatus + " " + errorThrown);
             }
         });
         /*var dataset = "OpportunitySet";
@@ -800,35 +789,10 @@ ARUP.ccrm_bidreview = {
      */
     ultimateClient_onChange: function (executionContext) {
         var formContext = executionContext.getFormContext();
-        //var showSection = false;
-        //if (Xrm.Page.getAttribute("ccrm_ultimateclient_yesno").getValue() != 1) //YES 
         var showSection = formContext.getAttribute("ccrm_ultimateclient_yesno").getValue() == 0;
         this.showhideSection(formContext, "tab_Client", "tab_Client_section_3a", showSection);
         this.showhideSection(formContext, "tab_Client", "tab_Client_section_2a", showSection);
     },
-
-    //relationshipManager_onChange: function () {
-
-    //    if (Xrm.Page.getControl("ccrm_relationshipmanager") != null) {
-
-    //        if (Xrm.Page.getAttribute("ccrm_relationshipmanager").getValue() != null) {
-
-    //            Xrm.Page.getControl("ccrm_relationshipmanager").setDisabled(true);
-    //            Xrm.Page.getControl("ccrm_sectionb_data_9_yesno").setVisible(true);
-    //            Xrm.Page.getControl("ccrm_sectionb_data_9_comments").setVisible(true);
-    //        }
-    //        else {
-    //            Xrm.Page.getControl("ccrm_relationshipmanager").setDisabled(true);
-    //            Xrm.Page.getControl("ccrm_sectionb_data_9_yesno").setVisible(false);
-    //            Xrm.Page.getControl("ccrm_sectionb_data_9_comments").setVisible(false);
-    //        }
-    //    }
-    //    else {
-    //        Xrm.Page.getControl("ccrm_relationshipmanager").setDisabled(true);
-    //        Xrm.Page.getControl("ccrm_sectionb_data_9_yesno").setVisible(false);
-    //        Xrm.Page.getControl("ccrm_sectionb_data_9_comments").setVisible(false);
-    //    }
-    //},
 
     /*
      *********************************************************
@@ -864,7 +828,7 @@ ARUP.ccrm_bidreview = {
                 _customerid_value = result["_customerid_value"];
             },
             error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                alertDialog(textStatus + " " + errorThrown);
             }
         });
         /*var dataset = "OpportunitySet";
@@ -908,7 +872,7 @@ ARUP.ccrm_bidreview = {
                 var ccrm_powersofattorney_formatted = result["ccrm_powersofattorney@OData.Community.Display.V1.FormattedValue"];
             },
             error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                alertDialog(textStatus + " " + errorThrown);
             }
         });
         /*var dataset = "OpportunitySet";
@@ -944,8 +908,6 @@ ARUP.ccrm_bidreview = {
                 }
                 break;
             case "ccrm_jvbidding_yesno":
-                //Xrm.Page.getControl('ccrm_sectione_data_2a').setVisible(showSection);
-                //console.log("Value: " + Xrm.Page.getAttribute('ccrm_jvbidding_yesno').getValue().toString() + ' visible? ' + Xrm.Page.getControl('ccrm_sectione_data_2a').getVisible());
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_2a", showSection);
                 break;
             case "ccrm_sectione_data_5":
@@ -973,24 +935,7 @@ ARUP.ccrm_bidreview = {
                         break;
                 }
                 break;
-            //this.showhideSection("tab_SectionE", "tab_SectionE_5b", false);
-            //this.showhideSection("tab_SectionE", "tab_SectionE_5a", false);
-            //if (Xrm.Page.getAttribute(fieldName).getValue() == 100000003) { //Back to Back 
-            //    this.showhideSection("tab_SectionE", "tab_SectionE_5a", true);
-            //} else if (Xrm.Page.getAttribute(fieldName).getValue() == 100000004) { //Other
-            //    this.showhideSection("tab_SectionE", "tab_SectionE_5b", true);
-            //}
-            //break;
-            //case "ccrm_tcattached_yesno":
-            //    this.showhideSection("tab_SectionE", "tab_SectionE_6a", false);
-            //    this.showhideSection("tab_SectionE", "tab_SectionE_6b", false);
-            //    if (Xrm.Page.getAttribute(fieldName).getValue() == 1) { //Yes
-            //        this.showhideSection("tab_SectionE", "tab_SectionE_6a", true);
-            //    } else if (Xrm.Page.getAttribute(fieldName).getValue() == 0) {
-            //        this.showhideSection("tab_SectionE", "tab_SectionE_6b", true);
-            //    }
-            //    break;
-            case "ccrm_contractreviewed_yesno":
+           case "ccrm_contractreviewed_yesno":
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7abc", false);
                 this.showhideSection(formContext, "tab_SectionE", "tab_SectionE_7a", false);
                 if (formContext.getAttribute(fieldName).getValue() == 1) { //Yes
@@ -1061,10 +1006,12 @@ ARUP.ccrm_bidreview = {
      * Load the Relationship Manager from the Organisation / Client
      *********************************************************
      */
-    loadRelationshipManager: function () {
+    loadRelationshipManager: function (formContext) {
+        // Not clear where this is called from - so replace Xrm.Page with formContext, and see if any errors appear.
+        // If not - this function is a candidate for removal.
         //retrieve the opportunity client
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null || bidReviewHappened) return;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null || bidReviewHappened) return;
+        var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
         var dataset = "OpportunitySet";
         var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);
         if (retrievereq != null)
@@ -1079,8 +1026,8 @@ ARUP.ccrm_bidreview = {
                         UserLookup[0].id = retrievereq.ccrm_keyaccountmanagerid.Id;
                         UserLookup[0].name = retrievereq.ccrm_keyaccountmanagerid.Name;
                         UserLookup[0].entityType = retrievereq.ccrm_keyaccountmanagerid.LogicalName;
-                        Xrm.Page.getAttribute("ccrm_relationshipmanager").setValue(UserLookup);
-                        Xrm.Page.getAttribute("ccrm_relationshipmanager").setSubmitMode("always");
+                        formContext.getAttribute("ccrm_relationshipmanager").setValue(UserLookup);
+                        formContext.getAttribute("ccrm_relationshipmanager").setSubmitMode("always");
                     }
                 }
             }
@@ -1115,7 +1062,7 @@ ARUP.ccrm_bidreview = {
                 var ccrm_chargingbasis_formatted = result["ccrm_chargingbasis@OData.Community.Display.V1.FormattedValue"];
             },
             error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                alertDialog(textStatus + " " + errorThrown);
             }
         });
         /*var dataset = "OpportunitySet";
@@ -1153,12 +1100,12 @@ ARUP.ccrm_bidreview = {
             success: function (data, textStatus, xhr) {
                 result = data;
                 ccrm_bondsrequired = result["ccrm_bondsrequired"];
-               // var ccrm_bondsrequired_formatted = result["ccrm_bondsrequired@OData.Community.Display.V1.FormattedValue"];
+                // var ccrm_bondsrequired_formatted = result["ccrm_bondsrequired@OData.Community.Display.V1.FormattedValue"];
                 ccrm_performanceguarantees = result["ccrm_performanceguarantees"];
                 //var ccrm_performanceguarantees_formatted = result["ccrm_performanceguarantees@OData.Community.Display.V1.FormattedValue"];
             },
             error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                alertDialog(textStatus + " " + errorThrown);
             }
         });
         /*var dataset = "OpportunitySet";
@@ -1287,11 +1234,9 @@ ARUP.ccrm_bidreview = {
             //check if bonds or guarantees are required 
             this.chkBonds_GuaranteeRequirement(formContext);
             //setup OTHER field if type of bond required == 'OTHER'
-            setup_display_other_field("arup_bondstype", "ccrm_sectione_data15a_other", "100000004");
+            setup_display_other_field(executionContext, "arup_bondstype", "ccrm_sectione_data15a_other", "100000004");
             //check if we are bidding as part of JV 
-            //if (Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() == null || Xrm.Page.getAttribute("ccrm_jvbidding_yesno").getValue() == 100000000)
             this.twoOptions_onChange(executionContext, "ccrm_sectione_data_5", 0);
-            //this.twoOptions_onChange("ccrm_tcattached_yesno", 0);
             this.twoOptions_onChange(executionContext, "ccrm_contractreviewed_yesno", 0);
             this.twoOptions_onChange(executionContext, "ccrm_liabilitylimit_yesno", 1);
             this.twoOptions_onChange(executionContext, "ccrm_sectione_data_13b", 100000003);
@@ -1359,7 +1304,7 @@ ARUP.ccrm_bidreview = {
             this.fieldVisibility_onchange(executionContext, "ccrm_similarpayterms_yesno", 0, "ccrm_sectionf_data8d_multi");
             this.fieldVisibility_onchange(executionContext, "ccrm_quotesreceived_yesno", 0, "ccrm_sectionf_data8b_multi");
             this.fieldVisibility_onchange(executionContext, "ccrm_chargingbasis", 20, "ccrm_sectionf_data_3b");
-            setup_display_other_field("arup_keyindicators", "ccrm_h1project_data_4", "100000005");
+            setup_display_other_field(executionContext, "arup_keyindicators", "ccrm_h1project_data_4", "100000005");
             this.duediligence_onchange(executionContext);
             this.twoOptions_onChange(executionContext, "ccrm_paytermsmonthly_yesno", 0);
             //check whether fees and costs are in different currencies 
@@ -1369,13 +1314,14 @@ ARUP.ccrm_bidreview = {
     },
     //FUNCTION LIST --------------------------------------------------------------------------------------------------
     //
-    chargingbasis_onchange: function () {
-        //console.log("Executing Function");
-        if (Xrm.Page.getAttribute("ccrm_chargingbasis").getValue() == 20) {
-            Xrm.Page.getControl("ccrm_sectionf_data_3b").setVisible(true);
+    chargingbasis_onchange: function ( formContext ) {
+        // This function may no longer be used. 
+        // Candidate for removal.
+        if (formContext.getAttribute("ccrm_chargingbasis").getValue() == 20) {
+            formContext.getControl("ccrm_sectionf_data_3b").setVisible(true);
         }
         else {
-            Xrm.Page.getControl("ccrm_sectionf_data_3b").setVisible(false);
+            formContext.getControl("ccrm_sectionf_data_3b").setVisible(false);
         }
     },
 
@@ -1414,16 +1360,6 @@ ARUP.ccrm_bidreview = {
         this.fieldVisibility_onchange(executionContext, "ccrm_sectionb_data_8", 100000000, "ccrm_client_data_5");
 
     },
-
-    //advancepayment_onchange: function () {
-    //    //console.log("Executing Function");
-    //    if (Xrm.Page.getAttribute("ccrm_advancepayment_yesno").getValue() == 0 || Xrm.Page.getAttribute("ccrm_advancepayment_yesno").getValue() == 1) {
-    //        Xrm.Page.getControl("ccrm_fees_data_18").setVisible(true);
-    //    }
-    //    else {
-    //        Xrm.Page.getControl("ccrm_fees_data_18").setVisible(false);
-    //    }
-    //},
 
     resourcechecked_onchange: function (executionContext) {
         //console.log("Executing Function");
@@ -1474,10 +1410,11 @@ ARUP.ccrm_bidreview = {
         formContext.getControl(targetField).setVisible(visible);
 
     },
-    fieldVisibility_onchange_inv: function (sourceField, sourceFieldValue, targetField) {
+    fieldVisibility_onchange_inv: function (executionContext, sourceField, sourceFieldValue, targetField) {
         //console.log("Executing Function");
-        if (Xrm.Page.getAttribute(sourceField).getValue() == sourceFieldValue || Xrm.Page.getAttribute(sourceField).getValue() == null) Xrm.Page.getControl(targetField).setVisible(false);
-        else Xrm.Page.getControl(targetField).setVisible(true);
+        var formContext = executionContext.getFormContext();
+        if (formContext.getAttribute(sourceField).getValue() == sourceFieldValue || formContext.getAttribute(sourceField).getValue() == null) formContext.getControl(targetField).setVisible(false);
+        else formContext.getControl(targetField).setVisible(true);
     },
     chkFeesandCostCurrency: function (executionContext) {
         //console.log("Executing Function");
@@ -1515,15 +1452,14 @@ ARUP.ccrm_bidreview = {
      *********************************************************
      */
     openBidReviewReport: function (formContext) {
-        //console.log("Executing Function");
         var rdlName = "Bid%20Review.rdl";
-        var reportGuid = ARUP.ccrm_bidreview.getReportId("Bid Review");
+        var reportGuid = ARUP.ccrm_bidreview.getReportId(formContext, "Bid Review");
         if (reportGuid != null) {
             var entityType = "10075"
             var entityGuid = formContext.data.entity.getId();
             var entityGuid = formContext.data.entity.getId();
             var url = formContext.context.getClientUrl() + "/crmreports/viewer/viewer.aspx?action=run&context=records&helpID=" + rdlName + "&id={" + reportGuid + "}&records=" + entityGuid +
-                "&recordstype=" + entityType;
+                "&recordstype=" + entityType + "&p:CRM_bidreviewid=" + entityGuid;
             window.open(url, "Bid Review Report", "toolbar=0,menubar=0,resizable=1");
         }
     },
@@ -1532,7 +1468,7 @@ ARUP.ccrm_bidreview = {
      * Returns the report id given the Name
      *********************************************************
      */
-    getReportId: function (reportName) {
+    getReportId: function (formContext, reportName) {
         /*console.log("Executing Function");
         //ReportSet?$select=ReportId&$filter=Name eq 'Bid Review'        
         var dataset = "ReportSet";
@@ -1543,7 +1479,7 @@ ARUP.ccrm_bidreview = {
             type: "GET",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
-            url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/reports?fetchXml=%3Cfetch%3E%3Centity%20name%3D%22report%22%3E%3Cattribute%20name%3D%22reportid%22%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22name%22%20operator%3D%22eq%22%20value%3D%22bid%20review%22%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+            url: formContext.context.getClientUrl() + "/api/data/v9.1/reports?fetchXml=%3Cfetch%3E%3Centity%20name%3D%22report%22%3E%3Cattribute%20name%3D%22reportid%22%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22name%22%20operator%3D%22eq%22%20value%3D%22bid%20review%22%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
             beforeSend: function (XMLHttpRequest) {
                 XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                 XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -1555,7 +1491,7 @@ ARUP.ccrm_bidreview = {
                 results = data.value;
             },
             error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                alertDialog(textStatus + " " + errorThrown);
             }
         });
         if (results != null && results.length > 0) {
@@ -1563,73 +1499,14 @@ ARUP.ccrm_bidreview = {
             return retrievedreq.reportid
         } else return null;
     },
-    projectstartdate_onChange: function () {
-        //console.log("Executing Function");
-        this.dateValidator(Xrm.Page.getAttribute("ccrm_projectstartdate").getValue(), Xrm.Page.getAttribute("ccrm_projectenddate").getValue(), "ccrm_projectstartdate",
-            "You must specify an Arup Project Start Date that happens before the Arup Project End Date.");
-    },
-    projectenddate_onChange: function () {
-        //console.log("Executing Function");
-        this.dateValidator(Xrm.Page.getAttribute("ccrm_projectstartdate").getValue(), Xrm.Page.getAttribute("ccrm_projectenddate").getValue(), "ccrm_projectenddate",
-            "You must specify an Arup Project End Date that happens after the Arup Project Start Date.");
-    },
-    bidsubmitdate_onChange: function () {
-        //console.log("Executing Function");
-        //retrieve ccrm_bidreview and ccrm_arupbidstartdate from Opportunity
-        if (Xrm.Page.getAttribute("ccrm_opportunityid").getValue() == null) return;
-        var opportunityId = Xrm.Page.getAttribute("ccrm_opportunityid").getValue()[0].id.replace("{", "").replace("}", "");
-        var result;
-        var ccrm_arupbidstartdate;
-        var ccrm_bidreview;
-        $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            datatype: "json",
-            url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities(" + opportunityId + ")?$select=ccrm_arupbidstartdate,ccrm_bidreview",
-            beforeSend: function (XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            },
-            async: false,
-            success: function (data, textStatus, xhr) {
-                result = data;
-                ccrm_arupbidstartdate = result["ccrm_arupbidstartdate"];
-                ccrm_bidreview = result["ccrm_bidreview"];
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
-            }
-        });
-        /*var dataset = "OpportunitySet";
-        var retrievereq = ConsultCrm.Sync.RetrieveRequest(opportunityId, dataset);*/
-        if (retrievereq != null) {
-            var bidreviewdate = retrievereq.Ccrm_BidReview;
-            var bidstartdate = retrievereq.Ccrm_ArupBidStartDate;
-            if (bidreviewdate != null) this.dateValidator(bidreviewdate, Xrm.Page.getAttribute("ccrm_submission_date").getValue(), "ccrm_submission_date",
-                "You must specify the Bid Submission Date that happens after the Opportunity Bid Review Date");
-            if (bidstartdate != null) this.dateValidator(bidstartdate, Xrm.Page.getAttribute("ccrm_submission_date").getValue(), "ccrm_submission_date",
-                "You must specify the Bid Submission Date that happens after the Opportunity Bid Start Date");
-        }
-    },
+ 
     /*
      *********************************************************
      * Validate two date fields and if invalid
      * show error and blank field
      *********************************************************
      */
-    dateValidator: function (startdate, enddate, attrname, errorMsg) {
-        if (startdate != null && enddate != null) {
-            startdate = new Date(startdate);
-            enddate = new Date(enddate);
-            if (enddate < startdate) {
-                alert(errorMsg);
-                Xrm.Page.getAttribute(attrname).setValue(null);
-            }
-        }
-    }
-}
+ }
 //New Functions added: Charmain as discussed, you have a lot of annonymous functions here, but because they are being re-used multiple times, it didn't make sense so I added this one.
 
 function ccrm_sectionc_data_7_onChange(executionContext) {
@@ -1638,29 +1515,30 @@ function ccrm_sectionc_data_7_onChange(executionContext) {
 
 }
 
-function setup_display_other_field(otherFieldVal, otherFieldDetail, otherCodeValue, isToBeHidden) {
+function setup_display_other_field(executionContext, otherFieldVal, otherFieldDetail, otherCodeValue, isToBeHidden) {
     /// <summary>Setup multi-select picklist so that when "other" is selected, a text field is activated to allow the user to enter the details.</summary>
+    var formContext = executionContext.getFormContext();
     var isOtherFieldRequired = otherCodeValue;
     if (typeof (otherCodeValue) != "function") {
         isOtherFieldRequired = function (v) { return typeof (v) == "string" && v.search(otherCodeValue) > -1 || v == otherCodeValue };
     }
     isToBeHidden = isToBeHidden == null ? true : isToBeHidden;
-    var attribute = Xrm.Page.getAttribute(otherFieldVal);
+    var attribute = formContext.getAttribute(otherFieldVal);
     if (!!attribute) {
         attribute.addOnChange(function () {
-            display_other_field(otherFieldVal, otherFieldDetail, isOtherFieldRequired, isToBeHidden);
+            display_other_field(formContext, otherFieldVal, otherFieldDetail, isOtherFieldRequired, isToBeHidden);
         });
         // Do this twice as header fields get their requirement level set after the onload function runs.
-        display_other_field(otherFieldVal, otherFieldDetail, isOtherFieldRequired, isToBeHidden);
+        display_other_field(formContext, otherFieldVal, otherFieldDetail, isOtherFieldRequired, isToBeHidden);
         setTimeout(function () {
-            display_other_field(otherFieldVal, otherFieldDetail, isOtherFieldRequired, isToBeHidden);
+            display_other_field(formContext, otherFieldVal, otherFieldDetail, isOtherFieldRequired, isToBeHidden);
         }, 1000);
     }
 }
 
-function display_other_field(otherFieldVal, otherFieldDetail, isOtherFieldRequired, isToBeHidden) {
-    var value = Xrm.Page.getAttribute(otherFieldVal).getValue();
-    var otherNetworkDetails = Xrm.Page.getControl(otherFieldDetail);
+function display_other_field(formContext, otherFieldVal, otherFieldDetail, isOtherFieldRequired, isToBeHidden) {
+    var value = formContext.getAttribute(otherFieldVal).getValue();
+    var otherNetworkDetails = formContext.getControl(otherFieldDetail);
 
     if (!!otherNetworkDetails) {
         if (!!value && isOtherFieldRequired(value)) {
@@ -1702,7 +1580,6 @@ function ShowSections(executionContext, sourcefield, valueA, tab_Section, sectio
         }
     }
 }
-//There is a bug with Q6, investigate further
 
 function disableFormFields(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -1732,6 +1609,20 @@ function errorHandler(error) {
         350,
         '',
         true);
+}
+
+//There is a bug with Q6, investigate further
+
+function QuestionE6(executionContext) {
+    var formContext = executionContet.getFormContext();
+    var modelType = formContext.data.entity.attributes.get("ccrm_sectione_data_5").getValue();
+    if (modelType !== null) {
+        if ((modelType == '100000009') || (modelType == '100000010')) {
+            formContext.ui.controls.get("ccrm_tcattached_yesno").setVisible(false);
+        } else {
+            formContext.ui.controls.get("ccrm_tcattached_yesno").setVisible(true);
+        }
+    }
 }
 
 function valueChanged(fieldName, originalValue, changedValue) {
@@ -1766,5 +1657,15 @@ function multiselectfields_onchange(executioncontext, fieldname, fieldothername,
             var fieldothervalue = formcontext.getAttribute(fieldothername).getValue();
             formcontext.getAttribute(targetfield).setValue(targetvalue + ", " + fieldothervalue);
         }
-    }   
+    }
+}
+
+function exitForm(primaryControl) {
+    ArupExit.exitForm(primaryControl, "ccrm_bidreview");
+}
+
+function alertDialog(message) {
+    var alertStrings = { confirmButtonLabel: "OK", text: message, title: "Alert" };
+    var alertOptions = { height: 120, width: 260 };
+    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
 }

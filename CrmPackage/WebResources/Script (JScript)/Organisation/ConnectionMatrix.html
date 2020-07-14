@@ -354,7 +354,7 @@
     </div>
 
     <script>
-        var accId, accName, parentaccountid, isManagedClient, relationshipManager, accTownCity = "", accDepartment = "", accOpenOpptys = "";
+        var accId, accName, parentaccountid, clientURL, isManagedClient, relationshipManager, accTownCity = "", accDepartment = "", accOpenOpptys = "";
         var currentselectedUserid = "";
         var childData = [];
         var childOrgAccIds = [];
@@ -376,8 +376,9 @@
             if (parameters != undefined) {
                 accId = parameters.split('&')[0].split('=')[1];
                 parentaccountid = parameters.split('&')[1].split('=')[1];
+                clientURL = parameters.split('&')[2].split('=')[1];
                 if (accId != parentaccountid) {
-                    var fetchXML = "<fetch>" +
+                    /*var fetchXML = "<fetch>" +
                                       "<entity name='account' >" +
                                         "<attribute name='accountid' />" +
                                         "<filter>" +
@@ -386,10 +387,32 @@
                                         "</filter>" +
                                       "</entity>" +
                                     "</fetch>";
-                    var accounts = XrmServiceToolkit.Soap.Fetch(fetchXML);
+                    var accounts = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
+                    var accounts;
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        datatype: "json",
+                        url: clientURL + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%3E%3Centity%20name%3D%22account%22%20%3E%3Cattribute%20name%3D%22accountid%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq-or-above%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22parentaccountid%22%20operator%3D%22null%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                        beforeSend: function(XMLHttpRequest) {
+                            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                            XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                        },
+                        async: false,
+                        success: function(data, textStatus, xhr) {
+                            accounts = data.value;
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                            var alertOptions = { height: 120, width: 260 };
+                            Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        }
+                    });
 
                     if (accounts.length > 0) {
-                        parentaccountid = accounts[0].id;
+                        parentaccountid = accounts[0].accountid;
                     }
                 }
             }
@@ -416,7 +439,7 @@
         }
 
         function PopulateManagingTeamMembers() {
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' top='5' distinct='true'>" +
+          /*  var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' top='5' distinct='true'>" +
                           "<entity name='systemuser'>" +
                             "<attribute name='fullname' />" +
                             "<attribute name='systemuserid' />" +
@@ -435,16 +458,36 @@
                             "</link-entity>" +
                           "</entity>" +
                         "</fetch>";
-            var userRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
+            var userRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
+            var userRecords;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/systemusers?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20top%3D%225%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22systemuser%22%20%3E%3Cattribute%20name%3D%22fullname%22%20%2F%3E%3Cattribute%20name%3D%22systemuserid%22%20%2F%3E%3Cattribute%20name%3D%22title%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_arupofficeid%22%20alias%3D%22Office%22%20%2F%3E%3Cattribute%20name%3D%22businessunitid%22%20alias%3D%22Business%22%20%2F%3E%3Corder%20attribute%3D%22fullname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22teammembership%22%20from%3D%22systemuserid%22%20to%3D%22systemuserid%22%20visible%3D%22false%22%20intersect%3D%22true%22%20%3E%3Clink-entity%20name%3D%22team%22%20from%3D%22teamid%22%20to%3D%22teamid%22%20alias%3D%22af%22%20%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22ccrm_managingteamid%22%20to%3D%22teamid%22%20alias%3D%22ag%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20value%3D%22" + accId + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    userRecords = data.value;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+                }
+            });
             var userList = [];
             if (userRecords.length > 0) {
                 for (var i = 0; i < userRecords.length; i++) {
                     //debugger;
-                    var sysuserid = userRecords[i].attributes.systemuserid.value;
-                    var fullname = userRecords[i].attributes.fullname != undefined ? userRecords[i].attributes.fullname.value : "";
-                    var Office = userRecords[i].attributes.Office != undefined ? userRecords[i].attributes.Office.name : "";
-                    var title = userRecords[i].attributes.title != undefined ? userRecords[i].attributes.title.value : "";
-                    var business = userRecords[i].attributes.Business != undefined ? userRecords[i].attributes.Business.name : "";
+                    var sysuserid = userRecords[i].systemuserid;
+                    var fullname = userRecords[i].fullname != undefined ? userRecords[i].fullname : "";
+                    var Office = userRecords[i].Office != undefined ? userRecords[i]["Office@OData.Community.Display.V1.FormattedValue"] : "";
+                    var title = userRecords[i].title != undefined ? userRecords[i].title.value : "";
+                    var business = userRecords[i].Business != undefined ? userRecords[i]["Business@OData.Community.Display.V1.FormattedValue"] : "";
 
                     var user = { "Name": fullname, "Arup Office": Office, Title: title, Business: business, UserID: sysuserid };
                     userList.push(user);
@@ -502,7 +545,7 @@
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
-                url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/connections?fetchXml=%3Cfetch%20distinct%3D'true'%20%3E%3Centity%20name%3D'connection'%20%3E%3Cattribute%20name%3D'record1id'%20alias%3D'Contact'%20%2F%3E%3Cattribute%20name%3D'record2id'%20alias%3D'CRM_User'%20%2F%3E%3Corder%20attribute%3D'record1id'%20descending%3D'false'%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D'statuscodename'%20operator%3D'eq'%20value%3D'Active'%20%2F%3E%3Ccondition%20attribute%3D'record1objecttypecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Ccondition%20attribute%3D'record2objecttypecode'%20operator%3D'eq'%20value%3D'8'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'record1id'%20link-type%3D'inner'%20alias%3D'co'%20%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'jobtitle'%20%2F%3E%3Cattribute%20name%3D'department'%20alias%20%3D%20'contactdepartment'%20%20%2F%3E%3Cattribute%20name%3D'emailaddress1'%20alias%20%3D'contactemail'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%20%3D%20'contactphone'%20%2F%3E%3Cattribute%20name%3D'ccrm_countryid'%20%2F%3E%3Cattribute%20name%3D'accountrolecodename'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'statuscodename'%20operator%3D'eq'%20value%3D'Active'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ac'%20%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20alias%20%3D%20'orgtowncity'%20%2F%3E%3Cattribute%20name%3D'ccrm_address1attentiondepartment'%20alias%20%3D%20'orgdepartment'%20%2F%3E%3Cattribute%20name%3D'arup_openopportunitiescalc'%20alias%20%3D%20'orgopenopptys'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'accountid'%20operator%3D'eq'%20value%3D'" + accId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'record2id'%20%3E%3Cattribute%20name%3D'arup_employmentstatus'%20alias%3D'employmentstatus'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'userimage'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'usertitle'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20%2F%3E%3Cattribute%20name%3D'address1_country'%20alias%20%3D%20'usercountry'%20%2F%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'userphone'%20%2F%3E%3Clink-entity%20name%3D'ccrm_arupaccountingcode'%20from%3D'ccrm_arupaccountingcodeid'%20to%3D'ccrm_accountingcentreid'%20link-type%3D'outer'%20alias%3D'User_ACC'%20%3E%3Cattribute%20name%3D'ccrm_arupcompanycode'%20alias%3D'usercompanycode'%2F%3E%3Cattribute%20name%3D'ccrm_arupaccountingcode'%20alias%20%3D'useraccountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_name'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'ccrm_arupregion'%20from%3D'ccrm_arupregionid'%20to%3D'ccrm_arupregionid'%20link-type%3D'outer'%20alias%3D'User_AR'%20%3E%3Cattribute%20name%3D'ccrm_name'%20alias%20%3D%20'userregion'%20%2F%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                url: clientURL + "/api/data/v9.1/connections?fetchXml=%3Cfetch%20distinct%3D'true'%20%3E%3Centity%20name%3D'connection'%20%3E%3Cattribute%20name%3D'record1id'%20alias%3D'Contact'%20%2F%3E%3Cattribute%20name%3D'record2id'%20alias%3D'CRM_User'%20%2F%3E%3Corder%20attribute%3D'record1id'%20descending%3D'false'%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D'statuscodename'%20operator%3D'eq'%20value%3D'Active'%20%2F%3E%3Ccondition%20attribute%3D'record1objecttypecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Ccondition%20attribute%3D'record2objecttypecode'%20operator%3D'eq'%20value%3D'8'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'record1id'%20link-type%3D'inner'%20alias%3D'co'%20%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'jobtitle'%20%2F%3E%3Cattribute%20name%3D'department'%20alias%20%3D%20'contactdepartment'%20%20%2F%3E%3Cattribute%20name%3D'emailaddress1'%20alias%20%3D'contactemail'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%20%3D%20'contactphone'%20%2F%3E%3Cattribute%20name%3D'ccrm_countryid'%20%2F%3E%3Cattribute%20name%3D'accountrolecodename'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'statuscodename'%20operator%3D'eq'%20value%3D'Active'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ac'%20%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20alias%20%3D%20'orgtowncity'%20%2F%3E%3Cattribute%20name%3D'ccrm_address1attentiondepartment'%20alias%20%3D%20'orgdepartment'%20%2F%3E%3Cattribute%20name%3D'arup_openopportunitiescalc'%20alias%20%3D%20'orgopenopptys'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'accountid'%20operator%3D'eq'%20value%3D'" + accId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'record2id'%20%3E%3Cattribute%20name%3D'arup_employmentstatus'%20alias%3D'employmentstatus'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'userimage'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'usertitle'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20%2F%3E%3Cattribute%20name%3D'address1_country'%20alias%20%3D%20'usercountry'%20%2F%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'userphone'%20%2F%3E%3Clink-entity%20name%3D'ccrm_arupaccountingcode'%20from%3D'ccrm_arupaccountingcodeid'%20to%3D'ccrm_accountingcentreid'%20link-type%3D'outer'%20alias%3D'User_ACC'%20%3E%3Cattribute%20name%3D'ccrm_arupcompanycode'%20alias%3D'usercompanycode'%2F%3E%3Cattribute%20name%3D'ccrm_arupaccountingcode'%20alias%20%3D'useraccountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_name'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'ccrm_arupregion'%20from%3D'ccrm_arupregionid'%20to%3D'ccrm_arupregionid'%20link-type%3D'outer'%20alias%3D'User_AR'%20%3E%3Cattribute%20name%3D'ccrm_name'%20alias%20%3D%20'userregion'%20%2F%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
                 beforeSend: function(XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -578,7 +621,7 @@
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
-                url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/contacts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'contact'%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'parentcustomerid'%20%2F%3E%3Cattribute%20name%3D'emailaddress1'%20%2F%3E%3Cattribute%20name%3D'jobtitle'%20%2F%3E%3Cattribute%20name%3D'ccrm_countryid'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'address1_postalcode'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Corder%20attribute%3D'fullname'%20descending%3D'false'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20alias%3D'aj'%20link-type%3D'inner'%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3C%2Flink-entity%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq'%20uitype%3D'account'%20value%3D'" + accId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                url: clientURL + "/api/data/v9.1/contacts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'contact'%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'parentcustomerid'%20%2F%3E%3Cattribute%20name%3D'emailaddress1'%20%2F%3E%3Cattribute%20name%3D'jobtitle'%20%2F%3E%3Cattribute%20name%3D'ccrm_countryid'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'address1_postalcode'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Corder%20attribute%3D'fullname'%20descending%3D'false'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20alias%3D'aj'%20link-type%3D'inner'%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3C%2Flink-entity%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq'%20uitype%3D'account'%20value%3D'" + accId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
                 beforeSend: function(XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -753,7 +796,7 @@
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
-                url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'account'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'status'%20%2F%3E%3Cattribute%20name%3D'primarycontactid'%20%2F%3E%3Cattribute%20name%3D'parentaccountid'%20alias%3D'ParentOrganisation'%2F%3E%3Cattribute%20name%3D'ccrm_managingteamid'%20alias%3D'ManagingTeam'%2F%3E%3Cattribute%20name%3D'ccrm_clienttype'%20alias%3D'Clienttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientsectorpicklistname'%20alias%3D'ClientSectors'%2F%3E%3Cattribute%20name%3D'websiteurl'%20alias%3D'weburl'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%3D'telephone'%2F%3E%3Cattribute%20name%3D'ccrm_keyaccountmanagerid'%2F%3E%3Cattribute%20name%3D'ccrm_keyaccount'%2F%3E%3Cattribute%20name%3D'description'%2F%3E%3Cattribute%20name%3D'address1_postalcode'%20%2F%3E%3Cattribute%20name%3D'address1_line3'%20%2F%3E%3Cattribute%20name%3D'address1_line2'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cattribute%20name%3D'ccrm_address1attentiondepartment'%20alias%20%3D%20'orgdepartment'%20%2F%3E%3Cattribute%20name%3D'arup_openopportunitiescalc'%20alias%20%3D%20'orgopenopptys'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'accountid'%20operator%3D'eq'%20value%3D'" + accId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                url: clientURL + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'account'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'status'%20%2F%3E%3Cattribute%20name%3D'primarycontactid'%20%2F%3E%3Cattribute%20name%3D'parentaccountid'%20alias%3D'ParentOrganisation'%2F%3E%3Cattribute%20name%3D'ccrm_managingteamid'%20alias%3D'ManagingTeam'%2F%3E%3Cattribute%20name%3D'ccrm_clienttype'%20alias%3D'Clienttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientsectorpicklistname'%20alias%3D'ClientSectors'%2F%3E%3Cattribute%20name%3D'websiteurl'%20alias%3D'weburl'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%3D'telephone'%2F%3E%3Cattribute%20name%3D'ccrm_keyaccountmanagerid'%2F%3E%3Cattribute%20name%3D'ccrm_keyaccount'%2F%3E%3Cattribute%20name%3D'description'%2F%3E%3Cattribute%20name%3D'address1_postalcode'%20%2F%3E%3Cattribute%20name%3D'address1_line3'%20%2F%3E%3Cattribute%20name%3D'address1_line2'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cattribute%20name%3D'ccrm_address1attentiondepartment'%20alias%20%3D%20'orgdepartment'%20%2F%3E%3Cattribute%20name%3D'arup_openopportunitiescalc'%20alias%20%3D%20'orgopenopptys'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'accountid'%20operator%3D'eq'%20value%3D'" + accId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
                 beforeSend: function(XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -1646,7 +1689,7 @@
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
-                url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/connections?fetchXml=%3Cfetch%20distinct%3D'true'%20%3E%3Centity%20name%3D'connection'%20%3E%3Cattribute%20name%3D'record1id'%20alias%3D'Contact'%20%2F%3E%3Cattribute%20name%3D'record2id'%20alias%3D'CRM_User'%20%2F%3E%3Corder%20attribute%3D'record1id'%20descending%3D'false'%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D'statuscodename'%20operator%3D'eq'%20value%3D'Active'%20%2F%3E%3Ccondition%20attribute%3D'record1objecttypecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Ccondition%20attribute%3D'record2objecttypecode'%20operator%3D'eq'%20value%3D'8'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'record1id'%20link-type%3D'inner'%20alias%3D'co'%20%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'jobtitle'%20%2F%3E%3Cattribute%20name%3D'department'%20alias%20%3D%20'contactdepartment'%20%20%2F%3E%3Cattribute%20name%3D'emailaddress1'%20alias%20%3D'contactemail'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%20%3D%20'contactphone'%20%2F%3E%3Cattribute%20name%3D'emailaddress1'%20%2F%3E%3Cattribute%20name%3D'ccrm_countryid'%20%2F%3E%3Cattribute%20name%3D'accountrolecodename'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'statuscodename'%20operator%3D'eq'%20value%3D'Active'%20%2F%3E%3Ccondition%20attribute%3D'contactid'%20operator%3D'eq'%20value%3D'" + clickcontactid + "'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ac'%20%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'listmember'%20from%3D'entityid'%20to%3D'contactid'%20link-type%3D'outer'%20%3E%3Cattribute%20name%3D'listid'%20%2F%3E%3Clink-entity%20name%3D'list'%20from%3D'listid'%20to%3D'listid'%20link-type%3D'outer'%20%3E%3Cattribute%20name%3D'listname'%20alias%20%3D%20'memberlistname'%2F%3E%3Cattribute%20name%3D'listid'%20alias%20%3D%20'memberlistid'%20%2F%3E%3Cattribute%20name%3D'createdon'%20alias%20%3D%20'mlcreatedon'%20%2F%3E%3Cattribute%20name%3D'ownerid'%20alias%3D'mlownerid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupoffice'%20alias%20%3D%20'mlarupoffice'%20%2F%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'activitypointer'%20from%3D'regardingobjectid'%20to%3D'contactid'%20link-type%3D'outer'%20%3E%3Cattribute%20name%3D'activityid'%20alias%20%3D%20'activityid'%20%2F%3E%3Cattribute%20name%3D'subject'%20%20alias%20%3D%20'activitysubject'%2F%3E%3Cattribute%20name%3D'activitytypecode'%20alias%20%3D%20'activitytypecode'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'activitystatecode'%20%2F%3E%3Cattribute%20name%3D'prioritycode'%20alias%20%3D%20'activitypriority'%20%2F%3E%3Cattribute%20name%3D'ownerid'%20alias%20%3D%20'activityowner'%20%2F%3E%3Cattribute%20name%3D'scheduledend'%20alias%20%3D%20'activityduedate'%20%2F%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'record2id'%20%3E%3Cattribute%20name%3D'arup_employmentstatus'%20alias%3D'employmentstatus'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'userimage'%20%2F%3E%3Cattribute%20name%3D'title'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20%2F%3E%3Cattribute%20name%3D'address1_country'%20alias%3D'usercountry'%20%2F%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%3D'userphone'%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                url: clientURL + "/api/data/v9.1/connections?fetchXml=%3Cfetch%20distinct%3D'true'%20%3E%3Centity%20name%3D'connection'%20%3E%3Cattribute%20name%3D'record1id'%20alias%3D'Contact'%20%2F%3E%3Cattribute%20name%3D'record2id'%20alias%3D'CRM_User'%20%2F%3E%3Corder%20attribute%3D'record1id'%20descending%3D'false'%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D'statuscodename'%20operator%3D'eq'%20value%3D'Active'%20%2F%3E%3Ccondition%20attribute%3D'record1objecttypecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Ccondition%20attribute%3D'record2objecttypecode'%20operator%3D'eq'%20value%3D'8'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'record1id'%20link-type%3D'inner'%20alias%3D'co'%20%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'jobtitle'%20%2F%3E%3Cattribute%20name%3D'department'%20alias%20%3D%20'contactdepartment'%20%20%2F%3E%3Cattribute%20name%3D'emailaddress1'%20alias%20%3D'contactemail'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%20%3D%20'contactphone'%20%2F%3E%3Cattribute%20name%3D'emailaddress1'%20%2F%3E%3Cattribute%20name%3D'ccrm_countryid'%20%2F%3E%3Cattribute%20name%3D'accountrolecodename'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'statuscodename'%20operator%3D'eq'%20value%3D'Active'%20%2F%3E%3Ccondition%20attribute%3D'contactid'%20operator%3D'eq'%20value%3D'" + clickcontactid + "'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ac'%20%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'listmember'%20from%3D'entityid'%20to%3D'contactid'%20link-type%3D'outer'%20%3E%3Cattribute%20name%3D'listid'%20%2F%3E%3Clink-entity%20name%3D'list'%20from%3D'listid'%20to%3D'listid'%20link-type%3D'outer'%20%3E%3Cattribute%20name%3D'listname'%20alias%20%3D%20'memberlistname'%2F%3E%3Cattribute%20name%3D'listid'%20alias%20%3D%20'memberlistid'%20%2F%3E%3Cattribute%20name%3D'createdon'%20alias%20%3D%20'mlcreatedon'%20%2F%3E%3Cattribute%20name%3D'ownerid'%20alias%3D'mlownerid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupoffice'%20alias%20%3D%20'mlarupoffice'%20%2F%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'activitypointer'%20from%3D'regardingobjectid'%20to%3D'contactid'%20link-type%3D'outer'%20%3E%3Cattribute%20name%3D'activityid'%20alias%20%3D%20'activityid'%20%2F%3E%3Cattribute%20name%3D'subject'%20%20alias%20%3D%20'activitysubject'%2F%3E%3Cattribute%20name%3D'activitytypecode'%20alias%20%3D%20'activitytypecode'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'activitystatecode'%20%2F%3E%3Cattribute%20name%3D'prioritycode'%20alias%20%3D%20'activitypriority'%20%2F%3E%3Cattribute%20name%3D'ownerid'%20alias%20%3D%20'activityowner'%20%2F%3E%3Cattribute%20name%3D'scheduledend'%20alias%20%3D%20'activityduedate'%20%2F%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'record2id'%20%3E%3Cattribute%20name%3D'arup_employmentstatus'%20alias%3D'employmentstatus'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'userimage'%20%2F%3E%3Cattribute%20name%3D'title'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20%2F%3E%3Cattribute%20name%3D'address1_country'%20alias%3D'usercountry'%20%2F%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%3D'userphone'%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
                 beforeSend: function(XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -1783,8 +1826,8 @@
 
         var ChildOrgids = [];
         function getChildOrganisations(organisationid) {
-
-            var fetchxml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+            var Orgaccounts;
+            /*var fetchxml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
                               "<entity name='account'>" +
                                 "<attribute name='accountid' />" +
                                  "<filter type='and'>" +
@@ -1792,16 +1835,33 @@
                                 "</filter>" +
                               "</entity>" +
                             "</fetch>"
-            var Orgaccounts = XrmServiceToolkit.Soap.Fetch(fetchxml);
-
-            if (Orgaccounts.length > 0) {
-                for (var i = 0; i < Orgaccounts.length; i++) {
-                    var accountid = Orgaccounts[i].attributes.accountid != undefined ? Orgaccounts[i].attributes.accountid.value : "";
-                    if (accountid != "") {
-                        ChildOrgids.push(accountid);
-                        getChildOrganisations(accountid);
-                    }
+            var Orgaccounts = XrmServiceToolkit.Soap.Fetch(fetchxml);*/
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/accounts(" + organisationid + ")?$select=accountid",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    Orgaccounts = data;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
                 }
+            });
+            if (Orgaccounts.length > 0) {
+                var accountid = Orgaccounts["accountid"] != undefined ? Orgaccounts["accountid"] : "";
+                if (accountid != "") {
+                    ChildOrgids.push(accountid);
+                    getChildOrganisations(accountid);
+                }
+                
 
             }
         }
@@ -1842,7 +1902,7 @@
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
-                url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/connections?fetchXml=%3Cfetch%20distinct%3D'true'%20%3E%3Centity%20name%3D'connection'%20%3E%3Cattribute%20name%3D'record1id'%20alias%3D'Contact'%20%2F%3E%3Cattribute%20name%3D'record2id'%20alias%3D'CRM_User'%20%2F%3E%3Corder%20attribute%3D'record1id'%20descending%3D'false'%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D'statuscodename'%20operator%3D'eq'%20value%3D'Active'%20%2F%3E%3Ccondition%20attribute%3D'record1objecttypecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Ccondition%20attribute%3D'record2objecttypecode'%20operator%3D'eq'%20value%3D'8'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'record1id'%20link-type%3D'inner'%20alias%3D'co'%20%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'jobtitle'%20%2F%3E%3Cattribute%20name%3D'department'%20alias%20%3D%20'contactdepartment'%20%20%2F%3E%3Cattribute%20name%3D'emailaddress1'%20alias%20%3D'contactemail'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%20%3D%20'contactphone'%20%2F%3E%3Cattribute%20name%3D'ccrm_countryid'%20%2F%3E%3Cattribute%20name%3D'accountrolecodename'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'statuscodename'%20operator%3D'eq'%20value%3D'Active'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ac'%20%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20alias%20%3D%20'orgtowncity'%20%2F%3E%3Cattribute%20name%3D'ccrm_address1attentiondepartment'%20alias%20%3D%20'orgdepartment'%20%2F%3E%3Cattribute%20name%3D'arup_openopportunitiescalc'%20alias%20%3D%20'orgopenopptys'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E'" + hasOrgCondition +"'%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'record2id'%20%3E%3Cattribute%20name%3D'arup_employmentstatus'%20alias%3D'employmentstatus'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'userimage'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'usertitle'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20%2F%3E%3Cattribute%20name%3D'address1_country'%20alias%20%3D%20'usercountry'%20%2F%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'userphone'%20%2F%3E%3Clink-entity%20name%3D'ccrm_arupaccountingcode'%20from%3D'ccrm_arupaccountingcodeid'%20to%3D'ccrm_accountingcentreid'%20link-type%3D'outer'%20alias%3D'User_ACC'%20%3E%3Cattribute%20name%3D'ccrm_arupcompanycode'%20alias%3D'usercompanycode'%2F%3E%3Cattribute%20name%3D'ccrm_arupaccountingcode'%20alias%20%3D'useraccountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_name'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'ccrm_arupregion'%20from%3D'ccrm_arupregionid'%20to%3D'ccrm_arupregionid'%20link-type%3D'outer'%20alias%3D'User_AR'%20%3E%3Cattribute%20name%3D'ccrm_name'%20alias%20%3D%20'userregion'%20%2F%3E%3C%2Flink-entity%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'systemuserid'%20operator%3D'eq'%20value%3D'" + clickuserid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                url: clientURL + "/api/data/v9.1/connections?fetchXml=%3Cfetch%20distinct%3D'true'%20%3E%3Centity%20name%3D'connection'%20%3E%3Cattribute%20name%3D'record1id'%20alias%3D'Contact'%20%2F%3E%3Cattribute%20name%3D'record2id'%20alias%3D'CRM_User'%20%2F%3E%3Corder%20attribute%3D'record1id'%20descending%3D'false'%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D'statuscodename'%20operator%3D'eq'%20value%3D'Active'%20%2F%3E%3Ccondition%20attribute%3D'record1objecttypecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Ccondition%20attribute%3D'record2objecttypecode'%20operator%3D'eq'%20value%3D'8'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'record1id'%20link-type%3D'inner'%20alias%3D'co'%20%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'jobtitle'%20%2F%3E%3Cattribute%20name%3D'department'%20alias%20%3D%20'contactdepartment'%20%20%2F%3E%3Cattribute%20name%3D'emailaddress1'%20alias%20%3D'contactemail'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%20%3D%20'contactphone'%20%2F%3E%3Cattribute%20name%3D'ccrm_countryid'%20%2F%3E%3Cattribute%20name%3D'accountrolecodename'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'statuscodename'%20operator%3D'eq'%20value%3D'Active'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ac'%20%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20alias%20%3D%20'orgtowncity'%20%2F%3E%3Cattribute%20name%3D'ccrm_address1attentiondepartment'%20alias%20%3D%20'orgdepartment'%20%2F%3E%3Cattribute%20name%3D'arup_openopportunitiescalc'%20alias%20%3D%20'orgopenopptys'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E'" + hasOrgCondition +"'%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'record2id'%20%3E%3Cattribute%20name%3D'arup_employmentstatus'%20alias%3D'employmentstatus'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'userimage'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'usertitle'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20%2F%3E%3Cattribute%20name%3D'address1_country'%20alias%20%3D%20'usercountry'%20%2F%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'userphone'%20%2F%3E%3Clink-entity%20name%3D'ccrm_arupaccountingcode'%20from%3D'ccrm_arupaccountingcodeid'%20to%3D'ccrm_accountingcentreid'%20link-type%3D'outer'%20alias%3D'User_ACC'%20%3E%3Cattribute%20name%3D'ccrm_arupcompanycode'%20alias%3D'usercompanycode'%2F%3E%3Cattribute%20name%3D'ccrm_arupaccountingcode'%20alias%20%3D'useraccountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_name'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'ccrm_arupregion'%20from%3D'ccrm_arupregionid'%20to%3D'ccrm_arupregionid'%20link-type%3D'outer'%20alias%3D'User_AR'%20%3E%3Cattribute%20name%3D'ccrm_name'%20alias%20%3D%20'userregion'%20%2F%3E%3C%2Flink-entity%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'systemuserid'%20operator%3D'eq'%20value%3D'" + clickuserid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
                 beforeSend: function(XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -1919,7 +1979,7 @@
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
-                url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/contacts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'contact'%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'parentcustomerid'%20%2F%3E%3Cattribute%20name%3D'emailaddress1'%20%2F%3E%3Cattribute%20name%3D'jobtitle'%20%2F%3E%3Cattribute%20name%3D'ccrm_countryid'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'address1_postalcode'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Corder%20attribute%3D'fullname'%20descending%3D'false'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20alias%3D'aj'%20link-type%3D'inner'%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3C%2Flink-entity%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq'%20uitype%3D'account'%20value%3D'" + accId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                url: clientURL + "/api/data/v9.1/contacts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'contact'%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'parentcustomerid'%20%2F%3E%3Cattribute%20name%3D'emailaddress1'%20%2F%3E%3Cattribute%20name%3D'jobtitle'%20%2F%3E%3Cattribute%20name%3D'ccrm_countryid'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'address1_postalcode'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Corder%20attribute%3D'fullname'%20descending%3D'false'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20alias%3D'aj'%20link-type%3D'inner'%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3C%2Flink-entity%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq'%20uitype%3D'account'%20value%3D'" + accId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
                 beforeSend: function(XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -3285,7 +3345,7 @@
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
-                url: Xrm.Page.context.getClientUrl() + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'opportunity'%20%3E%3Cattribute%20name%3D'name'%20alias%20%3D%20'opptyname'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%20%3D%20'opptystatus'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue'%20alias%20%3D%20'opptyestimatedvalue'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupbusinessid'%20alias%20%3D%20'opptybusiness'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20alias%20%3D%20'opptyid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupinternal'%20alias%20%3D%20'opptyarupinternal'%20%2F%3E%3Corder%20attribute%3D'name'%20descending%3D'false'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'parentaccountid'%20operator%3D'eq'%20uitype%3D'account'%20value%3D'" + OrganisationId + "'%20%2F%3E'" + encodeURIComponent(xmlOpptycondition) + encodeURIComponent(xmlOpptyconditionstatus) + encodeURIComponent(xmlOpptyInternalcondition) + "'%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_bidmanager_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'bm'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_bidmanager_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'bidmanager_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'bidmanager_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'bidmanager_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'bidmanager_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'bidmanager_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_biddirector_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'bd'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_biddirector_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'biddirector_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'biddirector_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'biddirector_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'biddirector_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'biddirector_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_bidreviewchair_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'brc'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_bidreviewchair_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'bidreviewchair_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'bidreviewchair_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'bidreviewchair_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'bidreviewchair_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'bidreviewchair_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_projectdirector_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'pd'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'projectdirector_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'projectdirector_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'projectdirector_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'projectdirector_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'projectdirector_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_projectmanager_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'pm'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'projectmanager_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'projectmanager_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'projectmanager_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'projectmanager_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'projectmanager_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_businessadministrator_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'ba'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_businessadministrator_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'businessadministrator_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'businessadministrator_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'businessadministrator_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'businessadministrator_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'businessadministrator_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_commercialmanager_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'cm'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_commercialmanager_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'commercialmanager_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'commercialmanager_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'commercialmanager_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'commercialmanager_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'commercialmanager_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'ccrm_clientcontactid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'cc'%20%3E%3Cattribute%20name%3D'address1_telephone1'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'contactid'%20alias%3D'ccrm_clientcontactid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'clientcontact_image'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_aruplocalcontact_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'alc'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_aruplocalcontact_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'aruplocalcontact_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'aruplocalcontact_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'aruplocalcontact_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'aruplocalcontact_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'aruplocalcontact_region'%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                url: clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'opportunity'%20%3E%3Cattribute%20name%3D'name'%20alias%20%3D%20'opptyname'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%20%3D%20'opptystatus'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue'%20alias%20%3D%20'opptyestimatedvalue'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupbusinessid'%20alias%20%3D%20'opptybusiness'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20alias%20%3D%20'opptyid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupinternal'%20alias%20%3D%20'opptyarupinternal'%20%2F%3E%3Corder%20attribute%3D'name'%20descending%3D'false'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'parentaccountid'%20operator%3D'eq'%20uitype%3D'account'%20value%3D'" + OrganisationId + "'%20%2F%3E'" + encodeURIComponent(xmlOpptycondition) + encodeURIComponent(xmlOpptyconditionstatus) + encodeURIComponent(xmlOpptyInternalcondition) + "'%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_bidmanager_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'bm'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'bidmanager_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'bidmanager_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'bidmanager_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'bidmanager_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'bidmanager_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'bidmanager_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_biddirector_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'bd'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'biddirector_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'biddirector_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'biddirector_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'biddirector_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'biddirector_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'biddirector_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_bidreviewchair_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'brc'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_bidreviewchair_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'bidreviewchair_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'bidreviewchair_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'bidreviewchair_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'bidreviewchair_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'bidreviewchair_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_projectdirector_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'pd'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'projectdirector_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'projectdirector_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'projectdirector_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'projectdirector_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'projectdirector_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_projectmanager_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'pm'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'projectmanager_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'projectmanager_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'projectmanager_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'projectmanager_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'projectmanager_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_businessadministrator_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'ba'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_businessadministrator_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'businessadministrator_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'businessadministrator_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'businessadministrator_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'businessadministrator_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'businessadministrator_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_commercialmanager_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'cm'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_commercialmanager_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'commercialmanager_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'commercialmanager_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'commercialmanager_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'commercialmanager_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'commercialmanager_region'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'ccrm_clientcontactid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'cc'%20%3E%3Cattribute%20name%3D'address1_telephone1'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'contactid'%20alias%3D'ccrm_clientcontactid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'clientcontact_image'%20%2F%3E%3C%2Flink-entity%3E%3Clink-entity%20name%3D'systemuser'%20from%3D'systemuserid'%20to%3D'ccrm_aruplocalcontact_userid'%20visible%3D'false'%20link-type%3D'outer'%20alias%3D'alc'%20%3E%3Cattribute%20name%3D'mobilephone'%20%2F%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'systemuserid'%20alias%3D'ccrm_aruplocalcontact_userid'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'aruplocalcontact_image'%20%2F%3E%3Cattribute%20name%3D'title'%20alias%20%3D%20'aruplocalcontact_title'%20%2F%3E%3Cattribute%20name%3D'address1_telephone1'%20alias%20%3D%20'aruplocalcontact_phone'%20%2F%3E%3Cattribute%20name%3D'ccrm_accountingcentreid'%20alias%20%3D%20'aruplocalcontact_accountingcode'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20alias%20%3D%20'aruplocalcontact_region'%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
                 beforeSend: function(XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -3293,7 +3353,7 @@
                     XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
                 },
                 async: false,
-                success: function(data, textStatus, xhr) {
+                success: function (data, textStatus, xhr) {
                     connections = data.value;
                 },
                 error: function(xhr, textStatus, errorThrown) {
@@ -3422,7 +3482,7 @@
                     var OpportunityFees = connection.opptyestimatedvalue != undefined ? connection["opptyestimatedvalue@OData.Community.Display.V1.FormattedValue"] : "";
                     var OpportunityInternal = connection.opptyarupinternal != undefined ? connection["opptyarupinternal@OData.Community.Display.V1.FormattedValue"] : "";
 
-                    var bidmanager_userid = connection["ccrm_bidmanager_userid"] != undefined ? connection["ccrm_bidmanager_userid"] + ":bm" + OrganisationId: "";
+                    var bidmanager_userid = connection["bidmanager_userid"] != undefined ? connection["bidmanager_userid"] + ":bm" + OrganisationId: "";
                     var bidmanager_name = connection['bm.fullname'] != undefined ? connection['bm.fullname'] : "";
                    // var bidmanager_phone = connection.attributes['bm.mobilephone'] != undefined ? connection.attributes['bm.mobilephone'].value : "";
                     var bidmanager_image = connection["bidmanager_image"] != undefined ? connection["bidmanager_image"] : "";
@@ -3432,7 +3492,7 @@
                     var bidmanager_Region = connection["bidmanager_region@OData.Community.Display.V1.FormattedValue"] != undefined ? connection["bidmanager_region@OData.Community.Display.V1.FormattedValue"] : "";
                     var bidmanager_Title = connection.bidmanager_title != undefined ? connection.bidmanager_title : "";
 
-                    var biddirector_userid = connection.ccrm_biddirector_userid != undefined ? connection.ccrm_biddirector_userid + ":bd" + OrganisationId : "";
+                    var biddirector_userid = connection.biddirector_userid != undefined ? connection.biddirector_userid + ":bd" + OrganisationId : "";
                     var biddirector_name = connection['bd.fullname'] != undefined ? connection['bd.fullname'] : "";
                    // var biddirector_phone = connection.attributes['bd.mobilephone'] != undefined ? connection.attributes['bd.mobilephone'].value : "";
                     var biddirector_image = connection.biddirector_image != undefined ? connection.biddirector_image : "";
@@ -3443,7 +3503,7 @@
                     var biddirector_Title = connection.biddirector_title != undefined ? connection.biddirector_title : "";
 
 
-                    var bidreviewchair_userid = connection.ccrm_bidreviewchair_userid != undefined ? connection.ccrm_bidreviewchair_userid + ":brc" + OrganisationId : "";
+                    var bidreviewchair_userid = connection.bidreviewchair_userid != undefined ? connection.bidreviewchair_userid + ":brc" + OrganisationId : "";
                     var bidreviewchair_name = connection['brc.fullname'] != undefined ? connection['brc.fullname'] : "";
                     //var bidreviewchair_phone = connection.attributes['brc.mobilephone'] != undefined ? connection.attributes['brc.mobilephone'].value : "";
                     var bidreviewchair_image = connection.bidreviewchair_image != undefined ? connection.bidreviewchair_image : "";
@@ -3453,7 +3513,7 @@
                     var bidreviewchair_Region = connection.bidreviewchair_region != undefined ? connection["bidreviewchair_region@OData.Community.Display.V1.FormattedValue"] : "";
                     var bidreviewchair_Title = connection.bidreviewchair_title != undefined ? connection.bidreviewchair_title : "";
 
-                    var projectdirector_userid = connection.ccrm_projectdirector_userid != undefined ? connection.ccrm_projectdirector_userid + ":pd" + OrganisationId : "";
+                    var projectdirector_userid = connection.projectdirector_userid != undefined ? connection.projectdirector_userid + ":pd" + OrganisationId : "";
                     var projectdirector_name = connection['pd.fullname'] != undefined ? connection['pd.fullname'] : "";
                    // var projectdirector_phone = connection.attributes['pd.mobilephone'] != undefined ? connection.attributes['pd.mobilephone'].value : "";
                     var projectdirector_image = connection.projectdirector_image != undefined ? connection.projectdirector_image : "";
@@ -3463,7 +3523,7 @@
                     var projectdirector_Region = connection.projectdirector_region != undefined ? connection["projectdirector_region@OData.Community.Display.V1.FormattedValue"] : "";
                     var projectdirector_Title = connection.projectdirector_title != undefined ? connection.projectdirector_title : "";
 
-                    var projectmanager_userid = connection.ccrm_projectmanager_userid != undefined ? connection.ccrm_projectmanager_userid + ":pm" + OrganisationId : "";
+                    var projectmanager_userid = connection.projectmanager_userid != undefined ? connection.projectmanager_userid + ":pm" + OrganisationId : "";
                     var projectmanager_name = connection['pm.fullname'] != undefined ? connection['pm.fullname'] : "";
                     //var projectmanager_phone = connection.attributes['pm.mobilephone'] != undefined ? connection.attributes['pm.mobilephone'].value : "";
                     var projectmanager_image = connection.projectmanager_image != undefined ? connection.projectmanager_image : "";
@@ -3473,7 +3533,7 @@
                     var projectmanager_Region = connection.projectmanager_region != undefined ? connection["projectmanager_region@OData.Community.Display.V1.FormattedValue"] : "";
                     var projectmanager_Title = connection.projectmanager_title != undefined ? connection.projectmanager_title : "";
 
-                    var businessadministrator_userid = connection.ccrm_businessadministrator_userid != undefined ? connection.ccrm_businessadministrator_userid + ":ba" + OrganisationId : "";
+                    var businessadministrator_userid = connection.businessadministrator_userid != undefined ? connection.businessadministrator_userid + ":ba" + OrganisationId : "";
                     var businessadministrator_name = connection['ba.fullname'] != undefined ? connection['ba.fullname'] : "";
                    // var businessadministrator_phone = connection.attributes['ba.mobilephone'] != undefined ? connection.attributes['ba.mobilephone'].value : "";
                     var businessadministrator_image = connection.businessadministrator_image != undefined ? connection.businessadministrator_image : "";
@@ -3483,7 +3543,7 @@
                     var businessadministrator_Region = connection.businessadministrator_region != undefined ? connection["businessadministrator_region@OData.Community.Display.V1.FormattedValue"] : "";
                     var businessadministrator_Title = connection.businessadministrator_title != undefined ? connection.businessadministrator_title : "";
 
-                    var commercialmanager_userid = connection.ccrm_commercialmanager_userid != undefined ? connection.ccrm_commercialmanager_userid + ":cm" + OrganisationId : "";
+                    var commercialmanager_userid = connection.commercialmanager_userid != undefined ? connection.commercialmanager_userid + ":cm" + OrganisationId : "";
                     var commercialmanager_name = connection['cm.fullname'] != undefined ? connection['cm.fullname'] : "";
                     //var commercialmanager_phone = connection.attributes['cm.mobilephone'] != undefined ? connection.attributes['cm.mobilephone'].value : "";
                     var commercialmanager_image = connection.commercialmanager_image != undefined ? connection.commercialmanager_image : "";
@@ -3493,7 +3553,7 @@
                     var commercialmanager_Region = connection.commercialmanager_region != undefined ? connection["commercialmanager_region@OData.Community.Display.V1.FormattedValue"] : "";
                     var commercialmanager_Title = connection.commercialmanager_title != undefined ? connection.commercialmanager_title : "";
 
-                    var aruplocalcontact_userid = connection.ccrm_aruplocalcontact_userid != undefined ? connection.ccrm_aruplocalcontact_userid + ":alc" + OrganisationId: "";
+                    var aruplocalcontact_userid = connection.aruplocalcontact_userid != undefined ? connection.aruplocalcontact_userid + ":alc" + OrganisationId: "";
                     var aruplocalcontact_name = connection['alc.fullname'] != undefined ? connection['alc.fullname'] : "";
                     var aruplocalcontact_phone = connection['alc.mobilephone'] != undefined ? connection['alc.mobilephone'] : "";
                     var aruplocalcontact_image = connection.aruplocalcontact_image != undefined ? connection.aruplocalcontact_image : "";
@@ -3503,7 +3563,7 @@
                     var aruplocalcontact_Region = connection.aruplocalcontact_region != undefined ? connection["aruplocalcontact_region@OData.Community.Display.V1.FormattedValue"] : "";
                     var aruplocalcontact_Title = connection.aruplocalcontact_title != undefined ? connection.aruplocalcontact_title : "";
 
-                    var clientcontact_userid = connection.ccrm_clientcontactid != undefined ? connection.ccrm_clientcontactid + ":cc" + OrganisationId : "";
+                    var clientcontact_userid = connection.clientcontactid != undefined ? connection.clientcontactid + ":cc" + OrganisationId : "";
                     var clientcontact_name = connection['cc.fullname'] != undefined ? connection['cc.fullname'] : "";
                     var clientcontact_phone = connection['cc.address1_telephone1'] != undefined ? connection['cc.address1_telephone1'] : "";
                     var clientcontact_image = connection.clientcontact_image != undefined ? connection.clientcontact_image : "";
@@ -3613,7 +3673,7 @@
 
         function loadChildOpportunityData(currentaccId, opportunityid, showBidTeams, opptystatuscode,showInternal)
         {
-            //Child org Opportunities data
+            /*Child org Opportunities data
             var fetchxml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
                                "<entity name='account'>" +
                                "<attribute name='name' alias ='orgname' />" +
@@ -3628,15 +3688,37 @@
                                "</filter>" +
                                "</entity>" +
                            "</fetch>"
-            var Organisations = XrmServiceToolkit.Soap.Fetch(fetchxml);
+            var Organisations = XrmServiceToolkit.Soap.Fetch(fetchxml);*/
+            var Organisations;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%20%3E%3Centity%20name%3D%22account%22%20%3E%3Cattribute%20name%3D%22name%22%20alias%3D%22orgname%22%20%2F%3E%3Cattribute%20name%3D%22accountid%22%20alias%3D%22orgid%22%20%2F%3E%3Cattribute%20name%3D%22address1_city%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_address1attentiondepartment%22%20alias%3D%22orgdepartment%22%20%2F%3E%3Cattribute%20name%3D%22arup_openopportunitiescalc%22%20alias%3D%22orgopenopptys%22%20%2F%3E%3Corder%20attribute%3D%22name%22%20descending%3D%22false%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22parentaccountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + currentaccId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22arup_openopportunitiescalc%22%20operator%3D%22gt%22%20value%3D%220%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function (data, textStatus, xhr) {
+                    Organisations = data.value;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                }
+            });
             if (Organisations.length > 0) {
                 for (var i = 0; i < Organisations.length; i++) {
                     var connection = Organisations[i];
-                    var childOrgName = connection.attributes.orgname != undefined ? connection.attributes.orgname.value : "";
-                    var childOrgid = connection.attributes.orgid != undefined ? connection.attributes.orgid.value : "";
-                    var childTownCity = connection.attributes.address1_city != undefined ? connection.attributes.address1_city.value : "";
-                    var childDepartment = connection.attributes.orgdepartment != undefined ? connection.attributes.orgdepartment.value : "";
-                    var childOpenOpptys = connection.attributes.orgopenopptys != undefined ? connection.attributes.orgopenopptys.value : "";
+                    var childOrgName = connection.orgname != undefined ? connection.orgname : "";
+                    var childOrgid = connection.orgid != undefined ? connection.orgid : "";
+                    var childTownCity = connection.address1_city != undefined ? connection.address1_city : "";
+                    var childDepartment = connection.orgdepartment != undefined ? connection.orgdepartment : "";
+                    var childOpenOpptys = connection.orgopenopptys != undefined ? connection.orgopenopptys : "";
 
                     Opportunitynodelink.nodes.push({
                         id: childOrgid, name: childOrgName, NodeName: childOrgName, group: 1, rad: 8, imageUrl: '../../arup_graphOrg', phone: "", jobtitleorCountry: "", userid: "100"

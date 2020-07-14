@@ -11,7 +11,6 @@ function form_onLoad(executionContext) {
         formContext.ui.tabs.get("HubSpot").setDisplayState('collapsed');
 
         ccrm_uselocallanguage_onchange(formContext);
-
         //sync up country with countryid field
         ccrm_countryid_onchange(formContext);
 
@@ -25,10 +24,11 @@ function form_onLoad(executionContext) {
         setInterval(changeHeaderTileFormat, 1000);
     }
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
-    setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 15000);
+    setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 60000);
     contactType_onchange(formContext);
     canadaSectionVisibility(formContext);
     formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
+    defaultCustomerToAccount(formContext);
 }
 
 function qc_form_onload(executionContext) {
@@ -38,6 +38,7 @@ function qc_form_onload(executionContext) {
     contactType_onchange(formContext);
     formContext.getAttribute("arup_businessinterest_ms").setRequiredLevel('required');
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
+    qc_defaultCustomerToAccount(formContext);
 }
 
 // runs on Exit button
@@ -341,7 +342,7 @@ function ccrm_uselocallanguage_onchange(formContext) {
 
     if (formContext.getAttribute("ccrm_uselocallanguage").getValue() == true) {
         //unhide the additional address section
-        formContext.ui.tabs.get("tab_Address").sections.get("tab_additional_address_section").setVisible(true); 
+        formContext.ui.tabs.get("tab_Address").sections.get("tab_additional_address_section").setVisible(true);
         formContext.getAttribute("ccrm_address2countrypicklist").setRequiredLevel('required');
         formContext.getAttribute("address2_line1").setRequiredLevel('required');
     }
@@ -374,7 +375,7 @@ function onChangeAdditionalCountry(executionContext) {
         formContext.getAttribute("ccrm_address2state").setRequiredLevel(reqLevel);
         formContext.getControl("address2_stateorprovince").setVisible(!states);
         formContext.getAttribute("address2_line1").setRequiredLevel('required');
-    }   
+    }
 }
 
 function Form_onsave(eventArgs) {
@@ -423,6 +424,11 @@ function setDate(date) {
         formContext.getAttribute("ccrm_lastvalidateddate").setValue(new Date());
         formContext.getAttribute("ccrm_lastvalidateddate").setSubmitMode("always");
     }
+}
+
+function countryid_onchange() {
+    var formContext = executionContext.getFormContext();
+    ccrm_countryid_onchange(formContext);
 }
 
 function ccrm_countryid_onchange(formContext) {
@@ -826,7 +832,7 @@ function onChange_ContactType(executionContext) {
 
 function contactType_onchange(formContext) {
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
-    setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 15000);
+    setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 60000);
 
     var contactTypeValue = formContext.getAttribute("arup_contacttype");
     if (contactTypeValue == null) return;
@@ -856,7 +862,7 @@ function contactType_onchange(formContext) {
         if (formContext.getControl("header_parentcustomerid") != null) {
             formContext.getControl("header_parentcustomerid").setVisible(false);
         }
-        
+
         if (fullform) {
             formContext.getControl("department").setVisible(false);
             formContext.getControl("fax").setVisible(false);
@@ -893,8 +899,8 @@ function contactType_onchange(formContext) {
         formContext.getAttribute("parentcustomerid").setRequiredLevel('required');
 
         if (formContext.getControl("header_parentcustomerid") != null) {
-                formContext.getControl("header_parentcustomerid").setVisible(true);
-        }        
+            formContext.getControl("header_parentcustomerid").setVisible(true);
+        }
 
         if (fullform) {
             formContext.getControl("department").setVisible(true);
@@ -914,6 +920,19 @@ function contactType_onchange(formContext) {
             formContext.getControl("header_parentcustomerid").setVisible(true);
         }
     }
+}
+function defaultCustomerToAccountOnChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    defaultCustomerToAccount(formContext);
+}
+
+function qc_defaultCustomerToAccount(formContext) {
+    formContext.getControl("parentcustomerid").setEntityTypes(["account"]);
+}
+
+function defaultCustomerToAccount(formContext) {
+    formContext.getControl("parentcustomerid").setEntityTypes(["account"]);
+    formContext.getControl("header_parentcustomerid").setEntityTypes(["account"]);
 }
 
 

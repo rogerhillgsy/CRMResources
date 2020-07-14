@@ -7,6 +7,8 @@ var statusCodeName = { "New": 100000000, "Assigned": 100000001 };
 
 function Form_onload(executioncontext) {
     var formContext = executioncontext.getFormContext();
+    defaultCustomerToAccount(formContext);
+
     // -- Form Creation
     if (formContext.ui.getFormType() == 1) {
         //force submit
@@ -20,8 +22,7 @@ function Form_onload(executioncontext) {
         lookupItem.entityType = 'systemuser';
         lookupData[0] = lookupItem;
         formContext.getAttribute('ccrm_assignedtosync_userid').setValue(lookupData);
-
-
+       
         //set sharepoint parameters
         //setSharePointParameters();
 
@@ -141,7 +142,8 @@ function contractStatus_onchange(executioncontext) {
 
 function customerid_onchange(executioncontext) {
     var formContext = executioncontext.getFormContext();
-    clientChange(formContext);
+    defaultCustomerToAccount(formContext);
+    clientChange(formContext);   
 }
 
 function arupContractingCompany_onchange(executioncontext) {
@@ -192,15 +194,15 @@ function contractType_onChange(executioncontext) {
 // Begin General Functions
 ///////////
 
-function HidePickListItem(listID, value) {
+function HidePickListItem(formContext, listID, value) {
 
-    var objList = Xrm.Page.getControl(listID);
+    var objList = formContext.getControl(listID);
     objList.removeOption(value);
 
 }
 
-function ShowPickListItem(listID, value) {
-    var optionsetControl = Xrm.Page.ui.controls.get(listID);
+function ShowPickListItem(formContext, listID, value) {
+    var optionsetControl = formContext.ui.controls.get(listID);
     var options = optionsetControl.getAttribute().getOptions();
 
     //loop through the options and if it matches the value passed then show it 
@@ -238,12 +240,9 @@ function onChangeArupJointVenture(executioncontext) {
     if (formContext.getAttribute("ccrm_jointventure").getValue() == true) {
 
         formContext.ui.tabs.get("tab_Enq_ProjectDetails").sections.get("tab_enquiry_jointventures_arup_details").setVisible(true);
-        //Xrm.Page.getControl("ccrm_arupinjointventurelookup").setVisible(true);
     }
     else {
-
         formContext.ui.tabs.get("tab_Enq_ProjectDetails").sections.get("tab_enquiry_jointventures_arup_details").setVisible(false);
-        //Xrm.Page.getControl("ccrm_arupinjointventurelookup").setVisible(false);
     }
 
 }
@@ -254,12 +253,10 @@ function onChangeClientJointVenture(executioncontext) {
     if (formContext.getAttribute("ccrm_clientinjointventure").getValue() == true) {
 
         formContext.ui.tabs.get("tab_Enq_ProjectDetails").sections.get("tab_enquiry_jointventures_client_details").setVisible(true);
-        //Xrm.Page.getControl("ccrm_clientinjointventurelookup").setVisible(true);
     }
     else {
 
         formContext.ui.tabs.get("tab_Enq_ProjectDetails").sections.get("tab_enquiry_jointventures_client_details").setVisible(false);
-        //Xrm.Page.getControl("ccrm_clientinjointventurelookup").setVisible(false);
     }
 
 }
@@ -346,13 +343,10 @@ function contractStatus(formContext) {
     }
 }
 
-function statusChange() {
+function statusChange(formContext) {
     //set the statuscode to assigned for initial change only
-    Xrm.Page.getAttribute("statuscode").setValue(statusCodeName.Assigned);
-    //disable once changed
-    // NC 15/04/2015
-    //Xrm.Page.getControl("statuscode").setDisabled(true);
-    Xrm.Page.getAttribute("statuscode").setSubmitMode("always");
+    formContext.getAttribute("statuscode").setValue(statusCodeName.Assigned);
+    formContext.getAttribute("statuscode").setSubmitMode("always");
 }
 
 function forceSubmitOnCreation(formContext) {
@@ -576,21 +570,18 @@ function setAssignedToSyncFromConverted(formContext) {
     }
 }
 
-function fnSharePoint() {
-
+function fnSharePoint(executionContext) {
+    var formContext = executionContext.getFormContext();
     //show sharepoint tab when url is defined
-    var sharepointUrl = Xrm.Page.getAttribute("ccrm_sys_sharepoint_url").getValue();
+    var sharepointUrl = formContext.getAttribute("ccrm_sys_sharepoint_url").getValue();
     if (sharepointUrl != null) {
         //show tab
-        Xrm.Page.ui.tabs.get("tab_Documents").setVisible(true);
-
-        //display the iframe redirect to sharepoint url
-
-        Xrm.Page.getControl("IFRAME_SharePointURL").setSrc(sharepointUrl);
+        formContext.ui.tabs.get("tab_Documents").setVisible(true);
+        formContext.getControl("IFRAME_SharePointURL").setSrc(sharepointUrl);
     }
     else {
         //hide tab
-        Xrm.Page.ui.tabs.get("tab_Documents").setVisible(false);
+        formContext.ui.tabs.get("tab_Documents").setVisible(false);
     }
 }
 
@@ -603,31 +594,9 @@ function confidentialFlag(formContext) {
     }
 }
 
-//function setSharePointParameters() {
-//    //function to set default sharepoint patameters - 1 for create
-//    Xrm.Page.getAttribute("ccrm_sys_sharepoint_status").setValue(1);
-//    Xrm.Page.getAttribute("ccrm_sys_sharepoint_trigger").setValue(true);
-//    //force submit
-//    Xrm.Page.getAttribute("ccrm_sys_sharepoint_status").setSubmitMode("always");
-//    Xrm.Page.getAttribute("ccrm_sys_sharepoint_trigger").setSubmitMode("always");
-//}
-
-////create sharepoint button
-//function fnBtnCreateSharePoint() {
-//    alert('Your request to create a Document Store has been sent');
-//    //set the sharepoint flag
-//    Xrm.Page.getAttribute("ccrm_sys_sharepoint_trigger").setValue(true);
-//    Xrm.Page.getAttribute("ccrm_sys_sharepoint_status").setValue(1);
-//    //force submit
-//    Xrm.Page.getAttribute("ccrm_sys_sharepoint_trigger").setSubmitMode("always");
-//    Xrm.Page.getAttribute("ccrm_sys_sharepoint_status").setSubmitMode("always");
-//    //force save
-//    Xrm.Page.data.entity.save();
-//}
-
-function OpenDocumentStore() {
-
-    var sharepointUrl = Xrm.Page.getAttribute("ccrm_sys_sharepoint_url").getValue();
+function OpenDocumentStore(primaryControl) {
+    var formContext = primaryControl;
+    var sharepointUrl = formContext.getAttribute("ccrm_sys_sharepoint_url").getValue();
 
     if (sharepointUrl) {
         window.open(sharepointUrl, '_blank');
@@ -636,6 +605,7 @@ function OpenDocumentStore() {
     }
 
 }
-////////////
-// End General Functions
-///////////
+
+function defaultCustomerToAccount(formContext) {
+    formContext.getControl("customerid").setEntityTypes(["account"]);
+}

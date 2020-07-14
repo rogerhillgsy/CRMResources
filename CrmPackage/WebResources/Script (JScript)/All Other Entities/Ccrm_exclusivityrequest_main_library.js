@@ -1,61 +1,64 @@
-function Form_onload() {
+function Form_onload(executionContext) {
+    var formContext = executionContext.getFormContext();
     //start functions
-    if (Xrm.Page.getAttribute("ccrm_requeststatus").getValue() == 1 && Xrm.Page.ui.getFormType() != 1) {
-        Xrm.Page.ui.setFormNotification("Please click on the Submit Exclusivity Request button to proceed with the submission of this request", "INFO", "DraftExclReq");
+    if (formContext.getAttribute("ccrm_requeststatus").getValue() == 1 && formContext.ui.getFormType() != 1) {
+        formContext.ui.setFormNotification("Please click on the Submit Exclusivity Request button to proceed with the submission of this request", "INFO", "DraftExclReq");
     }
     else {
-        Xrm.Page.ui.clearFormNotification('DraftExclReq');
+        formContext.ui.clearFormNotification('DraftExclReq');
     }
 
-    ccrm_exclusivityreason_onchange = function () {
+    ccrm_exclusivityreason_onchange = function (executionContext) {
+        var formContext = executionContext.getFormContext();
         //other = 4, non req = 0
-        if (Xrm.Page.getAttribute("ccrm_exclusivityreason").getValue() == 4)
-            Xrm.Page.getAttribute("ccrm_reasonforexclusivityrequest").setRequiredLevel("required");
+        if (formContext.getAttribute("ccrm_exclusivityreason").getValue() == 4)
+            formContext.getAttribute("ccrm_reasonforexclusivityrequest").setRequiredLevel("required");
         else
-            Xrm.Page.getAttribute("ccrm_reasonforexclusivityrequest").setRequiredLevel("none");
+            formContext.getAttribute("ccrm_reasonforexclusivityrequest").setRequiredLevel("none");
 
     }
     //create exclusivity via button
-    fnBtnExclusivityRequest = function () {
+    fnBtnExclusivityRequest = function (formContext) {
         //set mandatory information
-        ccrm_exclusivityreason_onchange();
-        Xrm.Page.getAttribute("ccrm_exclusivityreason").setRequiredLevel("required");
+        ccrm_exclusivityreason_onchange(executionContext);
+        formContext.getAttribute("ccrm_exclusivityreason").setRequiredLevel("required");
         //set state to requested
-        Xrm.Page.getAttribute("ccrm_draft").setValue(false);
-        Xrm.Page.getAttribute("ccrm_requeststatus").setValue(2);
-        Xrm.Page.getAttribute("ccrm_requeststatus").setSubmitMode("always");
-        if (Xrm.Page.getAttribute("ccrm_exclusivityreason").getValue() != null) {
+        formContext.getAttribute("ccrm_draft").setValue(false);
+        formContext.getAttribute("ccrm_requeststatus").setValue(2);
+        formContext.getAttribute("ccrm_requeststatus").setSubmitMode("always");
+        if (formContext.getAttribute("ccrm_exclusivityreason").getValue() != null) {
             alert('Your request for Exclusivity has been submitted');
         }
-        Xrm.Page.ui.clearFormNotification('DraftExclReq');
+        formContext.ui.clearFormNotification('DraftExclReq');
         //force save
-        Xrm.Page.data.entity.save();
+        formContext.data.entity.save();
     }
     //end functions
 
     //on creation
-    if (Xrm.Page.ui.getFormType() == 1) {
-        Xrm.Page.getControl("ccrm_withdrawrequest").setDisabled(true);
+    if (formContext.ui.getFormType() == 1) {
+        formContext.getControl("ccrm_withdrawrequest").setDisabled(true);
     }
-    ccrm_exclusivityreason_onchange();
+    ccrm_exclusivityreason_onchange(executionContext);
     //Disable if no longer in draft status
-    if (Xrm.Page.getAttribute("ccrm_requeststatus").getValue() != 1) {
-        Xrm.Page.getControl("ccrm_draft").setDisabled(true);
-        Xrm.Page.getControl("ccrm_exclusivityreason").setDisabled(true);
-        Xrm.Page.getControl("ccrm_reasonforexclusivityrequest").setDisabled(true);
+    if (formContext.getAttribute("ccrm_requeststatus").getValue() != 1) {
+        formContext.getControl("ccrm_draft").setDisabled(true);
+        formContext.getControl("ccrm_exclusivityreason").setDisabled(true);
+        formContext.getControl("ccrm_reasonforexclusivityrequest").setDisabled(true);
 
     }
     //disable if approved, declined, withdrawn
-    if (Xrm.Page.getAttribute("ccrm_requeststatus").getValue() == 3 || Xrm.Page.getAttribute("ccrm_requeststatus").getValue() == 4 || Xrm.Page.getAttribute("ccrm_requeststatus").getValue() == 5) {
-        Xrm.Page.getControl("ccrm_withdrawrequest").setDisabled(true);
+    if (formContext.getAttribute("ccrm_requeststatus").getValue() == 3 || formContext.getAttribute("ccrm_requeststatus").getValue() == 4 || formContext.getAttribute("ccrm_requeststatus").getValue() == 5) {
+        formContext.getControl("ccrm_withdrawrequest").setDisabled(true);
     }
 }
 
-function ccrm_requeststatus_onchange() {
-    if (Xrm.Page.getAttribute("ccrm_requeststatus").getValue() == 1 && Xrm.Page.ui.getFormType() != 1) {
-        Xrm.Page.ui.setFormNotification("Please click on the Submit Exclusivity Request button to proceed with the submission of this request", "INFO", "DraftExclReq");
+function ccrm_requeststatus_onchange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    if (formContext.getAttribute("ccrm_requeststatus").getValue() == 1 && formContext.ui.getFormType() != 1) {
+        formContext.ui.setFormNotification("Please click on the Submit Exclusivity Request button to proceed with the submission of this request", "INFO", "DraftExclReq");
     }
     else {
-        Xrm.Page.ui.clearFormNotification('DraftExclReq');
+        formContext.ui.clearFormNotification('DraftExclReq');
     }
 }

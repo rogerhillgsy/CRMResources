@@ -131,7 +131,7 @@ function Form_onsave(executionObj) {
                 if (this.status === 204) {
                     //Success - No Return Data - Do Something
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
@@ -141,10 +141,11 @@ function Form_onsave(executionObj) {
 
 // SET AvailableSuffixes URL
 // CANNOT FIND FUNCTION
-function getAvailableSuffixesURL(interfaceName) {
+function getAvailableSuffixesURL(executionObj, interfaceName) {
     //get the attributes
+    var formContext = executionObj.getFormContext();
     var req = new XMLHttpRequest();
-    req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/ccrm_arupinterfacesettings?$filter=ccrm_name eq '" + interfaceName+"'", false);
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_arupinterfacesettings?$filter=ccrm_name eq '" + interfaceName+"'", false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -196,7 +197,7 @@ function interfaceErrorBanner(errorType, errorRetries, errorMsg, formContext) {
     SetNotificationAlert("CRITICAL", errorType + " | Number of retries: " + errorRetries + " | " + errorMsg, null, formContext);
 }
 
-function ccrm_projectsuffix_onChange() {
+function ccrm_projectsuffix_onChange(executionContext) {
     var formContext = executionContext.getFormContext();
     ccrm_projectsuffixisforintcostmonitoringonly_onChange(formContext);
 }
@@ -454,7 +455,7 @@ function getProject(formContext) {
                 if (_ccrm_parentopportunityid_value != null) {
 
                     var reqP = new XMLHttpRequest();
-                    reqP.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/ccrm_projects?$select=ccrm_name,ccrm_projectid&$filter=_ccrm_opportunityid_value eq " + _ccrm_parentopportunityid_value, true);
+                    reqP.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_projects?$select=ccrm_name,ccrm_projectid&$filter=_ccrm_opportunityid_value eq " + _ccrm_parentopportunityid_value, true);
                     reqP.setRequestHeader("OData-MaxVersion", "4.0");
                     reqP.setRequestHeader("OData-Version", "4.0");
                     reqP.setRequestHeader("Accept", "application/json");
@@ -486,7 +487,7 @@ function getProject(formContext) {
                                                             lookup[0].name = ccrm_name;
                                                             lookup[0].entityType = 'ccrm_project';
                                                             formContext.getAttribute('ccrm_projectid').setValue(lookup);
-                                                            ccrm_projectid_onchange();
+                                                            ccrm_projectid_onchange(formContext);
 
                                                         }, false, false),
                                                     new Alert.Button("Cancel", function () { }, true, false)
@@ -580,7 +581,7 @@ function getJobNumber(projectId, formContext) {
                 }
 
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -597,7 +598,7 @@ function callSuffixWebService(jobNumber, formContext) {
     parameters.CurrentCJN = jobNumber;
 
     var req = new XMLHttpRequest();
-    req.open("POST", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_A1GetSuffices", false);
+    req.open("POST", formContext.context.getClientUrl() + "/api/data/v9.1/arup_A1GetSuffices", false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -610,7 +611,7 @@ function callSuffixWebService(jobNumber, formContext) {
                 formContext.getAttribute("ccrm_suffixarray").setValue(results.SuffixList);
                 showAvailableSuffixes(results.SuffixList, formContext);
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
