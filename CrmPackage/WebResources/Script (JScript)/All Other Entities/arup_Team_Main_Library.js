@@ -123,7 +123,7 @@ function SetupForRelationshipTeam(formContext) {
         SetClientValues(formContext);
     }
     else {
-        hideFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"], false);
+        hideFields(formContext, ["arup_clienttype", "arup_clientsectorforteam"], false);
     }
 }
 
@@ -214,7 +214,7 @@ function setTabVisibilityByList(formContext, include, exclude) {
 
 function SetClientValues(formContext) {
     var lco = formContext.getAttribute("ccrm_leadclientorganisation").getValue()[0];
-    var ccrm_clienttype_formatted;
+    //var ccrm_clienttype_formatted;
     var ccrm_clienttype;
     var clientsector;
     $.ajax({
@@ -232,17 +232,21 @@ function SetClientValues(formContext) {
         success: function (data, textStatus, xhr) {
             var result = data;
             ccrm_clienttype = result["ccrm_clienttype"];
-            ccrm_clienttype_formatted = result["ccrm_clienttype@OData.Community.Display.V1.FormattedValue"];
-            clientsector = result["arup_clientsector@OData.Community.Display.V1.FormattedValue"];
+            //ccrm_clienttype_formatted = result["ccrm_clienttype@OData.Community.Display.V1.FormattedValue"];
+            clientsector = result["arup_clientsector"].split(",");
+            
         },
         error: function (xhr, textStatus, errorThrown) {
-            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+            var alertOptions = { height: 120, width: 260 };
+            Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+
         }
     });
-    formContext.getAttribute("ccrm_clienttype").setValue(ccrm_clienttype);
-    formContext.getAttribute("ccrm_client_sustainability").setValue(clientsector);
-    LockFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"]);
-    hideFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"], true);
+    formContext.getAttribute("arup_clienttype").setValue(ccrm_clienttype);
+    formContext.getAttribute("arup_clientsectorforteam").setValue(clientsector);
+    LockFields(formContext, ["arup_clienttype", "arup_clientsectorforteam"]);
+    hideFields(formContext, ["arup_clienttype", "arup_clientsectorforteam"], true);
     if (formContext.data.getIsDirty())
         formContext.data.save();
 }
