@@ -202,6 +202,7 @@ function EnsureClientValuesSet(formContext) {
                     var formContext = executionContext.getFormContext();
                     return SetClientValues(formContext);
                 });
+        SetClientValues(formContext);
         })
         .catch(function(e) {
             teamError("Failed to set lead client org dependent values \r\n" + e);
@@ -216,8 +217,8 @@ function SetClientValues(formContext) {
             lco,
             "?$select=ccrm_clienttype,arup_clientsector")
         .then(function (result) {
-            setField(formContext, result, "ccrm_clienttype");
-            setField(formContext, result, "ccrm_client_sustainability", "arup_clientsector@OData.Community.Display.V1.FormattedValue");
+            setField(formContext, result, "arup_clienttype", "ccrm_clienttype");
+            setField(formContext, result, "arup_clientsectorforteam", "arup_clientsector");
         })
         .catch(function fail(e) {
             teamError("Error retrieving client values from lead org");
@@ -231,7 +232,14 @@ function setField(formContext, results, targetAttribute, sourceField) {
         teamError("Target attribute " + targetAttribute + " did not exist");
         return;
     }
-    var value = results[sourceField];
+    var value;
+    if (sourceField == "arup_clientsector") {
+        value = results[sourceField].split(",");
+    }
+    else {
+        value = results[sourceField];
+    }
+
     if (!value) {
         teamError("Source field " + sourceField + " not found");
     }
