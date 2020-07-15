@@ -1097,7 +1097,7 @@ function SetCurrentStatusFromServer(formContext) {
         });
 }
 
-var currentApproversAsyncCallback = null;
+var currentApproversAsyncCallbackCancel = null;
 function setCurrentApproversAsync(formContext, delayInterval, totalElapsedTime, maxDelay, maxElapsedTime) {
     /// <summary>Asynchronously set the current approvers notification. The initial delay interval will ramp up till "maxDelay" is reached.
     /// The async process will run until it either gets a new "Approvers" value, or "totalElapsedTime" has passed and it gives up.</summary>
@@ -1107,7 +1107,7 @@ function setCurrentApproversAsync(formContext, delayInterval, totalElapsedTime, 
     /// <param name="maxElapsedTime">Maximum total time to wait before giving up.</param>
 
     cancelAsnycApprovalNotification();
-    currentApproversAsyncCallback = pollForChangeAsync(formContext, "ccrm_currentapprovers",
+    currentApproversAsyncCallbackCancel = pollForChangeAsync(formContext, "ccrm_currentapprovers",
         function isComplete(approvers) { return !!approvers; },
         function onComplete(approvers) {
             SetCurrentApproverNotification(formContext, approvers);
@@ -1116,74 +1116,89 @@ function setCurrentApproversAsync(formContext, delayInterval, totalElapsedTime, 
 }
 
 function cancelAsnycApprovalNotification() {
-    if (!!currentApproversAsyncCallback && !!currentApproversAsyncCallback.timeout) {
-        console.log("currentApproversAsyncCallback.timeout value is " + currentApproversAsyncCallback.timeout);
-        clearTimeout(currentApproversAsyncCallback.timeout);
-        currentApproversAsyncCallback.timeout = null;
+    if (!!currentApproversAsyncCallbackCancel && typeof (currentApproversAsyncCallbackCancel) === "function") {
+        currentApproversAsyncCallbackCancel();
+        currentApproversAsyncCallbackCancel= null;
     }
 }
 
-function pollForChangeAsync(formContext, fieldname, isComplete, onComplete, delayInterval, totalElapsedTime, maxDelay, maxElapsedTime) {
-    /// <summary>Asynchronously poll an entity field till a condition is met, then call a completion function.
-    /// The async process will run until it either gets a new "Approvers" value, or "totalElapsedTime" has passed and it gives up.</summary>
-    /// <param name="fieldname">Name of the field to be polled.</param>
-    /// <param name="IsComplete">function to be called with the retreived field value, will return true if the completion condition is met..</param>
-    /// <param name="OnComplete">Function to be invoked when the completion condition has been met.</param>
-    /// <param name="delayInterval">If null then a default delay intervaly will be used.</param>
-    /// <param name="totalElapsedTime">Time that has passed so far since starting to set the approvers.</param>
-    /// <param name="maxDelay">Longest interval that we will wait for.</param>
-    /// <param name="maxElapsedTime">Maximum total time to wait before giving up.</param>
-    /// <returns type="object">Obejct with handle on the timeout used by the polling process. May be used to cancel polling process if required.</returns>
 
-    //if (isCrmForMobile) return;
-    console.log("Inside pollForChangeAsync");
-    var pollingAsyncCallback = { timeout: null };
+/**
+ * Use as part of promise chain to insert a delay into a promise chain.
+ * @param {int} t - delay in ms
+ * @param {any} v - 
+ */
+function delay(t, v) {
+    return new Promise(function (resolve) {
+        setTimeout(resolve.bind(null, v), t);
+    });
+}
+
+function pollForChangeAsync(formContext,
+    fieldName,
+    isComplete,
+    onComplete,
+    delayInterval,
+    totalElapsedTime,
+    maxDelay,
+    maxElapsedTime) {
 
     if (!delayInterval) delayInterval = 1000;
     if (!totalElapsedTime) totalElapsedTime = 0;
     if (!maxDelay) maxDelay = 5000;
-    if (!maxElapsedTime) maxElapsedTime = 100000; // stop after 90s
+    if (!maxElapsedTime) maxElapsedTime = 90000; // stop after 90s
+    var isCancelled = false;
 
-    console.log("Polling for " + fieldname + " - Delay Interval = " + delayInterval + "; totalElapsedTime = " + totalElapsedTime);
-    GetFieldAsync(formContext,
-        fieldname,
-        function (fieldValue) {
-            console.log("fieldValue " + fieldValue);
-            if (isComplete(fieldValue)) {
-                console.log("After IsComplete + fieldValue is " + fieldValue);
-                onComplete(fieldValue);
-                console.log("After onComplete + fieldValue is " + fieldValue);
-                pollingAsyncCallback.timeout = null;
-            } else {
-                console.log(fieldname + " - maxElapsedTime = " + totalElapsedTime + "; maxElapsedTime = " + maxElapsedTime);
-                if (totalElapsedTime < maxElapsedTime) {
-                    console.log("At 1159 timeout is " + pollingAsyncCallback.timeout + "for " + fieldname);
-                    if (!!pollingAsyncCallback.timeout) {
-                        clearTimeout(pollingAsyncCallback.timeout);
-                        pollingAsyncCallback.timeout = null;
-                    }
-                    pollingAsyncCallback.timeout = setTimeout(function () {
-                        try {
-                            console.log("Inside setTimeOut -timeout is " + pollingAsyncCallback.timeout + " for " + fieldname);
-                            pollForChangeAsync(formContext, fieldname,
-                                isComplete,
-                                onComplete,
-                                delayInterval * 1.5 > maxDelay ? maxDelay : delayInterval * 1.5,
-                                totalElapsedTime + delayInterval,
-                                maxDelay,
-                                maxElapsedTime);
-                        } catch (err) {
-                            console.log(' Error: ' + err.message);
+    var pollCrm = function () {
+        var p = Xrm.WebApi.online.retrieveRecord("opportunity", formContext.data.entity.getId(), "?$select=" + fieldName + "")
+            .then(
+                function success(result) {
+                    console.log("Retrieved " + fieldName + "==" + result[fieldName]);
+                    var promise = null;
+                    if (isCancelled) {
+                        console.log("Polling on " + fieldName + " cancelled in retreiveRecord");
+                    } else {
+                        if (isComplete(result[fieldName])) {
+                            onComplete(result[fieldName]);
+                        } else {
+                            var nextDelay = delayInterval;
+                            totalElapsedTime = totalElapsedTime + nextDelay;
+                            if (totalElapsedTime < maxElapsedTime ) {
+                                console.log("Waiting " + nextDelay + " / " + totalElapsedTime + " / " + maxElapsedTime + " for " + fieldName);
+                                promise = delay(nextDelay).then(function() {
+                                    console.log("Finished waiting on " + fieldName);
+                                    if (isCancelled) {
+                                        console.log("Polling on " + fieldName + " cancelled in delay");
+                                    } else {
+                                        pollCrm();
+                                    }
+                                });
+                                promise.catch(function error(e) {
+                                    console.log("Delay failed " + e.message);
+                                    debugger;
+                                });
+                            } else {
+                                console.log("Timed out waiting polling for " + fieldName);
+                            }
+                            delayInterval = delayInterval * 1.5 > maxDelay ? maxDelay : delayInterval * 1.5;
                         }
-                    },
-                        delayInterval);
-                    console.log("timeout is " + pollingAsyncCallback.timeout + "for " + fieldname);
-                }
-            }
-        }
-    );
-    console.log("timeout is " + pollingAsyncCallback.timeout + "for " + fieldname);
-    return pollingAsyncCallback;
+                    }
+                    return promise;
+                },
+                function error(e) {
+                    console.error("Error getting attribute "  + fieldName + " - "+ e.message);
+                    Xrm.Navigation.openAlertDialog(error.message);
+                });
+        return p;
+    }
+
+    pollCrm().catch(function error(e) {
+        console.error("Error polling for change in " + fieldName + "... " + e.message);
+        debugger;
+
+    });
+
+    return function cancel() { isCancelled = true; };
 }
 
 function GetFieldAsync(formContext, fieldname, gotFieldCallback) {
@@ -5948,24 +5963,30 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
                     {
                         label: "<b>Yes</b>", setFocus: false, callback: function () {
 
-                            approveCallbackAction(formContext, approvalType);
-                            formContext.getAttribute(statusField).fireOnChange();
-                            formContext.ui.clearFormNotification('CurrentApprovers');
 
                             if (approvalType == 'FinanceApproval') {
-                                // Poll for the opportunity to enter the Won state
-                             
-                                pollForChangeAsync(formContext,
-                                    "statecode",
-                                    function isWon(statecode) {
-                                        console.log("isWon - statecode is " + statecode);
-                                        return !!statecode && statecode != OPPORTUNITY_STATE.OPEN
-                                    },
-                                    function reloadForm() {
-                                        console.log("Inside reloadForm ");
-                                        OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
-                                    });
+                                // Action to be called when the 
+                                var approvalCompleteAction = function() {
+                                    pollForChangeAsync(formContext,
+                                        "statecode",
+                                        function isWon(statecode) {
+                                            console.log("isWon - statecode is " + statecode);
+                                            return !!statecode && statecode != OPPORTUNITY_STATE.OPEN;
+                                        },
+                                        function reloadForm() {
+                                            console.log("Inside reloadForm ");
+                                            OpenForm(formContext.data.entity.getEntityName(),
+                                                formContext.data.entity.getId());
+                                        });
+                                }
+                                approveCallbackAction(formContext, approvalType, approvalCompleteAction);
+                                formContext.getAttribute(statusField).fireOnChange();
+                                formContext.ui.clearFormNotification('CurrentApprovers');
+
                             } else {
+                                approveCallbackAction(formContext, approvalType);
+                                formContext.getAttribute(statusField).fireOnChange();
+                                formContext.ui.clearFormNotification('CurrentApprovers');
                                 setCurrentApproversAsync(formContext);
                             }
                         },
@@ -6016,6 +6037,7 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
             "WARNING", 550, 300, '', true);
     }
 }
+
 
 // Shruti : can not find the calling code for below function. This function is disabled at Possible Job Number Required Field
 //function for the oppo progress button 
@@ -6967,8 +6989,10 @@ function onChange_PJN(executionContext) {
 
 }
 
-function approveCallbackAction(formContext, approvalType) {
-  
+function approveCallbackAction(formContext, approvalType, onCompleteCallback ) {
+     
+    if (!onCompleteCallback) onCompleteCallback = function () { OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId()); }
+
     var parameters = {};
     var approveruser = {};
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
@@ -6989,7 +7013,7 @@ function approveCallbackAction(formContext, approvalType) {
         if (this.readyState === 4) {
             req.onreadystatechange = null;
             if (this.status === 200) {
-                OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                onCompleteCallback();
             }
         }
     };
