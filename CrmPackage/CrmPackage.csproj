@@ -1543,8 +1543,8 @@
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_Notify_Opportunity.js">
-      <DisplayName>arup_Notify_Opportunity</DisplayName>
-      <UniqueName>arup_arup_Notify_Opportunity</UniqueName>
+      <DisplayName>Notify_Opportunity</DisplayName>
+      <UniqueName>arup_Notify_Opportunity</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\arup_OrgFrom16SpacingFix.js">

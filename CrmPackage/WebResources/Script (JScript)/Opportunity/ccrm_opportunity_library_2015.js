@@ -446,6 +446,7 @@ function OnChangeToDirtyField(a) {
 function FormOnload(executionContext) {
    
     var formContext = executionContext.getFormContext();
+    SetMultiSelect(formContext);
     if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
        // if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
             var state = formContext.getAttribute("statecode").getValue();
@@ -636,7 +637,7 @@ function FormOnload(executionContext) {
 
         // Ensure that when the "Related Networks & Markets" field is set to "Other" that the "Other Network Details" field is made visible and mandatory.
         //setup_display_other_field(formContext, "arup_globalservices", "ccrm_othernetworkdetails", "100000003");
-        SetMultiSelect(formContext);
+     
 
         //uncommented the line below to fix the bug 64054
         if (!formContext.getAttribute("ccrm_arupinternal").getValue())
@@ -705,9 +706,6 @@ function HideShowBidDevTab(formContext) {
     formContext.ui.tabs.get("Bid_Development_Tab_External").setVisible(true);
     if (arupInternal) {
         if (opptype == '770000004' || opptype == '770000003') {
-            ShowFields(formContext, false, "ccrm_arups_role_in_project", "ccrm_arups_role_in_project1", "ccrm_referredby_accountid");
-            //formContext.getControl("ccrm_arups_role_in_project").setVisible(false);
-            //formContext.getControl("ccrm_referredby_accountid").setVisible(false);           
             formContext.ui.tabs.get("Bid_Development_Tab_External").sections.get("Professional_Indemnity_Insurance_Section").setVisible(false);
             formContext.ui.tabs.get("Bid_Development_Tab_External").sections.get("section_BiddingAlerts").setVisible(false);
 
@@ -718,10 +716,7 @@ function HideShowBidDevTab(formContext) {
         formContext.ui.tabs.get("Bid_Details_Tab").sections.get("Bid_Details_Tab_section_7").setVisible(false);
         formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_6_section_3").setVisible(false);
         formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_7_section_5").setVisible(false);
-        ShowFields(formContext, false, "arup_creditcheck", "arup_creditcheck1", "arup_creditcheck2", "arup_duediligencecheck", "arup_duediligencecheck1", "arup_duediligencecheck2");
-
-        //formContext.getControl("arup_creditcheck").setVisible(false);
-        //formContext.getControl("arup_duediligencecheck").setVisible(false);
+        ShowFields(formContext, false, "arup_creditcheck", "arup_creditcheck1", "arup_creditcheck2", "arup_duediligencecheck", "arup_duediligencecheck1", "arup_duediligencecheck2", "ccrm_arups_role_in_project", "ccrm_arups_role_in_project1", "ccrm_referredby_accountid");
     } 
 } 
 
@@ -736,10 +731,12 @@ function opportunityType_onChange(executionContext, trigger) {
 
     var typeAttr = formContext.getAttribute("arup_opportunitytype");
     var typeValue = typeAttr.getValue();
+    var newOpportunity = formContext.ui.getFormType() == 1;
+
     if (formContext.data.process.getActiveStage() != null) {
         var stageID = formContext.data.process.getActiveStage().getId();
 
-        var newOpportunity = formContext.ui.getFormType() == 1;
+    
         if (typeValue == 770000005 && stageID != ArupStages.Lead && !newOpportunity) {
 
             var typeText = typeAttr.getText();
@@ -753,6 +750,10 @@ function opportunityType_onChange(executionContext, trigger) {
             formContext.getAttribute("arup_opportunitytype").setValue(null);
             return;
         }
+    }
+
+    if (!newOpportunity) {
+        HideShowBidDevTab(formContext);
     }
 
     ParentOpportunityFilter(formContext);
@@ -1116,6 +1117,7 @@ function setCurrentApproversAsync(formContext, delayInterval, totalElapsedTime, 
 
 function cancelAsnycApprovalNotification() {
     if (!!currentApproversAsyncCallback && !!currentApproversAsyncCallback.timeout) {
+        console.log("currentApproversAsyncCallback.timeout value is " + currentApproversAsyncCallback.timeout);
         clearTimeout(currentApproversAsyncCallback.timeout);
         currentApproversAsyncCallback.timeout = null;
     }
@@ -1134,41 +1136,53 @@ function pollForChangeAsync(formContext, fieldname, isComplete, onComplete, dela
     /// <returns type="object">Obejct with handle on the timeout used by the polling process. May be used to cancel polling process if required.</returns>
 
     //if (isCrmForMobile) return;
-
+    console.log("Inside pollForChangeAsync");
     var pollingAsyncCallback = { timeout: null };
 
     if (!delayInterval) delayInterval = 1000;
     if (!totalElapsedTime) totalElapsedTime = 0;
     if (!maxDelay) maxDelay = 5000;
-    if (!maxElapsedTime) maxElapsedTime = 90000; // stop after 90s
+    if (!maxElapsedTime) maxElapsedTime = 100000; // stop after 90s
 
-    //console.log("Polling for " + fieldname + " - Delay Interval = " + delayInterval + "; totalElapsedTime = " + totalElapsedTime);
+    console.log("Polling for " + fieldname + " - Delay Interval = " + delayInterval + "; totalElapsedTime = " + totalElapsedTime);
     GetFieldAsync(formContext,
         fieldname,
         function (fieldValue) {
+            console.log("fieldValue " + fieldValue);
             if (isComplete(fieldValue)) {
+                console.log("After IsComplete + fieldValue is " + fieldValue);
                 onComplete(fieldValue);
+                console.log("After onComplete + fieldValue is " + fieldValue);
                 pollingAsyncCallback.timeout = null;
             } else {
+                console.log(fieldname + " - maxElapsedTime = " + totalElapsedTime + "; maxElapsedTime = " + maxElapsedTime);
                 if (totalElapsedTime < maxElapsedTime) {
+                    console.log("At 1159 timeout is " + pollingAsyncCallback.timeout + "for " + fieldname);
                     if (!!pollingAsyncCallback.timeout) {
                         clearTimeout(pollingAsyncCallback.timeout);
                         pollingAsyncCallback.timeout = null;
                     }
                     pollingAsyncCallback.timeout = setTimeout(function () {
-                        pollForChangeAsync(formContext, fieldname,
-                            isComplete,
-                            onComplete,
-                            delayInterval * 1.5 > maxDelay ? maxDelay : delayInterval * 1.5,
-                            totalElapsedTime + delayInterval,
-                            maxDelay,
-                            maxElapsedTime);
+                        try {
+                            console.log("Inside setTimeOut -timeout is " + pollingAsyncCallback.timeout + " for " + fieldname);
+                            pollForChangeAsync(formContext, fieldname,
+                                isComplete,
+                                onComplete,
+                                delayInterval * 1.5 > maxDelay ? maxDelay : delayInterval * 1.5,
+                                totalElapsedTime + delayInterval,
+                                maxDelay,
+                                maxElapsedTime);
+                        } catch (err) {
+                            console.log(' Error: ' + err.message);
+                        }
                     },
                         delayInterval);
+                    console.log("timeout is " + pollingAsyncCallback.timeout + "for " + fieldname);
                 }
             }
         }
     );
+    console.log("timeout is " + pollingAsyncCallback.timeout + "for " + fieldname);
     return pollingAsyncCallback;
 }
 
@@ -3998,7 +4012,8 @@ function ccrm_confidential_onchange(formContext, mode) {
     }
 
     if (isConfidential) {
-        Notify.addOpp("<span style='font-weight:bold; color: white'>Confidential Opportunity</span>", "WARNING", "confidentialopp");
+        //Notify.addOpp("<span style='font-weight:bold;'>Confidential Opportunity</span>", "WARNING", "confidentialopp");
+        Notify.add("<span style=' color: white; border-style: solid;border - color: #ff0000;'>Confidential Opportunity</span>", "WARNING", "confidentialopp", null, null, "#ff0000");
     }
     else { Notify.remove("confidentialopp"); }
 
@@ -5939,12 +5954,15 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
 
                             if (approvalType == 'FinanceApproval') {
                                 // Poll for the opportunity to enter the Won state
+                             
                                 pollForChangeAsync(formContext,
                                     "statecode",
                                     function isWon(statecode) {
+                                        console.log("isWon - statecode is " + statecode);
                                         return !!statecode && statecode != OPPORTUNITY_STATE.OPEN
                                     },
                                     function reloadForm() {
+                                        console.log("Inside reloadForm ");
                                         OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
                                     });
                             } else {
@@ -7596,9 +7614,7 @@ function ShowHideFrameworkFields(formContext, trigger) {
 
     var existingFramework = "arup_isthereanexistingcrmframeworkrecord";
     var frameworkId = "arup_framework";
-    var frameworkAgreement = "ccrm_agreementnumber";
-
-    HideShowBidDevTab(formContext);
+    var frameworkAgreement = "ccrm_agreementnumber";   
 
   //  var tab = formContext.ui.tabs.get("Bid_Development_Tab_Internal");
 

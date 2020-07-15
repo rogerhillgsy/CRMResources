@@ -130,28 +130,7 @@ There will be several copies of the web resource visible in the debugger as "aru
             text-align: center;
         }
 
-        body {
-            text-align: center;
-        }
-
-        p {
-            text-align: left;
-            padding: 5px;
-            font-family: Arial;
-            font-size: 16px;
-            font-weight: 400;
-            margin-left: 32px;
-        }
-
-        ul {
-            display: block;
-            list-style-type: circle;
-            text-align: left;
-            font-family: Arial;
-            font-size: 16px;
-            font-weight: 400;
-            padding-left: 70px;
-        }
+       
 
 
         .blueButton {
@@ -215,7 +194,29 @@ There will be several copies of the web resource visible in the debugger as "aru
             background: #0F5573;
             text-decoration: none;
     }                  
-                        
+     
+     body {
+            text-align: center;
+        }
+
+        p {
+            text-align: left;
+            padding: 5px;
+            font-family: Arial;
+            font-size: 16px;
+            font-weight: 400;
+            margin-left: 50px;
+        }
+
+        ul {
+            display: block;
+            list-style-type: circle;
+            text-align: left;
+            font-family: Arial;
+            font-size: 16px;
+            font-weight: 400;
+            padding-left: 80px;
+        }
 
     </style>
 
@@ -262,6 +263,14 @@ There will be several copies of the web resource visible in the debugger as "aru
             else 
                  labelText = '</br><p>Use buttons at top for next step:</br><ul><li>Close as Lost</li><li>Close as Won – no CJN</li><li>Close as Won – CJN Needed</li></ul></p>';
 
+            return labelText;
+        }
+
+        
+        function GetLabelTextForPJN() {
+            var labelText;
+            if (!formContext.Arup.IsInternalOpportunity(formContext))
+                   labelText = '</br><p>To request a Possible Job use top button:</br><ul><li>Request Possible Job Number</li></ul></p>';
             return labelText;
         }
 
@@ -353,7 +362,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'isredbutton': true
                 },
                 {
-                    'label': 'Move to Next Stage',
+                    'label': 'Progress to Next Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
@@ -361,16 +370,26 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'hidden': function () {return formContext.Arup.IsBidDicisionApprovalEnable(formContext); },
                     'isredbutton': true
 
+                },
+                {
+                    'label': function () { return GetLabelTextForPJN(); },
+                    'hidden': function () { return formContext.Arup.IsInternalOpportunity(formContext);},
+                    'islabel': true
                 }
             ],
             'Cross_Region_Tab': [
                 {
-                    'label': 'Move to Next Stage',
+                    'label': 'Progress to Next Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
                     },
                     'isredbutton': true
+                },
+                {
+                    'label': function () { return GetLabelTextForPJN(); },
+                    'hidden': function () { return formContext.Arup.IsInternalOpportunity(formContext);},
+                    'islabel': true
                 }
             ],
             'Developing_Bid_tab': [
@@ -384,7 +403,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'isredbutton': false
                 },
                 {
-                    'label': 'Move to Next Stage',
+                    'label': 'Progress to Next Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
@@ -413,7 +432,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 },
                 {
                     'id': 'next_stage_button',
-                    'label': 'Move to Next Stage',
+                    'label': 'Progress to Next Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
@@ -433,7 +452,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'isredbutton': false
                 },
                 {
-                    'label': 'Move to Next Stage',
+                    'label': 'Progress to Next Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
@@ -528,7 +547,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 },
                 {
                     'id': 'PJN_next_stage_button',
-                    'label': 'Move to Next Stage',
+                    'label': 'Progress to Next Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
