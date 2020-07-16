@@ -446,6 +446,7 @@ function OnChangeToDirtyField(a) {
 function FormOnload(executionContext) {
    
     var formContext = executionContext.getFormContext();
+    SetMultiSelect(formContext);
     if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
        // if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
             var state = formContext.getAttribute("statecode").getValue();
@@ -636,7 +637,7 @@ function FormOnload(executionContext) {
 
         // Ensure that when the "Related Networks & Markets" field is set to "Other" that the "Other Network Details" field is made visible and mandatory.
         //setup_display_other_field(formContext, "arup_globalservices", "ccrm_othernetworkdetails", "100000003");
-        SetMultiSelect(formContext);
+     
 
         //uncommented the line below to fix the bug 64054
         if (!formContext.getAttribute("ccrm_arupinternal").getValue())
@@ -705,9 +706,6 @@ function HideShowBidDevTab(formContext) {
     formContext.ui.tabs.get("Bid_Development_Tab_External").setVisible(true);
     if (arupInternal) {
         if (opptype == '770000004' || opptype == '770000003') {
-            ShowFields(formContext, false, "ccrm_arups_role_in_project", "ccrm_arups_role_in_project1", "ccrm_referredby_accountid");
-            //formContext.getControl("ccrm_arups_role_in_project").setVisible(false);
-            //formContext.getControl("ccrm_referredby_accountid").setVisible(false);           
             formContext.ui.tabs.get("Bid_Development_Tab_External").sections.get("Professional_Indemnity_Insurance_Section").setVisible(false);
             formContext.ui.tabs.get("Bid_Development_Tab_External").sections.get("section_BiddingAlerts").setVisible(false);
 
@@ -718,10 +716,7 @@ function HideShowBidDevTab(formContext) {
         formContext.ui.tabs.get("Bid_Details_Tab").sections.get("Bid_Details_Tab_section_7").setVisible(false);
         formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_6_section_3").setVisible(false);
         formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_7_section_5").setVisible(false);
-        ShowFields(formContext, false, "arup_creditcheck", "arup_creditcheck1", "arup_creditcheck2", "arup_duediligencecheck", "arup_duediligencecheck1", "arup_duediligencecheck2");
-
-        //formContext.getControl("arup_creditcheck").setVisible(false);
-        //formContext.getControl("arup_duediligencecheck").setVisible(false);
+        ShowFields(formContext, false, "arup_creditcheck", "arup_creditcheck1", "arup_creditcheck2", "arup_duediligencecheck", "arup_duediligencecheck1", "arup_duediligencecheck2", "ccrm_arups_role_in_project", "ccrm_arups_role_in_project1", "ccrm_referredby_accountid");
     } 
 } 
 
@@ -736,10 +731,12 @@ function opportunityType_onChange(executionContext, trigger) {
 
     var typeAttr = formContext.getAttribute("arup_opportunitytype");
     var typeValue = typeAttr.getValue();
+    var newOpportunity = formContext.ui.getFormType() == 1;
+
     if (formContext.data.process.getActiveStage() != null) {
         var stageID = formContext.data.process.getActiveStage().getId();
 
-        var newOpportunity = formContext.ui.getFormType() == 1;
+    
         if (typeValue == 770000005 && stageID != ArupStages.Lead && !newOpportunity) {
 
             var typeText = typeAttr.getText();
@@ -753,6 +750,10 @@ function opportunityType_onChange(executionContext, trigger) {
             formContext.getAttribute("arup_opportunitytype").setValue(null);
             return;
         }
+    }
+
+    if (!newOpportunity) {
+        HideShowBidDevTab(formContext);
     }
 
     ParentOpportunityFilter(formContext);
@@ -1096,7 +1097,7 @@ function SetCurrentStatusFromServer(formContext) {
         });
 }
 
-var currentApproversAsyncCallback = null;
+var currentApproversAsyncCallbackCancel = null;
 function setCurrentApproversAsync(formContext, delayInterval, totalElapsedTime, maxDelay, maxElapsedTime) {
     /// <summary>Asynchronously set the current approvers notification. The initial delay interval will ramp up till "maxDelay" is reached.
     /// The async process will run until it either gets a new "Approvers" value, or "totalElapsedTime" has passed and it gives up.</summary>
@@ -1106,7 +1107,7 @@ function setCurrentApproversAsync(formContext, delayInterval, totalElapsedTime, 
     /// <param name="maxElapsedTime">Maximum total time to wait before giving up.</param>
 
     cancelAsnycApprovalNotification();
-    currentApproversAsyncCallback = pollForChangeAsync(formContext, "ccrm_currentapprovers",
+    currentApproversAsyncCallbackCancel = pollForChangeAsync(formContext, "ccrm_currentapprovers",
         function isComplete(approvers) { return !!approvers; },
         function onComplete(approvers) {
             SetCurrentApproverNotification(formContext, approvers);
@@ -1115,61 +1116,89 @@ function setCurrentApproversAsync(formContext, delayInterval, totalElapsedTime, 
 }
 
 function cancelAsnycApprovalNotification() {
-    if (!!currentApproversAsyncCallback && !!currentApproversAsyncCallback.timeout) {
-        clearTimeout(currentApproversAsyncCallback.timeout);
-        currentApproversAsyncCallback.timeout = null;
+    if (!!currentApproversAsyncCallbackCancel && typeof (currentApproversAsyncCallbackCancel) === "function") {
+        currentApproversAsyncCallbackCancel();
+        currentApproversAsyncCallbackCancel= null;
     }
 }
 
-function pollForChangeAsync(formContext, fieldname, isComplete, onComplete, delayInterval, totalElapsedTime, maxDelay, maxElapsedTime) {
-    /// <summary>Asynchronously poll an entity field till a condition is met, then call a completion function.
-    /// The async process will run until it either gets a new "Approvers" value, or "totalElapsedTime" has passed and it gives up.</summary>
-    /// <param name="fieldname">Name of the field to be polled.</param>
-    /// <param name="IsComplete">function to be called with the retreived field value, will return true if the completion condition is met..</param>
-    /// <param name="OnComplete">Function to be invoked when the completion condition has been met.</param>
-    /// <param name="delayInterval">If null then a default delay intervaly will be used.</param>
-    /// <param name="totalElapsedTime">Time that has passed so far since starting to set the approvers.</param>
-    /// <param name="maxDelay">Longest interval that we will wait for.</param>
-    /// <param name="maxElapsedTime">Maximum total time to wait before giving up.</param>
-    /// <returns type="object">Obejct with handle on the timeout used by the polling process. May be used to cancel polling process if required.</returns>
 
-    //if (isCrmForMobile) return;
+/**
+ * Use as part of promise chain to insert a delay into a promise chain.
+ * @param {int} t - delay in ms
+ * @param {any} v - 
+ */
+function delay(t, v) {
+    return new Promise(function (resolve) {
+        setTimeout(resolve.bind(null, v), t);
+    });
+}
 
-    var pollingAsyncCallback = { timeout: null };
+function pollForChangeAsync(formContext,
+    fieldName,
+    isComplete,
+    onComplete,
+    delayInterval,
+    totalElapsedTime,
+    maxDelay,
+    maxElapsedTime) {
 
     if (!delayInterval) delayInterval = 1000;
     if (!totalElapsedTime) totalElapsedTime = 0;
     if (!maxDelay) maxDelay = 5000;
     if (!maxElapsedTime) maxElapsedTime = 90000; // stop after 90s
+    var isCancelled = false;
 
-    //console.log("Polling for " + fieldname + " - Delay Interval = " + delayInterval + "; totalElapsedTime = " + totalElapsedTime);
-    GetFieldAsync(formContext,
-        fieldname,
-        function (fieldValue) {
-            if (isComplete(fieldValue)) {
-                onComplete(fieldValue);
-                pollingAsyncCallback.timeout = null;
-            } else {
-                if (totalElapsedTime < maxElapsedTime) {
-                    if (!!pollingAsyncCallback.timeout) {
-                        clearTimeout(pollingAsyncCallback.timeout);
-                        pollingAsyncCallback.timeout = null;
+    var pollCrm = function () {
+        var p = Xrm.WebApi.online.retrieveRecord("opportunity", formContext.data.entity.getId(), "?$select=" + fieldName + "")
+            .then(
+                function success(result) {
+                    console.log("Retrieved " + fieldName + "==" + result[fieldName]);
+                    var promise = null;
+                    if (isCancelled) {
+                        console.log("Polling on " + fieldName + " cancelled in retreiveRecord");
+                    } else {
+                        if (isComplete(result[fieldName])) {
+                            onComplete(result[fieldName]);
+                        } else {
+                            var nextDelay = delayInterval;
+                            totalElapsedTime = totalElapsedTime + nextDelay;
+                            if (totalElapsedTime < maxElapsedTime ) {
+                                console.log("Waiting " + nextDelay + " / " + totalElapsedTime + " / " + maxElapsedTime + " for " + fieldName);
+                                promise = delay(nextDelay).then(function() {
+                                    console.log("Finished waiting on " + fieldName);
+                                    if (isCancelled) {
+                                        console.log("Polling on " + fieldName + " cancelled in delay");
+                                    } else {
+                                        pollCrm();
+                                    }
+                                });
+                                promise.catch(function error(e) {
+                                    console.log("Delay failed " + e.message);
+                                    debugger;
+                                });
+                            } else {
+                                console.log("Timed out waiting polling for " + fieldName);
+                            }
+                            delayInterval = delayInterval * 1.5 > maxDelay ? maxDelay : delayInterval * 1.5;
+                        }
                     }
-                    pollingAsyncCallback.timeout = setTimeout(function () {
-                        pollForChangeAsync(formContext, fieldname,
-                            isComplete,
-                            onComplete,
-                            delayInterval * 1.5 > maxDelay ? maxDelay : delayInterval * 1.5,
-                            totalElapsedTime + delayInterval,
-                            maxDelay,
-                            maxElapsedTime);
-                    },
-                        delayInterval);
-                }
-            }
-        }
-    );
-    return pollingAsyncCallback;
+                    return promise;
+                },
+                function error(e) {
+                    console.error("Error getting attribute "  + fieldName + " - "+ e.message);
+                    Xrm.Navigation.openAlertDialog(error.message);
+                });
+        return p;
+    }
+
+    pollCrm().catch(function error(e) {
+        console.error("Error polling for change in " + fieldName + "... " + e.message);
+        debugger;
+
+    });
+
+    return function cancel() { isCancelled = true; };
 }
 
 function GetFieldAsync(formContext, fieldname, gotFieldCallback) {
@@ -3998,7 +4027,8 @@ function ccrm_confidential_onchange(formContext, mode) {
     }
 
     if (isConfidential) {
-        Notify.addOpp("<span style='font-weight:bold; color: white'>Confidential Opportunity</span>", "WARNING", "confidentialopp");
+        //Notify.addOpp("<span style='font-weight:bold;'>Confidential Opportunity</span>", "WARNING", "confidentialopp");
+        Notify.add("<span style=' color: white; border-style: solid;border - color: #ff0000;'>Confidential Opportunity</span>", "WARNING", "confidentialopp", null, null, "#ff0000");
     }
     else { Notify.remove("confidentialopp"); }
 
@@ -5933,21 +5963,30 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
                     {
                         label: "<b>Yes</b>", setFocus: false, callback: function () {
 
-                            approveCallbackAction(formContext, approvalType);
-                            formContext.getAttribute(statusField).fireOnChange();
-                            formContext.ui.clearFormNotification('CurrentApprovers');
 
                             if (approvalType == 'FinanceApproval') {
-                                // Poll for the opportunity to enter the Won state
-                                pollForChangeAsync(formContext,
-                                    "statecode",
-                                    function isWon(statecode) {
-                                        return !!statecode && statecode != OPPORTUNITY_STATE.OPEN
-                                    },
-                                    function reloadForm() {
-                                        OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
-                                    });
+                                // Action to be called when the 
+                                var approvalCompleteAction = function() {
+                                    pollForChangeAsync(formContext,
+                                        "statecode",
+                                        function isWon(statecode) {
+                                            console.log("isWon - statecode is " + statecode);
+                                            return !!statecode && statecode != OPPORTUNITY_STATE.OPEN;
+                                        },
+                                        function reloadForm() {
+                                            console.log("Inside reloadForm ");
+                                            OpenForm(formContext.data.entity.getEntityName(),
+                                                formContext.data.entity.getId());
+                                        });
+                                }
+                                approveCallbackAction(formContext, approvalType, approvalCompleteAction);
+                                formContext.getAttribute(statusField).fireOnChange();
+                                formContext.ui.clearFormNotification('CurrentApprovers');
+
                             } else {
+                                approveCallbackAction(formContext, approvalType);
+                                formContext.getAttribute(statusField).fireOnChange();
+                                formContext.ui.clearFormNotification('CurrentApprovers');
                                 setCurrentApproversAsync(formContext);
                             }
                         },
@@ -5998,6 +6037,7 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
             "WARNING", 550, 300, '', true);
     }
 }
+
 
 // Shruti : can not find the calling code for below function. This function is disabled at Possible Job Number Required Field
 //function for the oppo progress button 
@@ -6949,8 +6989,10 @@ function onChange_PJN(executionContext) {
 
 }
 
-function approveCallbackAction(formContext, approvalType) {
-  
+function approveCallbackAction(formContext, approvalType, onCompleteCallback ) {
+     
+    if (!onCompleteCallback) onCompleteCallback = function () { OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId()); }
+
     var parameters = {};
     var approveruser = {};
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
@@ -6971,7 +7013,7 @@ function approveCallbackAction(formContext, approvalType) {
         if (this.readyState === 4) {
             req.onreadystatechange = null;
             if (this.status === 200) {
-                OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                onCompleteCallback();
             }
         }
     };
@@ -7596,9 +7638,7 @@ function ShowHideFrameworkFields(formContext, trigger) {
 
     var existingFramework = "arup_isthereanexistingcrmframeworkrecord";
     var frameworkId = "arup_framework";
-    var frameworkAgreement = "ccrm_agreementnumber";
-
-    HideShowBidDevTab(formContext);
+    var frameworkAgreement = "ccrm_agreementnumber";   
 
   //  var tab = formContext.ui.tabs.get("Bid_Development_Tab_Internal");
 

@@ -425,7 +425,7 @@
             }
             catch (err) { }
             try {
-                PopulateManagingTeamMembers();
+                //PopulateManagingTeamMembers();
             }
             catch (err) { }
             try {
@@ -856,7 +856,7 @@
                     ccrm_keyaccountmanagerid: result.ccrm_keyaccountmanagerid != undefined ? result.ccrm_keyaccountmanagerid : "",
                     ccrm_keyaccountmanagername: result.ccrm_keyaccountmanagerid != undefined ? result["ccrm_keyaccountmanagerid@OData.Community.Display.V1.FormattedValue"] : "",
                     ccrm_keyaccount: result.ccrm_keyaccount != undefined ? result.ccrm_keyaccount : false,
-                    ccrm_managingteamid: result.ManagingTeam != undefined ? result.ManagingTeam : "",
+                    ccrm_managingteam: result.ManagingTeam != undefined ? result["ManagingTeam@OData.Community.Display.V1.FormattedValue"] : "",
                     description: result.description != undefined ? result.description : "",
                     name: result.name != undefined ? result.name : "",
                     parentAccountId: result.ParentOrganisation != undefined ? result["ParentOrganisation@OData.Community.Display.V1.FormattedValue"] : "",
@@ -908,7 +908,7 @@
             if (profileData.parentAccountId != null) {
                 $("#parentOrg").text(profileData.parentAccountId);
             }
-            $("#relationshipteam").text(profileData.ccrm_managingteamid);
+            $("#relationshipteam").text(profileData.ccrm_managingteam);
             $("#phonenum").text(profileData.telephone1);
             $("#address").text(address);
             $("#clientType").text(profileData.ccrm_ClientType);
