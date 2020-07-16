@@ -248,6 +248,10 @@ Xrm.Page.Arup = (
                 return GetAttribute(formContext, "ccrm_arupinternal");
             },
 
+            HideShowBidDevTab: function (formContext) {
+                HideShowBidDevTab(formContext);
+            },
+
             // General Utility functions ----------------------
             SetupTabsForStage: function (formContext) {
 
@@ -263,6 +267,7 @@ Xrm.Page.Arup = (
                     Log("Displaying tabs for process stage " + activeStageName + " / " + activeTabName);
                     obj.DisplayTab(activeTabName, formContext);
                     obj.setVisibleTabs(formContext, obj.staticTabs.concat([activeTabName]));
+                    obj.HideShowBidDevTab(formContext);
                     if (buttonChangeCallbacks[activeTabName] != null) {
                         buttonChangeCallbacks[activeTabName]();
                     }
@@ -345,7 +350,7 @@ Xrm.Page.Arup = (
 
             staticTabs: [
                 'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
-                'Bid_Details_Tab', 'Bid_Development_Tab_External', 'Notes_tab'
+                'Bid_Details_Tab',  'Notes_tab'
             ],
             // Entry point from the form properties.
             // This is set up as en event handler to be called from the main CRM opportunity form.
