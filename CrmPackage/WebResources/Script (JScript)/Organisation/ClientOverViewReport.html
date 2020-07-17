@@ -598,7 +598,7 @@
             }
             catch (err) { }
             try {
-                PopulateManagingTeamMembers();
+                //PopulateManagingTeamMembers();
             }
             catch (err) { }
             try {
@@ -756,13 +756,19 @@
 
         function BindSubReport() {
             var currid = currencyid;
-            var rdlName = encodeURIComponent("RecordHierarchyOrgOnly.rdl");
-            var rdlID = "%7b" + encodeURIComponent("E584FEA1-A31B-E311-8706-D8D385B829F8") + "%7d";
+            var rdlName = "Record+Hierarchy+Organisation";
+            var rdlID; //= "%7b" + encodeURIComponent("E584FEA1-A31B-E311-8706-D8D385B829F8") + "%7d";
             var userID = systemUser;
 
             var reportBaseURL = clientURL + "/crmreports/viewer/viewer.aspx?action=run&helpID=";
-            var sqlreportbaseurl = "http://azpsrsd365d01/ReportServer/Pages/ReportViewer.aspx?/Paginated+Reports/";
-            var childOrgURL = reportBaseURL + rdlName + "&id=" + rdlID + "&p:recordid=" + accId + "&p:OrgName=" + encodeURIComponent(accName);
+            var sqlreportbaseurl;
+            if (clientURL.toLowerCase().includes("arupdev")) {
+                sqlreportbaseurl = "https://azpsrsd365d01.global.arup.com/ReportServer/Pages/ReportViewer.aspx?/Paginated%20Reports/";
+            }
+            else {
+                sqlreportbaseurl = "https://azpsrsd365p01.global.arup.com/ReportServer/Pages/ReportViewer.aspx?/Paginated%20Reports/";
+            }
+            var childOrgURL = sqlreportbaseurl + rdlName + "&recordid=" + accId + "&CRM_URL=" + crmurl + "&OrgName=" + encodeURIComponent(accName);
             var crmurl = encodeURIComponent(clientURL);
             d3.select('#childOrgs').attr('href', childOrgURL).attr('target', '_blank');
 
