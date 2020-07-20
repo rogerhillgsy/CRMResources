@@ -1582,7 +1582,7 @@ var Arup_validations =
             return !!target && !!target.value ? false : "Please select Opportunity Type";
         }.bind(o);
 
-        o.value = function(htmlNode) {
+        o.value = function() {
             var target = this.htmlNode();
             return target.value;
             //if (!htmlNode) htmlNode = $("#opportunityType")[0];
@@ -1825,9 +1825,10 @@ var Arup_validations =
                 }
                 return false;
             }.bind(o),
-            o.value = function(node) {
+            o.value = function() {
+                var target = this.htmlNode();
                 if (Arup_validations.contractagreementref.required) {
-                    return node.value;
+                    return target.value;
                 }
                 return undefined;
             };
