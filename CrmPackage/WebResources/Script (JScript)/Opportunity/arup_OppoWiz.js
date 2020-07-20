@@ -1975,7 +1975,7 @@ var Arup_validations =
             } else
                 return false;
         };
-        o.value = function(htmlNode) {
+        o.value = function() {
             return "/ccrm_countries(" +
                 $("#countries option[value='" + $('#project_country').val() + "']").attr("data-value") +
                 ")";;
@@ -2284,7 +2284,7 @@ var Arup_validations =
             } else
                 return false;
         }.bind(o);
-        o.value = function(target) {
+        o.value = function() {
             return "/systemusers(" + $("#users option[value='" + $('#opporigin').val() + "']").attr("data-value") + ")";
         };
         o.setDefault = function() {
@@ -2548,7 +2548,7 @@ var Arup_validations =
                 // either an error string or false (if there is no error);
             }.bind(o);
         // name: "Opportunity Type", // user friendly name for field in ArupFieldConfig constructor above
-        //o.value = function(htmlNode) {
+        //o.value = function() {
         //    // Return the value of the field - default implementation is available in ArupFieldConfig
         //};
         // crmAttribute: "arup_opportunitytype", // Crm attribute tha this field maps to. Provided in ArupFieldConfig constructor above.
