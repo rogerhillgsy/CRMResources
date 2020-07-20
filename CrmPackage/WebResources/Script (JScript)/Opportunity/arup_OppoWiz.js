@@ -749,6 +749,7 @@ function getOpportunities(inputControl, extraFilter) {
     var value = $("#opportunities option[value='" + $('#relatedopportunity').val() + "']");
     if (value.length > 0) return;
     var input = inputControl.value;
+    var queryTooShort = new Error("Query string '"+ input + "' too short");//{ message: "Query string too short" };
 
     var p = new Promise(function(resolve, reject) {
         inputControl.classList.add("waiting-for-crm");
@@ -760,16 +761,16 @@ function getOpportunities(inputControl, extraFilter) {
                 if (firstDigit == 8) {
                     FetchCRMData("opportunities",
                             "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_reference,'" +
-                            encodeURIComponent( input ) +
+                            encodeURIComponent(input) +
                             "')" +
                             extraFilter +
                             "&$orderby=" +
                             encodeURIComponent("ccrm_jna asc"),
                             inputControl)
-                        .then(function(result)  {
+                        .then(function(result) {
                                 resolve(result, "ccrm_reference");
                             },
-                            restQueryErrorDialog("Getting opportunities by name",null, reject));
+                            restQueryErrorDialog("Getting opportunities by name", null, reject));
                 } else {
                     FetchCRMData("opportunities",
                             "$select=ccrm_jna,ccrm_reference,name,opportunityid&$filter=startswith(ccrm_jna,'" +
@@ -784,6 +785,8 @@ function getOpportunities(inputControl, extraFilter) {
                             },
                             restQueryErrorDialog("Getting opportunities by ccrm_jna", null, reject));
                 }
+            } else {
+                reject(queryTooShort);
             }
         } else {
             if (num >= 5) {
@@ -800,20 +803,23 @@ function getOpportunities(inputControl, extraFilter) {
                         },
                         restQueryErrorDialog("Getting opportunities by name", null, reject)
                 );
+            } else {
+                reject(queryTooShort);
             }
         }
     });
-    p.finally(function () {
-        inputControl.classList.remove("waiting-for-crm");
-    });
     p = p.then(
-        function resolve(result, type) {        
+        function resolve(result, type) {
             fillOpportunityResults(result);
             oppWizLog("Found " + result.value.length + " results");
             inputControl.focus();
         },
-        function reject() {
-        });
+        function reject(e) {
+            oppWizLog("rejected getOpportunities - " + e.message);
+        })
+    .finally(function () {
+        inputControl.classList.remove("waiting-for-crm");
+    });
     return p;
 }
 
