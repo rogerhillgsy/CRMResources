@@ -4535,16 +4535,19 @@ function projectcountry_onchange(formContext, fromformload) {
                 //var retrievedreq;
                 if (companyId != null) {
                     var companyCode = fetchCompanyCode(formContext, companyId);
+                    if(companyCode != null){
+                        formContext.getControl("ccrm_arupcompanyid").addPreSearch(function () { IndiaCompanyFilter(formContext); });
+                    }
                 }
 
-                setTimeout(function () {
-                    if (companyCode != null && companyCode != "55" && companyCode != "75") {
-                        formContext.getAttribute("ccrm_arupcompanyid").setValue(null);
-                        formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
-                        var fieldName = "ccrm_arupcompanyid";
-                        formContext.getControl(fieldName).addPreSearch(function () { IndiaCompanyFilter(formContext); });
-                    }
-                }, 1000);
+                //setTimeout(function () {
+                //    if (companyCode != null && companyCode != "55" && companyCode != "75") {
+                //        formContext.getAttribute("ccrm_arupcompanyid").setValue(null);
+                //        formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
+                //        var fieldName = "ccrm_arupcompanyid";
+                //        formContext.getControl(fieldName).addPreSearch(function () { IndiaCompanyFilter(formContext); });
+                //    }
+                //}, 1000);
             }
         }
 
@@ -4570,7 +4573,7 @@ function fetchCompanyCode(formContext, companyid) {
     companyid = companyid.replace('{', '').replace('}', '');
 
     var req = new XMLHttpRequest();
-    req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/ccrm_arupcompanies(" + companyid + ")?$select=ccrm_arupcompanycode", true);
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_arupcompanies(" + companyid + ")?$select=ccrm_arupcompanycode", false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -4581,7 +4584,7 @@ function fetchCompanyCode(formContext, companyid) {
             req.onreadystatechange = null;
             if (this.status === 200) {
                 var result = JSON.parse(this.response);
-                var companyCode = result["ccrm_arupcompanycode"];
+                companyCode = result["ccrm_arupcompanycode"];
             } else {
                 Xrm.Navigation.openAlertDialog(this.statusText);
             }

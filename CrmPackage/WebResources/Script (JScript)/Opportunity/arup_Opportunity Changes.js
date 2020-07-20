@@ -330,15 +330,17 @@ function setupArupInternal(executionContext) {
     showSDGFields(formContext, arupInternal);
     if (!arupInternal) { return; }
 
-    formContext.getControl("ccrm_countryofclientregistrationid").setVisible(false);
-    formContext.getControl("ccrm_opportunitytype").setVisible(false);
-    formContext.getControl("ccrm_countrycategory").setVisible(false);
-    formContext.getControl("arup_importedsalarycost_num").setVisible(false);
-    formContext.getControl("arup_importedstaffohcost_num").setVisible(false);
-    formContext.getControl("arup_importedexpenses_num").setVisible(false);
-    formContext.getControl("ccrm_arupuniversityiiaresearchinitiative").setVisible(false);
-    formContext.getControl("ccrm_estprojectvalue_num").setVisible(false);
-    formContext.getControl("arup_projpartreqd").setVisible(false);
+    ShowFields(formContext, false, "ccrm_countryofclientregistrationid", "ccrm_opportunitytype", "ccrm_countrycategory", "arup_importedsalarycost_num", "arup_importedstaffohcost_num", "arup_importedexpenses_num", "ccrm_arupuniversityiiaresearchinitiative", "ccrm_estprojectvalue_num", "arup_projpartreqd", "arup_services", "arup_services1", "arup_projecttype", "arup_projecttype1", "arup_projectsector", "arup_projectsector1");
+
+    //formContext.getControl("ccrm_countryofclientregistrationid").setVisible(false);
+    //formContext.getControl("ccrm_opportunitytype").setVisible(false);
+    //formContext.getControl("ccrm_countrycategory").setVisible(false);
+    //formContext.getControl("arup_importedsalarycost_num").setVisible(false);
+    //formContext.getControl("arup_importedstaffohcost_num").setVisible(false);
+    //formContext.getControl("arup_importedexpenses_num").setVisible(false);
+    //formContext.getControl("ccrm_arupuniversityiiaresearchinitiative").setVisible(false);
+    //formContext.getControl("ccrm_estprojectvalue_num").setVisible(false);
+    //formContext.getControl("arup_projpartreqd").setVisible(false);
 }
 
 function setBidDecisionChairRequired_ec(executionContext) {
