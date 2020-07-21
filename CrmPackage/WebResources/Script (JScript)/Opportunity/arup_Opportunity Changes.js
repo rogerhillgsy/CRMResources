@@ -646,3 +646,20 @@ function showSDGFields(formContext, arupInternal) {
         formContext.getAttribute("arup_betterway").setRequiredLevel("required");
     }
 }
+
+function SetSGDMultiSelect(executionContext, fieldname) {
+    var formContext = executionContext.getFormContext();
+    if (fieldname == "" || fieldname == null) return;
+    var selectedValues = formContext.getAttribute(fieldname).getValue();
+    if (selectedValues.length == 0) return;
+    var notApplicable = selectedValues.includes(99);
+
+    if (notApplicable) {
+        if (selectedValues.length > 1) {
+            formContext.ui.setFormNotification('You have selected "None of Above" option for ' + fieldname + '. This will not allow you to add more options.', 'WARNING', '3');
+        }
+        setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
+    }
+    formContext.getAttribute(fieldname).setValue([99]);
+    return;
+}
