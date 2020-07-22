@@ -587,17 +587,22 @@ function ccrm_arupcompanyid_onchange(executionContext) {
     var formContext = executionContext.getFormContext();
     var accCenterFilterCode = '';
     var companyvalid = '';
+    debugger;
     var companyval = formContext.getAttribute("ccrm_arupcompanyid").getValue();
     if (companyval != null) {
         formContext.getControl('ccrm_accountingcentreid').removePreSearch(AccCentreAddLookupFilter);
         if (formContext.ui.getFormType() == 1) {
             companyvalid = companyval[0].id;
             if (companyvalid != null || companyvalid != undefined) {
-                if (companyval[0].id.indexOf("}") > 0)
-                    companyvalid = "{" + leadOwnerData.arupcompanyid.toUpperCase() + "}";
-                else
-                    companyvalid = leadOwnerData.arupcompanyid;
-                if (companyval[0].id != companyvalid)
+
+                if (leadOwnerData.arupcompanyid != null) {
+                    if (companyval[0].id.indexOf("}") > 0) {
+                        companyvalid = "{" + leadOwnerData.arupcompanyid.toUpperCase() + "}";
+                    } else {
+                        companyvalid = leadOwnerData.arupcompanyid;
+                    }               
+                }  
+                if (companyval[0].id != companyvalid || leadOwnerData.arupcompanyid == null)
                     formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
                 else {
                     SetLookupField(leadOwnerData.ccrm_accountingcentreid, leadOwnerData.ccrm_accountingcentrename, 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid', formContext);
@@ -1102,8 +1107,9 @@ function AssignDetailsFromParentOpportunity(results, formContext) {
 }
 
 function AssignDetailsWhenOpportunityTypeExistingContract(results, formContext) {
-    if (formContext.ui.getFormType() != 1) {
-        formContext.getAttribute("ccrm_contractarrangement").setValue(results.value[0]["ccrm_contractarrangement"]);
+    if (formContext.ui.getFormType() != 1) { 
+        var procValue = results.value[0]["ccrm_contractarrangement"];
+        formContext.getAttribute("ccrm_contractarrangement").setValue(procValue);
     }
 }
 

@@ -626,18 +626,11 @@ function setOrganisationChecks(formContext, arup_duediligencecheck) {
 }
 
 function showSDGFields(formContext, arupInternal) {
+    debugger;
     if (arupInternal) {
-        formContext.getControl("header_process_arup_keymarkets").setVisible(false);
-        formContext.getControl("header_process_arup_sharedvalues").setVisible(false);
-        formContext.getControl("header_process_arup_safeguardplanet").setVisible(false);
-        formContext.getControl("header_process_arup_partnership").setVisible(false);
-        formContext.getControl("header_process_arup_betterway").setVisible(false);
-
-        formContext.getControl("arup_keymarkets").setVisible(false);
-        formContext.getControl("arup_sharedvalues").setVisible(false);
-        formContext.getControl("arup_safeguardplanet").setVisible(false);
-        formContext.getControl("arup_partnership").setVisible(false);
-        formContext.getControl("arup_betterway").setVisible(false);
+        formContext.ui.tabs.get("Pre-Bid_Tab").sections.get("PreBid_Sustainable_Development").setVisible(false);
+        formContext.ui.tabs.get("Confirmed_Job_Project_Tab").sections.get("Confirmed_Job_Project_Sustainable_Development").setVisible(false);
+        formContext.ui.tabs.get("Project_Details_Tab").sections.get("Project_Details_Sustainable_Development").setVisible(false);
     } else {
         formContext.getAttribute("arup_keymarkets").setRequiredLevel("required");
         formContext.getAttribute("arup_sharedvalues").setRequiredLevel("required");
@@ -659,7 +652,7 @@ function SetSGDMultiSelect(executionContext, fieldname) {
             formContext.ui.setFormNotification('You have selected "None of Above" option for ' + fieldname + '. This will not allow you to add more options.', 'WARNING', '3');
         }
         setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
-    }
-    formContext.getAttribute(fieldname).setValue([99]);
+        formContext.getAttribute(fieldname).setValue([99]);
+    }  
     return;
 }

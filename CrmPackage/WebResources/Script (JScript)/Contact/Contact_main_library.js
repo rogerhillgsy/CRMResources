@@ -401,7 +401,7 @@ function Form_onsave(eventArgs) {
             return false;
         }
     }
-    Xrm.Page.ui.clearFormNotification("1");
+    formContext.ui.clearFormNotification("1");
 }
 
 function removeFromList(list, value, separator) {

@@ -19,9 +19,9 @@ function changeHeaderTileFormat() {
     }
 }
 
-function arup_confidential_onChange() {
-
-    confidential = Xrm.Page.getAttribute("arup_issecured").getValue();
+function arup_confidential_onChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    confidential = formContext.getAttribute("arup_issecured").getValue();
     message = "You have changed this folder's  access from " + (confidential == 0 ? 'Confidential' : 'Public') + ' to ' + (confidential == 0 ? 'Public' : 'Confidential') + '.</br>' +
         'All of the attached documents will become ' + (confidential == 0 ? 'Public' : 'Confidential') + '.</br></br>' +
         'Press OK to confirm your selection or Cancel to revert this folder back to ' + (confidential == 0 ? 'Confidential.' : 'Public.');
@@ -33,7 +33,7 @@ function arup_confidential_onChange() {
                 function () {
                     //Xrm.Page.data.save().then(function () { Xrm.Page.data.refresh(); });
                     //setTimeout(function () { Xrm.Page.data.refresh(); }, 2000);
-                    Xrm.Page.data.save();
+                    formContext.data.save();
 
                     //Xrm.Page.data.save().then(function() { Xrm.Page.data.refresh(false); }, null);
 
@@ -41,7 +41,7 @@ function arup_confidential_onChange() {
                 false, false),
             new Alert.Button("Cancel",
                 function () {
-                    Xrm.Page.getAttribute("arup_issecured").setValue(!confidential);
+                    formContext.getAttribute("arup_issecured").setValue(!confidential);
                     Alert.show('<font size="6" color="#2E74B5"><b>For your information</b></font>',
                         '<font size="3" color="#000000"></br>This folder has been reverted back to ' + (confidential == 0 ? 'Confidential' : 'Public') + '.</font>',
                         [
