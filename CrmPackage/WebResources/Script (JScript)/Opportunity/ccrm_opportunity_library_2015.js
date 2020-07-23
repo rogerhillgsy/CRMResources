@@ -446,6 +446,7 @@ function OnChangeToDirtyField(a) {
 function FormOnload(executionContext) {
    
     var formContext = executionContext.getFormContext();
+    formContext.getAttribute("arup_globalservices").addOnChange(GetMultiSelect);
     SetMultiSelect(formContext);
     if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
        // if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
