@@ -9,6 +9,7 @@ function onForm_Load(executionContext) {
 
     filterOnLoad(formContext);
     addEventHandler(formContext);
+    formContext.getControl("regardingobjectid").setEntityTypes(["opportunity", "contact"]);
 }
 
 function onForm_save(executionContext) {
@@ -145,12 +146,12 @@ function setLookupField(formContext, id, name, entity, field) {
  * @description Called from the command bar exit button
  * @param {any} formContext
  */
-function exitForm(formContext ) {
+function exitForm(formContext) {
     ArupExit.exitForm(formContext, "appointment");
 }
 
 function setDefaultAttendies(executionContext) {
     var formContext = executionContext.getFormContext();
     formContext.getControl("requiredattendees").setEntityTypes(["systemuser", "contact"]);
-    formContext.getControl("optionalattendees").setEntityTypes(["systemuser", "contact"]); 
+    formContext.getControl("optionalattendees").setEntityTypes(["systemuser", "contact"]);
 }
