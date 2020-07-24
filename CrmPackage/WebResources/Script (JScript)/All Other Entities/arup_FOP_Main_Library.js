@@ -1,3 +1,5 @@
+/// <reference path="arup_exitFormFunctions.js"/>"
+
 function DisableFields(executionContext) {
     formContext = executionContext.getFormContext();
     if (formContext.ui.getFormType() == 2) {
@@ -155,4 +157,8 @@ function GetOrganisations(formContext) {
         };
         req.send();
     }
+}
+
+function exitForm(formContext) {
+    ArupExit.exitForm(formContext, "arup_fieldofplay");
 }

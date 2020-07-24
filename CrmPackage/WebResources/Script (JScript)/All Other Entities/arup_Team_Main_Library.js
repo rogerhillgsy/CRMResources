@@ -25,6 +25,7 @@ function formOnLoadTeams(executionContext) {
     EnsureIsTeamMember(formContext, "ccrm_relationshipmanager");
     EnsureIsTeamMember(formContext, "ccrm_arupsponsor");
     EnsureClientValuesSet(formContext);
+    formContext.getControl("ccrm_arupsponsor").setDefaultView("{26B373CD-C7CC-E811-8115-005056B509E1}");    
 }
 
 function SetDefaultBusinessUnit(formContext) {
