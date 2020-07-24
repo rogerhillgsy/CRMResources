@@ -33,9 +33,18 @@ Xrm.Page.Arup = (
                 ActiveTab: "Summary"
             },
 
-            //
+
             // Functions related to specific buttons ---------------------
-            //
+
+            IsRequestPossibleJobEnabled: function (formContext) {
+                var pjnrequired = GetAttribute(formContext, "ccrm_possiblejobnumberrequired");
+                var isCreate = formContext.ui.getFormType() == 1;
+                var showPJNButton = GetAttribute(formContext, "ccrm_showpjnbutton");
+                var statuscode = GetAttribute(formContext, "statuscode");
+                var statecode = GetAttribute(formContext, "statecode");
+                return pjnrequired != 1 && !isCreate && showPJNButton == 1 && statuscode != 3 && statecode != 1;
+            },
+
             BidDicisionConfirmation: function () {
                 BidDicisionConfirmation(formContext);
             },
@@ -350,7 +359,7 @@ Xrm.Page.Arup = (
 
             staticTabs: [
                 'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
-                'Bid_Details_Tab',  'Notes_tab'
+                'Bid_Details_Tab', 'Notes_tab'
             ],
             // Entry point from the form properties.
             // This is set up as en event handler to be called from the main CRM opportunity form.
