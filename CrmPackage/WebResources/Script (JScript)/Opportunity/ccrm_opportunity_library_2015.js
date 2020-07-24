@@ -503,7 +503,8 @@ function FormOnload(executionContext) {
 
             //set internal opportunity banner
             if (formContext.getAttribute("ccrm_arupinternal").getValue() == true) {
-                formContext.ui.setFormNotification("INTERNAL OPPORTUNITY", "INFO", "InternalOpportunity");
+                setTimeout(function () { Notify.add("INTERNAL OPPORTUNITY", "INFO", "InternalOpportunity"); }, 1000);
+             //   formContext.ui.setFormNotification("INTERNAL OPPORTUNITY", "INFO", "InternalOpportunity");
             }
 
             //save Arup Business
@@ -528,7 +529,7 @@ function FormOnload(executionContext) {
 
             ccrm_arupbusinessid_onChange(formContext, false);
 
-            setTimeout(function () { ccrm_confidential_onchange(formContext, 0); }, 5000);
+            setTimeout(function () { ccrm_confidential_onchange(formContext, 0); }, 1000);
 
             ccrm_bidreviewoutcome_onChange(formContext);
 
