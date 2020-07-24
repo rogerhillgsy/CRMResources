@@ -332,7 +332,7 @@ function getCurrentUserDetails(formContext) {
                             var retrivedOfficeCountry = GetOfficeCountryID(formContext, result.userOfficeID);
                             userCountry = retrivedOfficeCountry.Name.toUpperCase();
                             if (retrivedOfficeCountry != null && userCountry == 'AUSTRALIA') {
-                                ausCompany = getAusCompanyDetails(formContext,'5002');
+                                ausCompany = getAusCompanyDetails(formContext, '5002');
                             }
 
                         }
@@ -362,7 +362,7 @@ function getCurrentUserDetails(formContext) {
 }
 
 
-function getAusCompanyDetails(formContext,companyCode) {
+function getAusCompanyDetails(formContext, companyCode) {
 
     var companyDetails = new Object();
 
@@ -444,30 +444,29 @@ function OnChangeToDirtyField(a) {
 }
 
 function FormOnload(executionContext) {
-   
+
     var formContext = executionContext.getFormContext();
     formContext.getAttribute("arup_globalservices").addOnChange(GetMultiSelect);
     SetMultiSelect(formContext);
     if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
-       // if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
-            var state = formContext.getAttribute("statecode").getValue();
-            var bpfStatus = formContext.data.process.getStatus();
-            if (state == 1 && bpfStatus == 'active')
-            {        
-                    formContext.data.process.setStatus('finished');
-             } 
-              
-            if (state == 2) {
-                if (bpfStatus == 'active') {
-                    formContext.data.process.setStatus('aborted');
-                }
+        // if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
+        var state = formContext.getAttribute("statecode").getValue();
+        var bpfStatus = formContext.data.process.getStatus();
+        if (state == 1 && bpfStatus == 'active') {
+            formContext.data.process.setStatus('finished');
+        }
+
+        if (state == 2) {
+            if (bpfStatus == 'active') {
+                formContext.data.process.setStatus('aborted');
             }
-            if (state == 0) {
-                if (bpfStatus != 'active') {
-                    formContext.data.process.setStatus('active');
-                }
+        }
+        if (state == 0) {
+            if (bpfStatus != 'active') {
+                formContext.data.process.setStatus('active');
             }
-     //   }
+        }
+        //   }
 
         currUserData = getCurrentUserDetails(formContext);
         var opportunityType = formContext.getAttribute("arup_opportunitytype").getValue();
@@ -515,7 +514,7 @@ function FormOnload(executionContext) {
             //set scroll bar height
             $('#processControlScrollbar').children().height(20);
             customerid_onChange(formContext);
-           
+
 
             feeIncomeCheck(formContext);
 
@@ -529,7 +528,7 @@ function FormOnload(executionContext) {
 
             ccrm_arupbusinessid_onChange(formContext, false);
 
-            ccrm_confidential_onchange(formContext, 0);
+            setTimeout(function () { ccrm_confidential_onchange(formContext, 0); }, 5000);
 
             ccrm_bidreviewoutcome_onChange(formContext);
 
@@ -638,7 +637,7 @@ function FormOnload(executionContext) {
 
         // Ensure that when the "Related Networks & Markets" field is set to "Other" that the "Other Network Details" field is made visible and mandatory.
         //setup_display_other_field(formContext, "arup_globalservices", "ccrm_othernetworkdetails", "100000003");
-     
+
 
         //uncommented the line below to fix the bug 64054
         if (!formContext.getAttribute("ccrm_arupinternal").getValue())
@@ -697,7 +696,7 @@ function FormOnload(executionContext) {
         if (formContext.ui.getFormType() == 1) {
             formContext.getControl('ccrm_leadoriginator').setFocus();
         }
-
+        setTimeout(function () { SetMultiSelect(formContext); }, 10000);
     }
 }
 
@@ -718,8 +717,8 @@ function HideShowBidDevTab(formContext) {
         formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_6_section_3").setVisible(false);
         formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_7_section_5").setVisible(false);
         ShowFields(formContext, false, "arup_creditcheck", "arup_creditcheck1", "arup_creditcheck2", "arup_duediligencecheck", "arup_duediligencecheck1", "arup_duediligencecheck2", "ccrm_arups_role_in_project", "ccrm_arups_role_in_project1", "ccrm_referredby_accountid");
-    } 
-} 
+    }
+}
 
 function arupSubBusiness_onChange_qc(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -737,7 +736,7 @@ function opportunityType_onChange(executionContext, trigger) {
     if (formContext.data.process.getActiveStage() != null) {
         var stageID = formContext.data.process.getActiveStage().getId();
 
-    
+
         if (typeValue == 770000005 && stageID != ArupStages.Lead && !newOpportunity) {
 
             var typeText = typeAttr.getText();
@@ -770,7 +769,7 @@ function opportunityType_onChange(executionContext, trigger) {
 }
 
 function addEventToProjPartGrid(formContext) {
-  
+
     var stageID = formContext.data.process.getActiveStage().getId();
 
     if (stageID != ArupStages.ConfirmJobApproval && stageID != ArupStages.ConfirmJobApproval1 && stageID != ArupStages.ConfirmJobApproval2 && stageID != ArupStages.ConfirmJobApproval3) return;
@@ -1119,7 +1118,7 @@ function setCurrentApproversAsync(formContext, delayInterval, totalElapsedTime, 
 function cancelAsnycApprovalNotification() {
     if (!!currentApproversAsyncCallbackCancel && typeof (currentApproversAsyncCallbackCancel) === "function") {
         currentApproversAsyncCallbackCancel();
-        currentApproversAsyncCallbackCancel= null;
+        currentApproversAsyncCallbackCancel = null;
     }
 }
 
@@ -1164,9 +1163,9 @@ function pollForChangeAsync(formContext,
                         } else {
                             var nextDelay = delayInterval;
                             totalElapsedTime = totalElapsedTime + nextDelay;
-                            if (totalElapsedTime < maxElapsedTime ) {
+                            if (totalElapsedTime < maxElapsedTime) {
                                 console.log("Waiting " + nextDelay + " / " + totalElapsedTime + " / " + maxElapsedTime + " for " + fieldName);
-                                promise = delay(nextDelay).then(function() {
+                                promise = delay(nextDelay).then(function () {
                                     console.log("Finished waiting on " + fieldName);
                                     if (isCancelled) {
                                         console.log("Polling on " + fieldName + " cancelled in delay");
@@ -1187,7 +1186,7 @@ function pollForChangeAsync(formContext,
                     return promise;
                 },
                 function error(e) {
-                    console.error("Error getting attribute "  + fieldName + " - "+ e.message);
+                    console.error("Error getting attribute " + fieldName + " - " + e.message);
                     Xrm.Navigation.openAlertDialog(error.message);
                 });
         return p;
@@ -1336,7 +1335,7 @@ function setLookupFiltering(formContext) {
 function UpdateRegionalLookup(formContext, lookupFieldName, filterChkFieldName, isBPFField) {
     addUserLookupFilter(formContext, "ccrm_arupregionid", lookupFieldName, filterChkFieldName);
     if (isBPFField) {
-        filterBPFUserLookup(lookupFieldName);        
+        filterBPFUserLookup(lookupFieldName);
     }
 }
 //CRM 2016 Known Issues 2.1.1
@@ -1372,14 +1371,14 @@ function getArupRegionName(formContext, opportunityFieldName) {
 var callCache = {};
 // Cache calls to pure functions (i.e. given the same arguments, they return the same value)
 // This is particular helpful for calls out to the CRM rest interface.
-function CachedCallTo(targetFunction ) {
+function CachedCallTo(targetFunction) {
     if (typeof callCache[targetFunction] === "undefined") callCache[targetFunction] = {};
     var cachedCall = callCache[targetFunction];
     var callArgs = [];
     for (var i = 1; i < arguments.length; i++) {
         callArgs.push(arguments[i]);
     }
-    var callKey = callArgs.map(function(a) { return typeof a === "undefined" ? "undefined" : a; }).join("--");
+    var callKey = callArgs.map(function (a) { return typeof a === "undefined" ? "undefined" : a; }).join("--");
     if (typeof cachedCall[callKey] === "undefined") {
         cachedCall[callKey] = targetFunction.call();
     }
@@ -1388,7 +1387,7 @@ function CachedCallTo(targetFunction ) {
 
 function preCachePMPD(formContext) {
     // Precache PM and PD data.
-    var x = new Promise(function(resolve, reject) {
+    var x = new Promise(function (resolve, reject) {
         var fieldsToPreCache = [
             "ccrm_projectmanager_userid", "ccrm_projectmanager_userid1", "ccrm_projectmanager_userid2",
             "ccrm_projectdirector_userid", "ccrm_projectdirector_userid1",
@@ -1408,11 +1407,11 @@ function preCachePMPD(formContext) {
         resolve("All done");
     }).then(
         function () { console.log("Pre-cache completed") })
-    .catch(
-        function(e) {
-            console.log("Error in pre-caching");
-            debugger;
-        });
+        .catch(
+            function (e) {
+                console.log("Error in pre-caching");
+                debugger;
+            });
 
 }
 
@@ -1531,7 +1530,7 @@ function addUserLookupFilter(formContext, opportunityFieldName, lookupFieldName,
         arupRegionName = arupRegionData[1];
     }
 
-    var accLevFilter = CachedCallTo(function() { return GetAccLevelFilter(formContext, arupRegionName, lookupFieldName) }, arupRegionName, lookupFieldName );
+    var accLevFilter = CachedCallTo(function () { return GetAccLevelFilter(formContext, arupRegionName, lookupFieldName) }, arupRegionName, lookupFieldName);
 
     if (region != null) {
         var regionAccreditationOptionSetValues = GetPMPDRegionAccreditationValues(region[0].id.replace(/[{}]/g, "").toLowerCase());
@@ -1588,7 +1587,7 @@ function addUserLookupFilter(formContext, opportunityFieldName, lookupFieldName,
             "</row>" +
             "</grid>";
         //formContext.getControl(lookupFieldName).addCustomView(viewId, "systemuser", viewName, viewFetchXml, layoutXml, true);
-        formContext.getControl(lookupFieldName).setDefaultView("{26B373CD-C7CC-E811-8115-005056B509E1}"); 
+        formContext.getControl(lookupFieldName).setDefaultView("{26B373CD-C7CC-E811-8115-005056B509E1}");
         var customerUserFilter = "<filter type='and'>" +
             "<condition attribute='accessmode' operator='ne' value='3' />" +
             "<condition attribute='arup_employmentstatus' value='770000000' operator='eq'/>" +
@@ -1652,7 +1651,7 @@ function EAAccreditaionLevRequired(formContext) {
 }
 
 function FormOnSave(executionContext) {
- 
+
     formContext = executionContext.getFormContext();
 
     var preventSave = false;
@@ -2252,7 +2251,7 @@ function ccrm_opportunitytype_onchange_ec(executionContext) {
 }
 // Set Valid Opp Track Code --  Starts
 function ccrm_opportunitytype_onchange(formContext) {
-  
+
     //refresh ribbon when track is small oppo
     formContext.ui.refreshRibbon();
     oppoType(formContext);
@@ -2606,13 +2605,15 @@ function SetValidField(formContext, fieldName, val, warningMsg, warMsgName) {
 // Common Methods - Ends 
 
 function PreStageChange(executionContext) {
-   
+
     var eventArgs = executionContext.getEventArgs();
     if (eventArgs.getDirection() == "Previous") {
         var formContext = executionContext.getFormContext();
 
         if (eventArgs.getStage().getName() == "DEVELOPING BID")
             setRequiredLevelOfFields(formContext, "none", "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission", "ccrm_estexpenseincome_num", "ccrm_projecttotalincome_num", "ccrm_estprojectresourcecosts_num", "ccrm_estprojectstaffoverheadsrate", "arup_expenses_num", "ccrm_chargingbasis", "ccrm_pilevelmoney_num", "ccrm_limitofliabilityagreement", "ccrm_limitamount_num");
+        else if (eventArgs.getStage().getName() == "CROSS REGION")
+            setRequiredLevelOfFields(formContext, "none", "ccrm_geographicmanagerid", "ccrm_geographicmanagerproxyconsulted", "ccrm_dateconsulted", "ccrm_reasonfornotconsultingcountrymanager");
 
         //if (!formContext.data.isValid()) {
         //    eventArgs.preventDefault();
@@ -2711,10 +2712,10 @@ function VerifyProjectProcurement(formContext) {
         if (formContext.getControl('ccrm_contractarrangement').getDisabled())
             formContext.getControl('ccrm_contractarrangement').setDisabled(false);
 
-            formContext.ui.setFormNotification("The parent opportunity does not contain a project procurement. Please update project procurement on this opportunity.", "WARNING", "ProjectProcurementonParentOptyWarnMsg");
-            setTimeout(function () { formContext.ui.clearFormNotification("ProjectProcurementonParentOptyWarnMsg"); }, 10000);
+        formContext.ui.setFormNotification("The parent opportunity does not contain a project procurement. Please update project procurement on this opportunity.", "WARNING", "ProjectProcurementonParentOptyWarnMsg");
+        setTimeout(function () { formContext.ui.clearFormNotification("ProjectProcurementonParentOptyWarnMsg"); }, 10000);
 
-            
+
     }
 }
 
@@ -2732,7 +2733,7 @@ function VerifyProjectProcurement(formContext) {
 
 //This function is called from Ribbon button 'Request Possible JOb' and crmparameter 'prmarycontrol' from the ribbon is the formContext
 function requestPossibleJob(formContext) {
- 
+
 
     //Shruti : to test set focus to required field-pre bid tab by setting focus to one of its field
     if (formContext.getControl("ccrm_client") != null || formContext.getControl("ccrm_client") != 'undefined')
@@ -2815,8 +2816,13 @@ function requestPossibleJob(formContext) {
                                             setTimeout(function () { formContext.ui.clearFormNotification("PJNProgress"); }, 10000);
                                             lockDownBidCosts(formContext, true);
                                             setJobNoProgression(formContext, 100009003);
-
                                             moveToDevBid(formContext, stageid);
+                                            if (stageid == ArupStages.Lead)
+                                                RefreshWebResource(formContext, "WebResource_buttonnavigation");
+                                            else if (stageid == ArupStages.CrossRegion)
+                                                RefreshWebResource(formContext, "WebResource_crossregionnavigation");
+                                            else if (stageid == ArupStages.BidDevelopment)
+                                                RefreshWebResource(formContext, "WebResource_developingbidnavigation");
 
                                         }, false, false),
                                     new Alert.Button("Do Not Request",
@@ -2830,6 +2836,7 @@ function requestPossibleJob(formContext) {
                                         }, true, false)
                                 ], "INFO", 700, 400, '', true);
                         }
+
                     }
 
                 }
@@ -3836,7 +3843,7 @@ function SetApproverID(formContext, approverIDs) {
 
 // Ribbon Approval Btn click events , formCOntext is primaryControl crmparamter passed from ribbon
 function ApprovalButtonClick(formContext, type, approvalType, statusField, userField, dateField) {
- 
+
     var ackMsg = ApprovalConfirmationMessage(approvalType);
     var alertType;
     if (IsFormValid(formContext)) {
@@ -3861,7 +3868,7 @@ function ApprovalButtonClick(formContext, type, approvalType, statusField, userF
                     label: "<b>Proceed with Approval</b>",
                     callback: function () {
                         var msg = 'You are about to approve a Bid where you are not listed as approver. \n Do you want to Continue ?';
-                     //   var output = ValidateApproval(formContext, msg, approvalType);
+                        //   var output = ValidateApproval(formContext, msg, approvalType);
                         approveCallbackAction(formContext, approvalType);
                         cancelAsnycApprovalNotification();
                         formContext.ui.clearFormNotification('CurrentApprovers');
@@ -4536,7 +4543,7 @@ function projectcountry_onchange(formContext, fromformload) {
                 //var retrievedreq;
                 if (companyId != null) {
                     var companyCode = fetchCompanyCode(formContext, companyId);
-                    if(companyCode != null){
+                    if (companyCode != null) {
                         formContext.getControl("ccrm_arupcompanyid").addPreSearch(function () { IndiaCompanyFilter(formContext); });
                     }
                 }
@@ -4992,7 +4999,7 @@ function HideApprovalButtonForRiskChange(regionName) {
 }
 
 function stageNotifications(formContext) {
-  
+
     setLookupFiltering(formContext); // appy filter to user fields
 
     var pjnrequested = false;
@@ -5970,7 +5977,7 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
 
                             if (approvalType == 'FinanceApproval') {
                                 // Action to be called when the 
-                                var approvalCompleteAction = function() {
+                                var approvalCompleteAction = function () {
                                     pollForChangeAsync(formContext,
                                         "statecode",
                                         function isWon(statecode) {
@@ -6243,7 +6250,7 @@ function IsFormValidForCJN(formContext) {
 }
 
 function requestConfirmJob(formContext) {
- 
+
 
     if (IsFormValidForCJN(formContext)) {
         if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
@@ -6419,7 +6426,7 @@ function openNewCJNAForm(formContext, reserve) {
 
 //sync bid manager with project manager
 function Syncbidmanager_userid(executionContext) {
-   
+
     formContext = executionContext.getFormContext();
     if (formContext.getAttribute("ccrm_bidmanager_userid").getValue() != null) {
         //Added by Jugal on 5-4-2018 for 47489
@@ -6493,7 +6500,7 @@ function Syncbiddirector_userid(executionContext) {
 }
 
 function ProvisionDWBidsSite(formContext) {
-   
+
     if (formContext.getAttribute("arup_bidsiterequested").getValue() != true) {
         var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
 
@@ -6736,7 +6743,7 @@ function ReOpenOpportunityRequest(formContext) {
 
 //formContext is primaryCOntrol crmparamter
 function ReopenOpp(formContext) {
- 
+
     var overallStatus = formContext.getAttribute("statecode").getValue();
     if (overallStatus == 1) {
         Alert.show('<font face="Segoe UI Light" font size="6" color="0472C4">Information</font>',
@@ -6892,7 +6899,7 @@ function projectParticipantExists(formContext) {
 }
 
 function addProjectParticipant(primaryControl) {
-   
+
     var formContext = primaryControl;
     if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
     var parameters = {}; //set null parameters as we there is no need to set any other field
@@ -6993,8 +7000,8 @@ function onChange_PJN(executionContext) {
 
 }
 
-function approveCallbackAction(formContext, approvalType, onCompleteCallback ) {
-     
+function approveCallbackAction(formContext, approvalType, onCompleteCallback) {
+
     if (!onCompleteCallback) onCompleteCallback = function () { OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId()); }
 
     var parameters = {};
@@ -7547,12 +7554,12 @@ function VerifyParentOpportunity(formContext) {
                         var result = JSON.parse(this.response);
 
                         if (opportunitytype == '770000001') {
-                       
-                                if (result["ccrm_contractarrangement"] == null || result["ccrm_contractarrangement"] == "undefined")
-                                    formContext.getAttribute("ccrm_contractarrangement").setValue(cachefields['ccrm_contractarrangement'])
-                                else
-                                    formContext.getAttribute("ccrm_contractarrangement").setValue(result["ccrm_contractarrangement"])
-                       
+
+                            if (result["ccrm_contractarrangement"] == null || result["ccrm_contractarrangement"] == "undefined")
+                                formContext.getAttribute("ccrm_contractarrangement").setValue(cachefields['ccrm_contractarrangement'])
+                            else
+                                formContext.getAttribute("ccrm_contractarrangement").setValue(result["ccrm_contractarrangement"])
+
                         }
                     } else {
                         Xrm.Navigation.openAlertDialog(this.statusText);
@@ -7642,16 +7649,16 @@ function ShowHideFrameworkFields(formContext, trigger) {
 
     var existingFramework = "arup_isthereanexistingcrmframeworkrecord";
     var frameworkId = "arup_framework";
-    var frameworkAgreement = "ccrm_agreementnumber";   
+    var frameworkAgreement = "ccrm_agreementnumber";
 
-  //  var tab = formContext.ui.tabs.get("Bid_Development_Tab_Internal");
+    //  var tab = formContext.ui.tabs.get("Bid_Development_Tab_Internal");
 
     if (opptype == '770000004') {
-  
+
         if (formContext.ui.getFormType() == 1) {
             formContext.getAttribute("arup_isthereanexistingcrmframeworkrecord").setValue(1);
         }
-     //   if (arupInternal && tab != null) { tab.setVisible(true); }
+        //   if (arupInternal && tab != null) { tab.setVisible(true); }
         formContext.getControl(existingFramework).setVisible(true);
         formContext.getControl(existingFramework).setDisabled(false);
         formContext.getAttribute("arup_isthereanexistingcrmframeworkrecord").setRequiredLevel('required');
@@ -7659,7 +7666,7 @@ function ShowHideFrameworkFields(formContext, trigger) {
 
     }
     else if (opptype == '770000003') {
-      //  if (arupInternal && tab != null) { tab.setVisible(true); }
+        //  if (arupInternal && tab != null) { tab.setVisible(true); }
         formContext.getAttribute("arup_isthereanexistingcrmframeworkrecord").setValue(0);
         formContext.getControl(existingFramework).setVisible(true);
         formContext.getControl(existingFramework).setDisabled(true);
@@ -7692,10 +7699,10 @@ function existingcrmframework_onchange_ec(executionContext, trigger) {
 
 function existingcrmframework_onchange(formContext, trigger) {
     var crmframeworkchk = formContext.getAttribute("arup_isthereanexistingcrmframeworkrecord").getValue();
-   // var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
-   // var newOpportunity = formContext.ui.getFormType() == 1;
+    // var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+    // var newOpportunity = formContext.ui.getFormType() == 1;
     //var frameworkId = (arupInternal == true && !newOpportunity) ? 'arup_framework1' : 'arup_framework';
-   // var frameworkAgreement = (arupInternal == true && !newOpportunity) ? 'ccrm_agreementnumber1' : 'ccrm_agreementnumber';
+    // var frameworkAgreement = (arupInternal == true && !newOpportunity) ? 'ccrm_agreementnumber1' : 'ccrm_agreementnumber';
 
     if (crmframeworkchk == 1) {
 
