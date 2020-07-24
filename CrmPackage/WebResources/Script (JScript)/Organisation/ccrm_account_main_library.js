@@ -1,5 +1,3 @@
-//<reference path="../Intellisense/Xrm.Page.2013.js"/>
-
 parent.validateUrlProtocol = function () { return 1; }
 var globalDQTeam = false;
 var cgExists = false;
@@ -337,62 +335,6 @@ function stateRequired(CountryName) {
     return states;
 }
 
-/*
-//Fetch All Opportunity Including all child Organisations belongs to current Organisations
-function filterOpportunitiesGrid() {
-    //get the subgrid 
-    var objSubGrid = document.getElementById("openopportunities");
-    alert("filterOpportunitiesGrid");
-    //CRM loads subgrid after form is loaded.. so when we are adding script on form load.. need to wait until sub grid is loaded. 
-    if (objSubGrid == null) {
-        setTimeout(filterOpportunitiesGrid, 2000);
-        return;
-    }
-    else {
-        //when subgrid is loaded, get GUID
-        var GUIDvalue = Xrm.Page.data.entity.getId();
-
-        //Create FetchXML for sub grid to filter records based on GUID
-        var FetchXml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
-            "<entity name='opportunity' >" +
-            "<attribute name='name' />" +
-            "<attribute name='ccrm_client' />" +
-            "<attribute name='statuscode' />" +
-            "<attribute name='ccrm_projectlocationid' />" +
-            "<attribute name='ccrm_estimatedvalue_num' />" +
-            "<attribute name='ccrm_arupbusinessid' />" +
-            "<attribute name='ccrm_project_transactioncurrencyid' />" +
-            "<attribute name='ccrm_arupregionid' />" +
-            "<attribute name='ccrm_projectdirector_userid' />" +
-            "<attribute name='closeprobability' />" +
-            "<attribute name='ccrm_probabilityofprojectproceeding' />" +
-            "<attribute name='ccrm_estarupinvolvementstart' />" +
-            "<attribute name='ccrm_arupgroupid' />" +
-            "<attribute name='opportunityid' />" +
-            "<order attribute='name' descending='false' />" +
-            "<link-entity name='account' from='accountid' to='ccrm_client' alias='aa' link-type='outer' />" +
-            "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='ab' link-type='outer' />" +
-            "<filter type='and'>" +
-            "<condition attribute='statecode' operator='eq' value='0' />" +
-            "<filter type='or'>" +
-            "<condition entityname = 'aa' attribute='accountid' operator='eq' value='" + GUIDvalue + "' />" +
-            "<condition entityname = 'aa' attribute='accountid' operator='under' value='" + GUIDvalue + "' />" +
-            "<condition entityname = 'ab' attribute='accountid' operator='eq' value='" + GUIDvalue + "' />" +
-            "<condition entityname = 'ab' attribute='accountid' operator='under' value='" + GUIDvalue + "' />" +
-            "</filter>" +
-            "</filter>" +
-            "</entity>" +
-            "</fetch>";
-
-        //apply filtered fetchXML
-
-        objSubGrid.control.SetParameter("fetchXml", FetchXml);
-
-        //Refresh grid to show filtered records only. 
-        objSubGrid.control.Refresh();
-    }
-}*/
-
 function filterLeadsGrid(formContext) {
     //get the subgrid 
     var objSubGrid = window.parent.document.getElementById("Leads");
@@ -516,155 +458,6 @@ function setCGFields(formContext) {
         setTimeout(function () { formContext.ui.clearFormNotification("DQLOCKED"); }, 15000);
     }
 }
-// CODE CAN BE REMOVED as the function was used in old Organisation form (on save) -- 30/06/2020
-/*
-
-//Date - 04/04/2016 
-//Below function will be executed on save event whenever status changed. 
-// if parent Account id associated then will be copy to parent account copy field on deactivation
-// Cannot find Function in the Org Form - Updated on 06/04/2020
-function Form_onsave(prmContext) {
-
-    //if parent Org field changed or it's a brand new record that has parent Org
-    if (Xrm.Page.getAttribute("parentaccountid").getIsDirty() || (Xrm.Page.ui.getFormType == 1 && Xrm.Page.getAttribute("parentaccountid").getValue() != null)) {
-        checkParentClientGrouping("parentaccountid");
-        if (!cgExists) {
-            var acctType = Xrm.Page.getAttribute("ccrm_organisationtype").getValue();
-            if (acctType != "1") {
-                cgExists = checkParentClientGrouping("ccrm_parent2");
-                if (!cgExists) {
-                    cgExists = checkParentClientGrouping("ccrm_parent3");
-                }
-            }
-        }
-        if (cgExists) {
-            alert("You have added an organisation to a Client Group - it will be validated by the Data Quality team");
-        }
-    }
-
-    if (prmContext != null && prmContext.getEventArgs() != null) {
-        // getSaveMode() returns event mode value (5 on Deactivation button click, 6 - on Activate button click)                
-        removeParentOrg(prmContext.getEventArgs().getSaveMode());
-        removeParents(prmContext.getEventArgs().getSaveMode());
-    }
-
-    setInterval(changeHeaderTileFormat, 1000);
-
-}
-
-// check if an ORG is linked to a Client Grouping
-function checkParentClientGrouping(parentFieldName) {
-
-    var attr = Xrm.Page.getAttribute(parentFieldName);
-    var org = attr.getValue();
-    if (org == null) { return false; }
-    var orgID = org[0].id;
-    if (orgID == null) { return false; }
-
-    //SDK.REST.retrieveRecord(orgID, 'Account', "ccrm_ClientGroupings", null, retrieveCG, errorHandler, false);
-
-    Xrm.WebApi.online.retrieveRecord("account", orgID, "?$select=_ccrm_clientgroupings_value").then(
-        function success(result) {
-            cgExists = result["_ccrm_clientgroupings_value@OData.Community.Display.V1.FormattedValue"] != null;
-        },
-        function (error) {
-            Xrm.Navigation.openAlertDialog(error.message);
-        }
-    );
-}
-
-//function retrieveCG(account) {
-
-//    if (account != null) {
-//        cgExists = account.ccrm_ClientGroupings.Name != null;
-//    }
-//}
-
-function errorHandler(error) {
-    alert(error.message);
-}
-
-function removeParents(saveMode) {
-
-    var orgType = Xrm.Page.getAttribute("ccrm_organisationtype").getValue();
-    if (orgType != 5) {
-
-        setLookupNull("ccrm_parent2");
-        setLookupNull("ccrm_parent3");
-
-    }
-}
-
-function removeParentOrg(activationMode) {
-    // record is being activated
-    if (activationMode == 6) {
-        getLookupValue(activationMode, 'ccrm_parentaccountcopy', 'parentaccountid');
-    }
-}
-
-function getLookupValue(activationMode, fieldNameFrom, fieldNameTo) {
-    var entityName, entityId, entityType, lookupFieldObject;
-
-    lookupFieldObject = Xrm.Page.data.entity.attributes.get(fieldNameFrom);
-
-    if (lookupFieldObject.getValue() != null) {
-
-        entityId = lookupFieldObject.getValue()[0].id;
-        entityType = lookupFieldObject.getValue()[0].entityType;
-        entityName = lookupFieldObject.getValue()[0].name;
-
-        if (activationMode == 6 && entityName != null & entityName != '') {
-
-            var x = window.confirm('Do you want Parent Account to be set to: \n' + entityName + "?")
-            if (!x)
-                return;
-
-        }
-        // copy the value
-        setLookupValue(entityId, entityType, entityName, fieldNameTo);
-
-        // set the value of the current field to null
-        setLookupNull(fieldNameFrom);
-    }
-}
-
-function setLookupValue(id, type, name, fieldName) {
-
-    var lookupData = new Array();
-    var lookupItem = new Object();
-    //Set the GUID
-    lookupItem.id = id;
-    //Set the name
-    lookupItem.name = name;
-    lookupItem.entityType = type;
-    lookupData[0] = lookupItem;
-
-    if (id != null) {
-        var lookupVal = new Array();
-        lookupVal[0] = new Object();
-        lookupVal[0].id = id;
-        lookupVal[0].name = name;
-        lookupVal[0].entityType = type;
-
-        Xrm.Page.getAttribute(fieldName).setSubmitMode('always');
-
-        // Set the value of the field
-        Xrm.Page.getAttribute(fieldName).setValue(lookupVal);
-
-    }
-    else {
-        alert('ID is NULL');
-    }
-}
-
-function setLookupNull(fieldName) {
-
-    var lookupObject = Xrm.Page.getAttribute(fieldName);
-    if (lookupObject != null) {
-        lookupObject.setValue(null);
-    }
-}
-*/
 
 function arup_expressedconsent_onChange(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -677,17 +470,6 @@ function arup_expressedconsent_onChange(executionContext) {
         ],
         "INFO", 600, 200, '', true);
 }
-
-//function OpenOrgOverviewReport() {
-//    alert("OpenOrgOverviewReport");
-//    var rdlName = "Client%20Overview.rdl";
-//    var reportGuid = "2545f84b-6a02-e211-b3a3-005056af0014";
-//    var entityType = "1";
-//    var entityGuid = Xrm.Page.data.entity.getId();
-//    var url = Xrm.Page.context.getClientUrl() + "/crmreports/viewer/viewer.aspx?action=run&context=records&helpID=" + rdlName + "&id={" + reportGuid + "}&records=" + entityGuid + "&recordstype=" + entityType;
-//    window.open(url, null, 800, 600, true, false, null);
-//}
-
 
 function OpenClientOverviewReport(accountID, selectedRecCount) {
     if (selectedRecCount > 1) {
@@ -742,16 +524,6 @@ function checkOrganisationStatusOnLoad(executionContext) {
         disableOrgFormFields(formContext, false);
     }
 }
-
-//function checkOrganisationStatus() {
-//    alert("checkOrganisationStatus ");
-//    var orgStatus = Xrm.Page.getAttribute("statuscode").getValue();
-//    if (orgStatus != null && orgStatus == 770000000) {
-//        disableOrgFormFields(formContext, false);
-//    } else {
-//        enableFormFields(formContext);
-//    }
-//}
 
 function disableFormFields(primaryControl, checkDD) {
     var formContext = primaryControl;
@@ -890,13 +662,6 @@ function requestChange(primaryControl) {
             }
         );
     }
-}
-
-function OpenAttachmentPage(primaryControl) {
-    var formContext = primaryControl;
-    var url = "WebResources/arup_UploadAttachments?id=" + formContext.data.entity.getId() + "&typename=account&data=Documents";
-    window.open(url, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=400");
-
 }
 
 //function to call on 'Pull Data from Parent Record' checkbox

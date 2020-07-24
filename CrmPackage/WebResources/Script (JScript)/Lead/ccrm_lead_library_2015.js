@@ -465,6 +465,7 @@ function set_LeadOwner_Details(executionContext) {
 }
 
 function setLeadOwnerDetails(formContext) {
+    var result = new Object();
     var ausCompany = new Object();
     //Get details of Lead Owner    
     formContext.getAttribute("ccrm_accountingcentreid").setRequiredLevel('none');
@@ -476,76 +477,114 @@ function setLeadOwnerDetails(formContext) {
         formContext.getAttribute("arup_arupofficeid").setValue(null);
     }
     else {
-        var res = new Object();
-        Xrm.WebApi.online.retrieveRecord("systemuser", formContext.getAttribute("ownerid").getValue()[0].id, "?$select=_ccrm_accountingcentreid_value,_ccrm_arupcompanyid_value,_ccrm_arupofficeid_value,_ccrm_arupregionid_value").then(
-            function success(result) {
+        var req = new XMLHttpRequest();
+        req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/systemusers(" + formContext.getAttribute("ownerid").getValue()[0].id.replace('{', '').replace('}', '') + ")?$select=_ccrm_accountingcentreid_value,_ccrm_arupcompanyid_value,_ccrm_arupofficeid_value,_ccrm_arupregionid_value", false);
+        req.setRequestHeader("OData-MaxVersion", "4.0");
+        req.setRequestHeader("OData-Version", "4.0");
+        req.setRequestHeader("Accept", "application/json");
+        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+        req.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 200) {
+                    var retrievedreq = JSON.parse(this.response);
+                    if (retrievedreq != null) {
+                        if (retrievedreq["_ccrm_arupregionid_value"] != null) {
 
-                res.userOfficeID = result["_ccrm_arupofficeid_value"];
-                var _ccrm_arupofficeid_value_formatted = result["_ccrm_arupofficeid_value@OData.Community.Display.V1.FormattedValue"];
+                            result.userRegionID = retrievedreq["_ccrm_arupregionid_value"];
+                            result.userRegionName = retrievedreq["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
+                            result.userOfficeID = retrievedreq["_ccrm_arupofficeid_value"];
+                            var userCountry;
 
-                res.ccrm_arupregioneid = result["_ccrm_arupregionid_value"];
-                res.ccrm_arupregionname = result["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
+                            if (result.userRegionName == 'Australasia Region' && result.userOfficeID != null) {
 
-                var userCountry;
-                if (res.ccrm_arupregionname == 'Australasia Region' && res.userOfficeID != null) {
-                    Xrm.WebApi.online.retrieveRecord("ccrm_arupoffice", res.userOfficeID, "?$select=_ccrm_officecountryid_value").then(
-                        function success(result) {
-                            var _ccrm_officecountryid_value_formatted = result["_ccrm_officecountryid_value@OData.Community.Display.V1.FormattedValue"];
+                                var retrivedOfficeCountry = GetOfficeCountryID(formContext, result.userOfficeID);
+                                userCountry = retrivedOfficeCountry.Name.toUpperCase();
+                                if (retrivedOfficeCountry != null && userCountry == 'AUSTRALIA') {
+                                    ausCompany = getAusCompanyDetails(formContext, '5002');
+                                }
 
-                            userCountry = _ccrm_officecountryid_value_formatted.toUpperCase();
-
-                            if (result != null && userCountry == 'AUSTRALIA') {
-                                ausCompany = getAusCompanyDetails('5002');
                             }
-                        },
-                        function (error) {
-                            Xrm.Utility.alertDialog(error.message);
                         }
-                    );
-                }
-                if (res.userOfficeID != null) {
-                    SetLookupField(res.userOfficeID, _ccrm_arupofficeid_value_formatted, 'ccrm_arupoffice', 'arup_arupofficeid', formContext);
-                }
+                        if (retrievedreq["_ccrm_arupcompanyid_value"] != null || userCountry == 'AUSTRALIA') {
+                            result.arupcompanyid = (userCountry == 'AUSTRALIA') ? ausCompany.companyId : retrievedreq["_ccrm_arupcompanyid_value"];
+                            result.arupcompanyname = (userCountry == 'AUSTRALIA') ? ausCompany.CompanyName : retrievedreq["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"];
+                        }
+                        if (retrievedreq["_ccrm_accountingcentreid_value"] != null || userCountry == 'AUSTRALIA') {
+                            result.ccrm_accountingcentreid = (userCountry == 'AUSTRALIA') ? null : retrievedreq["_ccrm_accountingcentreid_value"];
+                            result.ccrm_accountingcentrename = (userCountry == 'AUSTRALIA') ? null : retrievedreq["_ccrm_accountingcentreid_value@OData.Community.Display.V1.FormattedValue"];
+                        }
 
-                if (result["_ccrm_arupcompanyid_value"] != null || userCountry == 'AUSTRALIA') {
-                    res.arupcompanyid = (userCountry == 'AUSTRALIA') ? ausCompany.companyId : result["_ccrm_arupcompanyid_value"];
-                    res.arupcompanyname = (userCountry == 'AUSTRALIA') ? ausCompany.CompanyName : result["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"];
+                        leadOwnerData = result;
+
+                        SetLookupField(result.arupcompanyid, result.arupcompanyname, 'ccrm_arupcompany', 'ccrm_arupcompanyid', formContext);
+                        formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
+                        SetLookupField(result.ccrm_accountingcentreid, result.ccrm_accountingcentrename, 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid', formContext);
+                        SetLookupField(result.ccrm_arupregioneid, result.ccrm_arupregionname, 'ccrm_arupregion', 'arup_arupregion', formContext);
+
+                        if (leadOwnerData.ccrm_accountingcentreid != null)
+                            getArupGroup(leadOwnerData.ccrm_accountingcentreid, formContext);
+                    }
+
+                } else {
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
-                if (result["_ccrm_accountingcentreid_value"] != null || userCountry == 'AUSTRALIA') {
-                    res.ccrm_accountingcentreid = (userCountry == 'AUSTRALIA') ? null : result["_ccrm_accountingcentreid_value"];
-                    res.ccrm_accountingcentrename = (userCountry == 'AUSTRALIA') ? null : result["_ccrm_accountingcentreid_value@OData.Community.Display.V1.FormattedValue"];
-                }
-
-                leadOwnerData = res;
-
-                SetLookupField(res.arupcompanyid, res.arupcompanyname, 'ccrm_arupcompany', 'ccrm_arupcompanyid', formContext);
-                formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
-                SetLookupField(res.ccrm_accountingcentreid, res.ccrm_accountingcentrename, 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid', formContext);
-                SetLookupField(res.ccrm_arupregioneid, res.ccrm_arupregionname, 'ccrm_arupregion', 'arup_arupregion', formContext);
-
-                if (leadOwnerData.ccrm_accountingcentreid != null)
-                    getArupGroup(leadOwnerData.ccrm_accountingcentreid, formContext);
-            },
-            function (error) {
-                Xrm.Utility.alertDialog(error.message);
             }
-        );
+        };
+        req.send();
     }
 }
 
-function getAusCompanyDetails(companyCode) {
-    var companyDetails = new Object();
-    Xrm.WebApi.online.retrieveMultipleRecords("ccrm_arupcompany", "?$select=ccrm_arupcompanyid,ccrm_name&$filter=ccrm_arupcompanycode eq '" + companyCode + "' and  statecode eq 0").then(
-        function success(results) {
-            for (var i = 0; i < results.entities.length; i++) {
-                companyDetails.companyId = results.entities[i]["ccrm_arupcompanyid"];
-                companyDetails.CompanyName = results.entities[i]["ccrm_name"];
+function GetOfficeCountryID(formContext, officeID) {
+    var officeCountryResult = new Object();
+    var req = new XMLHttpRequest();
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_arupoffices(" + officeID + ")?$select=_ccrm_officecountryid_value", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var result = JSON.parse(this.response);
+                officeCountryResult.Id = result["_ccrm_officecountryid_value"];
+                officeCountryResult.Name = result["_ccrm_officecountryid_value@OData.Community.Display.V1.FormattedValue"];
+            } else {
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
-        },
-        function (error) {
-            Xrm.Utility.alertDialog(error.message);
         }
-    );
+    };
+    req.send();
+    return officeCountryResult;
+}
+
+function getAusCompanyDetails(formContext, companyCode) {
+    var companyDetails = new Object();
+    var req = new XMLHttpRequest();
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_arupcompanies?$select=ccrm_arupcompanyid,ccrm_name&$filter=ccrm_arupcompanycode eq '" + companyCode + "' and  statecode eq 0", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var results = JSON.parse(this.response);
+                for (var i = 0; i < results.value.length; i++) {
+                    companyDetails.companyId = results.value[i]["ccrm_arupcompanyid"];
+                    companyDetails.CompanyName = results.value[i]["ccrm_name"];
+                }
+            } else {
+                Xrm.Navigation.openAlertDialog(this.statusText);
+            }
+        }
+    };
+    req.send();
     return companyDetails;
 }
 
@@ -587,7 +626,6 @@ function ccrm_arupcompanyid_onchange(executionContext) {
     var formContext = executionContext.getFormContext();
     var accCenterFilterCode = '';
     var companyvalid = '';
-    debugger;
     var companyval = formContext.getAttribute("ccrm_arupcompanyid").getValue();
     if (companyval != null) {
         formContext.getControl('ccrm_accountingcentreid').removePreSearch(AccCentreAddLookupFilter);
