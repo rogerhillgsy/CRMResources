@@ -154,4 +154,5 @@ function setDefaultAttendies(executionContext) {
     var formContext = executionContext.getFormContext();
     formContext.getControl("requiredattendees").setEntityTypes(["systemuser", "contact"]);
     formContext.getControl("optionalattendees").setEntityTypes(["systemuser", "contact"]);
+    formContext.getControl("regardingobjectid").setEntityTypes(["opportunity", "contact"]);
 }
