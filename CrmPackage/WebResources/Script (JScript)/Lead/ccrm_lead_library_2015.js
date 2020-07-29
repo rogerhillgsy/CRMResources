@@ -386,6 +386,8 @@ function FormOnload(executionContext) {
 
     setup_optionset_size("ccrm_contractarrangement", 200, 380);
     SetMultiSelect(formContext);
+
+    formContext.getControl("ownerid").setEntityTypes(["systemuser"]);   
 }
 
 function FormOnSave(executionContext) {
