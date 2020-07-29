@@ -235,7 +235,12 @@ function setField(formContext, results, targetAttribute, sourceField) {
     }
     var value;
     if (sourceField == "arup_clientsector") {
-        value = results[sourceField].split(",");
+        if (!results[sourceField]) {
+            value = null;
+        }
+        else {
+            value = results[sourceField].split(",");
+        }
     }
     else {
         value = results[sourceField];
