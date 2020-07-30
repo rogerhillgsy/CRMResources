@@ -401,7 +401,7 @@ function Form_onsave(eventArgs) {
             return false;
         }
     }
-    formContext.ui.clearFormNotification("1");
+    Xrm.Page.ui.clearFormNotification("1");
 }
 
 function removeFromList(list, value, separator) {
@@ -874,7 +874,9 @@ function contactType_onchange(formContext) {
 
         if (formContext.getAttribute("parentcustomerid").getValue() != null) {
             var organisationName = formContext.getAttribute("parentcustomerid").getValue()[0].name;
-            formContext.getAttribute("arup_currentorganisation").setValue(organisationName);
+            if (formContext.getAttribute("arup_currentorganisation").getValue() != organisationName) {
+                formContext.getAttribute("arup_currentorganisation").setValue(organisationName);
+            }
             formContext.getAttribute("parentcustomerid").setValue(null);
         }
     }
@@ -911,7 +913,9 @@ function contactType_onchange(formContext) {
             ccrm_uselocallanguage_onchange(formContext);
         }
 
-        formContext.getAttribute("arup_currentorganisation").setValue("");
+        if (formContext.getAttribute("arup_currentorganisation").getValue() != null) {
+            formContext.getAttribute("arup_currentorganisation").setValue(null);
+        }
     }
     else if (contacttype == null) {
         formContext.getControl("parentcustomerid").setVisible(true);
@@ -921,6 +925,7 @@ function contactType_onchange(formContext) {
         }
     }
 }
+
 function defaultCustomerToAccountOnChange(executionContext) {
     var formContext = executionContext.getFormContext();
     defaultCustomerToAccount(formContext);
@@ -928,11 +933,28 @@ function defaultCustomerToAccountOnChange(executionContext) {
 
 function qc_defaultCustomerToAccount(formContext) {
     formContext.getControl("parentcustomerid").setEntityTypes(["account"]);
+    //formContext.getControl("parentcustomerid").addPreSearch(function () {
+    //    addFilter(formContext);
+    //});
 }
 
 function defaultCustomerToAccount(formContext) {
     formContext.getControl("parentcustomerid").setEntityTypes(["account"]);
     formContext.getControl("header_parentcustomerid").setEntityTypes(["account"]);
+    //formContext.getControl("parentcustomerid").addPreSearch(function () {
+
+    //    addFilter(formContext);
+    //});
+
+    //formContext.getControl("header_parentcustomerid").addPreSearch(function () {
+    //    var customerAccountFilter = "<filter type='and'><condition attribute='contactid' operator='null' /></filter>";
+    //    formContext.getControl("header_parentcustomerid").addCustomFilter(customerAccountFilter, "contact");
+    //});
 }
+
+//function addFilter(formContext) {
+//    var customerAccountFilter = "<filter type='and'><condition attribute='contactid' operator='null' /></filter>";
+//    formContext.getControl("parentcustomerid").addCustomFilter(customerAccountFilter, "contact");
+//}
 
 
