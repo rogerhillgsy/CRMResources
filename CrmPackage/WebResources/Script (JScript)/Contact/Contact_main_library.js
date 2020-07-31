@@ -25,7 +25,7 @@ function form_onLoad(executionContext) {
     }
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
     setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 60000);
-    contactType_onchange(formContext);
+    contactType_onchange(formContext, 'load');
     canadaSectionVisibility(formContext);
     formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
     defaultCustomerToAccount(formContext);
@@ -35,7 +35,7 @@ function qc_form_onload(executionContext) {
     var formContext = executionContext.getFormContext();
     quick_create_sync_address(formContext);
     quick_create_country_onchange(formContext);
-    contactType_onchange(formContext);
+    contactType_onchange(formContext, 'load');
     formContext.getAttribute("arup_businessinterest_ms").setRequiredLevel('required');
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
     qc_defaultCustomerToAccount(formContext);
@@ -827,10 +827,10 @@ function retrieveEntity(entityname, id, columnset, formContext) {
 
 function onChange_ContactType(executionContext) {
     var formContext = executionContext.getFormContext();
-    contactType_onchange(formContext);
+    contactType_onchange(formContext, 'change');
 }
 
-function contactType_onchange(formContext) {
+function contactType_onchange(formContext, event) {
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
     setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 60000);
 
@@ -872,7 +872,7 @@ function contactType_onchange(formContext) {
             formContext.getControl("ccrm_uselocallanguage").setVisible(false);
         }
 
-        if (formContext.getAttribute("parentcustomerid").getValue() != null) {
+        if (formContext.getAttribute("parentcustomerid").getValue() != null && event == 'change') {
             var organisationName = formContext.getAttribute("parentcustomerid").getValue()[0].name;
             if (formContext.getAttribute("arup_currentorganisation").getValue() != organisationName) {
                 formContext.getAttribute("arup_currentorganisation").setValue(organisationName);
