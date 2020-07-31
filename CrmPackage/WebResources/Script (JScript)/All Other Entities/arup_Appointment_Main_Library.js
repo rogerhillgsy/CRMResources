@@ -147,11 +147,12 @@ function setLookupField(formContext, id, name, entity, field) {
  * @param {any} formContext
  */
 function exitForm(formContext) {
-    ArupExit.exitForm(formContext, "appointment");
+    ArupExit.exitForm(formContext);
 }
 
 function setDefaultAttendies(executionContext) {
     var formContext = executionContext.getFormContext();
     formContext.getControl("requiredattendees").setEntityTypes(["systemuser", "contact"]);
     formContext.getControl("optionalattendees").setEntityTypes(["systemuser", "contact"]);
+    formContext.getControl("regardingobjectid").setEntityTypes(["opportunity", "contact"]);
 }

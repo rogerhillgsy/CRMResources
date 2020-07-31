@@ -386,6 +386,8 @@ function FormOnload(executionContext) {
 
     setup_optionset_size("ccrm_contractarrangement", 200, 380);
     SetMultiSelect(formContext);
+
+    formContext.getControl("ownerid").setEntityTypes(["systemuser"]);   
 }
 
 function FormOnSave(executionContext) {
@@ -925,7 +927,9 @@ function onChange_ccrm_arupbusiness(executionContext, valueChanged) {
 
 function ccrm_arupbusiness_onChange(valueChanged, formContext) {
     var businessid = formContext.getAttribute('ccrm_arupbusiness').getValue();
+    formContext.getAttribute("arup_subbusiness").setRequiredLevel("none");
     resetSubBusiness(valueChanged, businessid, formContext);
+    formContext.getAttribute("arup_subbusiness").setRequiredLevel("required");
     if (businessid != null && businessid.length > 0) {
         var business = businessid[0].name;
         addEnergy_ProjectSector(business, formContext);

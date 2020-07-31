@@ -714,10 +714,6 @@ function HideShowBidDevTab(formContext) {
             formContext.ui.tabs.get("Bid_Development_Tab_External").setVisible(false);
         }
 
-        formContext.ui.tabs.get("Bid_Details_Tab").sections.get("Bid_Details_Tab_section_7").setVisible(false);
-        formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_6_section_3").setVisible(false);
-        formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_7_section_5").setVisible(false);
-        ShowFields(formContext, false, "arup_creditcheck", "arup_creditcheck1", "arup_creditcheck2", "arup_duediligencecheck", "arup_duediligencecheck1", "arup_duediligencecheck2", "ccrm_arups_role_in_project", "ccrm_arups_role_in_project1", "ccrm_referredby_accountid");
     }
 }
 

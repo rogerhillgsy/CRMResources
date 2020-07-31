@@ -160,5 +160,5 @@ function GetOrganisations(formContext) {
 }
 
 function exitForm(formContext) {
-    ArupExit.exitForm(formContext, "arup_fieldofplay");
+    ArupExit.exitForm(formContext);
 }
