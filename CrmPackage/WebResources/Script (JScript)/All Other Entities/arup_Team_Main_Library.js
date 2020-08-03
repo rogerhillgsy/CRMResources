@@ -105,7 +105,9 @@ function SetupForRelationshipTeam(formContext) {
         MakeAllSectionsVisible(formContext, "Team Set-Up");
     }
     else {
-        hideFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"], false);
+        // RBH: - comment this out pre-code freeze as it just throws errors on Dev and UAT for non-relationship teams.
+        // (Have these fields been added to the teams form at all?)
+        // hideFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"], false);
     }
 }
 
