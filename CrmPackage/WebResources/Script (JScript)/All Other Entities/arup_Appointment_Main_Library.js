@@ -147,7 +147,7 @@ function setLookupField(formContext, id, name, entity, field) {
  * @param {any} formContext
  */
 function exitForm(formContext) {
-    ArupExit.exitForm(formContext, "appointment");
+    ArupExit.exitForm(formContext);
 }
 
 function setDefaultAttendies(executionContext) {

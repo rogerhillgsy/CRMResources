@@ -25,7 +25,7 @@ function form_onLoad(executionContext) {
     }
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
     setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 60000);
-    contactType_onchange(formContext);
+    contactType_onchange(formContext, 'load');
     canadaSectionVisibility(formContext);
     formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
     defaultCustomerToAccount(formContext);
@@ -35,7 +35,7 @@ function qc_form_onload(executionContext) {
     var formContext = executionContext.getFormContext();
     quick_create_sync_address(formContext);
     quick_create_country_onchange(formContext);
-    contactType_onchange(formContext);
+    contactType_onchange(formContext, 'load');
     formContext.getAttribute("arup_businessinterest_ms").setRequiredLevel('required');
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
     qc_defaultCustomerToAccount(formContext);
@@ -401,7 +401,7 @@ function Form_onsave(eventArgs) {
             return false;
         }
     }
-    formContext.ui.clearFormNotification("1");
+    Xrm.Page.ui.clearFormNotification("1");
 }
 
 function removeFromList(list, value, separator) {
@@ -827,10 +827,10 @@ function retrieveEntity(entityname, id, columnset, formContext) {
 
 function onChange_ContactType(executionContext) {
     var formContext = executionContext.getFormContext();
-    contactType_onchange(formContext);
+    contactType_onchange(formContext, 'change');
 }
 
-function contactType_onchange(formContext) {
+function contactType_onchange(formContext, event) {
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
     setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 60000);
 
@@ -872,9 +872,11 @@ function contactType_onchange(formContext) {
             formContext.getControl("ccrm_uselocallanguage").setVisible(false);
         }
 
-        if (formContext.getAttribute("parentcustomerid").getValue() != null) {
+        if (formContext.getAttribute("parentcustomerid").getValue() != null && event == 'change') {
             var organisationName = formContext.getAttribute("parentcustomerid").getValue()[0].name;
-            formContext.getAttribute("arup_currentorganisation").setValue(organisationName);
+            if (formContext.getAttribute("arup_currentorganisation").getValue() != organisationName) {
+                formContext.getAttribute("arup_currentorganisation").setValue(organisationName);
+            }
             formContext.getAttribute("parentcustomerid").setValue(null);
         }
     }
@@ -911,7 +913,9 @@ function contactType_onchange(formContext) {
             ccrm_uselocallanguage_onchange(formContext);
         }
 
-        formContext.getAttribute("arup_currentorganisation").setValue("");
+        if (formContext.getAttribute("arup_currentorganisation").getValue() != null) {
+            formContext.getAttribute("arup_currentorganisation").setValue(null);
+        }
     }
     else if (contacttype == null) {
         formContext.getControl("parentcustomerid").setVisible(true);
@@ -921,6 +925,7 @@ function contactType_onchange(formContext) {
         }
     }
 }
+
 function defaultCustomerToAccountOnChange(executionContext) {
     var formContext = executionContext.getFormContext();
     defaultCustomerToAccount(formContext);
@@ -928,11 +933,28 @@ function defaultCustomerToAccountOnChange(executionContext) {
 
 function qc_defaultCustomerToAccount(formContext) {
     formContext.getControl("parentcustomerid").setEntityTypes(["account"]);
+    //formContext.getControl("parentcustomerid").addPreSearch(function () {
+    //    addFilter(formContext);
+    //});
 }
 
 function defaultCustomerToAccount(formContext) {
     formContext.getControl("parentcustomerid").setEntityTypes(["account"]);
     formContext.getControl("header_parentcustomerid").setEntityTypes(["account"]);
+    //formContext.getControl("parentcustomerid").addPreSearch(function () {
+
+    //    addFilter(formContext);
+    //});
+
+    //formContext.getControl("header_parentcustomerid").addPreSearch(function () {
+    //    var customerAccountFilter = "<filter type='and'><condition attribute='contactid' operator='null' /></filter>";
+    //    formContext.getControl("header_parentcustomerid").addCustomFilter(customerAccountFilter, "contact");
+    //});
 }
+
+//function addFilter(formContext) {
+//    var customerAccountFilter = "<filter type='and'><condition attribute='contactid' operator='null' /></filter>";
+//    formContext.getControl("parentcustomerid").addCustomFilter(customerAccountFilter, "contact");
+//}
 
 

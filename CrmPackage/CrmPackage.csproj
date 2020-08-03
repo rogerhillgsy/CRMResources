@@ -1328,8 +1328,8 @@
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_FOP_Main_Library.js">
-      <DisplayName>arup_FOP_Main_Library</DisplayName>
-      <UniqueName>new_arup_FOP_Main_Library</UniqueName>
+      <DisplayName>FOP_Main_Library</DisplayName>
+      <UniqueName>arup_FOP_Main_Library</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_projectparticipant_library.js">
