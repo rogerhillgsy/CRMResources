@@ -503,7 +503,8 @@ function FormOnload(executionContext) {
 
             //set internal opportunity banner
             if (formContext.getAttribute("ccrm_arupinternal").getValue() == true) {
-                formContext.ui.setFormNotification("INTERNAL OPPORTUNITY", "INFO", "InternalOpportunity");
+                setTimeout(function () { Notify.add("INTERNAL OPPORTUNITY", "INFO", "InternalOpportunity"); }, 1000);
+             //   formContext.ui.setFormNotification("INTERNAL OPPORTUNITY", "INFO", "InternalOpportunity");
             }
 
             //save Arup Business
@@ -528,7 +529,7 @@ function FormOnload(executionContext) {
 
             ccrm_arupbusinessid_onChange(formContext, false);
 
-            setTimeout(function () { ccrm_confidential_onchange(formContext, 0); }, 5000);
+            setTimeout(function () { ccrm_confidential_onchange(formContext, 0); }, 1000);
 
             ccrm_bidreviewoutcome_onChange(formContext);
 
@@ -713,10 +714,6 @@ function HideShowBidDevTab(formContext) {
             formContext.ui.tabs.get("Bid_Development_Tab_External").setVisible(false);
         }
 
-        formContext.ui.tabs.get("Bid_Details_Tab").sections.get("Bid_Details_Tab_section_7").setVisible(false);
-        formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_6_section_3").setVisible(false);
-        formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_7_section_5").setVisible(false);
-        ShowFields(formContext, false, "arup_creditcheck", "arup_creditcheck1", "arup_creditcheck2", "arup_duediligencecheck", "arup_duediligencecheck1", "arup_duediligencecheck2", "ccrm_arups_role_in_project", "ccrm_arups_role_in_project1", "ccrm_referredby_accountid");
     }
 }
 

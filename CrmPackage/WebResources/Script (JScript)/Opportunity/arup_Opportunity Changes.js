@@ -330,17 +330,11 @@ function setupArupInternal(executionContext) {
     showSDGFields(formContext, arupInternal);
     if (!arupInternal) { return; }
 
-    ShowFields(formContext, false, "ccrm_countryofclientregistrationid", "ccrm_opportunitytype", "ccrm_countrycategory", "arup_importedsalarycost_num", "arup_importedstaffohcost_num", "arup_importedexpenses_num", "ccrm_arupuniversityiiaresearchinitiative", "ccrm_estprojectvalue_num", "arup_projpartreqd", "arup_services", "arup_services1", "arup_projecttype", "arup_projecttype1", "arup_projectsector", "arup_projectsector1");
+    ShowFields(formContext, false, "ccrm_countryofclientregistrationid", "ccrm_opportunitytype", "ccrm_countrycategory", "arup_importedsalarycost_num", "arup_importedstaffohcost_num", "arup_importedexpenses_num", "ccrm_arupuniversityiiaresearchinitiative", "ccrm_estprojectvalue_num", "arup_projpartreqd", "arup_services", "arup_services1", "arup_projecttype", "arup_projecttype1", "arup_projectsector", "arup_projectsector1", "ccrm_confidential", "ccrm_arupuniversityiiaresearchinitiative1", "arup_projpartreqd1", "ccrm_estprojectvalue_num1", "arup_creditcheck", "arup_creditcheck1", "arup_creditcheck2", "arup_creditcheck3", "arup_duediligencecheck", "arup_duediligencecheck1", "arup_duediligencecheck2", "arup_duediligencecheck3", "ccrm_arups_role_in_project", "ccrm_arups_role_in_project1", "ccrm_referredby_accountid");
+    formContext.ui.tabs.get("Bid_Details_Tab").sections.get("Bid_Details_Tab_section_7").setVisible(false);
+    formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_6_section_3").setVisible(false);
+    formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_7_section_5").setVisible(false);
 
-    //formContext.getControl("ccrm_countryofclientregistrationid").setVisible(false);
-    //formContext.getControl("ccrm_opportunitytype").setVisible(false);
-    //formContext.getControl("ccrm_countrycategory").setVisible(false);
-    //formContext.getControl("arup_importedsalarycost_num").setVisible(false);
-    //formContext.getControl("arup_importedstaffohcost_num").setVisible(false);
-    //formContext.getControl("arup_importedexpenses_num").setVisible(false);
-    //formContext.getControl("ccrm_arupuniversityiiaresearchinitiative").setVisible(false);
-    //formContext.getControl("ccrm_estprojectvalue_num").setVisible(false);
-    //formContext.getControl("arup_projpartreqd").setVisible(false);
 }
 
 function setBidDecisionChairRequired_ec(executionContext) {
