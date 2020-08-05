@@ -353,3 +353,22 @@ function AddTeamMember(formContext, user, team) {
 function exitForm(formContext) {
     ArupExit.exitForm(formContext, "team");
 }
+
+
+function showhideClientGroupingMatrixButton(formContext) {
+    var ccrm_clientgrouping = formContext.getAttribute("ccrm_clientgrouping").getValue();
+    if (ccrm_clientgrouping != undefined && ccrm_clientgrouping != null)
+        return true;
+    else
+        return false;
+}
+function OpenClientGroupingMatrix(primaryControl) {
+    var formContext = primaryControl;
+    var clientgroupingID;
+    if (formContext.data != null && formContext.getAttribute("ccrm_clientgrouping") != undefined && formContext.getAttribute("ccrm_clientgrouping") != null) {
+        clientgroupingID = formContext.getAttribute("ccrm_clientgrouping").getValue()[0].id.replace('{', '').replace('}', '');
+        var customParameters = encodeURIComponent("clientgroupingID=" + clientgroupingID);
+        var windowOptions = { openInNewWindow: true, height: 800, width: 1200 };
+        Xrm.Navigation.openWebResource('arup_clientgroupingmatrix', windowOptions, customParameters);
+    }
+}
