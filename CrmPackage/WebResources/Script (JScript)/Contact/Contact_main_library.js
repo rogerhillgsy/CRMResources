@@ -416,7 +416,7 @@ function removeFromList(list, value, separator) {
     return list;
 }
 
-function setDate(date) {
+function setDate(executionContext, date) {
     var formContext = executionContext.getFormContext();
     var field = formContext.data.entity.attributes.get("ccrm_contactlastvalidatedbyid").getValue();
 
@@ -426,7 +426,7 @@ function setDate(date) {
     }
 }
 
-function countryid_onchange() {
+function countryid_onchange(executionContext) {
     var formContext = executionContext.getFormContext();
     ccrm_countryid_onchange(formContext);
 }
@@ -933,28 +933,11 @@ function defaultCustomerToAccountOnChange(executionContext) {
 
 function qc_defaultCustomerToAccount(formContext) {
     formContext.getControl("parentcustomerid").setEntityTypes(["account"]);
-    //formContext.getControl("parentcustomerid").addPreSearch(function () {
-    //    addFilter(formContext);
-    //});
 }
 
 function defaultCustomerToAccount(formContext) {
     formContext.getControl("parentcustomerid").setEntityTypes(["account"]);
     formContext.getControl("header_parentcustomerid").setEntityTypes(["account"]);
-    //formContext.getControl("parentcustomerid").addPreSearch(function () {
-
-    //    addFilter(formContext);
-    //});
-
-    //formContext.getControl("header_parentcustomerid").addPreSearch(function () {
-    //    var customerAccountFilter = "<filter type='and'><condition attribute='contactid' operator='null' /></filter>";
-    //    formContext.getControl("header_parentcustomerid").addCustomFilter(customerAccountFilter, "contact");
-    //});
 }
-
-//function addFilter(formContext) {
-//    var customerAccountFilter = "<filter type='and'><condition attribute='contactid' operator='null' /></filter>";
-//    formContext.getControl("parentcustomerid").addCustomFilter(customerAccountFilter, "contact");
-//}
 
 
