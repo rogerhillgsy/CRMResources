@@ -548,7 +548,7 @@ function disableOrgFormFields(formContext, checkDD) {
                 }
             }
         }
-
+        
         if (formContext.getAttribute("statuscode").getValue() != 770000000) {
             formContext.getAttribute("statuscode").setValue(770000000);
         }
@@ -592,7 +592,7 @@ function enableFormFields(formContext) {
     var tabs = formContext.ui.tabs.get();
     for (var tab in tabs) {
         var tabName = tabs[tab].getName();
-        if (tabName == "SUMMARY_TAB" || tabName == "contact_details" || tabName == "tab_Address" || tabName == "tab_Company_Registration") {
+        if (tabName == "SUMMARY_TAB" || tabName == "contact_details" || tabName == "tab_Address" || tabName == "tab_Company_Registration" || tabName == "tab_Relationship_management") {
             tab = formContext.ui.tabs.get(tabName);
             var tabsections = tab.sections.get();
             for (var i in tabsections) {
