@@ -1,0 +1,512 @@
+﻿.ff0 {
+    font-family: sans-serif;
+    visibility: hidden;
+}
+
+@font-face {
+    font-family: ff1;
+    src: url(f1.woff)format("woff");
+}
+
+.ff1 {
+    font-family: ff1;
+    line-height: 0.910156;
+    font-style: normal;
+    font-weight: normal;
+    visibility: visible;
+}
+
+@font-face {
+    font-family: ff2;
+    src: url(f2.woff)format("woff");
+}
+
+.ff2 {
+    font-family: ff2;
+    line-height: 0.709473;
+    font-style: normal;
+    font-weight: normal;
+    visibility: visible;
+}
+
+@font-face {
+    font-family: ff3;
+    src: url(f3.woff)format("woff");
+}
+
+.ff3 {
+    font-family: ff3;
+    line-height: 0.795410;
+    font-style: normal;
+    font-weight: normal;
+    visibility: visible;
+}
+
+@font-face {
+    font-family: ff4;
+    src: url(f4.woff)format("woff");
+}
+
+.ff4 {
+    font-family: ff4;
+    line-height: 0.986816;
+    font-style: normal;
+    font-weight: normal;
+    visibility: visible;
+}
+
+.m0 {
+    transform: matrix(0.250000,0.000000,0.000000,0.250000,0,0);
+    -ms-transform: matrix(0.250000,0.000000,0.000000,0.250000,0,0);
+    -webkit-transform: matrix(0.250000,0.000000,0.000000,0.250000,0,0);
+}
+
+.v0 {
+    vertical-align: 0.000000px;
+}
+
+.ls0 {
+    letter-spacing: 0.000000px;
+}
+
+.sc_ {
+    text-shadow: none;
+}
+
+.sc0 {
+    text-shadow: -0.015em 0 transparent,0 0.015em transparent,0.015em 0 transparent,0 -0.015em transparent;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .sc_ {
+        -webkit-text-stroke: 0px transparent;
+    }
+
+    .sc0 {
+        -webkit-text-stroke: 0.015em transparent;
+        text-shadow: none;
+    }
+}
+
+.ws0 {
+    word-spacing: 0.000000px;
+}
+
+._0 {
+    width: 52.526000px;
+}
+
+.fc3 {
+    color: rgb(255,255,255);
+}
+
+.fc2 {
+    color: rgb(250,155,30);
+}
+
+.fc1 {
+    color: rgb(0,0,0);
+}
+
+.fc0 {
+    color: rgb(0,81,142);
+}
+
+.fs1 {
+    font-size: 72.000000px;
+}
+
+.fs4 {
+    font-size: 70.000000px;
+}
+
+.fs3 {
+    font-size: 73.000000px;
+}
+
+.fs5 {
+    font-size: 88.000000px;
+}
+
+.fs6 {
+    font-size: 96.000000px;
+}
+
+.fs2 {
+    font-size: 112.000000px;
+}
+
+.fs0 {
+    font-size: 176.000000px;
+}
+
+.y0 {
+    bottom: 0.000000px;
+}
+
+.yf {
+    bottom: 83.648808px;
+}
+
+.y10 {
+    bottom: 83.802523px;
+}
+
+.ye {
+    bottom: 105.248808px;
+}
+
+.y8 {
+    bottom: 186.956177px;
+}
+
+.y7 {
+    bottom: 210.956177px;
+}
+
+.y6 {
+    bottom: 240.956177px;
+}
+
+.y5 {
+    bottom: 260.956177px;
+}
+
+.yb {
+    bottom: 240.574341px;
+}
+
+.ybc {
+    bottom: 208.574341px;
+}
+
+.y4 {
+    bottom: 288.956177px;
+}
+
+.ya {
+    bottom: 272.174339px;
+}
+
+.y3 {
+    bottom: 325.831308px;
+}
+
+.y15 {
+    bottom: 160.711906px;
+}
+
+.y16 {
+    bottom: 132.711906px;
+}
+
+.y17 {
+    bottom: 108.711906px;
+}
+
+.y9 {
+    bottom: 315.711906px;
+}
+
+.y2 {
+    bottom: 399.583075px;
+}
+
+.yd {
+    bottom: 428.103817px;
+}
+
+.y1 {
+    bottom: 440.791740px;
+}
+
+.yc {
+    bottom: 460.903818px;
+}
+
+.h2 {
+    height: 49.992188px;
+}
+
+.h8 {
+    height: 54.140625px;
+}
+
+.h5 {
+    height: 55.546875px;
+}
+
+.h6 {
+    height: 61.101562px;
+}
+
+.h4 {
+    height: 64.222656px;
+}
+
+.h7 {
+    height: 66.656250px;
+}
+
+.h3 {
+    height: 77.765625px;
+}
+
+.h1 {
+    height: 122.203125px;
+}
+
+.h0 {
+    height: 540.000000px;
+}
+
+.w0 {
+    width: 960.000000px;
+    margin-top: 0px
+}
+
+.x0 {
+    left: 0.000000px;
+}
+
+.x2 {
+    left: 46.412674px;
+}
+
+.x3 {
+    left: 73.912674px;
+}
+
+.xa {
+    left: 144.136124px;
+}
+
+.x1 {
+    left: 152.654556px;
+}
+
+.x8 {
+    left: 631.906250px;
+}
+
+.x7 {
+    left: 685.572258px;
+}
+
+.x4 {
+    left: 701.669182px;
+}
+
+.x9 {
+    left: 742.119446px;
+}
+
+.x6 {
+    left: 703.089584px;
+}
+
+.x5 {
+    left: 735.082748px;
+}
+
+.x10 {
+    left: 648.082748px;
+}
+
+@media print {
+    .v0 {
+        vertical-align: 0.000000pt;
+    }
+
+    .ls0 {
+        letter-spacing: 0.000000pt;
+    }
+
+    .ws0 {
+        word-spacing: 0.000000pt;
+    }
+
+    ._0 {
+        width: 70.034667pt;
+    }
+
+    .fs1 {
+        font-size: 96.000000pt;
+    }
+
+    .fs4 {
+        font-size: 106.666667pt;
+    }
+
+    .fs3 {
+        font-size: 109.333333pt;
+    }
+
+    .fs5 {
+        font-size: 117.333333pt;
+    }
+
+    .fs6 {
+        font-size: 128.000000pt;
+    }
+
+    .fs2 {
+        font-size: 149.333333pt;
+    }
+
+    .fs0 {
+        font-size: 234.666667pt;
+    }
+
+    .y0 {
+        bottom: 0.000000pt;
+    }
+
+    .yf {
+        bottom: 111.531743pt;
+    }
+
+    .y10 {
+        bottom: 111.736697pt;
+    }
+
+    .ye {
+        bottom: 140.331744pt;
+    }
+
+    .y8 {
+        bottom: 165.274902pt;
+    }
+
+    .y7 {
+        bottom: 197.274902pt;
+    }
+
+    .y6 {
+        bottom: 234.608236pt;
+    }
+
+    .y5 {
+        bottom: 266.608236pt;
+    }
+
+    .yb {
+        bottom: 296.765788pt;
+    }
+
+    .y4 {
+        bottom: 303.941569pt;
+    }
+
+    .ya {
+        bottom: 333.565786pt;
+    }
+
+    .y3 {
+        bottom: 381.108411pt;
+    }
+
+    .y9 {
+        bottom: 395.615875pt;
+    }
+
+    .y2 {
+        bottom: 532.777433pt;
+    }
+
+    .yd {
+        bottom: 570.805089pt;
+    }
+
+    .y1 {
+        bottom: 587.722321pt;
+    }
+
+    .yc {
+        bottom: 609.205091pt;
+    }
+
+    .h2 {
+        height: 66.656250pt;
+    }
+
+    .h8 {
+        height: 72.187500pt;
+    }
+
+    .h5 {
+        height: 74.062500pt;
+    }
+
+    .h6 {
+        height: 81.468750pt;
+    }
+
+    .h4 {
+        height: 85.630208pt;
+    }
+
+    .h7 {
+        height: 88.875000pt;
+    }
+
+    .h3 {
+        height: 103.687500pt;
+    }
+
+    .h1 {
+        height: 162.937500pt;
+    }
+
+    .h0 {
+        height: 720.000000pt;
+    }
+
+    .w0 {
+        width: 1280.000000pt;
+    }
+
+    .x0 {
+        left: 0.000000pt;
+    }
+
+    .x2 {
+        left: 61.883565pt;
+    }
+
+    .x3 {
+        left: 91.883565pt;
+    }
+
+    .xa {
+        left: 192.181498pt;
+    }
+
+    .x1 {
+        left: 203.539408pt;
+    }
+
+    .x8 {
+        left: 842.541667pt;
+    }
+
+    .x7 {
+        left: 914.096344pt;
+    }
+
+    .x4 {
+        left: 935.558909pt;
+    }
+
+    .x9 {
+        left: 989.492594pt;
+    }
+
+    .x6 {
+        left: 992.119446pt;
+    }
+
+    .x5 {
+        left: 1005.443665pt;
+    }
+}
