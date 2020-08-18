@@ -97,7 +97,8 @@ function Form_onload(executionContext) {
         DisplayCOVID19Section(userRegion, formContext);
         displayRelationshipTab(formContext);
         formContext.getControl('arup_duediligencecheck').removeOption(2);
-        retreiveTeamDetails(formContext);
+        var status = "";
+        retreiveTeamDetails(formContext, status);
     }
     formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
 }
@@ -1043,10 +1044,11 @@ function displayRelationshipTab(formContext) {
 
 function relationshipTeamOnChange(executionContext) {
     var formContext = executionContext.getFormContext();
-    retreiveTeamDetails(formContext);
+    var status = "onchange";
+    retreiveTeamDetails(formContext, status);
 }
 
-function retreiveTeamDetails(formContext) {
+function retreiveTeamDetails(formContext, status) {
     var relationshipTeam = formContext.getAttribute("ccrm_managingteamid").getValue();
     if (relationshipTeam != null) {
         var relTeamId = relationshipTeam[0].id.replace('{', '').replace('}', '');
@@ -1104,11 +1106,9 @@ function retreiveTeamDetails(formContext) {
                         }
                     }
 
-                    if (ccrm_arup150 != null) {
+                    if (ccrm_arup150 != null && status == "onchange") {
                         formContext.getAttribute("arup_arup150").setValue(ccrm_arup150);
-                    } else {
-                        formContext.getAttribute("arup_arup150").setValue(null);
-                    }
+                    } 
 
                     var relationshipSnapshot = formContext.getAttribute("ccrm_relationshipsnapshot").getValue();
                     if (relationshipSnapshot == null) {
