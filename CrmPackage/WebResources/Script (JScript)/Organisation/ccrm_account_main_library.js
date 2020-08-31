@@ -439,7 +439,7 @@ function copyNameToLegal(execContext) {
 function copyNameToLEN(formContext) {
     var validated = formContext.getAttribute("ccrm_lastvalidatedbyid").getValue();
     var clientName = formContext.getAttribute("name").getValue();
-    if (validated != null && clientName != null) {
+    if (validated == null && clientName != null) {
         formContext.getAttribute("ccrm_legalentityname").setValue(clientName);
     }
 }
