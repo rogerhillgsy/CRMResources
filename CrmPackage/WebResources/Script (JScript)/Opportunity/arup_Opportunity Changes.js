@@ -119,7 +119,7 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
                     var reasonkey = ccrm_wonopp_resaon_values.split(',');
                 }
 
-                for (var i = j = 0; i < reasonValue.length && j < reasonkey.length; i++, j++) {
+                for (var i = j = 0; i < reasonValue.length && j < reasonkey.length; i++ , j++) {
                     var key = reasonkey[j];
                     var value = reasonValue[i];
                     dictionary[key] = value;
@@ -533,7 +533,7 @@ function retreiveOrganisationChecks(executionContext) {
                         } else {
                             formContext.getAttribute("arup_duediligencecheck").setValue(null);
                             formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
-                            formContext.data.save();
+                            //formContext.data.save();
                         }
 
                         //if (arup_duediligencecheck != null && !clientDirty) { // If sanctions is null on Opportunity
@@ -543,7 +543,7 @@ function retreiveOrganisationChecks(executionContext) {
                         //} else
                         if (clientDirty) { // If Client is not dirty //Top right coner in Design                                            
                             formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
-                            formContext.data.save();
+                            //formContext.data.save();
                             setTimeout(function () {
                                 formContext.getAttribute("arup_sanctionschecktrigger").fireOnChange();
                             }, 3000);
@@ -620,7 +620,6 @@ function setOrganisationChecks(formContext, arup_duediligencecheck) {
 }
 
 function showSDGFields(formContext, arupInternal) {
-    debugger;
     if (arupInternal) {
         formContext.ui.tabs.get("Pre-Bid_Tab").sections.get("PreBid_Sustainable_Development").setVisible(false);
         formContext.ui.tabs.get("Confirmed_Job_Project_Tab").sections.get("Confirmed_Job_Project_Sustainable_Development").setVisible(false);
@@ -647,6 +646,6 @@ function SetSGDMultiSelect(executionContext, fieldname) {
         }
         setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
         formContext.getAttribute(fieldname).setValue([99]);
-    }  
+    }
     return;
 }
