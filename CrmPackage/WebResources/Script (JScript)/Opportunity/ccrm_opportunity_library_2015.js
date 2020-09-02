@@ -698,6 +698,11 @@ function FormOnload(executionContext) {
             formContext.getControl('ccrm_leadoriginator').setFocus();
         }
         setTimeout(function () { SetMultiSelect(formContext); }, 10000);
+        /*if (formContext.ui.getFormType() != 1) {
+            if (formContext.getAttribute("ccrm_confidentialoptionset").getValue() == 2) {
+                setPrintPreviewURL(formContext);
+            }
+        }*/
     }
 }
 
@@ -7925,5 +7930,27 @@ function SetMultiSelect(formContext) {
     } else {
         formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
         formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
+    }
+}
+
+function openPrintPreview(formContext) {
+    if (formContext.getAttribute("ccrm_confidentialoptionset").getValue() == 2) {
+        var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
+        var name = encodeURIComponent(formContext.getAttribute("name").getValue());
+        var url = formContext.context.getClientUrl() + "/_forms/print/print.aspx?allsubgridspages=false&formid=c62bd14c-9457-4bd9-99bf-f91e355cb283&id=%7b" + oppId + "%7d&objectType=3&title=" + name;
+        //formContext.getAttribute("arup_printpreviewlink").setValue(url);
+        window.open(url, '_blank');
+    }
+    else {
+        Alert.show('<font size="6" color="#FF0000"><b>CONFIDENTIAL</b></font>',
+        '<font size="3" color="#000000"></br>Please create a service-now incident with approval email attachment from PM/PD to request for printout document of this record.</font>',
+        [
+            { label: "<b>OK</b>", setFocus: true },
+        ],
+        "ERROR",
+        450,
+        200,
+        '',
+        true);
     }
 }
