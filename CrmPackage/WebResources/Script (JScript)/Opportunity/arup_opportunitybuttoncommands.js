@@ -319,6 +319,7 @@ Xrm.Page.Arup = (
                     return;
                 }
 
+                SetFieldRequirementForPreBidStage(formContext);
                 // Make sure form is saved.
                 //  formContext.data.entity.save();
                 formContext.data.save().then(

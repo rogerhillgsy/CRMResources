@@ -36,7 +36,6 @@ function qc_form_onload(executionContext) {
     quick_create_sync_address(formContext);
     quick_create_country_onchange(formContext);
     contactType_onchange(formContext, 'load');
-    formContext.getAttribute("arup_businessinterest_ms").setRequiredLevel('required');
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
     qc_defaultCustomerToAccount(formContext);
 }

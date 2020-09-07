@@ -251,6 +251,8 @@ function BidDicisionConfirmation(formContext) {
 
     if (!checkBidDecionChair(formContext, 'AP')) { return; }
 
+    SetFieldRequirementForPreBidStage(formContext);
+
     formContext.data.save().then(
         function success(status) {
             if (IsFormValid(formContext, 'BDA')) {
@@ -331,9 +333,9 @@ function setupArupInternal(executionContext) {
     if (!arupInternal) { return; }
 
     ShowFields(formContext, false, "ccrm_countryofclientregistrationid", "ccrm_opportunitytype", "ccrm_countrycategory", "arup_importedsalarycost_num", "arup_importedstaffohcost_num", "arup_importedexpenses_num", "ccrm_arupuniversityiiaresearchinitiative", "ccrm_estprojectvalue_num", "arup_projpartreqd", "arup_services", "arup_services1", "arup_projecttype", "arup_projecttype1", "arup_projectsector", "arup_projectsector1", "ccrm_confidential", "ccrm_arupuniversityiiaresearchinitiative1", "arup_projpartreqd1", "ccrm_estprojectvalue_num1", "arup_creditcheck", "arup_creditcheck1", "arup_creditcheck2", "arup_creditcheck3", "arup_duediligencecheck", "arup_duediligencecheck1", "arup_duediligencecheck2", "arup_duediligencecheck3", "ccrm_arups_role_in_project", "ccrm_arups_role_in_project1", "ccrm_referredby_accountid");
-    formContext.ui.tabs.get("Bid_Details_Tab").sections.get("Bid_Details_Tab_section_7").setVisible(false);
-    formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_6_section_3").setVisible(false);
-    formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_7_section_5").setVisible(false);
+    ShowSections(formContext, false, "Bid_Details_Tab", "Bid_Details_Tab_section_7", "tab_6_section_3", "tab_7_section_5");
+    ShowSections(formContext, false, "Developing_Bid_tab", "Developing_Bid_tab_section_4");
+    ShowSections(formContext, false, "Confirmed_Job_commercial_Tab", "Confirmed_Job_commercial_Tab_section_3");
 
 }
 
@@ -354,14 +356,14 @@ function setBidDecisionChairRequired(formContext) {
 
     var isRegionValidForBidDecision = (regionName == ArupRegionName.UKMEA.toUpperCase() || regionName == ArupRegionName.Americas.toUpperCase() || regionName == ArupRegionName.Europe.toUpperCase()) ? true : false;
     var isHidden = (!isRegionValidForBidDecision || opportunityType == 770000005 || arupInternal) ? true : false;
-    var requiredLevel = (!isHidden && stage == ArupStages.Lead) ? 'required' : 'none';
+  //  var requiredLevel = (!isHidden && stage == ArupStages.Lead) ? 'required' : 'none';
 
     formContext.getControl("header_process_arup_biddecisionchair").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionchair").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionchair1").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionproxy").setVisible(!isHidden);
     formContext.getControl("arup_biddecisiondate").setVisible(!isHidden);
-    formContext.getAttribute("arup_biddecisionchair").setRequiredLevel(requiredLevel);
+ //   formContext.getAttribute("arup_biddecisionchair").setRequiredLevel(requiredLevel);
     if (isHidden) {
         formContext.getAttribute("arup_biddecisionchair").setValue(null);
     }
@@ -624,13 +626,8 @@ function showSDGFields(formContext, arupInternal) {
         formContext.ui.tabs.get("Pre-Bid_Tab").sections.get("PreBid_Sustainable_Development").setVisible(false);
         formContext.ui.tabs.get("Confirmed_Job_Project_Tab").sections.get("Confirmed_Job_Project_Sustainable_Development").setVisible(false);
         formContext.ui.tabs.get("Project_Details_Tab").sections.get("Project_Details_Sustainable_Development").setVisible(false);
-    } else {
-        formContext.getAttribute("arup_keymarkets").setRequiredLevel("required");
-        formContext.getAttribute("arup_sharedvalues").setRequiredLevel("required");
-        formContext.getAttribute("arup_safeguardplanet").setRequiredLevel("required");
-        formContext.getAttribute("arup_partnership").setRequiredLevel("required");
-        formContext.getAttribute("arup_betterway").setRequiredLevel("required");
     }
+
 }
 
 function SetSGDMultiSelect(executionContext, fieldname) {
