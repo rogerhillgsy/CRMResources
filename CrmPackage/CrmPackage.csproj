@@ -1307,6 +1307,11 @@
       <UniqueName>arup_Contact</UniqueName>
       <WebResourceType>PNG</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_DuplicateCheck.js">
+      <DisplayName>Duplicate Checking</DisplayName>
+      <UniqueName>arup_DuplicateCheck</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_feedback.js">
       <DisplayName>arup_feedback</DisplayName>
       <UniqueName>new_arup_feedback</UniqueName>
@@ -1316,6 +1321,11 @@
       <DisplayName>arup_main</DisplayName>
       <UniqueName>new_arup_main</UniqueName>
       <WebResourceType>CascadingStylesheet</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\SDK.MetaData.js">
+      <DisplayName>SDK.MetaData.js</DisplayName>
+      <UniqueName>ccrm_/JavaScripts/Lib/SDK.MetaData.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\All Other Entities\arup_alert.js">
       <DisplayName>Alert library</DisplayName>
@@ -1363,54 +1373,44 @@
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\ccrm_case_main_library.js">
-      <DisplayName>s</DisplayName>
+      <DisplayName>Case Main Library</DisplayName>
       <UniqueName>ccrm_case_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\Ccrm_cjnapplication_main_library.js">
-      <DisplayName>Ccrm_cjnapplication_main_library</DisplayName>
-      <UniqueName>new_Ccrm_cjnapplication_main_library</UniqueName>
+      <DisplayName>Scripts/Ccrm_cjnapplication.js</DisplayName>
+      <UniqueName>Ccrm_cjnapplication_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\Ccrm_exclusivityrequest_main_library.js">
-      <DisplayName>Ccrm_exclusivityrequest_main_library</DisplayName>
-      <UniqueName>new_Ccrm_exclusivityrequest_main_library</UniqueName>
+      <DisplayName>Scripts/Ccrm_exclusivityrequest.js</DisplayName>
+      <UniqueName>ccrm_exclusivityrequest_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\ccrm_MultiEntityLookup.js">
-      <DisplayName>ccrm_MultiEntityLookup</DisplayName>
-      <UniqueName>new_ccrm_MultiEntityLookup</UniqueName>
+      <DisplayName>Scripts/Crm_subscriptions.js</DisplayName>
+      <UniqueName>ccrm_MultiEntityLookup</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\BidReview\arup_bidReviewTabs.html">
-      <DisplayName>arup_bidReviewTabs</DisplayName>
+      <DisplayName>Bid Review Tabs HTML</DisplayName>
       <UniqueName>arup_bidReviewTabs</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\Contact\arup_DuplicateCheck.js">
-      <DisplayName>arup_DuplicateCheck</DisplayName>
-      <UniqueName>new_arup_DuplicateCheck</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Contact\arup_NotifyForQuickCreate.js">
-      <DisplayName>arup_NotifyForQuickCreate</DisplayName>
-      <UniqueName>new_arup_NotifyForQuickCreate</UniqueName>
+      <DisplayName>NotifyForQuickCreate</DisplayName>
+      <UniqueName>arup_NotifyForQuickCreate.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Contact\Contact_main_library.js">
-      <DisplayName>Contact_main_library</DisplayName>
-      <UniqueName>new_Contact_main_library</UniqueName>
+      <DisplayName>Scripts/Contact.js</DisplayName>
+      <UniqueName>Contact_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Lead\arup_DupeCheckHtmlWithQC.htm">
-      <DisplayName>arup_DupeCheckHtmlWithQC</DisplayName>
-      <UniqueName>new_arup_DupeCheckHtmlWithQC</UniqueName>
+      <DisplayName>DupeCheckHtmlWithQC</DisplayName>
+      <UniqueName>arup_DupeCheckHtmlWithQC.htm</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\Lead\arup_DuplicateCheck.js">
-      <DisplayName>arup_DuplicateCheck</DisplayName>
-      <UniqueName>new_arup_DuplicateCheck</UniqueName>
-      <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Lead\arup_dynamic_display_of_fieldvalue.js">
       <DisplayName>arup_dynamic_display_of_fieldvalue</DisplayName>
@@ -1419,7 +1419,7 @@
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Lead\ccrm_lead_library_2015.js">
       <DisplayName>ccrm_lead_library_2015</DisplayName>
-      <UniqueName>new_ccrm_lead_library_2015</UniqueName>
+      <UniqueName>ccrm_lead_library_2015</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_close_Opportunity.htm">
@@ -1488,33 +1488,28 @@
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Organisation\arup_MicrosoftTeams.htm">
-      <DisplayName>arup_MicrosoftTeams</DisplayName>
-      <UniqueName>new_arup_MicrosoftTeams</UniqueName>
+      <DisplayName>Microsoft Teams</DisplayName>
+      <UniqueName>arup_MicrosoftTeams</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Organisation\arup_organisationrequestchange.htm">
-      <DisplayName>arup_organisationrequestchange</DisplayName>
-      <UniqueName>new_arup_organisationrequestchange</UniqueName>
+      <DisplayName>Organisation Request Change</DisplayName>
+      <UniqueName>arup_OrganisationRequestChange</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Organisation\ccrm_account_main_library.js">
-      <DisplayName>ccrm_account_main_library</DisplayName>
-      <UniqueName>new_ccrm_account_main_library</UniqueName>
+      <DisplayName>Scripts/Account_main_library.js</DisplayName>
+      <UniqueName>crm_account_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Organisation\ccrm_Customer_main_library.js">
       <DisplayName>ccrm_Customer_main_library</DisplayName>
-      <UniqueName>new_ccrm_Customer_main_library</UniqueName>
+      <UniqueName>ccrm_Customer_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\Organisation\ClientOverViewReport.html">
-      <DisplayName>ClientOverViewReport</DisplayName>
-      <UniqueName>new_ClientOverViewReport</UniqueName>
-      <WebResourceType>WebPage</WebResourceType>
-    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Organisation\ConnectionMatrix.html">
-      <DisplayName>ConnectionMatrix</DisplayName>
-      <UniqueName>new_ConnectionMatrix</UniqueName>
+      <DisplayName>ConnectionMatrix.html</DisplayName>
+      <UniqueName>ccrm_/HTML/ConnectionMatrix.html</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_Activities_Common_Library.js">
@@ -1523,18 +1518,18 @@
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_ContactTemp.js">
-      <DisplayName>arup_ContactTemp</DisplayName>
-      <UniqueName>arup_arup_ContactTemp</UniqueName>
+      <DisplayName>ContactTemp</DisplayName>
+      <UniqueName>arup_ContactTemp</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\arup_dashboardsubscription.js">
-      <DisplayName>arup_dashboardsubscription</DisplayName>
-      <UniqueName>arup_arup_dashboardsubscription</UniqueName>
+      <DisplayName>Dashboard Subscriptions Main Library</DisplayName>
+      <UniqueName>arup_dashboardsubscription.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_DefEventSubConfig.js">
-      <DisplayName>arup_DefEventSubConfig</DisplayName>
-      <UniqueName>arup_arup_DefEventSubConfig</UniqueName>
+      <DisplayName>DefEventSubConfig</DisplayName>
+      <UniqueName>arup_DefEventSubConfig</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\arup_documentsFolder.js">
@@ -1548,8 +1543,8 @@
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\arup_frameworks_library.js">
-      <DisplayName>arup_frameworks_library</DisplayName>
-      <UniqueName>arup_arup_frameworks_library</UniqueName>
+      <DisplayName>frameworks_library.js</DisplayName>
+      <UniqueName>arup_frameworks_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_Notify_Opportunity.js">
@@ -1563,8 +1558,8 @@
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_Phonecall_Main_Library.js">
-      <DisplayName>arup_Phonecall_Main_Library</DisplayName>
-      <UniqueName>arup_arup_Phonecall_Main_Library</UniqueName>
+      <DisplayName>Phonecall_Main_Library</DisplayName>
+      <UniqueName>arup_Phonecall_Main_Library</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_TEST.js">
@@ -1572,9 +1567,9 @@
       <UniqueName>arup_arup_TEST</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script (JScript)\arup_XrmServiceToolkit.js">
-      <DisplayName>arup_XrmServiceToolkit</DisplayName>
-      <UniqueName>arup_arup_XrmServiceToolkit</UniqueName>
+    <CRMWebResource Include="WebResources\Script (JScript)\XrmServiceToolkit.js">
+      <DisplayName>XrmServiceToolkit.min.js</DisplayName>
+      <UniqueName>ccrm_/JavaScripts/Lib/XrmServiceToolkit.min.js</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_acfilter.js">
@@ -1583,8 +1578,8 @@
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_ActivityViewsFilterDefault.js">
-      <DisplayName>ccrm_ActivityViewsFilterDefault</DisplayName>
-      <UniqueName>arup_ccrm_ActivityViewsFilterDefault</UniqueName>
+      <DisplayName>Scripts/ActivityViewsFilterDefault</DisplayName>
+      <UniqueName>ccrm_ActivityViewsFilterDefault</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_applicationnsights.js">
@@ -1626,8 +1621,8 @@
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_contactrelationship_main_library.js">
-      <DisplayName>Ccrm_contactrelationship_main_library</DisplayName>
-      <UniqueName>arup_Ccrm_contactrelationship_main_library</UniqueName>
+      <DisplayName>Scripts/Ccrm_contactrelationship.js</DisplayName>
+      <UniqueName>Ccrm_contactrelationship_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_CrmFetchKit.js">
@@ -1636,43 +1631,38 @@
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_crmofflinesetting_helper.js">
-      <DisplayName>ccrm_crmofflinesetting_helper</DisplayName>
-      <UniqueName>arup_ccrm_crmofflinesetting_helper</UniqueName>
+      <DisplayName>Scripts/Ccrm_crmofflinesetting_Helper.js</DisplayName>
+      <UniqueName>ccrm_crmofflinesetting_helper.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_crmofflinesetting_main_library.js">
-      <DisplayName>ccrm_crmofflinesetting_main_library</DisplayName>
-      <UniqueName>arup_ccrm_crmofflinesetting_main_library</UniqueName>
+      <DisplayName>Scripts/Ccrm_crmofflinesetting.js</DisplayName>
+      <UniqueName>ccrm_crmofflinesetting_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_CRMSubscriptionService.js">
-      <DisplayName>ccrm_CRMSubscriptionService</DisplayName>
-      <UniqueName>arup_ccrm_CRMSubscriptionService</UniqueName>
+      <DisplayName>CRM Subscription Service</DisplayName>
+      <UniqueName>ccrm_CRMSubscriptionService</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Customer_main_library.js">
-      <DisplayName>ccrm_Customer_main_library</DisplayName>
-      <UniqueName>arup_ccrm_Customer_main_library</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_duplicatebid.js">
-      <DisplayName>ccrm_duplicatebid</DisplayName>
-      <UniqueName>arup_ccrm_duplicatebid</UniqueName>
+      <DisplayName>Duplicate Bid JS</DisplayName>
+      <UniqueName>ccrm_duplicatebid.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_JSHelper.js">
-      <DisplayName>ccrm_JSHelper</DisplayName>
-      <UniqueName>arup_ccrm_JSHelper</UniqueName>
+      <DisplayName>Scripts/JSHelper.js</DisplayName>
+      <UniqueName>ccrm_JSHelper.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_JSON1.4.js">
-      <DisplayName>ccrm_JSON1.4</DisplayName>
-      <UniqueName>arup_ccrm_JSON1.4</UniqueName>
+      <DisplayName>Scripts/JSON1.4.js</DisplayName>
+      <UniqueName>ccrm_JSON1.4.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_JSON2.js">
-      <DisplayName>ccrm_JSON2</DisplayName>
-      <UniqueName>arup_ccrm_JSON2</UniqueName>
+      <DisplayName>Scripts/JSON2.js</DisplayName>
+      <UniqueName>ccrm_JSON2.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_LessonsLearned_main_library.js">
@@ -1692,8 +1682,8 @@
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_marketing_list.js">
-      <DisplayName>ccrm_marketing_list</DisplayName>
-      <UniqueName>arup_ccrm_marketing_list</UniqueName>
+      <DisplayName>Marketing List</DisplayName>
+      <UniqueName>ccrm_marketing_list</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_ms_BPF_MultiSelect.js">
@@ -1718,8 +1708,8 @@
       <WebResourceLanguage>English (United States)</WebResourceLanguage>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_nr_agent.js">
-      <DisplayName>ccrm_nr_agent</DisplayName>
-      <UniqueName>arup_ccrm_nr_agent</UniqueName>
+      <DisplayName>nr_agent.js</DisplayName>
+      <UniqueName>ccrm_nr_agent</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_Nr_Injector.js">
@@ -1728,63 +1718,63 @@
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_opportunityapproval_main_library.js">
-      <DisplayName>Ccrm_opportunityapproval_main_library</DisplayName>
-      <UniqueName>arup_Ccrm_opportunityapproval_main_library</UniqueName>
+      <DisplayName>Scripts/Ccrm_opportunityapproval.js</DisplayName>
+      <UniqueName>ccrm_opportunityapproval_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_opportunitycontact_main_library.js">
-      <DisplayName>Ccrm_opportunitycontact_main_library</DisplayName>
-      <UniqueName>arup_Ccrm_opportunitycontact_main_library</UniqueName>
+      <DisplayName>Scripts/Ccrm_opportunitycontact.js</DisplayName>
+      <UniqueName>Ccrm_opportunitycontact_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_opportunitymanualreset_main_library.js">
-      <DisplayName>Ccrm_opportunitymanualreset_main_library</DisplayName>
-      <UniqueName>arup_Ccrm_opportunitymanualreset_main_library</UniqueName>
+      <DisplayName>Scripts/Ccrm_opportunitymanualreset.js</DisplayName>
+      <UniqueName>Ccrm_opportunitymanualreset_main_library</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_opportunityreviewer_main_library.js">
-      <DisplayName>Ccrm_opportunityreviewer_main_library</DisplayName>
-      <UniqueName>arup_Ccrm_opportunityreviewer_main_library</UniqueName>
+      <DisplayName>Scripts/Ccrm_opportunityreviewer.js</DisplayName>
+      <UniqueName>Ccrm_opportunityreviewer_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Ccrm_opportunitytrack_main_library.js">
-      <DisplayName>Ccrm_opportunitytrack_main_library</DisplayName>
-      <UniqueName>arup_Ccrm_opportunitytrack_main_library</UniqueName>
+      <DisplayName>Scripts/Ccrm_opportunitytrack.js</DisplayName>
+      <UniqueName>Ccrm_opportunitytrack_main_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_Opportunity_QuickCreate_Main_Library.js">
-      <DisplayName>ccrm_Opportunity_QuickCreate_Main_Library</DisplayName>
-      <UniqueName>arup_ccrm_Opportunity_QuickCreate_Main_Library</UniqueName>
+      <DisplayName>Opportunity Quick Create Main Library</DisplayName>
+      <UniqueName>ccrm_Opportunity_QuickCreate_Main_Library</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_ribbon.js">
-      <DisplayName>ccrm_ribbon</DisplayName>
-      <UniqueName>arup_ccrm_ribbon</UniqueName>
+      <DisplayName>Scripts/ccrm_ribbon.js</DisplayName>
+      <UniqueName>ccrm_ribbon.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_RunDialog.js">
-      <DisplayName>ccrm_RunDialog</DisplayName>
-      <UniqueName>arup_ccrm_RunDialog</UniqueName>
+      <DisplayName>RunDialog.js</DisplayName>
+      <UniqueName>ccrm_RunDialog.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_script_ribbonHandler.js">
-      <DisplayName>ccrm_script_ribbonHandler</DisplayName>
-      <UniqueName>arup_ccrm_script_ribbonHandler</UniqueName>
+      <DisplayName>script_ribbonHandler</DisplayName>
+      <UniqueName>ccrm_script_ribbonHandler</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_sdk_rest_data_library.js">
-      <DisplayName>ccrm_sdk_rest_data_library</DisplayName>
-      <UniqueName>arup_ccrm_sdk_rest_data_library</UniqueName>
+      <DisplayName>SDK Rest Data operation Library</DisplayName>
+      <UniqueName>ccrm_sdk_rest_data_library</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Sync_Arup_Retrieve.js">
-      <DisplayName>ccrm_Sync_Arup_Retrieve</DisplayName>
-      <UniqueName>arup_ccrm_Sync_Arup_Retrieve</UniqueName>
+      <DisplayName>Scripts/Sync_Arup_Retrieve.js</DisplayName>
+      <UniqueName>ccrm_Sync_Arup_Retrieve.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\ccrm_Sync_DataOperations.js">
-      <DisplayName>ccrm_Sync_DataOperations</DisplayName>
-      <UniqueName>arup_ccrm_Sync_DataOperations</UniqueName>
+      <DisplayName>Sync Data Operations</DisplayName>
+      <UniqueName>ccrm_Sync_DataOperations</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\ccrm_Sync_Retrieve.js">
@@ -1848,8 +1838,8 @@
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_clientgroupingmatrix.htm">
-      <DisplayName>arup_clientgroupingmatrix</DisplayName>
-      <UniqueName>new_arup_clientgroupingmatrix</UniqueName>
+      <DisplayName>Clientgroupingmatrix</DisplayName>
+      <UniqueName>arup_clientgroupingmatrix</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_DeclineReason">
@@ -1872,6 +1862,16 @@
       <UniqueName>arup_arup_lead_detailssection_html</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_duplicatebids.html">
+      <DisplayName>Duplicate Bids HTML Page</DisplayName>
+      <UniqueName>ccrm_duplicatebids</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ClientOverViewReport.html">
+      <DisplayName>ClientOverViewReport.html</DisplayName>
+      <UniqueName>ccrm_/HTML/ClientOverViewReport.html</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page (HTML)\arup_OracleRequestListenerDiagnostics.html">
       <DisplayName>Oracle Request Listener Diagnostics</DisplayName>
       <UniqueName>arup_OracleRequestListenerDiagnostics.html</UniqueName>
@@ -1887,9 +1887,9 @@
       <UniqueName>arup_OppoWiz.html</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_UploadAttachments">
-      <DisplayName>arup_UploadAttachments</DisplayName>
-      <UniqueName>arup_arup_UploadAttachments</UniqueName>
+    <CRMWebResource Include="WebResources\Web Page (HTML)\arup_UploadAttachments.html">
+      <DisplayName>Upload Framework Attachment</DisplayName>
+      <UniqueName>arup_UploadAttachments</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_bidreview">
@@ -1913,19 +1913,14 @@
       <UniqueName>arup_ccrm_BidReview_RiskFactors</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_clientoverview">
-      <DisplayName>ccrm_clientoverview</DisplayName>
-      <UniqueName>arup_ccrm_clientoverview</UniqueName>
-      <WebResourceType>NotSupported</WebResourceType>
-    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_clientriskdec01">
       <DisplayName>ccrm_clientriskdec01</DisplayName>
       <UniqueName>arup_ccrm_clientriskdec01</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_ContactOverview">
-      <DisplayName>ccrm_ContactOverview</DisplayName>
-      <UniqueName>arup_ccrm_ContactOverview</UniqueName>
+    <CRMWebResource Include="WebResources\Web Page (HTML)\ccrm_ContactOverview.html">
+      <DisplayName>RunContactOverview</DisplayName>
+      <UniqueName>ccrm_ContactOverview</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_contractriskdesc01">
@@ -1939,13 +1934,8 @@
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page (HTML)\ccrm_CRMTabs.html">
-      <DisplayName>ccrm_CRMTabs</DisplayName>
-      <UniqueName>arup_ccrm_CRMTabs</UniqueName>
-      <WebResourceType>NotSupported</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_duplicatebids">
-      <DisplayName>ccrm_duplicatebids</DisplayName>
-      <UniqueName>arup_ccrm_duplicatebids</UniqueName>
+      <DisplayName>CRMTabs</DisplayName>
+      <UniqueName>ccrm_CRMTabs</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_eventsguidance">
@@ -2049,13 +2039,13 @@
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_reportviewer">
-      <DisplayName>ccrm_reportviewer</DisplayName>
-      <UniqueName>arup_ccrm_reportviewer</UniqueName>
+      <DisplayName>ReportViewer</DisplayName>
+      <UniqueName>ccrm_reportviewer</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_reportviewerorg">
-      <DisplayName>ccrm_reportviewerorg</DisplayName>
-      <UniqueName>arup_ccrm_reportviewerorg</UniqueName>
+      <DisplayName>ReportViewerOrg</DisplayName>
+      <UniqueName>ccrm_reportviewerorg</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_SubscriptionIntro">

@@ -119,7 +119,7 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
                     var reasonkey = ccrm_wonopp_resaon_values.split(',');
                 }
 
-                for (var i = j = 0; i < reasonValue.length && j < reasonkey.length; i++, j++) {
+                for (var i = j = 0; i < reasonValue.length && j < reasonkey.length; i++ , j++) {
                     var key = reasonkey[j];
                     var value = reasonValue[i];
                     dictionary[key] = value;
@@ -251,6 +251,8 @@ function BidDicisionConfirmation(formContext) {
 
     if (!checkBidDecionChair(formContext, 'AP')) { return; }
 
+    SetFieldRequirementForPreBidStage(formContext);
+
     formContext.data.save().then(
         function success(status) {
             if (IsFormValid(formContext, 'BDA')) {
@@ -331,9 +333,9 @@ function setupArupInternal(executionContext) {
     if (!arupInternal) { return; }
 
     ShowFields(formContext, false, "ccrm_countryofclientregistrationid", "ccrm_opportunitytype", "ccrm_countrycategory", "arup_importedsalarycost_num", "arup_importedstaffohcost_num", "arup_importedexpenses_num", "ccrm_arupuniversityiiaresearchinitiative", "ccrm_estprojectvalue_num", "arup_projpartreqd", "arup_services", "arup_services1", "arup_projecttype", "arup_projecttype1", "arup_projectsector", "arup_projectsector1", "ccrm_confidential", "ccrm_arupuniversityiiaresearchinitiative1", "arup_projpartreqd1", "ccrm_estprojectvalue_num1", "arup_creditcheck", "arup_creditcheck1", "arup_creditcheck2", "arup_creditcheck3", "arup_duediligencecheck", "arup_duediligencecheck1", "arup_duediligencecheck2", "arup_duediligencecheck3", "ccrm_arups_role_in_project", "ccrm_arups_role_in_project1", "ccrm_referredby_accountid");
-    formContext.ui.tabs.get("Bid_Details_Tab").sections.get("Bid_Details_Tab_section_7").setVisible(false);
-    formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_6_section_3").setVisible(false);
-    formContext.ui.tabs.get("Bid_Details_Tab").sections.get("tab_7_section_5").setVisible(false);
+    ShowSections(formContext, false, "Bid_Details_Tab", "Bid_Details_Tab_section_7", "tab_6_section_3", "tab_7_section_5");
+    ShowSections(formContext, false, "Developing_Bid_tab", "Developing_Bid_tab_section_4");
+    ShowSections(formContext, false, "Confirmed_Job_commercial_Tab", "Confirmed_Job_commercial_Tab_section_3");
 
 }
 
@@ -354,14 +356,14 @@ function setBidDecisionChairRequired(formContext) {
 
     var isRegionValidForBidDecision = (regionName == ArupRegionName.UKMEA.toUpperCase() || regionName == ArupRegionName.Americas.toUpperCase() || regionName == ArupRegionName.Europe.toUpperCase()) ? true : false;
     var isHidden = (!isRegionValidForBidDecision || opportunityType == 770000005 || arupInternal) ? true : false;
-    var requiredLevel = (!isHidden && stage == ArupStages.Lead) ? 'required' : 'none';
+  //  var requiredLevel = (!isHidden && stage == ArupStages.Lead) ? 'required' : 'none';
 
     formContext.getControl("header_process_arup_biddecisionchair").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionchair").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionchair1").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionproxy").setVisible(!isHidden);
     formContext.getControl("arup_biddecisiondate").setVisible(!isHidden);
-    formContext.getAttribute("arup_biddecisionchair").setRequiredLevel(requiredLevel);
+ //   formContext.getAttribute("arup_biddecisionchair").setRequiredLevel(requiredLevel);
     if (isHidden) {
         formContext.getAttribute("arup_biddecisionchair").setValue(null);
     }
@@ -533,7 +535,7 @@ function retreiveOrganisationChecks(executionContext) {
                         } else {
                             formContext.getAttribute("arup_duediligencecheck").setValue(null);
                             formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
-                            formContext.data.save();
+                            //formContext.data.save();
                         }
 
                         //if (arup_duediligencecheck != null && !clientDirty) { // If sanctions is null on Opportunity
@@ -543,7 +545,7 @@ function retreiveOrganisationChecks(executionContext) {
                         //} else
                         if (clientDirty) { // If Client is not dirty //Top right coner in Design                                            
                             formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
-                            formContext.data.save();
+                            //formContext.data.save();
                             setTimeout(function () {
                                 formContext.getAttribute("arup_sanctionschecktrigger").fireOnChange();
                             }, 3000);
@@ -620,18 +622,12 @@ function setOrganisationChecks(formContext, arup_duediligencecheck) {
 }
 
 function showSDGFields(formContext, arupInternal) {
-    debugger;
     if (arupInternal) {
         formContext.ui.tabs.get("Pre-Bid_Tab").sections.get("PreBid_Sustainable_Development").setVisible(false);
         formContext.ui.tabs.get("Confirmed_Job_Project_Tab").sections.get("Confirmed_Job_Project_Sustainable_Development").setVisible(false);
         formContext.ui.tabs.get("Project_Details_Tab").sections.get("Project_Details_Sustainable_Development").setVisible(false);
-    } else {
-        formContext.getAttribute("arup_keymarkets").setRequiredLevel("required");
-        formContext.getAttribute("arup_sharedvalues").setRequiredLevel("required");
-        formContext.getAttribute("arup_safeguardplanet").setRequiredLevel("required");
-        formContext.getAttribute("arup_partnership").setRequiredLevel("required");
-        formContext.getAttribute("arup_betterway").setRequiredLevel("required");
     }
+
 }
 
 function SetSGDMultiSelect(executionContext, fieldname) {
@@ -647,6 +643,6 @@ function SetSGDMultiSelect(executionContext, fieldname) {
         }
         setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
         formContext.getAttribute(fieldname).setValue([99]);
-    }  
+    }
     return;
 }

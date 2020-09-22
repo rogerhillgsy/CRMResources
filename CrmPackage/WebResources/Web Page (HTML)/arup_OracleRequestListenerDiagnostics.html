@@ -77,6 +77,9 @@
                                 }
                             }                        },
                         function (error) {
+                            debugger;
+                            var resultArea = document.getElementById(resultAreaId);
+                            resultArea.value =  "Error calling Action " + actionName + "\r\r" + error.message;
                             Xrm.Utility.alertDialog(actionName + error.message);
                         }
                     );

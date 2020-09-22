@@ -319,6 +319,7 @@ Xrm.Page.Arup = (
                     return;
                 }
 
+                SetFieldRequirementForPreBidStage(formContext);
                 // Make sure form is saved.
                 //  formContext.data.entity.save();
                 formContext.data.save().then(
@@ -403,6 +404,7 @@ Xrm.Page.Arup = (
 
         function OnTabStateChange(e) {
             var source = e.getEventSource();
+            var formContext = e.getFormContext();
             if (source.getDisplayState() == "collapsed") {
                 formContext.Arup.PreviousTab = source.getName();
             }

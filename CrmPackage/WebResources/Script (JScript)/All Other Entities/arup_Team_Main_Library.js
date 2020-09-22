@@ -31,7 +31,7 @@ function formOnLoadTeams(executionContext) {
 function SetDefaultBusinessUnit(formContext) {
     Xrm.WebApi.retrieveMultipleRecords("businessunit", "?$select=businessunitid&$filter=name eq 'Arup'")
         .then(function resolve(results) {
-            if (results.entities.length !== 1) teamLog(`Expected 1 business unit, not ${results.length}`);
+            if (results.entities.length !== 1) teamLog("Expected 1 business unit, not " + results.length);
             var arup = [{ name : "Arup", entityType : "businessunit" }];
             arup[0].id = results.entities[0]["businessunitid"];
             formContext.getAttribute("businessunitid").setValue(arup);
@@ -63,7 +63,7 @@ function LockFields(formContext, lockFields, locked) {
         if (!attribute) {
             teamError("Not able to find attribute to lock: " + field);
         } else {
-            attribute.controls.forEach((e) => e.setDisabled(true));
+            attribute.controls.forEach(function(e) { e.setDisabled(true) });
         }
     }
 }
@@ -141,7 +141,7 @@ function IfTeamMember(formContext, teams, userId) {
                     var fullName = result["fullname"];
                     // Evaluate if any of the returned teams are in the list of teams we are looking for.
                     if (result.teammembership_association.length === 0) {
-                        teamLog(`User ${fullName}was not member of any teams`);
+                        teamLog("User " + fullName + " was not member of any teams");
                         reject("No Teams");
                     }
                     for (var a = 0; a < result.teammembership_association.length; a++) {
@@ -371,4 +371,30 @@ function OpenClientGroupingMatrix(primaryControl) {
         var windowOptions = { openInNewWindow: true, height: 800, width: 1200 };
         Xrm.Navigation.openWebResource('arup_clientgroupingmatrix', windowOptions, customParameters);
     }
+}
+
+// Ribbon function from legacy arup_teams.js
+function openFOPForm() {
+    var team = {
+        entityType: "team",
+        id: Xrm.Page.data.entity.getId(),
+        name: Xrm.Page.getAttribute("name").getValue()
+    };
+
+    // Set default values for the FOP form
+    var formParameters = {};
+    formParameters["arup_relationshipteamid"] = team.id;
+    formParameters["arup_relationshipteamidname"] = team.name;
+
+    var windowOptions = {
+        openInNewWindow: true
+    };
+
+    //pop up form with default values
+    Xrm.Utility.openEntityForm("arup_fieldofplay", null, formParameters, windowOptions);
+
+}
+
+function refreshRibbonOnChange() {
+    Xrm.Page.ui.refreshRibbon();
 }
