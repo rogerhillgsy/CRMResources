@@ -24,11 +24,7 @@ function Form_onload(executioncontext) {
         formContext.getAttribute('ccrm_assignedtosync_userid').setValue(lookupData);
        
         //set sharepoint parameters
-        //setSharePointParameters();
-
-        if (formContext.context.client.getFormFactor() != "Mobile") {
-            formContext.ui.tabs.get("tab_tabs").setVisible(false);
-        }
+        //setSharePointParameters();        
     }
 
     // -- Form Not on Creation
@@ -103,16 +99,6 @@ function Form_onsave(executionObj) {
                 alert("Please add the Sub-contractors using sub-grid");
             }
         }
-
-    }
-
-    if (formContext.ui.getFormType() == 1) {
-
-        if (formContext.ui.tabs.get("tab_tabs").getVisible() == false) {
-            formContext.ui.tabs.get("tab_tabs").setVisible(true);
-        }
-        var webResource = formContext.ui.controls.get("WebResource_tabs");
-        webResource.setSrc(webResource.getSrc());
 
     }
 
