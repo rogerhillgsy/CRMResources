@@ -1,0 +1,345 @@
+<html>
+<head>
+</head>
+<body style="margin: 0px; overflow-wrap: break-word;" onfocusout="parent.setEmailRange();">
+    ﻿
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta><meta><meta><meta><meta charset="utf-8"><meta><meta><meta><meta>
+
+    ﻿
+    <title></title>
+
+    <style>
+        body {
+            font-family: "Segoe UI Light";
+            font-weight: 200;
+            color: #5a5959;
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        #mainContainer {
+            width: 780px;
+            margin-left: 20px;
+        }
+
+        p {
+            padding: 0 10px 15px 10px;
+        }
+
+        .row {
+            background-color: white;
+            height: 120px;
+            margin: 15px 0 15px 0;
+            position: relative;
+        }
+
+        .header {
+            float: left;
+            width: 175px;
+            height: 60px;
+        }
+
+        .link, .linkPortal {
+            float: left;
+            width: 170px;
+            height: 80px;
+            margin: 20px 15px 20px 15px;
+            background-color: rgba(114, 114, 114, 0.70);
+            text-decoration: none;
+            text-align: center;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .linkPortal {
+            background-color: rgba(246, 151, 26, .5);
+            color: #5a5959;
+        }
+
+        .linkCont {
+            /*position:absolute;*/
+            float: left;
+            width: 350px;
+            height: 90px;
+        }
+
+        .smallLink {
+            float: left;
+            width: 210px;
+            height: 30px;
+            margin: 1px 15px 5px 15px;
+            background-color: rgba(220, 220, 220, 1);
+            text-decoration: none;
+            text-align: left;
+            padding-left: 5px;
+            border-radius: 0px;
+            color: black;
+        }
+
+        a:hover {
+            background-color: rgba(198, 198, 198, 1);
+            font-weight: 200;
+            cursor: pointer;
+        }
+
+        .linkPortal:hover {
+            background-color: rgba(246, 151, 26, 1);
+            color: white;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-weight: 500;
+        }
+
+        h2 {
+            color: rgba(90, 89, 89, 0.9);
+            margin: 25px 0 0 15px;
+            font-weight: 500;
+        }
+
+        h3 {
+            margin: 5px 0 10px 15px;
+            color: rgba(90, 89, 89, 0.9);
+            font-weight: 600;
+        }
+
+        div {
+            padding-top: 10px;
+            position: fixed;
+            padding: 0;
+            margin: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+        }
+
+        }
+    </style>
+    <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
+
+    <div style="margin: auto;">
+        <a class="smallLink" onclick="OpenOrgOverviewReport();">
+            <img width="20" height="20" style="margin-top: 3px; vertical-align: middle;" src="../images/reportbutton.png">
+            <span style="vertical-align: middle;">Client Overview Report</span>
+        </a>
+    </div>
+    <div style="left: 230px; top: 0px; width: 250px; position: absolute;">
+        <a class="smallLink" onclick="OpenConnMatrixReport();">
+            <img width="20" height="20" style="margin-top: 3px; vertical-align: middle;" src="../images/connmatrixbutton.png">
+            <span style="vertical-align: middle;">Client Connection Matrix</span>
+        </a>
+    </div>
+    <div id="Organisation" style="left: 460px; top: 0px; width: 250px; position: absolute;">
+        <a class="smallLink" onclick="OpenOrganisationDetails();">
+            <img width="20" height="20" style="margin-top: 3px; vertical-align: middle;" src="../images/connmatrixbutton.png">
+            <span style="vertical-align: middle;">Organisation Details</span>
+        </a>
+    </div>
+    <div id="Relationship" style="left: 460px; top: 0px; width: 250px; position: absolute;">
+        <a class="smallLink" onclick="OpenRelationshipManagement();">
+            <img width="20" height="20" style="margin-top: 3px; vertical-align: middle;" src="../images/connmatrixbutton.png">
+            <span style="vertical-align: middle;">Relationship Management</span>
+        </a>
+    </div>
+
+    <script type="text/javascript">
+        var globalDQTeam = false;
+        globalDQTeam = userInTeamCheck('Global Data Quality');
+
+    function OpenOrgOverviewReport() {
+        var accId,
+            parentaccountid;
+        Xrm = parent.Xrm;
+        if (Xrm.Page.data != null) {
+            accId = Xrm.Page.data.entity.getId().replace('{', '').replace('}', '');
+            parentaccountid = Xrm.Page.getAttribute("parentaccountid").getValue() != undefined ? Xrm.Page.getAttribute("parentaccountid").getValue()[0].id.replace('{', '').replace('}', '') : accId;
+
+        }
+        else {
+            accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
+            parentaccountid = accId;
+        }
+
+        var customParameters = encodeURIComponent("accountID=" + accId + "&parentAccID=" + parentaccountid);
+        Xrm.Utility.openWebResource('ccrm_/HTML/ClientOverViewReport.html', customParameters, 1100, 800);
+
+        }
+
+        function OpenConnMatrixReport() {
+            var accId,
+                parentaccountid;
+            Xrm = parent.Xrm;
+            if (Xrm.Page.data != null) {
+                accId = Xrm.Page.data.entity.getId().replace('{', '').replace('}', '');
+                parentaccountid = Xrm.Page.getAttribute("parentaccountid").getValue() != undefined ? Xrm.Page.getAttribute("parentaccountid").getValue()[0].id.replace('{', '').replace('}', '') : accId;
+
+            }
+            else {
+                accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
+                parentaccountid = accId;
+            }
+
+            var customParameters = encodeURIComponent("accountID=" + accId + "&parentAccID=" + parentaccountid);
+
+
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer, return version number
+            {
+                //alert(parseInt(ua.substring(msie + 5, ua.indexOf(".", msie))));
+                Xrm.Utility.openWebResource('ccrm_/HTML/ConnectionMatrix_old.html', customParameters, 1200, 800);
+            }
+            else  // If another browser, return 0
+            {
+                // alert('otherbrowser');
+                Xrm.Utility.openWebResource('ccrm_/HTML/ConnectionMatrix.html', customParameters, 1200, 800);
+            }
+        }
+
+		function OpenRelationshipManagement() {
+            Xrm = parent.Xrm;
+
+            Xrm.Page.getAttribute("arup_showrelationshipform").setSubmitMode("never");
+
+            Xrm.Page.ui.tabs.get("SUMMARY_TAB").setVisible(false);
+			Xrm.Page.ui.tabs.get("contact_details").setVisible(false);
+			Xrm.Page.ui.tabs.get("tab_Company_Registration").setVisible(false);
+
+			Xrm.Page.ui.tabs.get("tab_Relationship_management").setVisible(true);
+			Xrm.Page.ui.tabs.get("tab_Activites").setVisible(true);
+			Xrm.Page.ui.tabs.get("tab_Related_Entities").setVisible(true);
+			Xrm.Page.ui.tabs.get("Interactions").setVisible(true);
+			Xrm.Page.ui.tabs.get("tab_connections").setVisible(true);
+
+			Xrm.Page.ui.tabs.get("tab_Relationship_management").setDisplayState('expanded');
+			Xrm.Page.ui.tabs.get("tab_Activites").setDisplayState('expanded');
+			Xrm.Page.ui.tabs.get("tab_Related_Entities").setDisplayState('expanded');
+			Xrm.Page.ui.tabs.get("tab_connections").setDisplayState('expanded');
+			Xrm.Page.ui.tabs.get("Interactions").setDisplayState('expanded');
+
+			var rel = document.getElementById("Relationship");
+			var org = document.getElementById("Organisation");
+			if (rel.style.display === "block"|| rel.style.display === "") {
+				rel.style.display = "none";
+				org.style.display = "block";
+			}
+
+            isrelform = Xrm.Page.getAttribute("arup_showrelationshipform").getValue();
+            if (isrelform == 'No' || isrelform == '--' || isrelform == null || isrelform == false) {
+                Xrm.Page.getAttribute("arup_showrelationshipform").setValue(true);
+                Xrm.Page.ui.refreshRibbon();
+            }
+            toggle_sections();
+
+            if (globalDQTeam) {
+                Xrm.Page.ui.controls.get("ccrm_enablerelationship").setVisible(true);
+            }
+            else {
+                Xrm.Page.ui.controls.get("ccrm_enablerelationship").setVisible(false);
+            }
+        }
+
+		function OpenOrganisationDetails() {
+			Xrm = parent.Xrm;
+
+            Xrm.Page.getAttribute("arup_showrelationshipform").setSubmitMode("never");
+
+			Xrm.Page.ui.tabs.get("SUMMARY_TAB").setVisible(true);
+			Xrm.Page.ui.tabs.get("contact_details").setVisible(true);
+			Xrm.Page.ui.tabs.get("tab_Company_Registration").setVisible(true);
+
+			Xrm.Page.ui.tabs.get("SUMMARY_TAB").setDisplayState('expanded');
+			Xrm.Page.ui.tabs.get("contact_details").setDisplayState('expanded');
+			Xrm.Page.ui.tabs.get("tab_Company_Registration").setDisplayState('expanded');
+
+			Xrm.Page.ui.tabs.get("tab_Relationship_management").setVisible(false);
+			Xrm.Page.ui.tabs.get("tab_Activites").setVisible(false);
+			Xrm.Page.ui.tabs.get("tab_Related_Entities").setVisible(false);
+			Xrm.Page.ui.tabs.get("Interactions").setVisible(false);
+			Xrm.Page.ui.tabs.get("tab_connections").setVisible(false);
+			
+
+			var org = document.getElementById("Organisation");
+			var rel = document.getElementById("Relationship");
+			if (org.style.display === "block" || org.style.display === "") {
+				org.style.display = "none";
+				rel.style.display = "block";
+			}
+
+            isrelform = Xrm.Page.getAttribute("arup_showrelationshipform").getValue();
+            if (isrelform == 'Yes' || isrelform == '--' || isrelform == null || isrelform == true) {
+                Xrm.Page.getAttribute("arup_showrelationshipform").setValue(false);
+                Xrm.Page.ui.refreshRibbon();
+            }
+
+        }
+
+		function showHideButtons(){
+			var org = document.getElementById("Organisation");
+			if (org.style.display === "block" || org.style.display === "") {
+				org.style.display = "none";
+			}
+        }
+
+        function toggle_sections() {
+            Xrm = parent.Xrm;
+            var staterel = Xrm.Page.getAttribute("ccrm_enablerelationship").getValue();
+            if (staterel) {
+                Xrm.Page.ui.tabs.get("tab_Activites").setVisible(true);
+                Xrm.Page.ui.tabs.get("Interactions").setVisible(true);
+            }
+            else {
+                Xrm.Page.ui.tabs.get("tab_Activites").setVisible(false);
+                Xrm.Page.ui.tabs.get("Interactions").setVisible(false);
+            }
+        }
+
+        function userInTeamCheck(TeamName) {
+            Xrm = parent.Xrm;
+            var IsPresentInTeam = false;
+
+            try {
+
+                var req = new XMLHttpRequest();
+                req.open("GET", Xrm.Page.context.getClientUrl() +
+                    "/api/data/v8.2/accounts?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%3E%3Centity%20name%3D%22team%22%3E%3Cattribute%20name%3D%22name%22%2F%3E%3Cfilter%20type%3D%22and%22%3E%3Ccondition%20attribute%3D%22name%22%20operator%3D%22eq%22%20value%3D%22" +
+                    TeamName + "%22%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22teammembership%22%20from%3D%22teamid%22%20to%3D%22teamid%22%20visible%3D%22false%22%20intersect%3D%22true%22%3E%3Cfilter%20type%3D%22and%22%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq%22%20value%3D%22" +
+                    Xrm.Page.context.getUserId().replace('{', '').replace('}', '') + "%22%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 200) {
+                            var results = JSON.parse(this.response);
+                            if (results.value.length > 0) {
+                                IsPresentInTeam = true;
+                            }
+                        } else {
+                          //  Xrm.Utility.alertDialog(this.statusText);
+                        }
+                    }
+                };
+                req.send();
+            }
+            catch (err) {
+                console.log(TeamNameInput + ' Error: ' + err.message);
+            }
+            return IsPresentInTeam;
+        }
+    </script>
+
+
+</body>
+</html>

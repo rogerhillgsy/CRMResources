@@ -1862,6 +1862,13 @@
       <UniqueName>arup_arup_lead_detailssection_html</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_clientoverview.htm">
+      <DisplayName>RunClientOverview</DisplayName>
+      <UniqueName>ccrm_clientoverview</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+      <Description>This is being used against the Organisation Form below Title.</Description>
+      <WebResourceLanguage>English (United States)</WebResourceLanguage>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ccrm_duplicatebids.html">
       <DisplayName>Duplicate Bids HTML Page</DisplayName>
       <UniqueName>ccrm_duplicatebids</UniqueName>
@@ -1870,6 +1877,11 @@
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\ClientOverViewReport.html">
       <DisplayName>ClientOverViewReport.html</DisplayName>
       <UniqueName>ccrm_/HTML/ClientOverViewReport.html</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\OpenClientOverviewReport.html.htm">
+      <DisplayName>OpenClientOverviewReport.html</DisplayName>
+      <UniqueName>ccrm_/HTML/OpenClientOverviewReport.html</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page (HTML)\arup_OracleRequestListenerDiagnostics.html">
