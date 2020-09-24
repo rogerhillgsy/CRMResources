@@ -22,7 +22,7 @@ function Form_onload(executioncontext) {
         lookupItem.entityType = 'systemuser';
         lookupData[0] = lookupItem;
         formContext.getAttribute('ccrm_assignedtosync_userid').setValue(lookupData);
-       
+
         //set sharepoint parameters
         //setSharePointParameters();        
     }
@@ -129,7 +129,7 @@ function contractStatus_onchange(executioncontext) {
 function customerid_onchange(executioncontext) {
     var formContext = executioncontext.getFormContext();
     defaultCustomerToAccount(formContext);
-    clientChange(formContext);   
+    clientChange(formContext);
 }
 
 function arupContractingCompany_onchange(executioncontext) {
@@ -382,7 +382,7 @@ function arupCompanyChange(formContext) {
 
 function calculateTotalBudget(executioncontext) {
     var formContext;
-    if (typeof(executioncontext.getAttribute) != "function") {
+    if (typeof (executioncontext.getAttribute) != "function") {
         formContext = executioncontext.getFormContext();
     }
     else {
