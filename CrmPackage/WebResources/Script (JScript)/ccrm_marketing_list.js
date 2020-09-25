@@ -1,7 +1,7 @@
-function form_OnLoad() {
-
-    if (Xrm.Page.ui.getFormType() == 1) {
-        getUserDetails();
+function form_OnLoad(executionContext) {
+    var formContext = executionContext.getFormContext();
+    if (formContext.ui.getFormType() == 1) {
+        getUserDetails(formContext);
     }
 
     //Xrm.Page.getAttribute("ccrm_activemembers").setSubmitMode("never");
@@ -54,27 +54,27 @@ function form_OnSave() {
 
 }
 
-function getUserDetails() {
+function getUserDetails(formContext) {
 
     var result = new Object();
-    SDK.REST.retrieveRecord(Xrm.Page.context.getUserId(),
+    SDK.REST.retrieveRecord(formContext.context.getUserId(),
         "SystemUser", 'Ccrm_ArupRegionId,ccrm_arupofficeid', null,
         function (retrievedreq) {
             if (retrievedreq != null) {
-                SetLookupField(retrievedreq.Ccrm_ArupRegionId.Id, retrievedreq.Ccrm_ArupRegionId.Name, 'ccrm_arupregion', 'ccrm_arupregion');
-                SetLookupField(retrievedreq.ccrm_arupofficeid.Id, retrievedreq.ccrm_arupofficeid.Name, 'ccrm_arupoffice', 'ccrm_arupoffice');
+                SetLookupField(formContext, retrievedreq.Ccrm_ArupRegionId.Id, retrievedreq.Ccrm_ArupRegionId.Name, 'ccrm_arupregion', 'ccrm_arupregion');
+                SetLookupField(formContext, retrievedreq.ccrm_arupofficeid.Id, retrievedreq.ccrm_arupofficeid.Name, 'ccrm_arupoffice', 'ccrm_arupoffice');
             }
         },
         errorHandler, false);
 }
 
-function SetLookupField(id, name, entity, field) {
+function SetLookupField(formContext, id, name, entity, field) {
     var lookup = new Array();
     lookup[0] = new Object();
     lookup[0].id = id;
     lookup[0].name = name;
     lookup[0].entityType = entity;
-    Xrm.Page.getAttribute(field).setValue(lookup);
+    formContext.getAttribute(field).setValue(lookup);
 }
 
 function errorHandler(error) {
