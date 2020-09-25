@@ -136,8 +136,6 @@ function onsave(executionContext) {
 
         case 'Lead':
 
-            //entityId = Xrm.Page.getAttribute('arup_relatedtolead').getValue();
-
             switch (formContext.getAttribute('arup_relatedtolead').getValue()) {
 
                 case 770000005:
@@ -264,7 +262,7 @@ function onChangeccrm_crmeventid(executionContext) {
             }
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 
@@ -438,7 +436,7 @@ function addCustomCurrencyFilter(formContext) {
     var userCurrency = "GBP";
 
     var req = new XMLHttpRequest();
-    req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/usersettingscollection(" + userId + ")?$select=_transactioncurrencyid_value", false);
+    req.open("GET", getClient() + "/api/data/v9.1/usersettingscollection(" + userId + ")?$select=_transactioncurrencyid_value", false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -452,7 +450,7 @@ function addCustomCurrencyFilter(formContext) {
                 transactioncurrencyid_value = result["_transactioncurrencyid_value"];
 
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -460,7 +458,7 @@ function addCustomCurrencyFilter(formContext) {
 
     if (transactioncurrencyid_value != null) {
         var req = new XMLHttpRequest();
-        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/transactioncurrencies("+transactioncurrencyid_value+")?$select=currencyname,isocurrencycode", false);
+        req.open("GET", getClient() + "/api/data/v9.1/transactioncurrencies("+transactioncurrencyid_value+")?$select=currencyname,isocurrencycode", false);
         req.setRequestHeader("OData-MaxVersion", "4.0");
         req.setRequestHeader("OData-Version", "4.0");
         req.setRequestHeader("Accept", "application/json");
@@ -480,7 +478,7 @@ function addCustomCurrencyFilter(formContext) {
                             userCurrency = "GBP";
                     } 
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
@@ -518,6 +516,12 @@ function calculateRelatedTo1() {
 
     return 'Test Lead';
 
+}
+
+function getClient() {
+
+    var globalContext = Xrm.Utility.getGlobalContext();
+    return globalContext.getClientUrl(); 
 }
 
 function errorHandler(error) {
