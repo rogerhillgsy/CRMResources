@@ -190,7 +190,7 @@ function requestLeadQualification(formContext) {
                                 if (this.status == 200) {
                                     //alert("Action called successfully");
                                     result = JSON.parse(this.response);
-                                    Xrm.Utility.openEntityForm("opportunity", result["OpportunityId"]);
+                                    Xrm.Navigation.openForm("opportunity", result["OpportunityId"]);
                                     Alert.hide();
 
                                 } else {
@@ -291,7 +291,7 @@ function projectcountry_onchange(fromformload, formContext) {
                                 }
                             },
                             function (error) {
-                                Xrm.Utility.alertDialog(error.message);
+                                Xrm.Navigation.openAlertDialog(error.message);
                             }
                         );
                     }
@@ -351,7 +351,7 @@ function projectState_onChange(formContext) {
                         }
                     },
                     function (error) {
-                        Xrm.Utility.alertDialog(error.message);
+                        Xrm.Navigation.openAlertDialog(error.message);
                     }
                 );
             }
@@ -384,7 +384,7 @@ function FormOnload(executionContext) {
     ccrm_arupbusiness_onChange(false, formContext);
     projectcountry_onchange('formload', formContext);
 
-    setup_optionset_size("ccrm_contractarrangement", 200, 380);
+    setup_optionset_size("ccrm_contractarrangement", 200, 380, formContext);
     SetMultiSelect(formContext);
 
     formContext.getControl("ownerid").setEntityTypes(["systemuser"]);   
@@ -404,7 +404,7 @@ function setDefaultClientUnassigned(formContext) {
             SetLookupField(accountid, name, 'account', 'ccrm_client', formContext);
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -439,13 +439,13 @@ function SetLookupField(id, name, entity, field, formContext) {
 
 if (typeof (FORM_TYPE) === "undefined") FORM_TYPE = { CREATE: 1, UPDATE: 2, QUICK_CREATE: 5, BULK_EDIT: 6 };
 
-function setup_optionset_size(field, height, width) {
-    var control = Xrm.Page.getControl(field);
+function setup_optionset_size(field, height, width, formContext) {
+    var control = formContext.getControl(field);
     if (!!control) {
-        (Xrm.Page.ui.getFormType() == FORM_TYPE.CREATE ||
-            Xrm.Page.ui.getFormType() == FORM_TYPE.UPDATE ||
-            Xrm.Page.ui.getFormType() == FORM_TYPE.QUICK_CREATE ||
-            Xrm.Page.ui.getFormType() == FORM_TYPE.BULK_EDIT) &&
+        (formContext.ui.getFormType() == FORM_TYPE.CREATE ||
+            formContext.ui.getFormType() == FORM_TYPE.UPDATE ||
+            formContext.ui.getFormType() == FORM_TYPE.QUICK_CREATE ||
+            formContext.ui.getFormType() == FORM_TYPE.BULK_EDIT) &&
             window.parent.$(document)
                 .ready(function () {
                     window.parent.$("#" + field)
@@ -662,7 +662,7 @@ function ccrm_arupcompanyid_onchange(executionContext) {
                     selectedCompanyCode = result["ccrm_acccentrelookupcode"];
                 },
                 function (error) {
-                    Xrm.Utility.alertDialog(error.message);
+                    Xrm.Navigation.openAlertDialog(error.message);
                 }
             );
 
@@ -725,7 +725,7 @@ function setTransactionCurrency(arupCompanyID, formContext) {
             }
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -766,7 +766,7 @@ function getArupPractice(acctCentreId, regionId, formContext) {
     //first get practice code from the Acct. Centre record
     var practiceCode = '';
     var req = new XMLHttpRequest();
-    req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/ccrm_arupaccountingcodes(" + acctCentreId + ")?$select=ccrm_practicecode", true);
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_arupaccountingcodes(" + acctCentreId + ")?$select=ccrm_practicecode", true);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -780,7 +780,7 @@ function getArupPractice(acctCentreId, regionId, formContext) {
                 var result = JSON.parse(this.response);
                 practiceCode = result["ccrm_practicecode"];
             } else {
-                Xrm.Utility.alertDialog(this.statusText);
+                Xrm.Navigation.openAlertDialog(this.statusText);
             }
         }
     };
@@ -816,7 +816,7 @@ function getArupPractice(acctCentreId, regionId, formContext) {
 
                 } else {
                     formContext.data.entity.attributes.get("arup_aruppracticeid").setValue(null);
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
@@ -1134,7 +1134,7 @@ function PullParentOpportunityDetailsForDiffOpportunityType(parentOpportunity, f
                     var results = JSON.parse(this.response);
                     AssignDetailsFromParentOpportunity(results, formContext);
                 } else {
-                    Xrm.Utility.alertDialog(this.statusText);
+                    Xrm.Navigation.openAlertDialog(this.statusText);
                 }
             }
         };
