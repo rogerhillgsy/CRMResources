@@ -1,23 +1,6 @@
 ///<reference path="../Intellisense/Xrm.Page.2013.js"/>
 ///<reference path="../Library/SDK.REST.js"/>
 
-//Call this function on change of source field eg: name in organisation and also on dependent fields.
-// Cannot find Function call - Updated 07/04/2020 
-function DupeDetect(name) {
-    dupeChkResOnChange("wait");
-    var recordName = Xrm.Page.getAttribute(name).getValue();
-    var recordId = "null";
-    if (Xrm.Page.ui.getFormType() == 2) { recordId = Xrm.Page.data.entity.getId(); }
-    //var accountName = "TESTER";
-
-    if (recordName != null) {
-        callAction(recordName, recordId, "Main");
-    }
-    else {
-        dupeChkResOnChange("onChange");
-    }
-}
-
 var accName = "";
 var inputCtryID = "";
 var inputCity = "";
@@ -30,7 +13,25 @@ var leadFormType = "QC";
 var clientId = "null";
 var globalFormContext;
 
+//Call this function on change of source field eg: name in organisation and also on dependent fields.
+// Cannot find Function call - Updated 07/04/2020 
+//function DupeDetect(name) {
+//    dupeChkResOnChange("wait");
+//    var recordName = Xrm.Page.getAttribute(name).getValue();
+//    var recordId = "null";
+//    if (Xrm.Page.ui.getFormType() == 2) { recordId = Xrm.Page.data.entity.getId(); }
+//    //var accountName = "TESTER";
+
+//    if (recordName != null) {
+//        callAction(recordName, recordId, "Main");
+//    }
+//    else {
+//        dupeChkResOnChange("onChange");
+//    }
+//}
+
 function QuickDupeDetect(executionContext) {
+
     var formContext = executionContext.getFormContext();
     globalFormContext = executionContext.getFormContext();
     //Make sure Global variables are in their intial values.
@@ -56,22 +57,23 @@ function QuickDupeDetect(executionContext) {
     var lastName = null;
     var ccrm_arupbusiness = null;
     var ccrm_countryid = null;
+
     if (entName == "account") {
         recordName = formContext.getAttribute("name").getValue();
         ccrm_countryid = formContext.getAttribute("ccrm_countryid").getValue();
-
         if (ccrm_countryid == null) return;
     }
+
     if (entName == "contact") {
         firstName = formContext.getAttribute("firstname").getValue();
         lastName = formContext.getAttribute("lastname").getValue();
         ccrm_countryid = formContext.getAttribute("ccrm_countryid").getValue();
-
         if (ccrm_countryid == null) return;
         if (firstName != null && lastName != null) {
             recordName = firstName + " " + lastName;
         }
     }
+
     if (entName == "lead") {
         recordName = formContext.getAttribute("firstname").getValue();
         ccrm_arupbusiness = formContext.getAttribute("ccrm_arupbusiness").getValue();
@@ -95,6 +97,7 @@ function QuickDupeDetect(executionContext) {
     var ctry = (entName == "account" || entName == "contact") ? formContext.getAttribute("ccrm_countryid").getValue()
         : ((entName == "lead" && leadFormType == "QC") ? formContext.getAttribute("ccrm_projectcurrency").getValue()
             : formContext.getAttribute("ccrm_country").getValue());
+
     if (ctry != null) {
         ctryId = ctry[0].id;
         ipCity = (entName == "account" || entName == "contact") ? formContext.getAttribute("address1_city").getValue()
@@ -103,6 +106,7 @@ function QuickDupeDetect(executionContext) {
             ipCity = "null";
         }
     }
+
     //set the global variables with calculated values..
     inputCtryID = ctryId;
     inputCity = ipCity;
@@ -139,7 +143,6 @@ function QuickDupeDetect(executionContext) {
         callAction("arup_DupeDetectLead", recordName, firstName, lastName, recordId, ctryId, ipCity, bussId, "Quick", formContext);
     }
 }
-
 
 function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IPbussID, formtype, formContext) {
     var actionName = actName;//"arup_DupeDetect";
@@ -246,7 +249,6 @@ function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IP
     }
 }
 
-
 function parseMainSuccessActionResponse(results) {
     var jsMsg = ProcessSuccess(results);
     if (jsMsg != "No Duplicates") {
@@ -297,10 +299,10 @@ function ProcessSuccess(results) {
     var JSONMessage = "No Duplicates";
     if (results != null) {
         try {
-            dupesFound = results.DupesFound;/*Output Param set in Custom Activity*/
+            dupesFound = results.DupesFound; /*Output Param set in Custom Activity*/
 
             if (dupesFound) {
-                if (results.OutJSONMsg != null)/*Output Param set in Custom Activity*/ {
+                if (results.OutJSONMsg != null) /*Output Param set in Custom Activity*/ {
                     JSONMessage = results.OutJSONMsg.toString();
                     JSONMessage = JSONMessage.replace(/\\/g, "");
                 }
@@ -438,20 +440,20 @@ function getClientUrl(formContext) {
 }
 
 //Call and register on change of the dupeChkResult field containing the JSON.
-function dupeChkResOnChange(dataParam) {
-    //Refresh the HTML webresource
-    var wrControl = Xrm.Page.ui.controls.get("WebResource_DuplicateCheckResult");
-    var srcUrl = wrControl.getSrc();
-    var changeSrcURl = srcUrl;
-    var indData = srcUrl.indexOf("data");
-    if (indData != -1 && (dataParam != "" || dataParam != "undefined")) {
-        changeSrcURl = srcUrl.substring(0, indData) + "data=" + encodeURI(dataParam);
-    }
-    else if (indData != -1 && (dataParam == "" || dataParam == "undefined")) {
-        changeSrcURl = srcUrl.substring(0, indData);
-    }
-    wrControl.setSrc(changeSrcURl);
-}
+//function dupeChkResOnChange(dataParam) {
+//    //Refresh the HTML webresource
+//    var wrControl = Xrm.Page.ui.controls.get("WebResource_DuplicateCheckResult");
+//    var srcUrl = wrControl.getSrc();
+//    var changeSrcURl = srcUrl;
+//    var indData = srcUrl.indexOf("data");
+//    if (indData != -1 && (dataParam != "" || dataParam != "undefined")) {
+//        changeSrcURl = srcUrl.substring(0, indData) + "data=" + encodeURI(dataParam);
+//    }
+//    else if (indData != -1 && (dataParam == "" || dataParam == "undefined")) {
+//        changeSrcURl = srcUrl.substring(0, indData);
+//    }
+//    wrControl.setSrc(changeSrcURl);
+//}
 
 function htmlSpecialChars(unsafe) {
     return unsafe
