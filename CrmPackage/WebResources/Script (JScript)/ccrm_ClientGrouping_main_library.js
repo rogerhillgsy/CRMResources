@@ -15,12 +15,12 @@ function OpenClientGroupingMatrixReport(primaryControl) {
     Xrm.Navigation.openWebResource('arup_clientgroupingmatrix', windowOptions, customParameters);
 }
 
-function exitForm() {
-
+function exitForm(primaryControl) {
+    var formContext = primaryControl;
     //see if the form is dirty
-    var ismodified = Xrm.Page.data.entity.getIsDirty();
+    var ismodified = formContext.data.entity.getIsDirty();
     if (ismodified == false) {
-        Xrm.Page.ui.close();
+        formContext.ui.close();
         return;
     }
 
@@ -32,18 +32,18 @@ function exitForm() {
             {
                 label: "<b>Save and Exit</b>",
                 callback: function () {
-                    attributesList = Xrm.Page.data.entity.attributes.get();
+                    attributesList = formContext.data.entity.attributes.get();
                     var highlight = true;
                     var cansave = true;
                     if (attributesList != null) {
                         for (var i in attributesList) {
                             if (attributesList[i].getRequiredLevel() == 'required') {
-                                highlight = Xrm.Page.getAttribute(attributesList[i].getName()).getValue() != null;
+                                highlight = formContext.getAttribute(attributesList[i].getName()).getValue() != null;
                                 if (highlight == false && cansave == true) { cansave = false; }
                             }
                         }
                     }
-                    if (cansave) { Xrm.Page.data.entity.save("saveandclose"); }
+                    if (cansave) { formContext.data.entity.save("saveandclose"); }
                 },
                 setFocus: true,
                 preventClose: false
@@ -52,14 +52,14 @@ function exitForm() {
                 label: "<b>Exit Only</b>",
                 callback: function () {
                     //get list of dirty fields
-                    attributesList = Xrm.Page.data.entity.attributes.get();
+                    attributesList = formContext.data.entity.attributes.get();
                     if (attributesList != null) {
                         for (var i in attributesList) {
                             if (attributesList[i].getIsDirty()) {
-                                Xrm.Page.getAttribute(attributesList[i].getName()).setSubmitMode("never");
+                                formContext.getAttribute(attributesList[i].getName()).setSubmitMode("never");
                             }
                         }
-                        setTimeout(function () { Xrm.Page.ui.close(); }, 1000);
+                        setTimeout(function () { formContext.ui.close(); }, 1000);
                     }
                 },
                 setFocus: false,
