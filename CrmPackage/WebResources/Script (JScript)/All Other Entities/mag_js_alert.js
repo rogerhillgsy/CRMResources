@@ -35,7 +35,6 @@ Alert.show = function (title, message, buttons, icon, width, height, baseUrl, pr
     width = width || Alert._dialogWidth;
     height = height || Alert._dialogHeight;
     buttons = buttons || [{ label: "OK" }];
-    baseUrl = baseUrl || Xrm.Page.context.getClientUrl();
     if (padding === undefined || padding === null) { padding = 20; }
 
     if (!Alert._initialised) {
