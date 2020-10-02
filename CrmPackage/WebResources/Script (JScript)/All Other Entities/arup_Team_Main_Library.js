@@ -240,19 +240,22 @@ function setField(formContext, results, targetAttribute, sourceField) {
         if (!results[sourceField]) {
             value = null;
         }
-        else {
+        else {     
             value = results[sourceField].split(",");
+            value = value.map(value => {
+                return parseInt(value)
+            })                        
         }
     }
     else {
-        value = results[sourceField];
+        value = results[sourceField];       
     }
 
     if (!value) {
         teamError("Source field " + sourceField + " not found");
     }
     teamLog("Set attribute " + targetAttribute + ' to "' + value + '"');
-    attr.setValue(value);
+     attr.setValue(value);
 }
 
 function EnsureIsTeamMember(formContext, attributeName) {

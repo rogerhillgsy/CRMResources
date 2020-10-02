@@ -46,6 +46,18 @@ function Form_onload(executionContext) {
         formContext.getControl("ccrm_taskstatus").removeOption(5);
     }
 
+    changeLookFor(formContext, 'regardingobjectid', 'opportunity');
+
+}
+
+function QuickCreateForm_Load(executionContext) {
+    var formContext = executionContext.getFormContext();
+    changeLookFor(formContext, 'regardingobjectid', 'opportunity');
+}
+function changeLookFor(formContext, fieldName, entityTypeToSet) {
+
+    var control = formContext.getControl(fieldName);
+    control.setEntityTypes([entityTypeToSet]);
 }
 
 function Form_onsave(executionContext) {
