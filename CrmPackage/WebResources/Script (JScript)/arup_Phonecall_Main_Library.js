@@ -31,7 +31,7 @@ function onForm_save(executionContext) {
                     preventClose: false
                 }
             ],
-            'Error', 500, 250, '', true);
+            'Error', 500, 250, formContext.context.getClientUrl(), true);
 
         saveEvent.preventDefault();
     }
@@ -384,5 +384,5 @@ function exitForm(primaryControl) {
                 preventClose: false
             }
         ],
-        'Warning', 600, 250, '', true);
+        'Warning', 600, 250, formContext.context.getClientUrl(), true);
 }

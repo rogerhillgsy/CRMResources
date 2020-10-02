@@ -1,15 +1,5 @@
 ﻿// Alert.js v2.1 - Copyright Paul Nieuwelaar Magnetism 2016
 
-/*    
-Alert.show("Would you like to create a sale?", "This will create and open the new sale record.",
-    [
-        new Alert.Button("Create Sale", function () {
-            Alert.show("Sale created successfully!", null, null, "SUCCESS", 500, 200);
-        }, true, true),
-        new Alert.Button("Not now")
-    ], "QUESTION", 500, 200);
-*/
-
 var Alert = Alert || {};
 
 Alert._prefix = "mag_"; // Change this if you have your own solution prefix (as long as the file structure's the same)
@@ -233,15 +223,12 @@ Alert.showLoading = function (url) {
 }
 
 Alert.showWebResource = function (webResourceName, width, height, title, buttons, baseUrl, preventCancel, padding) {
-    baseUrl = baseUrl || Xrm.Page.context.getClientUrl();
-
     var iframeUrl = baseUrl + "/webresources/" + webResourceName;
 
     Alert.showIFrame(iframeUrl, width, height, title, buttons, baseUrl, preventCancel, padding);
 }
 
 Alert.showDialogProcess = function (dialogId, entityName, recordId, callback, width, height, baseUrl) {
-    baseUrl = baseUrl || Xrm.Page.context.getClientUrl();
 
     var dialogUrl = baseUrl + "/cs/dialog/rundialog.aspx?DialogId=%7b" + dialogId + "%7d&EntityName=" + entityName + "&ObjectId=" + recordId;
 

@@ -137,7 +137,7 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
 function CloseOpportunityConfirmation(formContext, statusCode) {
     formContext.data.save().then(
         function success(status) {
-
+            var clientURL = formContext.context.getClientUrl();
             var client = formContext.getAttribute("ccrm_client").getValue();
             var arupInternal = (formContext.getAttribute("ccrm_arupinternal").getValue() == 1) ? true : false;
 
@@ -146,7 +146,7 @@ function CloseOpportunityConfirmation(formContext, statusCode) {
                     '<font size="3" color="#000000"></br>A valid Client is required.</font>',
                     [
                         { label: "<b>OK</b>", setFocus: true },
-                    ], "ERROR", 450, 200, '', true);
+                    ], "ERROR", 450, 200, clientURL, true);
             } else {
 
                 if (!arupInternal) {
@@ -178,7 +178,7 @@ function CloseOpportunityConfirmation(formContext, statusCode) {
                                 setFocus: false,
                                 preventClose: false
                             }
-                        ], 'INFO', 800, 430, '', true);
+                        ], 'INFO', 800, 430, clientURL, true);
                 }
                 else {
 
@@ -248,7 +248,7 @@ function BidDicisionConfirmation(formContext) {
 
     var bidDecisionChair = formContext.getAttribute("arup_biddecisionchair").getValue();
     ccrm_opportunitytype_onchange(formContext);
-
+    var clientURL = formContext.context.getClientUrl();
     if (!checkBidDecionChair(formContext, 'AP')) { return; }
 
     SetFieldRequirementForPreBidStage(formContext);
@@ -282,7 +282,7 @@ function BidDicisionConfirmation(formContext) {
                                 setFocus: false,
                                 preventClose: false
                             }
-                        ], 'QUESTION', 800, 470, '', true);
+                        ], 'QUESTION', 800, 470, clientURL, true);
                 }, 2000);
             }
             else {
@@ -400,7 +400,6 @@ function checkBidDecionChair(formContext, attribute) {
 }
 
 function showAlertMessage(formContext, attribute, errorMessage) {
-
     Alert.show('<font size="6" color="#FF0000"><b>Bid Decision Chair</b></font>',
         '<font size="3" color="#000000"></br>' + errorMessage + '</font>',
         [
@@ -420,12 +419,11 @@ function showAlertMessage(formContext, attribute, errorMessage) {
                 setFocus: true,
                 preventClose: false
             },
-        ], "ERROR", 550, 200, '', true);
+        ], "ERROR", 550, 200, formContext.context.getClientUrl(), true);
 }
 
 function BidReviewApprovalConfirmation(formContext, approvalType) {
     var ackMsg = BidReviewApprovalConfirmationMessage(formContext);
-
     Alert.show('<font size="6" color="#1B76D5"><b>Opportunity - Bid Review Approval</b></font>',
         '<font size="3" color="#000000"></br>' + ackMsg + '</font>',
         [
@@ -447,7 +445,7 @@ function BidReviewApprovalConfirmation(formContext, approvalType) {
                 setFocus: false,
                 preventClose: false
             }
-        ], 'QUESTION', 800, 400, '', true);
+        ], 'QUESTION', 800, 400, formContext.context.getClientUrl(), true);
 }
 
 function BidReviewApprovalConfirmationMessage(formContext) {
