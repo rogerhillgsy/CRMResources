@@ -53,7 +53,7 @@ function exitForm(primaryControl) {
                 preventClose: false
             }
         ],
-        'WARNING', 600, 250, '', true);
+        'WARNING', 600, 250, formContext.context.getClientUrl(), true);
 }
 
 function highlightField(headerfield, formfield, clear) {
@@ -69,6 +69,7 @@ function highlightField(headerfield, formfield, clear) {
 function QualifyLead(primaryControl) {
     var formContext = primaryControl;
     var populated = true;
+    var clientURL = formContext.context.getClientUrl();
     //Check if the recommended and required fields have been populated
     formContext.getAttribute(function (attribute, index) {
         if (attribute.getRequiredLevel() == "recommended" || attribute.getRequiredLevel() == "required") {
@@ -95,7 +96,7 @@ function QualifyLead(primaryControl) {
                     setFocus: true
                 },
             ],
-            "ERROR", 500, 250, '', true);
+            "ERROR", 500, 250, clientURL, true);
     }
     else //Give confirmation message box using Alert.js framework for qualification confirmation
     {
@@ -111,7 +112,7 @@ function QualifyLead(primaryControl) {
                         Alert.show('<font face="Segoe UI Light" size="6" color="0472C4">Creating Opportunity</font>',
                             '<font face="Segoe UI Light" size="3" color="#000000">Please wait...</font>',
                             [],
-                            "LOADING", 500, 250, '', true);
+                            "LOADING", 500, 250, clientURL, true);
                     },
                     setFocus: true,
                     preventClose: false
@@ -123,7 +124,7 @@ function QualifyLead(primaryControl) {
                     preventClose: false
                 }
             ],
-            'QUESTION', 850, 300, '', true);
+            'QUESTION', 850, 300, clientURL, true);
     }
 }
 
@@ -209,7 +210,7 @@ function requestLeadQualification(formContext) {
                             [
                                 { label: "<b>OK</b>", setFocus: true },
                             ],
-                            "ERROR", 500, 250, '', true);
+                            "ERROR", 500, 250, organisationUrl, true);
                     }
                 }
                 else {
@@ -219,7 +220,7 @@ function requestLeadQualification(formContext) {
                         [
                             { label: "<b>OK</b>", setFocus: true },
                         ],
-                        "ERROR", 500, 250, '', true);
+                        "ERROR", 500, 250, organisationUrl, true);
                 }
             }
             else {

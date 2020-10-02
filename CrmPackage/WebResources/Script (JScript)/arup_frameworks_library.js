@@ -40,7 +40,7 @@ function openSecuredFramework(primaryControl) {
         '<font size="3" color="#000000">You do not have permission to view Framework details. <br><br>' + message + '</font>',
         [
             { label: "<b>OK</b>", setFocus: true },
-        ], "ERROR", 500, 200, '', true);
+        ], "ERROR", 500, 200, formContext.context.getClientUrl(), true);
 
 }
 
@@ -137,7 +137,7 @@ function exitForm(primaryControl) {
                 preventClose: false
             }
         ],
-        'Warning', 600, 250, '', true);
+        'Warning', 600, 250, formContext.context.getClientUrl(), true);
 }
 
 function multiDiscipline_onChange(executionContext) {

@@ -176,7 +176,7 @@ function validateCompletion(formContext) {
 
         Alert.show('<font size="6" color="#2E74B5"><b>Task completed</b></font>',
             '<font size="3" color="#000000"></br>The task has been marked as completed.</font>',
-            [new Alert.Button("<b>OK</b>")], "INFO", 600, 200, '', true);
+            [new Alert.Button("<b>OK</b>")], "INFO", 600, 200, formContext.context.getClientUrl(), true);
     }
 }
 
@@ -190,6 +190,7 @@ function markAsComplete(formContext, displayError) {
 
     var organisationValidation = formContext.getAttribute('arup_organisationvalidation').getValue();
     var creditCheck = formContext.getAttribute('arup_creditcheck').getValue();
+    var clientURL = formContext.context.getClientUrl();
     var errorMessage = null;
 
     //validate if all data has been entered before marking task as complete */
@@ -245,7 +246,7 @@ function markAsComplete(formContext, displayError) {
                     "INFO",
                     600,
                     200,
-                    '',
+                    clientURL,
                     true);
 
             },
@@ -261,7 +262,7 @@ function markAsComplete(formContext, displayError) {
             "ERROR",
             500,
             200,
-            '',
+            clientURL,
             true);
     }
 }
@@ -281,7 +282,7 @@ function markAsCanceled(formContext) {
             [
                 new Alert.Button("<b>OK</b>",
                     function () { formContext.ui.close(); }, true, false)
-            ], "INFO", 600, 200, '', true);
+            ], "INFO", 600, 200, formContext.context.getClientUrl(), true);
 
     }, null);
 }

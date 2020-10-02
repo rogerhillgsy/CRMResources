@@ -91,7 +91,7 @@ function ValidateUserBelongsToTeam(context, eventFlag) {
             "Error",
             600,
             200,
-            '',
+            formContext.context.getClientUrl(),
             true);
         if (eventFlag) {
            eventArgs.preventDefault();

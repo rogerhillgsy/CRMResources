@@ -435,10 +435,10 @@ function ccrm_projectid_onchange(formContext) {
 }
 
 function getProject(formContext) {
-
+    var clientURL = formContext.context.getClientUrl();
     //find if main opportunity has a parent
     var req = new XMLHttpRequest();
-    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/opportunities(" + formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace('{', '').replace('}', '') + ")?$select=_ccrm_parentopportunityid_value", true);
+    req.open("GET", clientURL + "/api/data/v9.1/opportunities(" + formContext.getAttribute("ccrm_opportunityid").getValue()[0].id.replace('{', '').replace('}', '') + ")?$select=_ccrm_parentopportunityid_value", true);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");
@@ -455,7 +455,7 @@ function getProject(formContext) {
                 if (_ccrm_parentopportunityid_value != null) {
 
                     var reqP = new XMLHttpRequest();
-                    reqP.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_projects?$select=ccrm_name,ccrm_projectid&$filter=_ccrm_opportunityid_value eq " + _ccrm_parentopportunityid_value, true);
+                    reqP.open("GET", clientURL + "/api/data/v9.1/ccrm_projects?$select=ccrm_name,ccrm_projectid&$filter=_ccrm_opportunityid_value eq " + _ccrm_parentopportunityid_value, true);
                     reqP.setRequestHeader("OData-MaxVersion", "4.0");
                     reqP.setRequestHeader("OData-Version", "4.0");
                     reqP.setRequestHeader("Accept", "application/json");
@@ -491,7 +491,7 @@ function getProject(formContext) {
 
                                                         }, false, false),
                                                     new Alert.Button("Cancel", function () { }, true, false)
-                                                ], "INFO", 600, 250, '', true);
+                                                ], "INFO", 600, 250, clientURL, true);
                                         }
                                     }
                                 }
