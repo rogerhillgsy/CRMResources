@@ -302,7 +302,6 @@ function SetValidField(fieldName, val, warningMsg, warMsgName, lenght, formConte
     formContext.getAttribute(fieldName).setValue(val);
     formContext.getAttribute(fieldName).setSubmitMode('always');
 
-    //var crmURL = getClientUrl(formContext);
     if (warningMsg != null && warMsgName == "dupes") {
         if (entName != "lead" && leadFormType == "QC") {
             formContext.ui.setFormNotification(warningMsg, 'INFO', warMsgName);
