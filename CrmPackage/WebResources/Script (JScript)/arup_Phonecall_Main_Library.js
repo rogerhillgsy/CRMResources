@@ -6,11 +6,23 @@ function onForm_Load(executionContext) {
     var formContext = executionContext.getFormContext();
     filterOnLoad(formContext, 'from');
     filterOnLoad(formContext, 'to');
-    addEventHandler(formContext);
+
+    changeLookFor(formContext, 'regardingobjectid');
+   // addEventHandler(formContext);
 
     if (formContext.ui.getFormType() == 1) {
         formContext.getAttribute('arup_isfullform').setValue(true);
     }
+
+}
+
+function QuickCreateForm_OnLoad(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var lookupFor = ['contact', 'systemuser'];
+    var fieldList = ['from', 'to'];
+    filterField(formContext, fieldList, lookupFor);
+
+    changeLookFor(formContext, 'regardingobjectid');
 
 }
 
@@ -183,7 +195,7 @@ function addFilter(formContext) {
 function changeLookFor(formContext, fieldName) {
 
     var control = formContext.getControl(fieldName);
-    control.setEntityTypes(['contact']);
+    control.setEntityTypes(['opportunity']);
 }
 
 function filterOnLoad(formContext, attributeName) {
@@ -325,7 +337,7 @@ function fetchContactPhones(formContext, contactID) {
             formContext.getAttribute('arup_contacttelephone').setValue(telephone);
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
