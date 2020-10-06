@@ -377,11 +377,12 @@ function OpenClientGroupingMatrix(primaryControl) {
 }
 
 // Ribbon function from legacy arup_teams.js
-function openFOPForm() {
+function openFOPForm(primaryControl) {
+    var formContext = primaryControl;
     var team = {
         entityType: "team",
-        id: Xrm.Page.data.entity.getId(),
-        name: Xrm.Page.getAttribute("name").getValue()
+        id: formContext.data.entity.getId(),
+        name: formContext.getAttribute("name").getValue()
     };
 
     // Set default values for the FOP form
@@ -398,6 +399,6 @@ function openFOPForm() {
 
 }
 
-function refreshRibbonOnChange() {
+/*function refreshRibbonOnChange() {
     Xrm.Page.ui.refreshRibbon();
-}
+}*/
