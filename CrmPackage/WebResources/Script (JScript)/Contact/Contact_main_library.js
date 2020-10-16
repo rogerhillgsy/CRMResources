@@ -939,4 +939,36 @@ function defaultCustomerToAccount(formContext) {
     formContext.getControl("header_parentcustomerid").setEntityTypes(["account"]);
 }
 
+function approveMarketoContact(primaryControl) {
+    var formContext = primaryControl;
+    formContext.getAttribute("arup_holdingpencontact").setValue(false);
+}
 
+function rejectMarketoContact(primaryControl) {
+    var formContext = primaryControl;
+    formContext.getAttribute("statuscode").setValue(2);  
+}
+
+function isUserInTeamCheck(formContext) {
+    var systemUser = formContext.context.getUserId().replace('{', '').replace('}', '');
+    var req = new XMLHttpRequest();
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/teammemberships?$filter=systemuserid eq " + systemUser + " and (teamid eq 14E17BE2-0FF3-E411-940C-005056B5174A)", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var results = JSON.parse(this.response);
+                userInTeam = results.value.length > 0;
+            } else {
+                Xrm.Navigation.openAlertDialog(this.statusText);
+            }
+        }
+    };
+    req.send();
+    return userInTeam;
+}
