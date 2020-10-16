@@ -51,3 +51,15 @@ function exitForm(primaryControl) {
         ],
         'Warning', 600, 250, clientURL, true);
 }
+
+
+function onForm_Load(executionContext) {
+
+    var formContext = executionContext.getFormContext();
+    changeLookFor(formContext, 'ownerid', 'systemuser');
+}
+function changeLookFor(formContext, fieldName, entityname) {
+
+    var control = formContext.getControl(fieldName);
+    control.setEntityTypes([entityname]);
+}
