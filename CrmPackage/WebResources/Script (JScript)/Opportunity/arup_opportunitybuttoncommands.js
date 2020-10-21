@@ -387,7 +387,7 @@ Arup = (
                     Log("Process stage Change");
                     var formContext = executionContext.getFormContext();
                     obj.SetupTabsForStage(formContext);
-                   // obj.LoadWebResource(formContext);
+                
                 });
             },
 
@@ -401,7 +401,7 @@ Arup = (
                     buttonChangeCallbacks[tabName]();
                 }
                 Arup.ActiveTabName = tabName;
-                obj.LoadWebResource(formContext);
+              //  obj.LoadWebResource(formContext);
                 return tabName;
             },
 
@@ -417,19 +417,6 @@ Arup = (
                 }
 
             },
-
-            LoadWebResource: function (formContext) {
-                var activeWebResourceName = obj.TabToWebResourceMapping[Arup.ActiveTabName];
-              
-                var wrControl = formContext.getControl(activeWebResourceName);
-            if (wrControl) {
-                wrControl.getContentWindow().then(
-                    function (contentWindow) {
-                        contentWindow.setClientApiContext(Xrm, formContext);
-                    }
-                )
-                }
-            }
         };
 
        
