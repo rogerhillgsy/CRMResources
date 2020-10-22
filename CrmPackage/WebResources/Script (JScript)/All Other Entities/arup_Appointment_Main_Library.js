@@ -8,13 +8,21 @@ function onForm_Load(executionContext) {
     }
 
     filterOnLoad(formContext);
-    addEventHandler(formContext);
-    formContext.getControl("regardingobjectid").setEntityTypes(["opportunity", "contact"]);
+
+    //addEventHandler(formContext);
+    changeLookFor(formContext, 'regardingobjectid');
+   // formContext.getControl("regardingobjectid").setEntityTypes(["opportunity", "contact"]);
 }
 
 function onForm_save(executionContext) {
 
 }
+
+function QuickCreateForm_Load(executionContext) {
+    var formContext = executionContext.getFormContext();
+    changeLookFor(formContext, 'regardingobjectid');
+}
+
 
 function addEventHandler(formContext) {
 
@@ -40,7 +48,7 @@ function addFilter(formContext) {
 function changeLookFor(formContext, fieldName) {
 
     var control = formContext.getControl(fieldName);
-    control.setEntityTypes(['contact']);
+    control.setEntityTypes(['opportunity']);
 }
 
 function markAsComplete(formContext ) {

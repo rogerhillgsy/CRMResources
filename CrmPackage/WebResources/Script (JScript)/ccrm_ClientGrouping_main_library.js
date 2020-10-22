@@ -15,12 +15,12 @@ function OpenClientGroupingMatrixReport(primaryControl) {
     Xrm.Navigation.openWebResource('arup_clientgroupingmatrix', windowOptions, customParameters);
 }
 
-function exitForm(primaryControl) {
-    var formContext = primaryControl;
+function exitForm() {
+
     //see if the form is dirty
-    var ismodified = formContext.data.entity.getIsDirty();
+    var ismodified = Xrm.Page.data.entity.getIsDirty();
     if (ismodified == false) {
-        formContext.ui.close();
+        Xrm.Page.ui.close();
         return;
     }
 
@@ -32,18 +32,18 @@ function exitForm(primaryControl) {
             {
                 label: "<b>Save and Exit</b>",
                 callback: function () {
-                    attributesList = formContext.data.entity.attributes.get();
+                    attributesList = Xrm.Page.data.entity.attributes.get();
                     var highlight = true;
                     var cansave = true;
                     if (attributesList != null) {
                         for (var i in attributesList) {
                             if (attributesList[i].getRequiredLevel() == 'required') {
-                                highlight = formContext.getAttribute(attributesList[i].getName()).getValue() != null;
+                                highlight = Xrm.Page.getAttribute(attributesList[i].getName()).getValue() != null;
                                 if (highlight == false && cansave == true) { cansave = false; }
                             }
                         }
                     }
-                    if (cansave) { formContext.data.entity.save("saveandclose"); }
+                    if (cansave) { Xrm.Page.data.entity.save("saveandclose"); }
                 },
                 setFocus: true,
                 preventClose: false
@@ -52,21 +52,21 @@ function exitForm(primaryControl) {
                 label: "<b>Exit Only</b>",
                 callback: function () {
                     //get list of dirty fields
-                    attributesList = formContext.data.entity.attributes.get();
+                    attributesList = Xrm.Page.data.entity.attributes.get();
                     if (attributesList != null) {
                         for (var i in attributesList) {
                             if (attributesList[i].getIsDirty()) {
-                                formContext.getAttribute(attributesList[i].getName()).setSubmitMode("never");
+                                Xrm.Page.getAttribute(attributesList[i].getName()).setSubmitMode("never");
                             }
                         }
-                        setTimeout(function () { formContext.ui.close(); }, 1000);
+                        setTimeout(function () { Xrm.Page.ui.close(); }, 1000);
                     }
                 },
                 setFocus: false,
                 preventClose: false
             }
         ],
-        'Warning', 600, 250, '', true);
+        'Warning', 600, 250, Xrm.Page.context.getClientUrl(), true);
 }
 
 //  RBH - 1/7/20 - Not clear if this is still needed - the Client grouping main form still refers to it, but it doesn't seem to do anything.

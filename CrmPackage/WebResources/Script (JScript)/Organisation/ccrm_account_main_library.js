@@ -153,7 +153,7 @@ function exitForm(primaryControl) {
                 preventClose: false
             }
         ],
-        'Warning', 600, 250, '', true);
+        'Warning', 600, 250, formContext.context.getClientUrl(), true);
 }
 
 function onLoaddisableFormFields(formContext) {
@@ -469,7 +469,7 @@ function arup_expressedconsent_onChange(executionContext) {
         [
             new Alert.Button("<b>OK</b>")
         ],
-        "INFO", 600, 200, '', true);
+        "INFO", 600, 200, formContext.context.getClientUrl(), true);
 }
 
 function OpenClientOverviewReport(accountID, selectedRecCount) {
@@ -514,7 +514,7 @@ function checkDueDiligence(primaryControl) {
                 preventClose: false
             }
         ],
-        "WARNING", 500, 300, '', true);
+        "WARNING", 500, 300, formContext.context.getClientUrl(), true);
 
 }
 
@@ -580,7 +580,7 @@ function disableOrgFormFields(formContext, checkDD) {
                     }
                 }
             ],
-            "WARNING", 600, 200, '', true);
+            "WARNING", 600, 200, formContext.context.getClientUrl(), true);
     }
 }
 
@@ -698,7 +698,7 @@ function GetCountryOfCompanyRegistartion(executionContext) {
                 [
                     new Alert.Button("<b>OK</b>")
                 ],
-                "ERROR", 600, 200, '', true);
+                "ERROR", 600, 200, formContext.context.getClientUrl(), true);
             formContext.getAttribute("arup_pulldatafromparentrecord").setValue(0);
         }
     }
@@ -746,7 +746,7 @@ function AssignRegistrationDetails(results, legalClientName, formContext) {
             [
                 new Alert.Button("<b>OK</b>")
             ],
-            "INFO", 600, 200, '', true);
+            "INFO", 600, 200, formContext.context.getClientUrl(), true);
         formContext.getAttribute("arup_pulldatafromparentrecord").setValue(0);
     }
 }
@@ -925,7 +925,7 @@ function setCovidValues(executionContext, attrName, dateAttrName, userAttrName) 
         '<font size="3" color="#000000"></br>You are required to add a Note, including attaching a copy of the Business Continuity approved communication regarding Arup protocol in response to COVID-19 issued / or the communication received regarding the client’s protocol in response to Covid-19. </br> <b>Please do this now!</b></font>',
         [
             new Alert.Button("<b>OK</b>")
-        ], "INFO", 600, 300, '', true);
+        ], "INFO", 600, 300, formContext.context.getClientUrl(), true);
 }
 
 //get Region lookup - from the current user

@@ -3,6 +3,7 @@ function exitForm(primaryControl) {
     var formContext = primaryControl;
     //see if the form is dirty
     var ismodified = formContext.data.entity.getIsDirty();
+    var clientURL = formContext.context.getClientUrl();
     if (ismodified == false) {
         formContext.ui.close();
         return;
@@ -48,5 +49,5 @@ function exitForm(primaryControl) {
                 preventClose: false
             }
         ],
-        'Warning', 600, 250, '', true);
+        'Warning', 600, 250, clientURL, true);
 }

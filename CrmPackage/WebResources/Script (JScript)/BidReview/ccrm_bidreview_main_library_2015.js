@@ -23,7 +23,7 @@ ARUP.ccrm_bidreview = {
     onLoad: function (executionContext) {
         var formContext = executionContext.getFormContext();
         // remove an option from question B9a
-
+        var clientURL = formContext.context.getClientUrl();
         if (formContext.context.client.getClient() != "Mobile") {
             formContext.getControl("ccrm_sectionb_data_9_yesno").removeOption(100000002);
             formContext.getControl("ccrm_sectione_data_3a_new").removeOption(100000002);
@@ -55,7 +55,7 @@ ARUP.ccrm_bidreview = {
                 "INFO",
                 600,
                 250,
-                '',
+                clientURL,
                 true);
 
         }
@@ -69,7 +69,7 @@ ARUP.ccrm_bidreview = {
                 "INFO",
                 500,
                 250,
-                '',
+                clientURL,
                 true);
 
         }

@@ -93,7 +93,7 @@ function exitForm(primaryControl) {
                 preventClose: false
             }
         ],
-        'Warning', 600, 250, '', true);
+        'Warning', 600, 250, formContext.context.getClientUrl(), true);
 }
 
 function stateRequired(CountryName) {
@@ -216,7 +216,7 @@ function expressedConsent_valueChanged(executionContext) {
                 false),
             new Alert.Button("<b>Yes, I'm sure</b>")
         ],
-        "WARNING", 500, 300, '', true);
+        "WARNING", 500, 300, formContext.context.getClientUrl(), true);
 }
 
 function onChange_otherImpliedConsent(executionContext) {
@@ -272,7 +272,7 @@ function otherImpliedConsent_onChange(formContext) {
             [
                 new Alert.Button("<b>OK</b>")
             ],
-            "ERROR", 550, 200, '', true);
+            "ERROR", 550, 200, formContext.context.getClientUrl(), true);
         formContext.getAttribute("arup_receiptdate").setValue(null);
     }
 }
@@ -394,7 +394,7 @@ function Form_onsave(eventArgs) {
                 [
                     new Alert.Button("<b>OK</b>")
                 ],
-                "ERROR", 550, 200, '', true);
+                "ERROR", 550, 200, formContext.context.getClientUrl(), true);
 
             eventArgs.getEventArgs().preventDefault();
             return false;
