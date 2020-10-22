@@ -167,34 +167,41 @@
             var entity = {};
             var urlParams = new URLSearchParams(window.location.search);
 
-            var frameworkguid = getUrlParameter('id');
+            var frameworkguid = getUrlParameter('id').replace(/[{}]/g, "");
             // var frameworkguid = parent.Xrm.Page.data.entity.getId().replace('{', '').replace('}', '');
             var newEntityId;
-            entity.ccrm_FrameworkId = {
+            /*entity.ccrm_frameworkid = {
                 Id: frameworkguid,
                 LogicalName: "arup_framework"
-            };
+            };*/
+            entity["ccrm_FrameworkId@odata.bind"] = "/arup_frameworks("+frameworkguid+")";
             if (document.getElementById("ChkIsSecured").checked == true) {
-                entity.arup_IsSecured = false;
+                entity.arup_issecured = true;
                 entity.arup_name = "Documents Folder";
             }
             else {
-                entity.arup_IsSecured = true;
+                entity.arup_issecured = false;
                 entity.arup_name = "Secured Documents Folder";
             }
             var req = new XMLHttpRequest();
-            req.open("POST", encodeURI(Arup_GetClientURL() + "/XRMServices/2011/OrganizationData.svc/arup_frameworkfolderSet"), false);
+            req.open("POST", Arup_GetClientURL() + "/api/data/v9.1/arup_frameworkfolders", false);
+            req.setRequestHeader("OData-MaxVersion", "4.0");
+            req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
             req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             req.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     this.onreadystatechange = null;
-                    if (this.status === 201) {
-                        var result = JSON.parse(this.responseText).d;
-                        newEntityId = result.arup_frameworkfolderId;
-                        // alert("folder" + newEntityId);
+                    if (this.status === 204) {
+                        //var result = JSON.parse(this.responseText).d;
+                        //newEntityId = result.arup_frameworkfolderid;
+                        var uri = this.getResponseHeader("OData-EntityId");
+                        var regExp = /\(([^)]+)\)/;
+                        var matches = regExp.exec(uri);
+                        newEntityId = matches[1].replace(/[{}]/g, "");
+                        //alert("folder" + matches[1]);
                     } else {
-                       Xrm.Navigation.openAlertDialog(this.statusText);
+                       alert(this.responseText);
                     }
                 }
             };
@@ -206,26 +213,23 @@
             var documentBody = reader.split(',')[1];
             //alert(documentBody);
             var entity = {};
-            //    entity.Subject = "Framework Files";
-            entity.DocumentBody = documentBody;
-            entity.FileName = fileName;
-            entity.MimeType = type;
+            entity.subject = "Framework Files";
+            entity.documentbody = documentBody;
+            entity.filename = fileName;
+            entity.mimetype = type;
             //  entity.NoteText = "Framework Files";
-            entity.ObjectId = {
-                Id: folderid,
-                LogicalName: "arup_frameworkfolder"
-            };
+            entity["objectid_arup_frameworkfolder@odata.bind"] = "/arup_frameworkfolders("+folderid+")";
 
             var req = new XMLHttpRequest();
-            req.open("POST", encodeURI(Arup_GetClientURL() + "/XRMServices/2011/OrganizationData.svc/AnnotationSet"), false);
+            req.open("POST", Arup_GetClientURL() + "/api/data/v9.1/annotations", false);
             req.setRequestHeader("Accept", "application/json");
             req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             req.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     this.onreadystatechange = null;
-                    if (this.status === 201) {
-                        var result = JSON.parse(this.responseText).d;
-                        var newEntityId = result.AnnotationId;
+                    if (this.status === 204) {
+                        //var result = JSON.parse(this.responseText).d;
+                       // var newEntityId = result.AnnotationId;
                         if (i == len - 1) {
                             document.getElementById('myH2').innerText = "Documents uploaded successfully";
                             document.getElementById('myH2').style.color = "green";
@@ -234,7 +238,7 @@
                             document.getElementById('spinnerImage').style.display = 'none';
                         }
                     } else {
-                        Xrm.Navigation.openAlertDialog(this.statusText);
+                        alert(this.responseText);
                         document.getElementById('myH2').innerText = "Error occured while uploading";
                         document.getElementById('myH2').style.color = "red"
                         // document.getElementById('myH2').style.fontsize = "15px";
@@ -242,7 +246,6 @@
                         document.getElementById('spinnerImage').style.display = 'none';
                     }
                 }
-
             };
             req.send(JSON.stringify(entity));
         }
