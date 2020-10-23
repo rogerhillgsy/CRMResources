@@ -255,7 +255,7 @@ function markAsComplete(formContext, displayError) {
                     "INFO",
                     600,
                     200,
-                    clientURL,
+                    '',
                     true);
 
             },
@@ -297,7 +297,7 @@ function markAsCanceled(formContext) {
             [
                 new Alert.Button("<b>OK</b>",
                     function () { formContext.ui.close(); }, true, false)
-            ], "INFO", 600, 200, formContext.context.getClientUrl(), true);
+            ], "INFO", 600, 200, '', true);
 
     }, null);
 }

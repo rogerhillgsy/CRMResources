@@ -229,6 +229,25 @@ There will be several copies of the web resource visible in the debugger as "aru
         // Static form context value to be used throughout the page.
         var formContext = parent.formContext;
 
+        function setClientApiContext(xrm, formContext1) {
+            // Optionally set Xrm and formContext as global variables on the page.
+            window.Xrm = xrm;
+            window._formContext = formContext1;
+            formContext = formContext1;
+
+              // Tab number is specified as part of the data argument to the web resource.
+                    tabName = location.search.split("=")[1];
+                      tabNumber = parent.Arup.GetTabNumber(formContext, tabName);
+                    console.log("Setup for tab " + tabName);
+                    setupButtonsForTab(tabNumber);
+                    parent.Arup.OnDisplayingTab(formContext, tabName,
+                        function () {
+                            setupButtonsForTab(tabNumber);
+                        });
+ 
+        }
+
+
         // Central logging function.
         var Log = function (s) { console.log(s) };
 

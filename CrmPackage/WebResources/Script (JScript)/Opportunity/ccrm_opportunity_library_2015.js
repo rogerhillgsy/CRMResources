@@ -7833,17 +7833,28 @@ function BidSubmittedClick(formContext) {
 
 }
 
+//function RefreshWebResource(formContext, webResourceName) {
+//    var webResource = formContext.getControl(webResourceName);
+//    if (webResource != null) {
+//        var src = webResource.getSrc();
+
+//        var aboutBlank = "about:blank";
+//        webResource.setSrc(aboutBlank);
+
+//        setTimeout(function () {
+//            webResource.setSrc(src);
+//        }, 1000);
+//    }
+//}
+
 function RefreshWebResource(formContext, webResourceName) {
     var webResource = formContext.getControl(webResourceName);
     if (webResource != null) {
-        var src = webResource.getSrc();
-
-        var aboutBlank = "about:blank";
-        webResource.setSrc(aboutBlank);
-
-        setTimeout(function () {
-            webResource.setSrc(src);
-        }, 1000);
+        webResource.getContentWindow().then(
+            function (contentWindow) {
+                contentWindow.setClientApiContext(Xrm, formContext);
+            }
+        )
     }
 }
 
