@@ -30,6 +30,12 @@ Alert.$ = function (selector, context) {
 // preventCancel = (optional, defaults to false) Hides the 'X' in the top right corner, meaning you can only dismiss the alert using the buttons
 // padding = (optional, defaults to 30) Sets the amount of padding around the light-box. Set to 0 for no padding (on iframes etc)
 Alert.show = function (title, message, buttons, icon, width, height, baseUrl, preventCancel, padding) {
+    if (baseUrl == null || typeof baseUrl == "boolean") {
+        padding = preventCancel;
+        preventCancel = baseUrl;
+        baseUrl = Xrm.Utility.getGlobalContext().getClientUrl();
+    }
+
     title = title || "";
     message = message || "";
     width = width || Alert._dialogWidth;
