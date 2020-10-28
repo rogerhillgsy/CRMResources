@@ -1,5 +1,5 @@
 ﻿// Alert.js v2.1 - Copyright Paul Nieuwelaar Magnetism 2016
-
+ 
 var Alert = Alert || {};
 
 Alert._prefix = "mag_"; // Change this if you have your own solution prefix (as long as the file structure's the same)
