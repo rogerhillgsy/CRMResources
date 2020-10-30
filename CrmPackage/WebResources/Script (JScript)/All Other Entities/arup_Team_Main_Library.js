@@ -105,7 +105,7 @@ function SetupForRelationshipTeam(formContext) {
         MakeAllSectionsVisible(formContext, "Team Set-Up");
     }
     else {
-        SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager"]);
+        SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager","ccrm_arup150"]);
     }
 }
 
