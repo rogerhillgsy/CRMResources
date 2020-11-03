@@ -227,10 +227,7 @@ There will be several copies of the web resource visible in the debugger as "aru
 
     <script>
         // Static form context value to be used throughout the page.
-        // Note that this use of Xrm>Page is not deprecated (currently as of 04/20)
-        //  var formContext = parent.Xrm.Page;
-       var Xrm;
-       var formContext;
+        var formContext = parent.formContext;
 
         function setClientApiContext(xrm, formContext1) {
             // Optionally set Xrm and formContext as global variables on the page.
@@ -309,7 +306,7 @@ There will be several copies of the web resource visible in the debugger as "aru
 
         // Setup buttons for the tab.
         // each button declared for the current tab will be set up within the "tabButtons" div in this document.
-        function setupButtonsForTab(activeTabNum) {
+        function setupButtonsForTab(formContext,activeTabNum) {
             console.log("Display buttons for " + activeTabNum);
             var tabs = formContext.ui.tabs.get();
             // - generate buttons appropriate to the active tab.
@@ -640,16 +637,17 @@ There will be several copies of the web resource visible in the debugger as "aru
                 if (location.search == "") {
                     console.error("No tab name given");
                 } else {
-                    //// Tab number is specified as part of the data argument to the web resource.
-                    //tabName = location.search.split("=")[1];
-                    ////tabNumber = formContext.Arup.GetTabNumber(formContext, tabName);
-                    //  tabNumber = parent.Arup.GetTabNumber(formContext, tabName);
-                    //console.log("Setup for tab " + tabName);
-                    //setupButtonsForTab(tabNumber);
-                    //parent.Arup.OnDisplayingTab(formContext, tabName,
-                    //    function () {
-                    //        setupButtonsForTab(tabNumber);
-                    //    });
+                    var formContext = parent.formContext;
+                    // Tab number is specified as part of the data argument to the web resource.
+                    tabName = location.search.split("=")[1];
+                    //tabNumber = formContext.Arup.GetTabNumber(formContext, tabName);
+                      tabNumber = parent.Arup.GetTabNumber(formContext, tabName);
+                    console.log("Setup for tab " + tabName);
+                    setupButtonsForTab(formContext,tabNumber);
+                    parent.Arup.OnDisplayingTab(formContext, tabName,
+                        function () {
+                            setupButtonsForTab(formContext,tabNumber);
+                        });
                 }
             }
         }

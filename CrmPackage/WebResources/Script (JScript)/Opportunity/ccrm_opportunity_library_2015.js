@@ -446,6 +446,9 @@ function OnChangeToDirtyField(a) {
 function FormOnload(executionContext) {
 
     var formContext = executionContext.getFormContext();
+
+    parent.formContext = formContext; 
+
     formContext.getAttribute("arup_globalservices").addOnChange(GetMultiSelect);
     SetMultiSelect(formContext);
     if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
@@ -7854,6 +7857,7 @@ function RefreshWebResource(formContext, webResourceName) {
         )
     }
 }
+
 
 function FormNotificationForOpportunityType(formContext, opportunityTypeValue) {
     if (opportunityTypeValue == '770000005') {
