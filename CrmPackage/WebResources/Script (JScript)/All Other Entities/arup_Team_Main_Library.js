@@ -397,11 +397,3 @@ function openFOPForm(primaryControl) {
 
 }
 
-function Activities_Tab_Change(executionContext) {
-    var formContext = executionContext.getFormContext();
-    refreshRibbonOnChange(formContext);
-}
-function refreshRibbonOnChange(formContext) {
-    formContext.ui.refreshRibbon();
-}
-

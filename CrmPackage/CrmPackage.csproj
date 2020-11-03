@@ -1332,6 +1332,11 @@
       <UniqueName>ccrm_/JavaScripts/Lib/SDK.MetaData.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_hide_addnewrecord_subgrid.js">
+      <DisplayName>arup_hide_addnewrecord_subgrid</DisplayName>
+      <UniqueName>new_arup_hide_addnewrecord_subgrid</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\All Other Entities\arup_alert.js">
       <DisplayName>Alert library</DisplayName>
       <UniqueName>arup_alerts.js</UniqueName>
