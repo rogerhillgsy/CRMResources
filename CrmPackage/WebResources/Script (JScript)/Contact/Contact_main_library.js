@@ -29,6 +29,19 @@ function form_onLoad(executionContext) {
     canadaSectionVisibility(formContext);
     formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
     defaultCustomerToAccount(formContext);
+
+    var DQUser = isUserInTeamCheck(formContext);
+    if (DQUser) {
+        formContext.getControl("arup_holdingpencontact").setVisible(true);
+        formContext.getControl("arup_synctomkto").setVisible(true);
+    } else {
+        formContext.ui.controls.get("donotbulkemail").setDisabled(true);
+        formContext.ui.controls.get("arup_donotevents").setDisabled(true);
+        formContext.ui.controls.get("arup_donotannouncements").setDisabled(true);
+        formContext.ui.controls.get("arup_donotthoughtleadership").setDisabled(true);
+        formContext.ui.controls.get("arup_donotholidays").setDisabled(true);
+    }
+    
 }
 
 function qc_form_onload(executionContext) {
@@ -941,12 +954,103 @@ function defaultCustomerToAccount(formContext) {
 
 function approveMarketoContact(primaryControl) {
     var formContext = primaryControl;
-    formContext.getAttribute("arup_holdingpencontact").setValue(false);
+
+    Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
+        '<font size="3" color="#000000"></br></br>You are about to approve the Marketing Contact in CRM. Do you want to Continue ?</font>',
+        [
+            {
+                label: "<b>Proceed with Approval</b>",
+                callback: function () {
+
+                    var entity = {};
+                    entity.ccrm_lastvalidateddate = new Date();
+                    entity["ccrm_contactlastvalidatedbyid@odata.bind"] = "/systemusers(" + formContext.context.getUserId().replace(/[{}]/g, "") + ")";
+
+                    var req = new XMLHttpRequest();
+                    req.open("PATCH", formContext.context.getClientUrl() + "/api/data/v9.1/contacts(" + formContext.data.entity.getId().replace(/[{}]/g, "") + ")", true);
+                    req.setRequestHeader("OData-MaxVersion", "4.0");
+                    req.setRequestHeader("OData-Version", "4.0");
+                    req.setRequestHeader("Accept", "application/json");
+                    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                    req.onreadystatechange = function () {
+                        if (this.readyState === 4) {
+                            req.onreadystatechange = null;
+                            if (this.status === 204) {
+                                setTimeout(function () {
+                                    var entityFormOptions = {};
+                                    entityFormOptions["entityName"] = "contact";
+                                    entityFormOptions["entityId"] = formContext.data.entity.getId();
+                                    Xrm.Navigation.openForm(entityFormOptions);
+                                }, 400);
+                            } else {
+                                Xrm.Utility.alertDialog(this.statusText);
+                            }
+                        }
+                    };
+                    req.send(JSON.stringify(entity));
+                },
+                setFocus: false,
+                preventClose: false
+            },
+            {
+                label: "<b>Cancel</b>",
+                setFocus: true,
+                preventClose: false
+            }
+        ],
+        'Warning', 450, 250, formContext.context.getClientUrl(), true);
+
+
 }
 
 function rejectMarketoContact(primaryControl) {
     var formContext = primaryControl;
-    formContext.getAttribute("statuscode").setValue(2);  
+
+    Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
+        '<font size="3" color="#000000"></br></br>You are about to reject the Marketing Contact in CRM. Do you want to Continue ?</font>',
+        [
+            {
+                label: "<b>Reject Contact</b>",
+                callback: function () {
+                    var entity = {};
+                    entity.statecode = 1;
+                    entity.statuscode = 2;
+                    entity.ccrm_lastvalidateddate = new Date();
+                    entity["ccrm_contactlastvalidatedbyid@odata.bind"] = "/systemusers(" + formContext.context.getUserId().replace(/[{}]/g, "") + ")";
+
+                    var req = new XMLHttpRequest();
+                    req.open("PATCH", formContext.context.getClientUrl() + "/api/data/v9.1/contacts(" + formContext.data.entity.getId().replace(/[{}]/g, "") + ")", true);
+                    req.setRequestHeader("OData-MaxVersion", "4.0");
+                    req.setRequestHeader("OData-Version", "4.0");
+                    req.setRequestHeader("Accept", "application/json");
+                    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                    req.onreadystatechange = function () {
+                        if (this.readyState === 4) {
+                            req.onreadystatechange = null;
+                            if (this.status === 204) {
+                                setTimeout(function () {
+                                    var entityFormOptions = {};
+                                    entityFormOptions["entityName"] = "contact";
+                                    entityFormOptions["entityId"] = formContext.data.entity.getId();
+                                    Xrm.Navigation.openForm(entityFormOptions);
+                                }, 400);
+                            } else {
+                                Xrm.Utility.alertDialog(this.statusText);
+                            }
+                        }
+                    };
+                    req.send(JSON.stringify(entity));
+                },
+                setFocus: false,
+                preventClose: false
+            },
+            {
+                label: "<b>Cancel</b>",
+                setFocus: true,
+                preventClose: false
+            }
+        ],
+        'Warning', 450, 250, formContext.context.getClientUrl(), true);
 }
 
 function isUserInTeamCheck(formContext) {
@@ -971,4 +1075,21 @@ function isUserInTeamCheck(formContext) {
     };
     req.send();
     return userInTeam;
+}
+
+function updatePreferenceCentreDate(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var entity = {};
+    entity.arup_dateoflastpcupdates = new Date().toISOString();
+    entity.ccrm_lastvalidateddate = new Date().toISOString();
+    entity["ccrm_contactlastvalidatedbyid@odata.bind"] = "/systemusers(" + formContext.context.getUserId().replace(/[{}]/g, "") + ")";
+    var contactId = formContext.data.entity.getId().replace(/[{}]/g, "")
+
+    Xrm.WebApi.online.updateRecord("contact", contactId, entity).then(
+        function success(result) {
+        },
+        function (error) {
+            Xrm.Navigation.openAlertDialog(error.message);
+        }
+    );  
 }
