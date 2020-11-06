@@ -41,7 +41,7 @@ function form_onLoad(executionContext) {
         formContext.ui.controls.get("arup_donotthoughtleadership").setDisabled(true);
         formContext.ui.controls.get("arup_donotholidays").setDisabled(true);
     }
-    
+
 }
 
 function qc_form_onload(executionContext) {
@@ -965,6 +965,9 @@ function approveMarketoContact(primaryControl) {
                     var entity = {};
                     entity.ccrm_lastvalidateddate = new Date();
                     entity["ccrm_contactlastvalidatedbyid@odata.bind"] = "/systemusers(" + formContext.context.getUserId().replace(/[{}]/g, "") + ")";
+                    entity.arup_holdingpenstatus = 2;
+                    entity.statecode = 0;
+                    entity.statuscode = 1;
 
                     var req = new XMLHttpRequest();
                     req.open("PATCH", formContext.context.getClientUrl() + "/api/data/v9.1/contacts(" + formContext.data.entity.getId().replace(/[{}]/g, "") + ")", true);
@@ -1003,54 +1006,42 @@ function approveMarketoContact(primaryControl) {
 
 }
 
-function rejectMarketoContact(primaryControl) {
+function rejectHPContact(primaryControl) {
     var formContext = primaryControl;
+    var contactid = formContext.data.entity.getId().replace(/[{}]/g, "");
+    var clientUrl = formContext.context.getClientUrl();
+    var userId = formContext.context.getUserId().replace(/[{}]/g, "");
+    var rejectReasons = getHPRejectReasons(clientUrl);
 
-    Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
-        '<font size="3" color="#000000"></br></br>You are about to reject the Marketing Contact in CRM. Do you want to Continue ?</font>',
-        [
-            {
-                label: "<b>Reject Contact</b>",
-                callback: function () {
-                    var entity = {};
-                    entity.statecode = 1;
-                    entity.statuscode = 2;
-                    entity.ccrm_lastvalidateddate = new Date();
-                    entity["ccrm_contactlastvalidatedbyid@odata.bind"] = "/systemusers(" + formContext.context.getUserId().replace(/[{}]/g, "") + ")";
+    if (rejectReasons != null) {
+        var object = JSON.stringify(rejectReasons);
+        var customParameters = "&contactid=" + contactid + "&clienturl=" + clientUrl + "&userid=" + userId + "&rejectreasons=" + object;
 
-                    var req = new XMLHttpRequest();
-                    req.open("PATCH", formContext.context.getClientUrl() + "/api/data/v9.1/contacts(" + formContext.data.entity.getId().replace(/[{}]/g, "") + ")", true);
-                    req.setRequestHeader("OData-MaxVersion", "4.0");
-                    req.setRequestHeader("OData-Version", "4.0");
-                    req.setRequestHeader("Accept", "application/json");
-                    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-                    req.onreadystatechange = function () {
-                        if (this.readyState === 4) {
-                            req.onreadystatechange = null;
-                            if (this.status === 204) {
-                                setTimeout(function () {
-                                    var entityFormOptions = {};
-                                    entityFormOptions["entityName"] = "contact";
-                                    entityFormOptions["entityId"] = formContext.data.entity.getId();
-                                    Xrm.Navigation.openForm(entityFormOptions);
-                                }, 400);
-                            } else {
-                                Xrm.Utility.alertDialog(this.statusText);
-                            }
-                        }
-                    };
-                    req.send(JSON.stringify(entity));
-                },
-                setFocus: false,
-                preventClose: false
+        var pageInput = {
+            pageType: "webresource",
+            webresourceName: "arup_contactRejectionReason",
+            data: customParameters
+
+        };
+        var navigationOptions = {
+            target: 2,
+            width: 700,
+            height: 400,
+            position: 1
+        };
+        Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
+            function success() {
+                setTimeout(function () {
+                    var entityFormOptions = {};
+                    entityFormOptions["entityName"] = "contact";
+                    entityFormOptions["entityId"] = formContext.data.entity.getId();
+                    Xrm.Navigation.openForm(entityFormOptions);
+                }, 400);
             },
-            {
-                label: "<b>Cancel</b>",
-                setFocus: true,
-                preventClose: false
+            function error() {
             }
-        ],
-        'Warning', 450, 250, formContext.context.getClientUrl(), true);
+        );
+    }
 }
 
 function isUserInTeamCheck(formContext) {
@@ -1080,7 +1071,6 @@ function isUserInTeamCheck(formContext) {
 function updatePreferenceCentreDate(executionContext) {
     var formContext = executionContext.getFormContext();
     var entity = {};
-    entity.arup_dateoflastpcupdates = new Date().toISOString();
     entity.ccrm_lastvalidateddate = new Date().toISOString();
     entity["ccrm_contactlastvalidatedbyid@odata.bind"] = "/systemusers(" + formContext.context.getUserId().replace(/[{}]/g, "") + ")";
     var contactId = formContext.data.entity.getId().replace(/[{}]/g, "")
@@ -1091,5 +1081,102 @@ function updatePreferenceCentreDate(executionContext) {
         function (error) {
             Xrm.Navigation.openAlertDialog(error.message);
         }
-    );  
+    );
+}
+
+function updateConsentDetails(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var entity = {};
+    entity.arup_sourceofconsent = 770000007;
+    entity.arup_dateofconsent = new Date().toISOString();
+    entity["arup_ConsentGivenTo@odata.bind"] = "/systemusers(" + formContext.context.getUserId().replace(/[{}]/g, "") + ")";
+
+    var contactId = formContext.data.entity.getId().replace(/[{}]/g, "")
+
+    Xrm.WebApi.online.updateRecord("contact", contactId, entity).then(
+        function success(result) {
+            formContext.data.entity.save();
+        },
+        function (error) {
+            Xrm.Navigation.openAlertDialog(error.message);
+        }
+    );
+}
+
+function isContactValidatedbyDQ(formContext) {
+    var isApproved = false;
+    var hpStatus = formContext.getAttribute("arup_holdingpenstatus").getValue();
+    if (hpStatus != 1 && hpStatus != null) {
+        isApproved = true;
+    }
+    return isApproved;
+}
+
+function getHPRejectReasons(clientUrl) {
+    var arup_RejectReasons = new String();
+    var arup_RejectReasons_values = new String();
+    var dictionary = {};
+    var req = new XMLHttpRequest();
+
+    req.open("GET", clientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_holdingpencontactrejectreasons&$filter=ccrm_stageid eq 'hpRejectReasons'", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=OData.Community.Display.V1.FormattedValue");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var results = JSON.parse(this.response);
+                arup_RejectReasons = results.value[0]["arup_holdingpencontactrejectreasons@OData.Community.Display.V1.FormattedValue"]
+                var reasonValue = arup_RejectReasons.split(';');
+                arup_RejectReasons_values = results.value[0].arup_holdingpencontactrejectreasons;
+                var reasonkey = arup_RejectReasons_values.split(',');
+
+                for (var i = j = 0; i < reasonValue.length && j < reasonkey.length; i++ , j++) {
+                    var key = reasonkey[j];
+                    var value = reasonValue[i];
+                    dictionary[key] = value;
+                }
+            } else {
+                return null;
+            }
+        }
+    };
+    req.send();
+    return dictionary;
+}
+
+function onBulkEmailsSetPreferncesField(executionContext) {
+    var formContext = executionContext.getFormContext();
+    debugger;
+    var donotbulkemail = formContext.getAttribute("donotbulkemail").getValue();
+    if (!donotbulkemail) {
+        Alert.show('<font size="6" color="#187ACD"><b>Bulk E-mails Update</b></font>',
+            '<font size="3" color="#000000"></br>You have Selected "Do Not allow" option for All (Bulk E - mails), this will set Events, Thought Leadership, Announcements and Holidays to "Do Not allow".</br></br>Unsubcribed field in Marketo will be set to true. </br></br> Click OK to Proceed.</font>',
+            [
+                {
+                    label: "<b>OK</b>",
+                    callback: function () {
+                        formContext.getAttribute("arup_donotevents").setValue(false);
+                        formContext.getAttribute("arup_donotannouncements").setValue(false);
+                        formContext.getAttribute("arup_donotthoughtleadership").setValue(false);
+                        formContext.getAttribute("arup_donotholidays").setValue(false);
+                        formContext.data.entity.save();
+                    },
+                    setFocus: true,
+                    preventClose: false
+
+                },
+                {
+                    label: "<b>Cancel</b>",
+                    callback: function () {
+
+                    },
+                    setFocus: false,
+                    preventClose: false
+                }
+            ], 'INFO', 500, 350, formContext.context.getClientUrl(), true);
+    }
 }
