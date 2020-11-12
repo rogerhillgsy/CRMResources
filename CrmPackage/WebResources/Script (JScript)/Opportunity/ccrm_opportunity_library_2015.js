@@ -446,6 +446,9 @@ function OnChangeToDirtyField(a) {
 function FormOnload(executionContext) {
 
     var formContext = executionContext.getFormContext();
+
+    parent.formContext = formContext;
+
     formContext.getAttribute("arup_globalservices").addOnChange(GetMultiSelect);
     SetMultiSelect(formContext);
     if (formContext.getAttribute("statecode") != null && formContext.getAttribute("statecode") != "undefined") {
@@ -2623,7 +2626,7 @@ function PreStageChange(executionContext) {
         SetFieldRequirementForPreBidStage(formContext);
 
         if (!formContext.data.isValid()) {
-           eventArgs.preventDefault();
+            eventArgs.preventDefault();
         }
     }
 }
@@ -5347,7 +5350,7 @@ function hideProcessFields(formContext, selectedStage) {
         case "PRE-BID"://[RS-08/05/2017] - Changed the name of stage from LEAD to PRE-BID
             if (arupInternal) {
                 hideBPFFields(formContext, "arup_biddecisionchair", "ccrm_arups_role_in_project", "ccrm_arupuniversityiiaresearchinitiative", "ccrm_arupbidstartdate", "ccrm_arupbidfinishdate", "ccrm_confidentialoptionset", "ccrm_arupinternal", "ccrm_possiblejobnumberrequired", "ccrm_arupregionid", "ccrm_projectcountryregionid", "ccrm_opportunitytype");
-               // setRequiredLevelOfFields(formContext, "required", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend");
+                // setRequiredLevelOfFields(formContext, "required", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend");
                 setRequiredLevelOfFields(formContext, "recommended", "ccrm_arups_role_in_project", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend", "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "ccrm_estimatedvalue_num", "ccrm_probabilityofprojectproceeding", "closeprobability", "arup_disciplines", "ccrm_descriptionofextentofarupservices");
 
             }
@@ -5453,7 +5456,7 @@ function ShowFields(formContext, isVisible, listOfFields) {
     }
 }
 
-function ShowSections(formContext, isVisible,tabName, listOfFields) {
+function ShowSections(formContext, isVisible, tabName, listOfFields) {
     /// <summary>Hide Show sections</summary>
     /// <param name="listOfFields">One or more sections</param>
     for (var field in arguments) {
@@ -7830,30 +7833,20 @@ function BidSubmittedClick(formContext) {
 
 }
 
-//function RefreshWebResource(formContext, webResourceName) {
-//    var webResource = formContext.getControl(webResourceName);
-//    if (webResource != null) {
-//        var src = webResource.getSrc();
-
-//        var aboutBlank = "about:blank";
-//        webResource.setSrc(aboutBlank);
-
-//        setTimeout(function () {
-//            webResource.setSrc(src);
-//        }, 1000);
-//    }
-//}
-
 function RefreshWebResource(formContext, webResourceName) {
     var webResource = formContext.getControl(webResourceName);
     if (webResource != null) {
-        webResource.getContentWindow().then(
-            function (contentWindow) {
-                contentWindow.setClientApiContext(Xrm, formContext);
-            }
-        )
+        var src = webResource.getSrc();
+
+        var aboutBlank = "about:blank";
+        webResource.setSrc(aboutBlank);
+
+        setTimeout(function () {
+            webResource.setSrc(src);
+        }, 1000);
     }
 }
+
 
 function FormNotificationForOpportunityType(formContext, opportunityTypeValue) {
     if (opportunityTypeValue == '770000005') {
@@ -7994,10 +7987,10 @@ function SetFieldRequirementForPreBidStage(formContext) {
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     if (selectedStage == "PRE-BID") {
         if (arupInternal) {
-            setRequiredLevelOfFields(formContext, "required",  "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend", "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "ccrm_estimatedvalue_num", "ccrm_probabilityofprojectproceeding","closeprobability", "arup_disciplines", "ccrm_descriptionofextentofarupservices");
+            setRequiredLevelOfFields(formContext, "required", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend", "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "ccrm_estimatedvalue_num", "ccrm_probabilityofprojectproceeding", "closeprobability", "arup_disciplines", "ccrm_descriptionofextentofarupservices");
         }
         else {
-            setRequiredLevelOfFields(formContext, "required",  "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend", "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "ccrm_estimatedvalue_num", "ccrm_probabilityofprojectproceeding", "closeprobability", "arup_disciplines", "ccrm_descriptionofextentofarupservices", "ccrm_arups_role_in_project", "arup_keymarkets", "arup_safeguardplanet", "arup_sharedvalues", "arup_partnership", "arup_betterway", "arup_biddecisionchair");
+            setRequiredLevelOfFields(formContext, "required", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend", "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "ccrm_estimatedvalue_num", "ccrm_probabilityofprojectproceeding", "closeprobability", "arup_disciplines", "ccrm_descriptionofextentofarupservices", "ccrm_arups_role_in_project", "arup_keymarkets", "arup_safeguardplanet", "arup_sharedvalues", "arup_partnership", "arup_betterway", "arup_biddecisionchair");
             if (formContext.getControl("arup_biddecisionchair").getVisible())
                 formContext.getAttribute("arup_biddecisionchair").setRequiredLevel("required");
             else

@@ -1,0 +1,191 @@
+﻿<html>
+<head>
+    <script type="text/javascript">
+
+        function getUrlParameters() {
+            var queryString = location.search.substring(1);
+            queryString = decodeURIComponent(queryString)
+            var params = {};
+            var queryStringParts = queryString.split("&");
+            for (var i = 0; i < queryStringParts.length; i++) {
+                var pieces = queryStringParts[i].split("=");
+                params[pieces[0].toLowerCase()] = pieces.length === 1 ? null : decodeURIComponent(pieces[1]);
+            }
+            return params;
+        }
+
+        function getRejectReasons() {
+            parent.$("h1[data-id='defaultDialogChromeTitle']", parent.document).html("");
+            var params = getUrlParameters();
+            if (params != undefined) {
+                var rejectReasons = params.rejectreasons;
+                var myObject = JSON.parse(rejectReasons);
+
+                var select = document.getElementById("rejectReason");
+                for (index in myObject) {
+                    select.options[select.options.length] = new Option(myObject[index], index);
+                }
+            }
+        }
+
+        function showHideOtherField() {
+            var otherReason = document.getElementById("otherRejectReason");
+            var reason = document.getElementById("rejectReason");
+            var otherReasonlbl = document.getElementById("lblOtherReason");           
+
+            if (reason.value != "770000004") {
+                otherReason.style.visibility = "hidden";
+                otherReasonlbl.style.visibility = "hidden";
+            } else {
+                otherReason.style.visibility = "visible";
+                otherReasonlbl.style.visibility = "visible";
+            }
+        }
+
+        function submitRequest() {
+            parent.$("h1[data-id='defaultDialogChromeTitle']", parent.document).html("");
+
+            var params = getUrlParameters();
+            if (params != undefined) {
+
+                var rejectReason = document.getElementById("rejectReason");
+                var entity = {};
+                entity.ccrm_lastvalidateddate = new Date();
+                entity.arup_holdingpenstatus = 3;
+                entity["ccrm_contactlastvalidatedbyid@odata.bind"] = "/systemusers(" + params.userid + ")";
+
+                entity.arup_reasonforrejection = rejectReason.options[rejectReason.selectedIndex].value;
+                entity.arup_otherreasonforrejection = document.getElementById("otherRejectReason").value;
+
+                var req = new XMLHttpRequest();
+                req.open("PATCH", params.clienturl + "/api/data/v9.1/contacts(" + params.contactid + ")", false);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 204) {
+                            window.close();
+                        } else {
+                            Xrm.Navigation.openAlertDialog(this.statusText);
+                        }
+                    }
+                };
+                req.send(JSON.stringify(entity));
+            }
+        }
+
+        function cancelDlg() {
+            try {
+                window.close();
+            }
+            catch (e) { }
+        }
+
+    </script>
+    <script src="../../../../../../webresources/ClientGlobalContext.js.aspx" type="text/javascript"></script>
+    <script src="mag_/jquery1.8.3.min.js" type="text/javascript"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        input[type=text], select, textarea, input[type=number] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        input[type=submit] {
+            background - color: #ffffff;
+            color: black;
+            padding: 6px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            border-color: #e7e7e7;
+        }
+
+            input[type=submit]:hover {
+                background-color: #e7e7e7;
+            }
+
+        .container {
+            border-radius: 5px;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+
+        label {
+            width: 150px;
+            text-align: right;
+        }
+
+        #dateValue {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+    </style>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+    <meta>
+</head>
+
+<body onload="getRejectReasons();" style="overflow-wrap: break-word;" onfocusout="parent.setEmailRange();">
+
+    <h3 style="color: #1B76D5; font-size: 25px;">Reject Holding pen Contact</h3>
+    <p>Please provide reason for rejection.</p>
+    <div class="container">
+        <form>
+
+            <label>Reject Reason:</label>
+            <select required="" id="rejectReason" onchange="showHideOtherField()">
+                <option selected="" disabled="" value="">Please Select</option>
+            </select>
+
+            <label style="visibility:hidden" id="lblOtherReason">Other Reason:</label>
+            <input type="text" id="otherRejectReason" style="visibility:hidden">
+
+            <input type="submit" value="Reject" onclick="submitRequest();">
+            <input type="submit" value="Cancel" onclick="cancelDlg();">
+
+        </form>
+    </div>
+</body>
+</html>
