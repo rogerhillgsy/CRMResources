@@ -399,6 +399,11 @@ function openFOPForm(primaryControl) {
 
 }
 
-/*function refreshRibbonOnChange() {
-    Xrm.Page.ui.refreshRibbon();
-}*/
+function Activities_Tab_Change(executionContext) {
+    var formContext = executionContext.getFormContext();
+    refreshRibbonOnChange(formContext);
+}
+function refreshRibbonOnChange(formContext) {
+    formContext.ui.refreshRibbon();
+}
+
