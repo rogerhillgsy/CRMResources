@@ -228,7 +228,7 @@ Notify._initialise = function () {
 
         if ($header.length > 0) {
             // Load the style sheet
-            var baseUrl = Xrm.Page.context.getClientUrl();
+            var baseUrl = Xrm.Utility.getGlobalContext().getClientUrl(); 
             Notify.$("<link/>", { rel: "stylesheet", href: baseUrl + "/WebResources/" + Notify._prefix + "/css/notify.css" }).appendTo($notify);
 
             Notify._initialised = true;

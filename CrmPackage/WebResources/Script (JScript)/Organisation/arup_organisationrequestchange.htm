@@ -1,58 +1,58 @@
 ﻿<html>
 <head>
+</head>
+<body onfocusout="parent.setEmailRange();" style="overflow-wrap: break-word;">
     <script type="text/javascript">
 
-		function submitRequest(){
-			var queryString = location.search.substring(1);
-			queryString = decodeURIComponent(queryString)
-			var params = {};
-			var queryStringParts = queryString.split("&");
+        function submitRequest() {
+            var queryString = location.search.substring(1);
+            queryString = decodeURIComponent(queryString)
+            var params = {};
+            var queryStringParts = queryString.split("&");
 
-			for (var i = 0; i < queryStringParts.length; i++) {
-				var pieces = queryStringParts[i].split("=");
-				params[pieces[0].toLowerCase()] = pieces.length === 1 ? null : decodeURIComponent(pieces[1]);
-			}
+            for (var i = 0; i < queryStringParts.length; i++) {
+                var pieces = queryStringParts[i].split("=");
+                params[pieces[0].toLowerCase()] = pieces.length === 1 ? null : decodeURIComponent(pieces[1]);
+            }
 
-			if (document.getElementById("requestChange").value == ""){
-                   alert("Request Change cannot be empty.");
-                   document.getElementById("requestChange").focus();
-            }else{
-				var requestChange = document.getElementById("requestChange").value;
-				var entity = {};
-				entity.arup_requestchange = requestChange;
+            if (document.getElementById("requestChange").value == "") {
+                alert("Request Change cannot be empty.");
+                document.getElementById("requestChange").focus();
+            } else {
+                var requestChange = document.getElementById("requestChange").value;
+                var entity = {};
+                entity.arup_requestchange = requestChange;
 
-				var req = new XMLHttpRequest();
-				req.open("PATCH", params.clienturl + "/api/data/v9.1/accounts("+params.orgid+")", false);
-				req.setRequestHeader("OData-MaxVersion", "4.0");
-				req.setRequestHeader("OData-Version", "4.0");
-				req.setRequestHeader("Accept", "application/json");
-				req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-				req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-				req.onreadystatechange = function() {
-					if (this.readyState === 4) {
-						req.onreadystatechange = null;
-						if (this.status === 204) {
-							window.close();
-						} else {
+                var req = new XMLHttpRequest();
+                req.open("PATCH", params.clienturl + "/api/data/v9.1/accounts(" + params.orgid + ")", false);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 204) {
+                            window.close();
+                        } else {
                             Xrm.Navigation.openAlertDialog(this.statusText);
-						}
-					}
-				};
-				req.send(JSON.stringify(entity));
-			}
-		}
+                        }
+                    }
+                };
+                req.send(JSON.stringify(entity));
+            }
+        }
 
-		function cancelDlg() {
+        function cancelDlg() {
             try {
-               window.close();
+                window.close();
             }
             catch (e) { }
         }
 
     </script>
-    <script src="../../../../../../webresources/ClientGlobalContext.js.aspx" type="text/javascript"></script>
     <script src="mag_/jquery1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../ClientGlobalContext.js.aspx" type="text/javascript"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -120,8 +120,7 @@
     <meta>
     <meta>
     <meta>
-</head>
-<body onfocusout="parent.setEmailRange();" style="overflow-wrap: break-word;">
+
 
     <h2>Request Change for Organisation</h2>
     <p>Please provide detailed information about this request.</p>

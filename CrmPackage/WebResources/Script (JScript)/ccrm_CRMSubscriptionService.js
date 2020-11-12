@@ -1,8 +1,4 @@
 //CRM Subscription Service jscript
-function HideFields() {
-    Xrm.Page.ui.tabs.get("{7591ef5a-60a0-4186-a285-68551329aca8}").sections.get("section_2").setVisible(false);
-}
-
 
 function myIEVersion() {
     var strBuffer = navigator.appVersion;
@@ -83,7 +79,6 @@ function FetchViewer(iframeId) {
     }
 
     Instance.Refresh = function () {
-
         if (!Instance.Iframe)
             return alert("Iframe " + iframeId + " is undefined");
 
@@ -134,20 +129,6 @@ function FetchViewer(iframeId) {
 
 }
 
-
-function gFocusGrid(tabName, gridName) {
-    var tabState = Xrm.Page.ui.tabs.get(tabName).getDisplayState();
-    if (tabState == 'expanded') {
-        try {
-            document.getElementById(gridName).getElementsByTagName('a')[0].focus();
-        }
-        catch (err) {
-            throw (err.Message());
-        }
-    }
-}
-
-
 function onLoad() {
     try {
         setTimeout('focusGrid("MyCRMSubscriptions")', 300);
@@ -168,9 +149,6 @@ function focusGrid(gridName) {
     }
 }
 
-function onHide() {
-    Xrm.Page.ui.controls.get("ownerid").setVisible(false);
-}
 function newMySubscriptions() {
-    Xrm.Utility.openEntityForm("ccrm_crmeventschedule");
+    Xrm.Navigation.openForm("ccrm_crmeventschedule");
 }

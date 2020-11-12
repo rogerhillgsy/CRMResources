@@ -24,7 +24,7 @@ function form_onLoad(executionContext) {
         setInterval(changeHeaderTileFormat, 1000);
     }
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
-    setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 60000);
+    setTimeout(function () { formContext.ui.clearFormNotification("1"); }, 60000);
     contactType_onchange(formContext, 'load');
     canadaSectionVisibility(formContext);
     formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
@@ -93,7 +93,7 @@ function exitForm(primaryControl) {
                 preventClose: false
             }
         ],
-        'Warning', 600, 250, '', true);
+        'Warning', 600, 250, formContext.context.getClientUrl(), true);
 }
 
 function stateRequired(CountryName) {
@@ -170,7 +170,7 @@ function PrePopulateCanadaFields(formContext) {
             formContext.getAttribute("arup_organisationconsent").setValue(arup_impliedconsent || arup_expressedconsent);
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -216,7 +216,7 @@ function expressedConsent_valueChanged(executionContext) {
                 false),
             new Alert.Button("<b>Yes, I'm sure</b>")
         ],
-        "WARNING", 500, 300, '', true);
+        "WARNING", 500, 300, formContext.context.getClientUrl(), true);
 }
 
 function onChange_otherImpliedConsent(executionContext) {
@@ -272,7 +272,7 @@ function otherImpliedConsent_onChange(formContext) {
             [
                 new Alert.Button("<b>OK</b>")
             ],
-            "ERROR", 550, 200, '', true);
+            "ERROR", 550, 200, formContext.context.getClientUrl(), true);
         formContext.getAttribute("arup_receiptdate").setValue(null);
     }
 }
@@ -394,13 +394,13 @@ function Form_onsave(eventArgs) {
                 [
                     new Alert.Button("<b>OK</b>")
                 ],
-                "ERROR", 550, 200, '', true);
+                "ERROR", 550, 200, formContext.context.getClientUrl(), true);
 
             eventArgs.getEventArgs().preventDefault();
             return false;
         }
     }
-    Xrm.Page.ui.clearFormNotification("1");
+    formContext.ui.clearFormNotification("1");
 }
 
 function removeFromList(list, value, separator) {
@@ -627,7 +627,7 @@ function phoneOnChange(executionContext) {
                 }
             },
             function (error) {
-                Xrm.Utility.alertDialog(error.message);
+                Xrm.Navigation.openAlertDialog(error.message);
             }
         );
     } else {
@@ -728,7 +728,7 @@ function gridRowSelected(context) {
             });
         },
         function (error) {
-            Xrm.Utility.alertDialog(error.message);
+            Xrm.Navigation.openAlertDialog(error.message);
         }
     );
 }
@@ -831,7 +831,7 @@ function onChange_ContactType(executionContext) {
 
 function contactType_onchange(formContext, event) {
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
-    setTimeout(function () { Xrm.Page.ui.clearFormNotification("1"); }, 60000);
+    setTimeout(function () { formContext.ui.clearFormNotification("1"); }, 60000);
 
     var contactTypeValue = formContext.getAttribute("arup_contacttype");
     if (contactTypeValue == null) return;
@@ -939,4 +939,36 @@ function defaultCustomerToAccount(formContext) {
     formContext.getControl("header_parentcustomerid").setEntityTypes(["account"]);
 }
 
+function approveMarketoContact(primaryControl) {
+    var formContext = primaryControl;
+    formContext.getAttribute("arup_holdingpencontact").setValue(false);
+}
 
+function rejectMarketoContact(primaryControl) {
+    var formContext = primaryControl;
+    formContext.getAttribute("statuscode").setValue(2);  
+}
+
+function isUserInTeamCheck(formContext) {
+    var systemUser = formContext.context.getUserId().replace('{', '').replace('}', '');
+    var req = new XMLHttpRequest();
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/teammemberships?$filter=systemuserid eq " + systemUser + " and (teamid eq 14E17BE2-0FF3-E411-940C-005056B5174A)", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var results = JSON.parse(this.response);
+                userInTeam = results.value.length > 0;
+            } else {
+                Xrm.Navigation.openAlertDialog(this.statusText);
+            }
+        }
+    };
+    req.send();
+    return userInTeam;
+}

@@ -47,8 +47,8 @@ function arup_confidential_onChange(executionContext) {
                         [
                             new Alert.Button("OK")
                         ],
-                        "INFO", 500, 200, '', true);
+                        "INFO", 500, 200, formContext.context.getClientUrl(), true);
                 }, true, false)
         ],
-        'QUESTION', 750, 250, '', true);
+        'QUESTION', 750, 250, formContext.context.getClientUrl(), true);
 }

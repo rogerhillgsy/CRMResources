@@ -3,6 +3,7 @@ function exitForm(primaryControl) {
     var formContext = primaryControl;
     //see if the form is dirty
     var ismodified = formContext.data.entity.getIsDirty();
+    var clientURL = formContext.context.getClientUrl();
     if (ismodified == false) {
         formContext.ui.close();
         return;
@@ -48,5 +49,17 @@ function exitForm(primaryControl) {
                 preventClose: false
             }
         ],
-        'Warning', 600, 250, '', true);
+        'Warning', 600, 250, clientURL, true);
+}
+
+
+function onForm_Load(executionContext) {
+
+    var formContext = executionContext.getFormContext();
+    changeLookFor(formContext, 'ownerid', 'systemuser');
+}
+function changeLookFor(formContext, fieldName, entityname) {
+
+    var control = formContext.getControl(fieldName);
+    control.setEntityTypes([entityname]);
 }

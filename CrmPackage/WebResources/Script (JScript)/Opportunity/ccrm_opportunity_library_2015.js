@@ -172,7 +172,7 @@ function exitForm(formContext) {
                 preventClose: false
             }
         ],
-        'Warning', 600, 250, '', true);
+        'Warning', 600, 250, formContext.context.getClientUrl(), true);
 }
 
 function SetLookupField(formContext, id, name, entity, field) {
@@ -539,7 +539,7 @@ function FormOnload(executionContext) {
                 : formContext.getAttribute('ccrm_client').getValue()[0].id,
                 '',
                 false,
-                false, formContext.getAttribute('statecode').getValue());
+                false, formContext.getAttribute('statecode').getValue(), formContext);
             //ultimate/end client
             checkHighRiskClient(
                 formContext.getAttribute('ccrm_ultimateendclientid').getValue() == null
@@ -547,7 +547,7 @@ function FormOnload(executionContext) {
                     : formContext.getAttribute('ccrm_ultimateendclientid').getValue()[0].id,
                 'Ultimate/End ',
                 false,
-                false, formContext.getAttribute('statecode').getValue());
+                false, formContext.getAttribute('statecode').getValue(), formContext);
 
             //make sure the current stage process fields are hidden/shown
             if (!!formContext.data.process) {
@@ -747,7 +747,7 @@ function opportunityType_onChange(executionContext, trigger) {
                 '<font size="3" color="#000000"></br>Opportunity Type: <b>' + typeText + '</b> is not valid for this stage.</font>',
                 [
                     { label: "<b>OK</b>", setFocus: true },
-                ], "ERROR", 500, 250, '', true);
+                ], "ERROR", 500, 250, formContext.context.getClientUrl(), true);
 
             formContext.getAttribute("arup_opportunitytype").setValue(null);
             return;
@@ -1791,7 +1791,7 @@ function ValidateBidManager_onChange(formContext) {
                     [
                         { label: "<b>OK</b>", setFocus: true },
                     ],
-                    "WARNING", 400, 250, '', true);
+                    "WARNING", 400, 250, formContext.context.getClientUrl(), true);
                 return false;
             }
         } else if (formContext.getAttribute("ccrm_bidmanager_userid").getValue() == null) {
@@ -1813,7 +1813,7 @@ function ValidateBidDirector_onchange(formContext) {
                     [
                         { label: "<b>OK</b>", setFocus: true },
                     ],
-                    "WARNING", 400, 250, '', true);
+                    "WARNING", 400, 250, formContext.context.getClientUrl(), true);
                 return false;
             }
         } else if (formContext.getAttribute("ccrm_biddirector_userid").getValue() == null) {
@@ -1835,7 +1835,7 @@ function ValidateProjectManager_onchange(executionContext) {
                     [
                         { label: "<b>OK</b>", setFocus: true },
                     ],
-                    "WARNING", 400, 250, '', true);
+                    "WARNING", 400, 250, formContext.context.getClientUrl(), true);
                 return false;
             }
         } // Shruti : commented below line of code
@@ -1858,7 +1858,7 @@ function ValidateProjectDirector_onchange(executionContext) {
                     [
                         { label: "<b>OK</b>", setFocus: true },
                     ],
-                    "WARNING", 400, 250, '', true);
+                    "WARNING", 400, 250, formContext.context.getClientUrl(), true);
                 return false;
             }
         } //Shruti : commented below line of code
@@ -2041,7 +2041,7 @@ function SetCountryOfReg(formContext, clientId) {
 
 
 
-function checkHighRiskClient(clientid, extra, popup, quickcreate, statecode) {
+function checkHighRiskClient(clientid, extra, popup, quickcreate, statecode, formContext) {
 
     if (quickcreate && clientid == null) { return; }
 
@@ -2068,7 +2068,7 @@ function checkHighRiskClient(clientid, extra, popup, quickcreate, statecode) {
 
                     Alert.show('<font size="6" color="#FF0000"><b>High Risk Client</b></font>',
                         '<font size="3" color="#000000"></br>Before pursuing any opportunities with this ' + extra + 'client, please contact ' + relationshipManager + '</font>',
-                        [{ label: "<b>OK</b>", setFocus: true },], "ERROR", 400, 250, '', true);
+                        [{ label: "<b>OK</b>", setFocus: true },], "ERROR", 400, 250, formContext.context.getClientUrl(), true);
                 }
             }
             else if (quickcreate == false) { Notify.remove(messagename); }
@@ -2104,14 +2104,14 @@ function ccrm_client_onChange(executionContext, quickCreate) {
 
     }
 
-    checkHighRiskClient(clientVal == null ? null : clientVal[0].id, '', true, quickCreate, formContext.getAttribute('statecode').getValue());
+    checkHighRiskClient(clientVal == null ? null : clientVal[0].id, '', true, quickCreate, formContext.getAttribute('statecode').getValue(), formContext);
 }
 
 function ccrm_ultimateclient_onchange(executionContext, quickCreate) {
     var formContext = executionContext.getFormContext();
     var clientVal = formContext.getAttribute('ccrm_ultimateendclientid').getValue();
 
-    checkHighRiskClient(clientVal == null ? null : clientVal[0].id, 'Ultimate/End ', true, quickCreate, formContext.getAttribute('statecode').getValue());
+    checkHighRiskClient(clientVal == null ? null : clientVal[0].id, 'Ultimate/End ', true, quickCreate, formContext.getAttribute('statecode').getValue(), formContext);
 
 }
 
@@ -2743,7 +2743,7 @@ function requestPossibleJob(formContext) {
         formContext.getControl("ccrm_client").setFocus();
 
 
-
+    var ClientUrl = formContext.context.getClientUrl();
     customerid_onChange(formContext);
     var stageid = getStageId(formContext);
     var crossregionbid = IsCrossRegionBid(formContext);
@@ -2769,7 +2769,7 @@ function requestPossibleJob(formContext) {
                         label: "<b>OK</b>",
                         setFocus: true
                     },
-                ], "WARNING", 600, 250, '', true);
+                ], "WARNING", 600, 250, ClientUrl, true);
         }
     }
 
@@ -2838,9 +2838,9 @@ function requestPossibleJob(formContext) {
                                                 [
                                                     new Alert.Button("OK")
                                                 ],
-                                                "INFO", 500, 200, '', true);
+                                                "INFO", 500, 200, ClientUrl, true);
                                         }, true, false)
-                                ], "INFO", 700, 400, '', true);
+                                ], "INFO", 700, 400, ClientUrl, true);
                         }
 
                     }
@@ -3899,7 +3899,7 @@ function ApprovalButtonClick(formContext, type, approvalType, statusField, userF
                     preventClose: false
                 }
             ],
-            alertType, 500, 350, '', true);
+            alertType, 500, 350, formContext.context.getClientUrl(), true);
     }
 
 }
@@ -4055,7 +4055,7 @@ function ccrm_confidential_onchange(formContext, mode) {
             [
                 { label: "<b>Got it</b>", setFocus: true },
             ],
-            "WARNING", 600, 380, '', true);
+            "WARNING", 600, 380, formContext.context.getClientUrl(), true);
     }
 }
 
@@ -5263,7 +5263,7 @@ function StageChange_event(formContext) {
                     [
                         new Alert.Button("<b>OK</b>")
                     ],
-                    "INFO", 600, 200, '', true);
+                    "INFO", 600, 200, formContext.context.getClientUrl(), true);
             })
         } else {
 
@@ -5285,7 +5285,7 @@ function StageChange_event(formContext) {
                         [
                             new Alert.Button("<b>OK</b>")
                         ],
-                        "INFO", 600, 200, '', true);
+                        "INFO", 600, 200, formContext.context.getClientUrl(), true);
                 })
             }
         }
@@ -5525,6 +5525,7 @@ function BidReviewApprovalClick(formContext) {
             formContext.ui.clearFormNotification('msgbidreviewchair');
             var newDate = new Date();
             var bidReviewDate = formContext.getAttribute("ccrm_bidreview").getValue();
+            var ClientUrl = formContext.context.getClientUrl();
 
             var regionName = formContext.getAttribute("ccrm_arupregionid").getValue()[0].name.toUpperCase();
             var currentBidReviewChair = formContext.getAttribute("ccrm_bidreviewchair_userid").getValue();
@@ -5540,7 +5541,7 @@ function BidReviewApprovalClick(formContext) {
                         [
                             { label: "<b>OK</b>", setFocus: true },
                         ],
-                        "ERROR", 500, 250, '', true);
+                        "ERROR", 500, 250, ClientUrl, true);
                 } else {
                     if (BidReviewApprovalValidation(formContext, true)) {
                         if (bidReviewDate != null && bidReviewDate > newDate) {
@@ -5563,7 +5564,7 @@ function BidReviewApprovalClick(formContext) {
                                         preventClose: false
                                     }
                                 ],
-                                "WARNING", 500, 350, '', true);
+                                "WARNING", 500, 350, ClientUrl, true);
                         }
                         else {
                             BidReviewApprovalConfirmation(formContext, approvalType);
@@ -5595,7 +5596,7 @@ function BidReviewApprovalClick(formContext) {
 
                                 }
                             ],
-                            "WARNING", 500, 350, '', true);
+                            "WARNING", 500, 350, ClientUrl, true);
                     }
                     else {
                         BidReviewApprovalConfirmation(formContext, approvalType);
@@ -5839,6 +5840,7 @@ function bidreviewchair_userid_onchange(executionContext) {
         oldBidReviewChair = currentbidreviewchair[0].id;
     }
 
+    var ClientUrl = formContext.context.getClientUrl();
     if (regionName == "AUSTRALASIA REGION" || regionName == "MALAYSIA REGION") {
 
         var BMBR = formContext.getAttribute('ccrm_bidmanager_userid').getValue()[0].id,
@@ -5873,7 +5875,7 @@ function bidreviewchair_userid_onchange(executionContext) {
                             preventClose: false
                         }
                     ],
-                    "WARNING", 550, 350, '', true);
+                    "WARNING", 550, 350, ClientUrl, true);
             }
         } else {
             Alert.show('<font size="6" color="#FF0000"><b>Stop</b></font>',
@@ -5881,7 +5883,7 @@ function bidreviewchair_userid_onchange(executionContext) {
                 [
                     { label: "<b>OK</b>", setFocus: true },
                 ],
-                "ERROR", 500, 250, '', true);
+                "ERROR", 500, 250, ClientUrl, true);
             formContext.getAttribute("ccrm_bidreviewchair_userid").setValue(null);
         }
     } else {
@@ -5913,7 +5915,7 @@ function bidreviewchair_userid_onchange(executionContext) {
                         setFocus: true,
                         preventClose: false
                     }
-                ], "WARNING", 550, 350, '', true);
+                ], "WARNING", 550, 350, ClientUrl, true);
         }
     }
 }// Bid Review Approval -  ribbon button click - ends
@@ -5956,6 +5958,7 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
     var ackMsg = ApprovalConfirmationMessage(approvalType);
     var msg = 'You are about to approve a Bid where you are not listed as approver. \n Do you want to Continue ?';
     var output = ValidateApproval(formContext, msg, approvalType);
+    var ClientUrl = formContext.context.getClientUrl();
 
     if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
 
@@ -6022,7 +6025,7 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
                         },
                     }
                 ],
-                "QUESTION", 500, 250, '', true);
+                "QUESTION", 500, 250, ClientUrl, true);
         } else {
 
             Alert.show('<font size="6" color="#FF0000"><b>Stop</b></font>',
@@ -6030,7 +6033,7 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
                 [
                     { label: "<b>OK</b>", setFocus: true },
                 ],
-                "ERROR", 500, 250, '', true);
+                "ERROR", 500, 250, ClientUrl, true);
         }
 
     } else {
@@ -6064,7 +6067,7 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
                     preventClose: false
                 }
             ],
-            "WARNING", 550, 300, '', true);
+            "WARNING", 550, 300, ClientUrl, true);
     }
 }
 
@@ -6278,6 +6281,8 @@ function requestConfirmJob(formContext) {
         var currUserId = globalContext.userSettings.userId;
         var lstCJNUsr = formContext.getAttribute("arup_aruplastcjnclickuser").getValue();
         var lstCJNUsrId = (lstCJNUsr != null) ? lstCJNUsr[0].id : null;
+        var ClientUrl = formContext.context.getClientUrl();
+
         if (projPartApp == 770000000) {
 
             var ProjectPartExists = projectParticipantExists(formContext);
@@ -6299,7 +6304,7 @@ function requestConfirmJob(formContext) {
                                 setFocus: false,
                                 preventClose: false
                             }
-                        ], 'INFO', 500, 250, '', true);
+                        ], 'INFO', 500, 250, ClientUrl, true);
                 }
                 else {
                     setTimeout(function () { openNewCJNAForm(formContext, true); }, 1500);
@@ -6311,7 +6316,7 @@ function requestConfirmJob(formContext) {
                     '<font face="Segoe UI Light" size="3" color="#000000">You said that Project Collaborators are required.</br>Please add them before requesting a Confirmed Job Number.</font>',
                     [
                         { label: "<b>OK</b>", setFocus: true },
-                    ], "ERROR", 500, 230, '', true);
+                    ], "ERROR", 500, 230, ClientUrl, true);
             }
         }
         else {
@@ -6343,7 +6348,7 @@ function requestConfirmJob(formContext) {
                         setFocus: false,
                         preventClose: false
                     }
-                ], 'QUESTION', 500, 230, '', true);
+                ], 'QUESTION', 500, 230, ClientUrl, true);
         }
     } else {
         formContext.data.save();
@@ -6519,6 +6524,7 @@ function Syncbiddirector_userid(executionContext) {
 }
 
 function ProvisionDWBidsSite(formContext) {
+    var ClientUrl = formContext.context.getClientUrl();
 
     if (formContext.getAttribute("arup_bidsiterequested").getValue() != true) {
         var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
@@ -6564,7 +6570,7 @@ function ProvisionDWBidsSite(formContext) {
                                         "INFO",
                                         500,
                                         250,
-                                        '',
+                                        ClientUrl,
                                         true);
                                 },
                                 false,
@@ -6574,7 +6580,7 @@ function ProvisionDWBidsSite(formContext) {
                         "INFO",
                         500,
                         250,
-                        '',
+                        ClientUrl,
                         true);
 
                 } else {
@@ -6799,7 +6805,7 @@ function ReopenOpp(formContext) {
             'INFO',
             800,
             250,
-            '',
+            formContext.context.getClientUrl(),
             true);
     }
     else {
@@ -7083,7 +7089,7 @@ function confirmUpdate(executionContext, logicalname, displayname) {
                     setFocus: false,
                     preventClose: false
                 }
-            ], 'QUESTION', 800, 250, '', true);
+            ], 'QUESTION', 800, 250, formContext.context.getClientUrl(), true);
     }
 }
 function ParentOpportunity_Onchange_ec(executionContext, event) {
@@ -7789,7 +7795,7 @@ function procurementTypeFullForm_onChange(formContext, attributeName) {
 
     buttonArray.push(confirmButton);
     buttonArray.push(cancelButton);
-    Alert.showWebResource("arup_procurementtypesupportingtext", 650, 350, "Please, confirm your selection of " + titleFieldName, buttonArray, null, true, 10);
+    Alert.showWebResource("arup_procurementtypesupportingtext", 650, 350, "Please, confirm your selection of " + titleFieldName, buttonArray, formContext.context.getClientUrl(), true, 10);
 }
 
 function onConfirmButtonClick(formContext) {
@@ -7824,17 +7830,28 @@ function BidSubmittedClick(formContext) {
 
 }
 
+//function RefreshWebResource(formContext, webResourceName) {
+//    var webResource = formContext.getControl(webResourceName);
+//    if (webResource != null) {
+//        var src = webResource.getSrc();
+
+//        var aboutBlank = "about:blank";
+//        webResource.setSrc(aboutBlank);
+
+//        setTimeout(function () {
+//            webResource.setSrc(src);
+//        }, 1000);
+//    }
+//}
+
 function RefreshWebResource(formContext, webResourceName) {
     var webResource = formContext.getControl(webResourceName);
     if (webResource != null) {
-        var src = webResource.getSrc();
-
-        var aboutBlank = "about:blank";
-        webResource.setSrc(aboutBlank);
-
-        setTimeout(function () {
-            webResource.setSrc(src);
-        }, 1000);
+        webResource.getContentWindow().then(
+            function (contentWindow) {
+                contentWindow.setClientApiContext(Xrm, formContext);
+            }
+        )
     }
 }
 
@@ -7967,7 +7984,7 @@ function openPrintPreview(formContext) {
             "ERROR",
             450,
             200,
-            '',
+            formContext.context.getClientUrl(),
             true);
     }
 }

@@ -13,16 +13,9 @@
         td,tr {
             font-family: Segoe UI, Tahoma, Arial;
             font-style:normal;
-           /*  display:table-cell;
-            border: 1px groove #808080;
-            padding: 8px;
-            background-color: #002050;
-            color: White;*/
         }
         thead, tfoot, th{  
-              border: 1px ridge #808080;
-          /*   border-bottom-color:#ffffff;
-            border-top-color:#ffffff;*/
+            border: 1px ridge #808080;
             border-right-color:#ffffff;
             border-left-color:#ffffff;
             border-collapse :collapse;
@@ -30,11 +23,6 @@
         }
           tfoot{
             background-color: rgba(221, 221, 221, 0.5);
-           /* position:fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 15px;*/
         }
 
         table {
@@ -48,10 +36,12 @@
             width: 100%;
             font-size: 12px;
         }
+
         </style>
         <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
         <script src="ccrm_sdk_rest_data_library" type="text/javascript"></script>
         <script type="text/javascript">
+
         document.onreadystatechange = function () {
             if (document.readyState == "complete") {
                 getMoreResults();

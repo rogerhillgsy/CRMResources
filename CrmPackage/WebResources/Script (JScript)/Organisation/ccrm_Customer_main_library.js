@@ -1,28 +1,3 @@
-//// To fire  On Change Event of Check Box immediately
-//function RegisterCheckboxClick(attr) {
-
-//    var ctrl = Xrm.Page.getControl(attr);
-//    var a = ctrl.getAttribute();
-//    var el = document.getElementById(attr);
-
-//    // Build Toggle Function
-//    var f = "var ef=function() { " +
-//        "var a = Xrm.Page.data.entity.attributes.get(attr); " +
-//        "a.setValue(!a.getValue()); a.fireOnChange();" +
-//        " };";
-
-//    eval(f);
-
-
-//    // Attach to click event
-//    if (myBrowserName() == "Microsoft Internet Explorer" && myIEVersion() <= 8) {
-//        el.attachEvent('onclick', ef, false);//this one up to IE8 	//  
-//    }
-//    else {
-//        el.addEventListener('onclick', ef, false);  //IE9+ FireFox Chrome //   
-//    }
-//}
-
 function form_OnLoad(executionContext) {
     var formContext = executionContext.getFormContext();
     parentOrg(formContext);
@@ -51,27 +26,6 @@ function clear_state(executionContext) {
     }
 }
 
-/*
-DoNotContactMethodsPickList = function () {
-
-    ShowAllPickListItems("preferredcontactmethodcode");
-
-    if (Xrm.Page.getAttribute("donotemail").getValue() == true)
-        HidePickListItem("preferredcontactmethodcode", "2");
-
-    if (Xrm.Page.getAttribute("donotphone").getValue() == true)
-        HidePickListItem("preferredcontactmethodcode", "3");
-
-    if (Xrm.Page.getAttribute("donotfax").getValue() == true)
-        HidePickListItem("preferredcontactmethodcode", "4");
-
-    if (Xrm.Page.getAttribute("donotpostalmail").getValue() == true)
-        HidePickListItem("preferredcontactmethodcode", "5");
-
-    if (Xrm.Page.getAttribute("donotemail").getValue() == true || Xrm.Page.getAttribute("donotbulkemail").getValue() == true || Xrm.Page.getAttribute("donotphone").getValue() == true || Xrm.Page.getAttribute("donotfax").getValue() == true || Xrm.Page.getAttribute("donotpostalmail").getValue() == true)
-        HidePickListItem("preferredcontactmethodcode", "1");
-}*/
-
 function stateVisibility(executionContext) {
     var formContext = executionContext.getFormContext();
     countryname = formContext.getAttribute("ccrm_countryid").getValue() != null ? formContext.getAttribute("ccrm_countryid").getValue()[0].name : null;
@@ -99,7 +53,6 @@ function stateVisibility(executionContext) {
 }
 
 function stateRequired(CountryName) {
-
     CountryName = CountryName.toUpperCase();
 
     var states = (CountryName == "UNITED STATES" ||
@@ -119,55 +72,16 @@ function parent_Org(executionContext) {
 }
 
 function parentOrg(formContext) {
-
     orgType = formContext.getAttribute("ccrm_organisationtype").getValue();
 
     var flag = false;
-    //var required = 'none';
 
     if (orgType == "5") {
         flag = true;
-        //required = 'required';
     }
     formContext.getControl("ccrm_parent2").setVisible(flag)
     formContext.getControl("ccrm_parent3").setVisible(flag)
 }
-
-ccrm_countryid_onchange = function () {
-    //sync up country with countryid field
-    syncCountry()
-}
-
-//function to sync up country with countryid field
-syncCountry = function () {
-    alert("Hello Raul")
-    if (Xrm.Page.getAttribute("ccrm_countryid").getValue() != null) {
-        //sync up country with countryid field
-        Xrm.Page.getAttribute("address1_country").setValue(Xrm.Page.getAttribute("ccrm_countryid").getValue()[0].name);
-    }
-    else {
-        Xrm.Page.getAttribute("address1_country").setValue(null);
-    }
-}
-
-// CODE Coomented as fields are not used on the form. TO BE DELETED after Testing
-//function HidePickListItem(listID, option) {
-//    var objList = Xrm.Page.getControl(listID);
-//    objList.removeOption(option);
-//}
-
-//function ShowAllPickListItems(listID) {
-
-//    var optionsetControl = Xrm.Page.getControl(listID);
-//    if (optionsetControl != null) {
-
-//        var options = optionsetControl.getAttribute().getOptions();
-//        optionsetControl.clearOptions();
-//        for (var i = 0; i < options.length; i++) {
-//            optionsetControl.addOption(options[i], i + 1);
-//        }
-//    }
-//}
 
 function phoneOnChange(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -175,11 +89,6 @@ function phoneOnChange(executionContext) {
     if (formContext.getAttribute("ccrm_countryid").getValue() != null) {
         var countryId = formContext.getAttribute("ccrm_countryid").getValue()[0].id;
         var countryName = formContext.getAttribute("ccrm_countryid").getValue()[0].name;
-
-        //var filter = "Ccrm_countryId eq (guid'" + countryId + "')";
-        //var dataset = "Ccrm_countrySet";
-        //var retrievedMultiple = ConsultCrm.Sync.RetrieveMultipleRequest(dataset, filter);
-        //var results = retrievedMultiple.results;
 
         Xrm.WebApi.online.retrieveMultipleRecords("ccrm_country", "?$select=ccrm_mobilearray,ccrm_mobiledisplay,ccrm_mobileformat,ccrm_phonearray,ccrm_phonedisplay,ccrm_phoneformat&$filter=ccrm_countryid eq " + countryId + "").then(
             function success(results) {

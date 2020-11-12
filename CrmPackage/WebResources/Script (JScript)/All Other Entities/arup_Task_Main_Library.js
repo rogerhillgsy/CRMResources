@@ -1,10 +1,11 @@
 /// <reference path="arup_exitFormFunctions.js"/>"
-
+var SSCMember = false;
 function Form_onload(executionContext) {
     var formContext = executionContext.getFormContext();
     //set status to hidden unless category is Finance
     var category = formContext.getAttribute("category").getValue();
     var originatedFrom = formContext.getAttribute('arup_originatedfrom').getValue();
+    SSCMember = userInSSCTeam(formContext);
 
     if (category == 'Finance' || category == 'Legal' || category == 'Bid Review' || category == 'Decision to Proceed' || category == 'Confirmed Job Approval') {
         formContext.getControl("ccrm_taskstatus").setVisible(true);
@@ -15,8 +16,8 @@ function Form_onload(executionContext) {
 
     if (formContext.getAttribute('statecode').getValue() == 0) {
         originatedFrom_onChange(executionContext);
-        formContext.getControl("arup_organisationvalidation").setDisabled(false);
-        formContext.getControl("arup_creditcheck").setDisabled(false);
+        formContext.getControl("arup_organisationvalidation").setDisabled(!SSCMember);
+        formContext.getControl("arup_creditcheck").setDisabled(!SSCMember);
     }
 
     //Set Category and Sub-Category read only if category is populated
@@ -46,6 +47,18 @@ function Form_onload(executionContext) {
         formContext.getControl("ccrm_taskstatus").removeOption(5);
     }
 
+    changeLookFor(formContext, 'regardingobjectid', 'opportunity');
+
+}
+
+function QuickCreateForm_Load(executionContext) {
+    var formContext = executionContext.getFormContext();
+    changeLookFor(formContext, 'regardingobjectid', 'opportunity');
+}
+function changeLookFor(formContext, fieldName, entityTypeToSet) {
+
+    var control = formContext.getControl(fieldName);
+    control.setEntityTypes([entityTypeToSet]);
 }
 
 function Form_onsave(executionContext) {
@@ -130,6 +143,8 @@ function validateCompletion(formContext) {
     //770000002 - Verified
     //770000003 - Change Request Completed
 
+    if (!SSCMember) { return; }
+
     var organisationValidation = formContext.getAttribute('arup_organisationvalidation').getValue();
     var creditCheck = formContext.getAttribute('arup_creditcheck').getValue();
     var creditCheckChanged = formContext.getAttribute('arup_creditcheck').getIsDirty();
@@ -164,7 +179,7 @@ function validateCompletion(formContext) {
 
         Alert.show('<font size="6" color="#2E74B5"><b>Task completed</b></font>',
             '<font size="3" color="#000000"></br>The task has been marked as completed.</font>',
-            [new Alert.Button("<b>OK</b>")], "INFO", 600, 200, '', true);
+            [new Alert.Button("<b>OK</b>")], "INFO", 600, 200, formContext.context.getClientUrl(), true);
     }
 }
 
@@ -176,57 +191,64 @@ function validateCompletion(formContext) {
 function markAsComplete(formContext, displayError) {
     //run from Mark Complete button
 
+    var originatedFrom = formContext.getAttribute('arup_originatedfrom').getValue();
     var organisationValidation = formContext.getAttribute('arup_organisationvalidation').getValue();
     var creditCheck = formContext.getAttribute('arup_creditcheck').getValue();
+    var clientURL = formContext.context.getClientUrl();
     var errorMessage = null;
+    SSCMember = userInSSCTeam(formContext);
 
-    //validate if all data has been entered before marking task as complete */
-    switch (originatedFrom) {
-    case 770000000: // 1. Opportunity
-    case 770000002: // 3. New Organisation
+    //check if task was created automatically when organisation either requires verification or change was requested or credit check is required */
+    if (SSCMember || originatedFrom == null) {
 
-        if (
-            (organisationValidation == 770000002 && creditCheck == 770000000) ||
-                (organisationValidation == 770000000 && creditCheck == 770000001) ||
-                (organisationValidation == 770000000 && creditCheck == 770000000)
-        ) {
-            errorMessage =
-                'Organisation must be verified AND credit check must be done before this task can be completed';
-        } else {
+        if (originatedFrom != null) {
+            //validate if all data has been entered before marking task as complete */
+            switch (originatedFrom) {
+                case 770000000: // 1. Opportunity
+                case 770000002: // 3. New Organisation
 
-            if (organisationValidation == 770000000) {
-                formContext.getAttribute('arup_organisationvalidation').setValue(770000002);
-            }
-            if (creditCheck == 770000000) {
-                formContext.getAttribute('arup_creditcheck').setValue(770000001);
+                    if (
+                        (organisationValidation == 770000002 && creditCheck == 770000000) ||
+                        (organisationValidation == 770000000 && creditCheck == 770000001) ||
+                        (organisationValidation == 770000000 && creditCheck == 770000000)
+                    ) {
+                        errorMessage =
+                            'Organisation must be verified AND credit check must be done before this task can be completed';
+                    } else {
+
+                        if (organisationValidation == 770000000) {
+                            formContext.getAttribute('arup_organisationvalidation').setValue(770000002);
+                        }
+                        if (creditCheck == 770000000) {
+                            formContext.getAttribute('arup_creditcheck').setValue(770000001);
+                        }
+                    }
+
+                    break;
+
+                case 770000001: // 2. Organisation Change Request
+
+                    formContext.getAttribute('arup_organisationvalidation').setValue(770000003);
+                    break;
             }
         }
 
-        break;
+        // close task as complete if no errors found
+        if (errorMessage == null) {
 
-    case 770000001: // 2. Organisation Change Request
+            formContext.getAttribute('statecode').setValue(1);
+            formContext.getAttribute('statuscode').setValue(5);
+            formContext.getAttribute('ccrm_taskstatus').setValue(2);
+            formContext.getAttribute('percentcomplete').setValue(100);
+            formContext.getAttribute('actualend').setValue(new Date());
 
-        formContext.getAttribute('arup_organisationvalidation').setValue(770000003);
-        break;
-    }
-
-
-    // close task as complete if no errors found
-    if (errorMessage == null) {
-
-        formContext.getAttribute('statecode').setValue(1);
-        formContext.getAttribute('statuscode').setValue(5);
-        formContext.getAttribute('ccrm_taskstatus').setValue(2);
-        formContext.getAttribute('percentcomplete').setValue(100);
-        formContext.getAttribute('actualend').setValue(new Date());
-
-        formContext.data.save().then(function() { // The save prevents "unsaved"-warning.
+            formContext.data.save().then(function () { // The save prevents "unsaved"-warning.
 
                 Alert.show('<font size="6" color="#2E74B5"><b>Task completed</b></font>',
                     '<font size="3" color="#000000"></br>The task has been marked as completed.</font>',
                     [
                         new Alert.Button("<b>OK</b>",
-                            function() { formContext.ui.close(); },
+                            function () { formContext.ui.close(); },
                             true,
                             false)
                     ],
@@ -237,25 +259,31 @@ function markAsComplete(formContext, displayError) {
                     true);
 
             },
-            null);
+                null);
 
-    } else if (displayError == true) {
+        } else if (displayError == true) {
 
-        Alert.show('<font size="6" color="#d80303"><b>Error</b></font>',
-            '<font size="3" color="#000000">' + errorMessage + '</font>',
-            [
-                new Alert.Button("<b>OK</b>")
-            ],
-            "ERROR",
-            500,
-            200,
-            '',
-            true);
+            Alert.show('<font size="6" color="#d80303"><b>Error</b></font>',
+                '<font size="3" color="#000000">' + errorMessage + '</font>',
+                [
+                    new Alert.Button("<b>OK</b>")
+                ],
+                "ERROR",
+                500,
+                200,
+                '',
+                true);
+        }
     }
 }
 
 function markAsCanceled(formContext) {
+
+    var originatedFrom = formContext.getAttribute('arup_originatedfrom').getValue();
+    SSCMember = userInSSCTeam(formContext);
+
     //check if task was created automatically when organisation either requires verification or change was requested or credit check is required */
+    if (!SSCMember && originatedFrom != null) { return; }
 
     formContext.getAttribute('statecode').setValue(2);
     formContext.getAttribute('statuscode').setValue(6);
@@ -272,6 +300,35 @@ function markAsCanceled(formContext) {
             ], "INFO", 600, 200, '', true);
 
     }, null);
+}
+
+function userInSSCTeam(formContext) {
+
+    var originatedFrom = formContext.getAttribute('arup_originatedfrom').getValue();
+    if (originatedFrom == null) { return true; }
+
+    var req = new XMLHttpRequest();
+    var userid = formContext.context.getUserId().replace('{', '').replace('}', '');
+    var userExists = false;
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/teammemberships?$filter=systemuserid eq " + userid + " and (teamid eq 01886278-29CF-E911-8128-00505690CB20 or teamid eq F469F99A-29CF-E911-8128-00505690CB20 or teamid eq 0F61DA8A-29CF-E911-8128-00505690CB20 or teamid eq 8D568D76-48E5-E911-812B-00505690CB20 or teamid eq A7E35C81-29CF-E911-8128-00505690CB20 or teamid eq 12129B56-29CF-E911-8128-00505690CB20 or teamid eq 2247756B-29CF-E911-8128-00505690CB20)", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var results = JSON.parse(this.response);
+                userExists = results.value.length > 0;
+            } else {
+                Xrm.Navigation.openAlertDialog(this.statusText);
+            }
+        }
+    };
+    req.send();
+    return userExists;
 }
 
 /**

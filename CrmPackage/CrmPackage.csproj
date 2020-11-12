@@ -1322,6 +1322,11 @@
       <UniqueName>new_arup_main</UniqueName>
       <WebResourceType>CascadingStylesheet</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\mag_js_alert.js">
+      <DisplayName>mag_js_alert</DisplayName>
+      <UniqueName>new_mag_js_alert</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\SDK.MetaData.js">
       <DisplayName>SDK.MetaData.js</DisplayName>
       <UniqueName>ccrm_/JavaScripts/Lib/SDK.MetaData.js</UniqueName>
@@ -1852,7 +1857,7 @@
       <UniqueName>arup_arup_DuplicateCheckMoreResults</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_DuplicateCheckResult">
+    <CRMWebResource Include="WebResources\Web Page (HTML)\arup_DuplicateCheckResult.html">
       <DisplayName>arup_DuplicateCheckResult</DisplayName>
       <UniqueName>arup_arup_DuplicateCheckResult</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>

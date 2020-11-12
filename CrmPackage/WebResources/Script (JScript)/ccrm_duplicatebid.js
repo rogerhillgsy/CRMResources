@@ -57,11 +57,6 @@ function getFilter() {
 }
 
 function GetResultData(clientUrl) {
-    //var serverUrl;
-    //serverUrl = formContext.context.getClientUrl();
-    //var ODataPath = serverUrl + "/XRMServices/2011/OrganizationData.svc";
-    //var queryUrl = ODataPath + "/OpportunitySet?$select=Ccrm_DisciplinesName,Ccrm_estimatedvalue_num,ccrm_project_transactioncurrencyid,OpportunityId,Name,ccrm_bidmanager_userid,CustomerId,ccrm_arupbusinessid,Ccrm_EstArupInvolvementStart" + getFilter();
-
     // call our new method
     var retrievedBids;// = getODataRecords(queryUrl);
     $.ajax({
@@ -81,7 +76,7 @@ function GetResultData(clientUrl) {
             retrievedBids = data.value;
         },
         error: function (xhr, textStatus, errorThrown) {
-            Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+            Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
         }
     });
     var noResult = false;

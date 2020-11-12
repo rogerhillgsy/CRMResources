@@ -240,19 +240,22 @@ function setField(formContext, results, targetAttribute, sourceField) {
         if (!results[sourceField]) {
             value = null;
         }
-        else {
+        else {     
             value = results[sourceField].split(",");
+            value = value.map(value => {
+                return parseInt(value)
+            })                        
         }
     }
     else {
-        value = results[sourceField];
+        value = results[sourceField];       
     }
 
     if (!value) {
         teamError("Source field " + sourceField + " not found");
     }
     teamLog("Set attribute " + targetAttribute + ' to "' + value + '"');
-    attr.setValue(value);
+     attr.setValue(value);
 }
 
 function EnsureIsTeamMember(formContext, attributeName) {
@@ -374,11 +377,12 @@ function OpenClientGroupingMatrix(primaryControl) {
 }
 
 // Ribbon function from legacy arup_teams.js
-function openFOPForm() {
+function openFOPForm(primaryControl) {
+    var formContext = primaryControl;
     var team = {
         entityType: "team",
-        id: Xrm.Page.data.entity.getId(),
-        name: Xrm.Page.getAttribute("name").getValue()
+        id: formContext.data.entity.getId(),
+        name: formContext.getAttribute("name").getValue()
     };
 
     // Set default values for the FOP form
@@ -395,6 +399,11 @@ function openFOPForm() {
 
 }
 
-function refreshRibbonOnChange() {
-    Xrm.Page.ui.refreshRibbon();
+function Activities_Tab_Change(executionContext) {
+    var formContext = executionContext.getFormContext();
+    refreshRibbonOnChange(formContext);
 }
+function refreshRibbonOnChange(formContext) {
+    formContext.ui.refreshRibbon();
+}
+

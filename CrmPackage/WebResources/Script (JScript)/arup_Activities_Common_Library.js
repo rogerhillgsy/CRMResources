@@ -22,3 +22,43 @@ function ShowHideFieldOfPlay(executionContext, organisationIdFieldName, fieldOfP
             });
     }
 }
+
+function SetDefaultValueToFieldOfPlay(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var relationshipTeamId = formContext.getAttribute("ccrm_relationshipteam").getValue();
+    if (relationshipTeamId != null) {
+        relationshipTeamId = relationshipTeamId[0].id.replace(/[{}]/g, "");
+
+        Xrm.WebApi.online.retrieveMultipleRecords("arup_fieldofplay", "?$select=arup_fieldofplayid,arup_name&$filter=_arup_relationshipteamid_value eq " + relationshipTeamId + " and  contains(arup_name, '%23%20General')").then(
+            function success(results) {
+                if (results.entities.length > 0) {
+                    for (var i = 0; i < results.entities.length; i++) {
+                        var arup_fieldofplayid = results.entities[i]["arup_fieldofplayid"];
+                        var arup_name = results.entities[i]["arup_name"];
+                        formContext.getAttribute("arup_fieldofplayid").setValue([{ id: arup_fieldofplayid, name: arup_name, entityType: "arup_fieldofplay" }]);
+                       // formContext.getControl("arup_fieldofplayid").setDisabled(false);
+                    }
+                } else {
+                    formContext.getAttribute("arup_fieldofplayid").setValue(null);
+                  //  formContext.getControl("arup_fieldofplayid").setDisabled(true);
+                }
+            },
+            function (error) {
+                Xrm.Navigation.openAlertDialog(error.message);
+            }
+        );
+    }
+}
+
+//formContext is primaryCOntrol crmparamter
+function Activity_NewButton_Ribbon_SubGridEnableRule(formContext) {
+    var isEnabled = true;
+    var futureActivityTab = formContext.ui.tabs.get("Future_Activities_tab");
+    var recentActivityTab = formContext.ui.tabs.get("Recent_Activities_tab");
+    if (futureActivityTab != null && futureActivityTab.getDisplayState() == "expanded")
+        isEnabled = true;
+    else if (recentActivityTab != null && recentActivityTab.getDisplayState() == "expanded")
+    isEnabled = false;
+
+    return isEnabled;
+}
