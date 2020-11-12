@@ -63,3 +63,12 @@ function changeLookFor(formContext, fieldName, entityname) {
     var control = formContext.getControl(fieldName);
     control.setEntityTypes([entityname]);
 }
+
+function triggerCustomerVoiceSurvey(primaryControl) {
+    var formContext = primaryControl;
+    var sendSurvey = formContext.getAttribute("arup_sendsurvey").getValue();
+    if (!sendSurvey) {
+        formContext.getAttribute("arup_sendsurvey").setValue(true);
+        formContext.data.entity.save();
+    }
+}

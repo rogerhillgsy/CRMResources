@@ -1,6 +1,7 @@
 ﻿<html>
 <head>
     <script type="text/javascript">
+       
         parent.$("h1[data-id='defaultDialogChromeTitle']", parent.document).html("");
 		try{
 			theViewer.defaultViewer = new theViewer.Viewer({});
@@ -18,12 +19,13 @@
         }
 
         function getUserSettings() {
-            Xrm = parent.Xrm;
-            var clientUrl = Xrm.Page.context.getClientUrl();
-            var userId = Xrm.Page.context.getUserId().replace("{", "").replace("}", "");
+            Xrm = parent.Xrm;     
+            var globalContext = Xrm.Utility.getGlobalContext();
+            var clientUrl = globalContext.getClientUrl();
+            var userId = globalContext.userSettings.userId.replace("{", "").replace("}", "");
 
             var req = new XMLHttpRequest();
-            req.open("GET", clientUrl + "/api/data/v8.2/systemusers(" + userId + ")?$select=arup_defaultpane,arup_defaulttab", false);
+            req.open("GET", clientUrl + "/api/data/v9.1/systemusers(" + userId + ")?$select=arup_defaultpane,arup_defaulttab", false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -42,7 +44,8 @@
 
         function setUserSettings(result) {
             Xrm = parent.Xrm;
-            var userId = Xrm.Page.context.getUserId().replace("{", "").replace("}", "");
+            var globalContext = Xrm.Utility.getGlobalContext();
+            var userId = globalContext.userSettings.userId.replace("{", "").replace("}", "");
 
             var entity = {};
             if(result["arup_defaultpane"] != null){
@@ -59,7 +62,7 @@
 			}
 
 				var req = new XMLHttpRequest();
-				req.open("PATCH", Xrm.Page.context.getClientUrl() + "/api/data/v8.2/usersettingscollection(" + userId + ")", false);
+				req.open("PATCH", globalContext.getClientUrl() + "/api/data/v9.1/usersettingscollection(" + userId + ")", false);
 				req.setRequestHeader("OData-MaxVersion", "4.0");
 				req.setRequestHeader("OData-Version", "4.0");
 				req.setRequestHeader("Accept", "application/json");
@@ -78,17 +81,17 @@
         function closeDlg() {
             try {
                 Xrm = parent.Xrm;
-				var url = Xrm.Page.context.getClientUrl();
+				var url = Xrm.Utility.getGlobalContext().getClientUrl();
 				parent.window.open(url, "_self");
             }
             catch (e) { }
         }
 
     </script>
-    <script src="../../../../../../webresources/ClientGlobalContext.js.aspx" type="text/javascript"></script>
+
     <script src="mag_/jquery1.8.3.min.js" type="text/javascript"></script>
-    <script src="../WebResources/ccrm_/JavaScripts/Lib/SDK.REST.js" type="text/javascript"></script>
-    <script src="../WebResources/ccrm_/JavaScripts/Lib/SDK.MetaData.js" type="text/javascript"></script>
+    <!--<script src="../WebResources/ccrm_/JavaScripts/Lib/SDK.REST.js" type="text/javascript"></script>
+    <script src="../WebResources/ccrm_/JavaScripts/Lib/SDK.MetaData.js" type="text/javascript"></script>-->
     <script src="../WebResources/ccrm_/JavaScripts/Lib/XrmServiceToolkit.min.js" type="text/javascript"></script>
 
     <meta>

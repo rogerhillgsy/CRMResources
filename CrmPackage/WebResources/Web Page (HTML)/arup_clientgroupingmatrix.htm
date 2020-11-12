@@ -1,6 +1,4 @@
-﻿﻿
-<!DOCTYPE html>
-<html>
+﻿<html>
 <head>
 
     <title>CRM Report - Client Connection Matrix</title>
@@ -12,324 +10,6 @@
     <script src="ccrm_/JavaScripts/Lib/XrmServiceToolkit.min.js" type="text/javascript"></script>
     <script src="ccrm_/JavaScripts/D3V4.js" type="text/javascript"></script>
     <script src="ccrm_/JavaScripts/Lib/jquery_3.2.0.min" type="text/javascript"></script>
-    <!--<script src="arup_BootStrap.min" rel="stylesheet"></script>-->
-    <!-- Bootstrap core CSS -->
-    <link href="arup_Bootstrap4.3.1.css" rel="stylesheet">
-
-    <style type="text/css">
-        body, html {
-            padding: 0;
-            margin: 0;
-            height: 100%;
-            width: 100%;
-        }
-
-        svg {
-            display: block;
-        }
-
-        #connectionMatrix {
-            width: 100%;
-            font: 10px sans-serif;
-        }
-
-
-        .arc text {
-            font: 10px sans-serif;
-            text-anchor: middle;
-        }
-
-        .arc path {
-            stroke: #fff;
-        }
-
-        .bar rect {
-            fill: steelblue;
-        }
-
-        .bar text {
-            fill: black;
-            font: 10px sans-serif;
-            text-anchor: start;
-        }
-
-        div {
-            background-color: white;
-            float: left;
-        }
-
-        #OpportunityForAccChart {
-            width: 450px;
-            height: 200px;
-        }
-
-        #OpenOpportunityChart {
-            width: 580px;
-            height: 200px;
-        }
-
-        .axis .domain {
-            display: none;
-        }
-
-        /*body {
-            font: 10px sans-serif;
-        }*/
-
-        .axis path,
-        .axis line {
-            fill: none;
-            stroke: #000;
-            shape-rendering: crispEdges;
-        }
-
-        /*.bar {
-            fill: steelblue;
-        }*/
-
-        .x.axis path {
-            display: none;
-        }
-
-        .print {
-            width: 90px;
-            background-color: rgb(77, 144, 254);
-            background-image: linear-gradient(to bottom, rgb(77, 144, 254), rgb(71, 135, 237));
-            border: 1px solid rgb(48, 121, 237);
-            color: #fff;
-            vertical-align: middle;
-            text-shadow: 0 1px rgba(0,0,0,0.1);
-            cursor: pointer;
-        }
-
-        .printimg {
-            color: #fff;
-            vertical-align: middle;
-            text-shadow: 0 1px rgba(0,0,0,0.1);
-            cursor: pointer;
-        }
-
-        .links line {
-            stroke: #999;
-            stroke-opacity: 0.6;
-        }
-
-        .nodes circle {
-            stroke: #fff;
-            stroke-width: 1px;
-        }
-
-        .nodetext {
-            pointer-events: none;
-            font-size: 5px;
-            font-family: 'Segoe UI';
-            fill: #000000;
-        }
-    </style>
-
-</head>
-<body style="width: 100%;-webkit-print-color-adjust: exact" onload="OnLoad()">
-    <div id="showhideNav" style="width:100%">
-        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Arup</a>
-        </nav>
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div id="maindivGraph" role="main" class="col-md-9 ml-sm-auto col-lg-10" style="padding-right:0">
-                <div style="width:100%">
-                    <div id="clientconnectionHelp" style="width:100%">
-                        <table style="width:100%">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <table style="width:100%">
-                                            <tbody>
-                                                <tr style="margin-bottom:140px;">
-                                                    <td colspan="12" id="accountName" style="font-weight:bold;font-size:18pt;"></td>
-                                                </tr>
-                                                <tr></tr>
-                                                <tr>
-                                                    <td colspan="9" style="font-style: normal; font-family: 'Times New Roman'; font-size: 12pt; font-weight: 400;">CLIENT GROUPING MATRIX</td>
-                                                    <td colspan="3" style="float:right;margin-right:10px;font-size:9pt">
-
-                                                        <p style="font-size:9pt; margin-bottom:0px"><b>Help:</b> Use mouse wheel to zoom-in / zoom-out. Press mouse left click and drag the chart to navigate</p>
-
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div style="width:100%">
-                        <table style="width:100%; margin-left:0">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <table style="background-color: lightgray; font-size: 10pt; font-family: Arial; width:100%">
-                                            <tbody>
-                                                <tr height="0">
-                                                    <td style="WIDTH:13%"></td>
-                                                    <td style="WIDTH:14%"></td>
-                                                    <td style="WIDTH:12%"></td>
-                                                    <td style="WIDTH:17%"></td>
-                                                    <td style="WIDTH:14%"></td>
-                                                    <td style="WIDTH:14%"></td>
-                                                    <td style="WIDTH:15%"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-weight:bold"><!--Relationship Manager:--></td>
-                                                    <td id="relationshipmanager"></td>
-                                                    <td style="font-weight:bold"><!--Relationship Team:--></td>
-                                                    <td id="relationshipteam"></td>
-                                                    <td style="font-weight:bold"><!--Parent Company:--></td>
-                                                    <td id="parentOrg"></td>
-                                                    <td>
-                                                        <div class="table-responsive" id="ConnectionButtons" style="float:right;background-color: lightgray; ">
-                                                            <button id='homeButton' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer; background-image:url(arup_HomeIcon)' onclick="onclickHomeButton()" title="Home"> </button>
-                                                            <button id='zoom_in' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphzoomin' style='height:25px' title='Zoom In' /></button>
-                                                            <button id='zoom_out' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphzoomout' style='height:25px' title='Zoom Out' /></button>
-                                                            <button id='zoom_init' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphreset' style='height:25px' title='Reset Zoom' /></button>
-                                                            <!--<button id='print' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphprint' style='height:26px' title='Print' /></button>-->
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                            </tbody>
-                                        </table>
-
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-
-                </div>
-
-                <div class="table-responsive" id="connectionMatrix" style="width:100%; height:70%; float:left; margin-right:2px;">
-                    <svg id="connForcelay" width="100%" height="100%"></svg>
-                </div>
-
-
-                <div class="table-responsive" style="padding-bottom: 80px">
-                    <div id="connectionMatrixtable" style="width:100%;">
-                        <!--<h3>Contacts with no connections</h3>-->
-                        <h3><p id="p"></p></h3>
-                    </div>
-                </div>
-
-            </div>
-            <div id="seconddivgraph" class="col-md-2" style="margin-top:65px">
-
-                <div id="Accountfilters" style="border:1px solid grey; padding-right:0px; padding-left:0px; font-size:9pt; width:100%">
-                    <div class="list-group" style="width:100%; font-size:11pt">
-                        <button type="button" class="list-group-item list-group-item-action list-group-item-secondary active">
-                            Filters
-                        </button>
-
-                        <div class="panel-group" style="width:100%">
-                            <div class="panel panel-info" style="width:100%; padding : 5px 5px 5px 5px">
-                                <div class="panel-body" style="width:100%">
-                                    <!--<Label class="list-group-item list-group-item-action list-group-item-secondary" style="cursor: pointer;">
-                                        <label style="width:100%; font-size:12pt ">
-                                            <input type="radio" name="RadOrg" id="Radios1" value="C" checked="checked">
-                                            Connections
-                                            <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="connectioncount"></span>
-                                        </label>
-                                    </Label>-->
-
-                                    <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
-                                        <input type="checkbox" value="1" id="chkContacts" onclick="oncheckContacts()" />
-                                        <label for="chkContacts" style="margin-bottom:0px">
-                                            All Contacts
-                                        </label>
-                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="contactsount"></span>
-                                    </Label>
-                                    <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
-                                        <input type="checkbox" value="1" id="chkCSuiteAndDecisionMakers" onclick="oncheckCSuiteAndDecisionMakers()" />
-                                        <label for="chkCSuiteAndDecisionMakers" style="margin-bottom:0px">
-                                            C-Suite and Decision Makers
-                                        </label>
-                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="decisionmakersount"></span>
-                                    </Label>
-                                    <!--<Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
-                                        <input type="checkbox" value="1" id="chkDecisionMakers" onclick="oncheckDecisionMakers()" />
-                                        <label for="chkDecisionMakers" style="margin-bottom:0px">
-                                            Decision Makers
-                                        </label>
-                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="decisionmakersount"></span>
-                                    </Label>
-                                    <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
-                                        <input type="checkbox" value="1" id="chkCSuite" onclick="oncheckCSuite()" />
-                                        <label for="chkCSuite" style="margin-bottom:0px">
-                                            C-Suite
-                                        </label>
-                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="csuitecount"></span>
-                                    </Label>-->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-group" style="width:100%">
-                            <div class="panel panel-info" style="width:100%; padding : 5px 5px 5px 5px">
-                                <div class="panel-body" style="width:100%">
-                                    <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
-                                        <input type="checkbox" value="1" id="chkActivities" disabled="disabled" onclick="oncheckActivities()" />
-                                        <label for="chkActivities" style="margin-bottom:0px">
-                                            Activities
-                                        </label>
-                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="activitiescount"></span>
-                                    </Label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="Userfilters" style="border:1px solid grey; display:none;padding-right:0px; padding-left:0px; font-size:9pt; width:100% ">
-                    <div class="list-group" style="width:100%; font-size:11pt">
-                        <button type="button" class="list-group-item list-group-item-action list-group-item-secondary active">
-                            Filters
-                        </button>
-                        <Label style="cursor: pointer;" class="list-group-item list-group-item-action">
-                            <input type="checkbox" value="1" id="chkShowAllConnectionsforUser" />
-                            <label for="chkShowAllConnectionsforUser">Show child org connections</label>
-                        </Label>
-                    </div>
-                </div>
-
-                <div id="Connectionfilters" style="display:none;padding-right:0px; padding-left:0px; font-size:9pt; width:100% ">
-                    <div class="list-group" style="width:100%; font-size:11pt">
-                        <!--<button type="button" class="list-group-item list-group-item-action list-group-item-secondary active">
-                            Filters
-                        </button>
-                        <Label style="cursor: pointer;" class="list-group-item list-group-item-action">
-                            <input type="checkbox" value="1" id="chkMarketingList" />
-                            <label for="chkMarketingList">Marketing Lists</label>
-                        </Label>
-
-                        <Label style="cursor: pointer;" class="list-group-item list-group-item-action">
-                            <input type="checkbox" value="2" id="chkContactActivities" />
-                            <label for="chkContactActivities">Activities</label>
-                        </Label>-->
-
-                    </div>
-                    <div class="alert alert-danger" id="alert-activities" style="display:none; margin-top: 20px;">
-                        <!--<strong>Activities not found </strong>-->
-                    </div>
-                    <div class="alert alert-danger" id="alert-marketing" style="display:none;  margin-top: 20px; ">
-                        <!--<strong>Marketing Lists not found </strong>-->
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
         var clientGroupingId, accId, accName, parentaccountid, isManagedClient, relationshipManager, accTownCity = "", accDepartment = "", accOpenOpptys = "";
         var currentselectedUserid = "";
@@ -345,7 +25,7 @@
         function OnLoad() {
             //if we need to display report within form:Starts
             ////debugger;
-            var parameters = GetGlobalContext().getQueryStringParameters().Data;
+            var parameters = undefined;//GetGlobalContext().getQueryStringParameters().Data;
             if (parameters != undefined) {
                 accId = parameters.split('&')[0].split('=')[1];
                 parentaccountid = parameters.split('&')[1].split('=')[1];
@@ -359,10 +39,18 @@
                         "</filter>" +
                         "</entity>" +
                         "</fetch>";
-                    var accounts = XrmServiceToolkit.Soap.Fetch(fetchXML);
-
+                    var accounts;// = XrmServiceToolkit.Soap.Fetch(fetchXML);
+                    fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
+                    Xrm.WebApi.retrieveMultipleRecords('account', fetchXML).then(
+                        function success(result) {
+                            accounts = result.entities;
+                        },
+                        function (error) {
+                            Xrm.Navigation.openAlertDialog(error.message);
+                        }
+                    );
                     if (accounts.length > 0) {
-                        parentaccountid = accounts[0].id;
+                        parentaccountid = accounts[0]["accountid"];
                     }
                 }
             }
@@ -423,13 +111,32 @@
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
-            var userRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
+            var userRecords;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Arup_GetClientURL() + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'account'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'ccrm_countryid'%20%2F%3E%3Cattribute%20name%3D'parentaccountid'%20%2F%3E%3Cattribute%20name%3D'ccrm_keyaccountmanagerid'%20%2F%3E%3Cattribute%20name%3D'ccrm_organisationtype'%20%2F%3E%3Cattribute%20name%3D'ccrm_keyaccount'%20%2F%3E%3Cattribute%20name%3D'ccrm_clienttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_alternativename'%20%2F%3E%3Cattribute%20name%3D'ccrm_address1attentiondepartment'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%20%2B%0A%3Corder%20attribute%3D'parentaccountid'%20descending%3D'false'%20%2F%3E%3Corder%20attribute%3D'name'%20descending%3D'false'%20%2F%3E%20%2B%0A%3Cfilter%20type%3D'and'%3E%20%2B%0A%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function (XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function (data, textStatus, xhr) {
+                    userRecords = data.value;
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                }
+            });
             var userList = [];
             if (userRecords.length > 0) {
                 for (var i = 0; i < userRecords.length; i++) {
                     //////debugger;
-                    var sysuserid = userRecords[i].attributes.accountid.value;
-                    var fullname = userRecords[i].attributes.name != undefined ? userRecords[i].attributes.name.value : "";
+                    var sysuserid = userRecords[i]["accountid"];
+                    var fullname = userRecords[i]["name"] != undefined ? userRecords[i]["name"] : "";
                     //var Office = userRecords[i].attributes.Office != undefined ? userRecords[i].attributes.Office.name : "";
                     //var title = userRecords[i].attributes.title != undefined ? userRecords[i].attributes.title.value : "";
                     //var business = userRecords[i].attributes.Business != undefined ? userRecords[i].attributes.Business.name : "";
@@ -480,7 +187,7 @@
             ConnectionContactData = "";
             InititializeGraphDivs();
             InitializeHomeButtonClick();
-            //new fectxml -  everything is same just modified to populate user/contact image url
+            /*new fectxml -  everything is same just modified to populate user/contact image url
             var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
                 "<entity name='account'>" +
                 "<attribute name='name' />" +
@@ -492,29 +199,41 @@
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
-            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
+            //fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
             var userList = [];
             initialOrgList = [];
-            Xrm.WebApi.retrieveMultipleRecords('account', fetchXML
-            ).then(function success(result) {
-                for (var i = 0; i < result.entities.length; i++) {
-                    var organizationid = result.entities[i]["accountid"];
-                    var organizationname = result.entities[i]["name"] != undefined ? result.entities[i]["name"] : "";
-                    var parentorganisationid = result.entities[i]["_parentaccountid_value"] != undefined ? result.entities[i]["_parentaccountid_value"] : "";
-                    var organization = { organizationname: organizationname, organizationid: organizationid, parentorganisationid: parentorganisationid };
-                    userList.push(organization);
-                    initialOrgList.push(organization);
-                    relTeamMembers.push(organizationid);
-                }
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Arup_GetClientURL() + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'account'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'parentaccountid'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientgroupings'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function (XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function (data, textStatus, xhr) {
+                    var result = data.value;
+                    for (var i = 0; i < result.length; i++) {
+                        var organizationid = result[i]["accountid"];
+                        var organizationname = result[i]["name"] != undefined ? result[i]["name"] : "";
+                        var parentorganisationid = result[i]["_parentaccountid_value"] != undefined ? result[i]["_parentaccountid_value"] : "";
+                        var organization = { organizationname: organizationname, organizationid: organizationid, parentorganisationid: parentorganisationid };
+                        userList.push(organization);
+                        initialOrgList.push(organization);
+                        relTeamMembers.push(organizationid);
+                    }
 
-                if (userList.length > 0) {
-                    //DrawMatrixForceLayout("#connectionMatrix", userList);
+                    if (userList.length > 0) {
+                        //DrawMatrixForceLayout("#connectionMatrix", userList);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
                 }
-            },
-                function (error) {
-                    console.log(error.message);
-                });
-
+            });
         }
 
 
@@ -530,7 +249,7 @@
         }
         function PopulateBasicAccProfile() {
 
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
                 "<entity name='ccrm_clientgrouping'>" +
                 "<attribute name='ccrm_clientgroupingid' />" +
                 "<attribute name='ccrm_name' />" +
@@ -561,10 +280,31 @@
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
-            var oppty = XrmServiceToolkit.Soap.Fetch(fetchXML);
+            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
+            var oppty; //= XrmServiceToolkit.Soap.Fetch(fetchXML);
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Arup_GetClientURL() + "/api/data/v9.1/ccrm_clientgroupings?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'ccrm_clientgrouping'%3E%3Cattribute%20name%3D'ccrm_clientgroupingid'%20%2F%3E%3Cattribute%20name%3D'ccrm_name'%20%2F%3E%3Cattribute%20name%3D'createdon'%20%2F%3E%3Cattribute%20name%3D'ccrm_website'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientgroupingtype'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'ccrm_accounttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_managingteam'%20%2F%3E%3Cattribute%20name%3D'ccrm_relationshipstatus'%20%2F%3E%3Cattribute%20name%3D'ccrm_relationshipmanager'%20%2F%3E%3Cattribute%20name%3D'overriddencreatedon'%20%2F%3E%3Cattribute%20name%3D'ownerid'%20%2F%3E%3Cattribute%20name%3D'modifiedon'%20%2F%3E%3Cattribute%20name%3D'modifiedonbehalfby'%20%2F%3E%3Cattribute%20name%3D'modifiedby'%20%2F%3E%3Cattribute%20name%3D'ccrm_managedclient'%20%2F%3E%3Cattribute%20name%3D'ccrm_fieldofplay'%20%2F%3E%3Cattribute%20name%3D'ccrm_description'%20%2F%3E%3Cattribute%20name%3D'createdonbehalfby'%20%2F%3E%3Cattribute%20name%3D'createdby'%20%2F%3E%3Cattribute%20name%3D'ccrm_clienttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientgroupingnumber'%20%2F%3E%3Corder%20attribute%3D'ccrm_name'%20descending%3D'false'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'ccrm_clientgroupingid'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function (XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function (data, textStatus, xhr) {
+                    oppty = data.value;
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                }
+            });
+
             if (oppty.length > 0) {
                 //////debugger;
-                var result = oppty[0].attributes;
+                var result = oppty[0];
                 var basicProfile = {
                     //accountId: result.accountid.value,
                     //address_comosite: result.address1_composite != undefined ? result.address1_composite.value : "",
@@ -581,7 +321,7 @@
                     //ccrm_keyaccount: result.ccrm_keyaccount != undefined ? result.ccrm_keyaccount.value : false,
                     //ccrm_managingteamid: result.ManagingTeam != undefined ? result.ManagingTeam.name : "",
                     //description: result.description != undefined ? result.description.value : "",
-                    name: result.ccrm_name != undefined ? result.ccrm_name.value : ""
+                    name: result["ccrm_name"] != undefined ? result["ccrm_name"] : ""
                     //parentAccountId: result.ParentOrganisation != undefined ? result.ParentOrganisation.name : "",
                     ////primaryContactId: result.PrimaryContactId,
                     ////stateCode: result.StateCode,
@@ -696,7 +436,7 @@
                 })
                 .html(function (d) {
                     if (div == '#top10OpenOportunities' && d.column == 'Title') {
-                        return '<a href=\"' + GetGlobalContext().getClientUrl() + '/main.aspx?etc=3&pagetype=entityrecord&id=%7b' + d.OpportunityId + '%7d' + '\" target=\"_blank\">' + d.value + '</a>';
+                        return '<a href=\"' + Arup_GetClientURL() + '/main.aspx?etc=3&pagetype=entityrecord&id=%7b' + d.OpportunityId + '%7d' + '\" target=\"_blank\">' + d.value + '</a>';
                     }
                     else {
                         return d.value;
@@ -822,7 +562,7 @@
                     do {
                         hierarchyCount++;
                         var req = new XMLHttpRequest();
-                        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/accounts(" + _parentaccountid_value + ")?$select=accountid,name,_parentaccountid_value,parentaccountid", false);
+                        req.open("GET", Arup_GetClientURL() + "/api/data/v9.1/accounts(" + _parentaccountid_value + ")?$select=accountid,name,_parentaccountid_value,parentaccountid", false);
                         req.setRequestHeader("OData-MaxVersion", "4.0");
                         req.setRequestHeader("OData-Version", "4.0");
                         req.setRequestHeader("Accept", "application/json");
@@ -1194,7 +934,7 @@
                 .text("a simple tooltip");
 
             var image = node.append('svg:image').attr('class', 'entityImage').attr('xlink:href', function (d) {
-                if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                if (d.imageUrl != Arup_GetClientURL()) {
                     return d.imageUrl;
                 }
                 else {
@@ -1202,7 +942,7 @@
                 }
             })
                 .attr('width', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -1210,7 +950,7 @@
                     }
                 })
                 .attr('height', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -1279,7 +1019,7 @@
 
                 image
                     .attr("x", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.x - d.rad - d.rad * .5;
                         }
                         else {
@@ -1287,7 +1027,7 @@
                         }
                     })
                     .attr("y", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.y - d.rad - d.rad * .5;
                         }
                         else {
@@ -1431,14 +1171,14 @@
                         if (conData[i].contactid == activityList[j].parentcustomerid) {
                             hasActivitiesInLast6Months = 'Yes';
                             nodelink.nodes.push({
-                                id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[i].contactimage, role: conData[i].role, hasActivitiesInLast6Months: 'Yes'
+                                id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role, hasActivitiesInLast6Months: 'Yes'
                             });
                             break;
                         }
                     }
                     if (hasActivitiesInLast6Months == 'No') {
                         nodelink.nodes.push({
-                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[i].contactimage, role: conData[i].role
+                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
                         });
                     }
                 }
@@ -1447,7 +1187,7 @@
                 for (var i = 0; i < conData.length; i++) {
                     if (!isUserClick) {
                         nodelink.nodes.push({
-                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[i].contactimage, role: conData[i].role
+                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
                         });
                     }
                 }
@@ -1477,7 +1217,7 @@
                     do {
                         hierarchyCount++;
                         var req = new XMLHttpRequest();
-                        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/accounts(" + _parentaccountid_value + ")?$select=accountid,name,_parentaccountid_value,parentaccountid", false);
+                        req.open("GET", Arup_GetClientURL() + "/api/data/v9.1/accounts(" + _parentaccountid_value + ")?$select=accountid,name,_parentaccountid_value,parentaccountid", false);
                         req.setRequestHeader("OData-MaxVersion", "4.0");
                         req.setRequestHeader("OData-Version", "4.0");
                         req.setRequestHeader("Accept", "application/json");
@@ -1881,7 +1621,7 @@
                 .text("a simple tooltip");
 
             var image = node.append('svg:image').attr('class', 'entityImage').attr('xlink:href', function (d) {
-                if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                if (d.imageUrl != Arup_GetClientURL()) {
                     return d.imageUrl;
                 }
                 else {
@@ -1889,7 +1629,7 @@
                 }
             })
                 .attr('width', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -1897,7 +1637,7 @@
                     }
                 })
                 .attr('height', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -1966,7 +1706,7 @@
 
                 image
                     .attr("x", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.x - d.rad - d.rad * .5;
                         }
                         else {
@@ -1974,7 +1714,7 @@
                         }
                     })
                     .attr("y", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.y - d.rad - d.rad * .5;
                         }
                         else {
@@ -2098,7 +1838,7 @@
             //arupContact.forEach(function (ac, i) {
             //    //var userpro = conData.filter(function (currentValue, index, arr) { if (currentValue['CRM User'] == ac.key) return true; });
             //    nodelink.nodes.push({
-            //        id: ac.key, group: 2, rad: 7, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
+            //        id: ac.key, group: 2, rad: 7, imageUrl: Arup_GetClientURL() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
             //        , phone: ac.values[0].EmpPhone, jobtitleorCountry: ac.values[0].EmpCountry, userid: ac.values[0].userid,
             //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
             //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
@@ -2124,7 +1864,7 @@
             //        ContactGroup = 6;
             //    }
             //    nodelink.nodes.push({
-            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].ContactImage,
+            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: Arup_GetClientURL() + ac.values[0].ContactImage,
             //        name: ac.values[0].Contact, phone: ac.values[0].ContactPhone, jobtitleorCountry: ac.values[0].JobTitle, userid: "200",
             //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
             //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
@@ -2171,7 +1911,7 @@
 
             //    if (!isUserClick) {
             //        nodelink.nodes.push({
-            //            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[i].contactimage, role: conData[i].role
+            //            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
             //        });
             //    }
             //}
@@ -2183,14 +1923,14 @@
                         if (conData[i].contactid == activityList[j].parentcustomerid) {
                             hasActivitiesInLast6Months = 'Yes';
                             nodelink.nodes.push({
-                                id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[i].contactimage, role: conData[i].role, hasActivitiesInLast6Months: 'Yes'
+                                id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role, hasActivitiesInLast6Months: 'Yes'
                             });
                             break;
                         }
                     }
                     if (hasActivitiesInLast6Months == 'No') {
                         nodelink.nodes.push({
-                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[i].contactimage, role: conData[i].role
+                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
                         });
                     }
                 }
@@ -2199,7 +1939,7 @@
                 for (var i = 0; i < conData.length; i++) {
                     if (!isUserClick) {
                         nodelink.nodes.push({
-                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[i].contactimage, role: conData[i].role
+                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
                         });
                     }
                 }
@@ -2229,7 +1969,7 @@
                     do {
                         hierarchyCount++;
                         var req = new XMLHttpRequest();
-                        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/accounts(" + _parentaccountid_value + ")?$select=accountid,name,_parentaccountid_value,parentaccountid", false);
+                        req.open("GET", Arup_GetClientURL() + "/api/data/v9.1/accounts(" + _parentaccountid_value + ")?$select=accountid,name,_parentaccountid_value,parentaccountid", false);
                         req.setRequestHeader("OData-MaxVersion", "4.0");
                         req.setRequestHeader("OData-Version", "4.0");
                         req.setRequestHeader("Accept", "application/json");
@@ -2628,7 +2368,7 @@
                 .text("a simple tooltip");
 
             var image = node.append('svg:image').attr('class', 'entityImage').attr('xlink:href', function (d) {
-                if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                if (d.imageUrl != Arup_GetClientURL()) {
                     return d.imageUrl;
                 }
                 else {
@@ -2636,7 +2376,7 @@
                 }
             })
                 .attr('width', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -2644,7 +2384,7 @@
                     }
                 })
                 .attr('height', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -2713,7 +2453,7 @@
 
                 image
                     .attr("x", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.x - d.rad - d.rad * .5;
                         }
                         else {
@@ -2721,7 +2461,7 @@
                         }
                     })
                     .attr("y", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.y - d.rad - d.rad * .5;
                         }
                         else {
@@ -2845,7 +2585,7 @@
             //arupContact.forEach(function (ac, i) {
             //    //var userpro = conData.filter(function (currentValue, index, arr) { if (currentValue['CRM User'] == ac.key) return true; });
             //    nodelink.nodes.push({
-            //        id: ac.key, group: 2, rad: 7, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
+            //        id: ac.key, group: 2, rad: 7, imageUrl: Arup_GetClientURL() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
             //        , phone: ac.values[0].EmpPhone, jobtitleorCountry: ac.values[0].EmpCountry, userid: ac.values[0].userid,
             //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
             //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
@@ -2871,7 +2611,7 @@
             //        ContactGroup = 6;
             //    }
             //    nodelink.nodes.push({
-            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].ContactImage,
+            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: Arup_GetClientURL() + ac.values[0].ContactImage,
             //        name: ac.values[0].Contact, phone: ac.values[0].ContactPhone, jobtitleorCountry: ac.values[0].JobTitle, userid: "200",
             //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
             //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
@@ -2918,7 +2658,7 @@
 
                 if (!isUserClick) {
                     nodelink.nodes.push({
-                        id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[i].contactimage, role: conData[i].role
+                        id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
                     });
                 }
             }
@@ -2947,7 +2687,7 @@
                     do {
                         hierarchyCount++;
                         var req = new XMLHttpRequest();
-                        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/accounts(" + _parentaccountid_value + ")?$select=accountid,name,_parentaccountid_value,parentaccountid", false);
+                        req.open("GET", Arup_GetClientURL() + "/api/data/v9.1/accounts(" + _parentaccountid_value + ")?$select=accountid,name,_parentaccountid_value,parentaccountid", false);
                         req.setRequestHeader("OData-MaxVersion", "4.0");
                         req.setRequestHeader("OData-Version", "4.0");
                         req.setRequestHeader("Accept", "application/json");
@@ -3335,7 +3075,7 @@
                 .text("a simple tooltip");
 
             var image = node.append('svg:image').attr('class', 'entityImage').attr('xlink:href', function (d) {
-                if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                if (d.imageUrl != Arup_GetClientURL()) {
                     return d.imageUrl;
                 }
                 else {
@@ -3343,7 +3083,7 @@
                 }
             })
                 .attr('width', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -3351,7 +3091,7 @@
                     }
                 })
                 .attr('height', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -3420,7 +3160,7 @@
 
                 image
                     .attr("x", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.x - d.rad - d.rad * .5;
                         }
                         else {
@@ -3428,7 +3168,7 @@
                         }
                     })
                     .attr("y", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.y - d.rad - d.rad * .5;
                         }
                         else {
@@ -3552,7 +3292,7 @@
             //arupContact.forEach(function (ac, i) {
             //    //var userpro = conData.filter(function (currentValue, index, arr) { if (currentValue['CRM User'] == ac.key) return true; });
             //    nodelink.nodes.push({
-            //        id: ac.key, group: 2, rad: 7, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
+            //        id: ac.key, group: 2, rad: 7, imageUrl: Arup_GetClientURL() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
             //        , phone: ac.values[0].EmpPhone, jobtitleorCountry: ac.values[0].EmpCountry, userid: ac.values[0].userid,
             //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
             //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
@@ -3578,7 +3318,7 @@
             //        ContactGroup = 6;
             //    }
             //    nodelink.nodes.push({
-            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].ContactImage,
+            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: Arup_GetClientURL() + ac.values[0].ContactImage,
             //        name: ac.values[0].Contact, phone: ac.values[0].ContactPhone, jobtitleorCountry: ac.values[0].JobTitle, userid: "200",
             //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
             //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
@@ -3625,7 +3365,7 @@
 
                 if (!isUserClick) {
                     nodelink.nodes.push({
-                        id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[i].contactimage, role: conData[i].role
+                        id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
                     });
                 }
             }
@@ -3654,7 +3394,7 @@
                     do {
                         hierarchyCount++;
                         var req = new XMLHttpRequest();
-                        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/accounts(" + _parentaccountid_value + ")?$select=accountid,name,_parentaccountid_value,parentaccountid", false);
+                        req.open("GET", Arup_GetClientURL() + "/api/data/v9.1/accounts(" + _parentaccountid_value + ")?$select=accountid,name,_parentaccountid_value,parentaccountid", false);
                         req.setRequestHeader("OData-MaxVersion", "4.0");
                         req.setRequestHeader("OData-Version", "4.0");
                         req.setRequestHeader("Accept", "application/json");
@@ -4043,7 +3783,7 @@
                 .text("a simple tooltip");
 
             var image = node.append('svg:image').attr('class', 'entityImage').attr('xlink:href', function (d) {
-                if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                if (d.imageUrl != Arup_GetClientURL()) {
                     return d.imageUrl;
                 }
                 else {
@@ -4051,7 +3791,7 @@
                 }
             })
                 .attr('width', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -4059,7 +3799,7 @@
                     }
                 })
                 .attr('height', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -4128,7 +3868,7 @@
 
                 image
                     .attr("x", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.x - d.rad - d.rad * .5;
                         }
                         else {
@@ -4136,7 +3876,7 @@
                         }
                     })
                     .attr("y", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.y - d.rad - d.rad * .5;
                         }
                         else {
@@ -4277,7 +4017,7 @@
 
                 if (!isUserClick) {
                     nodelink.nodes.push({
-                        id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[i].contactimage, role: conData[i].role
+                        id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
                     });
                 }
             }
@@ -4315,7 +4055,7 @@
                     do {
                         hierarchyCount++;
                         var req = new XMLHttpRequest();
-                        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/accounts(" + _parentaccountid_value + ")?$select=accountid,name,_parentaccountid_value,parentaccountid", false);
+                        req.open("GET", Arup_GetClientURL() + "/api/data/v9.1/accounts(" + _parentaccountid_value + ")?$select=accountid,name,_parentaccountid_value,parentaccountid", false);
                         req.setRequestHeader("OData-MaxVersion", "4.0");
                         req.setRequestHeader("OData-Version", "4.0");
                         req.setRequestHeader("Accept", "application/json");
@@ -4813,7 +4553,7 @@
                     else
                         return 'arup_graphActivities'
                 }
-                if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                if (d.imageUrl != Arup_GetClientURL()) {
                     return d.imageUrl;
                 }
                 else {
@@ -4821,7 +4561,7 @@
                 }
             })
                 .attr('width', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -4829,7 +4569,7 @@
                     }
                 })
                 .attr('height', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -4898,7 +4638,7 @@
 
                 image
                     .attr("x", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.x - d.rad - d.rad * .5;
                         }
                         else {
@@ -4906,7 +4646,7 @@
                         }
                     })
                     .attr("y", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.y - d.rad - d.rad * .5;
                         }
                         else {
@@ -5030,7 +4770,7 @@
             //arupContact.forEach(function (ac, i) {
             //    //var userpro = conData.filter(function (currentValue, index, arr) { if (currentValue['CRM User'] == ac.key) return true; });
             //    nodelink.nodes.push({
-            //        id: ac.key, group: 2, rad: 7, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
+            //        id: ac.key, group: 2, rad: 7, imageUrl: Arup_GetClientURL() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
             //        , phone: ac.values[0].EmpPhone, jobtitleorCountry: ac.values[0].EmpCountry, userid: ac.values[0].userid,
             //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
             //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
@@ -5056,7 +4796,7 @@
             //        ContactGroup = 6;
             //    }
             //    nodelink.nodes.push({
-            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].ContactImage,
+            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: Arup_GetClientURL() + ac.values[0].ContactImage,
             //        name: ac.values[0].Contact, phone: ac.values[0].ContactPhone, jobtitleorCountry: ac.values[0].JobTitle, userid: "200",
             //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
             //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
@@ -5086,14 +4826,14 @@
             nodelink.links = [];
 
             nodelink.nodes.push({
-                id: conData[0].contactid, name: conData[0].contactname, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + conData[0].contactimage
+                id: conData[0].contactid, name: conData[0].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[0].contactimage
                 //id: accName, name: accName, group: 1, rad: 10, imageUrl: '/%7B637275430220018341%7D/WebResources/arup_collaborate',height:30, width:30
             });
 
             if (connections.length > 0) {
                 for (var i = 0; i < connections.length; i++) {
                     nodelink.nodes.push({
-                        id: connections[i].CRMUserId, name: connections[i].CRMUser, recordtype: connections[i].recordtype, EmpStatus: connections[i].EmpStatus, group: 1, rad: 10, imageUrl: GetGlobalContext().getClientUrl() + connections[i].ContactImage
+                        id: connections[i].CRMUserId, name: connections[i].CRMUser, recordtype: connections[i].recordtype, EmpStatus: connections[i].EmpStatus, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + connections[i].ContactImage
                     });
                 }
 
@@ -5382,7 +5122,7 @@
                 .text("a simple tooltip");
 
             var image = node.append('svg:image').attr('class', 'entityImage').attr('xlink:href', function (d) {
-                if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                if (d.imageUrl != Arup_GetClientURL()) {
                     return d.imageUrl;
                 }
                 else {
@@ -5390,7 +5130,7 @@
                 }
             })
                 .attr('width', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         //return d.rad * 3;
                         return d.rad + d.rad * .1;
                     }
@@ -5399,7 +5139,7 @@
                     }
                 })
                 .attr('height', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         //return d.rad * 3;
                         return d.rad + d.rad * .1;
                     }
@@ -5469,7 +5209,7 @@
 
                 image
                     .attr("x", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.x - d.rad - d.rad * .5;
                         }
                         else {
@@ -5477,7 +5217,7 @@
                         }
                     })
                     .attr("y", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.y - d.rad - d.rad * .5;
                         }
                         else {
@@ -5660,7 +5400,7 @@
                 "</entity>" +
                 "</fetch>";
             var req = new XMLHttpRequest();
-            req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/contacts?fetchXml=" + encodeURIComponent(contactFetchXML), false);
+            req.open("GET", Arup_GetClientURL() + "/api/data/v9.1/contacts?fetchXml=" + encodeURIComponent(contactFetchXML), false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -5731,7 +5471,7 @@
                 "</fetch>";
             var connectionLst = [];
             var req = new XMLHttpRequest();
-            req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/connections?fetchXml=" + encodeURIComponent(fetchXML), false);
+            req.open("GET", Arup_GetClientURL() + "/api/data/v9.1/connections?fetchXml=" + encodeURIComponent(fetchXML), false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -5741,6 +5481,7 @@
                     req.onreadystatechange = null;
                     if (this.status === 200) {
                         var results = JSON.parse(this.response);
+                        var connections;
                         connections = results.value;
                         //var connections = XrmServiceToolkit.Soap.Fetch(fetchXML);
 
@@ -5798,37 +5539,56 @@
 
                         }
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        Xrm.Navigation.openAlertDialog(this.statusText);
                     }
                 }
             };
             req.send();
 
-            DrawMatrixForceLayout4("#connectionMatrix", contactLst, connectionLst, true, false);
+            DrawMatrixForceLayout4("#connectionMatrix", contactLst, connectionLst);
         }
 
         var ChildOrgids = [];
         function getChildOrganisations(organisationid) {
 
-            var fetchxml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='account'>" +
-                "<attribute name='accountid' />" +
-                "<filter type='and'>" +
-                "<condition attribute='parentaccountid' operator='eq' value='" + organisationid + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>"
-            var Orgaccounts = XrmServiceToolkit.Soap.Fetch(fetchxml);
+            /* var fetchxml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+                 "<entity name='account'>" +
+                 "<attribute name='accountid' />" +
+                 "<filter type='and'>" +
+                 "<condition attribute='parentaccountid' operator='eq' value='" + organisationid + "' />" +
+                 "</filter>" +
+                 "</entity>" +
+                 "</fetch>"*/
+            var Orgaccounts; //= XrmServiceToolkit.Soap.Fetch(fetchxml);
+            // fetchxml = "?fetchXml=" + encodeURIComponent(fetchxml);
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Arup_GetClientURL() + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'account'%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'parentaccountid'%20operator%3D'eq'%20value%3D'" + organisationid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function (XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function (data, textStatus, xhr) {
+                    Orgaccounts = data.value;
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                }
+            });
 
             if (Orgaccounts.length > 0) {
                 for (var i = 0; i < Orgaccounts.length; i++) {
-                    var accountid = Orgaccounts[i].attributes.accountid != undefined ? Orgaccounts[i].attributes.accountid.value : "";
+                    var accountid = Orgaccounts[i]["accountid"] != undefined ? Orgaccounts[i]["accountid"] : "";
                     if (accountid != "") {
                         ChildOrgids.push(accountid);
                         getChildOrganisations(accountid);
                     }
                 }
-
             }
         }
 
@@ -5881,6 +5641,7 @@
                 "<attribute name='ccrm_countryid' />" +
                 "<attribute name='accountrolecodename' />" +
                 "<attribute name='contactid' />" +
+                "<attribute name='fullname' />" +
                 "<attribute name='entityimage_url' alias='contactimage' />" +
                 "<filter type='and' >" +
                 "<condition attribute='statuscodename' operator='eq' value='Active' />" +
@@ -5944,8 +5705,28 @@
                 "</entity>" +
                 "</fetch>";
             //////debugger;
-            var connections = XrmServiceToolkit.Soap.Fetch(fetchXML);
-            var contacts = XrmServiceToolkit.Soap.Fetch(fetchXMLCon);
+            var connections; //= XrmServiceToolkit.Soap.Fetch(fetchXML);
+            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
+
+            Xrm.WebApi.online.retrieveMultipleRecords('account', fetchXML).then(
+                function success(result) {
+                    connections = result.entities;
+                },
+                function (error) {
+                    Xrm.Navigation.openAlertDialog(error.message);
+                }
+            );
+            var contacts; //= XrmServiceToolkit.Soap.Fetch(fetchXMLCon);
+            fetchXMLCon = "?fetchXml=" + encodeURIComponent(fetchXMLCon);
+
+            Xrm.WebApi.online.retrieveMultipleRecords('account', fetchXMLCon).then(
+                function success(result) {
+                    contacts = result.entities;
+                },
+                function (error) {
+                    Xrm.Navigation.openAlertDialog(error.message);
+                }
+            );
             var connectionLst = [];
             var connectionLstTbl = [];
             var contactLst = [];
@@ -5954,34 +5735,34 @@
                 for (var i = 0; i < connections.length; i++) {
                     //////debugger;
                     var connection = connections[i];
-                    var orgTownCity = connection.attributes.orgtowncity != undefined ? connection.attributes.orgtowncity.value : "";
-                    var orgDepartment = connection.attributes.orgdepartment != undefined ? connection.attributes.orgdepartment.value : "";
-                    var orgOpenOpptys = connection.attributes.orgopenopptys != undefined ? connection.attributes.orgopenopptys.value : "";
+                    var orgTownCity = connection["orgtowncity"] != undefined ? connection["orgtowncity"] : "";
+                    var orgDepartment = connection["orgdepartment"] != undefined ? connection["orgdepartment"] : "";
+                    var orgOpenOpptys = connection["orgopenopptys"] != undefined ? connection["orgopenopptys"] : "";
 
-                    var contact = connection.attributes.Contact != undefined ? connection.attributes.Contact.name : "";
-                    var contactid = connection.attributes.Contact != undefined ? connection.attributes.Contact.id : "";
+                    var contact = connection["fullname"] != undefined ? connection["fullname"] : "";
+                    var contactid = connection["contactid"] != undefined ? connection["contactid"] : "";
 
-                    var contactDepartment = connection.attributes.contactdepartment != undefined ? connection.attributes.contactdepartment.value : "";
-                    var contactEmail = connection.attributes.contactemail != undefined ? connection.attributes.contactemail.value : "";
+                    var contactDepartment = connection["contactdepartment"] != undefined ? connection["contactdepartment"] : "";
+                    var contactEmail = connection["contactemail"] != undefined ? connection["contactemail"] : "";
 
                     //var contactcountry = connection.attributes.ccrm_countryid != undefined ? connection.attributes.ccrm_countryid.name : "";
-                    var contactphone = connection.attributes.contactphone != undefined ? connection.attributes.contactphone.value : "";
-                    var jobTitle = connection.attributes['co.jobtitle'] != undefined ? connection.attributes['co.jobtitle'].value : "";
-                    var userName = connection.attributes.CRM_User != undefined ? connection.attributes.CRM_User.name : "";
-                    var userid = connection.attributes.CRM_User != undefined ? connection.attributes.CRM_User.id : "";
-                    var contactimage = connection.attributes.contactimage != undefined ? connection.attributes.contactimage.value : "";
-                    var userimage = connection.attributes.userimage != undefined ? connection.attributes.userimage.value : "";
-                    var employmentstatus = connection.attributes.employmentstatus != undefined ? connection.attributes.employmentstatus.value : "";
-                    var userPhone = connection.attributes.userphone != undefined ? connection.attributes.userphone.value : "";
-                    var usercountry = connection.attributes.usercountry != undefined ? connection.attributes.usercountry.value : "";
-                    var accountRole = connection.attributes['co.accountrolecode'] != undefined ? connection.attributes['co.accountrolecode'].value : "";
+                    var contactphone = connection["contactphone"] != undefined ? connection["contactphone"] : "";
+                    var jobTitle = connection['co.jobtitle'] != undefined ? connection['co.jobtitle'] : "";
+                    var userName = connection["_CRM_User_value@OData.Community.Display.V1.FormattedValue"] != undefined ? connection["_CRM_User_value@OData.Community.Display.V1.FormattedValue"] : "";
+                    var userid = connection["_CRM_User_value"] != undefined ? connection["_CRM_User_value"] : "";
+                    var contactimage = connection["contactimage"] != undefined ? connection["contactimage"] : "";
+                    var userimage = connection["userimage"] != undefined ? connection["userimage"] : "";
+                    var employmentstatus = connection["employmentstatus"] != undefined ? connection["employmentstatus"] : "";
+                    var userPhone = connection["userphone"] != undefined ? connection["userphone"] : "";
+                    var usercountry = connection["usercountry"] != undefined ? connection["usercountry"] : "";
+                    var accountRole = connection['co.accountrolecode'] != undefined ? connection['co.accountrolecode'] : "";
 
-                    var userCompanyCode = connection.attributes.usercompanycode != undefined ? connection.attributes.usercompanycode.value : "";
-                    var userAccountingCode = connection.attributes.useraccountingcode != undefined ? connection.attributes.useraccountingcode.value : "";
-                    var userRegion = connection.attributes.userregion != undefined ? connection.attributes.userregion.value : "";
-                    var userTitle = connection.attributes.usertitle != undefined ? connection.attributes.usertitle.value : "";
-                    var organisationid = connection.attributes['ac.accountid'] != undefined ? connection.attributes['ac.accountid'].value : "";
-                    var organisationame = connection.attributes['ac.name'] != undefined ? connection.attributes['ac.name'].value : "";
+                    var userCompanyCode = connection["usercompanycode"] != undefined ? connection["usercompanycode"] : "";
+                    var userAccountingCode = connection["useraccountingcode"] != undefined ? connection["useraccountingcode"] : "";
+                    var userRegion = connection["userregion"] != undefined ? connection["userregion"] : "";
+                    var userTitle = connection["usertitle"] != undefined ? connection["usertitle"] : "";
+                    var organisationid = connection['ac.accountid'] != undefined ? connection['ac.accountid'] : "";
+                    var organisationame = connection['ac.name'] != undefined ? connection['ac.name'] : "";
                     var conn = {
                         "Contact": contact, "ContactId": contactid, "JobTitle": jobTitle, "ContactPhone": contactphone,
                         "CRMUser": userName, "CRM UserId": userid, "ContactImage": contactimage,
@@ -6015,13 +5796,13 @@
             if (contacts.length > 0) {
                 for (var j = 0; j < contacts.length; j++) {
                     var contact = contacts[j];
-                    var contFound = contExists(contact.attributes.contactid.value);
+                    var contFound = contExists(contact["contactid"]);
 
                     if (!contFound) {
-                        var fullName = contact.attributes.fullname != undefined ? contact.attributes.fullname.value : "";
+                        var fullName = contact["fullname"] != undefined ? contact["fullname"] : "";
                         //var orgId = connection.attributes['co.jobtitle'] != undefined ? connection.attributes['co.jobtitle'].value : "";
-                        var jobTitle = contact.attributes.jobtitle != undefined ? contact.attributes.jobtitle.value : "";
-                        var email = contact.attributes.emailaddress1 != undefined ? contact.attributes.emailaddress1.value : "";
+                        var jobTitle = contact["jobtitle"] != undefined ? contact["jobtitle"] : "";
+                        var email = contact["emailaddress1"] != undefined ? contact["emailaddress1"] : "";
 
                         var contarray = {
                             "Full Name": fullName, "Job Title": jobTitle, "Email": email
@@ -6074,7 +5855,7 @@
 
             arupContact.forEach(function (ac, i) {
                 nodelink.nodes.push({
-                    id: ac.key, group: 1, rad: 8, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
+                    id: ac.key, group: 1, rad: 8, imageUrl: Arup_GetClientURL() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
                     , phone: ac.values[0].EmpPhone, jobtitleorCountry: ac.values[0].EmpCountry, userid: ac.values[0].userid,
                     orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
                     contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
@@ -6103,7 +5884,7 @@
                     ContactGroup = 6;
                 }
                 nodelink.nodes.push({
-                    id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].ContactImage,
+                    id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: Arup_GetClientURL() + ac.values[0].ContactImage,
                     name: ac.values[0].Contact, phone: ac.values[0].ContactPhone, jobtitleorCountry: ac.values[0].JobTitle, userid: "200",
                     orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
                     contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
@@ -6402,7 +6183,7 @@
                 .text("a simple tooltip");
 
             var image = node.append('svg:image').attr('class', 'entityImage').attr('xlink:href', function (d) {
-                if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                if (d.imageUrl != Arup_GetClientURL()) {
                     return d.imageUrl;
                 }
                 else {
@@ -6410,7 +6191,7 @@
                 }
             })
                 .attr('width', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -6418,7 +6199,7 @@
                     }
                 })
                 .attr('height', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -6488,7 +6269,7 @@
 
                 image
                     .attr("x", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.x - d.rad - d.rad * .5;
                         }
                         else {
@@ -6496,7 +6277,7 @@
                         }
                     })
                     .attr("y", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.y - d.rad - d.rad * .5;
                         }
                         else {
@@ -6739,7 +6520,7 @@
 
         var ConnectionContactData = "";
         function DrawMatrixForceLayoutContacts(div, conData, ShowMarketingList, ShowActivities) {
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
+            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
                 "<entity name='contact' >" +
                 "<attribute name='fullname' />" +
                 "<attribute name='parentcustomerid' />" +
@@ -6757,35 +6538,47 @@
                 "</entity>" +
                 "</fetch>";
             ////debugger;
-            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
+            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
             var contactList = [];
             var organizationList = [];
             var organizations = [];
             initialContactList = [];
-            Xrm.WebApi.retrieveMultipleRecords('contact', fetchXML
-            ).then(function success(result) {
-                for (var i = 0; i < result.entities.length; i++) {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Arup_GetClientURL() + "/api/data/v9.1/contacts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'contact'%20%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'parentcustomerid'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Corder%20attribute%3D'fullname'%20descending%3D'false'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ParentCustomer'%20%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    var result = data.value;
+                    for (var i = 0; i < result.length; i++) {
                     //console.log(result.entities[i]);
-                    var contactid = result.entities[i]["contactid"];
-                    var fullname = result.entities[i]["fullname"] != undefined ? result.entities[i]["fullname"] : "";
-                    var contactimage = result.entities[i]["contactimage"] != undefined ? result.entities[i]["contactimage"] : "";
-                    var role = result.entities[i]["accountrolecode"] != undefined ? result.entities[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
-                    var parentcustomerid = result.entities[i]["_parentcustomerid_value"] != undefined ? result.entities[i]["_parentcustomerid_value"] : "";
-                    var parentcustomername = result.entities[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result.entities[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
+                    var contactid = result[i]["contactid"];
+                    var fullname = result[i]["fullname"] != undefined ? result[i]["fullname"] : "";
+                    var contactimage = result[i]["contactimage"] != undefined ? result[i]["contactimage"] : "";
+                    var role = result[i]["accountrolecode"] != undefined ? result[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
+                    var parentcustomerid = result[i]["_parentcustomerid_value"] != undefined ? result[i]["_parentcustomerid_value"] : "";
+                    var parentcustomername = result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
                     var contact = { contactname: fullname, contactid: contactid, organizationid: parentcustomerid, organizationname: parentcustomername, contactimage: contactimage, role: role };
                     contactList.push(contact);
                     initialContactList.push(contact);
-                    var organizationid = result.entities[i]["ParentCustomer.accountid"];
+                    var organizationid = result[i]["ParentCustomer.accountid"];
                     organizations[i] = organizationid;
                 }
 
                 var uniqueOrgList = getUnique(organizations);
                 for (var i = 0; i < uniqueOrgList.length; i++) {
-                    for (var j = 0; j < result.entities.length; j++) {
+                    for (var j = 0; j < result.length; j++) {
                         //console.log(result.entities[i]);
-                        if (uniqueOrgList[i] == result.entities[j]["ParentCustomer.accountid"]) {
-                            var organizationid = result.entities[j]["ParentCustomer.accountid"];
-                            var organizationname = result.entities[j]["ParentCustomer.name"] != undefined ? result.entities[j]["ParentCustomer.name"] : "";
+                        if (uniqueOrgList[i] == result[j]["ParentCustomer.accountid"]) {
+                            var organizationid = result[j]["ParentCustomer.accountid"];
+                            var organizationname = result[j]["ParentCustomer.name"] != undefined ? result[j]["ParentCustomer.name"] : "";
                             var org = { organizationid: organizationid, organizationname: organizationname };
                             organizationList.push(org);
                             break;
@@ -6793,7 +6586,7 @@
                     }
                 }
                 //debugger;
-                fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+                /*fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
                     "<entity name='activitypointer'>" +
                     "<attribute name='subject' />" +
                     "<attribute name='activityid' />" +
@@ -6816,39 +6609,49 @@
                     "</link-entity>" +
                     "</entity>" +
                     "</fetch>";
-                fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
+                fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
                 var activityList = [];
-                Xrm.WebApi.retrieveMultipleRecords('activitypointer', fetchXML
-                ).then(function success(result) {
-                    for (var i = 0; i < result.entities.length; i++) {
-                        //console.log(result.entities[i]);
-                        var activityid = result.entities[i]["activityid"];
-                        var subject = result.entities[i]["subject"] != undefined ? result.entities[i]["subject"] : "";
-                        var parentcustomerid = result.entities[i]["ParentContact.contactid"] != undefined ? result.entities[i]["ParentContact.contactid"] : "";
-                        var actvititytypecode = result.entities[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] != undefined ? result.entities[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] : "";
-                        var activity = { activityid: activityid, subject: subject, parentcustomerid: parentcustomerid, actvititytypecode: actvititytypecode };
-                        activityList.push(activity);
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    url: Arup_GetClientURL() + "/api/data/v9.1/activitypointers?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'activitypointer'%3E%3Cattribute%20name%3D'subject'%20%2F%3E%3Cattribute%20name%3D'activityid'%20%2F%3E%3Cattribute%20name%3D'activitytypecode'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Cfilter%20type%3D'or'%3E%3Ccondition%20attribute%3D'activitytypecode'%20operator%3D'eq'%20value%3D'4201'%20%2F%3E%3Ccondition%20attribute%3D'activitytypecode'%20operator%3D'eq'%20value%3D'4210'%20%2F%3E%3C%2Ffilter%3E%3Ccondition%20attribute%3D'createdon'%20operator%3D'last-x-months'%20value%3D'6'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'regardingobjectid'%20link-type%3D'inner'%20alias%3D'ParentContact'%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ae'%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                    beforeSend: function(XMLHttpRequest) {
+                        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                    },
+                    async: false,
+                    success: function(data, textStatus, xhr) {
+                        var result = data.value;
+                        for (var i = 0; i < result.length; i++) {
+                            var activityid = result[i]["activityid"];
+                            var subject = result[i]["subject"] != undefined ? result[i]["subject"] : "";
+                            var parentcustomerid = result[i]["ParentContact.contactid"] != undefined ? result[i]["ParentContact.contactid"] : "";
+                            var actvititytypecode = result[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] : "";
+                            var activity = { activityid: activityid, subject: subject, parentcustomerid: parentcustomerid, actvititytypecode: actvititytypecode };
+                            activityList.push(activity);
+                        }
+                        if (contactList.length > 0) {
+                            //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
+                            //DrawMatrixForceLayout1("#connectionMatrix", contactList, initialOrgList, false);
+                            DrawMatrixForceLayout1("#connectionMatrix", contactList, initialOrgList, activityList, false);
+                        }
+                        else {
+                            $("#p").text("No contact records found");
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
                     }
-                    if (contactList.length > 0) {
-                        //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
-                        //DrawMatrixForceLayout1("#connectionMatrix", contactList, initialOrgList, false);
-                        DrawMatrixForceLayout1("#connectionMatrix", contactList, initialOrgList, activityList, false);
-                    }
-                    else {
-                        $("#p").text("No contact records found");
-                    }
-
-                },
-                    function (error) {
-                        console.log(error.message);
-                    });
-
-
-            },
-                function (error) {
-                    console.log(error.message);
                 });
 
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                }
+            });
 
             //var userRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
             //var contactList = [];
@@ -6870,7 +6673,7 @@
         }
 
         function DrawMatrixForceLayoutCSuiteAndDecisionMakers(div, conData, ShowMarketingList, ShowActivities) {
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
+            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
                 "<entity name='contact' >" +
                 "<attribute name='fullname' />" +
                 "<attribute name='parentcustomerid' />" +
@@ -6892,36 +6695,48 @@
                 "</entity>" +
                 "</fetch>";
             ////debugger;
-            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
+            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
             var contactList = [];
             var organizationList = [];
             var organizations = [];
             initialContactList = [];
-            Xrm.WebApi.retrieveMultipleRecords('contact', fetchXML
-            ).then(function success(result) {
-                for (var i = 0; i < result.entities.length; i++) {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Arup_GetClientURL() + "/api/data/v9.1/contacts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'contact'%20%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'parentcustomerid'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Corder%20attribute%3D'fullname'%20descending%3D'false'%20%2F%3E%3Cfilter%20type%3D'or'%20%3E%3Ccondition%20attribute%3D'accountrolecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Ccondition%20attribute%3D'accountrolecode'%20operator%3D'eq'%20value%3D'770000000'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ParentCustomer'%20%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    var result = data.value;
+                    for (var i = 0; i < result.length; i++) {
                     //console.log(result.entities[i]);
-                    var contactid = result.entities[i]["contactid"];
-                    var fullname = result.entities[i]["fullname"] != undefined ? result.entities[i]["fullname"] : "";
-                    var contactimage = result.entities[i]["contactimage"] != undefined ? result.entities[i]["contactimage"] : "";
-                    var parentcustomerid = result.entities[i]["_parentcustomerid_value"] != undefined ? result.entities[i]["_parentcustomerid_value"] : "";
-                    var parentcustomername = result.entities[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result.entities[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
-                    var role = result.entities[i]["accountrolecode"] != undefined ? result.entities[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
+                    var contactid = result[i]["contactid"];
+                    var fullname = result[i]["fullname"] != undefined ? result[i]["fullname"] : "";
+                    var contactimage = result[i]["contactimage"] != undefined ? result[i]["contactimage"] : "";
+                    var parentcustomerid = result[i]["_parentcustomerid_value"] != undefined ? result[i]["_parentcustomerid_value"] : "";
+                    var parentcustomername = result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
+                    var role = result[i]["accountrolecode"] != undefined ? result[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
                     //var role = "Decision Maker";
                     var contact = { contactname: fullname, contactid: contactid, organizationid: parentcustomerid, organizationname: parentcustomername, contactimage: contactimage, role: role };
                     contactList.push(contact);
                     initialContactList.push(contact);
-                    var organizationid = result.entities[i]["ParentCustomer.accountid"];
+                    var organizationid = result[i]["ParentCustomer.accountid"];
                     organizations[i] = organizationid;
                 }
 
                 var uniqueOrgList = getUnique(organizations);
                 for (var i = 0; i < uniqueOrgList.length; i++) {
-                    for (var j = 0; j < result.entities.length; j++) {
+                    for (var j = 0; j < result.length; j++) {
                         //console.log(result.entities[i]);
-                        if (uniqueOrgList[i] == result.entities[j]["ParentCustomer.accountid"]) {
-                            var organizationid = result.entities[j]["ParentCustomer.accountid"];
-                            var organizationname = result.entities[j]["ParentCustomer.name"] != undefined ? result.entities[j]["ParentCustomer.name"] : "";
+                        if (uniqueOrgList[i] == result[j]["ParentCustomer.accountid"]) {
+                            var organizationid = result[j]["ParentCustomer.accountid"];
+                            var organizationname = result[j]["ParentCustomer.name"] != undefined ? result[j]["ParentCustomer.name"] : "";
                             var org = { organizationid: organizationid, organizationname: organizationname };
                             organizationList.push(org);
                             break;
@@ -6930,7 +6745,7 @@
                 }
 
                 //debugger;
-                fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+                /*fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
                     "<entity name='activitypointer'>" +
                     "<attribute name='subject' />" +
                     "<attribute name='activityid' />" +
@@ -6957,39 +6772,53 @@
                     "</link-entity>" +
                     "</entity>" +
                     "</fetch>";
-                fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
-                var activityList = [];
-                Xrm.WebApi.retrieveMultipleRecords('activitypointer', fetchXML
-                ).then(function success(result) {
-                    for (var i = 0; i < result.entities.length; i++) {
-                        //console.log(result.entities[i]);
-                        var activityid = result.entities[i]["activityid"];
-                        var subject = result.entities[i]["subject"] != undefined ? result.entities[i]["subject"] : "";
-                        var parentcustomerid = result.entities[i]["ParentContact.contactid"] != undefined ? result.entities[i]["ParentContact.contactid"] : "";
-                        var actvititytypecode = result.entities[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] != undefined ? result.entities[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] : "";
-                        var activity = { activityid: activityid, subject: subject, parentcustomerid: parentcustomerid, actvititytypecode: actvititytypecode };
-                        activityList.push(activity);
-                    }
-                    if (contactList.length > 0) {
-                        //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
-                        DrawMatrixForceLayoutForCSuiteAndDecisionMakers("#connectionMatrix", contactList, initialOrgList, activityList, false);
-                    }
-                    else {
-                        $("#p").text("No Decision maker contact records found");
-                    }
+                fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
+                    var activityList = [];
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        datatype: "json",
+                        url: Arup_GetClientURL() + "/api/data/v9.1/activitypointers?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'activitypointer'%3E%3Cattribute%20name%3D'subject'%20%2F%3E%3Cattribute%20name%3D'activityid'%20%2F%3E%3Cattribute%20name%3D'activitytypecode'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Cfilter%20type%3D'or'%3E%3Ccondition%20attribute%3D'activitytypecode'%20operator%3D'eq'%20value%3D'4201'%20%2F%3E%3Ccondition%20attribute%3D'activitytypecode'%20operator%3D'eq'%20value%3D'4210'%20%2F%3E%3C%2Ffilter%3E%3Ccondition%20attribute%3D'createdon'%20operator%3D'last-x-months'%20value%3D'6'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'regardingobjectid'%20link-type%3D'inner'%20alias%3D'ParentContact'%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cfilter%20type%3D'or'%20%3E%3Ccondition%20attribute%3D'accountrolecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Ccondition%20attribute%3D'accountrolecode'%20operator%3D'eq'%20value%3D'770000000'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ae'%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                        beforeSend: function(XMLHttpRequest) {
+                            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                            XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                        },
+                        async: false,
+                        success: function(data, textStatus, xhr) {
+                            var result = data.value;
+                            for (var i = 0; i < result.length; i++) {
+                                //console.log(result.entities[i]);
+                                var activityid = result[i]["activityid"];
+                                var subject = result[i]["subject"] != undefined ? result[i]["subject"] : "";
+                                var parentcustomerid = result[i]["ParentContact.contactid"] != undefined ? result[i]["ParentContact.contactid"] : "";
+                                var actvititytypecode = result[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] : "";
+                                var activity = { activityid: activityid, subject: subject, parentcustomerid: parentcustomerid, actvititytypecode: actvititytypecode };
+                                activityList.push(activity);
+                            }
+                            if (contactList.length > 0) {
+                                //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
+                                DrawMatrixForceLayoutForCSuiteAndDecisionMakers("#connectionMatrix", contactList, initialOrgList, activityList, false);
+                            }
+                            else {
+                                $("#p").text("No Decision maker contact records found");
+                            }
 
-                },
-                    function (error) {
-                        console.log(error.message);
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                        }
                     });
-            },
-                function (error) {
-                    console.log(error.message);
-                });
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                }
+            });
         }
 
         function DrawMatrixForceLayoutDecisionMakers(div, conData, ShowMarketingList, ShowActivities) {
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
+            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
                 "<entity name='contact' >" +
                 "<attribute name='fullname' />" +
                 "<attribute name='parentcustomerid' />" +
@@ -7010,14 +6839,26 @@
                 "</entity>" +
                 "</fetch>";
             ////debugger;
-            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
+            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
             var contactList = [];
             var organizationList = [];
             var organizations = [];
             initialContactList = [];
-            Xrm.WebApi.retrieveMultipleRecords('contact', fetchXML
-            ).then(function success(result) {
-                for (var i = 0; i < result.entities.length; i++) {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Arup_GetClientURL() + "/api/data/v9.1/contacts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'contact'%20%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'parentcustomerid'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Corder%20attribute%3D'fullname'%20descending%3D'false'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'accountrolecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ParentCustomer'%20%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    var result = data.value;
+                    for (var i = 0; i < result.entities.length; i++) {
                     //console.log(result.entities[i]);
                     var contactid = result.entities[i]["contactid"];
                     var fullname = result.entities[i]["fullname"] != undefined ? result.entities[i]["fullname"] : "";
@@ -7035,11 +6876,11 @@
 
                 var uniqueOrgList = getUnique(organizations);
                 for (var i = 0; i < uniqueOrgList.length; i++) {
-                    for (var j = 0; j < result.entities.length; j++) {
+                    for (var j = 0; j < result.length; j++) {
                         //console.log(result.entities[i]);
-                        if (uniqueOrgList[i] == result.entities[j]["ParentCustomer.accountid"]) {
-                            var organizationid = result.entities[j]["ParentCustomer.accountid"];
-                            var organizationname = result.entities[j]["ParentCustomer.name"] != undefined ? result.entities[j]["ParentCustomer.name"] : "";
+                        if (uniqueOrgList[i] == result[j]["ParentCustomer.accountid"]) {
+                            var organizationid = result[j]["ParentCustomer.accountid"];
+                            var organizationname = result[j]["ParentCustomer.name"] != undefined ? result[j]["ParentCustomer.name"] : "";
                             var org = { organizationid: organizationid, organizationname: organizationname };
                             organizationList.push(org);
                             break;
@@ -7053,14 +6894,16 @@
                 else {
                     $("#p").text("No Decision maker contact records found");
                 }
-            },
-                function (error) {
-                    console.log(error.message);
-                });
+
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                }
+            });
         }
 
         function DrawMatrixForceLayoutCSuite(div, conData, ShowMarketingList, ShowActivities) {
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
+            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
                 "<entity name='contact' >" +
                 "<attribute name='fullname' />" +
                 "<attribute name='parentcustomerid' />" +
@@ -7081,53 +6924,66 @@
                 "</entity>" +
                 "</fetch>";
             ////debugger;
-            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
+            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
             var contactList = [];
             var organizationList = [];
             var organizations = [];
             initialContactList = [];
-            Xrm.WebApi.retrieveMultipleRecords('contact', fetchXML
-            ).then(function success(result) {
-                for (var i = 0; i < result.entities.length; i++) {
-                    //console.log(result.entities[i]);
-                    var contactid = result.entities[i]["contactid"];
-                    var fullname = result.entities[i]["fullname"] != undefined ? result.entities[i]["fullname"] : "";
-                    var contactimage = result.entities[i]["contactimage"] != undefined ? result.entities[i]["contactimage"] : "";
-                    var parentcustomerid = result.entities[i]["_parentcustomerid_value"] != undefined ? result.entities[i]["_parentcustomerid_value"] : "";
-                    var parentcustomername = result.entities[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result.entities[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
-                    //var role = "C-Suite";
-                    var role = result.entities[i]["accountrolecode"] != undefined ? result.entities[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
-                    var contact = { contactname: fullname, contactid: contactid, organizationid: parentcustomerid, organizationname: parentcustomername, contactimage: contactimage, role: role };
-                    contactList.push(contact);
-                    initialContactList.push(contact);
-                    var organizationid = result.entities[i]["ParentCustomer.accountid"];
-                    organizations[i] = organizationid;
-                }
-
-                var uniqueOrgList = getUnique(organizations);
-                for (var i = 0; i < uniqueOrgList.length; i++) {
-                    for (var j = 0; j < result.entities.length; j++) {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Arup_GetClientURL() + "/api/data/v9.1/contacts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'contact'%20%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'parentcustomerid'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Corder%20attribute%3D'fullname'%20descending%3D'false'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'accountrolecode'%20operator%3D'eq'%20value%3D'770000000'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ParentCustomer'%20%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    var result = data.value;
+                    for (var i = 0; i < result.length; i++) {
                         //console.log(result.entities[i]);
-                        if (uniqueOrgList[i] == result.entities[j]["ParentCustomer.accountid"]) {
-                            var organizationid = result.entities[j]["ParentCustomer.accountid"];
-                            var organizationname = result.entities[j]["ParentCustomer.name"] != undefined ? result.entities[j]["ParentCustomer.name"] : "";
-                            var org = { organizationid: organizationid, organizationname: organizationname };
-                            organizationList.push(org);
-                            break;
+                        var contactid = result[i]["contactid"];
+                        var fullname = result[i]["fullname"] != undefined ? result[i]["fullname"] : "";
+                        var contactimage = result[i]["contactimage"] != undefined ? result[i]["contactimage"] : "";
+                        var parentcustomerid = result[i]["_parentcustomerid_value"] != undefined ? result[i]["_parentcustomerid_value"] : "";
+                        var parentcustomername = result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
+                        //var role = "C-Suite";
+                        var role = result[i]["accountrolecode"] != undefined ? result[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
+                        var contact = { contactname: fullname, contactid: contactid, organizationid: parentcustomerid, organizationname: parentcustomername, contactimage: contactimage, role: role };
+                        contactList.push(contact);
+                        initialContactList.push(contact);
+                        var organizationid = result[i]["ParentCustomer.accountid"];
+                        organizations[i] = organizationid;
+                    }
+
+                    var uniqueOrgList = getUnique(organizations);
+                    for (var i = 0; i < uniqueOrgList.length; i++) {
+                        for (var j = 0; j < result.length; j++) {
+                            //console.log(result.entities[i]);
+                            if (uniqueOrgList[i] == result[j]["ParentCustomer.accountid"]) {
+                                var organizationid = result[j]["ParentCustomer.accountid"];
+                                var organizationname = result[j]["ParentCustomer.name"] != undefined ? result[j]["ParentCustomer.name"] : "";
+                                var org = { organizationid: organizationid, organizationname: organizationname };
+                                organizationList.push(org);
+                                break;
+                            }
                         }
                     }
+                    if (contactList.length > 0) {
+                        //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
+                        DrawMatrixForceLayoutForCSuite("#connectionMatrix", contactList, initialOrgList, false);
+                    }
+                    else {
+                        $("#p").text("No C-Suite contact records found");
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
                 }
-                if (contactList.length > 0) {
-                    //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
-                    DrawMatrixForceLayoutForCSuite("#connectionMatrix", contactList, initialOrgList, false);
-                }
-                else {
-                    $("#p").text("No C-Suite contact records found");
-                }
-            },
-                function (error) {
-                    console.log(error.message);
-                });
+            });
         }
 
         function DrawMatrixForceLayoutActivities(div, conData, ShowMarketingList, ShowActivities) {
@@ -7191,27 +7047,39 @@
                 "</fetch>";
             fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
             var activityList = [];
-            Xrm.WebApi.retrieveMultipleRecords('activitypointer', fetchXML
-            ).then(function success(result) {
-                for (var i = 0; i < result.entities.length; i++) {
-                    //console.log(result.entities[i]);
-                    var activityid = result.entities[i]["activityid"];
-                    var subject = result.entities[i]["subject"] != undefined ? result.entities[i]["subject"] : "";
-                    var parentcustomerid = result.entities[i]["ParentContact.contactid"] != undefined ? result.entities[i]["ParentContact.contactid"] : "";
-                    var actvititytypecode = result.entities[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] != undefined ? result.entities[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] : "";
-                    var activity = { activityid: activityid, subject: subject, parentcustomerid: parentcustomerid, actvititytypecode: actvititytypecode };
-                    activityList.push(activity);
-                }
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: Arup_GetClientURL() + "/api/data/v9.1/activitypointers" + fetchXML,
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                async: false,
+                success: function(data, textStatus, xhr) {
+                    var result = data.value;
+                    for (var i = 0; i < result.length; i++) {
+                        //console.log(result.entities[i]);
+                        var activityid = result[i]["activityid"];
+                        var subject = result[i]["subject"] != undefined ? result[i]["subject"] : "";
+                        var parentcustomerid = result[i]["ParentContact.contactid"] != undefined ? result[i]["ParentContact.contactid"] : "";
+                        var actvititytypecode = result[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] : "";
+                        var activity = { activityid: activityid, subject: subject, parentcustomerid: parentcustomerid, actvititytypecode: actvititytypecode };
+                        activityList.push(activity);
+                    }
 
-                if (initialContactList.length > 0) {
-                    //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
-                    DrawMatrixForceLayout2("#connectionMatrix", initialContactList, initialOrgList, activityList, false);
+                    if (initialContactList.length > 0) {
+                        //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
+                        DrawMatrixForceLayout2("#connectionMatrix", initialContactList, initialOrgList, activityList, false);
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
                 }
-            },
-                function (error) {
-                    console.log(error.message);
-                });
-
+            });
             isActivitiesChecked = 1;
         }
         function getUnique(array) {
@@ -8564,7 +8432,331 @@
                 else if (chkCSuite == true)
                     DrawMatrixForceLayoutCSuite("#connectionMatrix", ConnectionContactData, true, chkCSuite);
             }
-        }
+        } Arup_GetClientURL = (function () {
+            var clientUrl = document.location.origin;
+            return function () {
+                return clientUrl;
+            }
+        })();
     </script>
+    <!--<script src="arup_BootStrap.min" rel="stylesheet"></script>-->
+    <!-- Bootstrap core CSS -->
+    <link href="arup_Bootstrap4.3.1.css" rel="stylesheet">
+
+    <style type="text/css">
+        body, html {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        svg {
+            display: block;
+        }
+
+        #connectionMatrix {
+            width: 100%;
+            font: 10px sans-serif;
+        }
+
+
+        .arc text {
+            font: 10px sans-serif;
+            text-anchor: middle;
+        }
+
+        .arc path {
+            stroke: #fff;
+        }
+
+        .bar rect {
+            fill: steelblue;
+        }
+
+        .bar text {
+            fill: black;
+            font: 10px sans-serif;
+            text-anchor: start;
+        }
+
+        div {
+            background-color: white;
+            float: left;
+        }
+
+        #OpportunityForAccChart {
+            width: 450px;
+            height: 200px;
+        }
+
+        #OpenOpportunityChart {
+            width: 580px;
+            height: 200px;
+        }
+
+        .axis .domain {
+            display: none;
+        }
+
+        /*body {
+            font: 10px sans-serif;
+        }*/
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        /*.bar {
+            fill: steelblue;
+        }*/
+
+        .x.axis path {
+            display: none;
+        }
+
+        .print {
+            width: 90px;
+            background-color: rgb(77, 144, 254);
+            background-image: linear-gradient(to bottom, rgb(77, 144, 254), rgb(71, 135, 237));
+            border: 1px solid rgb(48, 121, 237);
+            color: #fff;
+            vertical-align: middle;
+            text-shadow: 0 1px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        .printimg {
+            color: #fff;
+            vertical-align: middle;
+            text-shadow: 0 1px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        .links line {
+            stroke: #999;
+            stroke-opacity: 0.6;
+        }
+
+        .nodes circle {
+            stroke: #fff;
+            stroke-width: 1px;
+        }
+
+        .nodetext {
+            pointer-events: none;
+            font-size: 5px;
+            font-family: 'Segoe UI';
+            fill: #000000;
+        }
+    </style>
+</head>
+<body style="width: 100%; -webkit-print-color-adjust: exact; overflow-wrap: break-word;" onload="OnLoad();" onfocusout="parent.setEmailRange();">
+    <!--<body style="width: 100%;-webkit-print-color-adjust: exact" onload="OnLoad()">-->
+    <div id="showhideNav" style="width:100%">
+        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Arup</a>
+        </nav>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="maindivGraph" role="main" class="col-md-9 ml-sm-auto col-lg-10" style="padding-right:0">
+                <div style="width:100%">
+                    <div id="clientconnectionHelp" style="width:100%">
+                        <table style="width:100%">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <table style="width:100%">
+                                            <tbody>
+                                                <tr style="margin-bottom:140px;">
+                                                    <td colspan="12" id="accountName" style="font-weight:bold;font-size:18pt;"></td>
+                                                </tr>
+                                                <tr></tr>
+                                                <tr>
+                                                    <td colspan="9" style="font-style: normal; font-family: 'Times New Roman'; font-size: 12pt; font-weight: 400;">CLIENT GROUPING MATRIX</td>
+                                                    <td colspan="3" style="float:right;margin-right:10px;font-size:9pt">
+
+                                                        <p style="font-size:9pt; margin-bottom:0px"><b>Help:</b> Use mouse wheel to zoom-in / zoom-out. Press mouse left click and drag the chart to navigate</p>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="width:100%">
+                        <table style="width:100%; margin-left:0">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <table style="background-color: lightgray; font-size: 10pt; font-family: Arial; width:100%">
+                                            <tbody>
+                                                <tr height="0">
+                                                    <td style="WIDTH:13%"></td>
+                                                    <td style="WIDTH:14%"></td>
+                                                    <td style="WIDTH:12%"></td>
+                                                    <td style="WIDTH:17%"></td>
+                                                    <td style="WIDTH:14%"></td>
+                                                    <td style="WIDTH:14%"></td>
+                                                    <td style="WIDTH:15%"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-weight:bold"><!--Relationship Manager:--></td>
+                                                    <td id="relationshipmanager"></td>
+                                                    <td style="font-weight:bold"><!--Relationship Team:--></td>
+                                                    <td id="relationshipteam"></td>
+                                                    <td style="font-weight:bold"><!--Parent Company:--></td>
+                                                    <td id="parentOrg"></td>
+                                                    <td>
+                                                        <div class="table-responsive" id="ConnectionButtons" style="float:right;background-color: lightgray; ">
+                                                            <button id='homeButton' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer; background-image:url(arup_HomeIcon)' onclick="onclickHomeButton()" title="Home"> </button>
+                                                            <button id='zoom_in' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphzoomin' style='height:25px' title='Zoom In' /></button>
+                                                            <button id='zoom_out' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphzoomout' style='height:25px' title='Zoom Out' /></button>
+                                                            <button id='zoom_init' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphreset' style='height:25px' title='Reset Zoom' /></button>
+                                                            <!--<button id='print' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphprint' style='height:26px' title='Print' /></button>-->
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+
+                <div class="table-responsive" id="connectionMatrix" style="width:100%; height:70%; float:left; margin-right:2px;">
+                    <svg id="connForcelay" width="100%" height="100%"></svg>
+                </div>
+
+
+                <div class="table-responsive" style="padding-bottom: 80px">
+                    <div id="connectionMatrixtable" style="width:100%;">
+                        <!--<h3>Contacts with no connections</h3>-->
+                        <h3><p id="p"></p></h3>
+                    </div>
+                </div>
+
+            </div>
+            <div id="seconddivgraph" class="col-md-2" style="margin-top:65px">
+
+                <div id="Accountfilters" style="border:1px solid grey; padding-right:0px; padding-left:0px; font-size:9pt; width:100%">
+                    <div class="list-group" style="width:100%; font-size:11pt">
+                        <button type="button" class="list-group-item list-group-item-action list-group-item-secondary active">
+                            Filters
+                        </button>
+
+                        <div class="panel-group" style="width:100%">
+                            <div class="panel panel-info" style="width:100%; padding : 5px 5px 5px 5px">
+                                <div class="panel-body" style="width:100%">
+                                    <!--<Label class="list-group-item list-group-item-action list-group-item-secondary" style="cursor: pointer;">
+                                        <label style="width:100%; font-size:12pt ">
+                                            <input type="radio" name="RadOrg" id="Radios1" value="C" checked="checked">
+                                            Connections
+                                            <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="connectioncount"></span>
+                                        </label>
+                                    </Label>-->
+
+                                    <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
+                                        <input type="checkbox" value="1" id="chkContacts" onclick="oncheckContacts()" />
+                                        <label for="chkContacts" style="margin-bottom:0px">
+                                            All Contacts
+                                        </label>
+                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="contactsount"></span>
+                                    </Label>
+                                    <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
+                                        <input type="checkbox" value="1" id="chkCSuiteAndDecisionMakers" onclick="oncheckCSuiteAndDecisionMakers()" />
+                                        <label for="chkCSuiteAndDecisionMakers" style="margin-bottom:0px">
+                                            C-Suite and Decision Makers
+                                        </label>
+                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="decisionmakersount"></span>
+                                    </Label>
+                                    <!--<Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
+                                        <input type="checkbox" value="1" id="chkDecisionMakers" onclick="oncheckDecisionMakers()" />
+                                        <label for="chkDecisionMakers" style="margin-bottom:0px">
+                                            Decision Makers
+                                        </label>
+                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="decisionmakersount"></span>
+                                    </Label>
+                                    <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
+                                        <input type="checkbox" value="1" id="chkCSuite" onclick="oncheckCSuite()" />
+                                        <label for="chkCSuite" style="margin-bottom:0px">
+                                            C-Suite
+                                        </label>
+                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="csuitecount"></span>
+                                    </Label>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-group" style="width:100%">
+                            <div class="panel panel-info" style="width:100%; padding : 5px 5px 5px 5px">
+                                <div class="panel-body" style="width:100%">
+                                    <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
+                                        <input type="checkbox" value="1" id="chkActivities" disabled="disabled" onclick="oncheckActivities()" />
+                                        <label for="chkActivities" style="margin-bottom:0px">
+                                            Activities
+                                        </label>
+                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="activitiescount"></span>
+                                    </Label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="Userfilters" style="border:1px solid grey; display:none;padding-right:0px; padding-left:0px; font-size:9pt; width:100% ">
+                    <div class="list-group" style="width:100%; font-size:11pt">
+                        <button type="button" class="list-group-item list-group-item-action list-group-item-secondary active">
+                            Filters
+                        </button>
+                        <Label style="cursor: pointer;" class="list-group-item list-group-item-action">
+                            <input type="checkbox" value="1" id="chkShowAllConnectionsforUser" />
+                            <label for="chkShowAllConnectionsforUser">Show child org connections</label>
+                        </Label>
+                    </div>
+                </div>
+
+                <div id="Connectionfilters" style="display:none;padding-right:0px; padding-left:0px; font-size:9pt; width:100% ">
+                    <div class="list-group" style="width:100%; font-size:11pt">
+                        <!--<button type="button" class="list-group-item list-group-item-action list-group-item-secondary active">
+                            Filters
+                        </button>
+                        <Label style="cursor: pointer;" class="list-group-item list-group-item-action">
+                            <input type="checkbox" value="1" id="chkMarketingList" />
+                            <label for="chkMarketingList">Marketing Lists</label>
+                        </Label>
+
+                        <Label style="cursor: pointer;" class="list-group-item list-group-item-action">
+                            <input type="checkbox" value="2" id="chkContactActivities" />
+                            <label for="chkContactActivities">Activities</label>
+                        </Label>-->
+
+                    </div>
+                    <div class="alert alert-danger" id="alert-activities" style="display:none; margin-top: 20px;">
+                        <!--<strong>Activities not found </strong>-->
+                    </div>
+                    <div class="alert alert-danger" id="alert-marketing" style="display:none;  margin-top: 20px; ">
+                        <!--<strong>Marketing Lists not found </strong>-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 </html>

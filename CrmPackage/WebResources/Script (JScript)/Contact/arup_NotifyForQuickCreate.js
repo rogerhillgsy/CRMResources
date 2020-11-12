@@ -57,7 +57,7 @@ Notify.add = function (message, level, uniqueId, buttons, durationSeconds) {
 
         if ($header.length > 0) {
             // Load the style sheet
-            var baseUrl = Xrm.Page.context.getClientUrl();
+            var baseUrl = Xrm.Utility.getGlobalContext().getClientUrl(); 
             $("<link/>", { rel: "stylesheet", href: baseUrl + "/WebResources/mag_/css/notify.css" }).appendTo('head');
 
             Notify._initialised = true;
