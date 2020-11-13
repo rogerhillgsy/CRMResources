@@ -225,41 +225,20 @@ There will be several copies of the web resource visible in the debugger as "aru
 <body style="word-wrap: break-word;">
     <div id="tabButtons"></div>
 
+
     <script>
         // Static form context value to be used throughout the page.
-        // Note that this use of Xrm>Page is not deprecated (currently as of 04/20)
-        //  var formContext = parent.Xrm.Page;
-       var Xrm;
-       var formContext;
-
-        function setClientApiContext(xrm, formContext1) {
-            // Optionally set Xrm and formContext as global variables on the page.
-            window.Xrm = xrm;
-            window._formContext = formContext1;
-            formContext = formContext1;
-
-              // Tab number is specified as part of the data argument to the web resource.
-                    tabName = location.search.split("=")[1];
-                      tabNumber = parent.Arup.GetTabNumber(formContext, tabName);
-                    console.log("Setup for tab " + tabName);
-                    setupButtonsForTab(tabNumber);
-                    parent.Arup.OnDisplayingTab(formContext, tabName,
-                        function () {
-                            setupButtonsForTab(tabNumber);
-                        });
- 
-        }
-
+        var formContext = parent.formContext;
 
         // Central logging function.
         var Log = function (s) { console.log(s) };
 
         // Go back to the previous tab.
-        function ReturnToActiveTab() {
+        function ReturnToActiveTab(formContext) {
 
             var mainActiveTabForStage = parent.Arup.MainActiveTabForStage;
             if (mainActiveTabForStage != null) {
-                DisplayTab(mainActiveTabForStage);
+                DisplayTab(mainActiveTabForStage,formContext);
             }
         }
 
@@ -273,6 +252,8 @@ There will be several copies of the web resource visible in the debugger as "aru
 
             return backButtonText;
         }
+
+
 
 
         function GetLabelTextForCommercialStage() {
@@ -294,7 +275,7 @@ There will be several copies of the web resource visible in the debugger as "aru
         }
 
         // Ensure that the named tab is visible.
-        function DisplayTab(newTabName) {
+        function DisplayTab(newTabName,formContext) {
             console.log("Display tab:" + newTabName);
             parent.Arup.PreviousTab = tabName;
             parent.Arup.DisplayTab(newTabName, formContext);
@@ -309,7 +290,7 @@ There will be several copies of the web resource visible in the debugger as "aru
 
         // Setup buttons for the tab.
         // each button declared for the current tab will be set up within the "tabButtons" div in this document.
-        function setupButtonsForTab(activeTabNum) {
+        function setupButtonsForTab(formContext, activeTabNum) {
             console.log("Display buttons for " + activeTabNum);
             var tabs = formContext.ui.tabs.get();
             // - generate buttons appropriate to the active tab.
@@ -328,7 +309,11 @@ There will be several copies of the web resource visible in the debugger as "aru
                         } else {
                             span.id = "button" + id++;
                         }
-                        span.onclick = button.action;
+                        var action = button.action;
+                        if (button.action != null) {
+                            span.onclick = action.bind(formContext);
+                        }
+
                         // Check for static or dynamic value for the label.
                         if (button.label instanceof Function) {
                             span.innerHTML = button.label();
@@ -360,6 +345,37 @@ There will be several copies of the web resource visible in the debugger as "aru
             }
         }
 
+        function GetFormContextandInitialize() {
+            Log("parent.document.readyState " + parent.document.readyState);  
+            if (parent.formContext != null && parent.document.readyState == "complete") {
+
+                var opportunityid = parent.document.location.href.split("&id=")[1].substring(0, 36);
+                var parentEntityRefId = parent.formContext.entityReference.id.replace('{', '').replace('}', '');
+                Log("opportunityid " + opportunityid);
+                Log("parentEntityRefId " + parentEntityRefId);
+
+                if (opportunityid.toUpperCase() == parentEntityRefId) {
+                    var formContext = parent.formContext;
+                    // Tab number is specified as part of the data argument to the web resource.
+                    tabName = location.search.split("=")[1];
+                    //tabNumber = formContext.Arup.GetTabNumber(formContext, tabName);
+                    tabNumber = parent.Arup.GetTabNumber(formContext, tabName);
+                    console.log("Setup for tab " + tabName);
+                    setupButtonsForTab(formContext, tabNumber);
+                    parent.Arup.OnDisplayingTab(formContext, tabName,
+                        function () {
+                            setupButtonsForTab(formContext, tabNumber);
+                        });
+                }
+                else {
+                setTimeout(function () { GetFormContextandInitialize(); }, 1000);
+            }      
+            }
+            else {
+                setTimeout(function () { GetFormContextandInitialize(); }, 1000);
+            }               
+        }
+
         // Declare the configuration of each button: label, action to take when pressed and whether the button should be hidden.
         buttonConfigs = {
 
@@ -367,7 +383,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 {
                     'label': 'Click Here for PJN Costs',
                     'action': function () {
-                        DisplayTab("PJN_Costs_Tab");
+                        DisplayTab("PJN_Costs_Tab",this);
                     },
                     'isredbutton': false
                 },
@@ -417,7 +433,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'action': function () {
                         Log("Update Financial Details");
                         // Visit Project Financials?
-                        DisplayTab("Project_Financials_Tab");
+                        DisplayTab("Project_Financials_Tab",this);
                     },
                     'isredbutton': false
                 },
@@ -490,7 +506,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'action': function () {
                         Log("Update Financial Details");
                         // Visit Project Financials?
-                        DisplayTab("Project_Financials_Tab");
+                        DisplayTab("Project_Financials_Tab",this);
                     },
                     'isredbutton': false
                 },
@@ -506,7 +522,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     // TOD: return to active stage
                     'label': function () { return GetLabelTextForBackButton(); },
                     'action': function () {
-                        ReturnToActiveTab();
+                        ReturnToActiveTab(this);
                     },
                     'isredbutton': false
                 }
@@ -515,7 +531,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 {
                     'label': function () { return GetLabelTextForBackButton(); },
                     'action': function () {
-                        ReturnToActiveTab();
+                        ReturnToActiveTab(this);
                     },
                     'isredbutton': false
                 }
@@ -624,7 +640,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     // TOD: return to active stage
                     'label': function () { return GetLabelTextForBackButton(); },
                     'action': function () {
-                        ReturnToActiveTab();
+                        ReturnToActiveTab(this);
                     },
                     'isredbutton': false
                 }
@@ -635,24 +651,15 @@ There will be several copies of the web resource visible in the debugger as "aru
         // refresh the buttons is registered in arup_opportunitybuttoncomamnds.js.
         var tabName;
         var tabNumber;
-        document.onreadystatechange = function () {
-            if (document.readyState == "complete") {
-                if (location.search == "") {
-                    console.error("No tab name given");
-                } else {
-                    //// Tab number is specified as part of the data argument to the web resource.
-                    //tabName = location.search.split("=")[1];
-                    ////tabNumber = formContext.Arup.GetTabNumber(formContext, tabName);
-                    //  tabNumber = parent.Arup.GetTabNumber(formContext, tabName);
-                    //console.log("Setup for tab " + tabName);
-                    //setupButtonsForTab(tabNumber);
-                    //parent.Arup.OnDisplayingTab(formContext, tabName,
-                    //    function () {
-                    //        setupButtonsForTab(tabNumber);
-                    //    });
-                }
-            }
-        }
+                document.onreadystatechange = function () {
+                    if (document.readyState == "complete") {
+                        if (location.search == "") {
+                            console.error("No tab name given");
+                        } else {
+                            GetFormContextandInitialize();
+                        }
+                    }
+                }      
     </script>
 </body>
 </html>

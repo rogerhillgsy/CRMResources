@@ -92,7 +92,7 @@ function SetupForRelationshipTeam(formContext) {
         // Set all sections of TeamSetup tab to visible.
         // Set all other tabs visible to apropriate people.
         // Make fields mandatory
-        IfTeamMember(formContext, [thisTeam, 'Development', 'Global Data Quality'])
+        IfTeamMember(formContext, [thisTeam, 'Development', 'Global Data Quality', 'Business Development Staff','Regional and Group board members'])
             .then(function resolve(results) {
                 teamLog("Setting all tabs visible for user");
                 SetTabVisibilty(formContext, "all");
@@ -105,9 +105,7 @@ function SetupForRelationshipTeam(formContext) {
         MakeAllSectionsVisible(formContext, "Team Set-Up");
     }
     else {
-        // RBH: - comment this out pre-code freeze as it just throws errors on Dev and UAT for non-relationship teams.
-        // (Have these fields been added to the teams form at all?)
-        // hideFields(formContext, ["ccrm_clienttype", "ccrm_client_sustainability"], false);
+        SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager","ccrm_arup150"]);
     }
 }
 
@@ -397,13 +395,5 @@ function openFOPForm(primaryControl) {
     //pop up form with default values
     Xrm.Utility.openEntityForm("arup_fieldofplay", null, formParameters, windowOptions);
 
-}
-
-function Activities_Tab_Change(executionContext) {
-    var formContext = executionContext.getFormContext();
-    refreshRibbonOnChange(formContext);
-}
-function refreshRibbonOnChange(formContext) {
-    formContext.ui.refreshRibbon();
 }
 

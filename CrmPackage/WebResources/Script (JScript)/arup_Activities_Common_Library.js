@@ -50,15 +50,3 @@ function SetDefaultValueToFieldOfPlay(executionContext) {
     }
 }
 
-//formContext is primaryCOntrol crmparamter
-function Activity_NewButton_Ribbon_SubGridEnableRule(formContext) {
-    var isEnabled = true;
-    var futureActivityTab = formContext.ui.tabs.get("Future_Activities_tab");
-    var recentActivityTab = formContext.ui.tabs.get("Recent_Activities_tab");
-    if (futureActivityTab != null && futureActivityTab.getDisplayState() == "expanded")
-        isEnabled = true;
-    else if (recentActivityTab != null && recentActivityTab.getDisplayState() == "expanded")
-    isEnabled = false;
-
-    return isEnabled;
-}

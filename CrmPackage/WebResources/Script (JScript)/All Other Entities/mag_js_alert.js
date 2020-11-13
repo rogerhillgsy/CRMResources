@@ -30,6 +30,10 @@ Alert.$ = function (selector, context) {
 // preventCancel = (optional, defaults to false) Hides the 'X' in the top right corner, meaning you can only dismiss the alert using the buttons
 // padding = (optional, defaults to 30) Sets the amount of padding around the light-box. Set to 0 for no padding (on iframes etc)
 Alert.show = function (title, message, buttons, icon, width, height, baseUrl, preventCancel, padding) {
+
+    if (baseUrl == null)
+        baseUrl = Xrm.Utility.getGlobalContext().getClientUrl();
+
     title = title || "";
     message = message || "";
     width = width || Alert._dialogWidth;
@@ -222,12 +226,19 @@ Alert.showLoading = function (url) {
 }
 
 Alert.showWebResource = function (webResourceName, width, height, title, buttons, baseUrl, preventCancel, padding) {
+
+    if (baseUrl == null)
+        baseUrl = Xrm.Utility.getGlobalContext().getClientUrl();;
+
     var iframeUrl = baseUrl + "/webresources/" + webResourceName;
 
     Alert.showIFrame(iframeUrl, width, height, title, buttons, baseUrl, preventCancel, padding);
 }
 
 Alert.showDialogProcess = function (dialogId, entityName, recordId, callback, width, height, baseUrl) {
+
+    if (baseUrl == null)
+        baseUrl = Xrm.Utility.getGlobalContext().getClientUrl();
 
     var dialogUrl = baseUrl + "/cs/dialog/rundialog.aspx?DialogId=%7b" + dialogId + "%7d&EntityName=" + entityName + "&ObjectId=" + recordId;
 
@@ -250,6 +261,10 @@ Alert.showDialogProcess = function (dialogId, entityName, recordId, callback, wi
 }
 
 Alert.showIFrame = function (iframeUrl, width, height, title, buttons, baseUrl, preventCancel, padding) {
+
+    if (baseUrl == null)
+        baseUrl = Xrm.Utility.getGlobalContext().getClientUrl();
+
     width = width || 800;
     height = height || 600;
     buttons = buttons || []; // No buttons displayed if null, rather than 'OK'

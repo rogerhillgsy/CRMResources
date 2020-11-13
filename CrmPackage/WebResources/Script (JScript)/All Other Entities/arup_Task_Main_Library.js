@@ -271,7 +271,7 @@ function markAsComplete(formContext, displayError) {
                 "ERROR",
                 500,
                 200,
-                '',
+                clientURL,
                 true);
         }
     }

@@ -32,8 +32,7 @@ Arup = (
             ButtonState: {
                 ActiveTab: "Summary"
             },
-
-
+    
             // Functions related to specific buttons ---------------------
 
             IsRequestPossibleJobEnabled: function (formContext) {
@@ -387,7 +386,7 @@ Arup = (
                     Log("Process stage Change");
                     var formContext = executionContext.getFormContext();
                     obj.SetupTabsForStage(formContext);
-                   // obj.LoadWebResource(formContext);
+                
                 });
             },
 
@@ -396,12 +395,14 @@ Arup = (
                 var tab = formContext.ui.tabs.get(tabName);
                 tab.setFocus();
                 tab.setVisible(true);
-                tab.setDisplayState("expanded");
+                var tabDisplayState = tab.getDisplayState();
+                if (tabDisplayState != "expanded")
+                    tab.setDisplayState("expanded");
+
                 if (buttonChangeCallbacks[tabName] != null) {
                     buttonChangeCallbacks[tabName]();
                 }
                 Arup.ActiveTabName = tabName;
-                obj.LoadWebResource(formContext);
                 return tabName;
             },
 
@@ -417,19 +418,6 @@ Arup = (
                 }
 
             },
-
-            LoadWebResource: function (formContext) {
-                var activeWebResourceName = obj.TabToWebResourceMapping[Arup.ActiveTabName];
-              
-                var wrControl = formContext.getControl(activeWebResourceName);
-            if (wrControl) {
-                wrControl.getContentWindow().then(
-                    function (contentWindow) {
-                        contentWindow.setClientApiContext(Xrm, formContext);
-                    }
-                )
-                }
-            }
         };
 
        
