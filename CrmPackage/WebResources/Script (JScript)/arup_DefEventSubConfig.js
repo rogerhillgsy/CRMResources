@@ -7,11 +7,11 @@ if (typeof (arup) == "undefined") {
 
 arup.OnLoad = function (executionContext) {
     var formContext = executionContext.getFormContext();
-    arup.ShowHide(formContext, "arup_isacccentrefromuserprofile", "arup_relatingtoacccentre");
-    arup.ShowHide(formContext, "arup_iscountryfromuserprofile", "arup_relatingtocountry");
-    arup.ShowHide(formContext, "arup_isgroupfromuserprofile", "arup_relatingtogroup");
-    arup.ShowHide(formContext, "arup_isregionfromuserprofile", "arup_relatingtoregion");
-    arup.ShowHide(formContext, "arup_isuserfromuserprofile", "arup_relatingtouser");
+    arup.ShowHide(executionContext, "arup_isacccentrefromuserprofile", "arup_relatingtoacccentre");
+    arup.ShowHide(executionContext, "arup_iscountryfromuserprofile", "arup_relatingtocountry");
+    arup.ShowHide(executionContext, "arup_isgroupfromuserprofile", "arup_relatingtogroup");
+    arup.ShowHide(executionContext, "arup_isregionfromuserprofile", "arup_relatingtoregion");
+    arup.ShowHide(executionContext, "arup_isuserfromuserprofile", "arup_relatingtouser");
     arup.SetEntityTypeAndGuid(formContext, "arup_relatingtoacccentre");
     arup.SetEntityTypeAndGuid(formContext, "arup_relatingtogroup");
     arup.SetEntityTypeAndGuid(formContext, "arup_relatingtocountry");
@@ -21,7 +21,8 @@ arup.OnLoad = function (executionContext) {
     arup.SetEntityTypeAndGuid(formContext, "arup_relatingtouser");
 }
 
-arup.ShowHide = function (formContext, optionfield, lookupfield) {
+arup.ShowHide = function (executionContext, optionfield, lookupfield) {
+    var formContext = executionContext.getFormContext();
     //if user profile is selected hide the further selection fields and clear it as well
     if (formContext.getAttribute(optionfield).getValue() == true || formContext.getAttribute(optionfield).getValue() == null) {
         formContext.getControl(lookupfield).setVisible(false);
