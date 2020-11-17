@@ -13,7 +13,7 @@
 // OnTabStateChange is called when the displayed BPF stage change. It is called to refresh 
 //  any buttons that may be displayed are updated(to change visibility, etc.)
 
-Xrm.Page.Arup = (
+Arup = (
     function () {
         function GetAttribute(formContext, attrName) {
             var attr = formContext.getAttribute(attrName);
@@ -32,8 +32,7 @@ Xrm.Page.Arup = (
             ButtonState: {
                 ActiveTab: "Summary"
             },
-
-
+    
             // Functions related to specific buttons ---------------------
 
             IsRequestPossibleJobEnabled: function (formContext) {
@@ -267,14 +266,15 @@ Xrm.Page.Arup = (
                 // And the active BPF stage
                 var activeStageName = formContext.data.process.getActiveStage();
                 activeStageName = activeStageName == null ? null : activeStageName.getName();
-                var activeTabName = obj.stageToTabMapping[activeStageName];
-                formContext.Arup.ActiveTabName = activeTabName;
+                var activeTabName = obj.stageToTabMapping[activeStageName];               
+                Arup.ActiveTabName = activeTabName;
+                Arup.MainActiveTabForStage = activeTabName;
                 Log("activeTabName :" + activeTabName);
 
                 if (activeStageName != null) {
                     // Decide which tabs should be visible.
                     Log("Displaying tabs for process stage " + activeStageName + " / " + activeTabName);
-                    obj.DisplayTab(activeTabName, formContext);
+                    obj.DisplayTab(activeTabName, formContext);                  
                     obj.setVisibleTabs(formContext, obj.staticTabs.concat([activeTabName]));
                     obj.HideShowBidDevTab(formContext);
                     if (buttonChangeCallbacks[activeTabName] != null) {
@@ -357,6 +357,19 @@ Xrm.Page.Arup = (
                 "CONFIRMED JOB - COMMERCIAL": "Confirmed_Job_commercial_Tab",
                 "CJN APPROVAL": "CJN_Approval_tab",
             },
+            TabToWebResourceMapping: {
+                "Pre-Bid_Tab": "WebResource_buttonnavigation",
+                "Cross_Region_Tab": "WebResource_crossregionnavigation",
+                "PJN_Approval_tab": "WebResource_developingbidnavigation",
+                "Developing_Bid_tab": "WebResource_developingbidnavigation",
+                "Bid_Review_Submission_tab": "WebResource_bidreviewsubmissionnavigation",
+                "Confirmed_Job_Project_Tab": "WebResource_confirmedjobprojectnavigation",
+                "Confirmed_Job_commercial_Tab": "WebResource_confirmedjobcommercialnavigation",
+                "CJN_Approval_tab": "WebResource_cjnapprovalnavigation",
+                "PJN_Approval_tab": "WebResource_pjnapprovalnavigation",
+                "Project_Financials_Tab": "WebResource_projectfinancialsnavigation",
+                "PJN_Costs_Tab": "WebResource_navigation",
+            },
 
             staticTabs: [
                 'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
@@ -373,6 +386,7 @@ Xrm.Page.Arup = (
                     Log("Process stage Change");
                     var formContext = executionContext.getFormContext();
                     obj.SetupTabsForStage(formContext);
+                
                 });
             },
 
@@ -381,10 +395,14 @@ Xrm.Page.Arup = (
                 var tab = formContext.ui.tabs.get(tabName);
                 tab.setFocus();
                 tab.setVisible(true);
-                tab.setDisplayState("expanded");
+                var tabDisplayState = tab.getDisplayState();
+                if (tabDisplayState != "expanded")
+                    tab.setDisplayState("expanded");
+
                 if (buttonChangeCallbacks[tabName] != null) {
                     buttonChangeCallbacks[tabName]();
                 }
+                Arup.ActiveTabName = tabName;
                 return tabName;
             },
 
@@ -399,14 +417,16 @@ Xrm.Page.Arup = (
                     }
                 }
 
-            }
+            },
         };
+
+       
 
         function OnTabStateChange(e) {
             var source = e.getEventSource();
             var formContext = e.getFormContext();
             if (source.getDisplayState() == "collapsed") {
-                formContext.Arup.PreviousTab = source.getName();
+                Arup.PreviousTab = source.getName();
             }
             if (source.getDisplayState() == "expanded") {
                 var tabName = source.getName();
@@ -417,10 +437,12 @@ Xrm.Page.Arup = (
             }
         }
 
+
+   
         return obj;
     })();
 
-
+parent.Arup = Arup;
 
 
 
