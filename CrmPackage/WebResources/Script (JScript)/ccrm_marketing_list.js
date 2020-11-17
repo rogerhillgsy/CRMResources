@@ -4,6 +4,12 @@ function form_OnLoad(executionContext) {
         getUserDetails(formContext);
     }
 
+    var targetedAtList = formContext.getControl("createdfromcode");
+
+    targetedAtList.removeOption(1);
+    targetedAtList.removeOption(4);
+
+    formContext.getAttribute("createdfromcode").setValue(2);
     //Xrm.Page.getAttribute("ccrm_activemembers").setSubmitMode("never");
     //Xrm.Page.getAttribute("ccrm_inactivemembers").setSubmitMode("never");
 
