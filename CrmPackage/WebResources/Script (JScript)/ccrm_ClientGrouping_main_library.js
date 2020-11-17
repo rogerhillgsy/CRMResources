@@ -71,7 +71,6 @@ function exitForm(primaryControl) {
 
 //  RBH - 1/7/20 - Not clear if this is still needed - the Client grouping main form still refers to it, but it doesn't seem to do anything.
 function relationshipTeam_onChange(executionContext) {
-    debugger;
     var formContext = executionContext.getFormContext();
     var teamId = formContext.getAttribute('ccrm_managingteam').getValue();
     if (teamId == null) {
@@ -80,20 +79,21 @@ function relationshipTeam_onChange(executionContext) {
         a = formContext.getAttribute('ccrm_relationshipmanager');
         !!a && a.setValue(null);
         return;
+        //
     }
 
     teamId = teamId[0].id.replace('{', '').replace('}', '');
 
-    Xrm.WebApi.retrieveRecord("team",  teamId,
-            "?$select=_ccrm_relationshipmanager_value,ccrm_relationshiptype")
+    Xrm.WebApi.retrieveRecord("team", teamId,
+        "?$select=_ccrm_relationshipmanager_value,ccrm_relationshiptype")
         .then(function success(result) {
             var _ccrm_relationshipmanager_value = result["_ccrm_relationshipmanager_value"];
-            var _ccrm_relationshipmanager_value_formatted =
-                result["_ccrm_relationshipmanager_value@OData.Community.Display.V1.FormattedValue"];
+            var _ccrm_relationshipmanager_value_formatted = result["_ccrm_relationshipmanager_value@OData.Community.Display.V1.FormattedValue"];
             var ccrm_relationshiptype = result["ccrm_relationshiptype"];
 
             var a = formContext.getAttribute('ccrm_accounttype');
             !!a && a.setValue(ccrm_relationshiptype);
+
             if (_ccrm_relationshipmanager_value == null) {
                 a = formContext.getAttribute('ccrm_relationshipmanager');
                 !!a && a.setValue(null);
