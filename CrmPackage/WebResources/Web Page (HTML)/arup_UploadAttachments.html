@@ -79,7 +79,7 @@
             }
     </style>
     <link href="arup_BootStrap_MinCSS.css" rel="stylesheet">
-    <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
+    <!--<script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>-->
     <script src="ccrm_/JavaScripts/Lib/SDK.REST.js" type="text/javascript"></script>
     <script src="ccrm_/JavaScripts/Lib/SDK.MetaData.js" type="text/javascript"></script>
     <script src="ccrm_/JavaScripts/Lib/XrmServiceToolkit.min.js" type="text/javascript"></script>
@@ -108,8 +108,7 @@
                     li.innerHTML = (x + 1) + ': ' + input.files[x].name;
                     list.appendChild(li);
                 }
-                else
-                {
+                else {
                     document.getElementById('myH2').innerText = "Error occured while uploading";
                     document.getElementById('myH2').style.color = "red"
                     // document.getElementById('myH2').style.fontsize = "15px"
@@ -121,41 +120,40 @@
         }
 
         function processFiles() {
-            try{
+            try {
                 var filelist = document.getElementById('filesToUpload').files;
                 // Create Folder
-                 var folderid = CreateorRetrieveFolder();
+                var folderid = CreateorRetrieveFolder();
                 // alert("folderid" + folderid);
 
-                 document.getElementById('showSpinner').style.display = 'block';
-                 document.getElementById('spinnerImage').style.display = 'block';
-                 for (var i = 0; i < filelist.length; i++) {
-                    writefiles(filelist[i], folderid,i, filelist.length);
+                document.getElementById('showSpinner').style.display = 'block';
+                document.getElementById('spinnerImage').style.display = 'block';
+                for (var i = 0; i < filelist.length; i++) {
+                    writefiles(filelist[i], folderid, i, filelist.length);
                 }
                 document.getElementById("testform").reset();
                 document.getElementById('fileList').innerHTML = '';
                 document.getElementById('tblfileupload').style.display = 'none';
                 document.getElementById("filesToUpload").value = "";
             }
-            catch(exception)
-            {
+            catch (exception) {
                 document.getElementById("testform").reset();
                 document.getElementById('fileList').innerHTML = '';
                 document.getElementById('myH2').innerText = "Error occured while uploading";
                 document.getElementById('myH2').style.color = "red"
-               // document.getElementById('myH2').style.fontsize = "15px"
+                // document.getElementById('myH2').style.fontsize = "15px"
                 document.getElementById('tblfileupload').style.display = 'none';
                 document.getElementById('showSpinner').style.display = 'none';
             }
         }
 
-        function writefiles(file,folderid,iteration,length) {
+        function writefiles(file, folderid, iteration, length) {
             // var data;
             debugger;
             var reader = new FileReader();
             var fileType = file.type;
             reader.onload = function () {
-                CrmProcessingforNotes(this.result, fileType,folderid,file.name,iteration,length);
+                CrmProcessingforNotes(this.result, fileType, folderid, file.name, iteration, length);
             }
             reader.readAsDataURL(file);
         }
@@ -165,39 +163,45 @@
             var results = regex.exec(location.search);
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         };
-        function CreateorRetrieveFolder()
-        {
+        function CreateorRetrieveFolder() {
             var entity = {};
             var urlParams = new URLSearchParams(window.location.search);
 
-            var frameworkguid = getUrlParameter('id');
-           // var frameworkguid = parent.Xrm.Page.data.entity.getId().replace('{', '').replace('}', '');
+            var frameworkguid = getUrlParameter('id').replace(/[{}]/g, "");
+            // var frameworkguid = parent.Xrm.Page.data.entity.getId().replace('{', '').replace('}', '');
             var newEntityId;
-            entity.ccrm_FrameworkId = {
+            /*entity.ccrm_frameworkid = {
                 Id: frameworkguid,
                 LogicalName: "arup_framework"
-            };
+            };*/
+            entity["ccrm_FrameworkId@odata.bind"] = "/arup_frameworks("+frameworkguid+")";
             if (document.getElementById("ChkIsSecured").checked == true) {
-                entity.arup_IsSecured = false;
+                entity.arup_issecured = true;
                 entity.arup_name = "Documents Folder";
             }
             else {
-                entity.arup_IsSecured = true;
+                entity.arup_issecured = false;
                 entity.arup_name = "Secured Documents Folder";
             }
             var req = new XMLHttpRequest();
-            req.open("POST", encodeURI(Xrm.Page.context.getClientUrl() + "/XRMServices/2011/OrganizationData.svc/arup_frameworkfolderSet"), false);
+            req.open("POST", Arup_GetClientURL() + "/api/data/v9.1/arup_frameworkfolders", false);
+            req.setRequestHeader("OData-MaxVersion", "4.0");
+            req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
             req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             req.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     this.onreadystatechange = null;
-                    if (this.status === 201) {
-                        var result = JSON.parse(this.responseText).d;
-                         newEntityId = result.arup_frameworkfolderId;
-                       // alert("folder" + newEntityId);
+                    if (this.status === 204) {
+                        //var result = JSON.parse(this.responseText).d;
+                        //newEntityId = result.arup_frameworkfolderid;
+                        var uri = this.getResponseHeader("OData-EntityId");
+                        var regExp = /\(([^)]+)\)/;
+                        var matches = regExp.exec(uri);
+                        newEntityId = matches[1].replace(/[{}]/g, "");
+                        //alert("folder" + matches[1]);
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                       alert(this.responseText);
                     }
                 }
             };
@@ -205,33 +209,28 @@
             return newEntityId;
         }
 
-        function CrmProcessingforNotes(reader, type, folderid, fileName,i,len)
-        {
+        function CrmProcessingforNotes(reader, type, folderid, fileName, i, len) {
             var documentBody = reader.split(',')[1];
             //alert(documentBody);
             var entity = {};
-        //    entity.Subject = "Framework Files";
-            entity.DocumentBody = documentBody;
-            entity.FileName = fileName;
-            entity.MimeType = type;
-          //  entity.NoteText = "Framework Files";
-            entity.ObjectId = {
-                Id: folderid,
-                LogicalName: "arup_frameworkfolder"
-            };
+            entity.subject = "Framework Files";
+            entity.documentbody = documentBody;
+            entity.filename = fileName;
+            entity.mimetype = type;
+            //  entity.NoteText = "Framework Files";
+            entity["objectid_arup_frameworkfolder@odata.bind"] = "/arup_frameworkfolders("+folderid+")";
 
             var req = new XMLHttpRequest();
-            req.open("POST", encodeURI(Xrm.Page.context.getClientUrl() + "/XRMServices/2011/OrganizationData.svc/AnnotationSet"), false);
+            req.open("POST", Arup_GetClientURL() + "/api/data/v9.1/annotations", false);
             req.setRequestHeader("Accept", "application/json");
             req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             req.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     this.onreadystatechange = null;
-                    if (this.status === 201) {
-                        var result = JSON.parse(this.responseText).d;
-                        var newEntityId = result.AnnotationId;
-                        if(i == len-1)
-                        {
+                    if (this.status === 204) {
+                        //var result = JSON.parse(this.responseText).d;
+                       // var newEntityId = result.AnnotationId;
+                        if (i == len - 1) {
                             document.getElementById('myH2').innerText = "Documents uploaded successfully";
                             document.getElementById('myH2').style.color = "green";
                             //document.getElementById('myH2').style.fontsize = "15px";
@@ -239,25 +238,32 @@
                             document.getElementById('spinnerImage').style.display = 'none';
                         }
                     } else {
-                        Xrm.Utility.alertDialog(this.statusText);
+                        alert(this.responseText);
                         document.getElementById('myH2').innerText = "Error occured while uploading";
                         document.getElementById('myH2').style.color = "red"
-                       // document.getElementById('myH2').style.fontsize = "15px";
+                        // document.getElementById('myH2').style.fontsize = "15px";
                         document.getElementById('showSpinner').style.display = 'none';
                         document.getElementById('spinnerImage').style.display = 'none';
                     }
                 }
-
             };
             req.send(JSON.stringify(entity));
         }
+
+        Arup_GetClientURL = (function () {
+            var clientUrl = document.location.origin;
+            return function () {
+                return clientUrl;
+            }
+        })();
 
     </script>
     <meta>
     <meta>
     <meta>
     <meta>
-<meta></head>
+    <meta>
+</head>
 <body onfocusout="parent.setEmailRange();" style="overflow-wrap: break-word;">
     <form enctype="multipart/form-data" id="testform">
         <table align="left" style="margin-left : 90px; font-size:15px" id="tblfileupload">

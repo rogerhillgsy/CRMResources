@@ -32,8 +32,7 @@ Arup = (
             ButtonState: {
                 ActiveTab: "Summary"
             },
-
-
+    
             // Functions related to specific buttons ---------------------
 
             IsRequestPossibleJobEnabled: function (formContext) {
@@ -396,12 +395,14 @@ Arup = (
                 var tab = formContext.ui.tabs.get(tabName);
                 tab.setFocus();
                 tab.setVisible(true);
-                tab.setDisplayState("expanded");
+                var tabDisplayState = tab.getDisplayState();
+                if (tabDisplayState != "expanded")
+                    tab.setDisplayState("expanded");
+
                 if (buttonChangeCallbacks[tabName] != null) {
                     buttonChangeCallbacks[tabName]();
                 }
                 Arup.ActiveTabName = tabName;
-              //  obj.LoadWebResource(formContext);
                 return tabName;
             },
 
