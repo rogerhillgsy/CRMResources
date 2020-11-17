@@ -3,11 +3,11 @@
 
     <title>CRM Report - Client Connection Matrix</title>
     <meta charset="utf-8">
-    <!--<link href="arup_BootStrap_MinCSS.css" rel="stylesheet">-->
-    <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
+    <!--<link href="arup_BootStrap_MinCSS.css" rel="stylesheet">
+    <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>-->
     <script src="ccrm_/JavaScripts/Lib/SDK.REST.js"></script>
     <script src="ccrm_/JavaScripts/Lib/SDK.MetaData.js" type="text/javascript"></script>
-    <script src="ccrm_/JavaScripts/Lib/XrmServiceToolkit.min.js" type="text/javascript"></script>
+    <!--<script src="ccrm_/JavaScripts/Lib/XrmServiceToolkit.min.js" type="text/javascript"></script>-->
     <script src="ccrm_/JavaScripts/D3V4.js" type="text/javascript"></script>
     <script src="ccrm_/JavaScripts/Lib/jquery_3.2.0.min" type="text/javascript"></script>
     <script>
@@ -6548,107 +6548,107 @@
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
                 url: Arup_GetClientURL() + "/api/data/v9.1/contacts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'contact'%20%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'parentcustomerid'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Corder%20attribute%3D'fullname'%20descending%3D'false'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ParentCustomer'%20%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
+                beforeSend: function (XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
                     XMLHttpRequest.setRequestHeader("Accept", "application/json");
                     XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
                 },
                 async: false,
-                success: function(data, textStatus, xhr) {
+                success: function (data, textStatus, xhr) {
                     var result = data.value;
                     for (var i = 0; i < result.length; i++) {
-                    //console.log(result.entities[i]);
-                    var contactid = result[i]["contactid"];
-                    var fullname = result[i]["fullname"] != undefined ? result[i]["fullname"] : "";
-                    var contactimage = result[i]["contactimage"] != undefined ? result[i]["contactimage"] : "";
-                    var role = result[i]["accountrolecode"] != undefined ? result[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
-                    var parentcustomerid = result[i]["_parentcustomerid_value"] != undefined ? result[i]["_parentcustomerid_value"] : "";
-                    var parentcustomername = result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
-                    var contact = { contactname: fullname, contactid: contactid, organizationid: parentcustomerid, organizationname: parentcustomername, contactimage: contactimage, role: role };
-                    contactList.push(contact);
-                    initialContactList.push(contact);
-                    var organizationid = result[i]["ParentCustomer.accountid"];
-                    organizations[i] = organizationid;
-                }
-
-                var uniqueOrgList = getUnique(organizations);
-                for (var i = 0; i < uniqueOrgList.length; i++) {
-                    for (var j = 0; j < result.length; j++) {
                         //console.log(result.entities[i]);
-                        if (uniqueOrgList[i] == result[j]["ParentCustomer.accountid"]) {
-                            var organizationid = result[j]["ParentCustomer.accountid"];
-                            var organizationname = result[j]["ParentCustomer.name"] != undefined ? result[j]["ParentCustomer.name"] : "";
-                            var org = { organizationid: organizationid, organizationname: organizationname };
-                            organizationList.push(org);
-                            break;
+                        var contactid = result[i]["contactid"];
+                        var fullname = result[i]["fullname"] != undefined ? result[i]["fullname"] : "";
+                        var contactimage = result[i]["contactimage"] != undefined ? result[i]["contactimage"] : "";
+                        var role = result[i]["accountrolecode"] != undefined ? result[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
+                        var parentcustomerid = result[i]["_parentcustomerid_value"] != undefined ? result[i]["_parentcustomerid_value"] : "";
+                        var parentcustomername = result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
+                        var contact = { contactname: fullname, contactid: contactid, organizationid: parentcustomerid, organizationname: parentcustomername, contactimage: contactimage, role: role };
+                        contactList.push(contact);
+                        initialContactList.push(contact);
+                        var organizationid = result[i]["ParentCustomer.accountid"];
+                        organizations[i] = organizationid;
+                    }
+
+                    var uniqueOrgList = getUnique(organizations);
+                    for (var i = 0; i < uniqueOrgList.length; i++) {
+                        for (var j = 0; j < result.length; j++) {
+                            //console.log(result.entities[i]);
+                            if (uniqueOrgList[i] == result[j]["ParentCustomer.accountid"]) {
+                                var organizationid = result[j]["ParentCustomer.accountid"];
+                                var organizationname = result[j]["ParentCustomer.name"] != undefined ? result[j]["ParentCustomer.name"] : "";
+                                var org = { organizationid: organizationid, organizationname: organizationname };
+                                organizationList.push(org);
+                                break;
+                            }
                         }
                     }
-                }
-                //debugger;
-                /*fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                    "<entity name='activitypointer'>" +
-                    "<attribute name='subject' />" +
-                    "<attribute name='activityid' />" +
-                    "<attribute name='activitytypecode' />" +
-                    "<filter type='and'>" +
-                    "<filter type='or'>" +
-                    "<condition attribute='activitytypecode' operator='eq' value='4201' />" +
-                    "<condition attribute='activitytypecode' operator='eq' value='4210' />" +
-                    "</filter>" +
-                    "<condition attribute='createdon' operator='last-x-months' value='6' />" +
-                    "</filter>" +
-                    "<link-entity name='contact' from='contactid' to='regardingobjectid' link-type='inner' alias='ParentContact'>" +
-                    "<attribute name='contactid' />" +
-                    "<attribute name='accountrolecode' />" +
-                    "<link-entity name='account' from='accountid' to='parentcustomerid' link-type='inner' alias='ae'>" +
-                    "<filter type='and'>" +
-                    "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
-                    "</filter>" +
-                    "</link-entity>" +
-                    "</link-entity>" +
-                    "</entity>" +
-                    "</fetch>";
-                fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
-                var activityList = [];
-                $.ajax({
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    datatype: "json",
-                    url: Arup_GetClientURL() + "/api/data/v9.1/activitypointers?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'activitypointer'%3E%3Cattribute%20name%3D'subject'%20%2F%3E%3Cattribute%20name%3D'activityid'%20%2F%3E%3Cattribute%20name%3D'activitytypecode'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Cfilter%20type%3D'or'%3E%3Ccondition%20attribute%3D'activitytypecode'%20operator%3D'eq'%20value%3D'4201'%20%2F%3E%3Ccondition%20attribute%3D'activitytypecode'%20operator%3D'eq'%20value%3D'4210'%20%2F%3E%3C%2Ffilter%3E%3Ccondition%20attribute%3D'createdon'%20operator%3D'last-x-months'%20value%3D'6'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'regardingobjectid'%20link-type%3D'inner'%20alias%3D'ParentContact'%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ae'%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                    beforeSend: function(XMLHttpRequest) {
-                        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                        XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-                    },
-                    async: false,
-                    success: function(data, textStatus, xhr) {
-                        var result = data.value;
-                        for (var i = 0; i < result.length; i++) {
-                            var activityid = result[i]["activityid"];
-                            var subject = result[i]["subject"] != undefined ? result[i]["subject"] : "";
-                            var parentcustomerid = result[i]["ParentContact.contactid"] != undefined ? result[i]["ParentContact.contactid"] : "";
-                            var actvititytypecode = result[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] : "";
-                            var activity = { activityid: activityid, subject: subject, parentcustomerid: parentcustomerid, actvititytypecode: actvititytypecode };
-                            activityList.push(activity);
+                    //debugger;
+                    /*fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+                        "<entity name='activitypointer'>" +
+                        "<attribute name='subject' />" +
+                        "<attribute name='activityid' />" +
+                        "<attribute name='activitytypecode' />" +
+                        "<filter type='and'>" +
+                        "<filter type='or'>" +
+                        "<condition attribute='activitytypecode' operator='eq' value='4201' />" +
+                        "<condition attribute='activitytypecode' operator='eq' value='4210' />" +
+                        "</filter>" +
+                        "<condition attribute='createdon' operator='last-x-months' value='6' />" +
+                        "</filter>" +
+                        "<link-entity name='contact' from='contactid' to='regardingobjectid' link-type='inner' alias='ParentContact'>" +
+                        "<attribute name='contactid' />" +
+                        "<attribute name='accountrolecode' />" +
+                        "<link-entity name='account' from='accountid' to='parentcustomerid' link-type='inner' alias='ae'>" +
+                        "<filter type='and'>" +
+                        "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
+                        "</filter>" +
+                        "</link-entity>" +
+                        "</link-entity>" +
+                        "</entity>" +
+                        "</fetch>";
+                    fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
+                    var activityList = [];
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        datatype: "json",
+                        url: Arup_GetClientURL() + "/api/data/v9.1/activitypointers?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'activitypointer'%3E%3Cattribute%20name%3D'subject'%20%2F%3E%3Cattribute%20name%3D'activityid'%20%2F%3E%3Cattribute%20name%3D'activitytypecode'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Cfilter%20type%3D'or'%3E%3Ccondition%20attribute%3D'activitytypecode'%20operator%3D'eq'%20value%3D'4201'%20%2F%3E%3Ccondition%20attribute%3D'activitytypecode'%20operator%3D'eq'%20value%3D'4210'%20%2F%3E%3C%2Ffilter%3E%3Ccondition%20attribute%3D'createdon'%20operator%3D'last-x-months'%20value%3D'6'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'regardingobjectid'%20link-type%3D'inner'%20alias%3D'ParentContact'%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ae'%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                        beforeSend: function (XMLHttpRequest) {
+                            XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                            XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                            XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                            XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                        },
+                        async: false,
+                        success: function (data, textStatus, xhr) {
+                            var result = data.value;
+                            for (var i = 0; i < result.length; i++) {
+                                var activityid = result[i]["activityid"];
+                                var subject = result[i]["subject"] != undefined ? result[i]["subject"] : "";
+                                var parentcustomerid = result[i]["ParentContact.contactid"] != undefined ? result[i]["ParentContact.contactid"] : "";
+                                var actvititytypecode = result[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["activitytypecode@OData.Community.Display.V1.FormattedValue"] : "";
+                                var activity = { activityid: activityid, subject: subject, parentcustomerid: parentcustomerid, actvititytypecode: actvititytypecode };
+                                activityList.push(activity);
+                            }
+                            if (contactList.length > 0) {
+                                //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
+                                //DrawMatrixForceLayout1("#connectionMatrix", contactList, initialOrgList, false);
+                                DrawMatrixForceLayout1("#connectionMatrix", contactList, initialOrgList, activityList, false);
+                            }
+                            else {
+                                $("#p").text("No contact records found");
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
                         }
-                        if (contactList.length > 0) {
-                            //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
-                            //DrawMatrixForceLayout1("#connectionMatrix", contactList, initialOrgList, false);
-                            DrawMatrixForceLayout1("#connectionMatrix", contactList, initialOrgList, activityList, false);
-                        }
-                        else {
-                            $("#p").text("No contact records found");
-                        }
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                        Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
-                    }
-                });
+                    });
 
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: function (xhr, textStatus, errorThrown) {
                     Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
                 }
             });
@@ -6705,88 +6705,88 @@
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
                 url: Arup_GetClientURL() + "/api/data/v9.1/contacts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'contact'%20%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'parentcustomerid'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Corder%20attribute%3D'fullname'%20descending%3D'false'%20%2F%3E%3Cfilter%20type%3D'or'%20%3E%3Ccondition%20attribute%3D'accountrolecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Ccondition%20attribute%3D'accountrolecode'%20operator%3D'eq'%20value%3D'770000000'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ParentCustomer'%20%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
+                beforeSend: function (XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
                     XMLHttpRequest.setRequestHeader("Accept", "application/json");
                     XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
                 },
                 async: false,
-                success: function(data, textStatus, xhr) {
+                success: function (data, textStatus, xhr) {
                     var result = data.value;
                     for (var i = 0; i < result.length; i++) {
-                    //console.log(result.entities[i]);
-                    var contactid = result[i]["contactid"];
-                    var fullname = result[i]["fullname"] != undefined ? result[i]["fullname"] : "";
-                    var contactimage = result[i]["contactimage"] != undefined ? result[i]["contactimage"] : "";
-                    var parentcustomerid = result[i]["_parentcustomerid_value"] != undefined ? result[i]["_parentcustomerid_value"] : "";
-                    var parentcustomername = result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
-                    var role = result[i]["accountrolecode"] != undefined ? result[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
-                    //var role = "Decision Maker";
-                    var contact = { contactname: fullname, contactid: contactid, organizationid: parentcustomerid, organizationname: parentcustomername, contactimage: contactimage, role: role };
-                    contactList.push(contact);
-                    initialContactList.push(contact);
-                    var organizationid = result[i]["ParentCustomer.accountid"];
-                    organizations[i] = organizationid;
-                }
-
-                var uniqueOrgList = getUnique(organizations);
-                for (var i = 0; i < uniqueOrgList.length; i++) {
-                    for (var j = 0; j < result.length; j++) {
                         //console.log(result.entities[i]);
-                        if (uniqueOrgList[i] == result[j]["ParentCustomer.accountid"]) {
-                            var organizationid = result[j]["ParentCustomer.accountid"];
-                            var organizationname = result[j]["ParentCustomer.name"] != undefined ? result[j]["ParentCustomer.name"] : "";
-                            var org = { organizationid: organizationid, organizationname: organizationname };
-                            organizationList.push(org);
-                            break;
+                        var contactid = result[i]["contactid"];
+                        var fullname = result[i]["fullname"] != undefined ? result[i]["fullname"] : "";
+                        var contactimage = result[i]["contactimage"] != undefined ? result[i]["contactimage"] : "";
+                        var parentcustomerid = result[i]["_parentcustomerid_value"] != undefined ? result[i]["_parentcustomerid_value"] : "";
+                        var parentcustomername = result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
+                        var role = result[i]["accountrolecode"] != undefined ? result[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
+                        //var role = "Decision Maker";
+                        var contact = { contactname: fullname, contactid: contactid, organizationid: parentcustomerid, organizationname: parentcustomername, contactimage: contactimage, role: role };
+                        contactList.push(contact);
+                        initialContactList.push(contact);
+                        var organizationid = result[i]["ParentCustomer.accountid"];
+                        organizations[i] = organizationid;
+                    }
+
+                    var uniqueOrgList = getUnique(organizations);
+                    for (var i = 0; i < uniqueOrgList.length; i++) {
+                        for (var j = 0; j < result.length; j++) {
+                            //console.log(result.entities[i]);
+                            if (uniqueOrgList[i] == result[j]["ParentCustomer.accountid"]) {
+                                var organizationid = result[j]["ParentCustomer.accountid"];
+                                var organizationname = result[j]["ParentCustomer.name"] != undefined ? result[j]["ParentCustomer.name"] : "";
+                                var org = { organizationid: organizationid, organizationname: organizationname };
+                                organizationList.push(org);
+                                break;
+                            }
                         }
                     }
-                }
 
-                //debugger;
-                /*fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                    "<entity name='activitypointer'>" +
-                    "<attribute name='subject' />" +
-                    "<attribute name='activityid' />" +
-                    "<attribute name='activitytypecode' />" +
-                    "<filter type='and'>" +
-                    "<filter type='or'>" +
-                    "<condition attribute='activitytypecode' operator='eq' value='4201' />" +
-                    "<condition attribute='activitytypecode' operator='eq' value='4210' />" +
-                    "</filter>" +
-                    "<condition attribute='createdon' operator='last-x-months' value='6' />" +
-                    "</filter>" +
-                    "<link-entity name='contact' from='contactid' to='regardingobjectid' link-type='inner' alias='ParentContact'>" +
-                    "<attribute name='contactid' />" +
-                    "<attribute name='accountrolecode' />" +
-                    "<filter type='or' >" +
-                    "<condition attribute='accountrolecode' operator='eq' value='1' />" +
-                    "<condition attribute='accountrolecode' operator='eq' value='770000000' />" +
-                    "</filter>" +
-                    "<link-entity name='account' from='accountid' to='parentcustomerid' link-type='inner' alias='ae'>" +
-                    "<filter type='and'>" +
-                    "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
-                    "</filter>" +
-                    "</link-entity>" +
-                    "</link-entity>" +
-                    "</entity>" +
-                    "</fetch>";
-                fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
+                    //debugger;
+                    /*fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
+                        "<entity name='activitypointer'>" +
+                        "<attribute name='subject' />" +
+                        "<attribute name='activityid' />" +
+                        "<attribute name='activitytypecode' />" +
+                        "<filter type='and'>" +
+                        "<filter type='or'>" +
+                        "<condition attribute='activitytypecode' operator='eq' value='4201' />" +
+                        "<condition attribute='activitytypecode' operator='eq' value='4210' />" +
+                        "</filter>" +
+                        "<condition attribute='createdon' operator='last-x-months' value='6' />" +
+                        "</filter>" +
+                        "<link-entity name='contact' from='contactid' to='regardingobjectid' link-type='inner' alias='ParentContact'>" +
+                        "<attribute name='contactid' />" +
+                        "<attribute name='accountrolecode' />" +
+                        "<filter type='or' >" +
+                        "<condition attribute='accountrolecode' operator='eq' value='1' />" +
+                        "<condition attribute='accountrolecode' operator='eq' value='770000000' />" +
+                        "</filter>" +
+                        "<link-entity name='account' from='accountid' to='parentcustomerid' link-type='inner' alias='ae'>" +
+                        "<filter type='and'>" +
+                        "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
+                        "</filter>" +
+                        "</link-entity>" +
+                        "</link-entity>" +
+                        "</entity>" +
+                        "</fetch>";
+                    fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
                     var activityList = [];
                     $.ajax({
                         type: "GET",
                         contentType: "application/json; charset=utf-8",
                         datatype: "json",
                         url: Arup_GetClientURL() + "/api/data/v9.1/activitypointers?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'activitypointer'%3E%3Cattribute%20name%3D'subject'%20%2F%3E%3Cattribute%20name%3D'activityid'%20%2F%3E%3Cattribute%20name%3D'activitytypecode'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Cfilter%20type%3D'or'%3E%3Ccondition%20attribute%3D'activitytypecode'%20operator%3D'eq'%20value%3D'4201'%20%2F%3E%3Ccondition%20attribute%3D'activitytypecode'%20operator%3D'eq'%20value%3D'4210'%20%2F%3E%3C%2Ffilter%3E%3Ccondition%20attribute%3D'createdon'%20operator%3D'last-x-months'%20value%3D'6'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'contact'%20from%3D'contactid'%20to%3D'regardingobjectid'%20link-type%3D'inner'%20alias%3D'ParentContact'%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cfilter%20type%3D'or'%20%3E%3Ccondition%20attribute%3D'accountrolecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Ccondition%20attribute%3D'accountrolecode'%20operator%3D'eq'%20value%3D'770000000'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ae'%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                        beforeSend: function(XMLHttpRequest) {
+                        beforeSend: function (XMLHttpRequest) {
                             XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                             XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
                             XMLHttpRequest.setRequestHeader("Accept", "application/json");
                             XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
                         },
                         async: false,
-                        success: function(data, textStatus, xhr) {
+                        success: function (data, textStatus, xhr) {
                             var result = data.value;
                             for (var i = 0; i < result.length; i++) {
                                 //console.log(result.entities[i]);
@@ -6806,12 +6806,12 @@
                             }
 
                         },
-                        error: function(xhr, textStatus, errorThrown) {
+                        error: function (xhr, textStatus, errorThrown) {
                             Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
                         }
                     });
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: function (xhr, textStatus, errorThrown) {
                     Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
                 }
             });
@@ -6849,54 +6849,54 @@
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
                 url: Arup_GetClientURL() + "/api/data/v9.1/contacts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'contact'%20%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'parentcustomerid'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Corder%20attribute%3D'fullname'%20descending%3D'false'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'accountrolecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ParentCustomer'%20%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
+                beforeSend: function (XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
                     XMLHttpRequest.setRequestHeader("Accept", "application/json");
                     XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
                 },
                 async: false,
-                success: function(data, textStatus, xhr) {
+                success: function (data, textStatus, xhr) {
                     var result = data.value;
                     for (var i = 0; i < result.entities.length; i++) {
-                    //console.log(result.entities[i]);
-                    var contactid = result.entities[i]["contactid"];
-                    var fullname = result.entities[i]["fullname"] != undefined ? result.entities[i]["fullname"] : "";
-                    var contactimage = result.entities[i]["contactimage"] != undefined ? result.entities[i]["contactimage"] : "";
-                    var parentcustomerid = result.entities[i]["_parentcustomerid_value"] != undefined ? result.entities[i]["_parentcustomerid_value"] : "";
-                    var parentcustomername = result.entities[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result.entities[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
-                    var role = result.entities[i]["accountrolecode"] != undefined ? result.entities[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
-                    //var role = "Decision Maker";
-                    var contact = { contactname: fullname, contactid: contactid, organizationid: parentcustomerid, organizationname: parentcustomername, contactimage: contactimage, role: role };
-                    contactList.push(contact);
-                    initialContactList.push(contact);
-                    var organizationid = result.entities[i]["ParentCustomer.accountid"];
-                    organizations[i] = organizationid;
-                }
-
-                var uniqueOrgList = getUnique(organizations);
-                for (var i = 0; i < uniqueOrgList.length; i++) {
-                    for (var j = 0; j < result.length; j++) {
                         //console.log(result.entities[i]);
-                        if (uniqueOrgList[i] == result[j]["ParentCustomer.accountid"]) {
-                            var organizationid = result[j]["ParentCustomer.accountid"];
-                            var organizationname = result[j]["ParentCustomer.name"] != undefined ? result[j]["ParentCustomer.name"] : "";
-                            var org = { organizationid: organizationid, organizationname: organizationname };
-                            organizationList.push(org);
-                            break;
+                        var contactid = result.entities[i]["contactid"];
+                        var fullname = result.entities[i]["fullname"] != undefined ? result.entities[i]["fullname"] : "";
+                        var contactimage = result.entities[i]["contactimage"] != undefined ? result.entities[i]["contactimage"] : "";
+                        var parentcustomerid = result.entities[i]["_parentcustomerid_value"] != undefined ? result.entities[i]["_parentcustomerid_value"] : "";
+                        var parentcustomername = result.entities[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result.entities[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
+                        var role = result.entities[i]["accountrolecode"] != undefined ? result.entities[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
+                        //var role = "Decision Maker";
+                        var contact = { contactname: fullname, contactid: contactid, organizationid: parentcustomerid, organizationname: parentcustomername, contactimage: contactimage, role: role };
+                        contactList.push(contact);
+                        initialContactList.push(contact);
+                        var organizationid = result.entities[i]["ParentCustomer.accountid"];
+                        organizations[i] = organizationid;
+                    }
+
+                    var uniqueOrgList = getUnique(organizations);
+                    for (var i = 0; i < uniqueOrgList.length; i++) {
+                        for (var j = 0; j < result.length; j++) {
+                            //console.log(result.entities[i]);
+                            if (uniqueOrgList[i] == result[j]["ParentCustomer.accountid"]) {
+                                var organizationid = result[j]["ParentCustomer.accountid"];
+                                var organizationname = result[j]["ParentCustomer.name"] != undefined ? result[j]["ParentCustomer.name"] : "";
+                                var org = { organizationid: organizationid, organizationname: organizationname };
+                                organizationList.push(org);
+                                break;
+                            }
                         }
                     }
-                }
-                if (contactList.length > 0) {
-                    //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
-                    DrawMatrixForceLayoutForDecisionMakers("#connectionMatrix", contactList, initialOrgList, false);
-                }
-                else {
-                    $("#p").text("No Decision maker contact records found");
-                }
+                    if (contactList.length > 0) {
+                        //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
+                        DrawMatrixForceLayoutForDecisionMakers("#connectionMatrix", contactList, initialOrgList, false);
+                    }
+                    else {
+                        $("#p").text("No Decision maker contact records found");
+                    }
 
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: function (xhr, textStatus, errorThrown) {
                     Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
                 }
             });
@@ -6934,14 +6934,14 @@
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
                 url: Arup_GetClientURL() + "/api/data/v9.1/contacts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'contact'%20%3E%3Cattribute%20name%3D'fullname'%20%2F%3E%3Cattribute%20name%3D'parentcustomerid'%20%2F%3E%3Cattribute%20name%3D'contactid'%20%2F%3E%3Cattribute%20name%3D'accountrolecode'%20%2F%3E%3Cattribute%20name%3D'entityimage_url'%20alias%3D'contactimage'%20%2F%3E%3Corder%20attribute%3D'fullname'%20descending%3D'false'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'accountrolecode'%20operator%3D'eq'%20value%3D'770000000'%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'parentcustomerid'%20link-type%3D'inner'%20alias%3D'ParentCustomer'%20%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cfilter%20type%3D'and'%20%3E%3Ccondition%20attribute%3D'ccrm_clientgroupings'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
+                beforeSend: function (XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
                     XMLHttpRequest.setRequestHeader("Accept", "application/json");
                     XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
                 },
                 async: false,
-                success: function(data, textStatus, xhr) {
+                success: function (data, textStatus, xhr) {
                     var result = data.value;
                     for (var i = 0; i < result.length; i++) {
                         //console.log(result.entities[i]);
@@ -6980,7 +6980,7 @@
                         $("#p").text("No C-Suite contact records found");
                     }
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: function (xhr, textStatus, errorThrown) {
                     Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
                 }
             });
@@ -7052,14 +7052,14 @@
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
                 url: Arup_GetClientURL() + "/api/data/v9.1/activitypointers" + fetchXML,
-                beforeSend: function(XMLHttpRequest) {
+                beforeSend: function (XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
                     XMLHttpRequest.setRequestHeader("Accept", "application/json");
                     XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
                 },
                 async: false,
-                success: function(data, textStatus, xhr) {
+                success: function (data, textStatus, xhr) {
                     var result = data.value;
                     for (var i = 0; i < result.length; i++) {
                         //console.log(result.entities[i]);
@@ -7076,7 +7076,7 @@
                         DrawMatrixForceLayout2("#connectionMatrix", initialContactList, initialOrgList, activityList, false);
                     }
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: function (xhr, textStatus, errorThrown) {
                     Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
                 }
             });
@@ -7235,7 +7235,7 @@
                 "</fetch>";
 
 
-            var connections = XrmServiceToolkit.Soap.Fetch(fetchXML);
+            var connections; //= XrmServiceToolkit.Soap.Fetch(fetchXML);
             var connectionLst = [];
             var connectionLstTbl = [];
             var contactLst = [];
@@ -7456,7 +7456,7 @@
                 "</filter>" +
                 "</entity>" +
                 "</fetch>"
-            var Organisations = XrmServiceToolkit.Soap.Fetch(fetchxml);
+            var Organisations; //= XrmServiceToolkit.Soap.Fetch(fetchxml);
             if (Organisations.length > 0) {
                 for (var i = 0; i < Organisations.length; i++) {
                     var connection = Organisations[i];
@@ -7777,7 +7777,7 @@
                 .text("a simple tooltip");
 
             var image = node.append('svg:image').attr('class', 'entityImage').attr('xlink:href', function (d) {
-                if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                if (d.imageUrl != Arup_GetClientURL()) {
                     return d.imageUrl;
                 }
                 else {
@@ -7785,7 +7785,7 @@
                 }
             })
                 .attr('width', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -7793,7 +7793,7 @@
                     }
                 })
                 .attr('height', function (d) {
-                    if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                    if (d.imageUrl != Arup_GetClientURL()) {
                         return d.rad * 3;
                     }
                     else {
@@ -7863,7 +7863,7 @@
 
                 image
                     .attr("x", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.x - d.rad - d.rad * .5;
                         }
                         else {
@@ -7871,7 +7871,7 @@
                         }
                     })
                     .attr("y", function (d) {
-                        if (d.imageUrl != GetGlobalContext().getClientUrl()) {
+                        if (d.imageUrl != Arup_GetClientURL()) {
                             return d.y - d.rad - d.rad * .5;
                         }
                         else {
@@ -8039,7 +8039,7 @@
                 bidmanager.forEach(function (ac, i) {
                     if (ac.key != "") {
                         Opportunitynodelink.nodes.push({
-                            id: ac.key, group: 3, rad: 6, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].bidmanager_image,
+                            id: ac.key, group: 3, rad: 6, imageUrl: Arup_GetClientURL() + ac.values[0].bidmanager_image,
                             name: ac.values[0].bidmanager_name, NodeName: ac.values[0].bidmanager_name + " (BM)", jobtitleorCountry: "Bid Manager", userid: "700",
                             phone: ac.values[0].bidmanager_Phone,
                             companycode: "",
@@ -8058,7 +8058,7 @@
                 biddirector.forEach(function (ac, i) {
                     if (ac.key != "") {
                         Opportunitynodelink.nodes.push({
-                            id: ac.key, group: 3, rad: 6, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].biddirector_image,
+                            id: ac.key, group: 3, rad: 6, imageUrl: Arup_GetClientURL() + ac.values[0].biddirector_image,
                             name: ac.values[0].biddirector_name, NodeName: ac.values[0].biddirector_name + " (BD)", jobtitleorCountry: "Bid Director", userid: "700",
                             phone: ac.values[0].biddirector_Phone,
                             companycode: "",
@@ -8077,7 +8077,7 @@
                 bidreviewchair.forEach(function (ac, i) {
                     if (ac.key != "") {
                         Opportunitynodelink.nodes.push({
-                            id: ac.key, group: 3, rad: 6, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].bidreviewchair_image,
+                            id: ac.key, group: 3, rad: 6, imageUrl: Arup_GetClientURL() + ac.values[0].bidreviewchair_image,
                             name: ac.values[0].bidreviewchair_name, NodeName: ac.values[0].bidreviewchair_name + " (BRC)", jobtitleorCountry: "Bid Review Chair", userid: "700"
                             , phone: ac.values[0].bidreviewchair_Phone,
                             companycode: "",
@@ -8095,7 +8095,7 @@
                 projectdirector.forEach(function (ac, i) {
                     if (ac.key != "") {
                         Opportunitynodelink.nodes.push({
-                            id: ac.key, group: 3, rad: 6, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].projectdirector_image,
+                            id: ac.key, group: 3, rad: 6, imageUrl: Arup_GetClientURL() + ac.values[0].projectdirector_image,
                             name: ac.values[0].projectdirector_name, NodeName: ac.values[0].projectdirector_name + " (PD)", jobtitleorCountry: "Project Director", userid: "700"
                             , phone: ac.values[0].projectdirector_Phone,
                             companycode: "",
@@ -8113,7 +8113,7 @@
                 projectmanager.forEach(function (ac, i) {
                     if (ac.key != "") {
                         Opportunitynodelink.nodes.push({
-                            id: ac.key, group: 3, rad: 6, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].projectmanager_image,
+                            id: ac.key, group: 3, rad: 6, imageUrl: Arup_GetClientURL() + ac.values[0].projectmanager_image,
                             name: ac.values[0].projectmanager_name, NodeName: ac.values[0].projectmanager_name + " (PM)", jobtitleorCountry: "Project Manager", userid: "700"
                             , phone: ac.values[0].projectmanager_Phone,
                             companycode: "",
@@ -8131,7 +8131,7 @@
                 businessadministrator.forEach(function (ac, i) {
                     if (ac.key != "") {
                         Opportunitynodelink.nodes.push({
-                            id: ac.key, group: 3, rad: 6, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].businessadministrator_image,
+                            id: ac.key, group: 3, rad: 6, imageUrl: Arup_GetClientURL() + ac.values[0].businessadministrator_image,
                             name: ac.values[0].businessadministrator_name, NodeName: ac.values[0].businessadministrator_name + " (BA)", jobtitleorCountry: "Business Administrator", userid: "700"
                             , phone: ac.values[0].businessadministrator_Phone,
                             companycode: "",
@@ -8149,7 +8149,7 @@
                 commercialmanager.forEach(function (ac, i) {
                     if (ac.key != "") {
                         Opportunitynodelink.nodes.push({
-                            id: ac.key, group: 3, rad: 6, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].commercialmanager_image,
+                            id: ac.key, group: 3, rad: 6, imageUrl: Arup_GetClientURL() + ac.values[0].commercialmanager_image,
                             name: ac.values[0].commercialmanager_name, NodeName: ac.values[0].commercialmanager_name + " (CM)", jobtitleorCountry: "Commercial Manager", userid: "700"
                             , phone: ac.values[0].commercialmanager_Phone,
                             companycode: "",
@@ -8167,7 +8167,7 @@
                 aruplocalcontact.forEach(function (ac, i) {
                     if (ac.key != "") {
                         Opportunitynodelink.nodes.push({
-                            id: ac.key, group: 3, rad: 6, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].aruplocalcontact_image,
+                            id: ac.key, group: 3, rad: 6, imageUrl: Arup_GetClientURL() + ac.values[0].aruplocalcontact_image,
                             name: ac.values[0].aruplocalcontact_name, NodeName: ac.values[0].aruplocalcontact_name + " (ALC)", jobtitleorCountry: "Arup Local Contact", userid: "700"
                             , phone: ac.values[0].aruplocalcontact_Phone,
                             companycode: "",
@@ -8185,7 +8185,7 @@
                 clientcontact.forEach(function (ac, i) {
                     if (ac.key != "") {
                         Opportunitynodelink.nodes.push({
-                            id: ac.key, group: 3, rad: 4, imageUrl: GetGlobalContext().getClientUrl() + ac.values[0].clientcontact_image,
+                            id: ac.key, group: 3, rad: 4, imageUrl: Arup_GetClientURL() + ac.values[0].clientcontact_image,
                             name: ac.values[0].clientcontact_name, NodeName: ac.values[0].clientcontact_name + " (CC)", phone: ac.values[0].clientcontact_phone, jobtitleorCountry: "Client Contact", userid: "700"
                             , phone: "",
                             companycode: "",
