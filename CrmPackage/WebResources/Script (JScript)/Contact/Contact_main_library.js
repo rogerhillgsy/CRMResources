@@ -1086,8 +1086,17 @@ function updatePreferenceCentreDate(executionContext) {
 
 function updateConsentDetails(executionContext) {
     var formContext = executionContext.getFormContext();
+
+    var consentGiven = formContext.getAttribute("arup_consentgiven").getValue();
+    if (consentGiven) {
+        formContext.getAttribute("donotbulkemail").setValue(true);
+        formContext.getAttribute("arup_donotevents").setValue(true);
+        formContext.getAttribute("arup_donotannouncements").setValue(true);
+        formContext.getAttribute("arup_donotthoughtleadership").setValue(true);
+        formContext.getAttribute("arup_donotholidays").setValue(true);
+    }
+
     var entity = {};
-    entity.arup_sourceofconsent = 770000007;
     entity.arup_dateofconsent = new Date().toISOString();
     entity["arup_ConsentGivenTo@odata.bind"] = "/systemusers(" + formContext.context.getUserId().replace(/[{}]/g, "") + ")";
 
@@ -1095,7 +1104,6 @@ function updateConsentDetails(executionContext) {
 
     Xrm.WebApi.online.updateRecord("contact", contactId, entity).then(
         function success(result) {
-            formContext.data.entity.save();
         },
         function (error) {
             Xrm.Navigation.openAlertDialog(error.message);

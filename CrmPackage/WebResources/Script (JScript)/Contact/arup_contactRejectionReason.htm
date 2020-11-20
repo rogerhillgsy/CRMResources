@@ -39,6 +39,7 @@
             } else {
                 otherReason.style.visibility = "visible";
                 otherReasonlbl.style.visibility = "visible";
+                otherReason.required = true;
             }
         }
 
@@ -56,6 +57,16 @@
 
                 entity.arup_reasonforrejection = rejectReason.options[rejectReason.selectedIndex].value;
                 entity.arup_otherreasonforrejection = document.getElementById("otherRejectReason").value;
+
+                if (rejectReason.options[rejectReason.selectedIndex].value == "") {
+                    rejectReason.setCustomValidity("Please select the Reject Reason.");
+                    return;
+                }
+
+                if (rejectReason.options[rejectReason.selectedIndex].value == "770000004" && document.getElementById("otherRejectReason").value == "") {
+                    document.getElementById("otherRejectReason").setCustomValidity("You have selected Other Reason. Please enter the reason.");
+                    return;
+                }
 
                 var req = new XMLHttpRequest();
                 req.open("PATCH", params.clienturl + "/api/data/v9.1/contacts(" + params.contactid + ")", false);
