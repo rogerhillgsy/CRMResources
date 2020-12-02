@@ -220,7 +220,8 @@ function onChangeccrm_crmeventid(executionContext) {
     var formContext = executionContext.getFormContext();
     var oppRelated = 0;
     var leadRelated = 0;
-    var frequency = 0;
+    var oppRequired = 'none';
+    var leadRequired = 'none';
     if (formContext.data.entity.attributes.get("ccrm_crmeventid").getValue() == null) { return; }
 
     var eventID = formContext.data.entity.attributes.get("ccrm_crmeventid").getValue()[0].id;
@@ -234,7 +235,7 @@ function onChangeccrm_crmeventid(executionContext) {
                 case 770000000: //opportunity
                     selectedEntity = 'Opportunity';
                     oppRelated = true;
-                    frequency = true;
+                    oppRequired = 'required';
                     formContext.getAttribute("ccrm_relatingto").fireOnChange();
                     formContext.getAttribute("ccrm_relatingto1").fireOnChange();
                     break;
@@ -242,7 +243,7 @@ function onChangeccrm_crmeventid(executionContext) {
                 case 770000001: //lead
                     selectedEntity = 'Lead';
                     leadRelated = true;
-                    frequency = true;
+                    leadRequired = 'required';
                     formContext.getAttribute("arup_relatedtolead").fireOnChange();
                     break;
 
@@ -253,10 +254,16 @@ function onChangeccrm_crmeventid(executionContext) {
             formContext.ui.tabs.get("General_Tab").sections.get("Opportunity_Related").setVisible(oppRelated);
             formContext.ui.tabs.get("General_Tab").sections.get("Opportunity_Related1").setVisible(oppRelated);
             formContext.ui.tabs.get("General_Tab").sections.get("Lead_Related").setVisible(leadRelated);
+
             formContext.getControl('ccrm_relatingto').setVisible(oppRelated);
             formContext.getControl('arup_relatedtolead').setVisible(leadRelated);
             formContext.getControl('ccrm_addmorecriteria').setVisible(oppRelated);
             formContext.getControl('arup_excludearupinternal').setVisible(oppRelated);
+
+            formContext.getAttribute('ccrm_relatingto').setRequiredLevel(oppRequired);
+            formContext.getAttribute('arup_relatedtolead').setRequiredLevel(leadRequired);
+            
+
             if (oppRelated) {
                 formContext.getAttribute("ccrm_addmorecriteria").fireOnChange();
             }
