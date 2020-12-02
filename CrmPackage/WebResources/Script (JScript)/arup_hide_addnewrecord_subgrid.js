@@ -10,9 +10,8 @@
             break;
 
         case 'appointment':
-            if (entity == 'team')
-            {
-                showAddSign = DisplayNewByTab(formContext);           
+            if (entity == 'team') {
+                showAddSign = DisplayNewByTab(formContext);
             }
             break;
         case 'task':
@@ -34,12 +33,13 @@
         //    if (entity == 'account') { showAddSign = false; }
         //    break;
 
-        //case 'opportunity':
-        //    if (entity == 'account') { showAddSign = false; }
-        //    break;
+        case 'opportunity':
+            if (entity == 'account') { showAddSign = true; }
+            else if (entity == 'arup_framework') { showAddSign = false; }
+            break;
     }
 
-    
+
 
 
     return showAddSign;
