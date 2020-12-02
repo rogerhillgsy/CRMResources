@@ -51,6 +51,7 @@ function qc_form_onload(executionContext) {
     contactType_onchange(formContext, 'load');
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
     qc_defaultCustomerToAccount(formContext);
+    formContext.getAttribute("arup_consentgiven").setValue(null);
 }
 
 // runs on Exit button
@@ -986,7 +987,7 @@ function approveMarketoContact(primaryControl) {
                                     Xrm.Navigation.openForm(entityFormOptions);
                                 }, 400);
                             } else {
-                                Xrm.Utility.alertDialog(this.statusText);
+                                Xrm.Navigation.openAlertDialog(this.statusText);
                             }
                         }
                     };

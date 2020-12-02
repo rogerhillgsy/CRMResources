@@ -46,7 +46,21 @@ function QuickDupeDetect(executionContext) {
         lastName = formContext.getAttribute("lastname").getValue();
         ccrm_countryid = formContext.getAttribute("ccrm_countryid").getValue();
 
-        if (ccrm_countryid == null) return;
+        if (ccrm_countryid == null) {
+            organisation = formContext.getAttribute("parentcustomerid").getValue();
+            if (organisation != null) {
+                Xrm.WebApi.online.retrieveRecord("account", organisation[0].id.replace(/[{}]/g, ""), "?$select=_ccrm_countryid_value").then(
+                    function success(result) {
+                        var _ccrm_countryid_value = result["_ccrm_countryid_value"];
+                        if (_ccrm_countryid_value == null) return;
+                    },
+                    function (error) {
+                        Xrm.Navigation.openAlertDialog(error.message);
+                    }
+                );
+            }
+        }
+        
         if (firstName != null && lastName != null) {
             recordName = firstName + " " + lastName;
         }

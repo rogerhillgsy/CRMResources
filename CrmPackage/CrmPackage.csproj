@@ -1332,6 +1332,11 @@
       <UniqueName>ccrm_/JavaScripts/Lib/SDK.MetaData.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\SystemUser_main_library.js">
+      <DisplayName>SystemUser_main_library</DisplayName>
+      <UniqueName>new_SystemUser_main_library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Contact\arup_contactRejectionReason.htm">
       <DisplayName>arup_contactRejectionReason</DisplayName>
       <UniqueName>new_arup_contactRejectionReason</UniqueName>
