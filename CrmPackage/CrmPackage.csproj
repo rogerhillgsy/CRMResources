@@ -1332,6 +1332,11 @@
       <UniqueName>ccrm_/JavaScripts/Lib/SDK.MetaData.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script (JScript)\arup_FrameworkButtonCommand.js">
+      <DisplayName>arup_FrameworkButtons</DisplayName>
+      <UniqueName>new_arup_FrameworkButtons</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\arup_hide_addnewrecord_subgrid.js">
       <DisplayName>arup_hide_addnewrecord_subgrid</DisplayName>
       <UniqueName>new_arup_hide_addnewrecord_subgrid</UniqueName>
@@ -1865,6 +1870,11 @@
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_DuplicateCheckMoreResults.htm">
       <DisplayName>arup_DuplicateCheckMoreResults</DisplayName>
       <UniqueName>arup_arup_DuplicateCheckMoreResults</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_FrameworkButtons.htm">
+      <DisplayName>arup_FrameworkButtons</DisplayName>
+      <UniqueName>new_arup_FrameworkButtons</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page (HTML)\arup_DuplicateCheckResult.html">

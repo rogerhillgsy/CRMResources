@@ -1,4 +1,6 @@
 ﻿function form_OnLoad(executionContext) {
+    var formContext = executionContext.getFormContext();
+    parent.formContext = formContext;
     setInterval(changeHeaderTileFormat, 1000);
     multiDiscipline_onChange(executionContext);
 }
@@ -16,7 +18,7 @@ function changeHeaderTileFormat() {
 
 function openSecuredFramework(primaryControl) {
     var formContext = primaryControl;
-    var frameworkId = formContext.data.entity.getId().replace('{', '').replace('}', '');
+    var frameworkId = formContext.entityReference.id.replace('{', '').replace('}', '');
     if (frameworkId == null) return;
 
     // check if arup_frameworksecured record has already been created
