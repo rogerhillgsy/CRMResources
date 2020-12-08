@@ -35,6 +35,9 @@ function QuickDupeDetect(executionContext) {
     var lastName = null;
     var ccrm_arupbusiness = null;
     var ccrm_countryid = null;
+    var city_Value = null;
+    var country_Id = null;
+
     if (entName == "account") {
         recordName = formContext.getAttribute("name").getValue();
         ccrm_countryid = formContext.getAttribute("ccrm_countryid").getValue();
@@ -49,18 +52,33 @@ function QuickDupeDetect(executionContext) {
         if (ccrm_countryid == null) {
             organisation = formContext.getAttribute("parentcustomerid").getValue();
             if (organisation != null) {
-                Xrm.WebApi.online.retrieveRecord("account", organisation[0].id.replace(/[{}]/g, ""), "?$select=_ccrm_countryid_value").then(
-                    function success(result) {
-                        var _ccrm_countryid_value = result["_ccrm_countryid_value"];
-                        if (_ccrm_countryid_value == null) return;
-                    },
-                    function (error) {
-                        Xrm.Navigation.openAlertDialog(error.message);
+                var req = new XMLHttpRequest();
+                req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + organisation[0].id.replace(/[{}]/g, "") + ")?$select=_ccrm_countryid_value,address1_city", false);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 200) {
+                            var result = JSON.parse(this.response);
+                            country_Id = result["_ccrm_countryid_value"];
+                            city_Value = result["address1_city"];
+
+                            if (country_Id == null) return;
+                        } else {
+                            Xrm.Navigation.openAlertDialog(this.statusText);
+                        }
                     }
-                );
+                };
+                req.send();
+            } else {
+                return;
             }
         }
-        
+
         if (firstName != null && lastName != null) {
             recordName = firstName + " " + lastName;
         }
@@ -70,7 +88,7 @@ function QuickDupeDetect(executionContext) {
         ccrm_arupbusiness = formContext.getAttribute("ccrm_arupbusiness").getValue();
         if (ccrm_arupbusiness == null || ccrm_arupbusiness == "") return;
     }
-  
+
     if (recordName != null) {
         //Display waiting
         dispLoadOnQC(formContext);
@@ -95,6 +113,9 @@ function QuickDupeDetect(executionContext) {
         if (ipCity == null) {
             ipCity = "null";
         }
+    } else if (entName == "contact") {
+        ctryId = country_Id;
+        ipCity = (city_Value == null) ? "null" : city_Value;
     }
     //set the global variables with calculated values..
     inputCtryID = ctryId;
@@ -310,7 +331,7 @@ function dispLoadOnQC(formContext) {
     var msg = "Searching for similar records...";
     var fielName = "arup_dupecheckresult";
     SetValidField(fielName, null, msg, "wait", 0, formContext);
-}  
+}
 
 function SetValidField(fieldName, val, warningMsg, warMsgName, lenght, formContext) {
     formContext.getAttribute(fieldName).setValue(val);
@@ -328,7 +349,7 @@ function SetValidField(fieldName, val, warningMsg, warMsgName, lenght, formConte
             var alertButton = new Alert.Button();
             alertButton.label = "Close";
             var array = new Array();
-            array.push(alertButton); 
+            array.push(alertButton);
             var clientURL = formContext.context.getClientUrl();
 
             if (entName == "account") {

@@ -428,6 +428,8 @@ function setDate(execContext) {
     if (field != null) {
         formContext.getAttribute("ccrm_lastvalidateddate").setValue(new Date());
         formContext.getAttribute("ccrm_lastvalidateddate").setSubmitMode("always");
+    } else {
+        formContext.getAttribute("ccrm_lastvalidateddate").setValue(null);
     }
 }
 
