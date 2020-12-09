@@ -14,13 +14,7 @@
 
 Arup = (
     function () {
-        //function GetAttribute(formContext, attrName) {
-        //    var attr = formContext.getAttribute(attrName);
-        //    if (attr != null) {
-        //        attr = attr.getValue();
-        //    }
-        //    return attr;
-        //};
+     
 
         Log = console.log.bind(window.console);
         var tabStateChangeCallbackAdded = false;
