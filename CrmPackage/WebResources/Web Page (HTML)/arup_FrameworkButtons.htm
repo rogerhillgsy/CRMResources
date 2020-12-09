@@ -219,8 +219,6 @@
             if (parent.formContext != null && parent.document.readyState == "complete") {
 
                 //recordid will be frameworkid or frameworksecureid depending on the call of the respective form
-                //id parent.document.location.href.split("&id=")[1] is null or undefined , it means record type is New record and no id will exist
-                //	if (parent.document.location.href.split("&id=")[1] != null) {
                 var parts = parent.document.location.href.split("&id=");
                 if (parts.length > 1) { // Check to see if we have an existing framework where it is valid to display the buttons. (i.e. don't display for new form)
                     var recordid = parts[1].substring(0, 36);
@@ -284,7 +282,6 @@
         // refresh the buttons is registered in arup_opportunitybuttoncomamnds.js.
         var tabName;
         var tabNumber;
-        debugger;
                 document.onreadystatechange = function () {
                     if (document.readyState == "complete") {
                         if (location.search == "") {

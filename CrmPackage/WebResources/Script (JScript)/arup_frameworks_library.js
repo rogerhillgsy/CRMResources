@@ -4,7 +4,6 @@
     setInterval(changeHeaderTileFormat, 1000);
     multiDiscipline_onChange(executionContext);
     if (formContext.ui.getFormType() != 1) {
-        debugger;
         parent.entityId = formContext.data.entity.getId();
         RefreshWebResource(formContext, "WebResource_FrameworkButton");
     }
@@ -173,16 +172,7 @@ function multiDiscipline_onChange(executionContext) {
 function RefreshWebResource(formContext, webResourceName) {
     var webResource = formContext.getControl(webResourceName);
     if (webResource != null) {
-        debugger;
         var obj = webResource.getObject();
         if (!!obj ) obj.contentWindow.location.reload();
-        //var src = webResource.getSrc();
-
-        //var aboutBlank = "about:blank";
-        //webResource.setSrc(aboutBlank);
-
-        //setTimeout(function () {
-        //    webResource.setSrc(src);
-        //}, 1000);
     }
 }
