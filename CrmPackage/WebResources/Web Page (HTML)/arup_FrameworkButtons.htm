@@ -219,27 +219,30 @@
             if (parent.formContext != null && parent.document.readyState == "complete") {
 
 				//recordid will be frameworkid or frameworksecureid depending on the call of the respective form
-                var recordid = parent.document.location.href.split("&id=")[1].substring(0, 36);
-                var parentEntityRefId = parent.formContext.entityReference.id.replace('{', '').replace('}', '');
-                Log("recordid " + recordid);
-                Log("parentEntityRefId " + parentEntityRefId);
+                //id parent.document.location.href.split("&id=")[1] is null or undefined , it means record type is New record and no id will exist
+			//	if (parent.document.location.href.split("&id=")[1] != null) {
+					var recordid = parent.document.location.href.split("&id=")[1].substring(0, 36);
+					var parentEntityRefId = parent.formContext.entityReference.id.replace('{', '').replace('}', '');
+					Log("recordid " + recordid);
+					Log("parentEntityRefId " + parentEntityRefId);
 
-                if (recordid.toUpperCase() == parentEntityRefId) {
-                    var formContext = parent.formContext;
-                    // Tab number is specified as part of the data argument to the web resource.
-                    tabName = location.search.split("=")[1];
-                    //tabNumber = formContext.Arup.GetTabNumber(formContext, tabName);
-                    tabNumber = parent.Arup.GetTabNumber(formContext, tabName);
-                    console.log("Setup for tab " + tabName);
-                    setupButtonsForTab(formContext, tabNumber);
-                    parent.Arup.OnDisplayingTab(formContext, tabName,
-                        function () {
-                            setupButtonsForTab(formContext, tabNumber);
-                        });
-                }
-                else {
-                setTimeout(function () { GetFormContextandInitialize(); }, 1000);
-            }
+					if (recordid.toUpperCase() == parentEntityRefId) {
+						var formContext = parent.formContext;
+						// Tab number is specified as part of the data argument to the web resource.
+						tabName = location.search.split("=")[1];
+						//tabNumber = formContext.Arup.GetTabNumber(formContext, tabName);
+						tabNumber = parent.Arup.GetTabNumber(formContext, tabName);
+						console.log("Setup for tab " + tabName);
+						setupButtonsForTab(formContext, tabNumber);
+						parent.Arup.OnDisplayingTab(formContext, tabName,
+							function () {
+								setupButtonsForTab(formContext, tabNumber);
+							});
+					}
+					else {
+						setTimeout(function () { GetFormContextandInitialize(); }, 1000);
+					}
+			//	}
             }
             else {
                 setTimeout(function () { GetFormContextandInitialize(); }, 1000);
