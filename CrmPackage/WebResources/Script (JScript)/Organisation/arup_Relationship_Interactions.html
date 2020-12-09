@@ -1,17 +1,12 @@
 <html><head>
     <script type="text/javascript">
-        //var formContext;
+
         function setClientApiContext(xrm, formContext) {
-            // Optionally set Xrm and formContext as global variables on the page.
-            //window.Xrm = xrm;
-           // formContext = formContext;
             getOrgRelationships(formContext);
-            // Add script logic here that uses xrm or the formContext.
         }
 
         function getOrgRelationships(formContext) {
             if (document.readyState == "complete") {
-                Xrm = parent.Xrm;
                 if (formContext) {
                     var orgId = formContext.data.entity.getId();
                     var strUrl = formContext.context.getClientUrl();
@@ -159,7 +154,6 @@
         }
 
         function mergeRelationshipDetails(formContext, connectionResults, ContactResults) {
-            Xrm = parent.Xrm;
             var connectionLen = connectionResults.length;
             var connectionList = [];
             var connectionIds = [];
@@ -514,7 +508,6 @@
         }
 
     </script>
-    <script src="../../../../../../webresources/ClientGlobalContext.js.aspx" type="text/javascript"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>

@@ -51,6 +51,7 @@ function qc_form_onload(executionContext) {
     contactType_onchange(formContext, 'load');
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
     qc_defaultCustomerToAccount(formContext);
+    formContext.getAttribute("arup_consentgiven").setValue(null);
 }
 
 // runs on Exit button
@@ -308,15 +309,25 @@ function quick_create_sync_address(formContext) {
 
     if (sync == false) {
 
-        formContext.getAttribute("address1_addresstypecode").setValue(null);
-        formContext.getAttribute("address1_line1").setValue(null);
-        formContext.getAttribute("address1_line2").setValue(null);
-        formContext.getAttribute("address1_line3").setValue(null);
-        formContext.getAttribute("address1_postalcode").setValue(null);
-        formContext.getAttribute("ccrm_countryid").setValue(null);
-        formContext.getAttribute("address1_city").setValue(null);
-        formContext.getAttribute("ccrm_countrystate").setValue(null);
-        formContext.getAttribute("address1_stateorprovince").setValue(null);
+        formContext.getControl("address1_addresstypecode").setDisabled(sync);
+        formContext.getControl("address1_line1").setDisabled(sync);
+        formContext.getControl("address1_line2").setDisabled(sync);
+        formContext.getControl("address1_line3").setDisabled(sync);
+        formContext.getControl("address1_postalcode").setDisabled(sync);
+        formContext.getControl("ccrm_countryid").setDisabled(sync);
+        formContext.getControl("address1_city").setDisabled(sync);
+        formContext.getControl("ccrm_countrystate").setDisabled(sync);
+        formContext.getControl("address1_stateorprovince").setDisabled(sync);
+
+        //formContext.getAttribute("address1_addresstypecode").setValue(null);
+        //formContext.getAttribute("address1_line1").setValue(null);
+        //formContext.getAttribute("address1_line2").setValue(null);
+        //formContext.getAttribute("address1_line3").setValue(null);
+        //formContext.getAttribute("address1_postalcode").setValue(null);
+        //formContext.getAttribute("ccrm_countryid").setValue(null);
+        //formContext.getAttribute("address1_city").setValue(null);
+        //formContext.getAttribute("ccrm_countrystate").setValue(null);
+        //formContext.getAttribute("address1_stateorprovince").setValue(null);
     }
 
     if (formContext.getAttribute("ccrm_countryid").getValue() != null) {
@@ -435,6 +446,8 @@ function setDate(executionContext, date) {
     if (field != null) {
         formContext.getAttribute("ccrm_lastvalidateddate").setValue(new Date());
         formContext.getAttribute("ccrm_lastvalidateddate").setSubmitMode("always");
+    } else {
+        formContext.getAttribute("ccrm_lastvalidateddate").setValue(null);
     }
 }
 
@@ -704,12 +717,23 @@ function PopulateAddrsOnAddrSync(executionContext) {
         formContext.getAttribute("ccrm_countrystate").setValue(null);
         formContext.getAttribute("address1_stateorprovince").setValue(null);
 
-
         var strId = parentCustId[0].id;
         var Id = strId.replace(/[{}]/g, "");
         var entityName = "accounts";
         var columnSet = "?$select=_ccrm_countrystate_value,_ccrm_countryid_value,address1_addresstypecode,address1_line1,address1_line2,address1_line3,address1_postalcode,address1_stateorprovince,address1_city";
         retrieveEntity(entityName, Id, columnSet, formContext);
+    }
+
+    if (parentCustId == null) {
+        formContext.getAttribute("address1_addresstypecode").setValue(null);
+        formContext.getAttribute("address1_line1").setValue(null);
+        formContext.getAttribute("address1_line2").setValue(null);
+        formContext.getAttribute("address1_line3").setValue(null);
+        formContext.getAttribute("address1_postalcode").setValue(null);
+        formContext.getAttribute("ccrm_countryid").setValue(null);
+        formContext.getAttribute("address1_city").setValue(null);
+        formContext.getAttribute("ccrm_countrystate").setValue(null);
+        formContext.getAttribute("address1_stateorprovince").setValue(null);
     }
 }
 
@@ -986,7 +1010,7 @@ function approveMarketoContact(primaryControl) {
                                     Xrm.Navigation.openForm(entityFormOptions);
                                 }, 400);
                             } else {
-                                Xrm.Utility.alertDialog(this.statusText);
+                                Xrm.Navigation.openAlertDialog(this.statusText);
                             }
                         }
                     };

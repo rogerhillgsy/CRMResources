@@ -1332,19 +1332,19 @@
       <UniqueName>ccrm_/JavaScripts/Lib/SDK.MetaData.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_hide_addnewrecord_subgrid.js">
-      <DisplayName>arup_hide_addnewrecord_subgrid</DisplayName>
-      <UniqueName>new_arup_hide_addnewrecord_subgrid</UniqueName>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\SystemUser_main_library.js">
+      <DisplayName>SystemUser_main_library</DisplayName>
+      <UniqueName>new_SystemUser_main_library</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Contact\arup_contactRejectionReason.htm">
       <DisplayName>arup_contactRejectionReason</DisplayName>
-      <UniqueName>new_arup_contactRejectionReason</UniqueName>
+      <UniqueName>arup_contactRejectionReason</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\All Other Entities\arup_alert.js">
       <DisplayName>Alert library</DisplayName>
-      <UniqueName>arup_alerts.js</UniqueName>
+      <UniqueName>arup_alert.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_Appointment_Main_Library.js">
