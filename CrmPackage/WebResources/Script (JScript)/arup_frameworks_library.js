@@ -3,8 +3,14 @@
     parent.formContext = formContext;
     setInterval(changeHeaderTileFormat, 1000);
     multiDiscipline_onChange(executionContext);
+    if (formContext.ui.getFormType() != 1) {
+        parent.formContext.entityReference.id = formContext.data.entity.getId();
+        RefreshWebResource(formContext, "WebResource_FrameworkButton");
+    }
 }
-
+function OnSave(executionContext) {
+    var formContext = executionContext.getFormContext();
+}
 function changeHeaderTileFormat() {
     //This may not be a supported way to change the header tile width
     var headertiles = window.parent.document.getElementsByClassName("ms-crm-HeaderTileElement");
@@ -161,4 +167,18 @@ function multiDiscipline_onChange(executionContext) {
             break;
     }
 
+}
+
+function RefreshWebResource(formContext, webResourceName) {
+    var webResource = formContext.getControl(webResourceName);
+    if (webResource != null) {
+        var src = webResource.getSrc();
+
+        var aboutBlank = "about:blank";
+        webResource.setSrc(aboutBlank);
+
+        setTimeout(function () {
+            webResource.setSrc(src);
+        }, 1000);
+    }
 }
