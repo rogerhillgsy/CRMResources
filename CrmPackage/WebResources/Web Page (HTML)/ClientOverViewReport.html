@@ -563,27 +563,6 @@
                 accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
                 parentaccountid = accId;
             }
-            //if we need to display report within form:Ends
-
-            //if we need to display report within form:Starts
-            //Xrm = parent.Xrm;
-            //if (Xrm.Page.data != null) {
-            //    accId = Xrm.Page.data.entity.getId();
-            //    accId = accId.replace('{', '').replace('}', '');
-            //    accName = Xrm.Page.getAttribute("name").getValue();
-            //    parentaccountid = Xrm.Page.getAttribute("parentaccountid").getValue() != undefined ? Xrm.Page.getAttribute("parentaccountid").getValue().replace('{', '').replace('}', '') : accId;
-
-            //}
-            //else {
-            //    //accId = "51345A52-38F3-E011-BE02-78E7D1644F78";
-            //    accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
-            //    parentaccountid = accId;
-            //    accName = "MTR Corporation Ltd";
-            //}
-            //if we need to display report within form:Ends
-
-
-            //PopulateHierOrganizationIds();
             try {
                 PopulateBasicAccProfile();
             }
@@ -686,7 +665,6 @@
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
                     Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
-                    //Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
                 }
             });
 
@@ -705,17 +683,7 @@
         }
 
         function GetUserDateSettings() {
-           /* var fetchXmlDateSettings = "<fetch mapping='logical' >" +
-                "<entity name='usersettings' >" +
-                "<attribute name='dateseparator' />" +
-                "<attribute name='dateformatstring' />" +
-                "<filter>" +
-                "<condition attribute='systemuserid' operator='eq' value='" + Xrm.Page.context.getUserId() + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>"
-
-            var fetchdatesettings = XrmServiceToolkit.Soap.Fetch(fetchXmlDateSettings);*/
+          
             var fetchdatesettings;
             $.ajax({
                 type: "GET",
@@ -736,7 +704,6 @@
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
                     Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
-                    //Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
                 }
             });
 
@@ -1137,7 +1104,6 @@
                 "<attribute name='statecode' alias='StateCode'/>" +
 
                 "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='aj' link-type='inner' />" +
-                // "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='bj' link-type='outer' />" +
 
                 "<filter type='and'>" +
                 "<condition attribute='statecode' operator='in'>" +
@@ -1145,21 +1111,13 @@
                 "<value>1</value>" +
                 "</condition>" +
                 "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //"<filter type='or'>" +
-                //    "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //    "<condition entityname= 'bj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //"</filter>" +
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
-            //debugger;
-            //var opportRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
-            //var opportRecordsUlt = XrmServiceToolkit.Soap.Fetch(fetchXMLUlt);
             var opporLst = [];
             if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
                 if (opportRecords.length > 0) {
                     for (var i = 0; i < opportRecords.length; i++) {
-                        //debugger;
                         var clientName = opportRecords[i].ClientName.toUpperCase() == parentaccountid.toUpperCase() ? opportRecords[i]['ClientName@OData.Community.Display.V1.FormattedValue'] : "Related Child Org";
                         var opportunityId = opportRecords[i].opportunityid;
                         var status = opportRecords[i]['StateCode@OData.Community.Display.V1.FormattedValue'];
@@ -1174,7 +1132,6 @@
 
                 if (opportRecordsUlt.length > 0) {
                     for (var i = 0; i < opportRecordsUlt.length; i++) {
-                        //debugger;
                         var clientName = opportRecordsUlt[i].ClientName.toUpperCase() == parentaccountid.toUpperCase() ? opportRecordsUlt[i]['ClientName@OData.Community.Display.V1.FormattedValue'] : "Related Child Org";
                         var opportunityId = opportRecordsUlt[i].opportunityid;
                         var status = opportRecordsUlt[i]['StateCode@OData.Community.Display.V1.FormattedValue'];
