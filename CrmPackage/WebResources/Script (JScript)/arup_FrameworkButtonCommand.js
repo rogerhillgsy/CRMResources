@@ -14,8 +14,6 @@
 
 Arup = (
     function () {
-     
-
         Log = console.log.bind(window.console);
         var tabStateChangeCallbackAdded = false;
         var buttonChangeCallbacks = {};

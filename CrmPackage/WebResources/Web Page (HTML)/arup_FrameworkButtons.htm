@@ -154,7 +154,7 @@
 	<script>
 
         // Central logging function.
-        var Log = function (s) { console.log(s) };
+        Log = console.log.bind(window.console);
    
 
         // Setup buttons for the tab.
