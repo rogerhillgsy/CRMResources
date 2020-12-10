@@ -8,9 +8,7 @@
         RefreshWebResource(formContext, "WebResource_FrameworkButton");
     }
 }
-function OnSave(executionContext) {
-    var formContext = executionContext.getFormContext();
-}
+
 function changeHeaderTileFormat() {
     //This may not be a supported way to change the header tile width
     var headertiles = window.parent.document.getElementsByClassName("ms-crm-HeaderTileElement");

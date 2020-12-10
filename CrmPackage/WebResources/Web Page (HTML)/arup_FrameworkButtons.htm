@@ -160,12 +160,12 @@
         // Setup buttons for the tab.
         // each button declared for the current tab will be set up within the "tabButtons" div in this document.
         function setupButtonsForTab(formContext, activeTabNum) {
-            console.log("Display buttons for " + activeTabNum);
+           // console.log("Display buttons for " + activeTabNum);
             var tabs = formContext.ui.tabs.get();
             // - generate buttons appropriate to the active tab.
             if (activeTabNum != null) {
                 var buttonConfig = buttonConfigs[tabs[activeTabNum].getName()];
-                Log("Active tab name " + tabs[activeTabNum].getName());
+              //  Log("Active tab name " + tabs[activeTabNum].getName());
                 if (buttonConfigs != null) {
                     // Generate buttons listed in buttonConfig.
                     $("#tabButtons").empty();
@@ -223,8 +223,8 @@
                 if (parts.length > 1) { // Check to see if we have an existing framework where it is valid to display the buttons. (i.e. don't display for new form)
                     var recordid = parts[1].substring(0, 36);
                     var parentEntityRefId = (parent.entityId || "" ).replace('{', '').replace('}', '');
-                    Log("recordid " + recordid);
-                    Log("parentEntityRefId " + parentEntityRefId);
+                   // Log("recordid " + recordid);
+                   // Log("parentEntityRefId " + parentEntityRefId);
 
                     if (recordid.toUpperCase() == parentEntityRefId) {
                         var formContext = parent.formContext;
@@ -232,7 +232,7 @@
                         tabName = location.search.split("=")[1];
                         //tabNumber = formContext.Arup.GetTabNumber(formContext, tabName);
                         tabNumber = parent.Arup.GetTabNumber(formContext, tabName);
-                        console.log("Setup for tab " + tabName);
+                       // console.log("Setup for tab " + tabName);
                         setupButtonsForTab(formContext, tabNumber);
                         parent.Arup.OnDisplayingTab(formContext,
                             tabName,

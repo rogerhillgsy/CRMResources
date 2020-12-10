@@ -37,24 +37,6 @@ Arup = (
           
             // General Utility functions ----------------------
          
-
-            //setVisibleTabs: function (formContext, tabList) {
-
-            //    var tabs = formContext.ui.tabs.get();
-            //    for (var t in tabs) {
-            //        var tab = tabs[t];
-            //        var tabName = tab.getName();
-            //        if (tabList.indexOf(tabName) > -1) {
-            //            tab.setVisible(true);
-            //        } else {
-            //            tab.setVisible(false);
-            //        }
-            //    }
-            //    if (formContext.getAttribute('statecode').getValue() != 0) {
-            //        formContext.ui.tabs.get("Summary").setFocus();
-            //    }
-            //},
-
             GetTabNumber: function (formContext, tabName) {
                 var tabs = formContext.ui.tabs.get();
                 var tabNum = null;
