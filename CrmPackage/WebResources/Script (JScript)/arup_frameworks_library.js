@@ -24,7 +24,7 @@ function changeHeaderTileFormat() {
 
 function openSecuredFramework(primaryControl) {
     var formContext = primaryControl;
-    var frameworkId = formContext.entityReference.id.replace('{', '').replace('}', '');
+    var frameworkId = formContext.data.entity.getId().replace('{', '').replace('}', '');
     if (frameworkId == null) return;
 
     // check if arup_frameworksecured record has already been created
@@ -36,7 +36,7 @@ function openSecuredFramework(primaryControl) {
         entityFormOptions["entityName"] = "arup_frameworksecured";
         entityFormOptions["entityId"] = frameworkIdSecured;
         // Set default values for the Contact form
-        Xrm.Navigation.openForm(entityFormOptions);
+        Xrm.Navigation.openForm(entityFormOptions); 
         return;
     }
 
