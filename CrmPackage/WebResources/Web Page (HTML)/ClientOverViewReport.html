@@ -165,10 +165,6 @@
                                         <input type="image" src="../../ccrm_/Images/Print_ico_16.gif" onclick="window.print()" class="printimg">
                                         <input type="button" class="print" value="Print Report" onclick="window.print()">
                                     </div>
-                                    <!--<button class="print" onClick="window.print()">
-                                        <div id="btn_container"><img src="D:\MS CRM\SDK2015\SDK\Resources\Images\ico\16_print.gif" style="vertical-align:middle;" /></div>
-                                        <span style="margin-left: 5px;vertical-align: middle;"> Print Report</span>
-                                    </button>-->
                                 </td>
                             </tr>
                         </tbody>
@@ -402,38 +398,7 @@
 
         </tbody>
     </table>
-    <!--<table style="width:100%">
-        <tr>
-            <td style="border-bottom: 2pt solid Black;">
-                <div>
-                    <span style="margin-right:10px;font-weight:bold;">CONNECTION MATRIX (this organisation only)</span>
-                    <a id="connMatrix"><span>Click here for a complete matrix</span></a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div id="connectionMatrix" style="width:100%;">
-                    <svg id="connForcelay" width="1044" height="350"></svg>
-                </div>
-            </td>
-        </tr>
-
-    </table>-->
     <table style="width:100%">
-        <!--<tr>
-            <td style="border-bottom: 2pt solid Black;"><div><span style="margin-right:10px;font-weight:bold;">RECENT ACTIVITIES</span><a href="">Click here to view a complete list</a></div></td>
-            <td style="border-bottom: 2pt solid Black;"><div><span style="margin-right:10px;font-weight:bold;">PLANNED ACTIVITIES</span><a href="">Click here to view a complete list</a></div></td>
-            <td style="border-bottom: 2pt solid Black;"><div><span style="margin-right:10px;font-weight:bold;">RECENT NOTES</span></div></td>
-        </tr>
-
-        <tr>
-            <td style="vertical-align: top;width: 33%;">
-                <div id="recentActivities" style="width:100%"></div>
-            </td>
-            <td style="vertical-align: top;width: 33%;"><div id="pastActivities" style="width:100%"></div></td>
-            <td style="vertical-align: top;width: 34%;"><div id="recentNotes" style="width:100%"></div></td>
-        </tr>-->
         <tbody>
             <tr>
                 <td style="vertical-align:top;width:33%;">
@@ -503,9 +468,7 @@
         var childOrgs = [];
 
 
-        //debugger;
         function OnLoad() {
-            //debugger;
             //if we need to display report within form:Starts
            var queryString = location.search.substring(1);
            var params = {};
@@ -522,16 +485,6 @@
                 systemUser = parameters.split('&')[3].split('=')[1];
                 var accounts;
                 if (accId != parentaccountid) {
-                    /*var fetchXML = "<fetch>" +
-                        "<entity name='account' >" +
-                        "<attribute name='accountid' />" +
-                        "<filter>" +
-                        "<condition attribute='accountid' operator='eq-or-above' value='" + accId + "' />" +
-                        "<condition attribute='parentaccountid' operator='null' />" +
-                        "</filter>" +
-                        "</entity>" +
-                        "</fetch>";
-                    var accounts = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
                     $.ajax({
                         type: "GET",
                         contentType: "application/json; charset=utf-8",
@@ -626,25 +579,6 @@
         }
 
         function GetExchangeRate() {
-          /*  var fetchXmlExchangeRate = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true'>" +
-                "<entity name='transactioncurrency'>" +
-                " <attribute name='transactioncurrencyid' />" +
-                "<attribute name='exchangerate' />" +
-                "<attribute name='isocurrencycode' />" +
-                " <attribute name='currencyname' />" +
-                "<attribute name='currencyprecision' />" +
-                "<order attribute='currencyname' descending='false' />" +
-                "<link-entity name='ccrm_arupcompany' from='ccrm_currencyid' to='transactioncurrencyid' alias='av'>" +
-                "<link-entity name='systemuser' from='ccrm_arupcompanyid' to='ccrm_arupcompanyid' alias='aw'>" +
-                "<filter type='and'>" +
-                "<condition attribute='systemuserid' operator='eq' uitype='systemuser' value='" + Xrm.Page.context.getUserId() + "' />" +
-                "</filter>" +
-                "</link-entity>" +
-                "</link-entity>" +
-                "</entity>" +
-                "</fetch>"
-
-            var fetchexchangerates = XrmServiceToolkit.Soap.Fetch(fetchXmlExchangeRate);*/
             var fetchexchangerates;
             $.ajax({
                 type: "GET",
@@ -709,7 +643,6 @@
 
             if (fetchdatesettings.length > 0) {
                 for (var i = 0; i < fetchdatesettings.length; i++) {
-                    //debugger;
                     var datesettingNode = fetchdatesettings[i];
                     if (datesettingNode.dateformatstring != undefined) {
 
@@ -724,7 +657,7 @@
         function BindSubReport() {
             var currid = currencyid;
             var rdlName = "Record+Hierarchy+Organisation";
-            var rdlID; //= "%7b" + encodeURIComponent("E584FEA1-A31B-E311-8706-D8D385B829F8") + "%7d";
+            var rdlID; 
             var userID = systemUser;
 
             var reportBaseURL = clientURL + "/crmreports/viewer/viewer.aspx?action=run&helpID=";
@@ -740,12 +673,10 @@
             d3.select('#childOrgs').attr('href', childOrgURL).attr('target', '_blank');
 
             rdlName = "Client+Overview+Won+Opportunities";
-            //rdlID = "%7b" + encodeURIComponent("0DA8C6DB-9A1B-E311-8706-D8D385B829F8") + "%7d";
             var recentWinsURL = sqlreportbaseurl + rdlName +  "&UserId=" + userID + "&CRM_URL=" + crmurl + "&CRM_CustomerID=" + accId + "&OrgName=" + encodeURIComponent(accName) + "&CurrencyID=" + currid;
             d3.select('#recentWins').attr('href', recentWinsURL).attr('target', '_blank');
 
             rdlName = "Client+Overview+Open+Opportunities";
-            //rdlID = "%7b" + encodeURIComponent("594334EA-9A1B-E311-8706-D8D385B829F8") + "%7d";
             var top10OpenOppList = sqlreportbaseurl + rdlName + "&UserId=" + userID + "&CRM_URL=" + crmurl + "&CRM_CustomerID=" + accId + "&OrgName=" + encodeURIComponent(accName) + "&CurrencyID=" + currid;
             d3.select('#top10OpenOppList').attr('href', top10OpenOppList).attr('target', '_blank');
 
@@ -758,35 +689,12 @@
             d3.select('#planedActivis').attr('href', planedActivis).attr('target', '_blank');
 
             rdlName = "Client+Overview+Complete+Matrix";
-            //rdlID = "%7b" + encodeURIComponent("9C6B56C8-9A1B-E311-8706-D8D385B829F8") + "%7d";
             var connMatrix = sqlreportbaseurl + rdlName + "&UserId=" + userID + "&CRM_URL=" + crmurl + "&CRM_CustomerID=" + accId + "&OrgName=" + encodeURIComponent(accName);
             d3.select('#connMatrix').attr('href', connMatrix).attr('target', '_blank');
 
         }
 
         function PopulateNotes() {
-            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' count='5'>" +
-                "<entity name='annotation'>" +
-                "<attribute name='annotationid' />" +
-                "<attribute name='subject' />" +
-                "<attribute name='annotationid' />" +
-                "<attribute name='notetext' />" +
-                "<attribute name='createdon' />" +
-                "<attribute name='createdby' />" +
-                "<order attribute='createdon' descending='true' />" +
-                "<filter type='and'>" +
-                "<condition attribute='createdbyname' operator='not-like' value='%CRM Admin%' />" +
-                "<condition attribute='notetext' operator='not-like' value='%credit%' />" +
-                "</filter>" +
-                "<link-entity name='account' from='accountid' to='objectid' alias='ab'>" +
-                "<filter type='and'>" +
-                "<condition attribute='accountid' operator='eq' uitype='account' value='" + accId + "' />" +
-                "</filter>" +
-                "</link-entity>" +
-                "</entity>" +
-                "</fetch>";
-            //debugger;
-            var notes = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
             var notes;
             $.ajax({
                 type: "GET",
@@ -833,69 +741,6 @@
         }
 
         function PopulateConnection() {
-            //        var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true'>" +
-            //  "<entity name='connection'>" +
-            //    "<attribute name='connectionid' />" +
-            //    "<attribute name='record2id' alias='CRM_User'/>" +
-            //    "<attribute name='record1id' alias='Contact' />" +
-            //    "<order attribute='record2id' descending='false' />" +
-            //		"<filter type='and'>" +
-            //		     "<condition attribute='record1objecttypecode' operator='eq' value='2' />" +
-            //		     "<condition attribute='record2objecttypecode' operator='eq' value='8' />" +
-            //		"</filter>" +
-            //    "<link-entity name='contact' from='contactid' to='record1id' alias='ac' link-type='inner'>" +
-            //      "<attribute name='jobtitle' />" +
-            //      "<attribute name='emailaddress1' />" +
-            //      "<attribute name='accountrolecode' />" +
-            //      "<attribute name='contactid' />" +
-            //      "<filter type='and'>" +
-            //        "<condition attribute='statecode' operator='eq' value='0' />" +
-            //      "</filter>" +
-            //		"<link-entity name='account' from='accountid' to='parentcustomerid' alias='aj' link-type='inner'>" +
-            //		  "<filter type='and'>" +
-            //			"<filter type='or'>" +
-            //						"<condition  attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-            //                        //"<condition  attribute='accountid' operator='eq' uitype='account' value='" + parentaccountid + "' />" +
-            //			"</filter>" +
-            //			"<condition attribute='statecode' operator='eq' value='0' />" +
-            //		  "</filter>" +
-            //		"</link-entity>" +
-            //    "</link-entity>" +
-            //  "</entity>" +
-            //"</fetch>";
-            /*var fetchXML = "<fetch distinct='true' >" +
-                "<entity name='connection' >" +
-                "<attribute name='record1id' alias='Contact' />" +
-                "<attribute name='record2id' alias='CRM_User' />" +
-                "<order attribute='record1id' descending='false' />" +
-                "<filter>" +
-                "<condition attribute='statuscodename' operator='eq' value='Active' />" +
-                "<condition attribute='record1objecttypecode' operator='eq' value='2' />" +
-                "<condition attribute='record2objecttypecode' operator='eq' value='8' />" +
-                "</filter>" +
-                "<link-entity name='contact' from='contactid' to='record1id' link-type='inner' alias='co' >" +
-                "<attribute name='accountrolecode' />" +
-                "<attribute name='jobtitle' />" +
-                "<attribute name='emailaddress1' />" +
-                "<attribute name='accountrolecodename' />" +
-                "<attribute name='contactid' />" +
-                "<filter type='and' >" +
-                "<condition attribute='statuscodename' operator='eq' value='Active' />" +
-                "</filter>" +
-                "<link-entity name='account' from='accountid' to='parentcustomerid' link-type='inner' alias='ac' >" +
-                "<attribute name='accountid' />" +
-                "<attribute name='name' />" +
-                "<filter type='and' >" +
-                "<condition attribute='accountid' operator='eq' value='" + accId + "' />" +
-                "<condition attribute='statuscodename' operator='eq' value='Active' />" +
-                "</filter>" +
-                "</link-entity>" +
-                "</link-entity>" +
-                "</entity>" +
-                "</fetch>";
-
-            //debugger;
-            var connections = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
             var connections;
             $.ajax({
                 type: "GET",
@@ -938,48 +783,6 @@
         }
 
         function PopulateRecentActivities() {
-            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true' count='5'>" +
-                "<entity name='activitypointer'>" +
-                "<attribute name='activitytypecode' />" +
-                "<attribute name='subject' />" +
-                "<attribute name='activityid' />" +
-                "<attribute name='instancetypecode' />" +
-                "<attribute name='ownerid' />" +
-                "<attribute name='createdon' />" +
-                "<attribute name='statecode' />" +
-                "<order attribute='createdon' descending='true' />" +
-                "<link-entity name='account' from='accountid' to='regardingobjectid' alias='aj' link-type='outer'>" +
-
-                "</link-entity>" +
-                "<link-entity name='contact' from='contactid' to='regardingobjectid' alias='ac' link-type='outer'>" +
-
-                "</link-entity>" +
-                "<filter type='and'>" +
-                "<condition attribute='isworkflowcreated' operator='eq' value='0' />" +
-                "<condition attribute='statecode' operator='in'>" +
-                "<value>1</value>" +
-                "<value>3</value>" +
-                "<value>0</value>" +
-                "</condition>" +
-                "<condition attribute='activitytypecode' operator='in'>" +
-                "<value>4201</value>" +
-                "<value>4202</value>" +
-                "<value>4204</value>" +
-                "<value>4207</value>" +
-                "<value>4210</value>" +
-                "<value>4212</value>" +
-                "</condition>" +
-                "<filter type = 'or'>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='under' uitype='account' value='" + accId + "' />" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq' uitype='account' value='" + accId + "' />" +
-                "<condition entityname= 'ac' attribute='parentcustomerid' operator='eq' uitype='account' value='" + accId + "' />" +
-                "<condition attribute='regardingobjectid' operator='eq' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
-            //debugger;
-            var activityRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
             var activityRecords;
             $.ajax({
                 type: "GET",
@@ -1061,7 +864,6 @@
                 "<attribute name='statecode' alias='StateCode'/>" +
 
                 "<link-entity name='account' from='accountid' to='customerid' alias='aj' link-type='inner' />" +
-                // "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='bj' link-type='outer' />" +
 
                 "<filter type='and'>" +
                 "<condition attribute='statecode' operator='in'>" +
@@ -1069,10 +871,6 @@
                 "<value>1</value>" +
                 "</condition>" +
                 "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //"<filter type='or'>" +
-                //    "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //    "<condition entityname= 'bj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //"</filter>" +
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
@@ -1174,24 +972,6 @@
         }
 
         function PopulateHierOrganizationIds() {
-            //        var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-            //  "<entity name='account'>" +
-            //    "<attribute name='accountid' />" +
-            //      "<filter type='and'>" +
-            //        "<condition attribute='parentaccountid' operator='eq' uitype='account' value='" + parentaccountid + "' />" +
-            //      "</filter>" +
-            //    "</link-entity>" +
-            //  "</entity>" +
-            //"</fetch>";
-           /* var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='account'>" +
-                "<attribute name='accountid' />" +
-                "<filter type='and'>" +
-                "<condition attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
-            var accountRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
             var accountRecords;
             $.ajax({
                 type: "GET",
@@ -1214,14 +994,12 @@
                     Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
                 }
             });
-            //var childOrgAccIds = [];
-            //debugger;
+
             if (accountRecords.length > 0) {
                 for (var i = 0; i < accountRecords.length; i++) {
-                    //debugger;
                     var accountId = accountRecords[i].accountid;
 
-                    var acc = { "AccountId": accountId/*, "ActiveLeads": fetchLeads(accountId)*/ };
+                    var acc = { "AccountId": accountId };
                     childOrgAccIds.push(acc);
                 }
             }
@@ -1259,8 +1037,6 @@
 
                 "<filter type='and'>" +
                 "<condition attribute='statecode' operator='eq' value='2' />" +
-                //"<condition attribute='statuscode' operator='not-null' />" +
-                // "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
                 "<filter type='or'>" +
                 "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
                 "<condition entityname= 'bj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
@@ -1276,24 +1052,14 @@
                 "<attribute name='statuscode' alias='StatusCode' groupby='true'/>" +
                 "<order alias='LostOpp_count' descending='true' />" +
                 "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='aj' link-type='inner' />" +
-                // "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='bj' link-type='outer' />" +
 
                 "<filter type='and'>" +
                 "<condition attribute='statecode' operator='eq' value='2' />" +
-                //"<condition attribute='statuscode' operator='not-null' />" +
                 "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //"<filter type='or'>" +
-                //    "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //    "<condition entityname= 'bj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //"</filter>" +
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
-            //debugger;
-           // var opportRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
-            // var opportRecordsUlt = XrmServiceToolkit.Soap.Fetch(fetchXMLUlt);
             var opporLst = [];
-            // if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
 
             if (opportRecords.length > 0) {
                 for (var i = 0; i < opportRecords.length; i++) {
@@ -1308,58 +1074,10 @@
                 }
             }
 
-            //if (opportRecordsUlt.length > 0) {
-            //    for (var i = 0; i < opportRecordsUlt.length; i++) {
-            //        //debugger;
-            //        var count = opportRecordsUlt[i].attributes.LostOpp_count != undefined ? opportRecordsUlt[i].attributes.LostOpp_count.value : 0;
-            //        var status = opportRecordsUlt[i].attributes.StatusCode != undefined ? opportRecordsUlt[i].attributes.StatusCode.formattedValue : "";
-
-            //        var opporUlt = {
-            //            "label": status, "value": count
-            //        };
-
-            //        opporLst.push(opporUlt);
-            //    }
-            //}
             DrawPieChart("#top5BidLossReason", opporLst);
-            // }
-
         }
 
         function PopulateTop10OpenOppors() {
-            //wrond query during convert
-            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' count='10'>" +
-                "<entity name='opportunity'>" +
-                "<attribute name='opportunityid' />" +
-                "<attribute name='name' />" +
-                "<attribute name='estimatedvalue_base' />" +
-                "<attribute name='ccrm_projectmanager_userid' />" +
-                "<attribute name='ccrm_projectdirector_userid' />" +
-                "<attribute name='ccrm_probabilityofprojectproceeding' alias='Probability_of_Proceeding'/>" +
-                "<attribute name='ccrm_estarupinvolvementstart' />" +
-                "<attribute name='ccrm_closeprobability_synced' />" +
-                "<attribute name='ccrm_bidmanager_userid' />" +
-                "<attribute name='ccrm_biddirector_userid' />" +
-                "<attribute name='ccrm_arupregionid' />" +
-                "<attribute name='statuscode' alias='StatusCode'/>" +
-                "<attribute name='statecode' />" +
-                "<order attribute='estimatedvalue_base' descending='true' />" +
-
-                "<link-entity name='account' from='accountid' to='customerid' alias='aj' link-type='inner' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='eq' value='0' />" +
-                "<condition attribute='statuscode' operator='ne' value='3' />" +
-                "<condition attribute='statuscode' operator='not-null'/>" +
-                "<filter type = 'or'>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='under' uitype='account' value='" + parentaccountid + "' />" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
-            //debugger;
-            var opportRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -1423,39 +1141,11 @@
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
                         Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
-                        //Xrm.Utility.alertDialog(this.statusText);
                     }
                 }
             };
             req.send();
 
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true'>" +
-                "<entity name='opportunity'>" +
-                "<attribute name='name' />" +
-                "<attribute name='customerid' />" +
-                "<attribute name='opportunityid' />" +
-                "<attribute name='estimatedvalue_base' />" +
-                "<attribute name='ccrm_projectmanager_userid' />" +
-                "<attribute name='ccrm_projectdirector_userid' />" +
-                "<attribute name='ccrm_estarupinvolvementstart' />" +
-
-                "<link-entity name='account' from='accountid' to='customerid' alias='aj' link-type='inner' />" +
-                // "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='bj' link-type='outer' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='eq' value='1' />" +
-                //"<condition attribute='customerid' operator='eq-or-under'  uitype='account' value='" + accId + "' />" +
-                "<filter>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //       "<condition entityname= 'bj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</filter>" +
-                "<link-entity name='opportunityclose' from='opportunityid' to='opportunityid' alias='ab'>" +
-                "<attribute name='actualend'  />" +
-                //"<order attribute='actualend' descending='true' />"
-                "</link-entity>" +
-                "</entity>" +
-                "</fetch>";
             //Fetch XML for ultimate client
             var req = new XMLHttpRequest();
             req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'customerid'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Cfilter%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'opportunityclose'%20from%3D'opportunityid'%20to%3D'opportunityid'%20alias%3D'ab'%3E%3Cattribute%20name%3D'actualend'%20%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
@@ -1477,67 +1167,30 @@
             };
             req.send();
 
-            var fetchXMLUlt = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='true'>" +
-                "<entity name='opportunity'>" +
-                "<attribute name='name' />" +
-                "<attribute name='customerid' />" +
-                "<attribute name='opportunityid' />" +
-                "<attribute name='estimatedvalue_base' />" +
-                "<attribute name='ccrm_projectmanager_userid' />" +
-                "<attribute name='ccrm_projectdirector_userid' />" +
-                "<attribute name='ccrm_estarupinvolvementstart' />" +
-
-                "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='aj' link-type='inner' />" +
-                // "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='bj' link-type='outer' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='eq' value='1' />" +
-                // "<condition attribute='ccrm_ultimateendclientid' operator='eq-or-under'  uitype='account' value='" + accId + "' />" +
-                "<filter>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //       "<condition entityname= 'bj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</filter>" +
-                "<link-entity name='opportunityclose' from='opportunityid' to='opportunityid' alias='ab'>" +
-                "<attribute name='actualend'  />" +
-                //"<order attribute='actualend' descending='true' />"
-                "</link-entity>" +
-                "</entity>" +
-                "</fetch>";
-            //debugger;
-            //var opportRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
-            //var opportRecordsUlt = XrmServiceToolkit.Soap.Fetch(fetchXMLUlt);
             var opporLst = [];
             if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
                 if (opportRecords.length > 0) {
                     for (var i = 0; i < opportRecords.length; i++) {
-                        //debugger;
                         var oppId = opportRecords[i].id;
                         var name = opportRecords[i].name != undefined ? opportRecords[i].name : "";
                         var projectDirector = opportRecords[i]._ccrm_projectdirector_userid_value != undefined ? opportRecords[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
                         var fee = opportRecords[i].estimatedvalue_base != undefined ? opportRecords[i].estimatedvalue_base * exchangeratevalue : 0.00;
-                        //var arupStartDate = opportRecords[i].attributes.ccrm_estarupinvolvementstart.value.format('dd MMM yy');
-                        //var actualWonDate = opportRecords[i].attributes['ab.actualend'].value;
                         var arupStartDate = opportRecords[i].ccrm_estarupinvolvementstart != undefined ? opportRecords[i].ccrm_estarupinvolvementstart : "";
                         var actualWonDate = opportRecords[i]['ab.actualend'] != undefined ? opportRecords[i]['ab.actualend'] : "";
 
                         var oppor = {
                             "Title": name, "Project Director": projectDirector, "Total Fee Income": fee, "Arup Start Date": arupStartDate, "Date Won": actualWonDate, "OppId": oppId
                         };
-                        // if (opporLst.indexOf(oppId) == -1)
                         opporLst.push(oppor);
                     }
                 }
 
                 if (opportRecordsUlt.length > 0) {
                     for (var i = 0; i < opportRecordsUlt.length; i++) {
-                        //debugger;
                         var oppId = opportRecordsUlt[i].id;
                         var name = opportRecordsUlt[i].name != undefined ? opportRecordsUlt[i].name : "";
                         var projectDirector = opportRecordsUlt[i].ccrm_projectdirector_userid != undefined ? opportRecordsUlt[i].ccrm_projectdirector_userid : "";
                         var fee = opportRecordsUlt[i].estimatedvalue_base != undefined ? opportRecordsUlt[i].estimatedvalue_base * exchangeratevalue : 0.00;
-                        //var arupStartDate = opportRecords[i].attributes.ccrm_estarupinvolvementstart.value.format('dd MMM yy');
-                        //var actualWonDate = opportRecords[i].attributes['ab.actualend'].value;
                         var arupStartDate = opportRecordsUlt[i].ccrm_estarupinvolvementstart != undefined ? opportRecordsUlt[i].ccrm_estarupinvolvementstart : "";
                         var actualWonDate = opportRecordsUlt[i]['ab.actualend'] != undefined ? opportRecordsUlt[i]['ab.actualend'] : "";
 
@@ -1614,11 +1267,9 @@
                 },
                 function error(r) {
                     $("#dashboard").text("Ad error occurred: " + r);
-                    //debugger;
                 },
                 function complete(r) {
                     if (childOrgs.length > 0) {
-                        //debugger;
                         DrawTable("#childorganizations", childOrgs, Object.keys(childOrgs[0]).slice(0, 2));
                     }
                 }
@@ -1626,26 +1277,6 @@
         }
 
         function PopulateManagingTeamMembers() {
-            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' top='5' distinct='true'>" +
-                "<entity name='systemuser'>" +
-                "<attribute name='fullname' />" +
-                "<attribute name='systemuserid' />" +
-                "<attribute name='title' />" +
-                "<attribute name='ccrm_arupofficeid' alias='Office'/>" +
-                "<attribute name='businessunitid' alias='Business' />" +
-                "<order attribute='fullname' descending='false' />" +
-                "<link-entity name='teammembership' from='systemuserid' to='systemuserid' visible='false' intersect='true'>" +
-                "<link-entity name='team' from='teamid' to='teamid' alias='af'>" +
-                "<link-entity name='account' from='ccrm_managingteamid' to='teamid' alias='ag'>" +
-                "<filter type='and'>" +
-                "<condition attribute='accountid' operator='eq' value='" + accId + "' />" +
-                "</filter>" +
-                "</link-entity>" +
-                "</link-entity>" +
-                "</link-entity>" +
-                "</entity>" +
-                "</fetch>";
-            var userRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);*/
             var userRecords;
             $.ajax({
                 type: "GET",
@@ -1672,7 +1303,6 @@
             var userList = [];
             if (userRecords.length > 0) {
                 for (var i = 0; i < userRecords.length; i++) {
-                    //debugger;
                     var fullname = userRecords[i].fullname != undefined ? userRecords[i].fullname : "";
                     var Office = userRecords[i].Office != undefined ? userRecords[i]["Office@OData.Community.Display.V1.FormattedValue"] : "";
                     var title = userRecords[i].title != undefined ? userRecords[i].title : "";
@@ -1731,9 +1361,7 @@
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
-            //var oppty = XrmServiceToolkit.Soap.Fetch(fetchXML);
             if (oppty.length > 0) {
-                //debugger;
                 var result = oppty[0];
                 var basicProfile = {
                     accountId: result.accountid,
@@ -1743,7 +1371,6 @@
                     address1_Line2: result.address1_line2 != undefined ? result.address1_line2 : "",
                     address1_Line3: result.address1_line3 != undefined ? result.address1_line3 : "",
                     address1_PostalCode: result.address1_postalcode != undefined ? result.address1_postalcode : "",
-                    //ccrm_ClientSectorPicklistName: result.ClientSectors,
                     ccrm_ClientSectorValue: result.ClientSectors != undefined ? result.ClientSectors : "",
                     ccrm_ClientType: result.Clienttype != undefined ? result["Clienttype@OData.Community.Display.V1.FormattedValue"] : "",
                     ccrm_keyaccountmanagerid: result.ccrm_keyaccountmanagerid != undefined ? result.ccrm_keyaccountmanagerid : "",
@@ -1751,8 +1378,6 @@
                     description: result.description != undefined ? result.description : "",
                     name: result.name != undefined ? result.name : "",
                     parentAccountId: result.ParentOrganisation != undefined ? result["ParentOrganisation@OData.Community.Display.V1.FormattedValue"] : "",
-                    //primaryContactId: result.PrimaryContactId,
-                    //stateCode: result.StateCode,
                     statusCode: result.status,
                     telephone1: result.telephone != undefined ? result.telephone : "",
                     webSiteURL: result.weburl != undefined ? result.weburl : ""
@@ -1760,47 +1385,9 @@
                 AssociateProfileDataWithReport(basicProfile);
             }
         }
-        //function PopulateBasicAccProfile() {
-        //    //debugger;
-        //    var entity = "Account";
-        //    var options = "AccountId,Address1_City,Address1_Line1,Address1_Line2,Address1_Line3,Address1_PostalCode,Ccrm_ClientSectorPicklistName,Ccrm_ClientSectorValue,ccrm_ClientType,ccrm_keyaccountmanagerid,ccrm_managingteamid,Description,Name,ParentAccountId,PrimaryContactId,StateCode,StatusCode,Telephone1,WebSiteURL";
-        //    var retreive = SDK.REST.retrieveRecord(accId,
-        //        entity,
-        //        options,
-        //         null,
-        //                    function (result) {
-        //                        //debugger;
-        //                        basicProfile = {
-        //                            accountId: result.AccountId,
-        //                            address1_City: result.Address1_City,
-        //                            address1_Line1: result.Address1_Line1,
-        //                            address1_Line2: result.Address1_Line2,
-        //                            address1_Line3: result.Address1_Line3,
-        //                            address1_PostalCode: result.Address1_PostalCode,
-        //                            ccrm_ClientSectorPicklistName: result.Ccrm_ClientSectorPicklistName,
-        //                            ccrm_ClientSectorValue: result.Ccrm_ClientSectorValue,
-        //                            ccrm_ClientType: result.ccrm_ClientType,
-        //                            ccrm_keyaccountmanagerid: result.ccrm_keyaccountmanagerid,
-        //                            ccrm_managingteamid: result.ccrm_managingteamid,
-        //                            description: result.Description,
-        //                            name: result.Name,
-        //                            parentAccountId: result.ParentAccountId,
-        //                            primaryContactId: result.PrimaryContactId,
-        //                            stateCode: result.StateCode,
-        //                            statusCode: result.StatusCode,
-        //                            telephone1: result.Telephone1,
-        //                            webSiteURL: result.WebSiteURL
-        //                        };
-        //                        AssociateProfileDataWithReport(basicProfile);
-        //                    },
-        //function error(r) {
-        //    $("#dashboard").text("Ad error occurred: " + r);
-        //    //debugger;
-        //})
-        //}
+   
 
         function AssociateProfileDataWithReport(profileData) {
-            //debugger;
             var address = '';
             if (profileData.address1_Line1 != null && profileData.address1_Line1.length > 0) {
                 address = address + profileData.address1_Line1.replace('\t', '').replace('\r', '').replace('\f', '') + " ";
@@ -1833,44 +1420,6 @@
         }
 
         function GetForCastOpportunities() {
-            //wrong query during convert
-            //        var oppOpFetchXml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' aggregate='true'>" +
-            //  "<entity name='opportunity'>" +
-            //    "<attribute name='customeridname' alias='ClientName' groupby='true'/>" +
-            //	"<attribute name='statuscode' alias='StatusCode' groupby='true'/>" +
-            //    "<attribute name='estimatedvalue_base' alias='fee' aggregate='sum'/>" +
-            //    "<attribute name='ccrm_proj_factoredincome_curr_base' alias='Factored_fee' aggregate='sum'/>" +
-
-            //    "<link-entity name='account' from='accountid' to='ccrm_client' alias='aj' link-type='inner' />" +
-            //	"<filter type='and'>" +
-            //      "<condition attribute='statecode' operator='eq' value='0' />" +
-            //      "<condition attribute='statuscode' operator='ne' value='3' />" +
-            //     "<condition attribute='statuscode' operator='not-null'/>" +
-            //	  "<filter type = 'or'>" +
-            //	    "<condition entityname= 'aj' attribute='accountid' operator='under' uitype='account' value='" + accId + "' />" +
-            //		"<condition entityname= 'aj' attribute='accountid' operator='eq' uitype='account' value='" + accId + "' />" +
-            //	  "</filter>" +
-            //    "</filter>" +
-            //  "</entity>" +
-            //"</fetch>";
-            /*var oppOpFetchXml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
-                "<entity name='opportunity'>" +
-                "<attribute name='customerid' alias='ClientName' />" +
-                "<attribute name='statuscode' alias='StatusCode' />" +
-                "<attribute name='estimatedvalue_base' alias='fee' />" +
-                "<attribute name='ccrm_proj_factoredincome_curr_base' alias='Factored_fee' />" +
-
-                "<link-entity name='account' from='accountid' to='customerid' alias='aj' link-type='inner' />" +
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='eq' value='0' />" +
-                "<condition attribute='statuscode' operator='ne' value='3' />" +
-                "<condition attribute='statuscode' operator='not-null'/>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
-            //debugger;
-            var opportRecords = XrmServiceToolkit.Soap.Fetch(oppOpFetchXml);*/
             var opportRecords;
             $.ajax({
                 type: "GET",
@@ -1898,14 +1447,12 @@
                 for (var i = 0; i < opportRecords.length; i++) {
 
                     var clientName = opportRecords[i].ClientName.toUpperCase() == parentaccountid.toUpperCase() ? opportRecords[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "Related Child Org";
-                    //var clientName = opportRecords[i].attributes.ClientName != undefined ? opportRecords[i].attributes.ClientName.name : "";
                     var feeBase = opportRecords[i].fee != undefined ? opportRecords[i].fee * exchangeratevalue : 0.00;
                     var factoredFee = opportRecords[i].Factored_fee != undefined ? opportRecords[i].Factored_fee : "";
                     var phase = GetPhase(opportRecords[i].StatusCode);
                     var oppor = { phase: phase, clientName: clientName, feeBase: feeBase, factoredFee: factoredFee };
                     opporLst.push(oppor);
                 }
-                //DrawBarChart(opporLst);
                 DrawBarChart("#OpenOpportunityChart", opporLst);
             }
         }
@@ -1952,7 +1499,6 @@
                 "<attribute name='ccrm_proj_factoredincome_curr_base' alias='Factored_fee' />" +
 
                 "<link-entity name='account' from='accountid' to='customerid' alias='aj' link-type='inner' />" +
-                // "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='bj' link-type='outer' />" +
 
                 "<filter type='and'>" +
                 "<condition attribute='statecode' operator='eq' value='0' />" +
@@ -1960,11 +1506,6 @@
                 "<condition attribute='statuscode' operator='not-null'/>" +
                 "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
 
-                //"<condition attribute='customerid' operator='eq-or-under'  uitype='account' value='" + accId + "' />" +
-                // "<filter>" +
-                //        "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //    //    "<condition entityname= 'bj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //    //"</filter>" +
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
@@ -2009,24 +1550,15 @@
                 "<attribute name='ccrm_proj_factoredincome_curr_base' alias='Factored_fee' />" +
 
                 "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='aj' link-type='inner' />" +
-                // "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='bj' link-type='outer' />" +
 
                 "<filter type='and'>" +
                 "<condition attribute='statecode' operator='eq' value='0' />" +
                 "<condition attribute='statuscode' operator='ne' value='3' />" +
                 "<condition attribute='statuscode' operator='not-null'/>" +
                 "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //   "<condition attribute='ccrm_ultimateendclientid' operator='eq-or-under'  uitype='account' value='" + accId + "' />" +
-                //"<filter>" +
-                //    "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                ////    "<condition entityname= 'bj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                //"</filter>" +
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
-            //debugger;
-            //var opportRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
-            //var opportRecordsUlt = XrmServiceToolkit.Soap.Fetch(fetchXMLUlt);
             var opporLst = [];
             if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
                 if (opportRecords.length > 0) {
@@ -2095,52 +1627,15 @@
 
                     }
                 }
-                //Bivas Changes
-                //debugger;
                 var opporLstThisOrg = opporLst.filter(function (orgRecord) {
                     return orgRecord.Client != 'Related Child Org'
                 });
-                //var filOpp = allOpenOppor.filter(function (currVal, index, arr) { if (currVal.Client == org && currVal.Phase == phase) { return currVal; } });
 
                 OpenOppPieChart(opporLst, 'Fee');
                 ForecastOpporBarChart(opporLst, false);
                 OpenOppTop10Table(opporLstThisOrg);
             }
         }
-        //function GetOpenOpportunities() {
-        //    var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' aggregate='true'>" +
-        //  "<entity name='opportunity'>" +
-        //    "<attribute name='customerid' alias='ClientName' groupby='true'/>" +
-        //    "<attribute name='estimatedvalue_base' alias='fee_base' aggregate='sum'/>" +
-        //   "<attribute name='opportunityid' alias='Count' aggregate='count'/>" +
-
-        //    "<link-entity name='account' from='accountid' to='customerid' alias='aj' link-type='inner' />" +
-
-        //    "<filter type='and'>" +
-        //      "<condition attribute='statecode' operator='eq' value='0' />" +
-        //      "<condition attribute='statuscode' operator='ne' value='3' />" +
-        //       "<condition attribute='statuscode' operator='not-null'/>" +
-        //      "<filter type = 'or'>" +
-        //        "<condition entityname= 'aj' attribute='accountid' operator='under' uitype='account' value='" + accId + "' />" +
-        //        "<condition entityname= 'aj' attribute='accountid' operator='eq' uitype='account' value='" + accId + "' />" +
-        //      "</filter>" +
-        //    "</filter>" +
-        //  "</entity>" +
-        //"</fetch>";
-        //    //debugger;
-        //    var opportRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
-        //    var opporLst = [];
-        //    if (opportRecords.length > 0) {
-        //        for (var i = 0; i < opportRecords.length; i++) {
-        //            var feeBase = opportRecords[i].attributes.fee_base != undefined ? opportRecords[i].attributes.fee_base.value : 0.00;
-        //            var clientName = opportRecords[i].attributes.ClientName != undefined ? opportRecords[i].attributes.ClientName.name : "";
-        //            var count = opportRecords[i].attributes.Count.value;
-        //            var oppor = { label: clientName + " (" + count + ")", value: feeBase };
-        //            opporLst.push(oppor);
-        //        }
-        //        DrawPieChart("#OpportunityForAccChart", opporLst, true);
-        //    }
-        //}
 
         function PopulateLeads(opporlist) {
             var acctid;
@@ -2162,25 +1657,6 @@
         function fetchLeads(acctid, op) {
             var leads;
             if (op) {
-               /* var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='lead'>" +
-                "<attribute name='fullname' />" +
-                "<attribute name='statecode' />" +
-                "<attribute name='ccrm_arupinternal' />" +
-                "<attribute name='ownerid' />" +
-                "<attribute name='ccrm_country' />" +
-                "<attribute name='ccrm_client' />" +
-                "<attribute name='ccrm_arupbusiness' />" +
-                "<attribute name='ccrm_accountingcentreid' />" +
-                "<attribute name='leadid' />" +
-                "<order attribute='fullname' descending='false' />" +
-                "<link-entity name='account' from='accountid' to='ccrm_client' alias='ab' link-type='inner'>" +
-                "<filter type='and'>" +
-                    "<condition attribute='accountid' operator='under' value='" + acctid + "' />" +
-                "</filter>" +
-                "</link-entity>" +
-                "</entity>" +
-                "</fetch>";*/
                 $.ajax({
                     type: "GET",
                     contentType: "application/json; charset=utf-8",
@@ -2204,23 +1680,6 @@
                 });
             }
             else {
-            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='lead'>" +
-                "<attribute name='fullname' />" +
-                "<attribute name='statecode' />" +
-                "<attribute name='ccrm_arupinternal' />" +
-                "<attribute name='ownerid' />" +
-                "<attribute name='ccrm_country' />" +
-                "<attribute name='ccrm_client' />" +
-                "<attribute name='ccrm_arupbusiness' />" +
-                "<attribute name='ccrm_accountingcentreid' />" +
-                "<attribute name='leadid' />" +
-                "<order attribute='fullname' descending='false' />" +
-                "<filter type='and'>" +
-                "<condition attribute='ccrm_client' operator='eq' value='" + acctid + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";*/
                 $.ajax({
                     type: "GET",
                     contentType: "application/json; charset=utf-8",
@@ -2243,7 +1702,6 @@
                     }
                 });
             }
-            //var leads = XrmServiceToolkit.Soap.Fetch(fetchXML);
             var leadsList = [];
 
             for (var i = 0; i < leads.length; i++) {
@@ -2302,7 +1760,6 @@
         }
 
         function ForecastOpporBarChart(allOpenOppor, transitionRequired) {
-            //debugger;
             var keys = ["Fee Base", "Factored Fee"];
             var sortOpp = allOpenOppor.sort(function (a, b) {
 
@@ -2337,7 +1794,6 @@
             DrawBarChart("#OpenOpportunityChart", nested, allOpenOppor, transitionRequired);
         }
         function OpenOppTop10Table(allOpenOppor) {
-            //debugger;
 
             var sortOpp = allOpenOppor.sort(function (a, b) {
 
@@ -2364,19 +1820,6 @@
             DrawTable("#top10OpenOportunities", finalOpp, Object.keys(finalOpp[0]).filter(function (d) { return d !== 'OpportunityId'; }));
         }
         function GetPhase(status) {
-            //        =IIf(Fields!StatusCodeValue.Value = 200013,"Leads",
-            //     (IIf((Fields!StatusCodeValue.Value = 200016 OR Fields!StatusCodeValue.Value = 200017 OR Fields!StatusCodeValue.Value = 200014),"Possible Jobs",
-            //		   (IIf((Fields!StatusCodeValue.Value = 200005 OR Fields!StatusCodeValue.Value = 200006 OR Fields!StatusCodeValue.Value = 200015
-            //		   OR Fields!StatusCodeValue.Value = 200020),"Bids",
-            //		      (IIf((Fields!StatusCodeValue.Value = 200040 OR Fields!StatusCodeValue.Value = 200042 OR Fields!StatusCodeValue.Value = 200041
-            //				   OR Fields!StatusCodeValue.Value = 200031 OR Fields!StatusCodeValue.Value = 200032 OR Fields!StatusCodeValue.Value = 200033
-            //				   OR Fields!StatusCodeValue.Value = 200021 OR Fields!StatusCodeValue.Value = 200022 OR Fields!StatusCodeValue.Value = 200023
-            //				   OR Fields!StatusCodeValue.Value = 100000000 OR Fields!StatusCodeValue.Value = 100000001 OR Fields!StatusCodeValue.Value = 100000002
-            //				   OR Fields!StatusCodeValue.Value = 200037 OR Fields!StatusCodeValue.Value = 200038 OR Fields!StatusCodeValue.Value = 200039
-            //				   OR Fields!StatusCodeValue.Value = 200034 OR Fields!StatusCodeValue.Value = 200035 OR Fields!StatusCodeValue.Value = 200036),"Confirmed",""))
-
-            //		   ))
-            //)))
             var statusCode = status.value;
             var Status = new Object();
             if (statusCode == 200013) {
@@ -2469,7 +1912,6 @@
         }
 
         function DrawBarChart(div, nested, allOpenOppor, transitionRequired) {
-            //debugger;
             var keys = ["Fee Base", "Factored Fee"];
 
             var margin = {
@@ -2508,31 +1950,8 @@
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-            //var nested = d3.nest()
-            //              .key(function (d) {
-            //                  return d.phase;
-            //              })
-            //              .key(function (d) {
-            //                  return d.clientName;
-            //              })
-            //              .rollup(function (leaves) {
-            //                  return [{
-            //                      key: keys[0],
-            //                      value: Math.round(d3.sum(leaves, function (leave) { return leave.feeBase }) / 1000)
-            //                  }, {
-            //                      key: keys[1],
-            //                      value: Math.round(d3.sum(leaves, function (leave) { return leave.factoredFee }) / 1000)
-            //                  }];
-            //              })
-            //              .entries(data);
-
             var phases = ['Pre-Bids', 'Possible Jobs', 'Bids', 'Confirmed'];
             x_groups.domain(phases);
-
-            //x_groups.domain(nested.map(function (d) {
-
-            //    return d.key;
-            //}));
 
             var index = 0;
             var maxClientLength = 0;
@@ -2640,7 +2059,7 @@
                         lineNumber = 0,
                         lineHeight = 1.1, // ems
                         y = text.attr("y"),
-                        dy = .35//parseFloat(text.attr("dy")),
+                        dy = .35;
                     tspan = text.text(null).append("tspan").attr("x", width / 2).attr("y", y).attr("dy", dy + "em").attr("dx", .01 + "em");
 
                     while (word = words.pop()) {
@@ -2673,28 +2092,8 @@
                     return "translate(" + x_values(d.key) + ",0)";
                 });
 
-            //var values_labels = values_g.selectAll('.value-label')
-            //  .data(function(d) {
-            //      return [d.key];
-            //  })
-            //  .enter().append("text")
-            //  .attr("class", function(d) {
-            //      return 'value-label value-label-' + d;
-            //  })
-            //  .attr("x", function(d) {
-            //      return x_values.rangeBand() / 2;
-            //  })
-            //  .attr('y', function(d) {
-            //      return height + 10;
-            //  })
-            //  .attr('text-anchor', 'middle')
-            //  .text(function(d) {
-            //      return d;
-            //  })
-
             var rects = values_g.selectAll('.rect')
                 .data(function (d) {
-                    //debugger;
                     return [d];
                 })
                 .enter().append("rect");
@@ -2731,13 +2130,10 @@
                         return color(d.key);
                     })
                     .on("mouseover", mouseover);// mouseover is defined below.
-                //.on("mouseout", mouseout)// mouseout is defined below.
-                //.on("click", printpage);
             }
 
             function printpage() {
                 rects.on("mouseout", null);
-                //window.print();
             }
             function mouseover(d) {  // utility function to be called on mouseover.
                 var org = d3.select(this.parentNode.parentNode).datum().key;
@@ -2751,19 +2147,9 @@
 
                 OpenOppTop10Table(filOpp);
                 OpenOppPieChart(filOpp, k, true);
-                // filter for selected state.
-                //var st = fData.filter(function (s) { return s.State == d[0]; })[0],
-                //    nD = d3.keys(st.freq).map(function (s) { return { type: s, freq: st.freq[s] }; });
-
-                //// call update functions of pie-chart and legend.
-                //pC.update(nD);
-                //leg.update(nD);
             }
 
             function mouseout(d) {    // utility function to be called on mouseout.
-                // reset the pie-chart and legend.
-                //pC.update(tF);
-                //leg.update(tF);
                 OpenOppTop10Table(allOpenOppor);
                 OpenOppPieChart(allOpenOppor, 'Fee');
             };
@@ -2870,8 +2256,6 @@
                 .attr("dy", ".35em")
                 .text(function (d) { if (numberFormatRequired) { return Math.round(d.data.value / 1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); } else { return d.data.value; } });
 
-            /////
-            //debugger;
             gPie.on("mouseover", mouseover);
             function mouseover(d) {
                 // call the update function of histogram with new data.
@@ -2968,19 +2352,6 @@
                 .attr("dy", ".35em")
                 .text(function (d) { if (numberFormatRequired) { return Math.round(d.data.value / 1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); } else { return d.data.value; } });
 
-            ///////
-            //debugger;
-            //gPie.on("mouseover", mouseover).on("mouseout", mouseout);
-            //function mouseover(d) {
-            //    // call the update function of histogram with new data.
-            //    DrawTable("#mouseOverAnnimation", teammemData, Object.keys(teammemData[0]));
-            //}
-            ////Utility function to be called on mouseout a pie slice.
-            //function mouseout(d) {
-            //    DrawTable("#mouseOverAnnimation", teammemData, Object.keys(teammemData[0]));
-            //}
-            ///////////////////////////////
-
             var barSvg = opporChart.append("g");
 
 
@@ -3014,18 +2385,7 @@
             return gPie;
         }
         function DrawMatrixTable(div, data) {
-            //debugger;
-            //var sortdata = data.sort(function (a, b) {
 
-            //    if (a.Contact > b.Contact) {
-            //        return -1;
-            //    }
-            //    if (a.Contact < b.Contact) {
-            //        return 1;
-            //    }
-            //    // a must be equal to b
-            //    return 0;
-            //});
 
             var nested = data.filter(function (currentValue, index, arr) { if (index >= arr.length - 10) return currentValue; });
 
@@ -3060,24 +2420,6 @@
                 return 0;
             }).map(function (d) { columns.push(d.key); });
 
-
-            //var nested = [];
-            //d3.nest()
-            //.key(function (d) {
-            //    return d['Contact'];
-            //})
-            //.key(function (d) {
-            //    return d['Job Title'];
-            //})
-            //.key(function (d) {
-            //    return d['CRM User'];
-            //})
-            //.rollup(function (leaves) {
-            //    nested.push(leaves[0]);
-            //})
-            //.entries(sortdata);
-
-
             var relTable = d3.select(div).append('table');
             var tabHead = relTable.append('thead');
             var tabBody = relTable.append('tbody');
@@ -3097,12 +2439,6 @@
             rows.selectAll('td')
                 .data(function (row) {
                     return columns.map(function (column) {
-                        //if (row['CRM User'] == column) {
-                        //    return { column: column, value: row[column], Color: 'gray' };
-                        //}
-                        //else {
-                        //    return { column: column, value: row[column], Color: 'lightgray' };
-                        //}
                         var exist = matrixData.filter(function (c, i, a) {
                             if (c.value == column && c.key == row.key) { return c; }
                         })
@@ -3142,7 +2478,6 @@
                 nodelink.links.push({ source: cc['CRM User'], target: cc['Contact'], value: 1 });
             })
 
-            //debugger;
             var svg = d3.select("#connForcelay"),
                 width = +svg.attr("width"),
                 height = +svg.attr("height");
