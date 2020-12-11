@@ -17,6 +17,9 @@
     formContext.getAttribute('arup_additionalresources').setRequiredLevel('required');
     formContext.getAttribute('arup_delaydisruptionacceleration').setRequiredLevel('required');
 
+    if (formContext.ui.getFormType() != 1) {
+        parent.entityId = formContext.data.entity.getId();
+    }
 }
 function OpenFrameworkRecord(formContext) {
 
