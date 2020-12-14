@@ -6,7 +6,7 @@ interface Popup extends ComponentFramework.FactoryApi.Popup.Popup {
     //shadowStyle: object;
 }
 
-export class MultiTagComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class MultiTagComponent2 implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
     private _containerBox: HTMLDivElement;
     private _innerContainer: HTMLDivElement;
