@@ -19,10 +19,17 @@ var ArupAlert;
      * @param {string} message - Message to display to the user.
      * @returns {promise} - A promise that can be used to call a callback function when the user presses "OK"
     */
-    function alertDialog( message ) {
+    function alertDialog( message, xrmContext ) {
         var alertStrings = { confirmButtonLabel: "OK", text: message, title: "Alert" };
         var alertOptions = { height: 120, width: 260 };
-        return Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+        xrmContext = xrmContext || ( typeof Xrm == 'undefined' ? parent.Xrm : Xrm); // || parent.Xrm;
+
+        if (!xrmContext) {
+            alert("Unable to get Xrm context to display message: " + message);
+            return new Promise();
+        } else {
+            return xrmContext.Navigation.openAlertDialog(alertStrings, alertOptions);
+        }
     }
 
     /** @description Returns an alert dialog function that may be used as a callback function

@@ -1,5 +1,6 @@
 ﻿function form_OnLoad(executionContext) {
     var formContext = executionContext.getFormContext();
+    parent.formContext = formContext;
     setInterval(changeHeaderTileFormat, 1000);
 
     formContext.getAttribute('arup_affiliateentities').setRequiredLevel('required');
@@ -16,6 +17,23 @@
     formContext.getAttribute('arup_additionalresources').setRequiredLevel('required');
     formContext.getAttribute('arup_delaydisruptionacceleration').setRequiredLevel('required');
 
+    if (formContext.ui.getFormType() != 1) {
+        parent.entityId = formContext.data.entity.getId();
+    }
+}
+function OpenFrameworkRecord(formContext) {
+
+    var frameworkId = formContext.getAttribute('arup_frameworkid').getValue()[0].id;
+    
+    if (frameworkId != null) {
+
+        var entityFormOptions = {};
+        entityFormOptions["entityName"] = "arup_framework";
+        entityFormOptions["entityId"] = frameworkId;
+        // Set default values for the Contact form
+        Xrm.Navigation.openForm(entityFormOptions);
+        return;
+    }
 }
 
 function changeHeaderTileFormat() {

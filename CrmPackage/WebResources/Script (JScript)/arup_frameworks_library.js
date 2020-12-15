@@ -1,6 +1,12 @@
 ﻿function form_OnLoad(executionContext) {
+    var formContext = executionContext.getFormContext();
+    parent.formContext = formContext;
     setInterval(changeHeaderTileFormat, 1000);
     multiDiscipline_onChange(executionContext);
+    if (formContext.ui.getFormType() != 1) {
+        parent.entityId = formContext.data.entity.getId();
+        RefreshWebResource(formContext, "WebResource_FrameworkButton");
+    }
 }
 
 function changeHeaderTileFormat() {
@@ -28,7 +34,7 @@ function openSecuredFramework(primaryControl) {
         entityFormOptions["entityName"] = "arup_frameworksecured";
         entityFormOptions["entityId"] = frameworkIdSecured;
         // Set default values for the Contact form
-        Xrm.Navigation.openForm(entityFormOptions);
+        Xrm.Navigation.openForm(entityFormOptions); 
         return;
     }
 
@@ -159,4 +165,12 @@ function multiDiscipline_onChange(executionContext) {
             break;
     }
 
+}
+
+function RefreshWebResource(formContext, webResourceName) {
+    var webResource = formContext.getControl(webResourceName);
+    if (webResource != null) {
+        var obj = webResource.getObject();
+        if (!!obj ) obj.contentWindow.location.reload();
+    }
 }

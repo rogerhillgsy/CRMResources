@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="Arup" constructor="MultiTagComponent2" version="0.0.1" display-name-key="Multi-Tag Component 2" description-key="Multi-Tag Component description for simple text field type" control-type="standard">
+    <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
+    <property name="TagValue" display-name-key="Field" description-key="Contains inputed tagged values" of-type-group="text" usage="bound" required="true" />
+    <property name="DependentField" display-name-key="Dependent Field" description-key="Source of available tags depends on this field" of-type-group="optionSet" usage="input" required="false" />
+    <type-group name="text">
+        <type>SingleLine.Text</type>
+        <type>SingleLine.TextArea</type>
+        <type>Multiple</type>
+    </type-group>
+    <type-group name="optionSet">
+        <type>SingleLine.Text</type>
+        <type>OptionSet</type>
+        <type>Lookup.Simple</type>
+        <!-- <type>MultiSelectOptionSet</type> -->
+    </type-group>
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path="css/MultiTagComponent.css" order="1" />
+
+    </resources>
+    <feature-usage>
+    <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+    <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
+    <feature-usage>
+      <uses-feature name="Device.captureAudio" required="true" />
+      <uses-feature name="Device.captureImage" required="true" />
+      <uses-feature name="Device.captureVideo" required="true" />
+      <uses-feature name="Device.getBarcodeValue" required="true" />
+      <uses-feature name="Device.getCurrentPosition" required="true" />
+      <uses-feature name="Device.pickFile" required="true" />
+      <uses-feature name="Utility" required="true" />
+    </feature-usage>
+    -->
+  </control>
+</manifest>

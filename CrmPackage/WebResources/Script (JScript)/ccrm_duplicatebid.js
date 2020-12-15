@@ -76,9 +76,10 @@ function GetResultData(clientUrl) {
             retrievedBids = data.value;
         },
         error: function (xhr, textStatus, errorThrown) {
-            Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+            ArupAlert.alertDialog("Error rejecting cont: " + this.statusText);
         }
     });
+
     var noResult = false;
     if (retrievedBids != null) {
         if (retrievedBids.length > 0) {

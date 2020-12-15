@@ -1,0 +1,296 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<style type="text/css">
+
+		body {
+			margin: 0px;
+			vertical-align: middle;
+		}
+
+		label {
+			-webkit-border-radius: 6px;
+			-moz-border-radius: 6px;
+			border-radius: 5px;
+			color: black;
+			font-family: Arial;
+			min-width: 280px;
+			width: 80%;
+			font-size: 16px;
+			font-weight: 400;
+			padding: 5px 10px 10px 5px;
+			background-color: white;
+			box-shadow: 1px 1px 2px 2px #ab918f;
+			-webkit-box-shadow: 1px 5px 5px 1px #ab918f;
+			border: solid #FFFFFF 1px;
+			text-decoration: none;
+			display: inline-block;
+			cursor: pointer;
+			text-align: center;
+			margin: 4px;
+		}
+
+
+
+		.mainButton:active {
+			background: #D42316;
+			box-shadow: 1px 1px 2px 2px #ab918f;
+			-webkit-box-shadow: 1px 1px 1px 1px #ab918f;
+			-moz-box-shadow: 1px 1px 2px 2px #ab918f;
+			-webkit-transform: translate(4px, 4px);
+		}
+
+
+		.blueButton:active {
+			background: #91ac27;
+			box-shadow: 1px 1px 2px 2px #ab918f;
+			-webkit-box-shadow: 1px 1px 1px 1px #ab918f;
+			-moz-box-shadow: 1px 1px 2px 2px #ab918f;
+			-webkit-transform: translate(4px, 4px);
+		}
+
+		.tabButtons {
+			text-align: center;
+		}
+
+
+
+
+		.blueButton {
+			-webkit-border-radius: 20px;
+			-moz-border-radius: 20px;
+			border-radius: 20px;
+			color: #FFFFFF;
+			font-family: Arial;
+			min-width: 280px;
+			width: 80%;
+			font-size: 16px;
+			font-weight: 400;
+			padding-top: 10px;
+			padding-right: 10px;
+			padding-left: 10px;
+			padding-bottom: 10px;
+			background-color: #2DAAE1;
+			text-decoration: none;
+			display: inline-block;
+			cursor: pointer;
+			text-align: center;
+			margin: 4px;
+			cursor: pointer;
+		}
+
+
+
+
+		.mainButton {
+			-webkit-border-radius: 20px;
+			-moz-border-radius: 20px;
+			border-radius: 20px;
+			color: #FFFFFF;
+			font-family: Arial;
+			min-width: 280px;
+			width: 80%;
+			font-size: 16px;
+			font-weight: 400;
+			padding-top: 10px;
+			padding-right: 10px;
+			padding-left: 10px;
+			padding-bottom: 10px;
+			background-color: #1AAC72;
+			text-decoration: none;
+			display: inline-block;
+			cursor: pointer;
+			text-align: center;
+			margin: 5px;
+			margin-bottom: 10px;
+			cursor: pointer;
+		}
+
+
+
+			.mainButton:hover {
+				background: #14553C;
+				text-decoration: none;
+			}
+
+		.blueButton:hover {
+			background: #0F5573;
+			text-decoration: none;
+		}
+
+		body {
+			text-align: center;
+		}
+
+		p {
+			text-align: left;
+			padding: 5px;
+			font-family: Arial;
+			font-size: 16px;
+			font-weight: 400;
+			margin-left: 50px;
+		}
+
+		ul {
+			display: block;
+			list-style-type: circle;
+			text-align: left;
+			font-family: Arial;
+			font-size: 16px;
+			font-weight: 400;
+			padding-left: 80px;
+		}
+	</style>
+
+	<script src="ccrm_ms_jQuery1102" type="text/javascript"></script>
+</head>
+
+<body style="word-wrap: break-word;">
+	<div id="tabButtons"></div>
+
+
+	<script>
+
+        // Central logging function.
+        Log = console.log.bind(window.console);
+   
+
+        // Setup buttons for the tab.
+        // each button declared for the current tab will be set up within the "tabButtons" div in this document.
+        function setupButtonsForTab(formContext, activeTabNum) {
+           // console.log("Display buttons for " + activeTabNum);
+            var tabs = formContext.ui.tabs.get();
+            // - generate buttons appropriate to the active tab.
+            if (activeTabNum != null) {
+                var buttonConfig = buttonConfigs[tabs[activeTabNum].getName()];
+              //  Log("Active tab name " + tabs[activeTabNum].getName());
+                if (buttonConfigs != null) {
+                    // Generate buttons listed in buttonConfig.
+                    $("#tabButtons").empty();
+                    var id = 1;
+                    for (var buttonNum in buttonConfig) {
+                        var button = buttonConfig[buttonNum];
+                        var span = document.createElement("span");
+                        if (button.id != null) {
+                            span.id = button.id;
+                        } else {
+                            span.id = "button" + id++;
+                        }
+                        var action = button.action;
+                        if (button.action != null) {
+                            span.onclick = action.bind(formContext);
+                        }
+
+                        // Check for static or dynamic value for the label.
+                        if (button.label instanceof Function) {
+                            span.innerHTML = button.label();
+                        } else {
+                            span.innerHTML = button.label;
+                        }
+                        span.className = "mainButton";
+
+                        if (!button.isredbutton)
+                            span.className = "blueButton";
+
+                        if (button.islabel)
+                            span.className = "label";
+
+                        $("#tabButtons")[0].appendChild(span);
+
+                        // Check for static or dynamic value for hidden.
+                        if (button.hidden instanceof Function) {
+                            if (button.hidden()) {
+                                span.style.display = "none";
+                            }
+                        } else {
+                            if (button.hidden) {
+                                span.style.display = "none";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function GetFormContextandInitialize() {
+            Log("parent.document.readyState " + parent.document.readyState);
+            if (parent.formContext != null && parent.document.readyState == "complete") {
+
+                //recordid will be frameworkid or frameworksecureid depending on the call of the respective form
+                var parts = parent.document.location.href.split("&id=");
+                if (parts.length > 1) { // Check to see if we have an existing framework where it is valid to display the buttons. (i.e. don't display for new form)
+                    var recordid = parts[1].substring(0, 36);
+                    var parentEntityRefId = (parent.entityId || "" ).replace('{', '').replace('}', '');
+                   // Log("recordid " + recordid);
+                   // Log("parentEntityRefId " + parentEntityRefId);
+
+                    if (recordid.toUpperCase() == parentEntityRefId) {
+                        var formContext = parent.formContext;
+                        // Tab number is specified as part of the data argument to the web resource.
+                        tabName = location.search.split("=")[1];
+                        //tabNumber = formContext.Arup.GetTabNumber(formContext, tabName);
+                        tabNumber = parent.Arup.GetTabNumber(formContext, tabName);
+                       // console.log("Setup for tab " + tabName);
+                        setupButtonsForTab(formContext, tabNumber);
+                        parent.Arup.OnDisplayingTab(formContext,
+                            tabName,
+                            function() {
+                                setupButtonsForTab(formContext, tabNumber);
+                            });
+                    } else {
+                        setTimeout(function() { GetFormContextandInitialize(); }, 1000);
+                    }
+                }
+                //	}
+            } else {
+                setTimeout(function() { GetFormContextandInitialize(); }, 1000);
+            }
+        }
+
+        // Declare the configuration of each button: label, action to take when pressed and whether the button should be hidden.
+        buttonConfigs = {
+
+            'Summary_Tab': [
+                {
+                    'label': 'Framework Details',
+                    'action': function () {
+                        Log("Framework Details");
+                        parent.Arup.OpenSecuredFramework(this);
+                    },
+                    'isredbutton': false
+                }
+
+            ],
+
+            'tab_calloff': [
+                {
+                    'label': 'Framework Summary',
+                    'action': function () {
+                        Log("Framework Summary");
+                        parent.Arup.OpenFrameworkRecord(this);
+                    },
+                    'isredbutton': false
+                }
+
+            ]
+
+        };
+
+        // Call on startup to ensure that the buttons for this tab are set up within the web resource, and that the callback to
+        // refresh the buttons is registered in arup_opportunitybuttoncomamnds.js.
+        var tabName;
+        var tabNumber;
+                document.onreadystatechange = function () {
+                    if (document.readyState == "complete") {
+                        if (location.search == "") {
+                            console.error("No tab name given");
+                        } else {
+                            GetFormContextandInitialize();
+                        }
+                    }
+                }
+	</script>
+</body>
+</html>
