@@ -1,11 +1,29 @@
 ﻿function onloadSetFieldSecurity(executionContext) {
     var formContext = executionContext.getFormContext();
+
+    formContext.data.entity.attributes.forEach(function (attribute, index) {
+        var control = formContext.getControl(attribute.getName());
+        if (control) {
+            control.setDisabled(true)
+        }
+    });
+
     var DQUser = isUserInTeamCheck(formContext);
-    if (DQUser) {        
-        formContext.ui.controls.get("accessmode").setDisabled(false);
-        formContext.ui.controls.get("incomingemaildeliverymethod").setDisabled(false);
-        formContext.ui.controls.get("outgoingemaildeliverymethod").setDisabled(false);
-        formContext.ui.controls.get("businessunitid").setDisabled(false);
+    if (DQUser) {
+        formContext.ui.controls.get("arup_useownaccountingcentreforopportunities").setDisabled(false);
+        formContext.ui.controls.get("arup_superuser").setDisabled(false);
+    }
+
+    var systemUser = formContext.context.getUserId().replace('{', '').replace('}', '');
+    var loadUserId = formContext.data.entity.getId().replace('{', '').replace('}', '');
+    if (!DQUser) {
+        if (systemUser != loadUserId) {
+            formContext.ui.controls.get("arup_useownaccountingcentreforopportunities").setDisabled(true);
+            formContext.ui.controls.get("arup_superuser").setDisabled(true);
+        } else {
+            formContext.ui.controls.get("arup_useownaccountingcentreforopportunities").setDisabled(false);
+            formContext.ui.controls.get("arup_superuser").setDisabled(true);
+        }
     }
 }
 
