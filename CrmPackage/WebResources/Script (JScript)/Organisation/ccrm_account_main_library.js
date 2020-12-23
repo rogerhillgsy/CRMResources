@@ -99,6 +99,7 @@ function Form_onload(executionContext) {
         formContext.getControl('arup_duediligencecheck').removeOption(2);
         var status = "";
         retreiveTeamDetails(formContext, status);
+        setCompanyRegistrationRequired(formContext);
     }
     formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
 }
@@ -250,6 +251,7 @@ function country_onChange(executionContext) {
     canada_visibility(formContext);
     established_government_client_visibility(formContext);
     hideShowAmericasFields(formContext);
+    setCompanyRegistrationRequired(formContext);
 }
 
 function countryID_onChange(executionContext) {
@@ -1152,6 +1154,36 @@ function retreiveTeamDetails(formContext, status) {
                         }
                     }
 
+                } else {
+                    Xrm.Navigation.openAlertDialog(this.statusText);
+                }
+            }
+        };
+        req.send();
+    }
+}
+
+function setCompanyRegistrationRequired(formContext) {
+    //If Organisation is in Aus region, set Company Registaryion Required
+    if (formContext.getAttribute("ccrm_countryid").getValue() != null && formContext.getAttribute("ccrm_countryid").getValue() != "undefined") {
+        var countryId = formContext.getAttribute("ccrm_countryid").getValue()[0].id.replace('{', '').replace('}', '');
+
+        var req = new XMLHttpRequest();
+        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/ccrm_countries("+countryId+")?$select=_ccrm_arupregionid_value", true);
+        req.setRequestHeader("OData-MaxVersion", "4.0");
+        req.setRequestHeader("OData-Version", "4.0");
+        req.setRequestHeader("Accept", "application/json");
+        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+        req.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 200) {
+                    var result = JSON.parse(this.response);
+                    var arupRegionName = result["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
+
+                    var requiredLevel = arupRegionName.toUpperCase() == "AUSTRALASIA REGION" ? 'required' : 'none';
+                    formContext.getAttribute("ccrm_taxregistrationno").setRequiredLevel(requiredLevel);
                 } else {
                     Xrm.Navigation.openAlertDialog(this.statusText);
                 }
