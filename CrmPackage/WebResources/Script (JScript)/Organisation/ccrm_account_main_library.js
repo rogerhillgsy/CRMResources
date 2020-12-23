@@ -204,7 +204,7 @@ function isUserInTeamCheck(formContext) {
                 var results = JSON.parse(this.response);
                 userInTeam = results.value.length > 0;
             } else {
-                Xrm.Navigation.openAlertDialog(this.statusText);
+                XrmOpenAlertDialog(this.statusText);
             }
         }
     };
@@ -235,7 +235,7 @@ function isUserInSSCTeam(formContext) {
                 var results = JSON.parse(this.response);
                 userExists = results.value.length > 0;
             } else {
-                Xrm.Navigation.openAlertDialog(this.statusText);
+                XrmOpenAlertDialog(this.statusText);
             }
         }
     };
@@ -302,7 +302,7 @@ function established_government_client_visibility(formContext) {
                         if (!isVisible && formContext.getAttribute('arup_governmentclient').getValue() == true && globalDQTeam) { formContext.getAttribute('arup_governmentclient').setValue(false); }
                     }
                 } else {
-                    Xrm.Navigation.openAlertDialog(this.statusText);
+                    XrmOpenAlertDialog(this.statusText);
                 }
             }
         };
@@ -476,11 +476,11 @@ function arup_expressedconsent_onChange(executionContext) {
 
 function OpenClientOverviewReport(accountID, selectedRecCount) {
     if (selectedRecCount > 1) {
-        Xrm.Navigation.openAlertDialog('Please select only one record.');
+        XrmOpenAlertDialog('Please select only one record.');
         return;
     }
     else if (selectedRecCount < 1) {
-        Xrm.Navigation.openAlertDialog('Please select a organization record first and then click.');
+        XrmOpenAlertDialog('Please select a organization record first and then click.');
         return;
     }
     var parentAccId = '{00000000-0000-0000-0000-000000000000}';
@@ -688,7 +688,7 @@ function GetCountryOfCompanyRegistartion(executionContext) {
                         var results = JSON.parse(this.response);
                         AssignRegistrationDetails(results, legalClientName, formContext);
                     } else {
-                        Xrm.Navigation.openAlertDialog(this.statusText);
+                        XrmOpenAlertDialog(this.statusText);
                     }
                 }
             };
@@ -948,7 +948,7 @@ function GetCurrentUserDetails(formContext) {
                 var result = JSON.parse(this.response);
                 userRegion = result["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
             } else {
-                Xrm.Navigation.openAlertDialog(this.statusText);
+                XrmOpenAlertDialog(this.statusText);
             }
         }
     };
@@ -1153,10 +1153,17 @@ function retreiveTeamDetails(formContext, status) {
                     }
 
                 } else {
-                    Xrm.Navigation.openAlertDialog(this.statusText);
+                    XrmOpenAlertDialog(this.statusText);
                 }
             }
         };
         req.send();
     }
+}
+
+function XrmOpenAlertDialog(message) {
+    var alertStrings = { confirmButtonLabel: "Close", text: message, title: "Client Overview Report Error" };
+    var alertOptions = {height: 120, width: 260 };
+    var promise = Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+    return promise;
 }
