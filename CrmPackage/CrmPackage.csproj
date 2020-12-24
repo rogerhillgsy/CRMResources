@@ -1342,6 +1342,11 @@
       <UniqueName>arup_FrameworkButtonCommand</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_hide_addnewrecord_subgrid.js">
+      <DisplayName>arup_hide_addnewrecord_subgrid</DisplayName>
+      <UniqueName>new_arup_hide_addnewrecord_subgrid</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Contact\arup_contactRejectionReason.htm">
       <DisplayName>arup_contactRejectionReason</DisplayName>
       <UniqueName>arup_contactRejectionReason</UniqueName>
