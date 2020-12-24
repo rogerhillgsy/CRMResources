@@ -206,6 +206,9 @@ function SetRequiredLevel(field, level, formContext) {
 }
 
 function enquiryType(formContext) {
+
+    if (formContext.getControl('ccrm_otherpleasespecify') == null) { return; }
+
     if (formContext.getAttribute("casetypecode").getValue() == enquiryTypeValue.Other) {
         //show enquiryType other
         formContext.getControl("ccrm_otherpleasespecify").setVisible(true);
