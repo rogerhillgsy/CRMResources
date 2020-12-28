@@ -1192,3 +1192,42 @@ function setCompanyRegistrationRequired(formContext) {
         req.send();
     }
 }
+
+function validateRegistrationCountry(executionContext) {
+
+    var formContext = executionContext.getFormContext();
+    var regCountry = formContext.getAttribute('ccrm_countryofcoregistrationid').getValue();
+    var addressCountry = formContext.getAttribute('ccrm_countryid').getValue();
+
+    if (regCountry == null || regCountry == 'undefined' || addressCountry == null || addressCountry == 'undefined') { return; }
+    regCountry = regCountry[0].id.toUpperCase();
+    addressCountry = addressCountry[0].id.toUpperCase();
+    if (regCountry == addressCountry) { return; }
+
+    Alert.show('<font size="6" color="#FF9B1E"><b>Country of Company Registration</b></font>',
+        '<font size="3" color="#000000"></br>Country of Registration is different to that in the organisation’s address. <br> Is this correct?</br></br>Click "Yes" to continue <br> Click "No" to clear all of the registered company fields.</font>',
+        [
+            {
+                label: "<b>Yes</b>",
+                setFocus: true,
+                preventClose: false
+            },
+            {
+                label: "<b>No</b>",
+                callback: function () {
+                    formContext.getAttribute('ccrm_countryofcoregistrationid').setValue(null);
+                    formContext.getAttribute('arup_address3street1').setValue(null);
+                    formContext.getAttribute('arup_address3street2').setValue(null);
+                    formContext.getAttribute('arup_address3street3').setValue(null);
+                    formContext.getAttribute('arup_address3towncity').setValue(null);
+                    formContext.getAttribute('arup_address3zippostalcode').setValue(null);
+                    formContext.getAttribute('arup_address3stateprovince').setValue(null);
+                    formContext.getAttribute('arup_address3statecountyprovince').setValue(null);
+                },
+                setFocus: false,
+                preventClose: false
+            },
+        ],
+        "WARNING", 650, 250, formContext.context.getClientUrl(), true);   
+
+}
