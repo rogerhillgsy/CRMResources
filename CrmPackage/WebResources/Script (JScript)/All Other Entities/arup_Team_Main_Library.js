@@ -426,19 +426,18 @@ function DisplayOtherField_ec(executionContext, mainMultiSelectFieldName, otherO
 
 function DisplayOtherField(formContext, mainMultiSelectFieldName, otherOptionSetValue, otherFieldName) {
     var mainFieldSelectedValues = formContext.getAttribute(mainMultiSelectFieldName).getValue();
-    if (mainFieldSelectedValues == null) return;
-
-    var otherOption = mainFieldSelectedValues.includes(otherOptionSetValue);
-    if (otherOption) {
-        formContext.getControl(otherFieldName).setVisible(true);
+    if (mainFieldSelectedValues != null) {
+        var otherOption = mainFieldSelectedValues.includes(otherOptionSetValue);
+        if (otherOption) {
+            formContext.getControl(otherFieldName).setVisible(true);
+        } else {
+            formContext.getControl(otherFieldName).setVisible(false);
+            formContext.getAttribute(otherFieldName).setValue(null);
+        }
     } else {
         formContext.getControl(otherFieldName).setVisible(false);
+        formContext.getAttribute(otherFieldName).setValue(null);
     }
-}
-
-function DisplayOther(executionContext) {
-    var formContext = executionContext.getFormContext();
-
 }
 
 function ClientCommitmentto_onChange(executionContext) {
