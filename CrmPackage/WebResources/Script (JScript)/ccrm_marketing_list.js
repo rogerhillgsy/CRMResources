@@ -89,3 +89,10 @@ function errorHandler(error) {
 
 }
 
+function ExportMember(formContext) {
+    var gridContact = formContext.getControl("contactsUCI");
+    gridContact.setFocus(true);
+    setTimeout(function () {
+        XrmCore.Commands.Export.exportToExcel(gridContact, 'Contacts', 5);
+    }, 1000);
+}
