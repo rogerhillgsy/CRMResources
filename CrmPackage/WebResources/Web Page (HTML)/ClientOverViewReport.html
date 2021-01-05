@@ -1327,7 +1327,15 @@
                 "Getting relationship team");
         }
 
+        /**
+         * Generic function to fetch data from CRM and display it.
+         * @param {string} query - Odata query string such as accounts(guid)?$select=name
+         * @param {function} onData - called each time data is retrieved.
+         * @param {string} errorMessage - message to be displayed in the event of an error.
+         * @returns {Promise} promise -  a promise that will complete when all data has been returned. If the promise is rejected/ an error occurs an error dialog will be displayed.
+         */
         function GetCRMData(query, onData, errorMessage ) {
+            ///
             var p = new Promise(function(success, reject) {
                 $.ajax({
                     type: "GET",
