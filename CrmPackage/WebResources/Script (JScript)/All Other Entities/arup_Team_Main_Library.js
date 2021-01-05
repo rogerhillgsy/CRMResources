@@ -426,16 +426,21 @@ function DisplayOtherField_ec(executionContext, mainMultiSelectFieldName, otherO
 
 function DisplayOtherField(formContext, mainMultiSelectFieldName, otherOptionSetValue, otherFieldName) {
     var mainFieldSelectedValues = formContext.getAttribute(mainMultiSelectFieldName).getValue();
+    var requiredLevel;
+
     if (mainFieldSelectedValues != null) {
         var otherOption = mainFieldSelectedValues.includes(otherOptionSetValue);
         if (otherOption) {
-            formContext.getControl(otherFieldName).setVisible(true);
+            formContext.getAttribute(otherFieldName).setRequiredLevel('required');
+            formContext.getControl(otherFieldName).setDisabled(false);
         } else {
-            formContext.getControl(otherFieldName).setVisible(false);
+            formContext.getAttribute(otherFieldName).setRequiredLevel('none');
+            formContext.getControl(otherFieldName).setDisabled(true);
             formContext.getAttribute(otherFieldName).setValue(null);
         }
     } else {
-        formContext.getControl(otherFieldName).setVisible(false);
+        formContext.getAttribute(otherFieldName).setRequiredLevel('none');
+        formContext.getControl(otherFieldName).setDisabled(true);
         formContext.getAttribute(otherFieldName).setValue(null);
     }
 }
