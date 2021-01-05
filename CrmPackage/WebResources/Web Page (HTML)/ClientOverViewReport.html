@@ -3,9 +3,6 @@
 
     <meta charset="utf-8">
     <script src="../../ClientGlobalContext.js.aspx" type="text/javascript"></script>
-    <script src="../../ccrm_/JavaScripts/Lib/SDK.REST.js"></script>
-    <script src="../../ccrm_/JavaScripts/Lib/SDK.MetaData.js" type="text/javascript"></script>
-    <script src="../../ccrm_/JavaScripts/Lib/XrmServiceToolkit.min.js" type="text/javascript"></script>
     <script src="../../ccrm_/JavaScripts/D3V4.js"></script>
     <script src="../../ccrm_/JavaScripts/Lib/jquery_3.2.0.min"></script>
 
@@ -503,7 +500,7 @@
                         error: function(xhr, textStatus, errorThrown) {
                             var alertStrings = { confirmButtonLabel: "OK", text: textStatus, title: "Alert" };
                             var alertOptions = { height: 120, width: 260 };
-                            Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                            AlertDialog( alertStrings, alertOptions);
                         }
                     });
                     if (accounts.length > 0) {
@@ -598,7 +595,7 @@
                 error: function (xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
 
@@ -637,7 +634,7 @@
                 error: function (xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
 
@@ -714,7 +711,7 @@
                 error: function(xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
             var noteLst = [];
@@ -760,7 +757,7 @@
                 error: function(xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
             var connectionLst = [];
@@ -802,7 +799,7 @@
                 error: function(xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
             var recentActivitylst = [], planedActivitylst = [];
@@ -850,7 +847,7 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
@@ -888,7 +885,7 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
@@ -991,7 +988,7 @@
                 error: function(xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
 
@@ -1021,7 +1018,7 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
@@ -1096,7 +1093,7 @@
                 error: function(xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
             var opporLst = [];
@@ -1140,7 +1137,7 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
@@ -1161,7 +1158,7 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
@@ -1247,33 +1244,60 @@
         }
 
         function PopulateChildOrganizations() {
-            var entity = "Account";
-            var options =
-                "?$select=AccountId,Address1_City,Address1_Line1,Name,Telephone1&$top=5&$orderby=Name&$filter=ParentAccountId/Id eq (guid'" + accId + "') and StateCode/Value ne 1";
-            var retreive = SDK.REST.retrieveMultipleRecords(entity,
-                options,
-                function success(r) {
-                    childOrgs = $.merge(data, $.map(r,
-                        function (account) {
-                            //debugger;
-                            return {
-                                Name: account.Name,
-                                "Town/City": account.Address1_City,
-                                AccountId: account.AccountId,
-                                Address1_Line1: account.Address1_Line1,
-                                Telephone1: account.Telephone1,
-                            }
-                        }));
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/accounts?$select=accountid,address1_city,address1_line1,name,telephone1&$filter=_parentaccountid_value eq '"+ accId + "'  and  statecode ne 1&$orderby=name asc",
+                beforeSend: function (XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=5");
                 },
-                function error(r) {
-                    $("#dashboard").text("Ad error occurred: " + r);
+                success: function (r) {
+                    childOrgs = $.merge(data,
+                        $.map(r.value,
+                            function (account) {
+                                return {
+                                    Name: account.name,
+                                    "Town/City": account.address1_city,
+                                    AccountId: account.accountid,
+                                    Address1_Line1: account.address1_line1,
+                                    Telephone1: account.telephone1
+                                }
+                            }));
                 },
-                function complete(r) {
-                    if (childOrgs.length > 0) {
-                        DrawTable("#childorganizations", childOrgs, Object.keys(childOrgs[0]).slice(0, 2));
+                error: function (r) {
+                        $("#dashboard").text("Ad error occurred: " + r);
                     }
+            }).done( function() {
+                if (childOrgs.length > 0) {
+                    DrawTable("#childorganizations", childOrgs, Object.keys(childOrgs[0]).slice(0, 2));
                 }
-            )
+            });
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/systemusers?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20top%3D%225%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22systemuser%22%20%3E%3Cattribute%20name%3D%22fullname%22%20%2F%3E%3Cattribute%20name%3D%22systemuserid%22%20%2F%3E%3Cattribute%20name%3D%22title%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_arupofficeid%22%20alias%3D%22Office%22%20%2F%3E%3Cattribute%20name%3D%22businessunitid%22%20alias%3D%22Business%22%20%2F%3E%3Corder%20attribute%3D%22fullname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22teammembership%22%20from%3D%22systemuserid%22%20to%3D%22systemuserid%22%20visible%3D%22false%22%20intersect%3D%22true%22%20%3E%3Clink-entity%20name%3D%22team%22%20from%3D%22teamid%22%20to%3D%22teamid%22%20alias%3D%22af%22%20%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22ccrm_managingteamid%22%20to%3D%22teamid%22%20alias%3D%22ag%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20value%3D%22" + accId + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                beforeSend: function(XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                },
+                success: function(data, textStatus, xhr) {
+                    userRecords = data.value;
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+                    var alertOptions = { height: 120, width: 260 };
+                    AlertDialog( alertStrings, alertOptions);
+
+                }
+            });
         }
 
         function PopulateManagingTeamMembers() {
@@ -1296,7 +1320,7 @@
                 error: function(xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
 
                 }
             });
@@ -1331,7 +1355,7 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
@@ -1439,7 +1463,7 @@
                 error: function(xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
             var opporLst = [];
@@ -1474,7 +1498,7 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
@@ -1525,7 +1549,7 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
@@ -1675,7 +1699,7 @@
                     error: function(xhr, textStatus, errorThrown) {
                         var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 });
             }
@@ -1698,7 +1722,7 @@
                     error: function(xhr, textStatus, errorThrown) {
                         var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 });
             }
@@ -2564,6 +2588,12 @@
                 d.fx = null;
                 d.fy = null;
             }
+        }
+
+        function AlertDialog(alertStrings, alertOptions ) {
+            var promise = Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+            promise.finally(function() { Window.close() });
+            return promise;
         }
 
     </script>
