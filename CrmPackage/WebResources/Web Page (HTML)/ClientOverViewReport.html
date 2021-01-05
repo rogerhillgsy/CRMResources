@@ -234,7 +234,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div id="relationshipTeam"></div>
+                                    <div id="relationshipTeamMembers"></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -527,7 +527,7 @@
             }
             catch (err) { }
             try {
-                //PopulateManagingTeamMembers();
+                PopulateManagingTeamMembers();
             }
             catch (err) { }
             try {
@@ -1301,42 +1301,30 @@
         }
 
         function PopulateManagingTeamMembers() {
-            var userRecords;
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
-                url: clientURL + "/api/data/v9.1/systemusers?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20top%3D%225%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22systemuser%22%20%3E%3Cattribute%20name%3D%22fullname%22%20%2F%3E%3Cattribute%20name%3D%22systemuserid%22%20%2F%3E%3Cattribute%20name%3D%22title%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_arupofficeid%22%20alias%3D%22Office%22%20%2F%3E%3Cattribute%20name%3D%22businessunitid%22%20alias%3D%22Business%22%20%2F%3E%3Corder%20attribute%3D%22fullname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22teammembership%22%20from%3D%22systemuserid%22%20to%3D%22systemuserid%22%20visible%3D%22false%22%20intersect%3D%22true%22%20%3E%3Clink-entity%20name%3D%22team%22%20from%3D%22teamid%22%20to%3D%22teamid%22%20alias%3D%22af%22%20%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22ccrm_managingteamid%22%20to%3D%22teamid%22%20alias%3D%22ag%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20value%3D%22" + accId + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-                },
-                async: false,
-                success: function(data, textStatus, xhr) {
-                    userRecords = data.value;
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
-                    var alertOptions = { height: 120, width: 260 };
-                    AlertDialog( alertStrings, alertOptions);
-
-                }
-            });
             var userList = [];
-            if (userRecords.length > 0) {
-                for (var i = 0; i < userRecords.length; i++) {
-                    var fullname = userRecords[i].fullname != undefined ? userRecords[i].fullname : "";
-                    var Office = userRecords[i].Office != undefined ? userRecords[i]["Office@OData.Community.Display.V1.FormattedValue"] : "";
-                    var title = userRecords[i].title != undefined ? userRecords[i].title : "";
-                    var business = userRecords[i].Business != undefined ? userRecords[i]["Business@OData.Community.Display.V1.FormattedValue"] : "";
-
-                    var user = { "Name": fullname, "Arup Office": Office, Title: title, Business: business };
-                    userList.push(user);
-                }
-                DrawTable("#relationshipTeam", userList, Object.keys(userList[0]));
-            }
+            GetCRMData(
+                "accounts(" + accId + ")?$select=name&$expand=ccrm_clientgroupings($select=ccrm_name;$expand=ccrm_managingteam($select=name))",
+                function(result) {
+                    var teamid = result.ccrm_clientgroupings.ccrm_managingteam.teamid;
+                    GetCRMData("teams(" + teamid + ")?$select=name&$expand=teammembership_association($select=fullname,title,_ccrm_arupofficeid_value;$expand=ccrm_arupofficeid($select=ccrm_name),businessunitid($select=name))",
+                            function(members) {
+                                for (var i = 0; i < members.teammembership_association.length; i++) {
+                                    var member = members.teammembership_association[i];
+                                    var user = {
+                                        Name: member.fullname,
+                                       // "Arup Office": member.ccrm_arupofficeid["__DisplayName__"],
+                                        Title: member.title,
+                                        // Business: "?"
+                                    };
+                                    userList.push(user);
+                                }
+                            },
+                            "Getting relationship team members")
+                        .then(function() {
+                            DrawTable("#relationshipTeamMembers", userList, Object.keys(userList[0]));
+                        });
+                },
+                "Getting relationship team");
         }
 
         function GetCRMData(query, onData, errorMessage ) {
@@ -1370,7 +1358,7 @@
         }
 
         function PopulateBasicAccProfile() {
-            var query = "accounts(cf87e6b9-744c-e111-a698-78e7d16510d0)?$select=address1_addressid,address1_city,address1_country,address1_line1,address1_line2,address1_line3,address1_postalcode,arup_clientscovid19bcadvised,ccrm_clienttype,_ccrm_keyaccountmanagerid_value,_ccrm_managingteamid_value,description,name,_parentaccountid_value,statuscode,telephone1,websiteurl,arup_clientsector";
+            var query = "accounts("+accId+")?$select=address1_addressid,address1_city,address1_country,address1_line1,address1_line2,address1_line3,address1_postalcode,arup_clientscovid19bcadvised,ccrm_clienttype,_ccrm_keyaccountmanagerid_value,_ccrm_managingteamid_value,description,name,_parentaccountid_value,statuscode,telephone1,websiteurl,arup_clientsector";
             var basicProfile = {};
             GetCRMData(query,
                 function(result) {
