@@ -1339,75 +1339,66 @@
             }
         }
 
-        function PopulateBasicAccProfile() {
-            var oppty;
-            var req = new XMLHttpRequest();
-            req.open("GET", clientURL + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'account'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'status'%20%2F%3E%3Cattribute%20name%3D'primarycontactid'%20%2F%3E%3Cattribute%20name%3D'parentaccountid'%20alias%3D'ParentOrganisation'%2F%3E%3Cattribute%20name%3D'ccrm_managingteamid'%20alias%3D'ManagingTeam'%2F%3E%3Cattribute%20name%3D'ccrm_clienttype'%20alias%3D'Clienttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientsectorpicklistname'%20alias%3D'ClientSectors'%2F%3E%3Cattribute%20name%3D'websiteurl'%20alias%3D'weburl'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%3D'telephone'%2F%3E%3Cattribute%20name%3D'ccrm_keyaccountmanagerid'%2F%3E%3Cattribute%20name%3D'description'%2F%3E%3Cattribute%20name%3D'address1_postalcode'%20%2F%3E%3Cattribute%20name%3D'address1_line3'%20%2F%3E%3Cattribute%20name%3D'address1_line2'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'accountid'%20operator%3D'eq'%20value%3D'"+accId+"'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            req.onreadystatechange = function() {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 200) {
-                        oppty = JSON.parse(this.response).value;
-                    } else {
-                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+        function GetCRMData(query, onData, errorMessage ) {
+            var p = new Promise(function(success, reject) {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    url: clientURL + "/api/data/v9.1/" + query,
+                    beforeSend: function(xmlHttpRequest) {
+                        xmlHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                        xmlHttpRequest.setRequestHeader("OData-Version", "4.0");
+                        xmlHttpRequest.setRequestHeader("Accept", "application/json");
+                        xmlHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                    },
+                    async: true,
+                    success : function(data, testStatus, xhr) {
+                        onData(data.value || data );
+                    },
+                    error : function(xhr, textStatus, errorThrown) {
+                        var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert "  + errorMessage};
                         var alertOptions = { height: 120, width: 260 };
                         AlertDialog( alertStrings, alertOptions);
+                        reject();
                     }
-                }
-            };
-            req.send();
+                }).done(function() {
+                    success();
+                });
+            });
+            return p;
+        }
 
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='account'>" +
-                "<attribute name='name' />" +
-                "<attribute name='accountid' />" +
-                "<attribute name='statuscode' alias='status' />" +
-                "<attribute name='primarycontactid' />" +
-                "<attribute name='parentaccountid' alias='ParentOrganisation'/>" +
-                "<attribute name='ccrm_managingteamid' alias='ManagingTeam'/>" +
-                "<attribute name='ccrm_clienttype' alias='Clienttype' />" +
-                "<attribute name='ccrm_clientsectorpicklistname' alias='ClientSectors'/>" +
-                "<attribute name='websiteurl' alias='weburl'/>" +
-                "<attribute name='telephone1' alias='telephone'/>" +
-                "<attribute name='ccrm_keyaccountmanagerid'/>" +
-                "<attribute name='description'/>" +
-                "<attribute name='address1_postalcode' />" +
-                "<attribute name='address1_line3' />" +
-                "<attribute name='address1_line2' />" +
-                "<attribute name='address1_line1' />" +
-                "<attribute name='address1_city' />" +
-                "<filter type='and'>" +
-                "<condition attribute='accountid' operator='eq' value='" + accId + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
-            if (oppty.length > 0) {
-                var result = oppty[0];
-                var basicProfile = {
-                    accountId: result.accountid,
-                    address_comosite: result.address1_composite != undefined ? result.address1_composite : "",
-                    address1_City: result.address1_city != undefined ? result.address1_city : "",
-                    address1_Line1: result.address1_line1 != undefined ? result.address1_line1 : "",
-                    address1_Line2: result.address1_line2 != undefined ? result.address1_line2 : "",
-                    address1_Line3: result.address1_line3 != undefined ? result.address1_line3 : "",
-                    address1_PostalCode: result.address1_postalcode != undefined ? result.address1_postalcode : "",
-                    ccrm_ClientSectorValue: result.ClientSectors != undefined ? result.ClientSectors : "",
-                    ccrm_ClientType: result.Clienttype != undefined ? result["Clienttype@OData.Community.Display.V1.FormattedValue"] : "",
-                    ccrm_keyaccountmanagerid: result.ccrm_keyaccountmanagerid != undefined ? result.ccrm_keyaccountmanagerid : "",
-                    ccrm_managingteamid: result.ManagingTeam != undefined ? result["ManagingTeam@OData.Community.Display.V1.FormattedValue"] : "",
-                    description: result.description != undefined ? result.description : "",
-                    name: result.name != undefined ? result.name : "",
-                    parentAccountId: result.ParentOrganisation != undefined ? result["ParentOrganisation@OData.Community.Display.V1.FormattedValue"] : "",
-                    statusCode: result.status,
-                    telephone1: result.telephone != undefined ? result.telephone : "",
-                    webSiteURL: result.weburl != undefined ? result.weburl : ""
-                };
-                AssociateProfileDataWithReport(basicProfile);
-            }
+        function PopulateBasicAccProfile() {
+            var query = "accounts(cf87e6b9-744c-e111-a698-78e7d16510d0)?$select=address1_addressid,address1_city,address1_country,address1_line1,address1_line2,address1_line3,address1_postalcode,arup_clientscovid19bcadvised,ccrm_clienttype,_ccrm_keyaccountmanagerid_value,_ccrm_managingteamid_value,description,name,_parentaccountid_value,statuscode,telephone1,websiteurl,arup_clientsector";
+            var basicProfile = {};
+            GetCRMData(query,
+                function(result) {
+                    var clientSector = result["arup_clientsector@OData.Community.Display.V1.FormattedValue"];
+                    basicProfile = {
+                        accountId: result.accountid,
+                        address_comosite: result.address1_composite != undefined ? result.address1_composite : "",
+                        address1_City: result.address1_city != undefined ? result.address1_city : "",
+                        address1_Line1: result.address1_line1 != undefined ? result.address1_line1 : "",
+                        address1_Line2: result.address1_line2 != undefined ? result.address1_line2 : "",
+                        address1_Line3: result.address1_line3 != undefined ? result.address1_line3 : "",
+                        address1_PostalCode: result.address1_postalcode != undefined ? result.address1_postalcode : "",
+                        ccrm_ClientSectorValue: result["arup_clientsector@OData.Community.Display.V1.FormattedValue"] || "",
+                        ccrm_ClientType: result["ccrm_clienttype@OData.Community.Display.V1.FormattedValue"] || "",
+                        ccrm_keyaccountmanager: result["_ccrm_keyaccountmanagerid_value@OData.Community.Display.V1.FormattedValue"],
+                        ccrm_managingteam: result["_ccrm_managingteamid_value@OData.Community.Display.V1.FormattedValue"] || "",
+                        description: result.description || "",
+                        name: result.name || "",
+                        parentAccount: result["_parentaccountid_value@OData.Community.Display.V1.FormattedValue"] || "",
+                        statusCode: result.status,
+                        telephone1: result.telephone1 || "",
+                        webSiteURL:  result.websiteurl || "" // ??
+                    };
+                },
+                "Getting Basic profile data")
+                .then(function() {
+                     AssociateProfileDataWithReport(basicProfile)
+                });
         }
    
 
@@ -1431,11 +1422,11 @@
             accName = profileData.name;
             $("#accountName").text(profileData.name);
             $("#website").text(profileData.webSiteURL);
-            $("#relationshipmanager").text(profileData.ccrm_keyaccountmanagerid);
-            if (profileData.parentAccountId != null) {
-                $("#parentOrg").text(profileData.parentAccountId);
+            $("#relationshipmanager").text(profileData.ccrm_keyaccountmanager);
+            if (profileData.parentAccount != null) {
+                $("#parentOrg").text(profileData.parentAccount);
             }
-            $("#relationshipteam").text(profileData.ccrm_managingteamid);
+            $("#relationshipteam").text(profileData.ccrm_managingteam);
             $("#phonenum").text(profileData.telephone1);
             $("#address").text(address);
             $("#clientType").text(profileData.ccrm_ClientType);
