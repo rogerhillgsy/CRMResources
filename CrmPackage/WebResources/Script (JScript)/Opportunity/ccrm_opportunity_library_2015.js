@@ -84,7 +84,7 @@ var PMPDRegionAccreditationValues = {
     '25caaa4f-d139-e011-9cf6-78e7d16510d0': 100000007 //'UKIMEA Region' 
 }
 
-
+var arupCompanyCode;
 var stageFilter = [ArupStages.Lead, ArupStages.CrossRegion, ArupStages.BidDevelopment, ArupStages.BidSubmitted, ArupStages.ConfirmJob];
 var oldBidReviewChair;
 var moveToNextTrigger = false;
@@ -2774,6 +2774,19 @@ function requestPossibleJob(formContext) {
                     },
                 ], "WARNING", 600, 250, ClientUrl, true);
         }
+
+        if (arupCompanyCode == '5006') {
+            Alert.show('<font size="6" color="#F69922"><b>Invalid Company for PJN</b></font>',
+                '<font size="3" color="#000000"></br>' + 'PJN cannot be requested for company Arup US, INC (5006).' + '</font>',
+                [
+                    {
+                        label: "<b>OK</b>",
+                        setFocus: true
+                    },
+                ], "WARNING", 600, 250, ClientUrl, true);
+
+            return;
+        }
     }
 
     SetFieldRequirementForPreBidStage(formContext);
@@ -2877,6 +2890,7 @@ function denyArupCompanyPJN(formContext, companyID) {
             if (this.status === 200) {
                 var result = JSON.parse(this.response);
                 companyCode = result["ccrm_acccentrelookupcode"];
+                arupCompanyCode = result["ccrm_acccentrelookupcode"];
             } else {
                 Xrm.Navigation.openAlertDialog(this.statusText);
             }
@@ -6275,7 +6289,7 @@ function IsFormValidForCJN(formContext) {
 }
 
 function requestConfirmJob(formContext) {
-
+  
 
     if (IsFormValidForCJN(formContext)) {
         if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
