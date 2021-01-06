@@ -1339,7 +1339,12 @@
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\arup_FrameworkButtonCommand.js">
       <DisplayName>arup_FrameworkButtonCommand</DisplayName>
-      <UniqueName>new_arup_FrameworkButtonCommand</UniqueName>
+      <UniqueName>arup_FrameworkButtonCommand</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\arup_hide_addnewrecord_subgrid.js">
+      <DisplayName>arup_hide_addnewrecord_subgrid</DisplayName>
+      <UniqueName>new_arup_hide_addnewrecord_subgrid</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Contact\arup_contactRejectionReason.htm">
@@ -1869,7 +1874,7 @@
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_FrameworkButtons.htm">
       <DisplayName>arup_FrameworkButtons</DisplayName>
-      <UniqueName>new_arup_FrameworkButtons</UniqueName>
+      <UniqueName>arup_FrameworkButtons</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page (HTML)\arup_DuplicateCheckResult.html">

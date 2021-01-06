@@ -26,6 +26,11 @@ function formOnLoadTeams(executionContext) {
     EnsureIsTeamMember(formContext, "ccrm_arupsponsor");
     EnsureClientValuesSet(formContext);
     formContext.getControl("ccrm_arupsponsor").setDefaultView("{26B373CD-C7CC-E811-8115-005056B509E1}");    
+
+    DisplayOtherField(formContext, 'arup_sdcommitmentto', 587320006, 'arup_sdcommitmentother');
+    DisplayOtherField(formContext, 'arup_verifiedcommitments', 587320005, 'arup_verifiedcommitmentother');
+    DisplayOtherField(formContext, 'arup_unverifiedcommitments', 587320004, 'arup_unverifiedcommitmentother');
+    ClientCommitmentto_onChange(executionContext);
 }
 
 function SetDefaultBusinessUnit(formContext) {
@@ -397,3 +402,83 @@ function openFOPForm(primaryControl) {
 
 }
 
+function PlannedActivities_OnChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var plannedActivities = formContext.getAttribute("arup_plannedactivitieswithclient").getValue();
+
+    if (plannedActivities != null) {
+        formContext.getAttribute("arup_dateupdated").setValue(new Date());
+    }
+}
+
+function SDActivities_OnChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var SDActivities = formContext.getAttribute("ccrm_actionsonsustainabilitywithclient").getValue();
+
+    if (SDActivities != null) {
+        formContext.getAttribute("arup_sddateupdated").setValue(new Date());
+    }
+}
+function DisplayOtherField_ec(executionContext, mainMultiSelectFieldName, otherOptionSetValue, otherFieldName) {
+    var formContext = executionContext.getFormContext();
+    DisplayOtherField(formContext, mainMultiSelectFieldName, otherOptionSetValue, otherFieldName)
+}
+
+function DisplayOtherField(formContext, mainMultiSelectFieldName, otherOptionSetValue, otherFieldName) {
+    var mainFieldSelectedValues = formContext.getAttribute(mainMultiSelectFieldName).getValue();
+    var requiredLevel;
+
+    if (mainFieldSelectedValues != null) {
+        var otherOption = mainFieldSelectedValues.includes(otherOptionSetValue);
+        if (otherOption) {
+            formContext.getAttribute(otherFieldName).setRequiredLevel('required');
+            formContext.getControl(otherFieldName).setDisabled(false);
+        } else {
+            formContext.getAttribute(otherFieldName).setRequiredLevel('none');
+            formContext.getControl(otherFieldName).setDisabled(true);
+            formContext.getAttribute(otherFieldName).setValue(null);
+        }
+    } else {
+        formContext.getAttribute(otherFieldName).setRequiredLevel('none');
+        formContext.getControl(otherFieldName).setDisabled(true);
+        formContext.getAttribute(otherFieldName).setValue(null);
+    }
+}
+
+function ClientCommitmentto_onChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var commitmenttonetzeroemissions = formContext.getAttribute("ccrm_commitmenttonetzeroemissions").getValue();
+    if (commitmenttonetzeroemissions) {
+        ShowFields(formContext, true, "arup_verifiedcommitments", "arup_unverifiedcommitments", "arup_scopeofcommitment");
+    } else {
+        ShowFields(formContext, false, "arup_verifiedcommitments", "arup_unverifiedcommitments", "arup_scopeofcommitment", "arup_verifiedcommitmentother","arup_unverifiedcommitmentother");
+        ClearFields(formContext, "arup_verifiedcommitments", "arup_unverifiedcommitments", "arup_scopeofcommitment", "arup_verifiedcommitmentother", "arup_unverifiedcommitmentother");
+    }
+
+}
+
+function ShowFields(formContext, isVisible, listOfFields) {
+    /// <summary>Hide Show Fields</summary>
+    /// <param name="fieldName">One or more field names that are to be enabled.</param>
+    for (var field in arguments) {
+        if (field != 0 && field != 1) {
+            var control = formContext.getControl(arguments[field]);
+            if (control != null) {
+                control.setVisible(isVisible);
+            }
+        }
+    }
+}
+
+function ClearFields(formContext, fieldName) {
+    for (var field in arguments) {
+        if (field != 0) {
+            var attrName = arguments[field];
+            var controlName = attrName;
+            var control = formContext.getAttribute(controlName);
+            if (control != null) {
+                control.setValue(null);
+            }
+        }
+    }
+}

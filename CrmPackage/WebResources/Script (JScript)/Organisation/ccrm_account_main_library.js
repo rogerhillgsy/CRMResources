@@ -99,6 +99,7 @@ function Form_onload(executionContext) {
         formContext.getControl('arup_duediligencecheck').removeOption(2);
         var status = "";
         retreiveTeamDetails(formContext, status);
+        setCompanyRegistrationRequired(formContext);
     }
     formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
 }
@@ -250,6 +251,7 @@ function country_onChange(executionContext) {
     canada_visibility(formContext);
     established_government_client_visibility(formContext);
     hideShowAmericasFields(formContext);
+    setCompanyRegistrationRequired(formContext);
 }
 
 function countryID_onChange(executionContext) {
@@ -1159,6 +1161,76 @@ function retreiveTeamDetails(formContext, status) {
         };
         req.send();
     }
+}
+
+function setCompanyRegistrationRequired(formContext) {
+    //If Organisation is in Aus region, set Company Registaryion Required
+    if (formContext.getAttribute("ccrm_countryid").getValue() != null && formContext.getAttribute("ccrm_countryid").getValue() != "undefined") {
+        var countryId = formContext.getAttribute("ccrm_countryid").getValue()[0].id.replace('{', '').replace('}', '');
+
+        var req = new XMLHttpRequest();
+        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/ccrm_countries("+countryId+")?$select=_ccrm_arupregionid_value", true);
+        req.setRequestHeader("OData-MaxVersion", "4.0");
+        req.setRequestHeader("OData-Version", "4.0");
+        req.setRequestHeader("Accept", "application/json");
+        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+        req.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 200) {
+                    var result = JSON.parse(this.response);
+                    var arupRegionName = result["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
+
+                    var requiredLevel = arupRegionName.toUpperCase() == "AUSTRALASIA REGION" ? 'required' : 'none';
+                    formContext.getAttribute("ccrm_taxregistrationno").setRequiredLevel(requiredLevel);
+                } else {
+                    Xrm.Navigation.openAlertDialog(this.statusText);
+                }
+            }
+        };
+        req.send();
+    }
+}
+
+function validateRegistrationCountry(executionContext) {
+
+    var formContext = executionContext.getFormContext();
+    var regCountry = formContext.getAttribute('ccrm_countryofcoregistrationid').getValue();
+    var addressCountry = formContext.getAttribute('ccrm_countryid').getValue();
+
+    if (regCountry == null || regCountry == 'undefined' || addressCountry == null || addressCountry == 'undefined') { return; }
+    regCountry = regCountry[0].id.toUpperCase();
+    addressCountry = addressCountry[0].id.toUpperCase();
+    if (regCountry == addressCountry) { return; }
+
+    Alert.show('<font size="6" color="#FF9B1E"><b>Country of Company Registration</b></font>',
+        '<font size="3" color="#000000"></br>Country of Registration is different to that in the organisation’s address. <br> Is this correct?</br></br>Click "Yes" to continue <br> Click "No" to clear all of the registered company fields.</font>',
+        [
+            {
+                label: "<b>Yes</b>",
+                setFocus: true,
+                preventClose: false
+            },
+            {
+                label: "<b>No</b>",
+                callback: function () {
+                    formContext.getAttribute('ccrm_countryofcoregistrationid').setValue(null);
+                    formContext.getAttribute('arup_address3street1').setValue(null);
+                    formContext.getAttribute('arup_address3street2').setValue(null);
+                    formContext.getAttribute('arup_address3street3').setValue(null);
+                    formContext.getAttribute('arup_address3towncity').setValue(null);
+                    formContext.getAttribute('arup_address3zippostalcode').setValue(null);
+                    formContext.getAttribute('arup_address3stateprovince').setValue(null);
+                    formContext.getAttribute('arup_address3statecountyprovince').setValue(null);
+                },
+                setFocus: false,
+                preventClose: false
+            },
+        ],
+        "WARNING", 650, 250, formContext.context.getClientUrl(), true);   
+
+}
 }
 
 function XrmOpenAlertDialog(message) {

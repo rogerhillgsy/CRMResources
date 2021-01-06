@@ -3,6 +3,10 @@
     parent.formContext = formContext;
     setInterval(changeHeaderTileFormat, 1000);
     multiDiscipline_onChange(executionContext);
+    if (formContext.ui.getFormType() != 1) {
+        parent.entityId = formContext.data.entity.getId();
+        RefreshWebResource(formContext, "WebResource_FrameworkButton");
+    }
 }
 
 function changeHeaderTileFormat() {
@@ -18,7 +22,7 @@ function changeHeaderTileFormat() {
 
 function openSecuredFramework(primaryControl) {
     var formContext = primaryControl;
-    var frameworkId = formContext.entityReference.id.replace('{', '').replace('}', '');
+    var frameworkId = formContext.data.entity.getId().replace('{', '').replace('}', '');
     if (frameworkId == null) return;
 
     // check if arup_frameworksecured record has already been created
@@ -30,7 +34,7 @@ function openSecuredFramework(primaryControl) {
         entityFormOptions["entityName"] = "arup_frameworksecured";
         entityFormOptions["entityId"] = frameworkIdSecured;
         // Set default values for the Contact form
-        Xrm.Navigation.openForm(entityFormOptions);
+        Xrm.Navigation.openForm(entityFormOptions); 
         return;
     }
 
@@ -160,5 +164,63 @@ function multiDiscipline_onChange(executionContext) {
             formContext.getAttribute("arup_disciplines_ms").setRequiredLevel('required');
             break;
     }
+
+}
+
+function RefreshWebResource(formContext, webResourceName) {
+    var webResource = formContext.getControl(webResourceName);
+    if (webResource != null) {
+        var obj = webResource.getObject();
+        if (!!obj ) obj.contentWindow.location.reload();
+    }
+}
+
+function ManagementFee_OnChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    //yes-Lum Sum Charged
+    if (formContext.getAttribute("arup_managementfee").getValue() == '587320001') {
+       GetUserCompany(formContext, Xrm.Utility.getGlobalContext().userSettings.userId.replace("{", "").replace("}", ""));
+    }
+}
+
+function GetUserCompany(formContext, userId) {
+
+    var req = new XMLHttpRequest();
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/systemusers(" + userId +")?$select=_ccrm_arupcompanyid_value", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var result = JSON.parse(this.response);
+                var _ccrm_arupcompanyid_value = result["_ccrm_arupcompanyid_value"];
+                setTransactionCurrency(formContext, _ccrm_arupcompanyid_value)
+            } else {
+                Xrm.Navigation.openAlertDialog(this.statusText);
+            }
+        }
+    };
+    req.send();
+}
+
+function setTransactionCurrency(formContext, arupCompanyID) {
+    Xrm.WebApi.online.retrieveRecord("ccrm_arupcompany", arupCompanyID, "?$select=_ccrm_currencyid_value").then(
+        function success(result) {
+            if (result != null) {
+                if (result["_ccrm_currencyid_value"] != null) {
+                    formContext.getAttribute("arup_chargecurrency").setValue([{
+                        id: result["_ccrm_currencyid_value"], name: result["_ccrm_currencyid_value@OData.Community.Display.V1.FormattedValue"], entityType: "transactioncurrency" }]);
+
+                }                
+            }
+        },
+        function (error) {
+            Xrm.Navigation.openAlertDialog(error.message);
+        }
+    );
 
 }
