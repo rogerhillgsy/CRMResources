@@ -62,7 +62,7 @@
         }
 
         .bar rect {
-            //fill: steelblue;
+            /* fill: steelblue; */
         }
 
         .bar text {
@@ -1269,8 +1269,8 @@
                             }));
                 },
                 error: function (r) {
-                        $("#dashboard").text("Ad error occurred: " + r);
-                    }
+                    $("#dashboard").text("Ad error occurred: " + r);
+                }
             }).done( function() {
                 if (childOrgs.length > 0) {
                     DrawTable("#childorganizations", childOrgs, Object.keys(childOrgs[0]).slice(0, 2));
