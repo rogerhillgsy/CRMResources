@@ -601,7 +601,6 @@
 
             if (fetchexchangerates.length > 0) {
                 for (var i = 0; i < fetchexchangerates.length; i++) {
-                    //debugger;
                     var exchangeNode = fetchexchangerates[i];
                     if (exchangeNode.exchangerate != undefined) {
 
@@ -717,7 +716,6 @@
             var noteLst = [];
             if (notes.length > 0) {
                 for (var i = 0; i < notes.length; i++) {
-                    //debugger;
                     var note = notes[i];
                     if (note.notetext != undefined && note.notetext.length > 0) {
 
@@ -738,99 +736,63 @@
         }
 
         function PopulateConnection() {
-            var connections;
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
-                url: clientURL + "/api/data/v9.1/connections?fetchXml=%3Cfetch%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22connection%22%20%3E%3Cattribute%20name%3D%22record1id%22%20alias%3D%22Contact%22%20%2F%3E%3Cattribute%20name%3D%22record2id%22%20alias%3D%22CRM_User%22%20%2F%3E%3Corder%20attribute%3D%22record1id%22%20descending%3D%22false%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22statuscodename%22%20operator%3D%22eq%22%20value%3D%22Active%22%20%2F%3E%3Ccondition%20attribute%3D%22record1objecttypecode%22%20operator%3D%22eq%22%20value%3D%222%22%20%2F%3E%3Ccondition%20attribute%3D%22record2objecttypecode%22%20operator%3D%22eq%22%20value%3D%228%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22contact%22%20from%3D%22contactid%22%20to%3D%22record1id%22%20link-type%3D%22inner%22%20alias%3D%22co%22%20%3E%3Cattribute%20name%3D%22accountrolecode%22%20%2F%3E%3Cattribute%20name%3D%22jobtitle%22%20%2F%3E%3Cattribute%20name%3D%22emailaddress1%22%20%2F%3E%3Cattribute%20name%3D%22accountrolecodename%22%20%2F%3E%3Cattribute%20name%3D%22contactid%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22statuscodename%22%20operator%3D%22eq%22%20value%3D%22Active%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22parentcustomerid%22%20link-type%3D%22inner%22%20alias%3D%22ac%22%20%3E%3Cattribute%20name%3D%22accountid%22%20%2F%3E%3Cattribute%20name%3D%22name%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22statuscodename%22%20operator%3D%22eq%22%20value%3D%22Active%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-                },
-                async: false,
-                success: function(data, textStatus, xhr) {
-                    connections = data.value;
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
-                    var alertOptions = { height: 120, width: 260 };
-                    AlertDialog( alertStrings, alertOptions);
-                }
-            });
-            var connectionLst = [];
-            if (connections.length > 0) {
-                for (var i = 0; i < connections.length; i++) {
-                    //debugger;
-                    var connection = connections[i];
-                    var contact = connection.Contact != undefined ? connection.Contact : "";
-                    var jobTitle = connection['co.jobtitle'] != undefined ? connection['co.jobtitle'] : "";
-                    var userName = connection.CRM_User != undefined ? connection.CRM_User : "";
+            var query = "connections?fetchXml=%3Cfetch%20distinct%3D%22true%22%20%3E%0A%20%20%3Centity%20name%3D%22connection%22%20%3E%0A%20%20%20%20%3Cattribute%20name%3D%22record1id%22%20alias%3D%22Contact%22%20%2F%3E%0A%20%20%20%20%3Cattribute%20name%3D%22record2id%22%20alias%3D%22CRM_User%22%20%2F%3E%0A%20%20%20%20%3Corder%20attribute%3D%22record1id%22%20descending%3D%22false%22%20%2F%3E%0A%20%20%20%20%3Cfilter%3E%0A%20%20%20%20%20%20%3Ccondition%20attribute%3D%22statuscode%22%20operator%3D%22eq%22%20value%3D%221%22%20%2F%3E%0A%20%20%20%20%20%20%3Ccondition%20attribute%3D%22record1objecttypecode%22%20operator%3D%22eq%22%20value%3D%222%22%20%2F%3E%0A%20%20%20%20%20%20%3Ccondition%20attribute%3D%22record2objecttypecode%22%20operator%3D%22eq%22%20value%3D%228%22%20%2F%3E%0A%20%20%20%20%3C%2Ffilter%3E%0A%20%20%20%20%3Clink-entity%20name%3D%22contact%22%20from%3D%22contactid%22%20to%3D%22record1id%22%20link-type%3D%22inner%22%20alias%3D%22co%22%20%3E%0A%20%20%20%20%20%20%3Cattribute%20name%3D%22fullname%22%20%2F%3E%0A%20%20%20%20%20%20%3Cattribute%20name%3D%22accountrolecode%22%20%2F%3E%0A%20%20%20%20%20%20%3Cattribute%20name%3D%22jobtitle%22%20%2F%3E%0A%20%20%20%20%20%20%3Cattribute%20name%3D%22emailaddress1%22%20%2F%3E%0A%20%20%20%20%20%20%3Cattribute%20name%3D%22accountrolecodename%22%20%2F%3E%0A%20%20%20%20%20%20%3Cattribute%20name%3D%22contactid%22%20%2F%3E%0A%20%20%20%20%20%20%3Cfilter%20type%3D%22and%22%20%3E%0A%20%20%20%20%20%20%20%20%3Ccondition%20attribute%3D%22statuscode%22%20operator%3D%22eq%22%20value%3D%221%22%20%2F%3E%0A%20%20%20%20%20%20%3C%2Ffilter%3E%0A%20%20%20%20%20%20%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22parentcustomerid%22%20link-type%3D%22inner%22%20alias%3D%22ac%22%20%3E%0A%20%20%20%20%20%20%20%20%3Cattribute%20name%3D%22accountid%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%3Cattribute%20name%3D%22name%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%3Cfilter%20type%3D%22and%22%20%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20value%3D%22" + accId+"%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccondition%20attribute%3D%22statuscode%22%20operator%3D%22eq%22%20value%3D%221%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2Ffilter%3E%0A%20%20%20%20%20%20%3C%2Flink-entity%3E%0A%20%20%20%20%3C%2Flink-entity%3E%0A%20%20%3C%2Fentity%3E%0A%3C%2Ffetch%3E";
+            var connectionList = [];
+            GetCRMData(query,
+                    function(results) {
+                        for (var i = 0; i < results.length; i++) {
+                            var connection = results[i];
+                            var contact = connection["co.fullname"] || "";
+                            var jobTitle = connection['co.jobtitle'] || "";
+                            var userName = connection["CRM_User@OData.Community.Display.V1.FormattedValue"] || "";
 
-                    var conn = {
-                        "Contact": contact, "Job Title": jobTitle, "CRM User": userName
-                    };
-                    connectionLst.push(conn);
-                }
-                DrawMatrixTable("#connectionMatrix", connectionLst);
-                //DrawMatrixForceLayout("#connectionMatrix", connectionLst);
-            }
+                            var conn = {
+                                "Contact": contact, "Job Title": jobTitle, "CRM User": userName
+                            };
+                            connectionList.push(conn);
+                        }
+                    },
+                    "Getting connections")
+                .then(function() {
+                    DrawMatrixTable("#connectionMatrix", connectionList);
+                });
         }
 
         function PopulateRecentActivities() {
-            var activityRecords;
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
-                url: clientURL + "/api/data/v9.1/activitypointers?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20count%3D%225%22%20%3E%3Centity%20name%3D%22activitypointer%22%20%3E%3Cattribute%20name%3D%22activitytypecode%22%20%2F%3E%3Cattribute%20name%3D%22subject%22%20%2F%3E%3Cattribute%20name%3D%22activityid%22%20%2F%3E%3Cattribute%20name%3D%22instancetypecode%22%20%2F%3E%3Cattribute%20name%3D%22ownerid%22%20%2F%3E%3Cattribute%20name%3D%22createdon%22%20%2F%3E%3Cattribute%20name%3D%22statecode%22%20%2F%3E%3Corder%20attribute%3D%22createdon%22%20descending%3D%22true%22%20%2F%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22regardingobjectid%22%20alias%3D%22aj%22%20link-type%3D%22outer%22%20%2F%3E%3Clink-entity%20name%3D%22contact%22%20from%3D%22contactid%22%20to%3D%22regardingobjectid%22%20alias%3D%22ac%22%20link-type%3D%22outer%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22isworkflowcreated%22%20operator%3D%22eq%22%20value%3D%220%22%20%2F%3E%3Ccondition%20attribute%3D%22statecode%22%20operator%3D%22in%22%20%3E%3Cvalue%3E1%3C%2Fvalue%3E%3Cvalue%3E3%3C%2Fvalue%3E%3Cvalue%3E0%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20attribute%3D%22activitytypecode%22%20operator%3D%22in%22%20%3E%3Cvalue%3E4201%3C%2Fvalue%3E%3Cvalue%3E4202%3C%2Fvalue%3E%3Cvalue%3E4204%3C%2Fvalue%3E%3Cvalue%3E4207%3C%2Fvalue%3E%3Cvalue%3E4210%3C%2Fvalue%3E%3Cvalue%3E4212%3C%2Fvalue%3E%3C%2Fcondition%3E%3Cfilter%20type%3D%22or%22%20%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22under%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20entityname%3D%22ac%22%20attribute%3D%22parentcustomerid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22regardingobjectid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + parentaccountid + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-                },
-                async: false,
-                success: function(data, textStatus, xhr) {
-                    activityRecords = data.value;
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
-                    var alertOptions = { height: 120, width: 260 };
-                    AlertDialog( alertStrings, alertOptions);
-                }
-            });
             var recentActivitylst = [], planedActivitylst = [];
-            if (activityRecords.length > 0) {
-                for (var i = 0; i < activityRecords.length; i++) {
-                    //debugger;
-                    var activity = activityRecords[i];
-                    var subject = activity.subject != undefined ? activity.subject : "";
-                    var createdDate = activity.createdon != undefined ? activity["createdon@OData.Community.Display.V1.FormattedValue"] : "";
-                    var owner = activity._ownerid_value != undefined ? activity["_ownerid_value@OData.Community.Display.V1.FormattedValue"] : "";
+            GetCRMData(
+                "activitypointers?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20count%3D%225%22%20%3E%3Centity%20name%3D%22activitypointer%22%20%3E%3Cattribute%20name%3D%22activitytypecode%22%20%2F%3E%3Cattribute%20name%3D%22subject%22%20%2F%3E%3Cattribute%20name%3D%22activityid%22%20%2F%3E%3Cattribute%20name%3D%22instancetypecode%22%20%2F%3E%3Cattribute%20name%3D%22ownerid%22%20%2F%3E%3Cattribute%20name%3D%22createdon%22%20%2F%3E%3Cattribute%20name%3D%22statecode%22%20%2F%3E%3Corder%20attribute%3D%22createdon%22%20descending%3D%22true%22%20%2F%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22regardingobjectid%22%20alias%3D%22aj%22%20link-type%3D%22outer%22%20%2F%3E%3Clink-entity%20name%3D%22contact%22%20from%3D%22contactid%22%20to%3D%22regardingobjectid%22%20alias%3D%22ac%22%20link-type%3D%22outer%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22isworkflowcreated%22%20operator%3D%22eq%22%20value%3D%220%22%20%2F%3E%3Ccondition%20attribute%3D%22statecode%22%20operator%3D%22in%22%20%3E%3Cvalue%3E1%3C%2Fvalue%3E%3Cvalue%3E3%3C%2Fvalue%3E%3Cvalue%3E0%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20attribute%3D%22activitytypecode%22%20operator%3D%22in%22%20%3E%3Cvalue%3E4201%3C%2Fvalue%3E%3Cvalue%3E4202%3C%2Fvalue%3E%3Cvalue%3E4204%3C%2Fvalue%3E%3Cvalue%3E4207%3C%2Fvalue%3E%3Cvalue%3E4210%3C%2Fvalue%3E%3Cvalue%3E4212%3C%2Fvalue%3E%3C%2Fcondition%3E%3Cfilter%20type%3D%22or%22%20%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22under%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20entityname%3D%22ac%22%20attribute%3D%22parentcustomerid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22regardingobjectid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + parentaccountid + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                function(results) {
+                    for (var i = 0; i < results.length; i++) {
+                        var activity = results[i];
+                        var subject = activity.subject || "";
+                        var createdDate = activity.createdon != undefined ? activity["createdon@OData.Community.Display.V1.FormattedValue"] : "";
+                        var owner = activity._ownerid_value != undefined ? activity["_ownerid_value@OData.Community.Display.V1.FormattedValue"] : "";
 
-                    var acc = {
-                        "Description": subject, "Date": createdDate, "Owner": owner
-                    };
-                    if (activity.attributes.statecode.value == 1) {
-                        recentActivitylst.push(acc);
-                    } else {
-                        planedActivitylst.push(acc);
+                        var acc = {
+                            "Description": subject,
+                            "Date": createdDate,
+                            "Owner": owner
+                        };
+                        if (activity.statecode == 1) {
+                            recentActivitylst.push(acc);
+                        } else {
+                            planedActivitylst.push(acc);
+                        }
                     }
-                }
+                },
+                "Getting recent activities"
+            ).then(function() {
                 if (recentActivitylst.length > 0) {
-                    DrawTable("#recentActivities", recentActivitylst.filter(function (currentValue, index, arr) { if (index < 5) return currentValue; }), Object.keys(recentActivitylst[0]));
+                    DrawTable("#recentActivities", recentActivitylst.filter(function(currentValue, index, arr) { if (index < 5) return currentValue; }), Object.keys(recentActivitylst[0]));
                 }
                 if (planedActivitylst.length > 0) {
-                    DrawTable("#pastActivities", planedActivitylst.filter(function (currentValue, index, arr) { if (index < 5) return currentValue; }), Object.keys(planedActivitylst[0]));
+                    DrawTable("#pastActivities", planedActivitylst.filter(function(currentValue, index, arr) { if (index < 5) return currentValue; }), Object.keys(planedActivitylst[0]));
                 }
-            }
+            });
         }
 
         function PopulateBidHistory() {
-           // debugger;
             var opportRecords;
             var opportRecordsUlt;
             var req = new XMLHttpRequest();
@@ -853,24 +815,6 @@
             };
             req.send();
 
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='opportunity'>" +
-                "<attribute name='customerid' alias='ClientName' />" +
-                "<attribute name='opportunityid' />" +
-                "<attribute name='estimatedvalue_base' alias='fee_base' />" +
-                "<attribute name='statecode' alias='StateCode'/>" +
-
-                "<link-entity name='account' from='accountid' to='customerid' alias='aj' link-type='inner' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='in'>" +
-                "<value>2</value>" +
-                "<value>1</value>" +
-                "</condition>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
             var req = new XMLHttpRequest();
             req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'ccrm_ultimateendclientid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee_base'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'StateCode'%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'in'%3E%3Cvalue%3E2%3C%2Fvalue%3E%3Cvalue%3E1%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -891,24 +835,6 @@
             };
             req.send();
 
-            var fetchXMLUlt = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='opportunity'>" +
-                "<attribute name='ccrm_ultimateendclientid' alias='ClientName' />" +
-                "<attribute name='opportunityid' />" +
-                "<attribute name='estimatedvalue_base' alias='fee_base' />" +
-                "<attribute name='statecode' alias='StateCode'/>" +
-
-                "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='aj' link-type='inner' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='in'>" +
-                "<value>2</value>" +
-                "<value>1</value>" +
-                "</condition>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
             var opporLst = [];
             if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
                 if (opportRecords.length > 0) {
@@ -1024,43 +950,10 @@
             };
             req.send();
 
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' top='5' aggregate='true'>" +
-                "<entity name='opportunity'>" +
-                "<attribute name='opportunityid' alias='LostOpp_count' aggregate='count'/>" +
-                "<attribute name='statuscode' alias='StatusCode' groupby='true'/>" +
-                "<order alias='LostOpp_count' descending='true' />" +
-                "<link-entity name='account' from='accountid' to='customerid' alias='aj' link-type='outer' />" +
-                "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='bj' link-type='outer' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='eq' value='2' />" +
-                "<filter type='or'>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "<condition entityname= 'bj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
-
-
-            var fetchXMLUlt = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' top='5' aggregate='true'>" +
-                "<entity name='opportunity'>" +
-                "<attribute name='opportunityid' alias='LostOpp_count' aggregate='count'/>" +
-                "<attribute name='statuscode' alias='StatusCode' groupby='true'/>" +
-                "<order alias='LostOpp_count' descending='true' />" +
-                "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='aj' link-type='inner' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='eq' value='2' />" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
             var opporLst = [];
 
             if (opportRecords.length > 0) {
                 for (var i = 0; i < opportRecords.length; i++) {
-                    //debugger;
                     var count = opportRecords[i].LostOpp_count != undefined ? opportRecords[i].LostOpp_count : 0;
                     var status = opportRecords[i].StatusCode != undefined ? opportRecords[i]["StatusCode@OData.Community.Display.V1.FormattedValue"] : "";
 
@@ -1096,10 +989,10 @@
                     AlertDialog( alertStrings, alertOptions);
                 }
             });
+            debugger;
             var opporLst = [];
             if (opportRecords.length > 0) {
                 for (var i = 0; i < opportRecords.length; i++) {
-                    //debugger;
                     var name = opportRecords[i].name != undefined ? opportRecords[i].name : "";
                     var projectDirector = opportRecords[i]._ccrm_projectdirector_userid_value != undefined ? opportRecords[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
                     var status = opportRecords[i]["StatusCode@OData.Community.Display.V1.FormattedValue"];
@@ -1114,7 +1007,8 @@
                     };
                     opporLst.push(oppor);
                 }
-                var o = opporLst.filter(function (currentValue, index, arr) { if (index < 10) return currentValue; })
+                var o = opporLst.filter(function(currentValue, index, arr) { if (index < 10) return currentValue; });
+                debugger;
                 DrawTable("#top10OpenOportunities", o, Object.keys(o[0]));
                 $("#top10OpenOpporCnt").text("( " + opporLst.length + " in Total)");
             }
@@ -1335,7 +1229,6 @@
          * @returns {Promise} promise -  a promise that will complete when all data has been returned. If the promise is rejected/ an error occurs an error dialog will be displayed.
          */
         function GetCRMData(query, onData, errorMessage ) {
-            ///
             var p = new Promise(function(success, reject) {
                 $.ajax({
                     type: "GET",
@@ -1370,7 +1263,6 @@
             var basicProfile = {};
             GetCRMData(query,
                 function(result) {
-                    var clientSector = result["arup_clientsector@OData.Community.Display.V1.FormattedValue"];
                     basicProfile = {
                         accountId: result.accountid,
                         address_comosite: result.address1_composite != undefined ? result.address1_composite : "",
@@ -1469,6 +1361,7 @@
         }
 
         function GetOpenOpportunities() {
+            debugger;
             var opportRecords;
             var opportRecordsUlt;
             var req = new XMLHttpRequest();
@@ -1490,36 +1383,6 @@
                 }
             };
             req.send();
-            
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
-                "<entity name='opportunity'>" +
-                "<attribute name='opportunityid' />" +
-                "<attribute name='name' />" +
-                "<attribute name='ccrm_projectmanager_userid' />" +
-                "<attribute name='ccrm_projectdirector_userid' />" +
-                "<attribute name='ccrm_probabilityofprojectproceeding' alias='Probability_of_Proceeding'/>" +
-                "<attribute name='ccrm_estarupinvolvementstart' />" +
-                "<attribute name='closeprobability' />" +
-                "<attribute name='ccrm_bidmanager_userid' />" +
-                "<attribute name='ccrm_biddirector_userid' />" +
-                "<attribute name='ccrm_arupregionid' />" +
-                "<attribute name='statuscode' alias='StatusCode'/>" +
-                "<attribute name='statecode' />" +
-                "<attribute name='customerid' alias='ClientName' />" +
-                "<attribute name='estimatedvalue_base' alias='fee' />" +
-                "<attribute name='ccrm_proj_factoredincome_curr_base' alias='Factored_fee' />" +
-
-                "<link-entity name='account' from='accountid' to='customerid' alias='aj' link-type='inner' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='eq' value='0' />" +
-                "<condition attribute='statuscode' operator='ne' value='3' />" +
-                "<condition attribute='statuscode' operator='not-null'/>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
 
             //Fetch for ultimate client
             var req = new XMLHttpRequest();
@@ -1541,35 +1404,7 @@
                 }
             };
             req.send();
-            
-            var fetchXMLUlt = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
-                "<entity name='opportunity'>" +
-                "<attribute name='opportunityid' />" +
-                "<attribute name='name' />" +
-                "<attribute name='ccrm_projectmanager_userid' />" +
-                "<attribute name='ccrm_projectdirector_userid' />" +
-                "<attribute name='ccrm_probabilityofprojectproceeding' alias='Probability_of_Proceeding'/>" +
-                "<attribute name='ccrm_estarupinvolvementstart' />" +
-                "<attribute name='closeprobability' />" +
-                "<attribute name='ccrm_bidmanager_userid' />" +
-                "<attribute name='ccrm_biddirector_userid' />" +
-                "<attribute name='ccrm_arupregionid' />" +
-                "<attribute name='statuscode' alias='StatusCode'/>" +
-                "<attribute name='statecode' />" +
-                "<attribute name='ccrm_ultimateendclientid' alias='ClientName' />" +
-                "<attribute name='estimatedvalue_base' alias='fee' />" +
-                "<attribute name='ccrm_proj_factoredincome_curr_base' alias='Factored_fee' />" +
 
-                "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='aj' link-type='inner' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='eq' value='0' />" +
-                "<condition attribute='statuscode' operator='ne' value='3' />" +
-                "<condition attribute='statuscode' operator='not-null'/>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
             var opporLst = [];
             if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
                 if (opportRecords.length > 0) {
@@ -1828,6 +1663,7 @@
 
             $("#top10OpenOpporCnt").text("( " + allOpenOppor.length + " in Total)");
 
+            debugger;
             DrawTable("#top10OpenOportunities", finalOpp, Object.keys(finalOpp[0]).filter(function (d) { return d !== 'OpportunityId'; }));
         }
         function GetPhase(status) {
@@ -2579,7 +2415,7 @@
 
         function AlertDialog(alertStrings, alertOptions ) {
             var promise = Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
-            promise.finally(function() { Window.close() });
+            promise.then(function() { Window.close() });
             return promise;
         }
 
