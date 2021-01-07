@@ -28,8 +28,8 @@ function formOnLoadTeams(executionContext) {
     formContext.getControl("ccrm_arupsponsor").setDefaultView("{26B373CD-C7CC-E811-8115-005056B509E1}");    
 
     DisplayOtherField(formContext, 'arup_sdcommitmentto', 587320006, 'arup_sdcommitmentother');
-    DisplayOtherField(formContext, 'arup_verifiedcommitments', 587320005, 'arup_verifiedcommitmentother');
-    DisplayOtherField(formContext, 'arup_unverifiedcommitments', 587320004, 'arup_unverifiedcommitmentother');
+    //DisplayOtherField(formContext, 'arup_verifiedcommitments', 587320005, 'arup_verifiedcommitmentother');
+    //DisplayOtherField(formContext, 'arup_unverifiedcommitments', 587320004, 'arup_unverifiedcommitmentother');
     ClientCommitmentto_onChange(executionContext);
 }
 
@@ -449,7 +449,10 @@ function ClientCommitmentto_onChange(executionContext) {
     var formContext = executionContext.getFormContext();
     var commitmenttonetzeroemissions = formContext.getAttribute("ccrm_commitmenttonetzeroemissions").getValue();
     if (commitmenttonetzeroemissions) {
-        ShowFields(formContext, true, "arup_verifiedcommitments", "arup_unverifiedcommitments", "arup_scopeofcommitment");
+        ShowFields(formContext, true, "arup_verifiedcommitments", "arup_unverifiedcommitments", "arup_scopeofcommitment", "arup_verifiedcommitmentother", "arup_unverifiedcommitmentother");
+        DisplayOtherField(formContext, 'arup_verifiedcommitments', 587320005, 'arup_verifiedcommitmentother');
+        DisplayOtherField(formContext, 'arup_unverifiedcommitments', 587320004, 'arup_unverifiedcommitmentother');
+
     } else {
         ShowFields(formContext, false, "arup_verifiedcommitments", "arup_unverifiedcommitments", "arup_scopeofcommitment", "arup_verifiedcommitmentother","arup_unverifiedcommitmentother");
         ClearFields(formContext, "arup_verifiedcommitments", "arup_unverifiedcommitments", "arup_scopeofcommitment", "arup_verifiedcommitmentother", "arup_unverifiedcommitmentother");

@@ -135,21 +135,23 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
 
 //Below function called from Ribbonworkbench: FormCOntext is primarycontrol paramter
 function CloseOpportunityConfirmation(formContext, statusCode) {
-    var arupCompany = formContext.getAttribute('ccrm_arupcompanyid').getValue();
+    if (statusCode == "cjn") {
+        var arupCompany = formContext.getAttribute('ccrm_arupcompanyid').getValue();
 
-    if (arupCompany != null) {
-        denyArupCompanyPJN(formContext, arupCompany[0].id);
-        if (arupCompanyCode == '5006') {
-            Alert.show('<font size="6" color="#F69922"><b>Invalid Company for CJN</b></font>',
-                '<font size="3" color="#000000"></br>' + 'CJN cannot be requested for company Arup US, INC (5006).' + '</font>',
-                [
-                    {
-                        label: "<b>OK</b>",
-                        setFocus: true
-                    },
-                ], "WARNING", 600, 250, '', true);
+        if (arupCompany != null) {
+            denyArupCompanyPJN(formContext, arupCompany[0].id);
+            if (arupCompanyCode == '5006') {
+                Alert.show('<font size="6" color="#F69922"><b>Invalid Company for CJN</b></font>',
+                    '<font size="3" color="#000000"></br>' + 'CJN cannot be requested for company Arup US, INC (5006).' + '</font>',
+                    [
+                        {
+                            label: "<b>OK</b>",
+                            setFocus: true
+                        },
+                    ], "WARNING", 600, 250, '', true);
 
-            return;
+                return;
+            }
         }
     }
 
