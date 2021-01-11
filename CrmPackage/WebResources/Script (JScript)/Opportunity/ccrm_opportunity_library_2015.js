@@ -6456,6 +6456,10 @@ function openNewCJNAForm(formContext, reserve) {
         parameters["ccrm_arupaccountingcodeidname"] = formContext.getAttribute("ccrm_accountingcentreid").getValue()[0].name;
     }
 
+    if (formContext.getAttribute("arup_opportunitytype").getValue() != null) {
+        parameters["arup_opportunitytype"] = formContext.getAttribute("arup_opportunitytype").getValue();
+    }
+
     parameters["ccrm_opportunityid"] = formContext.data.entity.getId().replace(/[{}]/g, "");
     parameters["ccrm_opportunityidname"] = formContext.getAttribute("name").getValue();
 

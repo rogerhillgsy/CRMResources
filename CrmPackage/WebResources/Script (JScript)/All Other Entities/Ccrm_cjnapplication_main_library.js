@@ -1,4 +1,4 @@
-var newCJN;
+    var newCJN;
 //var arupInternal;
 
 function Form_onload(executionContext) {
@@ -49,6 +49,13 @@ function Form_onload(executionContext) {
                 SetNotificationAlert("INFO", "You are creating a suffix for INTERNAL COST MONITORING only. There is no fee income associated with a cost monitoring suffix.", "OppCr", formContext);
             }
             else defaultCreateMethod = 1;
+
+            if (formContext.getAttribute("arup_opportunitytype").getValue() == 770000003) {
+
+                formContext.getControl("ccrm_createmethod").removeOption(2);
+                formContext.getControl("ccrm_createmethod").removeOption(3);
+                formContext.getControl("ccrm_createmethod").removeOption(4);
+            }
 
             formContext.getAttribute("ccrm_createmethod").setValue(defaultCreateMethod);
 
@@ -232,6 +239,7 @@ function fnForceSubmit(formContext) {
     formContext.getAttribute("ccrm_wondescription").setSubmitMode("always");
     formContext.getAttribute("ccrm_opportunityid").setSubmitMode("always");
     formContext.getAttribute("ccrm_suffixarray").setSubmitMode("always");
+    formContext.getAttribute("arup_opportunitytype").setSubmitMode("always");
 }
 
 function ccrm_createMethodOnChange(executionContext) {
@@ -525,6 +533,7 @@ function disableFieldsOnForm(formContext) {
     formContext.getControl("ccrm_arupcompanyid").setDisabled(true);
     formContext.getControl("ccrm_arupaccountingcodeid").setDisabled(true);
     formContext.getControl("ccrm_opportunityid").setDisabled(true);
+    formContext.getControl("arup_opportunitytype").setDisabled(true);
 }
 
 function webservice_onchange(formContext) {
