@@ -3,6 +3,7 @@ var globalDQTeam = false;
 var cgExists = false;
 var parentOrgType;
 var SSCTeam = false;
+var isDQForm = false;
 var userRegion;
 
 var ArupRegionName = {
@@ -43,7 +44,7 @@ function Form_onload(executionContext) {
     globalDQTeam = isUserInTeamCheck(formContext);
     formItem = formContext.ui.formSelector.getCurrentItem();
     var formName = formItem.getLabel();
-    var isDQForm = false;
+    //var isDQForm = false;
     if (formName == "Data Quality Form") {
         isDQForm = true;
     }
@@ -63,6 +64,8 @@ function Form_onload(executionContext) {
         }
         formAction("Data Quality Form", "hide", formContext);
     } else if (globalDQTeam && formName == "Data Quality Form") {
+        retreiveTeamDetails(formContext, status);
+        HideShowOnDQForm(formContext);
         return;
     }
 
@@ -1050,6 +1053,7 @@ function relationshipTeamOnChange(executionContext) {
     var formContext = executionContext.getFormContext();
     var status = "onchange";
     retreiveTeamDetails(formContext, status);
+    if (isDQForm) { HideShowOnDQForm(formContext); };
 }
 
 function retreiveTeamDetails(formContext, status) {
@@ -1079,8 +1083,7 @@ function retreiveTeamDetails(formContext, status) {
                     var _ccrm_relationshipmanager_value_formatted = result["_ccrm_relationshipmanager_value@OData.Community.Display.V1.FormattedValue"];
                     var ccrm_relationshiptype = result["ccrm_relationshiptype"];
 
-                    //var keyAccountType = formContext.getAttribute("ccrm_keyaccounttype").getValue();
-                    //if (keyAccountType == null) {
+                    
                         if (ccrm_relationshiptype != null) {
                             switch (ccrm_relationshiptype) {
                                 case 100000000:
@@ -1101,32 +1104,30 @@ function retreiveTeamDetails(formContext, status) {
                         } else {
                             formContext.getAttribute("ccrm_keyaccounttype").setValue(null);
                         }
-                   // }
+                   
 
-                    //var clientPrioritisation = formContext.getAttribute("ccrm_clientprioritisation").getValue();
-                    //if (clientPrioritisation == null) {
+                   
                         if (ccrm_clientprioritisation != null) {
                             formContext.getAttribute("ccrm_clientprioritisation").setValue(ccrm_clientprioritisation);
                         } else {
                             formContext.getAttribute("ccrm_clientprioritisation").setValue(null);
                         }
-                   // }
+                  
 
                     if (ccrm_arup150 != null && status == "onchange") {
                         formContext.getAttribute("arup_arup150").setValue(ccrm_arup150);
                     }
 
-                    //var relationshipSnapshot = formContext.getAttribute("ccrm_relationshipsnapshot").getValue();
-                    //if (relationshipSnapshot == null) {
+                    var relationshipSnapshot = formContext.getControl("ccrm_relationshipsnapshot");
+                    if (relationshipSnapshot != null) {
                         if (ccrm_clientoverview != null) {
                             formContext.getAttribute("ccrm_relationshipsnapshot").setValue(ccrm_clientoverview);
                         } else {
                             formContext.getAttribute("ccrm_relationshipsnapshot").setValue(null);
                         }
-                   // }
+                    }
 
-                    //var keyAccountManager = formContext.getAttribute("ccrm_keyaccountmanagerid").getValue();
-                    //if (keyAccountManager == null) {
+                  
                         if (_ccrm_relationshipmanager_value != null) {
                             formContext.getAttribute("ccrm_keyaccountmanagerid").setValue([
                                 {
@@ -1139,10 +1140,9 @@ function retreiveTeamDetails(formContext, status) {
                         } else {
                             formContext.getAttribute("ccrm_keyaccountmanagerid").setValue(null);
                         }
-                   // }
+                  
 
-                    //var arupBoardSponsor = formContext.getAttribute("ccrm_arupboardsponsor").getValue();
-                    //if (arupBoardSponsor == null) {
+                    
                         if (_ccrm_arupsponsor_value != null) {
                             formContext.getAttribute("ccrm_arupboardsponsor").setValue([
                                 {
@@ -1154,7 +1154,7 @@ function retreiveTeamDetails(formContext, status) {
                         } else {
                             formContext.getAttribute("ccrm_arupboardsponsor").setValue(null);
                         }
-                   // }
+                
 
                     if (result["_ccrm_clientgrouping_value"] != null) {
                         formContext.getAttribute("ccrm_clientgroupings").setValue([
@@ -1167,17 +1167,20 @@ function retreiveTeamDetails(formContext, status) {
                     } else {
                         formContext.getAttribute("ccrm_clientgroupings").setValue(null);
                     }
-                  
-                    if (result["_ccrm_clientleadcontact_value"] != null) {
-                        formContext.getAttribute("arup_mostseniorclient").setValue([
-                            {
-                                id: result["_ccrm_clientleadcontact_value"],
-                                name: result["_ccrm_clientleadcontact_value@OData.Community.Display.V1.FormattedValue"],
-                                entityType: result["_ccrm_clientleadcontact_value@Microsoft.Dynamics.CRM.lookuplogicalname"]
-                            }
-                        ]);
-                    } else {
-                        formContext.getAttribute("ccrm_clientgroupings").setValue(null);
+
+                    var clientLeadContact = formContext.getControl("arup_mostseniorclient");
+                    if (clientLeadContact != null) {
+                        if (result["_ccrm_clientleadcontact_value"] != null) {
+                            formContext.getAttribute("arup_mostseniorclient").setValue([
+                                {
+                                    id: result["_ccrm_clientleadcontact_value"],
+                                    name: result["_ccrm_clientleadcontact_value@OData.Community.Display.V1.FormattedValue"],
+                                    entityType: result["_ccrm_clientleadcontact_value@Microsoft.Dynamics.CRM.lookuplogicalname"]
+                                }
+                            ]);
+                        } else {
+                            formContext.getAttribute("ccrm_clientgroupings").setValue(null);
+                        }
                     }
 
                     if (result["arup_clienttype"] != null) {
@@ -1312,5 +1315,16 @@ function ClearFields(formContext, fieldName) {
                 control.setValue(null);
             }
         }
+    }
+}
+function HideShowOnDQForm(formContext) {
+    var relationshipMgmtSection = formContext.ui.tabs.get("SUMMARY_TAB").sections.get("SUMMARY_TAB_section_4");
+    var relationshipTeam = formContext.getAttribute("ccrm_managingteamid").getValue();
+    if (relationshipTeam != null) {
+        relationshipMgmtSection.setVisible(true);
+        formContext.getControl("ccrm_keyaccountmanagerid").setVisible(true);
+    } else {
+        relationshipMgmtSection.setVisible(false);
+        formContext.getControl("ccrm_keyaccountmanagerid").setVisible(false);
     }
 }

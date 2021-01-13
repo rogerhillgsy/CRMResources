@@ -13,10 +13,12 @@ function formOnLoadTeams(executionContext) {
     var formType = formContext.ui.getFormType();
     if (formType === CREATE_FORM) {
         SetDefaultBusinessUnit(formContext);
-        SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager"]);
+        SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager","ccrm_clientgrouping"]);
     } else {
         SetupForRelationshipTeam(formContext);
         LockFields(formContext, ["arup_teamcategory"]);
+        SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager", "ccrm_clientgrouping"],"required");
+
     }
     formContext.getControl("Members").addOnLoad(HandleTeamGridUpdate); // Ensure that tabs are updated when member is added to team.
 
@@ -110,7 +112,7 @@ function SetupForRelationshipTeam(formContext) {
         MakeAllSectionsVisible(formContext, "Team Set-Up");
     }
     else {
-        SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager","ccrm_arup150"]);
+        SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager", "ccrm_arup150", "ccrm_clientgrouping"]);
     }
 }
 
