@@ -922,7 +922,7 @@ function contactType_onchange(formContext, event) {
         formContext.getAttribute("jobtitle").setRequiredLevel('required');
         formContext.getAttribute("accountrolecode").setRequiredLevel('required');
         formContext.getControl("ccrm_syncaddress").setVisible(true);
-        enableAddressFields(true, formContext);
+        //enableAddressFields(true, formContext);
         formContext.getControl("address1_addresstypecode").setVisible(true);
         formContext.getControl("address1_line1").setVisible(true);
         formContext.getAttribute("address1_line1").setRequiredLevel('required');
