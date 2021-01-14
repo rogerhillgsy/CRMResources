@@ -3,9 +3,6 @@
 
     <meta charset="utf-8">
     <script src="../../ClientGlobalContext.js.aspx" type="text/javascript"></script>
-    <script src="../../ccrm_/JavaScripts/Lib/SDK.REST.js"></script>
-    <script src="../../ccrm_/JavaScripts/Lib/SDK.MetaData.js" type="text/javascript"></script>
-    <script src="../../ccrm_/JavaScripts/Lib/XrmServiceToolkit.min.js" type="text/javascript"></script>
     <script src="../../ccrm_/JavaScripts/D3V4.js"></script>
     <script src="../../ccrm_/JavaScripts/Lib/jquery_3.2.0.min"></script>
 
@@ -65,7 +62,7 @@
         }
 
         .bar rect {
-            //fill: steelblue;
+            /* fill: steelblue; */
         }
 
         .bar text {
@@ -237,7 +234,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div id="relationshipTeam"></div>
+                                    <div id="relationshipTeamMembers"></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -503,7 +500,7 @@
                         error: function(xhr, textStatus, errorThrown) {
                             var alertStrings = { confirmButtonLabel: "OK", text: textStatus, title: "Alert" };
                             var alertOptions = { height: 120, width: 260 };
-                            Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                            AlertDialog( alertStrings, alertOptions);
                         }
                     });
                     if (accounts.length > 0) {
@@ -530,7 +527,7 @@
             }
             catch (err) { }
             try {
-                //PopulateManagingTeamMembers();
+                PopulateManagingTeamMembers();
             }
             catch (err) { }
             try {
@@ -598,13 +595,12 @@
                 error: function (xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
 
             if (fetchexchangerates.length > 0) {
                 for (var i = 0; i < fetchexchangerates.length; i++) {
-                    //debugger;
                     var exchangeNode = fetchexchangerates[i];
                     if (exchangeNode.exchangerate != undefined) {
 
@@ -637,7 +633,7 @@
                 error: function (xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
 
@@ -714,13 +710,12 @@
                 error: function(xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
             var noteLst = [];
             if (notes.length > 0) {
                 for (var i = 0; i < notes.length; i++) {
-                    //debugger;
                     var note = notes[i];
                     if (note.notetext != undefined && note.notetext.length > 0) {
 
@@ -741,99 +736,63 @@
         }
 
         function PopulateConnection() {
-            var connections;
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
-                url: clientURL + "/api/data/v9.1/connections?fetchXml=%3Cfetch%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22connection%22%20%3E%3Cattribute%20name%3D%22record1id%22%20alias%3D%22Contact%22%20%2F%3E%3Cattribute%20name%3D%22record2id%22%20alias%3D%22CRM_User%22%20%2F%3E%3Corder%20attribute%3D%22record1id%22%20descending%3D%22false%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22statuscodename%22%20operator%3D%22eq%22%20value%3D%22Active%22%20%2F%3E%3Ccondition%20attribute%3D%22record1objecttypecode%22%20operator%3D%22eq%22%20value%3D%222%22%20%2F%3E%3Ccondition%20attribute%3D%22record2objecttypecode%22%20operator%3D%22eq%22%20value%3D%228%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22contact%22%20from%3D%22contactid%22%20to%3D%22record1id%22%20link-type%3D%22inner%22%20alias%3D%22co%22%20%3E%3Cattribute%20name%3D%22accountrolecode%22%20%2F%3E%3Cattribute%20name%3D%22jobtitle%22%20%2F%3E%3Cattribute%20name%3D%22emailaddress1%22%20%2F%3E%3Cattribute%20name%3D%22accountrolecodename%22%20%2F%3E%3Cattribute%20name%3D%22contactid%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22statuscodename%22%20operator%3D%22eq%22%20value%3D%22Active%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22parentcustomerid%22%20link-type%3D%22inner%22%20alias%3D%22ac%22%20%3E%3Cattribute%20name%3D%22accountid%22%20%2F%3E%3Cattribute%20name%3D%22name%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22statuscodename%22%20operator%3D%22eq%22%20value%3D%22Active%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-                },
-                async: false,
-                success: function(data, textStatus, xhr) {
-                    connections = data.value;
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
-                    var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
-                }
-            });
-            var connectionLst = [];
-            if (connections.length > 0) {
-                for (var i = 0; i < connections.length; i++) {
-                    //debugger;
-                    var connection = connections[i];
-                    var contact = connection.Contact != undefined ? connection.Contact : "";
-                    var jobTitle = connection['co.jobtitle'] != undefined ? connection['co.jobtitle'] : "";
-                    var userName = connection.CRM_User != undefined ? connection.CRM_User : "";
+            var query = "connections?fetchXml=%3Cfetch%20distinct%3D%22true%22%20%3E%0A%20%20%3Centity%20name%3D%22connection%22%20%3E%0A%20%20%20%20%3Cattribute%20name%3D%22record1id%22%20alias%3D%22Contact%22%20%2F%3E%0A%20%20%20%20%3Cattribute%20name%3D%22record2id%22%20alias%3D%22CRM_User%22%20%2F%3E%0A%20%20%20%20%3Corder%20attribute%3D%22record1id%22%20descending%3D%22false%22%20%2F%3E%0A%20%20%20%20%3Cfilter%3E%0A%20%20%20%20%20%20%3Ccondition%20attribute%3D%22statuscode%22%20operator%3D%22eq%22%20value%3D%221%22%20%2F%3E%0A%20%20%20%20%20%20%3Ccondition%20attribute%3D%22record1objecttypecode%22%20operator%3D%22eq%22%20value%3D%222%22%20%2F%3E%0A%20%20%20%20%20%20%3Ccondition%20attribute%3D%22record2objecttypecode%22%20operator%3D%22eq%22%20value%3D%228%22%20%2F%3E%0A%20%20%20%20%3C%2Ffilter%3E%0A%20%20%20%20%3Clink-entity%20name%3D%22contact%22%20from%3D%22contactid%22%20to%3D%22record1id%22%20link-type%3D%22inner%22%20alias%3D%22co%22%20%3E%0A%20%20%20%20%20%20%3Cattribute%20name%3D%22fullname%22%20%2F%3E%0A%20%20%20%20%20%20%3Cattribute%20name%3D%22accountrolecode%22%20%2F%3E%0A%20%20%20%20%20%20%3Cattribute%20name%3D%22jobtitle%22%20%2F%3E%0A%20%20%20%20%20%20%3Cattribute%20name%3D%22emailaddress1%22%20%2F%3E%0A%20%20%20%20%20%20%3Cattribute%20name%3D%22accountrolecodename%22%20%2F%3E%0A%20%20%20%20%20%20%3Cattribute%20name%3D%22contactid%22%20%2F%3E%0A%20%20%20%20%20%20%3Cfilter%20type%3D%22and%22%20%3E%0A%20%20%20%20%20%20%20%20%3Ccondition%20attribute%3D%22statuscode%22%20operator%3D%22eq%22%20value%3D%221%22%20%2F%3E%0A%20%20%20%20%20%20%3C%2Ffilter%3E%0A%20%20%20%20%20%20%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22parentcustomerid%22%20link-type%3D%22inner%22%20alias%3D%22ac%22%20%3E%0A%20%20%20%20%20%20%20%20%3Cattribute%20name%3D%22accountid%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%3Cattribute%20name%3D%22name%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%3Cfilter%20type%3D%22and%22%20%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20value%3D%22" + accId+"%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccondition%20attribute%3D%22statuscode%22%20operator%3D%22eq%22%20value%3D%221%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2Ffilter%3E%0A%20%20%20%20%20%20%3C%2Flink-entity%3E%0A%20%20%20%20%3C%2Flink-entity%3E%0A%20%20%3C%2Fentity%3E%0A%3C%2Ffetch%3E";
+            var connectionList = [];
+            GetCRMData(query,
+                    function(results) {
+                        for (var i = 0; i < results.length; i++) {
+                            var connection = results[i];
+                            var contact = connection["co.fullname"] || "";
+                            var jobTitle = connection['co.jobtitle'] || "";
+                            var userName = connection["CRM_User@OData.Community.Display.V1.FormattedValue"] || "";
 
-                    var conn = {
-                        "Contact": contact, "Job Title": jobTitle, "CRM User": userName
-                    };
-                    connectionLst.push(conn);
-                }
-                DrawMatrixTable("#connectionMatrix", connectionLst);
-                //DrawMatrixForceLayout("#connectionMatrix", connectionLst);
-            }
+                            var conn = {
+                                "Contact": contact, "Job Title": jobTitle, "CRM User": userName
+                            };
+                            connectionList.push(conn);
+                        }
+                    },
+                    "Getting connections")
+                .then(function() {
+                    DrawMatrixTable("#connectionMatrix", connectionList);
+                });
         }
 
         function PopulateRecentActivities() {
-            var activityRecords;
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
-                url: clientURL + "/api/data/v9.1/activitypointers?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20count%3D%225%22%20%3E%3Centity%20name%3D%22activitypointer%22%20%3E%3Cattribute%20name%3D%22activitytypecode%22%20%2F%3E%3Cattribute%20name%3D%22subject%22%20%2F%3E%3Cattribute%20name%3D%22activityid%22%20%2F%3E%3Cattribute%20name%3D%22instancetypecode%22%20%2F%3E%3Cattribute%20name%3D%22ownerid%22%20%2F%3E%3Cattribute%20name%3D%22createdon%22%20%2F%3E%3Cattribute%20name%3D%22statecode%22%20%2F%3E%3Corder%20attribute%3D%22createdon%22%20descending%3D%22true%22%20%2F%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22regardingobjectid%22%20alias%3D%22aj%22%20link-type%3D%22outer%22%20%2F%3E%3Clink-entity%20name%3D%22contact%22%20from%3D%22contactid%22%20to%3D%22regardingobjectid%22%20alias%3D%22ac%22%20link-type%3D%22outer%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22isworkflowcreated%22%20operator%3D%22eq%22%20value%3D%220%22%20%2F%3E%3Ccondition%20attribute%3D%22statecode%22%20operator%3D%22in%22%20%3E%3Cvalue%3E1%3C%2Fvalue%3E%3Cvalue%3E3%3C%2Fvalue%3E%3Cvalue%3E0%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20attribute%3D%22activitytypecode%22%20operator%3D%22in%22%20%3E%3Cvalue%3E4201%3C%2Fvalue%3E%3Cvalue%3E4202%3C%2Fvalue%3E%3Cvalue%3E4204%3C%2Fvalue%3E%3Cvalue%3E4207%3C%2Fvalue%3E%3Cvalue%3E4210%3C%2Fvalue%3E%3Cvalue%3E4212%3C%2Fvalue%3E%3C%2Fcondition%3E%3Cfilter%20type%3D%22or%22%20%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22under%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20entityname%3D%22ac%22%20attribute%3D%22parentcustomerid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22regardingobjectid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + parentaccountid + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-                },
-                async: false,
-                success: function(data, textStatus, xhr) {
-                    activityRecords = data.value;
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
-                    var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
-                }
-            });
             var recentActivitylst = [], planedActivitylst = [];
-            if (activityRecords.length > 0) {
-                for (var i = 0; i < activityRecords.length; i++) {
-                    //debugger;
-                    var activity = activityRecords[i];
-                    var subject = activity.subject != undefined ? activity.subject : "";
-                    var createdDate = activity.createdon != undefined ? activity["createdon@OData.Community.Display.V1.FormattedValue"] : "";
-                    var owner = activity._ownerid_value != undefined ? activity["_ownerid_value@OData.Community.Display.V1.FormattedValue"] : "";
+            GetCRMData(
+                "activitypointers?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20count%3D%225%22%20%3E%3Centity%20name%3D%22activitypointer%22%20%3E%3Cattribute%20name%3D%22activitytypecode%22%20%2F%3E%3Cattribute%20name%3D%22subject%22%20%2F%3E%3Cattribute%20name%3D%22activityid%22%20%2F%3E%3Cattribute%20name%3D%22instancetypecode%22%20%2F%3E%3Cattribute%20name%3D%22ownerid%22%20%2F%3E%3Cattribute%20name%3D%22createdon%22%20%2F%3E%3Cattribute%20name%3D%22statecode%22%20%2F%3E%3Corder%20attribute%3D%22createdon%22%20descending%3D%22true%22%20%2F%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22regardingobjectid%22%20alias%3D%22aj%22%20link-type%3D%22outer%22%20%2F%3E%3Clink-entity%20name%3D%22contact%22%20from%3D%22contactid%22%20to%3D%22regardingobjectid%22%20alias%3D%22ac%22%20link-type%3D%22outer%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22isworkflowcreated%22%20operator%3D%22eq%22%20value%3D%220%22%20%2F%3E%3Ccondition%20attribute%3D%22statecode%22%20operator%3D%22in%22%20%3E%3Cvalue%3E1%3C%2Fvalue%3E%3Cvalue%3E3%3C%2Fvalue%3E%3Cvalue%3E0%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20attribute%3D%22activitytypecode%22%20operator%3D%22in%22%20%3E%3Cvalue%3E4201%3C%2Fvalue%3E%3Cvalue%3E4202%3C%2Fvalue%3E%3Cvalue%3E4204%3C%2Fvalue%3E%3Cvalue%3E4207%3C%2Fvalue%3E%3Cvalue%3E4210%3C%2Fvalue%3E%3Cvalue%3E4212%3C%2Fvalue%3E%3C%2Fcondition%3E%3Cfilter%20type%3D%22or%22%20%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22under%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20entityname%3D%22ac%22%20attribute%3D%22parentcustomerid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22regardingobjectid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + parentaccountid + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                function(results) {
+                    for (var i = 0; i < results.length; i++) {
+                        var activity = results[i];
+                        var subject = activity.subject || "";
+                        var createdDate = activity.createdon != undefined ? activity["createdon@OData.Community.Display.V1.FormattedValue"] : "";
+                        var owner = activity._ownerid_value != undefined ? activity["_ownerid_value@OData.Community.Display.V1.FormattedValue"] : "";
 
-                    var acc = {
-                        "Description": subject, "Date": createdDate, "Owner": owner
-                    };
-                    if (activity.attributes.statecode.value == 1) {
-                        recentActivitylst.push(acc);
-                    } else {
-                        planedActivitylst.push(acc);
+                        var acc = {
+                            "Description": subject,
+                            "Date": createdDate,
+                            "Owner": owner
+                        };
+                        if (activity.statecode == 1) {
+                            recentActivitylst.push(acc);
+                        } else {
+                            planedActivitylst.push(acc);
+                        }
                     }
-                }
+                },
+                "Getting recent activities"
+            ).then(function() {
                 if (recentActivitylst.length > 0) {
-                    DrawTable("#recentActivities", recentActivitylst.filter(function (currentValue, index, arr) { if (index < 5) return currentValue; }), Object.keys(recentActivitylst[0]));
+                    DrawTable("#recentActivities", recentActivitylst.filter(function(currentValue, index, arr) { if (index < 5) return currentValue; }), Object.keys(recentActivitylst[0]));
                 }
                 if (planedActivitylst.length > 0) {
-                    DrawTable("#pastActivities", planedActivitylst.filter(function (currentValue, index, arr) { if (index < 5) return currentValue; }), Object.keys(planedActivitylst[0]));
+                    DrawTable("#pastActivities", planedActivitylst.filter(function(currentValue, index, arr) { if (index < 5) return currentValue; }), Object.keys(planedActivitylst[0]));
                 }
-            }
+            });
         }
 
         function PopulateBidHistory() {
-           // debugger;
             var opportRecords;
             var opportRecordsUlt;
             var req = new XMLHttpRequest();
@@ -850,30 +809,12 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
             req.send();
 
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='opportunity'>" +
-                "<attribute name='customerid' alias='ClientName' />" +
-                "<attribute name='opportunityid' />" +
-                "<attribute name='estimatedvalue_base' alias='fee_base' />" +
-                "<attribute name='statecode' alias='StateCode'/>" +
-
-                "<link-entity name='account' from='accountid' to='customerid' alias='aj' link-type='inner' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='in'>" +
-                "<value>2</value>" +
-                "<value>1</value>" +
-                "</condition>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
             var req = new XMLHttpRequest();
             req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'ccrm_ultimateendclientid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee_base'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'StateCode'%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'in'%3E%3Cvalue%3E2%3C%2Fvalue%3E%3Cvalue%3E1%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
             req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -888,30 +829,12 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
             req.send();
 
-            var fetchXMLUlt = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='opportunity'>" +
-                "<attribute name='ccrm_ultimateendclientid' alias='ClientName' />" +
-                "<attribute name='opportunityid' />" +
-                "<attribute name='estimatedvalue_base' alias='fee_base' />" +
-                "<attribute name='statecode' alias='StateCode'/>" +
-
-                "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='aj' link-type='inner' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='in'>" +
-                "<value>2</value>" +
-                "<value>1</value>" +
-                "</condition>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
             var opporLst = [];
             if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
                 if (opportRecords.length > 0) {
@@ -991,7 +914,7 @@
                 error: function(xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
 
@@ -1021,49 +944,16 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
             req.send();
 
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' top='5' aggregate='true'>" +
-                "<entity name='opportunity'>" +
-                "<attribute name='opportunityid' alias='LostOpp_count' aggregate='count'/>" +
-                "<attribute name='statuscode' alias='StatusCode' groupby='true'/>" +
-                "<order alias='LostOpp_count' descending='true' />" +
-                "<link-entity name='account' from='accountid' to='customerid' alias='aj' link-type='outer' />" +
-                "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='bj' link-type='outer' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='eq' value='2' />" +
-                "<filter type='or'>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "<condition entityname= 'bj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
-
-
-            var fetchXMLUlt = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' top='5' aggregate='true'>" +
-                "<entity name='opportunity'>" +
-                "<attribute name='opportunityid' alias='LostOpp_count' aggregate='count'/>" +
-                "<attribute name='statuscode' alias='StatusCode' groupby='true'/>" +
-                "<order alias='LostOpp_count' descending='true' />" +
-                "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='aj' link-type='inner' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='eq' value='2' />" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
             var opporLst = [];
 
             if (opportRecords.length > 0) {
                 for (var i = 0; i < opportRecords.length; i++) {
-                    //debugger;
                     var count = opportRecords[i].LostOpp_count != undefined ? opportRecords[i].LostOpp_count : 0;
                     var status = opportRecords[i].StatusCode != undefined ? opportRecords[i]["StatusCode@OData.Community.Display.V1.FormattedValue"] : "";
 
@@ -1096,13 +986,13 @@
                 error: function(xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
+            debugger;
             var opporLst = [];
             if (opportRecords.length > 0) {
                 for (var i = 0; i < opportRecords.length; i++) {
-                    //debugger;
                     var name = opportRecords[i].name != undefined ? opportRecords[i].name : "";
                     var projectDirector = opportRecords[i]._ccrm_projectdirector_userid_value != undefined ? opportRecords[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
                     var status = opportRecords[i]["StatusCode@OData.Community.Display.V1.FormattedValue"];
@@ -1117,7 +1007,8 @@
                     };
                     opporLst.push(oppor);
                 }
-                var o = opporLst.filter(function (currentValue, index, arr) { if (index < 10) return currentValue; })
+                var o = opporLst.filter(function(currentValue, index, arr) { if (index < 10) return currentValue; });
+                debugger;
                 DrawTable("#top10OpenOportunities", o, Object.keys(o[0]));
                 $("#top10OpenOpporCnt").text("( " + opporLst.length + " in Total)");
             }
@@ -1140,7 +1031,7 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
@@ -1161,7 +1052,7 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
@@ -1247,37 +1138,39 @@
         }
 
         function PopulateChildOrganizations() {
-            var entity = "Account";
-            var options =
-                "?$select=AccountId,Address1_City,Address1_Line1,Name,Telephone1&$top=5&$orderby=Name&$filter=ParentAccountId/Id eq (guid'" + accId + "') and StateCode/Value ne 1";
-            var retreive = SDK.REST.retrieveMultipleRecords(entity,
-                options,
-                function success(r) {
-                    childOrgs = $.merge(data, $.map(r,
-                        function (account) {
-                            //debugger;
-                            return {
-                                Name: account.Name,
-                                "Town/City": account.Address1_City,
-                                AccountId: account.AccountId,
-                                Address1_Line1: account.Address1_Line1,
-                                Telephone1: account.Telephone1,
-                            }
-                        }));
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                url: clientURL + "/api/data/v9.1/accounts?$select=accountid,address1_city,address1_line1,name,telephone1&$filter=_parentaccountid_value eq '"+ accId + "'  and  statecode ne 1&$orderby=name asc",
+                beforeSend: function (XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=5");
                 },
-                function error(r) {
+                success: function (r) {
+                    childOrgs = $.merge(data,
+                        $.map(r.value,
+                            function (account) {
+                                return {
+                                    Name: account.name,
+                                    "Town/City": account.address1_city,
+                                    AccountId: account.accountid,
+                                    Address1_Line1: account.address1_line1,
+                                    Telephone1: account.telephone1
+                                }
+                            }));
+                },
+                error: function (r) {
                     $("#dashboard").text("Ad error occurred: " + r);
-                },
-                function complete(r) {
-                    if (childOrgs.length > 0) {
-                        DrawTable("#childorganizations", childOrgs, Object.keys(childOrgs[0]).slice(0, 2));
-                    }
                 }
-            )
-        }
+            }).done( function() {
+                if (childOrgs.length > 0) {
+                    DrawTable("#childorganizations", childOrgs, Object.keys(childOrgs[0]).slice(0, 2));
+                }
+            });
 
-        function PopulateManagingTeamMembers() {
-            var userRecords;
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -1289,101 +1182,111 @@
                     XMLHttpRequest.setRequestHeader("Accept", "application/json");
                     XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
                 },
-                async: false,
                 success: function(data, textStatus, xhr) {
                     userRecords = data.value;
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
 
                 }
             });
-            var userList = [];
-            if (userRecords.length > 0) {
-                for (var i = 0; i < userRecords.length; i++) {
-                    var fullname = userRecords[i].fullname != undefined ? userRecords[i].fullname : "";
-                    var Office = userRecords[i].Office != undefined ? userRecords[i]["Office@OData.Community.Display.V1.FormattedValue"] : "";
-                    var title = userRecords[i].title != undefined ? userRecords[i].title : "";
-                    var business = userRecords[i].Business != undefined ? userRecords[i]["Business@OData.Community.Display.V1.FormattedValue"] : "";
+        }
 
-                    var user = { "Name": fullname, "Arup Office": Office, Title: title, Business: business };
-                    userList.push(user);
-                }
-                DrawTable("#relationshipTeam", userList, Object.keys(userList[0]));
-            }
+        function PopulateManagingTeamMembers() {
+            var userList = [];
+            GetCRMData(
+                "accounts(" + accId + ")?$select=name&$expand=ccrm_clientgroupings($select=ccrm_name;$expand=ccrm_managingteam($select=name))",
+                function(result) {
+                    var teamid = result.ccrm_clientgroupings.ccrm_managingteam.teamid;
+                    GetCRMData("teams(" + teamid + ")?$select=name&$expand=teammembership_association($select=fullname,title,_ccrm_arupofficeid_value;$expand=ccrm_arupofficeid($select=ccrm_name),businessunitid($select=name))",
+                            function(members) {
+                                for (var i = 0; i < members.teammembership_association.length; i++) {
+                                    var member = members.teammembership_association[i];
+                                    var user = {
+                                        Name: member.fullname,
+                                       // "Arup Office": member.ccrm_arupofficeid["__DisplayName__"],
+                                        Title: member.title,
+                                        // Business: "?"
+                                    };
+                                    userList.push(user);
+                                }
+                            },
+                            "Getting relationship team members")
+                        .then(function() {
+                            DrawTable("#relationshipTeamMembers", userList, Object.keys(userList[0]));
+                        });
+                },
+                "Getting relationship team");
+        }
+
+        /**
+         * Generic function to fetch data from CRM and display it.
+         * @param {string} query - Odata query string such as accounts(guid)?$select=name
+         * @param {function} onData - called each time data is retrieved.
+         * @param {string} errorMessage - message to be displayed in the event of an error.
+         * @returns {Promise} promise -  a promise that will complete when all data has been returned. If the promise is rejected/ an error occurs an error dialog will be displayed.
+         */
+        function GetCRMData(query, onData, errorMessage ) {
+            var p = new Promise(function(success, reject) {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    url: clientURL + "/api/data/v9.1/" + query,
+                    beforeSend: function(xmlHttpRequest) {
+                        xmlHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                        xmlHttpRequest.setRequestHeader("OData-Version", "4.0");
+                        xmlHttpRequest.setRequestHeader("Accept", "application/json");
+                        xmlHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                    },
+                    async: true,
+                    success : function(data, testStatus, xhr) {
+                        onData(data.value || data );
+                    },
+                    error : function(xhr, textStatus, errorThrown) {
+                        var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert "  + errorMessage};
+                        var alertOptions = { height: 120, width: 260 };
+                        AlertDialog( alertStrings, alertOptions);
+                        reject();
+                    }
+                }).done(function() {
+                    success();
+                });
+            });
+            return p;
         }
 
         function PopulateBasicAccProfile() {
-            var oppty;
-            var req = new XMLHttpRequest();
-            req.open("GET", clientURL + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'account'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'status'%20%2F%3E%3Cattribute%20name%3D'primarycontactid'%20%2F%3E%3Cattribute%20name%3D'parentaccountid'%20alias%3D'ParentOrganisation'%2F%3E%3Cattribute%20name%3D'ccrm_managingteamid'%20alias%3D'ManagingTeam'%2F%3E%3Cattribute%20name%3D'ccrm_clienttype'%20alias%3D'Clienttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientsectorpicklistname'%20alias%3D'ClientSectors'%2F%3E%3Cattribute%20name%3D'websiteurl'%20alias%3D'weburl'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%3D'telephone'%2F%3E%3Cattribute%20name%3D'ccrm_keyaccountmanagerid'%2F%3E%3Cattribute%20name%3D'description'%2F%3E%3Cattribute%20name%3D'address1_postalcode'%20%2F%3E%3Cattribute%20name%3D'address1_line3'%20%2F%3E%3Cattribute%20name%3D'address1_line2'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'accountid'%20operator%3D'eq'%20value%3D'"+accId+"'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            req.onreadystatechange = function() {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 200) {
-                        oppty = JSON.parse(this.response).value;
-                    } else {
-                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
-                        var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
-                    }
-                }
-            };
-            req.send();
-
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='account'>" +
-                "<attribute name='name' />" +
-                "<attribute name='accountid' />" +
-                "<attribute name='statuscode' alias='status' />" +
-                "<attribute name='primarycontactid' />" +
-                "<attribute name='parentaccountid' alias='ParentOrganisation'/>" +
-                "<attribute name='ccrm_managingteamid' alias='ManagingTeam'/>" +
-                "<attribute name='ccrm_clienttype' alias='Clienttype' />" +
-                "<attribute name='ccrm_clientsectorpicklistname' alias='ClientSectors'/>" +
-                "<attribute name='websiteurl' alias='weburl'/>" +
-                "<attribute name='telephone1' alias='telephone'/>" +
-                "<attribute name='ccrm_keyaccountmanagerid'/>" +
-                "<attribute name='description'/>" +
-                "<attribute name='address1_postalcode' />" +
-                "<attribute name='address1_line3' />" +
-                "<attribute name='address1_line2' />" +
-                "<attribute name='address1_line1' />" +
-                "<attribute name='address1_city' />" +
-                "<filter type='and'>" +
-                "<condition attribute='accountid' operator='eq' value='" + accId + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
-            if (oppty.length > 0) {
-                var result = oppty[0];
-                var basicProfile = {
-                    accountId: result.accountid,
-                    address_comosite: result.address1_composite != undefined ? result.address1_composite : "",
-                    address1_City: result.address1_city != undefined ? result.address1_city : "",
-                    address1_Line1: result.address1_line1 != undefined ? result.address1_line1 : "",
-                    address1_Line2: result.address1_line2 != undefined ? result.address1_line2 : "",
-                    address1_Line3: result.address1_line3 != undefined ? result.address1_line3 : "",
-                    address1_PostalCode: result.address1_postalcode != undefined ? result.address1_postalcode : "",
-                    ccrm_ClientSectorValue: result.ClientSectors != undefined ? result.ClientSectors : "",
-                    ccrm_ClientType: result.Clienttype != undefined ? result["Clienttype@OData.Community.Display.V1.FormattedValue"] : "",
-                    ccrm_keyaccountmanagerid: result.ccrm_keyaccountmanagerid != undefined ? result.ccrm_keyaccountmanagerid : "",
-                    ccrm_managingteamid: result.ManagingTeam != undefined ? result["ManagingTeam@OData.Community.Display.V1.FormattedValue"] : "",
-                    description: result.description != undefined ? result.description : "",
-                    name: result.name != undefined ? result.name : "",
-                    parentAccountId: result.ParentOrganisation != undefined ? result["ParentOrganisation@OData.Community.Display.V1.FormattedValue"] : "",
-                    statusCode: result.status,
-                    telephone1: result.telephone != undefined ? result.telephone : "",
-                    webSiteURL: result.weburl != undefined ? result.weburl : ""
-                };
-                AssociateProfileDataWithReport(basicProfile);
-            }
+            var query = "accounts("+accId+")?$select=address1_addressid,address1_city,address1_country,address1_line1,address1_line2,address1_line3,address1_postalcode,arup_clientscovid19bcadvised,ccrm_clienttype,_ccrm_keyaccountmanagerid_value,_ccrm_managingteamid_value,description,name,_parentaccountid_value,statuscode,telephone1,websiteurl,arup_clientsector";
+            var basicProfile = {};
+            GetCRMData(query,
+                function(result) {
+                    basicProfile = {
+                        accountId: result.accountid,
+                        address_comosite: result.address1_composite != undefined ? result.address1_composite : "",
+                        address1_City: result.address1_city != undefined ? result.address1_city : "",
+                        address1_Line1: result.address1_line1 != undefined ? result.address1_line1 : "",
+                        address1_Line2: result.address1_line2 != undefined ? result.address1_line2 : "",
+                        address1_Line3: result.address1_line3 != undefined ? result.address1_line3 : "",
+                        address1_PostalCode: result.address1_postalcode != undefined ? result.address1_postalcode : "",
+                        ccrm_ClientSectorValue: result["arup_clientsector@OData.Community.Display.V1.FormattedValue"] || "",
+                        ccrm_ClientType: result["ccrm_clienttype@OData.Community.Display.V1.FormattedValue"] || "",
+                        ccrm_keyaccountmanager: result["_ccrm_keyaccountmanagerid_value@OData.Community.Display.V1.FormattedValue"],
+                        ccrm_managingteam: result["_ccrm_managingteamid_value@OData.Community.Display.V1.FormattedValue"] || "",
+                        description: result.description || "",
+                        name: result.name || "",
+                        parentAccount: result["_parentaccountid_value@OData.Community.Display.V1.FormattedValue"] || "",
+                        statusCode: result.status,
+                        telephone1: result.telephone1 || "",
+                        webSiteURL:  result.websiteurl || "" // ??
+                    };
+                },
+                "Getting Basic profile data")
+                .then(function() {
+                     AssociateProfileDataWithReport(basicProfile)
+                });
         }
    
 
@@ -1407,11 +1310,11 @@
             accName = profileData.name;
             $("#accountName").text(profileData.name);
             $("#website").text(profileData.webSiteURL);
-            $("#relationshipmanager").text(profileData.ccrm_keyaccountmanagerid);
-            if (profileData.parentAccountId != null) {
-                $("#parentOrg").text(profileData.parentAccountId);
+            $("#relationshipmanager").text(profileData.ccrm_keyaccountmanager);
+            if (profileData.parentAccount != null) {
+                $("#parentOrg").text(profileData.parentAccount);
             }
-            $("#relationshipteam").text(profileData.ccrm_managingteamid);
+            $("#relationshipteam").text(profileData.ccrm_managingteam);
             $("#phonenum").text(profileData.telephone1);
             $("#address").text(address);
             $("#clientType").text(profileData.ccrm_ClientType);
@@ -1439,7 +1342,7 @@
                 error: function(xhr, textStatus, errorThrown) {
                     var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                     var alertOptions = { height: 120, width: 260 };
-                    Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                    AlertDialog( alertStrings, alertOptions);
                 }
             });
             var opporLst = [];
@@ -1458,6 +1361,7 @@
         }
 
         function GetOpenOpportunities() {
+            debugger;
             var opportRecords;
             var opportRecordsUlt;
             var req = new XMLHttpRequest();
@@ -1474,41 +1378,11 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
             req.send();
-            
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
-                "<entity name='opportunity'>" +
-                "<attribute name='opportunityid' />" +
-                "<attribute name='name' />" +
-                "<attribute name='ccrm_projectmanager_userid' />" +
-                "<attribute name='ccrm_projectdirector_userid' />" +
-                "<attribute name='ccrm_probabilityofprojectproceeding' alias='Probability_of_Proceeding'/>" +
-                "<attribute name='ccrm_estarupinvolvementstart' />" +
-                "<attribute name='closeprobability' />" +
-                "<attribute name='ccrm_bidmanager_userid' />" +
-                "<attribute name='ccrm_biddirector_userid' />" +
-                "<attribute name='ccrm_arupregionid' />" +
-                "<attribute name='statuscode' alias='StatusCode'/>" +
-                "<attribute name='statecode' />" +
-                "<attribute name='customerid' alias='ClientName' />" +
-                "<attribute name='estimatedvalue_base' alias='fee' />" +
-                "<attribute name='ccrm_proj_factoredincome_curr_base' alias='Factored_fee' />" +
-
-                "<link-entity name='account' from='accountid' to='customerid' alias='aj' link-type='inner' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='eq' value='0' />" +
-                "<condition attribute='statuscode' operator='ne' value='3' />" +
-                "<condition attribute='statuscode' operator='not-null'/>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
 
             //Fetch for ultimate client
             var req = new XMLHttpRequest();
@@ -1525,40 +1399,12 @@
                     } else {
                         var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 }
             };
             req.send();
-            
-            var fetchXMLUlt = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
-                "<entity name='opportunity'>" +
-                "<attribute name='opportunityid' />" +
-                "<attribute name='name' />" +
-                "<attribute name='ccrm_projectmanager_userid' />" +
-                "<attribute name='ccrm_projectdirector_userid' />" +
-                "<attribute name='ccrm_probabilityofprojectproceeding' alias='Probability_of_Proceeding'/>" +
-                "<attribute name='ccrm_estarupinvolvementstart' />" +
-                "<attribute name='closeprobability' />" +
-                "<attribute name='ccrm_bidmanager_userid' />" +
-                "<attribute name='ccrm_biddirector_userid' />" +
-                "<attribute name='ccrm_arupregionid' />" +
-                "<attribute name='statuscode' alias='StatusCode'/>" +
-                "<attribute name='statecode' />" +
-                "<attribute name='ccrm_ultimateendclientid' alias='ClientName' />" +
-                "<attribute name='estimatedvalue_base' alias='fee' />" +
-                "<attribute name='ccrm_proj_factoredincome_curr_base' alias='Factored_fee' />" +
 
-                "<link-entity name='account' from='accountid' to='ccrm_ultimateendclientid' alias='aj' link-type='inner' />" +
-
-                "<filter type='and'>" +
-                "<condition attribute='statecode' operator='eq' value='0' />" +
-                "<condition attribute='statuscode' operator='ne' value='3' />" +
-                "<condition attribute='statuscode' operator='not-null'/>" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq-or-under' uitype='account' value='" + parentaccountid + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
             var opporLst = [];
             if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
                 if (opportRecords.length > 0) {
@@ -1675,7 +1521,7 @@
                     error: function(xhr, textStatus, errorThrown) {
                         var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 });
             }
@@ -1698,7 +1544,7 @@
                     error: function(xhr, textStatus, errorThrown) {
                         var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
                         var alertOptions = { height: 120, width: 260 };
-                        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+                        AlertDialog( alertStrings, alertOptions);
                     }
                 });
             }
@@ -1817,6 +1663,7 @@
 
             $("#top10OpenOpporCnt").text("( " + allOpenOppor.length + " in Total)");
 
+            debugger;
             DrawTable("#top10OpenOportunities", finalOpp, Object.keys(finalOpp[0]).filter(function (d) { return d !== 'OpportunityId'; }));
         }
         function GetPhase(status) {
@@ -2564,6 +2411,12 @@
                 d.fx = null;
                 d.fy = null;
             }
+        }
+
+        function AlertDialog(alertStrings, alertOptions ) {
+            var promise = Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+            promise.then(function() { Window.close() });
+            return promise;
         }
 
     </script>

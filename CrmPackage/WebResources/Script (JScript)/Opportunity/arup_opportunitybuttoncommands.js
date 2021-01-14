@@ -260,6 +260,10 @@ Arup = (
                 HideShowBidDevTab(formContext);
             },
 
+            HideShowPJNCostTab: function (formContext) {
+                HideShowPJNCostTab(formContext);
+            },
+
             // General Utility functions ----------------------
             SetupTabsForStage: function (formContext) {
 
@@ -277,6 +281,7 @@ Arup = (
                     obj.DisplayTab(activeTabName, formContext);                  
                     obj.setVisibleTabs(formContext, obj.staticTabs.concat([activeTabName]));
                     obj.HideShowBidDevTab(formContext);
+                    obj.HideShowPJNCostTab(formContext);
                     if (buttonChangeCallbacks[activeTabName] != null) {
                         buttonChangeCallbacks[activeTabName]();
                     }

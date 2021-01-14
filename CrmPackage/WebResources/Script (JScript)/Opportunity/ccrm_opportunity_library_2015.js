@@ -84,7 +84,7 @@ var PMPDRegionAccreditationValues = {
     '25caaa4f-d139-e011-9cf6-78e7d16510d0': 100000007 //'UKIMEA Region' 
 }
 
-
+var arupCompanyCode;
 var stageFilter = [ArupStages.Lead, ArupStages.CrossRegion, ArupStages.BidDevelopment, ArupStages.BidSubmitted, ArupStages.ConfirmJob];
 var oldBidReviewChair;
 var moveToNextTrigger = false;
@@ -723,6 +723,22 @@ function HideShowBidDevTab(formContext) {
         }
 
     }
+}
+
+function HideShowPJNCostTab(formContext) {
+    var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+    if (arupInternal) {
+        var arupRegion = formContext.getAttribute("ccrm_arupregionid").getValue() 
+            if (arupRegion != null) {
+                if (arupRegion[0].name.toUpperCase() == ArupRegionName.UKMEA.toUpperCase())
+                    formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(true);
+                else
+                    formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(false);
+        }
+    } else {
+        formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(true);
+    }
+
 }
 
 function arupSubBusiness_onChange_qc(executionContext) {
@@ -2774,6 +2790,19 @@ function requestPossibleJob(formContext) {
                     },
                 ], "WARNING", 600, 250, ClientUrl, true);
         }
+
+        if (arupCompanyCode == '5006') {
+            Alert.show('<font size="6" color="#F69922"><b>Invalid Company for PJN</b></font>',
+                '<font size="3" color="#000000"></br>' + 'PJN cannot be requested for company Arup US, INC (5006).' + '</font>',
+                [
+                    {
+                        label: "<b>OK</b>",
+                        setFocus: true
+                    },
+                ], "WARNING", 600, 250, ClientUrl, true);
+
+            return;
+        }
     }
 
     SetFieldRequirementForPreBidStage(formContext);
@@ -2877,6 +2906,7 @@ function denyArupCompanyPJN(formContext, companyID) {
             if (this.status === 200) {
                 var result = JSON.parse(this.response);
                 companyCode = result["ccrm_acccentrelookupcode"];
+                arupCompanyCode = result["ccrm_acccentrelookupcode"];
             } else {
                 Xrm.Navigation.openAlertDialog(this.statusText);
             }
@@ -4406,16 +4436,19 @@ function calcMaxCashFlowDeficit(formContext) {
 //Phase 1.1 - BAU Release sync from October 2015
 //Enhancement to allow Fee Income as 0 when Australasia region and Procurement Type is Framework/Panel Appointment
 function feeIncomeCheck(formContext) {
+    var arupRegion = formContext.getAttribute('ccrm_arupregionid').getValue();
     if ((formContext.getAttribute("ccrm_estimatedvalue_num").getValue() == 0) &&
         (formContext.getAttribute("ccrm_charitablework").getValue() == true) &&
         (formContext.getAttribute("ccrm_arupbusinessid").getValue()[0].name == 'Charity & Community')) {
         formContext.ui.clearFormNotification("FEEzerovalcheck");
     } else if ((formContext.getAttribute("ccrm_estimatedvalue_num").getValue() == 0) &&
-        (formContext.getAttribute('ccrm_arupregionid').getValue()[0].name == "Australasia Region"
-            || formContext.getAttribute('ccrm_arupregionid').getValue()[0].name == "Malaysia Region"
-        ) &&
+        (arupRegion != null) &&
         (formContext.getAttribute('ccrm_contractarrangement').getValue() == 2)) {
-        formContext.ui.clearFormNotification("FEEzerovalcheck");
+        if (formContext.getAttribute('ccrm_arupregionid').getValue()[0].name == "Australasia Region"
+            || formContext.getAttribute('ccrm_arupregionid').getValue()[0].name == "Malaysia Region"
+        ) {
+            formContext.ui.clearFormNotification("FEEzerovalcheck");
+        }
     } else if ((formContext.getAttribute("ccrm_estimatedvalue_num").getValue() == 0) && (formContext.getAttribute('arup_opportunitytype').getValue() == '770000005')) {
         formContext.ui.clearFormNotification("FEEzerovalcheck");
     }
@@ -6275,7 +6308,7 @@ function IsFormValidForCJN(formContext) {
 }
 
 function requestConfirmJob(formContext) {
-
+  
 
     if (IsFormValidForCJN(formContext)) {
         if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
@@ -6440,6 +6473,10 @@ function openNewCJNAForm(formContext, reserve) {
     if (formContext.getAttribute("ccrm_accountingcentreid").getValue() != null) {
         parameters["ccrm_arupaccountingcodeid"] = formContext.getAttribute("ccrm_accountingcentreid").getValue()[0].id.replace(/[{}]/g, "");
         parameters["ccrm_arupaccountingcodeidname"] = formContext.getAttribute("ccrm_accountingcentreid").getValue()[0].name;
+    }
+
+    if (formContext.getAttribute("arup_opportunitytype").getValue() != null) {
+        parameters["arup_opportunitytype"] = formContext.getAttribute("arup_opportunitytype").getValue();
     }
 
     parameters["ccrm_opportunityid"] = formContext.data.entity.getId().replace(/[{}]/g, "");
@@ -7475,9 +7512,10 @@ function SetUltimateClient(formContext) {
 function ArupRegion_OnChange(executionContext) {
     var formContext = executionContext.getFormContext();
     SetParentOpportunityRequired(formContext);
-    formContext.ui.refreshRibbon();
-
+    HideShowPJNCostTab(formContext);
+   
     RefreshWebResource(formContext, "WebResource_buttonnavigation");
+    formContext.ui.refreshRibbon(true);
 }
 
 function SetParentOpportunityRequired(formContext) {
