@@ -337,6 +337,7 @@ function getCurrentUserDetails(formContext) {
 
                         }
                     }
+    
                     if (retrievedreq["_ccrm_arupcompanyid_value"] != null || userCountry == 'AUSTRALIA') {
                         result.arupcompanyid = (userCountry == 'AUSTRALIA') ? ausCompany.companyId : retrievedreq["_ccrm_arupcompanyid_value"];
                         result.arupcompanyname = (userCountry == 'AUSTRALIA') ? ausCompany.CompanyName : retrievedreq["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"];
@@ -473,8 +474,9 @@ function FormOnload(executionContext) {
 
         currUserData = getCurrentUserDetails(formContext);
         var opportunityType = formContext.getAttribute("arup_opportunitytype").getValue();
-
+  
         if (formContext.ui.getFormType() == 1) {
+            var useAccountingCentre = getUserAccountingCentre(formContext);
 
             if (formContext.getAttribute("customerid").getValue() == null) {
                 setDefaultClientUnassigned(formContext);
@@ -495,10 +497,16 @@ function FormOnload(executionContext) {
                 'systemuser',
                 'ccrm_businessadministrator_userid');
             formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
-            SetLookupField(formContext, currUserData.ccrm_accountingcentreid,
-                currUserData.ccrm_accountingcentrename,
-                'ccrm_arupaccountingcode',
-                'ccrm_accountingcentreid');
+
+            if (useAccountingCentre) {
+                SetLookupField(formContext, currUserData.ccrm_accountingcentreid,
+                    currUserData.ccrm_accountingcentrename,
+                    'ccrm_arupaccountingcode',
+                    'ccrm_accountingcentreid');
+            } else {
+                formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
+            }
+
             formContext.getAttribute("ccrm_accountingcentreid").fireOnChange();
             ccrm_arupbusinessid_onChange(formContext, false);
 
@@ -728,12 +736,12 @@ function HideShowBidDevTab(formContext) {
 function HideShowPJNCostTab(formContext) {
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     if (arupInternal) {
-        var arupRegion = formContext.getAttribute("ccrm_arupregionid").getValue() 
-            if (arupRegion != null) {
-                if (arupRegion[0].name.toUpperCase() == ArupRegionName.UKMEA.toUpperCase())
-                    formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(true);
-                else
-                    formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(false);
+        var arupRegion = formContext.getAttribute("ccrm_arupregionid").getValue()
+        if (arupRegion != null) {
+            if (arupRegion[0].name.toUpperCase() == ArupRegionName.UKMEA.toUpperCase())
+                formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(true);
+            else
+                formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(false);
         }
     } else {
         formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(true);
@@ -744,38 +752,37 @@ function HideShowQualificationTab(formContext, activeStage) {
     var isQualificationAdded = formContext.getAttribute("arup_isqualificationadded").getValue();
     if (isQualificationAdded) {
         formContext.ui.tabs.get("Qualification_Tab").setVisible(true);
-        if (activeStage != "PRE-BID")
-        {
+        if (activeStage != "PRE-BID") {
             DisableSections(formContext, true, "Qualification_Tab", "RFQ_Tab_Section_1", "RFQ_Tab_Section_2", "RFQ_Tab_section_3");
         }
     }
 }
 
 function AddRemoveQualificationTab(formContext, isVisible, addOrRemove) {
-        if (addOrRemove == 'REMOVE') {
-            Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
-                '<font size="3" color="#000000"></br>Do you want to remove Qualification tab?</font>',
-                [
-                    {
-                        label: "<b>Yes</b>",
-                        callback: function () {
-                            formContext.getAttribute("arup_isqualificationadded").setValue(false);
-                            formContext.ui.tabs.get("Qualification_Tab").setVisible(isVisible);
-                            ClearFields(formContext, "arup_rfqduedate", "arup_rfqsubmissiondate", "arup_requestforproposalduedate", "arup_decisiontoqualify", "arup_decisiontakenby", "arup_dateofdecision", "arup_qualificationstatus");
-                        },
-                        setFocus: false,
-                        preventClose: false
+    if (addOrRemove == 'REMOVE') {
+        Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
+            '<font size="3" color="#000000"></br>Do you want to remove Qualification tab?</font>',
+            [
+                {
+                    label: "<b>Yes</b>",
+                    callback: function () {
+                        formContext.getAttribute("arup_isqualificationadded").setValue(false);
+                        formContext.ui.tabs.get("Qualification_Tab").setVisible(isVisible);
+                        ClearFields(formContext, "arup_rfqduedate", "arup_rfqsubmissiondate", "arup_requestforproposalduedate", "arup_decisiontoqualify", "arup_decisiontakenby", "arup_dateofdecision", "arup_qualificationstatus");
                     },
-                    {
-                        label: "<b>No</b>",
-                        setFocus: true,
-                        preventClose: false
-                    }
-                ],
-                "WARNING", 350, 200, '', true);
-        } else if (addOrRemove == 'ADD') {
-            formContext.getAttribute("arup_isqualificationadded").setValue(true);
-        }
+                    setFocus: false,
+                    preventClose: false
+                },
+                {
+                    label: "<b>No</b>",
+                    setFocus: true,
+                    preventClose: false
+                }
+            ],
+            "WARNING", 350, 200, '', true);
+    } else if (addOrRemove == 'ADD') {
+        formContext.getAttribute("arup_isqualificationadded").setValue(true);
+    }
 }
 
 function arupSubBusiness_onChange_qc(executionContext) {
@@ -1233,7 +1240,7 @@ function pollForChangeAsync(formContext,
                                 });
                                 promise.catch(function error(e) {
                                     console.log("Delay failed " + e.message);
-                                    debugger;
+                                  
                                 });
                             } else {
                                 console.log("Timed out waiting polling for " + fieldName);
@@ -6358,7 +6365,7 @@ function IsFormValidForCJN(formContext) {
 }
 
 function requestConfirmJob(formContext) {
-  
+
 
     if (IsFormValidForCJN(formContext)) {
         if (formContext.data.entity.getIsDirty()) { formContext.data.save(); }
@@ -7562,8 +7569,9 @@ function SetUltimateClient(formContext) {
 function ArupRegion_OnChange(executionContext) {
     var formContext = executionContext.getFormContext();
     SetParentOpportunityRequired(formContext);
-    HideShowPJNCostTab(formContext);
-   
+    if (formContext.ui.getFormType() != 1)
+        HideShowPJNCostTab(formContext);
+
     RefreshWebResource(formContext, "WebResource_buttonnavigation");
     formContext.ui.refreshRibbon(true);
 }
@@ -8085,4 +8093,30 @@ function SetFieldRequirementForPreBidStage(formContext) {
                 formContext.getAttribute("arup_biddecisionchair").setRequiredLevel("none");
         }
     }
+}
+
+function getUserAccountingCentre(formContext) {
+    var systemUser = formContext.context.getUserId().replace('{', '').replace('}', '');
+    var arup_useownaccountingcentreforopportunities = null;
+
+    var req = new XMLHttpRequest();
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/systemusers(" + systemUser + ")?$select=arup_useownaccountingcentreforopportunities", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var result = JSON.parse(this.response);
+                arup_useownaccountingcentreforopportunities = result["arup_useownaccountingcentreforopportunities"];
+            } else {
+                Xrm.Navigation.openAlertDialog(this.statusText);
+            }
+        }
+    };
+    req.send();
+    return arup_useownaccountingcentreforopportunities;
 }
