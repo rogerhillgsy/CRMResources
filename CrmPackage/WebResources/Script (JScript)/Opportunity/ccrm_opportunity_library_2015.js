@@ -337,7 +337,7 @@ function getCurrentUserDetails(formContext) {
 
                         }
                     }
-    
+
                     if (retrievedreq["_ccrm_arupcompanyid_value"] != null || userCountry == 'AUSTRALIA') {
                         result.arupcompanyid = (userCountry == 'AUSTRALIA') ? ausCompany.companyId : retrievedreq["_ccrm_arupcompanyid_value"];
                         result.arupcompanyname = (userCountry == 'AUSTRALIA') ? ausCompany.CompanyName : retrievedreq["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"];
@@ -474,7 +474,7 @@ function FormOnload(executionContext) {
 
         currUserData = getCurrentUserDetails(formContext);
         var opportunityType = formContext.getAttribute("arup_opportunitytype").getValue();
-  
+
         if (formContext.ui.getFormType() == 1) {
             var useAccountingCentre = getUserAccountingCentre(formContext);
 
@@ -1240,7 +1240,7 @@ function pollForChangeAsync(formContext,
                                 });
                                 promise.catch(function error(e) {
                                     console.log("Delay failed " + e.message);
-                                  
+
                                 });
                             } else {
                                 console.log("Timed out waiting polling for " + fieldName);
@@ -7335,7 +7335,7 @@ function UpdateField(formContext, field, fieldName, fieldValueFromParent, lookUp
 function EnableFieldsAsPerRequiredLevel(formContext, field, fieldName) {
 
     var enable = (field.getRequiredLevel() == 'none' || field.getValue() != null);
-    formContext.getControl(fieldName).setDisabled(enable);
+    //formContext.getControl(fieldName).setDisabled(enable);
     enableDisableBPFField(formContext, fieldName, enable);
 }
 
@@ -7391,8 +7391,17 @@ function UpdateDetailsFromParentOpportunity(formContext, result, event) {
     UpdateFieldFromParentOpportunity(formContext, "ccrm_location", result["ccrm_location"]);
     UpdateFieldFromParentOpportunity(formContext, "ccrm_probabilityofprojectproceeding", result["ccrm_probabilityofprojectproceeding"]);
     UpdateFieldFromParentOpportunity(formContext, "closeprobability", result["closeprobability"]);
-    UpdateFieldFromParentOpportunity(formContext, "ccrm_arupbusinessid", result["_ccrm_arupbusinessid_value"], result["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupbusinessid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
-    UpdateFieldFromParentOpportunity(formContext, "arup_subbusiness", result["_arup_subbusiness_value"], result["_arup_subbusiness_value@OData.Community.Display.V1.FormattedValue"], result["_arup_subbusiness_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+    //check if the status is active of Arup Business and Arup Sub Buiness
+    var arupSubBusinessStatus = checkBusinessStatus(formContext, result["_ccrm_arupbusinessid_value"], "ccrm_arupbusinesses");
+    var arupBusinessStatus = checkBusinessStatus(formContext, result["_arup_subbusiness_value"], "arup_subbusinesses");
+
+    if (arupSubBusinessStatus != null && arupSubBusinessStatus == 0) {
+        UpdateFieldFromParentOpportunity(formContext, "arup_subbusiness", result["_arup_subbusiness_value"], result["_arup_subbusiness_value@OData.Community.Display.V1.FormattedValue"], result["_arup_subbusiness_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+    }
+
+    if (arupBusinessStatus != null && arupBusinessStatus == 0) {
+        UpdateFieldFromParentOpportunity(formContext, "ccrm_arupbusinessid", result["_ccrm_arupbusinessid_value"], result["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupbusinessid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+    }
 
     if (formContext.getAttribute("arup_subbusiness").getValue() == null) {
         // if  subbusiness is empty then fire the onchange event of business field to allow selection for Sub Businesss
@@ -8119,4 +8128,28 @@ function getUserAccountingCentre(formContext) {
     };
     req.send();
     return arup_useownaccountingcentreforopportunities;
+}
+
+function checkBusinessStatus(formContext, BusinessID, entityName) {
+    var req = new XMLHttpRequest();
+    var statecode = null;
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/" + entityName + "(" + BusinessID + ")?$select=statecode", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var result = JSON.parse(this.response);
+                statecode = result["statecode"];
+            } else {
+                Xrm.Navigation.openAlertDialog(this.statusText);
+            }
+        }
+    };
+    req.send();
+    return statecode;
 }
