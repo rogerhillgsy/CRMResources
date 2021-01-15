@@ -1307,6 +1307,11 @@
       <UniqueName>arup_Contact</UniqueName>
       <WebResourceType>PNG</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_commonfunctions.js">
+      <DisplayName>arup_commonfunctions</DisplayName>
+      <UniqueName>new_arup_commonfunctions</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_DuplicateCheck.js">
       <DisplayName>Duplicate Checking</DisplayName>
       <UniqueName>arup_DuplicateCheck</UniqueName>

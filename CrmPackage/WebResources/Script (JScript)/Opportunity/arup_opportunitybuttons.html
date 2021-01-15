@@ -253,9 +253,6 @@ There will be several copies of the web resource visible in the debugger as "aru
             return backButtonText;
         }
 
-
-
-
         function GetLabelTextForCommercialStage() {
             var labelText;
             if (parent.Arup.IsInternalOpportunity(formContext))
@@ -267,10 +264,25 @@ There will be several copies of the web resource visible in the debugger as "aru
         }
 
 
+        function GetLabelTextForQualificationTab() {          
+             var labelText = '</br><p>Return to the Pre-Bid tab in order to progress this opportunity through Decision to Proceed</p>';
+            return labelText;
+        }
+
         function GetLabelTextForPJN() {
             var labelText;
             if (parent.Arup.IsRequestPossibleJobEnabled(formContext))
                 labelText = '</br><p>To request a possible job number use "Request Possible Job" button at top</p>';
+            return labelText;
+        }
+
+        function GetLabelTextForQualificationButton() {
+            var labelText;
+            if (parent.Arup.IsQualificationAdded(formContext))
+                labelText = 'Go to RFQ Tab';           
+            else
+                labelText = 'Add Tab for RFQ';
+
             return labelText;
         }
 
@@ -380,6 +392,18 @@ There will be several copies of the web resource visible in the debugger as "aru
         buttonConfigs = {
 
             'Pre-Bid_Tab': [
+                {
+                    'label': function () { return GetLabelTextForQualificationButton(); },
+                    'action': function () {
+                        if (parent.Arup.IsQualificationAdded(this)) {
+                            DisplayTab("Qualification_Tab", this);
+                        } else {
+                            parent.Arup.AddRemoveQualificationTab(this, true, "ADD");
+                            DisplayTab("Qualification_Tab", this);
+                        }
+                    },                   
+                    'isredbutton': false
+                },
                 {
                     'label': 'Click Here for PJN Costs',
                     'action': function () {
@@ -641,6 +665,28 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'label': function () { return GetLabelTextForBackButton(); },
                     'action': function () {
                         ReturnToActiveTab(this);
+                    },
+                    'isredbutton': false
+                }
+            ],
+            'Qualification_Tab': [
+                {
+                    // TOD: return to active stage
+                    'label': function () { return GetLabelTextForBackButton(); },
+                    'action': function () {
+                        ReturnToActiveTab(this);
+                    },
+                    'isredbutton': false
+                },
+                {
+                    'label': function () { return GetLabelTextForQualificationTab(); },
+                    'hidden': false,
+                    'islabel': true
+                },
+                {
+                    'label': 'Remove Pre-Qualification Tab',
+                    'action': function () {
+                        parent.Arup.AddRemoveQualificationTab(this, false,"REMOVE");
                     },
                     'isredbutton': false
                 }

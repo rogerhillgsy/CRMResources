@@ -264,6 +264,17 @@ Arup = (
                 HideShowPJNCostTab(formContext);
             },
 
+            HideShowQualificationTab: function (formContext, activeStage) {
+                HideShowQualificationTab(formContext, activeStage);
+            },
+            AddRemoveQualificationTab: function (formContext, isVisible, addOrRemove) {
+                AddRemoveQualificationTab(formContext, isVisible, addOrRemove);
+            },
+
+            IsQualificationAdded: function (formContext) {
+                return GetAttribute(formContext, "arup_isqualificationadded");
+            },
+
             // General Utility functions ----------------------
             SetupTabsForStage: function (formContext) {
 
@@ -282,6 +293,7 @@ Arup = (
                     obj.setVisibleTabs(formContext, obj.staticTabs.concat([activeTabName]));
                     obj.HideShowBidDevTab(formContext);
                     obj.HideShowPJNCostTab(formContext);
+                    obj.HideShowQualificationTab(formContext, activeStageName);
                     if (buttonChangeCallbacks[activeTabName] != null) {
                         buttonChangeCallbacks[activeTabName]();
                     }
@@ -377,8 +389,8 @@ Arup = (
             },
 
             staticTabs: [
-                'PJN_Costs_Tab', 'Summary', 'Project_Financials_Tab', 'Project_Details_Tab',
-                'Bid_Details_Tab', 'Notes_tab'
+                'PJN_Costs_Tab', 'Project_Financials_Tab', 'Project_Details_Tab',
+                'Bid_Details_Tab', 'Notes_tab', 'Summary'
             ],
             // Entry point from the form properties.
             // This is set up as en event handler to be called from the main CRM opportunity form.

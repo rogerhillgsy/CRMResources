@@ -664,3 +664,11 @@ function SetSGDMultiSelect(executionContext, fieldname) {
     }
     return;
 }
+function QualificationStatus_OnChange(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var qualificationStatus = formContext.getAttribute("arup_qualificationstatus").getText();
+    if (qualificationStatus != null)
+        formContext.ui.setFormNotification(qualificationStatus, 'INFO', 'QualificationStatusMsg');
+    else
+        formContext.ui.clearFormNotification('QualificationStatusMsg');
+}

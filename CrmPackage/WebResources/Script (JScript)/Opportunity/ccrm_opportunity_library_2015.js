@@ -740,6 +740,43 @@ function HideShowPJNCostTab(formContext) {
     }
 
 }
+function HideShowQualificationTab(formContext, activeStage) {
+    var isQualificationAdded = formContext.getAttribute("arup_isqualificationadded").getValue();
+    if (isQualificationAdded) {
+        formContext.ui.tabs.get("Qualification_Tab").setVisible(true);
+        if (activeStage != "PRE-BID")
+        {
+            DisableSections(formContext, true, "Qualification_Tab", "RFQ_Tab_Section_1", "RFQ_Tab_Section_2", "RFQ_Tab_section_3");
+        }
+    }
+}
+
+function AddRemoveQualificationTab(formContext, isVisible, addOrRemove) {
+        if (addOrRemove == 'REMOVE') {
+            Alert.show('<font size="6" color="#FF9B1E"><b>Warning</b></font>',
+                '<font size="3" color="#000000"></br>Do you want to remove Qualification tab?</font>',
+                [
+                    {
+                        label: "<b>Yes</b>",
+                        callback: function () {
+                            formContext.getAttribute("arup_isqualificationadded").setValue(false);
+                            formContext.ui.tabs.get("Qualification_Tab").setVisible(isVisible);
+                            ClearFields(formContext, "arup_rfqduedate", "arup_rfqsubmissiondate", "arup_requestforproposalduedate", "arup_decisiontoqualify", "arup_decisiontakenby", "arup_dateofdecision", "arup_qualificationstatus");
+                        },
+                        setFocus: false,
+                        preventClose: false
+                    },
+                    {
+                        label: "<b>No</b>",
+                        setFocus: true,
+                        preventClose: false
+                    }
+                ],
+                "WARNING", 350, 200, '', true);
+        } else if (addOrRemove == 'ADD') {
+            formContext.getAttribute("arup_isqualificationadded").setValue(true);
+        }
+}
 
 function arupSubBusiness_onChange_qc(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -5497,6 +5534,19 @@ function ShowSections(formContext, isVisible, tabName, listOfFields) {
             var tab = formContext.ui.tabs.get(tabName);
             if (tab != null) {
                 tab.sections.get(arguments[field]).setVisible(isVisible);
+            }
+        }
+    }
+}
+
+function DisableSections(formContext, isDisable, tabName, listOfFields) {
+    /// <summary>Hide Show sections</summary>
+    /// <param name="listOfFields">One or more sections</param>
+    for (var field in arguments) {
+        if (field != 0 && field != 1 && field != 2) {
+            var tab = formContext.ui.tabs.get(tabName);
+            if (tab != null) {
+                tab.sections.get(arguments[field]).setDisabled(isDisable);
             }
         }
     }
