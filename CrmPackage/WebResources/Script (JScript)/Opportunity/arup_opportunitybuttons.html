@@ -680,7 +680,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 },
                 {
                     'label': function () { return GetLabelTextForQualificationTab(); },
-                    'hidden': false,
+                    'hidden': function () { return !parent.Arup.IsPreBidStage(formContext); },
                     'islabel': true
                 },
                 {
@@ -688,6 +688,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'action': function () {
                         parent.Arup.AddRemoveQualificationTab(this, false,"REMOVE");
                     },
+                    'hidden': function () { return !parent.Arup.IsPreBidStage(formContext); },
                     'isredbutton': false
                 }
             ]

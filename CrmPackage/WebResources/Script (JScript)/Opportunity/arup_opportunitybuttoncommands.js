@@ -275,6 +275,12 @@ Arup = (
                 return GetAttribute(formContext, "arup_isqualificationadded");
             },
 
+            IsPreBidStage: function (formContext) {
+                var activeStageName = formContext.data.process.getActiveStage();
+                activeStageName = activeStageName == null ? null : activeStageName.getName();
+                return activeStageName == "PRE-BID";
+            },
+
             // General Utility functions ----------------------
             SetupTabsForStage: function (formContext) {
 

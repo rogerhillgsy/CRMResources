@@ -709,6 +709,9 @@ function FormOnload(executionContext) {
             formContext.getControl('ccrm_leadoriginator').setFocus();
         }
         setTimeout(function () { SetMultiSelect(formContext); }, 10000);
+
+        QualificationStatus_OnChange(formContext);
+
         /*if (formContext.ui.getFormType() != 1) {
             if (formContext.getAttribute("ccrm_confidentialoptionset").getValue() == 2) {
                 setPrintPreviewURL(formContext);
@@ -753,7 +756,7 @@ function HideShowQualificationTab(formContext, activeStage) {
     if (isQualificationAdded) {
         formContext.ui.tabs.get("Qualification_Tab").setVisible(true);
         if (activeStage != "PRE-BID") {
-            DisableSections(formContext, true, "Qualification_Tab", "RFQ_Tab_Section_1", "RFQ_Tab_Section_2", "RFQ_Tab_section_3");
+            DisableAllControlsInTab(formContext, "Qualification_Tab");
         }
     }
 }
@@ -769,6 +772,8 @@ function AddRemoveQualificationTab(formContext, isVisible, addOrRemove) {
                         formContext.getAttribute("arup_isqualificationadded").setValue(false);
                         formContext.ui.tabs.get("Qualification_Tab").setVisible(isVisible);
                         ClearFields(formContext, "arup_rfqduedate", "arup_rfqsubmissiondate", "arup_requestforproposalduedate", "arup_decisiontoqualify", "arup_decisiontakenby", "arup_dateofdecision", "arup_qualificationstatus");
+                        formContext.getAttribute("arup_qualificationstatus").fireOnChange();
+                        formContext.getAttribute("arup_decisiontoqualify").fireOnChange();
                     },
                     setFocus: false,
                     preventClose: false
@@ -5215,8 +5220,8 @@ function stageNotifications(formContext) {
     }
 
     FormNotificationForOpportunityType(formContext, formContext.getAttribute("arup_opportunitytype").getValue());
-
     restoreFieldVal(formContext, stageid);
+    QualificationStatus_OnChange(formContext);
 
     if (formContext.data.getIsDirty())
         formContext.data.save();

@@ -664,10 +664,15 @@ function SetSGDMultiSelect(executionContext, fieldname) {
     }
     return;
 }
-function QualificationStatus_OnChange(executionContext) {
+function QualificationStatus_OnChange_ec(executionContext) {
     var formContext = executionContext.getFormContext();
+    QualificationStatus_OnChange(formContext)
+}
+
+function QualificationStatus_OnChange(formContext) {
+    var currentStage = getStageId(formContext);
     var qualificationStatus = formContext.getAttribute("arup_qualificationstatus").getText();
-    if (qualificationStatus != null)
+    if (qualificationStatus != null && currentStage == ArupStages.Lead && formContext.getAttribute("arup_isqualificationadded").getValue())
         formContext.ui.setFormNotification(qualificationStatus, 'INFO', 'QualificationStatusMsg');
     else
         formContext.ui.clearFormNotification('QualificationStatusMsg');
