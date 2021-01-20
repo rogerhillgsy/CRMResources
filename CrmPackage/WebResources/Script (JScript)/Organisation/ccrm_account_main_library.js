@@ -100,8 +100,8 @@ function Form_onload(executionContext) {
         DisplayCOVID19Section(userRegion, formContext);
         displayRelationshipTab(formContext);
         formContext.getControl('arup_duediligencecheck').removeOption(2);
-        var status = "";
-        retreiveTeamDetails(formContext, status);
+        //var status = "";
+        //retreiveTeamDetails(formContext, status);
         setCompanyRegistrationRequired(formContext);
     }
     formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
@@ -1059,7 +1059,8 @@ function relationshipTeamOnChange(executionContext) {
 function retreiveTeamDetails(formContext, status) {
     var relationshipTeam = formContext.getAttribute("ccrm_managingteamid").getValue();
     if (relationshipTeam != null) {
-        formContext.getAttribute("ccrm_keyaccount").setValue(true);
+        if (status == "onchange")
+            formContext.getAttribute("ccrm_keyaccount").setValue(true);
 
         var relTeamId = relationshipTeam[0].id.replace('{', '').replace('}', '');
         var req = new XMLHttpRequest();
@@ -1208,8 +1209,11 @@ function retreiveTeamDetails(formContext, status) {
         };
         req.send();
     } else {
+        if (status == "onchange") {
         formContext.getAttribute("ccrm_keyaccount").setValue(false);
-        ClearFields(formContext, 'ccrm_clienttype', 'arup_clientsector', 'ccrm_clientgroupings', 'ccrm_keyaccounttype', 'ccrm_clientprioritisation', 'arup_arup150', 'ccrm_relationshipsnapshot', 'ccrm_keyaccountmanagerid', 'ccrm_arupboardsponsor', 'arup_mostseniorclient');
+        ClearFields(formContext, 'ccrm_clienttype', 'arup_clientsector', 'ccrm_clientgroupings', 'ccrm_keyaccounttype', 'ccrm_clientprioritisation', 'ccrm_relationshipsnapshot', 'ccrm_keyaccountmanagerid', 'ccrm_arupboardsponsor', 'arup_mostseniorclient');
+         formContext.getAttribute("arup_arup150").setValue(null);
+        }
         DisableFields(formContext, false, 'ccrm_clienttype', 'arup_clientsector', 'ccrm_clientgroupings');
     }
 }
