@@ -636,14 +636,19 @@ function FormOnload(executionContext) {
                 ParentOpportunity_Onchange(formContext, "load");
             }
 
-
-
             onSelectOfStage(formContext, currentStage);
             ShowHideOpportunityTypeAndProjectProcurement(formContext, currentStage);
             if (!!formContext.data.process) {
                 formContext.data.process.addOnPreStageChange(function (executionContext) { PreStageChange(executionContext) });
                 formContext.data.process.addOnStageSelected(function () { StageSelected(formContext) });
                 formContext.data.process.addOnStageChange(function () { StageChange_event(formContext) });
+            }
+
+            if (opportunityType == 770000001 && currentStage != ArupStages.BidSubmitted && currentStage != ArupStages.ConfirmJob && currentStage != ArupStages.ConfirmJobApproval &&
+                currentStage != ArupStages.ConfirmJobApproval2 && currentStage != ArupStages.ConfirmJobApproval3) {
+                formContext.ui.setFormNotification("This is an extension of an existing project", "INFO", "OpportunityType");
+            } else {
+                formContext.ui.clearFormNotification('OpportunityType');
             }
         }
 
@@ -5390,8 +5395,15 @@ function StageChange_event(formContext) {
     //}
     //currentStage = stageid
     ShowHideOpportunityTypeAndProjectProcurement(formContext, stageid);
-
+  
+    if (opportunitytype == 770000001 && stageid != ArupStages.BidSubmitted && stageid != ArupStages.ConfirmJob && stageid != ArupStages.ConfirmJobApproval &&
+        stageid != ArupStages.ConfirmJobApproval2 && stageid != ArupStages.ConfirmJobApproval3) {
+        formContext.ui.setFormNotification("This is an extension of an existing project", "INFO", "OpportunityType");
+    } else {
+        formContext.ui.clearFormNotification('OpportunityType');
+    }
 }
+
 function IsPJNApprovalStage(stageid) {
     return (stageid == ArupStages.PJNApproval || stageid == ArupStages.PJNApproval1 || stageid == ArupStages.PJNApproval2 || stageid == ArupStages.PJNApproval3 || stageid == ArupStages.PJNApproval4 || stageid == ArupStages.PJNApproval5 || stageid == ArupStages.PJNApproval6 || stageid == ArupStages.PJNApproval7 || stageid == ArupStages.PJNApproval8 || stageid == ArupStages.PJNApproval9);
 }
@@ -5454,7 +5466,7 @@ function hideProcessFields(formContext, selectedStage) {
             }
             else {
                 hideBPFFields(formContext, "ccrm_financedetailscaptured");
-                setRequiredLevelOfFields(formContext, "required", "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission");
+                setRequiredLevelOfFields(formContext, "required", "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission", "ccrm_chargingbasis");
             }
             break;
         case "BID REVIEW/SUBMISSION":
@@ -5469,7 +5481,7 @@ function hideProcessFields(formContext, selectedStage) {
                 setRequiredLevelOfFields(formContext, "required", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid");
 
             } else {
-                setRequiredLevelOfFields(formContext, "required", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "arup_services", "arup_projecttype", "arup_projectsector", "arup_projpartreqd");
+                setRequiredLevelOfFields(formContext, "required", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "arup_services", "arup_projecttype", "arup_projectsector", "arup_projpartreqd", "ccrm_chargingbasis");
             }
             break;
         case "CONFIRMED JOB - COMMERCIAL":

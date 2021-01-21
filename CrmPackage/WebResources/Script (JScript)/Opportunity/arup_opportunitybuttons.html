@@ -286,6 +286,16 @@ There will be several copies of the web resource visible in the debugger as "aru
             return labelText;
         }
 
+        function GetLabelTextForCrossRegion() {
+            var labelText;
+            if (parent.Arup.IsCrossRegion(formContext))
+                labelText = 'Proceed to Cross Region Stage';
+            else
+                labelText = 'Progress to Developing Bid Stage';
+
+            return labelText;
+        }
+
         // Ensure that the named tab is visible.
         function DisplayTab(newTabName,formContext) {
             console.log("Display tab:" + newTabName);
@@ -412,7 +422,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'isredbutton': false
                 },
                 {
-                    'label': 'Approve Decision to Bid',
+                    'label': 'Progress to Developing Bid Stage',
                     'action': function () {
                         Log("Approving bid decision");
                         parent.Arup.BidDicisionConfirmation();
@@ -421,7 +431,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'isredbutton': true
                 },
                 {
-                    'label': 'Progress to Next Stage',
+                    'label': function () { return GetLabelTextForCrossRegion(); },
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
@@ -438,7 +448,7 @@ There will be several copies of the web resource visible in the debugger as "aru
             ],
             'Cross_Region_Tab': [
                 {
-                    'label': 'Progress to Next Stage',
+                    'label': 'Approve Decision to Proceed',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
@@ -462,7 +472,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'isredbutton': false
                 },
                 {
-                    'label': 'Progress to Next Stage',
+                    'label': 'Proceed to Bid Review Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
@@ -486,7 +496,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'isredbutton': true
                 },
                 {
-                    'label': 'Bid Submitted',
+                    'label': 'Confirm Bid Submitted',
                     'action': function () {
                         Log("Bid Submitted");
                         parent.Arup.BidSubmitted(formContext);
@@ -496,7 +506,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 },
                 {
                     'id': 'next_stage_button',
-                    'label': 'Progress to Next Stage',
+                    'label': 'Progress to Confirmed Job',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
@@ -516,7 +526,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'isredbutton': false
                 },
                 {
-                    'label': 'Progress to Next Stage',
+                    'label': 'Progress to Confirmed Job',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
