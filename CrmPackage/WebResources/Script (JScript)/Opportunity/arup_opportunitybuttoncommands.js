@@ -281,6 +281,23 @@ Arup = (
                 return activeStageName == "PRE-BID";
             },
 
+            IsCrossRegion: function (formContext) {
+                var crossregionbid = false;
+                var regionid;
+                var projectRegionid;
+                var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+
+                if (formContext.getAttribute("ccrm_arupregionid").getValue() != null) {
+                    regionid = formContext.getAttribute("ccrm_arupregionid").getValue()[0].id.replace('{', '').replace('}', '').toUpperCase();
+                }
+
+                if (formContext.getAttribute("ccrm_projectcountryregionid").getValue() != null) {
+                    projectRegionid = formContext.getAttribute("ccrm_projectcountryregionid").getValue()[0].id.replace('{', '').replace('}', '').toUpperCase();
+                }
+                crossregionbid = regionid != null && projectRegionid != null && regionid != projectRegionid && !arupInternal;
+                return crossregionbid;
+            },
+            
             // General Utility functions ----------------------
             SetupTabsForStage: function (formContext) {
 

@@ -474,7 +474,7 @@ function setLeadOwnerDetails(formContext) {
     formContext.getAttribute("ccrm_accountingcentreid").setRequiredLevel('none');
     formContext.getAttribute("ccrm_arupcompanyid").setRequiredLevel('none');
 
-    //var useAccountingCentre = getUserAccountingCentre(formContext);
+    var useAccountingCentre = getUserAccountingCentre(formContext);
 
     if (formContext.getAttribute("ownerid").getValue() == null) {
         formContext.getAttribute("ccrm_arupcompanyid").setValue(null);
@@ -525,11 +525,11 @@ function setLeadOwnerDetails(formContext) {
 
                         SetLookupField(result.arupcompanyid, result.arupcompanyname, 'ccrm_arupcompany', 'ccrm_arupcompanyid', formContext);
                         formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
-                        // if (useAccountingCentre) {
+                        if (useAccountingCentre) {
                         SetLookupField(result.ccrm_accountingcentreid, result.ccrm_accountingcentrename, 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid', formContext);
-                        // } else {
-                        //     formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
-                        // }
+                        } else {
+                            formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
+                        }
                         SetLookupField(result.ccrm_arupregioneid, result.ccrm_arupregionname, 'ccrm_arupregion', 'arup_arupregion', formContext);
 
                         if (leadOwnerData.ccrm_accountingcentreid != null)
@@ -1201,28 +1201,28 @@ function SetMultiSelect(formContext) {
     }
 }
 
-//function getUserAccountingCentre(formContext) {
-//    var systemUser = formContext.context.getUserId().replace('{', '').replace('}', '');
-//    var arup_useownaccountingcentreforopportunities = null;
+function getUserAccountingCentre(formContext) {
+    var systemUser = formContext.context.getUserId().replace('{', '').replace('}', '');
+    var arup_useownaccountingcentreforopportunities = null;
 
-//    var req = new XMLHttpRequest();
-//    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/systemusers(" + systemUser + ")?$select=arup_useownaccountingcentreforopportunities", false);
-//    req.setRequestHeader("OData-MaxVersion", "4.0");
-//    req.setRequestHeader("OData-Version", "4.0");
-//    req.setRequestHeader("Accept", "application/json");
-//    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-//    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-//    req.onreadystatechange = function () {
-//        if (this.readyState === 4) {
-//            req.onreadystatechange = null;
-//            if (this.status === 200) {
-//                var result = JSON.parse(this.response);
-//                arup_useownaccountingcentreforopportunities = result["arup_useownaccountingcentreforopportunities"];
-//            } else {
-//                Xrm.Navigation.openAlertDialog(this.statusText);
-//            }
-//        }
-//    };
-//    req.send();
-//    return arup_useownaccountingcentreforopportunities;
-//}
+    var req = new XMLHttpRequest();
+    req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/systemusers(" + systemUser + ")?$select=arup_useownaccountingcentreforopportunities", false);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var result = JSON.parse(this.response);
+                arup_useownaccountingcentreforopportunities = result["arup_useownaccountingcentreforopportunities"];
+            } else {
+                Xrm.Navigation.openAlertDialog(this.statusText);
+            }
+        }
+    };
+    req.send();
+    return arup_useownaccountingcentreforopportunities;
+}
