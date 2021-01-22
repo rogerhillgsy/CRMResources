@@ -7413,15 +7413,17 @@ function UpdateDetailsFromParentOpportunity(formContext, result, event) {
     UpdateFieldFromParentOpportunity(formContext, "ccrm_probabilityofprojectproceeding", result["ccrm_probabilityofprojectproceeding"]);
     UpdateFieldFromParentOpportunity(formContext, "closeprobability", result["closeprobability"]);
     //check if the status is active of Arup Business and Arup Sub Buiness
-    var arupSubBusinessStatus = checkBusinessStatus(formContext, result["_ccrm_arupbusinessid_value"], "ccrm_arupbusinesses");
-    var arupBusinessStatus = checkBusinessStatus(formContext, result["_arup_subbusiness_value"], "arup_subbusinesses");
+    var arupBusinessStatus = checkBusinessStatus(formContext, result["_ccrm_arupbusinessid_value"], "ccrm_arupbusinesses");
+    var arupSubBusinessStatus  = checkBusinessStatus(formContext, result["_arup_subbusiness_value"], "arup_subbusinesses");
 
-    if (arupSubBusinessStatus != null && arupSubBusinessStatus == 0) {
-        UpdateFieldFromParentOpportunity(formContext, "arup_subbusiness", result["_arup_subbusiness_value"], result["_arup_subbusiness_value@OData.Community.Display.V1.FormattedValue"], result["_arup_subbusiness_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+    if (arupBusinessStatus == 0) {
+        UpdateFieldFromParentOpportunity(formContext, "ccrm_arupbusinessid", result["_ccrm_arupbusinessid_value"], result["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupbusinessid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
     }
 
-    if (arupBusinessStatus != null && arupBusinessStatus == 0) {
-        UpdateFieldFromParentOpportunity(formContext, "ccrm_arupbusinessid", result["_ccrm_arupbusinessid_value"], result["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupbusinessid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+    if (arupBusinessStatus == 0 && arupSubBusinessStatus == 0) {
+        UpdateFieldFromParentOpportunity(formContext, "arup_subbusiness", result["_arup_subbusiness_value"], result["_arup_subbusiness_value@OData.Community.Display.V1.FormattedValue"], result["_arup_subbusiness_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+    } else {
+        formContext.getAttribute("arup_subbusiness").setValue(null);
     }
 
     if (formContext.getAttribute("arup_subbusiness").getValue() == null) {
