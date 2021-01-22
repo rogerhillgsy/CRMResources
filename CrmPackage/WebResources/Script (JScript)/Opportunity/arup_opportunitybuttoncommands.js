@@ -244,6 +244,10 @@ Arup = (
                 BidSubmittedClick(formContext);
             },
 
+            RemoveBidSubmittedNotification: function () {
+                formContext.ui.clearFormNotification('userNotify');
+            },           
+
             AddProjectParticipant: function () {
                 addProjectParticipant(formContext);
             },

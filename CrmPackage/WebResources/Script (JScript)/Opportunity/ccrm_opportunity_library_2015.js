@@ -650,6 +650,11 @@ function FormOnload(executionContext) {
             } else {
                 formContext.ui.clearFormNotification('OpportunityType');
             }
+
+            var isBidSubmitted = formContext.getAttribute("arup_bidsubmissionoutcome").getValue(770000001);
+            if (isBidSubmitted == 770000001 && currentStage == ArupStages.BidReviewApproval) {
+                setBidSubmittedNotification(formContext);
+            }
         }
 
         // Ensure that when the "Related Networks & Markets" field is set to "Other" that the "Other Network Details" field is made visible and mandatory.
@@ -1269,7 +1274,6 @@ function pollForChangeAsync(formContext,
 
     pollCrm().catch(function error(e) {
         console.error("Error polling for change in " + fieldName + "... " + e.message);
-        debugger;
 
     });
 
@@ -7948,11 +7952,14 @@ function BidSubmittedClick(formContext) {
 
     formContext.getAttribute("arup_bidsubmitteddate").setValue(new Date());
     formContext.getAttribute("arup_bidsubmissionoutcome").setValue(770000001);
+    setBidSubmittedNotification(formContext);
     formContext.data.save();
 
     RefreshWebResource(formContext, "WebResource_bidreviewsubmissionnavigation");
+}
 
-
+function setBidSubmittedNotification(formContext) {
+    formContext.ui.setFormNotification("Do Not Progress further until a client Decision has been taken", "INFORMATION", "userNotify");
 }
 
 function RefreshWebResource(formContext, webResourceName) {

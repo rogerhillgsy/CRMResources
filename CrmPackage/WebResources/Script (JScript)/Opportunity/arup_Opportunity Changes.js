@@ -70,14 +70,12 @@ function CloseOpportunity(formContext, statusCode) {
                     Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
                         function success(returnValue) {
                             OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                            formContext.ui.clearFormNotification('userNotify');
                         },
                         function error() {
                             // Handle errors
                         }
                     );
-
-
-
                 }
             }, 1000);
         },
