@@ -3,6 +3,9 @@
     parent.formContext = formContext;
     setInterval(changeHeaderTileFormat, 1000);
     multiDiscipline_onChange(executionContext);
+
+    formContext.getAttribute("arup_region").setRequiredLevel('required');
+
     if (formContext.ui.getFormType() != 1) {
         parent.entityId = formContext.data.entity.getId();
         RefreshWebResource(formContext, "WebResource_FrameworkButton");
