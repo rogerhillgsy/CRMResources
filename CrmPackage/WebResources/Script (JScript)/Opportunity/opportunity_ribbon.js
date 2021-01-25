@@ -121,9 +121,11 @@ function hideButtonCloseAsWonNoCJN(formContext) {
     var activeStage = formContext.data.process.getActiveStage();
     var activeStageId = activeStage.getId();
     var statecode = formContext.getAttribute('statecode').getValue();
+    var isCJNApprovalStage = IsCJNApprovalStage(activeStageId);
+    var isFrameworkOpportunty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
 
     if (
-        (activeStageId == ArupStages.ConfirmJobApproval || activeStageId == ArupStages.ConfirmJobApproval1 || activeStageId == ArupStages.ConfirmJobApproval2 || activeStageId == ArupStages.ConfirmJobApproval3 || activeStageId == ArupStages.ConfirmJob) && statecode == 0
+       ((isCJNApprovalStage && !isFrameworkOpportunty) || activeStageId == ArupStages.ConfirmJob) && statecode == 0
 
     ) {
         return true;
@@ -146,12 +148,24 @@ function hideButtonCloseAsWonCJNNeeded(formContext) {
         return true;
     }
 }
+function ShowButtonCloseFramework(formContext) {
+    var activeStage = formContext.data.process.getActiveStage();
+    var activeStageId = activeStage.getId();
+    var statecode = formContext.getAttribute('statecode').getValue();
+
+    if (IsCJNApprovalStage(activeStageId) && isFrameworkOpportunty && statecode > 0)
+        return true;
+    else
+        return false;
+}
 
 function hideButtonCloseAsLost(formContext) {
     var activeStage = formContext.data.process.getActiveStage();
     var activeStageId = activeStage.getId();
     var statecode = formContext.getAttribute('statecode').getValue();
-    if ((activeStageId == ArupStages.Lead || activeStageId == ArupStages.CrossRegion || IsPJNApprovalStage(activeStageId) || activeStageId == ArupStages.BidDevelopment || activeStageId == ArupStages.BidReviewApproval) || statecode > 0) {
+    var isFrameworkOpportunty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
+
+    if ((activeStageId == ArupStages.Lead || activeStageId == ArupStages.CrossRegion || IsPJNApprovalStage(activeStageId) || activeStageId == ArupStages.BidDevelopment || activeStageId == ArupStages.BidReviewApproval) || statecode > 0 || (IsCJNApprovalStage(activeStageId) && isFrameworkOpportunty) ) {
         return false;
     }
     else {

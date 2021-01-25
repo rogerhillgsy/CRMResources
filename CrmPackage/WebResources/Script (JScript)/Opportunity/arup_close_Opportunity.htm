@@ -2,7 +2,7 @@
 <head>
     <script type="text/javascript">
 
-        var OpportunityId, clientUrl, statusCode;
+        var OpportunityId, clientUrl, statusCode, isFrameworkOpty;
         var globalObject = new Object();
 
         function getUrlParameters() {
@@ -31,6 +31,7 @@
                 //statusCode = parameters.data.split('&amp;')[3].split('=')[1];
                 statusCode = params.statuscode;
                 clientUrl = params.clienturl;
+                isFrameworkOpty = params.isframeworkopty;
                 var myObject = JSON.parse(statusReasons);
                 globalObject = myObject;
 
@@ -85,35 +86,72 @@
             }
 
             var select = document.getElementById("reason");
-            var parameters = {};
+            var skipCloseOpportunity = false;
 
-            parameters.statusReason = select.options[select.selectedIndex].value;
-            parameters.description = document.getElementById("description").value;
-            parameters.statusCode = statusCode;
+            if (isFrameworkOpty && statusCode == 'won')
+                skipCloseOpportunity = true;
 
-            selectedDate.setHours(selectedDate.getHours() + 1);
-            parameters.actualclosedate = selectedDate.toISOString();
+            if (skipCloseOpportunity) {
+                UpdateWonReason(select.options[select.selectedIndex].value);
+                closeDlg();
+            } else {
+                var parameters = {};
 
-            var req = new XMLHttpRequest();
-            req.open("POST",
-                clientUrl +
-                "/api/data/v9.1/opportunities(" +
-                OpportunityId +
-                ")/Microsoft.Dynamics.CRM.arup_CloseOpportunity",
-                false);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-            req.onreadystatechange = function () {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 204) {
-                        closeDlg();
+                parameters.statusReason = select.options[select.selectedIndex].value;
+                parameters.description = document.getElementById("description").value;
+                parameters.statusCode = statusCode;
+
+                selectedDate.setHours(selectedDate.getHours() + 1);
+                parameters.actualclosedate = selectedDate.toISOString();
+
+                var req = new XMLHttpRequest();
+                req.open("POST",
+                    clientUrl +
+                    "/api/data/v9.1/opportunities(" +
+                    OpportunityId +
+                    ")/Microsoft.Dynamics.CRM.arup_CloseOpportunity",
+                    false);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 204) {
+                            closeDlg();
+                        }
                     }
-                }
-            };
-            req.send(JSON.stringify(parameters));
+                };
+                req.send(JSON.stringify(parameters));
+            }
+        }
+
+        function UpdateWonReason(reason) {
+            try {
+                var entity = {};
+                entity.ccrm_wonreason = reason;
+
+                var req = new XMLHttpRequest();
+                req.open("PATCH", params.clienturl + "/api/data/v9.1/opportunities(" + OpportunityId + ")", false);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 204) {
+                            window.close();
+                        } else {
+                            ArupAlert.alertDialog("Error updating Teams URL on organisation : " + this.statusText);
+                        }
+                    }
+                };
+                req.send(JSON.stringify(entity));
+            }
+            catch (e) { }
         }
 
         function closeDlg() {

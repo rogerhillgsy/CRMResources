@@ -38,12 +38,13 @@ function ShowHideOpportunityTypeAndProjectProcurement(formContext, stageId) {
 
 //This function is called from 'Close as Lost' button and 'Close as lost/no Bid' button
 //pass opportunity status as Lost / Won from Ribbon Workbench, formcontext is primarycontrol paramter
-function CloseOpportunity(formContext, statusCode) {
+function CloseOpportunity(formContext, statusCode, isCloseFramework) {
     var oppId = formContext.data.entity.getId().replace(/[{}]/g, "");
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var clientUrl = formContext.context.getClientUrl();
     var activeStageId = formContext.data.process.getActiveStage().getId();
-    var oppDetails = getOpportunityReasons(formContext.context.getClientUrl(), activeStageId, statusCode, arupInternal);
+    var oppDetails = getOpportunityReasons(formContext.context.getClientUrl(), activeStageId, statusCode, arupInternal, isCloseFramework);
+    var isFrameworkOpty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
 
     formContext.getAttribute("arup_biddecisionchair").setRequiredLevel('none');
     formContext.getAttribute("ccrm_bidreviewchair_userid").setRequiredLevel('none');
@@ -54,7 +55,7 @@ function CloseOpportunity(formContext, statusCode) {
             setTimeout(function () {
                 if (oppDetails != null) {
                     var object = JSON.stringify(oppDetails);
-                    var customParameters = "&oppId=" + oppId + "&oppDetails=" + object + "&statusCode=" + statusCode + "&clientUrl=" + clientUrl;
+                    var customParameters = "&oppId=" + oppId + "&oppDetails=" + object + "&statusCode=" + statusCode + "&clientUrl=" + clientUrl + "&isFrameworkOpty=" + isFrameworkOpty;
                     var pageInput = {
                         pageType: "webresource",
                         webresourceName: "arup_close_Opportunity",
@@ -84,7 +85,7 @@ function CloseOpportunity(formContext, statusCode) {
         });
 }
 
-function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInternal) {
+function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInternal,isCloseFrameWork) {
 
     var ccrm_lostopp_reason = new String();
     var ccrm_lostopp_resaon_values = new String();
@@ -92,8 +93,12 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
     var ccrm_wonopp_resaon_values = new String();
     var dictionary = {};
     var req = new XMLHttpRequest();
+   // var isFrameworkOpportunty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
+    if (isCloseFrameWork)
+        req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal + " and  arup_isframeworkopportunity eq " + isFrameworkOpportunty, false);
+    else
+        req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal , false);
 
-    req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal, false);
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
     req.setRequestHeader("Accept", "application/json");

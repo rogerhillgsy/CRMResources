@@ -6126,7 +6126,12 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
                                                 formContext.data.entity.getId());
                                         });
                                 }
-                                approveCallbackAction(formContext, approvalType, approvalCompleteAction);
+                                //if opportunitytype is 'New Framework/Panel/Call-Off' then do not close the opportunity
+                                if (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') 
+                                    approveCallbackAction(formContext, approvalType);                                
+                                else 
+                                    approveCallbackAction(formContext, approvalType, approvalCompleteAction);
+                                
                                 formContext.getAttribute(statusField).fireOnChange();
                                 formContext.ui.clearFormNotification('CurrentApprovers');
 
