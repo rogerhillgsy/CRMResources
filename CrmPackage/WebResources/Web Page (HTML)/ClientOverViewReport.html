@@ -989,7 +989,6 @@
                     AlertDialog( alertStrings, alertOptions);
                 }
             });
-            debugger;
             var opporLst = [];
             if (opportRecords.length > 0) {
                 for (var i = 0; i < opportRecords.length; i++) {
@@ -1008,7 +1007,6 @@
                     opporLst.push(oppor);
                 }
                 var o = opporLst.filter(function(currentValue, index, arr) { if (index < 10) return currentValue; });
-                debugger;
                 DrawTable("#top10OpenOportunities", o, Object.keys(o[0]));
                 $("#top10OpenOpporCnt").text("( " + opporLst.length + " in Total)");
             }
@@ -1197,9 +1195,9 @@
         function PopulateManagingTeamMembers() {
             var userList = [];
             GetCRMData(
-                "accounts(" + accId + ")?$select=name&$expand=ccrm_clientgroupings($select=ccrm_name;$expand=ccrm_managingteam($select=name))",
+                "accounts(" + accId + ")?$select=name&$expand=ccrm_managingteamid($select=name)",
                 function(result) {
-                    var teamid = result.ccrm_clientgroupings.ccrm_managingteam.teamid;
+                    var teamid = result.ccrm_managingteamid.teamid;
                     GetCRMData("teams(" + teamid + ")?$select=name&$expand=teammembership_association($select=fullname,title,_ccrm_arupofficeid_value;$expand=ccrm_arupofficeid($select=ccrm_name),businessunitid($select=name))",
                             function(members) {
                                 for (var i = 0; i < members.teammembership_association.length; i++) {
@@ -1246,7 +1244,9 @@
                         onData(data.value || data );
                     },
                     error : function(xhr, textStatus, errorThrown) {
-                        var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert "  + errorMessage};
+                        var message = errorThrown;
+                        if (!!xhr.responseJSON && !!xhr.responseJSON.error) message = xhr.responseJSON.error.message; 
+                        var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + message, title: "Alert "  + errorMessage};
                         var alertOptions = { height: 120, width: 260 };
                         AlertDialog( alertStrings, alertOptions);
                         reject();
@@ -1361,7 +1361,6 @@
         }
 
         function GetOpenOpportunities() {
-            debugger;
             var opportRecords;
             var opportRecordsUlt;
             var req = new XMLHttpRequest();
@@ -1663,7 +1662,6 @@
 
             $("#top10OpenOpporCnt").text("( " + allOpenOppor.length + " in Total)");
 
-            debugger;
             DrawTable("#top10OpenOportunities", finalOpp, Object.keys(finalOpp[0]).filter(function (d) { return d !== 'OpportunityId'; }));
         }
         function GetPhase(status) {
