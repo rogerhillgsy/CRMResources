@@ -133,7 +133,7 @@
                 entity.ccrm_wonreason = reason;
 
                 var req = new XMLHttpRequest();
-                req.open("PATCH", params.clienturl + "/api/data/v9.1/opportunities(" + OpportunityId + ")", false);
+                req.open("PATCH", clientUrl + "/api/data/v9.1/opportunities(" + OpportunityId + ")", false);
                 req.setRequestHeader("OData-MaxVersion", "4.0");
                 req.setRequestHeader("OData-Version", "4.0");
                 req.setRequestHeader("Accept", "application/json");
@@ -151,7 +151,9 @@
                 };
                 req.send(JSON.stringify(entity));
             }
-            catch (e) { }
+            catch (e) {
+                alert(e);
+            }
         }
 
         function closeDlg() {

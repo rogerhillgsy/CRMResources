@@ -655,6 +655,8 @@ function FormOnload(executionContext) {
             if (isBidSubmitted == 770000001 && currentStage == ArupStages.BidReviewApproval) {
                 setBidSubmittedNotification(formContext);
             }
+
+           
         }
 
         // Ensure that when the "Related Networks & Markets" field is set to "Other" that the "Other Network Details" field is made visible and mandatory.
@@ -720,8 +722,9 @@ function FormOnload(executionContext) {
         }
         setTimeout(function () { SetMultiSelect(formContext); }, 10000);
 
-        QualificationStatus_OnChange(formContext);
+       
 
+        FrameworkWinNotification(formContext);
         /*if (formContext.ui.getFormType() != 1) {
             if (formContext.getAttribute("ccrm_confidentialoptionset").getValue() == 2) {
                 setPrintPreviewURL(formContext);
@@ -5230,7 +5233,7 @@ function stageNotifications(formContext) {
 
     FormNotificationForOpportunityType(formContext, formContext.getAttribute("arup_opportunitytype").getValue());
     restoreFieldVal(formContext, stageid);
-    QualificationStatus_OnChange(formContext);
+    QualificationStatusNotification(formContext);
 
     if (formContext.data.getIsDirty())
         formContext.data.save();
@@ -8184,3 +8187,11 @@ function checkBusinessStatus(formContext, BusinessID, entityName) {
     req.send();
     return statecode;
 }
+
+function FrameworkWinNotification(formContext) {
+    var isFrameworkOpty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
+    if (isFrameworkOpty && formContext.getAttribute("ccrm_wonreason").getValue() != null)
+        Notify.add("<span style=' color: white; border-style: solid;border - color: #ff0000;'>This is a framework win </span>", "WARNING", "frameworkwin", null, null, "#ff0000");
+       
+}
+
