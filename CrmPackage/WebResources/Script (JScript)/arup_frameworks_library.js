@@ -5,6 +5,7 @@
     multiDiscipline_onChange(executionContext);
 
     formContext.getAttribute("arup_region").setRequiredLevel('required');
+    formContext.getAttribute("arup_descriptiontext").setSubmitMode('never');
 
     if (formContext.ui.getFormType() != 1) {
         parent.entityId = formContext.data.entity.getId();
