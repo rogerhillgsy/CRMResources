@@ -654,7 +654,7 @@ function FormOnload(executionContext) {
             var isBidSubmitted = formContext.getAttribute("arup_bidsubmissionoutcome").getValue(770000001);
             if (isBidSubmitted == 770000001 && currentStage == ArupStages.BidReviewApproval && formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
                 setBidSubmittedNotification(formContext);
-            }        
+            }
         }
 
         // Ensure that when the "Related Networks & Markets" field is set to "Other" that the "Other Network Details" field is made visible and mandatory.
@@ -720,7 +720,7 @@ function FormOnload(executionContext) {
         }
         setTimeout(function () { SetMultiSelect(formContext); }, 10000);
 
-       
+
 
         FrameworkWinNotification(formContext);
         /*if (formContext.ui.getFormType() != 1) {
@@ -5400,7 +5400,7 @@ function StageChange_event(formContext) {
     //}
     //currentStage = stageid
     ShowHideOpportunityTypeAndProjectProcurement(formContext, stageid);
-  
+
     if (opportunitytype == 770000001 && stageid != ArupStages.BidSubmitted && stageid != ArupStages.ConfirmJob && stageid != ArupStages.ConfirmJobApproval &&
         stageid != ArupStages.ConfirmJobApproval2 && stageid != ArupStages.ConfirmJobApproval3) {
         formContext.ui.setFormNotification("This is an extension of an existing project", "INFO", "OpportunityType");
@@ -6128,11 +6128,11 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
                                         });
                                 }
                                 //if opportunitytype is 'New Framework/Panel/Call-Off' then do not close the opportunity
-                                if (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') 
-                                    approveCallbackAction(formContext, approvalType);                                
-                                else 
+                                if (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003')
+                                    approveCallbackAction(formContext, approvalType);
+                                else
                                     approveCallbackAction(formContext, approvalType, approvalCompleteAction);
-                                
+
                                 formContext.getAttribute(statusField).fireOnChange();
                                 formContext.ui.clearFormNotification('CurrentApprovers');
 
@@ -7419,22 +7419,22 @@ function UpdateDetailsFromParentOpportunity(formContext, result, event) {
     UpdateFieldFromParentOpportunity(formContext, "ccrm_probabilityofprojectproceeding", result["ccrm_probabilityofprojectproceeding"]);
     UpdateFieldFromParentOpportunity(formContext, "closeprobability", result["closeprobability"]);
     //check if the status is active of Arup Business and Arup Sub Buiness
-    var arupBusinessStatus = checkBusinessStatus(formContext, result["_ccrm_arupbusinessid_value"], "ccrm_arupbusinesses");
-    var arupSubBusinessStatus  = checkBusinessStatus(formContext, result["_arup_subbusiness_value"], "arup_subbusinesses");
 
-    if (arupBusinessStatus == 0) {
-        UpdateFieldFromParentOpportunity(formContext, "ccrm_arupbusinessid", result["_ccrm_arupbusinessid_value"], result["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupbusinessid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+    if (result["_ccrm_arupbusinessid_value"] != null) {
+        var arupBusinessStatus = checkBusinessStatus(formContext, result["_ccrm_arupbusinessid_value"], "ccrm_arupbusinesses");
+        if (arupBusinessStatus == 0) {
+            UpdateFieldFromParentOpportunity(formContext, "ccrm_arupbusinessid", result["_ccrm_arupbusinessid_value"], result["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupbusinessid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+        }
     }
 
-    if (arupBusinessStatus == 0 && arupSubBusinessStatus == 0) {
-        UpdateFieldFromParentOpportunity(formContext, "arup_subbusiness", result["_arup_subbusiness_value"], result["_arup_subbusiness_value@OData.Community.Display.V1.FormattedValue"], result["_arup_subbusiness_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+    if (result["_arup_subbusiness_value"] != null) {
+        var arupSubBusinessStatus = checkBusinessStatus(formContext, result["_arup_subbusiness_value"], "arup_subbusinesses");
+        if (arupBusinessStatus == 0 && arupSubBusinessStatus == 0) {
+            UpdateFieldFromParentOpportunity(formContext, "arup_subbusiness", result["_arup_subbusiness_value"], result["_arup_subbusiness_value@OData.Community.Display.V1.FormattedValue"], result["_arup_subbusiness_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+        } else {
+            formContext.getAttribute("ccrm_arupbusinessid").fireOnChange();
+        }
     } else {
-        //formContext.getAttribute("arup_subbusiness").setValue(null);
-        formContext.getAttribute("ccrm_arupbusinessid").fireOnChange();
-    }
-
-    if (formContext.getAttribute("arup_subbusiness").getValue() == null) {
-        // if  subbusiness is empty then fire the onchange event of business field to allow selection for Sub Businesss
         formContext.getAttribute("ccrm_arupbusinessid").fireOnChange();
     }
 
@@ -7445,7 +7445,6 @@ function UpdateDetailsFromParentOpportunity(formContext, result, event) {
     UpdateFieldFromParentOpportunity(formContext, "ccrm_ultimateendclientid", result["_ccrm_ultimateendclientid_value"], result["_ccrm_ultimateendclientid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_ultimateendclientid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
 
     setTimeout(function () {
-        //debugger;
         UpdateFieldFromParentOpportunity(formContext, "ccrm_arupusstateid", result["_ccrm_arupusstateid_value"], result["_ccrm_arupusstateid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupusstateid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
         // UpdateFieldFromParentOpportunity(formContext,"ccrm_arupcompanyid", result["_ccrm_arupcompanyid_value"], result["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupcompanyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
         //if (formContext.getAttribute("ccrm_arupcompanyid").getValue() != null) {
@@ -7480,41 +7479,30 @@ function AssignFieldValueFromParent(formContext, fieldName, fieldValueFromParent
 
     var field = formContext.getAttribute(fieldName);
     if (field != null && fieldValueFromParent != null) {
-        if (fieldName == 'ccrm_client' && field.getValue()[0].name == 'Unassigned')
-            UpdateField(formContext, field, fieldName, fieldValueFromParent, lookUpText, entityName, true);
-        else
-            UpdateField(formContext, field, fieldName, fieldValueFromParent, lookUpText, entityName, false);
+        UpdateField(formContext, field, fieldName, fieldValueFromParent, lookUpText, entityName, true);
     }
 }
 
 function AssignBasicDetailsFromParentOpportunity(formContext, results) {
-    //Raul Code Start
-    var arupBusinessStatus = checkBusinessStatus(formContext, results.value[0]["_ccrm_arupbusinessid_value"], "ccrm_arupbusinesses");
-    var arupSubBusinessStatus = checkBusinessStatus(formContext, results.value[0]["_arup_subbusiness_value"], "arup_subbusinesses");
-
-    if (arupBusinessStatus == 0) {
-        AssignFieldValueFromParent(formContext, "ccrm_arupbusinessid", results.value[0]["_ccrm_arupbusinessid_value"], results.value[0]["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_arupbusinessid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
-       // UpdateFieldFromParentOpportunity(formContext, "ccrm_arupbusinessid", result["_ccrm_arupbusinessid_value"], result["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupbusinessid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+    if (results.value[0]["_ccrm_arupbusinessid_value"] != null) {
+        var arupBusinessStatus = checkBusinessStatus(formContext, results.value[0]["_ccrm_arupbusinessid_value"], "ccrm_arupbusinesses");
+        if (arupBusinessStatus == 0) {
+            AssignFieldValueFromParent(formContext, "ccrm_arupbusinessid", results.value[0]["_ccrm_arupbusinessid_value"], results.value[0]["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_arupbusinessid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+        }
     }
 
-    if (arupBusinessStatus == 0 && arupSubBusinessStatus == 0) {
-        AssignFieldValueFromParent(formContext, "arup_subbusiness", results.value[0]["_arup_subbusiness_value"], results.value[0]["_arup_subbusiness_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_arup_subbusiness_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
-        //UpdateFieldFromParentOpportunity(formContext, "arup_subbusiness", result["_arup_subbusiness_value"], result["_arup_subbusiness_value@OData.Community.Display.V1.FormattedValue"], result["_arup_subbusiness_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+    if (results.value[0]["_arup_subbusiness_value"] != null) {
+        var arupSubBusinessStatus = checkBusinessStatus(formContext, results.value[0]["_arup_subbusiness_value"], "arup_subbusinesses");
+
+        if (arupBusinessStatus == 0 && arupSubBusinessStatus == 0) {
+            AssignFieldValueFromParent(formContext, "arup_subbusiness", results.value[0]["_arup_subbusiness_value"], results.value[0]["_arup_subbusiness_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_arup_subbusiness_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+        } else {
+            formContext.getAttribute("ccrm_arupbusinessid").fireOnChange();
+        }
     } else {
         formContext.getAttribute("ccrm_arupbusinessid").fireOnChange();
-       // formContext.getAttribute("arup_subbusiness").setValue(null);
     }
-    //Code END
 
-    //if (formContext.getAttribute("ccrm_arupbusinessid").getValue() == null) {
-    //    AssignFieldValueFromParent(formContext, "ccrm_arupbusinessid", results.value[0]["_ccrm_arupbusinessid_value"], results.value[0]["_ccrm_arupbusinessid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_arupbusinessid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
-    //    if (results.value[0]["_arup_subbusiness_value"] != null)
-    //        AssignFieldValueFromParent(formContext, "arup_subbusiness", results.value[0]["_arup_subbusiness_value"], results.value[0]["_arup_subbusiness_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_arup_subbusiness_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
-    //    else {
-    //        // if parent doesnt have subbusiness then fire the onchange event of business field to allow selection for Sub Businesss
-    //        formContext.getAttribute("ccrm_arupbusinessid").fireOnChange();
-    //    }
-    //}
     if (formContext.getAttribute("ccrm_projectlocationid").getValue() == null) {
 
         AssignFieldValueFromParent(formContext, "ccrm_projectlocationid", results.value[0]["_ccrm_projectlocationid_value"], results.value[0]["_ccrm_projectlocationid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_projectlocationid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
@@ -8212,7 +8200,7 @@ function FrameworkWinNotification(formContext) {
     var isFrameworkOpty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
     if (isFrameworkOpty && formContext.getAttribute("ccrm_wonreason").getValue() != null)
         Notify.add("<span style=' color: white; border-style: solid;border - color: #ff0000;'>This is a framework win </span>", "WARNING", "frameworkwin", null, null, "#ff0000");
-       
+
 }
 
 function existingcrmframework_onchange_qc(executionContext) {
@@ -8233,7 +8221,6 @@ function existingcrmframework_onchange_qc(executionContext) {
             if (this.readyState === 4) {
                 req.onreadystatechange = null;
                 if (this.status === 200) {
-                    debugger;
                     var result = JSON.parse(this.response);
                     var _arup_originalopportunity_value = result["_arup_originalopportunity_value"];
                     var _arup_originalopportunity_value_formatted = result["_arup_originalopportunity_value@OData.Community.Display.V1.FormattedValue"];
@@ -8256,5 +8243,7 @@ function existingcrmframework_onchange_qc(executionContext) {
             }
         };
         req.send();
+    } else {
+        formContext.getAttribute("ccrm_parentopportunityid").setValue(null);
     }
 }
