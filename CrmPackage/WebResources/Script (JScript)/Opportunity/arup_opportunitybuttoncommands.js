@@ -273,9 +273,6 @@ Arup = (
             },
             AddRemoveQualificationTab: function (formContext, isVisible, addOrRemove) {
                 AddRemoveQualificationTab(formContext, isVisible, addOrRemove);
-                if (addOrRemove === 'REMOVE') {
-                    delete buttonChangeCallbacks['Qualification_Tab'];
-                }
             },
 
             IsQualificationAdded: function (formContext) {
@@ -474,6 +471,7 @@ Arup = (
             var formContext = e.getFormContext();
             if (source.getDisplayState() == "collapsed") {
                 Arup.PreviousTab = source.getName();
+                delete buttonChangeCallbacks[source.getName()];
             }
             if (source.getDisplayState() == "expanded") {
                 var tabName = source.getName();
