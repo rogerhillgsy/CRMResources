@@ -273,6 +273,9 @@ Arup = (
             },
             AddRemoveQualificationTab: function (formContext, isVisible, addOrRemove) {
                 AddRemoveQualificationTab(formContext, isVisible, addOrRemove);
+                if (addOrRemove === 'REMOVE') {
+                    delete buttonChangeCallbacks['Qualification_Tab'];
+                }
             },
 
             IsQualificationAdded: function (formContext) {
