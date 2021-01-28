@@ -7843,6 +7843,7 @@ function ShowHideFrameworkFields(formContext, trigger) {
         formContext.getControl(existingFramework).setVisible(true);
         formContext.getControl(existingFramework).setDisabled(true);
         formContext.getAttribute("arup_isthereanexistingcrmframeworkrecord").setRequiredLevel('required');
+        formContext.getControl("ccrm_parentopportunityid").setDisabled(false);
         existingcrmframework_onchange(formContext, trigger);
     }
     else {
@@ -7862,6 +7863,7 @@ function ShowHideFrameworkFields(formContext, trigger) {
         formContext.getAttribute("ccrm_agreementnumber").setRequiredLevel("none");
         formContext.getControl(frameworkId).setVisible(false);
         formContext.getAttribute("arup_framework").setRequiredLevel("none");
+        formContext.getControl("ccrm_parentopportunityid").setDisabled(false);
     }
 }
 
