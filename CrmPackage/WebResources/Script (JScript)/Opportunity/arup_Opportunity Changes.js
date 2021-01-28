@@ -93,9 +93,9 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
     var ccrm_wonopp_resaon_values = new String();
     var dictionary = {};
     var req = new XMLHttpRequest();
-   // var isFrameworkOpportunty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
-    if (isCloseFrameWork)
-        req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal + " and  arup_isframeworkopportunity eq " + isFrameworkOpportunty, false);
+    var isFrameworkOpportunity = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
+    if (isFrameworkOpportunity)
+        req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_frameworkwonopportunityreason&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal + " and  arup_isframeworkopportunity eq " + isFrameworkOpportunity, false);
     else
         req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal , false);
 
@@ -116,10 +116,17 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
                     var reasonkey = ccrm_lostopp_resaon_values.split(',');
                 }
                 else if (statusCode == "won") {
-                    ccrm_wonopp_reason = results.value[0]["arup_wonreasons@OData.Community.Display.V1.FormattedValue"]
-                    var reasonValue = ccrm_wonopp_reason.split(';');
-                    ccrm_wonopp_resaon_values = results.value[0].arup_wonreasons;
-                    var reasonkey = ccrm_wonopp_resaon_values.split(',');
+                    if (isFrameworkOpportunity) {
+                        ccrm_wonopp_reason = results.value[0]["arup_frameworkwonopportunityreason@OData.Community.Display.V1.FormattedValue"]
+                        var reasonValue = ccrm_wonopp_reason.split(';');
+                        ccrm_wonopp_resaon_values = results.value[0].arup_frameworkwonopportunityreason;
+                        var reasonkey = ccrm_wonopp_resaon_values.split(',');
+                    } else {
+                        ccrm_wonopp_reason = results.value[0]["arup_wonreasons@OData.Community.Display.V1.FormattedValue"]
+                        var reasonValue = ccrm_wonopp_reason.split(';');
+                        ccrm_wonopp_resaon_values = results.value[0].arup_wonreasons;
+                        var reasonkey = ccrm_wonopp_resaon_values.split(',');
+                    }
                 }
 
                 for (var i = j = 0; i < reasonValue.length && j < reasonkey.length; i++ , j++) {
