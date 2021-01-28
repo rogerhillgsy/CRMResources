@@ -123,9 +123,10 @@ function hideButtonCloseAsWonNoCJN(formContext) {
     var statecode = formContext.getAttribute('statecode').getValue();
     var isCJNApprovalStage = IsCJNApprovalStage(activeStageId);
     var isFrameworkOpportunty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
+    var isFrameworkWon = formContext.getAttribute("arup_frameworkwon").getValue();
 
     if (
-       ((isCJNApprovalStage && !isFrameworkOpportunty) || activeStageId == ArupStages.ConfirmJob) && statecode == 0
+        ((isCJNApprovalStage && !isFrameworkOpportunty) || (activeStageId == ArupStages.ConfirmJob && !isFrameworkOpportunty) || (activeStageId == ArupStages.ConfirmJob && isFrameworkOpportunty && !isFrameworkWon)) && statecode == 0
 
     ) {
         return true;
@@ -140,8 +141,10 @@ function hideButtonCloseAsWonCJNNeeded(formContext) {
     var activeStageId = activeStage.getId();
     var statecode = formContext.getAttribute('statecode').getValue();
     var internalOpportunity = formContext.getAttribute("ccrm_arupinternal").getValue();
+    var isFrameworkWon = formContext.getAttribute("arup_frameworkwon").getValue();
 
-    if (((activeStageId == ArupStages.Lead) || (activeStageId == ArupStages.CrossRegion) || (IsPJNApprovalStage(activeStageId)) || (activeStageId == ArupStages.BidDevelopment) || (activeStageId == ArupStages.BidReviewApproval) || (activeStageId == ArupStages.BidSubmitted)) || IsCJNApprovalStage(activeStageId) || statecode > 0 || (internalOpportunity && (arupGroupDetails.arupGroupCode != 'GC60' && arupGroupDetails.arupGroupCode != 'GC25'))) {
+
+    if (((activeStageId == ArupStages.Lead) || (activeStageId == ArupStages.CrossRegion) || (IsPJNApprovalStage(activeStageId)) || (activeStageId == ArupStages.BidDevelopment) || (activeStageId == ArupStages.BidReviewApproval) || (activeStageId == ArupStages.BidSubmitted)) || IsCJNApprovalStage(activeStageId) || statecode > 0 || isFrameworkWon || (internalOpportunity && (arupGroupDetails.arupGroupCode != 'GC60' && arupGroupDetails.arupGroupCode != 'GC25'))) {
         return false;
     }
     else {
@@ -152,8 +155,10 @@ function ShowButtonCloseFramework(formContext) {
     var activeStage = formContext.data.process.getActiveStage();
     var activeStageId = activeStage.getId();
     var statecode = formContext.getAttribute('statecode').getValue();
+    var isFrameworkOpportunty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
+    var isFrameworkWon = formContext.getAttribute("arup_frameworkwon").getValue();
 
-    if (IsCJNApprovalStage(activeStageId) && isFrameworkOpportunty && statecode > 0)
+    if ((IsCJNApprovalStage(activeStageId) && isFrameworkOpportunty && statecode == 0) || (activeStageId == ArupStages.ConfirmJob && isFrameworkOpportunty && isFrameworkWon && statecode == 0))
         return true;
     else
         return false;
@@ -164,8 +169,9 @@ function hideButtonCloseAsLost(formContext) {
     var activeStageId = activeStage.getId();
     var statecode = formContext.getAttribute('statecode').getValue();
     var isFrameworkOpportunty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
+    var isFrameworkWon = formContext.getAttribute("arup_frameworkwon").getValue();
 
-    if ((activeStageId == ArupStages.Lead || activeStageId == ArupStages.CrossRegion || IsPJNApprovalStage(activeStageId) || activeStageId == ArupStages.BidDevelopment || activeStageId == ArupStages.BidReviewApproval) || statecode > 0 || (IsCJNApprovalStage(activeStageId) && isFrameworkOpportunty) ) {
+    if ((activeStageId == ArupStages.Lead || activeStageId == ArupStages.CrossRegion || IsPJNApprovalStage(activeStageId) || activeStageId == ArupStages.BidDevelopment || activeStageId == ArupStages.BidReviewApproval) || statecode > 0 || (IsCJNApprovalStage(activeStageId) && isFrameworkOpportunty) || isFrameworkWon) {
         return false;
     }
     else {

@@ -18,8 +18,9 @@
         }
 
         function getOpportunityStatus() {
-            parent.$("h1[data-id='defaultDialogChromeTitle']", parent.document).html("");
-
+            parent.$("h1[data-id='defaultDialogChromeTitle-3']", parent.document).html("");
+            parent.$("h1[data-id='defaultDialogChromeTitle-1']", parent.document).html("");
+            
             var oppId, statusReasons;
             var params = getUrlParameters(); 
             if (params != undefined) {
@@ -43,6 +44,9 @@
                 var today = getTodayDate();
                 document.getElementById("dateValue").setAttribute("max", today);
                 document.getElementById("dateValue").setAttribute("value", today);
+
+                if (isFrameworkOpty == "true" && statusCode == 'won') 
+                    document.getElementById("frameworkText").setAttribute("style", "visibility : visible;");
             }
         }
 
@@ -131,6 +135,8 @@
             try {
                 var entity = {};
                 entity.ccrm_wonreason = reason;
+                entity.arup_frameworkwon = true;
+                entity.statuscode = reason;
 
                 var req = new XMLHttpRequest();
                 req.open("PATCH", clientUrl + "/api/data/v9.1/opportunities(" + OpportunityId + ")", false);
@@ -145,7 +151,7 @@
                         if (this.status === 204) {
                             window.close();
                         } else {
-                            ArupAlert.alertDialog("Error updating Teams URL on organisation : " + this.statusText);
+                            ArupAlert.alertDialog("Error updating Opportunity Status : " + this.statusText);
                         }
                     }
                 };
@@ -261,8 +267,9 @@
     <meta>
 </head>
 <body onload="getOpportunityStatus();" style="overflow-wrap: break-word;" onfocusout="parent.setEmailRange();">
-
-    <h3 style="color: #1B76D5; font-size: 25px;">Close Opportunity</h3>
+   
+    <h1 style="color: #1B76D5; font-size: 25px;">Close Opportunity</h1>
+    <p id="frameworkText" style="visibility :hidden;font-size: 16px;font-family: undefined;">The framework has been won but that the opportunity record will be kept open to record its ongoing contribution to pipeline of work.</p>
     <p style="font-family: undefined;">Provide the following information about why this opportunity is being closed.</p>
     <div class="container" style="font-family: undefined;">
         <form>
