@@ -7225,11 +7225,37 @@ function ParentOpportunity_Onchange_ec(executionContext, event) {
 
 function ParentOpportunity_Onchange(formContext, event) {
     var parentOpportunity = formContext.getAttribute("ccrm_parentopportunityid").getValue();
+    onChangeRPOClearFields_qc(formContext, parentOpportunity);
     var internalOpportunity = formContext.getAttribute("ccrm_arupinternal").getValue();
     if (internalOpportunity) {
         PullDetailsFromParentOpportunity(formContext, parentOpportunity, event);
     } else {
         PullParentOpportunityDetailsForDiffOpportunityType(formContext, parentOpportunity);
+    }
+}
+
+function onChangeRPOClearFields_qc_ec(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var parentOpportunity = formContext.getAttribute("ccrm_parentopportunityid").getValue();
+    onChangeOppTypeClearFields_qc(formContext, parentOpportunity);
+}
+
+function onChangeRPOClearFields_qc(formContext, parentOpportunity) {
+    if (parentOpportunity == null) {
+        ClearRPOppFileds(formContext);
+    }
+}
+
+function ClearRPOppFileds(formContext) {
+    if (formContext.ui.getFormType() == 1) {
+        formContext.getAttribute("ccrm_parentopportunityid").setValue(null);
+        formContext.getAttribute("ccrm_projectlocationid").setValue(null);
+        formContext.getAttribute("ccrm_location").setValue(null);
+        formContext.getAttribute("ccrm_arupbusinessid").setValue(null);
+        formContext.getAttribute("arup_subbusiness").setValue(null);
+        formContext.getAttribute("description").setValue(null);
+        formContext.getAttribute("ccrm_client").setValue(null);
+        formContext.getAttribute("ccrm_ultimateendclientid").setValue(null);
     }
 }
 
@@ -7625,6 +7651,9 @@ function ArupRegion_OnChange(executionContext) {
 
 function SetParentOpportunityRequired(formContext) {
     var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue();
+    if (opportunitytype != null) {
+        ClearRPOppFileds(formContext);
+    }
     var arupRegion = formContext.getAttribute("ccrm_arupregionid").getValue();
     var arupRegionName = arupRegion != null ? arupRegion[0].name.toLowerCase() : '';
     var requiredLevel = (opportunitytype == 770000001 || opportunitytype == 770000002 || opportunitytype == 770000006 || (opportunitytype == 770000004 && arupRegionName == ArupRegionName.Australasia.toLowerCase())) ? 'required' : 'none';
