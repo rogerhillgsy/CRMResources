@@ -785,6 +785,7 @@ function AddRemoveQualificationTab(formContext, isVisible, addOrRemove) {
                         ClearFields(formContext, "arup_rfqduedate", "arup_rfqsubmissiondate", "arup_requestforproposalduedate", "arup_decisiontoqualify", "arup_decisiontakenby", "arup_dateofdecision", "arup_qualificationstatus");
                         formContext.getAttribute("arup_qualificationstatus").fireOnChange();
                         formContext.getAttribute("arup_decisiontoqualify").fireOnChange();
+                        RefreshWebResource(formContext, "WebResource_buttonnavigation");
                     },
                     setFocus: false,
                     preventClose: false
@@ -798,6 +799,7 @@ function AddRemoveQualificationTab(formContext, isVisible, addOrRemove) {
             "WARNING", 350, 200, '', true);
     } else if (addOrRemove == 'ADD') {
         formContext.getAttribute("arup_isqualificationadded").setValue(true);
+        RefreshWebResource(formContext, "WebResource_buttonnavigation");
     }
 }
 
