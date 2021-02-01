@@ -9,6 +9,7 @@ interface Popup extends ComponentFramework.FactoryApi.Popup.Popup {
 export class ArupMultiTagComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
     private _containerBox: HTMLDivElement;
+    private _container: HTMLDivElement;
     private _innerContainer: HTMLDivElement;
     private _spanElement: HTMLSpanElement;
     private _tagElement: HTMLDivElement;
@@ -41,14 +42,15 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
 	 * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
-	{
-		this._context = context;
-		
+    {
+        this._context = context;
+        this._container = container;
+
         this._notifyOutputChanged = notifyOutputChanged;
         // @ts-ignore         
         this._tagValueFieldName = this._context.parameters.TagValue.attributes.LogicalName;
         let fieldname: string = "arup_pcfvalues";//this._tagValueFieldName;
-        let dependentFieldType = typeof(context.parameters.DependentField.raw);
+        let dependentFieldType = typeof (context.parameters.DependentField.raw);
 
         if (dependentFieldType == "object") {
             this._dependentField = context.parameters.DependentField.raw[0].TypeName ? context.parameters.DependentField.raw[0].TypeName : "";
@@ -59,56 +61,64 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
             this._dependentFieldValue = "Default";
         }
 
-        let queryString: string = "?$select=" + fieldname+"&$filter=arup_name eq '" + this._dependentField + "' and " + "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(this._dependentFieldValue) + "'";
+        let queryString: string = "?$select=" + fieldname + "&$filter=arup_name eq '" + this._dependentField + "' and " + "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(this._dependentFieldValue) + "'";
         let currentValues: string = context.parameters.TagValue.raw ? context.parameters.TagValue.raw : "";
 
-        //(<any>context.mode).contextInfo.entityId;
         let entityTypeName = "arup_pcfvaluesstore";//(<any>context.mode).contextInfo.entityTypeName;
-        //this.getAvailableTags(entityTypeName, queryString);
-		context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
-            (response) => {
-                this._availableValues = response.entities[0].arup_pcfvalues;
 
-                // @ts-ignore 
-                this._currentValues = currentValues;//Xrm.Page.getAttribute(this._tagValueFieldName).getValue();
-                this._containerBox = document.createElement("div");
-                this._containerBox.setAttribute("class", "container");
-                this._innerContainer = document.createElement("div");
-                this._innerContainer.setAttribute("class", "innerDiv");
-                this._spanElement = document.createElement("span");
-                this._spanElement.innerHTML = "Choose available tags below - ";
-                this._availableTagContainer = document.createElement("div");
-                this._availableTagContainer.setAttribute("class", "innerDiv");
-                this._availableTagContainer.classList.add("displayBlock", "availableTagContainer");
-                /*this._inputElement = document.createElement("input");
-                this._inputElement.setAttribute("id", "inputTag");
-                this._inputElement.setAttribute("type", "text");
-                //this._inputElement.addEventListener("keypress", this.onKeyPress.bind(this));*/
-                
-                if (!this._currentValues) {
-                    this._taggedValues = [];
-                    this._innerContainer.classList.add("hideBlock");
+        if (context.mode.label == "TestLabel") {
+            this._availableValues = "Tag1;Tag2;Tag3"; 
+            this.displayLabels( currentValues);
+        } else {
+            context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
+                (response) => {
+                    this._availableValues = response.entities[0].arup_pcfvalues;
+                    this.displayLabels(currentValues);
+                },
+                function (errorResponse: any) {
+                    console.log("ERROR::" + errorResponse.message);
                 }
-                else {
-                    this._innerContainer.classList.add("displayBlock");
-                    this._taggedValues = this._currentValues.split(";");
-                    this.loadTags();
-                }
+            );
+        }
+    }
 
-                this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
-                this.loadAvailableTags();
-                //this._inputElement.addEventListener("click", this.onClick.bind(this));
-                this._containerBox.appendChild(this._innerContainer);
-                //this._containerBox.appendChild(this._inputElement);
-                container.appendChild(this._containerBox);
-                container.appendChild(this._spanElement);
-                container.appendChild(this._availableTagContainer);
-			},
-			function(errorResponse: any) {
-				console.log("ERROR::" + errorResponse.message);
-			}
-        );
-	}
+    /**
+     * Display the given list of labels as the permitted tags in the control.
+     * @param labelList List of labels to use as the basis ofthe Tags.
+     */
+    private displayLabels(currentValues: string): void
+    {
+        // @ts-ignore 
+        this._currentValues = currentValues;//Xrm.Page.getAttribute(this._tagValueFieldName).getValue();
+        this._containerBox = document.createElement("div");
+        this._containerBox.setAttribute("class", "container");
+        this._innerContainer = document.createElement("div");
+        this._innerContainer.setAttribute("class", "innerDiv");
+        this._spanElement = document.createElement("span");
+        this._spanElement.innerHTML = "Choose available tags below - ";
+        this._availableTagContainer = document.createElement("div");
+        this._availableTagContainer.setAttribute("class", "innerDiv");
+        this._availableTagContainer.classList.add("displayBlock", "availableTagContainer");
+
+        if (!this._currentValues) {
+            this._taggedValues = [];
+            this._innerContainer.classList.add("hideBlock");
+        }
+        else {
+            this._innerContainer.classList.add("displayBlock");
+            this._taggedValues = this._currentValues.split(";");
+            this.loadTags();
+        }
+
+        this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
+        this.loadAvailableTags();
+        //this._inputElement.addEventListener("click", this.onClick.bind(this));
+        this._containerBox.appendChild(this._innerContainer);
+        //this._containerBox.appendChild(this._inputElement);
+        this._container.appendChild(this._containerBox);
+        this._container.appendChild(this._spanElement);
+        this._container.appendChild(this._availableTagContainer)
+    }
 
 	private loadTags(): void {
         for (var i = 0; i < this._taggedValues.length; i++) {
@@ -167,9 +177,6 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         this._notifyOutputChanged();
     }
 
-    /*private onClick(e: any): void {
-        //this._popUpService.openPopup('AvailableTagsPopup');
-    }*/
 
      /**
 	 * Function called On click of remove Tag
