@@ -651,7 +651,7 @@ function FormOnload(executionContext) {
                 formContext.ui.clearFormNotification('OpportunityType');
             }
 
-            var isBidSubmitted = formContext.getAttribute("arup_bidsubmissionoutcome").getValue(770000001);
+            var isBidSubmitted = formContext.getAttribute("arup_bidsubmissionoutcome").getValue();
             if (isBidSubmitted == 770000001 && currentStage == ArupStages.BidReviewApproval && formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
                 setBidSubmittedNotification(formContext);
             }
@@ -5238,6 +5238,12 @@ function stageNotifications(formContext) {
     if (formContext.data.getIsDirty())
         formContext.data.save();
 
+    var isBidSubmitted = formContext.getAttribute("arup_bidsubmissionoutcome").getValue();
+    if (isBidSubmitted == 770000001 && stageid == ArupStages.BidReviewApproval && formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
+        setBidSubmittedNotification(formContext);
+    } else {
+        formContext.ui.clearFormNotification('userNotify');
+    }
 }
 
 //Move Previous Stage
@@ -7225,7 +7231,9 @@ function ParentOpportunity_Onchange_ec(executionContext, event) {
 
 function ParentOpportunity_Onchange(formContext, event) {
     var parentOpportunity = formContext.getAttribute("ccrm_parentopportunityid").getValue();
-    onChangeRPOClearFields_qc(formContext, parentOpportunity);
+    if (parentOpportunity == null && formContext.ui.getFormType() == 1) {
+        ClearRPOppFileds(formContext);
+    }
     var internalOpportunity = formContext.getAttribute("ccrm_arupinternal").getValue();
     if (internalOpportunity) {
         PullDetailsFromParentOpportunity(formContext, parentOpportunity, event);
@@ -7234,21 +7242,15 @@ function ParentOpportunity_Onchange(formContext, event) {
     }
 }
 
-function onChangeRPOClearFields_qc_ec(executionContext) {
+function ClearRPOppFiledsOnOppTypeChange_qc(executionContext) {
     var formContext = executionContext.getFormContext();
-    var parentOpportunity = formContext.getAttribute("ccrm_parentopportunityid").getValue();
-    onChangeOppTypeClearFields_qc(formContext, parentOpportunity);
-}
-
-function onChangeRPOClearFields_qc(formContext, parentOpportunity) {
-    if (parentOpportunity == null) {
-        ClearRPOppFileds(formContext);
-    }
+    ClearRPOppFileds(formContext);
 }
 
 function ClearRPOppFileds(formContext) {
     if (formContext.ui.getFormType() == 1) {
         formContext.getAttribute("ccrm_parentopportunityid").setValue(null);
+        formContext.getAttribute("ccrm_contractarrangement").setValue(null);
         formContext.getAttribute("ccrm_projectlocationid").setValue(null);
         formContext.getAttribute("ccrm_location").setValue(null);
         formContext.getAttribute("ccrm_arupbusinessid").setValue(null);
@@ -7650,10 +7652,7 @@ function ArupRegion_OnChange(executionContext) {
 }
 
 function SetParentOpportunityRequired(formContext) {
-    var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue();
-    if (opportunitytype != null) {
-        ClearRPOppFileds(formContext);
-    }
+    var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue(); 
     var arupRegion = formContext.getAttribute("ccrm_arupregionid").getValue();
     var arupRegionName = arupRegion != null ? arupRegion[0].name.toLowerCase() : '';
     var requiredLevel = (opportunitytype == 770000001 || opportunitytype == 770000002 || opportunitytype == 770000006 || (opportunitytype == 770000004 && arupRegionName == ArupRegionName.Australasia.toLowerCase())) ? 'required' : 'none';
@@ -7668,7 +7667,6 @@ function ParentOpportunityFilter_ec(executionContext) {
 function ParentOpportunityFilter(formContext) {
     SetParentOpportunityRequired(formContext);
     formContext.getControl("ccrm_parentopportunityid").addPreSearch(function () { AddParentOpportunityFilter(formContext); });
-
 }
 
 function AddParentOpportunityFilter(formContext) {
