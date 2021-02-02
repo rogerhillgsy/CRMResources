@@ -6,8 +6,9 @@ interface Popup extends ComponentFramework.FactoryApi.Popup.Popup {
     //shadowStyle: object;
 }
 
-export class MultiTagComponent2 implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class ArupMultiTagComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
+    private _container : HTMLDivElement;
     private _containerBox: HTMLDivElement;
     private _innerContainer: HTMLDivElement;
     private _spanElement: HTMLSpanElement;
@@ -43,7 +44,8 @@ export class MultiTagComponent2 implements ComponentFramework.StandardControl<II
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
 		this._context = context;
-		
+        this._container = container;
+        
         this._notifyOutputChanged = notifyOutputChanged;
         // @ts-ignore         
         this._tagValueFieldName = this._context.parameters.TagValue.attributes.LogicalName;
@@ -70,46 +72,46 @@ export class MultiTagComponent2 implements ComponentFramework.StandardControl<II
             (response) => {
                 this._availableValues = response.entities[0].arup_pcfvalues;
 
-                // @ts-ignore 
-                this._currentValues = currentValues;//Xrm.Page.getAttribute(this._tagValueFieldName).getValue();
-                this._containerBox = document.createElement("div");
-                this._containerBox.setAttribute("class", "container");
-                this._innerContainer = document.createElement("div");
-                this._innerContainer.setAttribute("class", "innerDiv");
-                this._spanElement = document.createElement("span");
-                this._spanElement.innerHTML = "Choose available tags below - ";
-                this._availableTagContainer = document.createElement("div");
-                this._availableTagContainer.setAttribute("class", "innerDiv");
-                this._availableTagContainer.classList.add("displayBlock", "availableTagContainer");
-                /*this._inputElement = document.createElement("input");
-                this._inputElement.setAttribute("id", "inputTag");
-                this._inputElement.setAttribute("type", "text");
-                //this._inputElement.addEventListener("keypress", this.onKeyPress.bind(this));*/
+                this.setCurrentTagValues( currentValues);
                 
-                if (!this._currentValues) {
-                    this._taggedValues = [];
-                    this._innerContainer.classList.add("hideBlock");
-                }
-                else {
-                    this._innerContainer.classList.add("displayBlock");
-                    this._taggedValues = this._currentValues.split(";");
-                    this.loadTags();
-                }
-
                 this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
                 this.loadAvailableTags();
                 //this._inputElement.addEventListener("click", this.onClick.bind(this));
                 this._containerBox.appendChild(this._innerContainer);
                 //this._containerBox.appendChild(this._inputElement);
-                container.appendChild(this._containerBox);
-                container.appendChild(this._spanElement);
-                container.appendChild(this._availableTagContainer);
+                this._container.appendChild(this._containerBox);
+                this._container.appendChild(this._spanElement);
+                this._container.appendChild(this._availableTagContainer);
 			},
 			function(errorResponse: any) {
 				console.log("ERROR::" + errorResponse.message);
 			}
         );
-	}
+    }
+    
+    private setCurrentTagValues( currentValues: string | null ) : void {
+        // @ts-ignore 
+        this._currentValues = currentValues;//Xrm.Page.getAttribute(this._tagValueFieldName).getValue();
+        this._containerBox = document.createElement("div");
+        this._containerBox.setAttribute("class", "container");
+        this._innerContainer = document.createElement("div");
+        this._innerContainer.setAttribute("class", "innerDiv");
+        this._spanElement = document.createElement("span");
+        this._spanElement.innerHTML = "Choose available tags below - ";
+        this._availableTagContainer = document.createElement("div");
+        this._availableTagContainer.setAttribute("class", "innerDiv");
+        this._availableTagContainer.classList.add("displayBlock", "availableTagContainer");
+
+        if (!this._currentValues) {
+            this._taggedValues = [];
+            this._innerContainer.classList.add("hideBlock");
+        }
+        else {
+            this._innerContainer.classList.add("displayBlock");
+            this._taggedValues = this._currentValues.split(";");
+            this.loadTags();
+        }
+    }
 
 	private loadTags(): void {
         for (var i = 0; i < this._taggedValues.length; i++) {
@@ -233,6 +235,12 @@ export class MultiTagComponent2 implements ComponentFramework.StandardControl<II
                         this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
                         this._availableTagContainer.innerHTML = "";
                         this.loadAvailableTags();
+
+                        this._containerBox.appendChild(this._innerContainer);
+                        //this._containerBox.appendChild(this._inputElement);
+                        this._container.appendChild(this._containerBox);
+                        this._container.appendChild(this._spanElement);
+                        this._container.appendChild(this._availableTagContainer);
                     },
                     function(errorResponse: any) {
                         console.log("ERROR::" + errorResponse.message);
@@ -240,8 +248,46 @@ export class MultiTagComponent2 implements ComponentFramework.StandardControl<II
 
                 );
             }
+        }      
+        if (dependentFieldType == "string" && context.updatedProperties.indexOf("DependentField") != -1) {
+            const trigger = context.parameters.DependentField.raw;
+            this.UpdateDependentFieldTypeString(context, trigger);
         }
-	}
+    }
+
+    private UpdateDependentFieldTypeString(context: ComponentFramework.Context<IInputs>, currentServices: string) {
+        if (this._dependentFieldValue.localeCompare(currentServices) != 0) {
+            this._dependentFieldValue = currentServices;
+            let fieldname: string = "arup_pcfvalues";
+            let entityTypeName = "arup_pcfvaluesstore";
+            let dependentFieldValueFilter = this._dependentFieldValue.split(';').
+                map( function(val: string ) { return "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(val) + "'"}).
+                join( " or ");
+
+            let queryString: string = "?$select=" + fieldname + "&$filter=arup_name eq '" + this._dependentField + "' and (" +dependentFieldValueFilter + ")";
+            context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
+                (response) => {
+                    this._availableValues = response.entities.map( function(v ) { return v.arup_pcfvalues}).join(";");
+
+                    var currentValues = context.parameters.TagValue.raw;
+                    this.setCurrentTagValues(currentValues);
+
+                    this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
+                    this._availableTagContainer.innerHTML = "";
+                    this.loadAvailableTags();
+                    this._containerBox.appendChild(this._innerContainer);
+                    //this._containerBox.appendChild(this._inputElement);
+                    this._container.appendChild(this._containerBox);
+                    this._container.appendChild(this._spanElement);
+                    this._container.appendChild(this._availableTagContainer);
+                },
+                function (errorResponse: any) {
+                    console.log("ERROR::" + errorResponse.message);
+                }
+
+            );
+        }
+    }
 
 	/** 
 	 * It is called by the framework prior to a control receiving new data. 
