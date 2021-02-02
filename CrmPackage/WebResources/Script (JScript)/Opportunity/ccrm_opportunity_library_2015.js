@@ -1492,7 +1492,6 @@ function preCachePMPD(formContext) {
         .catch(
             function (e) {
                 console.log("Error in pre-caching");
-                debugger;
             });
 
 }
@@ -7263,7 +7262,6 @@ function ClearRPOppFileds(formContext) {
 }
 
 function PullParentOpportunityDetailsForDiffOpportunityType(formContext, parentOpportunity) {
-    debugger;
     if (parentOpportunity != null && parentOpportunity != "undefined") {
         var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue();
         if (opportunitytype == null) { return; }
@@ -7489,7 +7487,6 @@ function UpdateDetailsFromParentOpportunity(formContext, result, event) {
 
 function AssignDetailsFromParentOpportunity(formContext, results, opportunityType) {
     if (results.value.length > 0) {
-        debugger;
         switch (opportunityType) {
             case 770000002:
                 AssignBasicDetailsFromParentOpportunity(formContext, results);
@@ -7562,17 +7559,10 @@ function AssignDetailsWhenOpportunityTypeNewContract(formContext, results) {
 }
 
 function AssignDetailsWhenOpportunityTypeExistingContract(formContext, results) {
-    debugger;
+
     if (formContext.ui.getFormType() != 1 && results.value[0]["ccrm_contractarrangement"] != null) {
         formContext.getAttribute("ccrm_contractarrangement").setValue(results.value[0]["ccrm_contractarrangement"]);
     }
-    //} else {
-    //    formContext.ui.setFormNotification("The parent opportunity does not contain a project procurement. Please update project procurement on this opportunity.", "WARNING", "ProjectProcurementonParentOptyWarnMsg");
-    //    setTimeout(function () { formContext.ui.clearFormNotification("ProjectProcurementonParentOptyWarnMsg"); }, 10000);
-
-    //    if (formContext.getControl('ccrm_contractarrangement').getDisabled())
-    //        formContext.getControl('ccrm_contractarrangement').setDisabled(false);
-    //}
 
     if (formContext.ui.getFormType() == 1) {
 
