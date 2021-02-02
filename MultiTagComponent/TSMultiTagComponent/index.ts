@@ -56,11 +56,6 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         if (dependentFieldType == "object") {
             this._dependentField = context.parameters.DependentField.raw[0].TypeName ? context.parameters.DependentField.raw[0].TypeName : "";
             this._dependentFieldValue = context.parameters.DependentField.raw[0].Name;
-        }
-        else {
-            this._dependentField = this._tagValueFieldName;
-            this._dependentFieldValue = dependentFieldValue;
-        }
 
         let queryString: string = "?$select=" + fieldname+"&$filter=arup_name eq '" + this._dependentField + "' and " + "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(this._dependentFieldValue) + "'";
         let currentValues: string = context.parameters.TagValue.raw ? context.parameters.TagValue.raw : "";
@@ -70,11 +65,12 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         //this.getAvailableTags(entityTypeName, queryString);
 		context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
             (response) => {
-                this._availableValues = response.entities[0].arup_pcfvalues;
+                this._availableValues = response.entities.map( function(v ) { return v.arup_pcfvalues}).join(";");
 
                 this.setCurrentTagValues( currentValues);
                 
                 this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
+                this._availableTagContainer.innerHTML = "";
                 this.loadAvailableTags();
                 //this._inputElement.addEventListener("click", this.onClick.bind(this));
                 this._containerBox.appendChild(this._innerContainer);
@@ -87,6 +83,12 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
 				console.log("ERROR::" + errorResponse.message);
 			}
         );
+        } else {
+            this._dependentField = this._tagValueFieldName;
+            this._dependentFieldValue = dependentFieldValue;
+            this.UpdateDependentFieldTypeString(context, this._dependentFieldValue)
+        }
+
     }
     
     private setCurrentTagValues( currentValues: string | null ) : void {
@@ -220,7 +222,7 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
                 let queryString: string = "?$select=" + fieldname+"&$filter=arup_name eq '" + this._dependentField + "' and " + "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(this._dependentFieldValue) + "'";
                 context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
                     (response) => {
-                        this._availableValues = response.entities[0].arup_pcfvalues;
+                        this._availableValues = response.entities.map( function(v ) { return v.arup_pcfvalues}).join(";");
 
                         if (!this._currentValues) {
                             this._taggedValues = [];
