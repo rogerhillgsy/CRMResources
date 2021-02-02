@@ -645,7 +645,7 @@ function FormOnload(executionContext) {
             }
 
             if (opportunityType == 770000001 && currentStage != ArupStages.BidSubmitted && currentStage != ArupStages.ConfirmJob && currentStage != ArupStages.ConfirmJobApproval &&
-                currentStage != ArupStages.ConfirmJobApproval2 && currentStage != ArupStages.ConfirmJobApproval3) {
+                currentStage != ArupStages.ConfirmJobApproval2 && currentStage != ArupStages.ConfirmJobApproval3 && formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
                 formContext.ui.setFormNotification("This is an extension of an existing project", "INFO", "OpportunityType");
             } else {
                 formContext.ui.clearFormNotification('OpportunityType');
@@ -2799,8 +2799,6 @@ function VerifyProjectProcurement(formContext) {
 
         formContext.ui.setFormNotification("The parent opportunity does not contain a project procurement. Please update project procurement on this opportunity.", "WARNING", "ProjectProcurementonParentOptyWarnMsg");
         setTimeout(function () { formContext.ui.clearFormNotification("ProjectProcurementonParentOptyWarnMsg"); }, 10000);
-
-
     }
 }
 
@@ -7244,7 +7242,10 @@ function ParentOpportunity_Onchange(formContext, event) {
 
 function ClearRPOppFiledsOnOppTypeChange_qc(executionContext) {
     var formContext = executionContext.getFormContext();
-    ClearRPOppFileds(formContext);
+    var parentOpportunity = formContext.getAttribute("ccrm_parentopportunityid").getValue();
+    if (parentOpportunity != null) {
+        ClearRPOppFileds(formContext);
+    }
 }
 
 function ClearRPOppFileds(formContext) {
@@ -7262,6 +7263,7 @@ function ClearRPOppFileds(formContext) {
 }
 
 function PullParentOpportunityDetailsForDiffOpportunityType(formContext, parentOpportunity) {
+    debugger;
     if (parentOpportunity != null && parentOpportunity != "undefined") {
         var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue();
         if (opportunitytype == null) { return; }
@@ -7487,7 +7489,7 @@ function UpdateDetailsFromParentOpportunity(formContext, result, event) {
 
 function AssignDetailsFromParentOpportunity(formContext, results, opportunityType) {
     if (results.value.length > 0) {
-
+        debugger;
         switch (opportunityType) {
             case 770000002:
                 AssignBasicDetailsFromParentOpportunity(formContext, results);
@@ -7560,10 +7562,17 @@ function AssignDetailsWhenOpportunityTypeNewContract(formContext, results) {
 }
 
 function AssignDetailsWhenOpportunityTypeExistingContract(formContext, results) {
-
-    if (formContext.ui.getFormType() != 1) {
+    debugger;
+    if (formContext.ui.getFormType() != 1 && results.value[0]["ccrm_contractarrangement"] != null) {
         formContext.getAttribute("ccrm_contractarrangement").setValue(results.value[0]["ccrm_contractarrangement"]);
     }
+    //} else {
+    //    formContext.ui.setFormNotification("The parent opportunity does not contain a project procurement. Please update project procurement on this opportunity.", "WARNING", "ProjectProcurementonParentOptyWarnMsg");
+    //    setTimeout(function () { formContext.ui.clearFormNotification("ProjectProcurementonParentOptyWarnMsg"); }, 10000);
+
+    //    if (formContext.getControl('ccrm_contractarrangement').getDisabled())
+    //        formContext.getControl('ccrm_contractarrangement').setDisabled(false);
+    //}
 
     if (formContext.ui.getFormType() == 1) {
 
@@ -7652,7 +7661,7 @@ function ArupRegion_OnChange(executionContext) {
 }
 
 function SetParentOpportunityRequired(formContext) {
-    var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue(); 
+    var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue();
     var arupRegion = formContext.getAttribute("ccrm_arupregionid").getValue();
     var arupRegionName = arupRegion != null ? arupRegion[0].name.toLowerCase() : '';
     var requiredLevel = (opportunitytype == 770000001 || opportunitytype == 770000002 || opportunitytype == 770000006 || (opportunitytype == 770000004 && arupRegionName == ArupRegionName.Australasia.toLowerCase())) ? 'required' : 'none';
@@ -7725,6 +7734,7 @@ function AddParentOpportunityFilter(formContext) {
     //formContext.getControl("ccrm_parentopportunityid").addCustomFilter(() => fetch);
     formContext.getControl("ccrm_parentopportunityid").addCustomFilter(fetch);
 }
+
 function VerifyParentOpportunity_ec(executionContext) {
     var formContext = executionContext.getFormContext();
     VerifyParentOpportunity(formContext);
@@ -7768,6 +7778,7 @@ function VerifyParentOpportunity(formContext) {
         }
     }
 }
+
 
 function PullFrameworkDetails(formContext) {
     var framework = formContext.getAttribute("arup_framework").getValue();
@@ -7832,10 +7843,12 @@ function PullFrameworkDetails(formContext) {
         req.send();
     }
 }
+
 function ShowHideFrameworkFields_ec(executionContext, trigger) {
     var formContext = executionContext.getFormContext();
     ShowHideFrameworkFields(formContext, trigger)
 }
+
 function ShowHideFrameworkFields(formContext, trigger) {
 
     if (formContext == null || formContext == 'undefined')
@@ -7854,7 +7867,7 @@ function ShowHideFrameworkFields(formContext, trigger) {
     if (opptype == '770000004') {
 
         //if (formContext.ui.getFormType() == 1) {
-            formContext.getAttribute("arup_isthereanexistingcrmframeworkrecord").setValue(1);
+        formContext.getAttribute("arup_isthereanexistingcrmframeworkrecord").setValue(1);
         //}
         //   if (arupInternal && tab != null) { tab.setVisible(true); }
         formContext.getControl(existingFramework).setVisible(false);
