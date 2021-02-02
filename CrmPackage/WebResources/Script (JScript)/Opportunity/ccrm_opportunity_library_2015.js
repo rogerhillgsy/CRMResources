@@ -651,7 +651,7 @@ function FormOnload(executionContext) {
                 formContext.ui.clearFormNotification('OpportunityType');
             }
 
-            var isBidSubmitted = formContext.getAttribute("arup_bidsubmissionoutcome").getValue(770000001);
+            var isBidSubmitted = formContext.getAttribute("arup_bidsubmissionoutcome").getValue();
             if (isBidSubmitted == 770000001 && currentStage == ArupStages.BidReviewApproval && formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
                 setBidSubmittedNotification(formContext);
             }
@@ -785,6 +785,7 @@ function AddRemoveQualificationTab(formContext, isVisible, addOrRemove) {
                         ClearFields(formContext, "arup_rfqduedate", "arup_rfqsubmissiondate", "arup_requestforproposalduedate", "arup_decisiontoqualify", "arup_decisiontakenby", "arup_dateofdecision", "arup_qualificationstatus");
                         formContext.getAttribute("arup_qualificationstatus").fireOnChange();
                         formContext.getAttribute("arup_decisiontoqualify").fireOnChange();
+                        RefreshWebResource(formContext, "WebResource_buttonnavigation");
                     },
                     setFocus: false,
                     preventClose: false
@@ -798,6 +799,7 @@ function AddRemoveQualificationTab(formContext, isVisible, addOrRemove) {
             "WARNING", 350, 200, '', true);
     } else if (addOrRemove == 'ADD') {
         formContext.getAttribute("arup_isqualificationadded").setValue(true);
+        RefreshWebResource(formContext, "WebResource_buttonnavigation");
     }
 }
 
@@ -5236,6 +5238,12 @@ function stageNotifications(formContext) {
     if (formContext.data.getIsDirty())
         formContext.data.save();
 
+    var isBidSubmitted = formContext.getAttribute("arup_bidsubmissionoutcome").getValue();
+    if (isBidSubmitted == 770000001 && stageid == ArupStages.BidReviewApproval && formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
+        setBidSubmittedNotification(formContext);
+    } else {
+        formContext.ui.clearFormNotification('userNotify');
+    }
 }
 
 //Move Previous Stage
@@ -7223,11 +7231,33 @@ function ParentOpportunity_Onchange_ec(executionContext, event) {
 
 function ParentOpportunity_Onchange(formContext, event) {
     var parentOpportunity = formContext.getAttribute("ccrm_parentopportunityid").getValue();
+    if (parentOpportunity == null && formContext.ui.getFormType() == 1) {
+        ClearRPOppFileds(formContext);
+    }
     var internalOpportunity = formContext.getAttribute("ccrm_arupinternal").getValue();
     if (internalOpportunity) {
         PullDetailsFromParentOpportunity(formContext, parentOpportunity, event);
     } else {
         PullParentOpportunityDetailsForDiffOpportunityType(formContext, parentOpportunity);
+    }
+}
+
+function ClearRPOppFiledsOnOppTypeChange_qc(executionContext) {
+    var formContext = executionContext.getFormContext();
+    ClearRPOppFileds(formContext);
+}
+
+function ClearRPOppFileds(formContext) {
+    if (formContext.ui.getFormType() == 1) {
+        formContext.getAttribute("ccrm_parentopportunityid").setValue(null);
+        formContext.getAttribute("ccrm_contractarrangement").setValue(null);
+        formContext.getAttribute("ccrm_projectlocationid").setValue(null);
+        formContext.getAttribute("ccrm_location").setValue(null);
+        formContext.getAttribute("ccrm_arupbusinessid").setValue(null);
+        formContext.getAttribute("arup_subbusiness").setValue(null);
+        formContext.getAttribute("description").setValue(null);
+        formContext.getAttribute("ccrm_client").setValue(null);
+        formContext.getAttribute("ccrm_ultimateendclientid").setValue(null);
     }
 }
 
@@ -7622,7 +7652,7 @@ function ArupRegion_OnChange(executionContext) {
 }
 
 function SetParentOpportunityRequired(formContext) {
-    var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue();
+    var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue(); 
     var arupRegion = formContext.getAttribute("ccrm_arupregionid").getValue();
     var arupRegionName = arupRegion != null ? arupRegion[0].name.toLowerCase() : '';
     var requiredLevel = (opportunitytype == 770000001 || opportunitytype == 770000002 || opportunitytype == 770000006 || (opportunitytype == 770000004 && arupRegionName == ArupRegionName.Australasia.toLowerCase())) ? 'required' : 'none';
@@ -7637,7 +7667,6 @@ function ParentOpportunityFilter_ec(executionContext) {
 function ParentOpportunityFilter(formContext) {
     SetParentOpportunityRequired(formContext);
     formContext.getControl("ccrm_parentopportunityid").addPreSearch(function () { AddParentOpportunityFilter(formContext); });
-
 }
 
 function AddParentOpportunityFilter(formContext) {
@@ -7824,9 +7853,9 @@ function ShowHideFrameworkFields(formContext, trigger) {
 
     if (opptype == '770000004') {
 
-        if (formContext.ui.getFormType() == 1) {
+        //if (formContext.ui.getFormType() == 1) {
             formContext.getAttribute("arup_isthereanexistingcrmframeworkrecord").setValue(1);
-        }
+        //}
         //   if (arupInternal && tab != null) { tab.setVisible(true); }
         formContext.getControl(existingFramework).setVisible(false);
         formContext.getControl(existingFramework).setDisabled(true);
@@ -7908,7 +7937,6 @@ function existingcrmframework_onchange(formContext, trigger) {
         formContext.getAttribute("ccrm_agreementnumber").setRequiredLevel("none");
     }
 }
-
 
 function setTimeoutfn_ec(executionContext, attributeName) {
     var formContext = executionContext.getFormContext();
@@ -7995,7 +8023,6 @@ function RefreshWebResource(formContext, webResourceName) {
         }, 1000);
     }
 }
-
 
 function FormNotificationForOpportunityType(formContext, opportunityTypeValue) {
     if (opportunityTypeValue == '770000005') {

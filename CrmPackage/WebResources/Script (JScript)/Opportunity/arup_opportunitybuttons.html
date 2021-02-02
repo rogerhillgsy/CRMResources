@@ -246,9 +246,9 @@ There will be several copies of the web resource visible in the debugger as "aru
         function GetLabelTextForBackButton() {
             var backButtonText;
             if (parent.Arup.MainActiveTabForStage != undefined)
-                backButtonText = 'Back to the ' + parent.Arup.MainActiveTabForStage.replace(/[_]/g, " ");
+                backButtonText = 'Back to ' + parent.Arup.MainActiveTabForStage.replace(/[_]/g, " ");
             else
-                backButtonText = 'Back to the Active Stage';
+                backButtonText = 'Back to Active Stage';
 
             return backButtonText;
         }
@@ -409,7 +409,7 @@ There will be several copies of the web resource visible in the debugger as "aru
 
             'Pre-Bid_Tab': [
                 {
-                    'label': function () { return GetLabelTextForQualificationButton(); },
+                    'label': 'Click Here for Qualifications',
                     'action': function () {
                         if (parent.Arup.IsQualificationAdded(this)) {
                             DisplayTab("Qualification_Tab", this);
@@ -426,6 +426,11 @@ There will be several copies of the web resource visible in the debugger as "aru
                         DisplayTab("PJN_Costs_Tab", this);
                     },
                     'isredbutton': false
+                },              
+                {
+                    'label': function () { return GetLabelTextForPJN(); },
+                    'hidden': function () { return !parent.Arup.IsRequestPossibleJobEnabled(formContext); },
+                    'islabel': true
                 },
                 {
                     'label': 'Approve Decision to Proceed',
@@ -445,16 +450,11 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'hidden': function () { return parent.Arup.IsBidDicisionApprovalEnable(formContext); },
                     'isredbutton': true
 
-                },
-                {
-                    'label': function () { return GetLabelTextForPJN(); },
-                    'hidden': function () { return !parent.Arup.IsRequestPossibleJobEnabled(formContext); },
-                    'islabel': true
                 }
             ],
             'Cross_Region_Tab': [
                 {
-                    'label': 'Approve Decision to Proceed',
+                    'label': 'Progress to Developing Bid Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
@@ -706,7 +706,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'islabel': true
                 },
                 {
-                    'label': 'Remove Pre-Qualification Tab',
+                    'label': 'Remove Qualification Tab',
                     'action': function () {
                         parent.Arup.AddRemoveQualificationTab(this, false, "REMOVE");
                     },

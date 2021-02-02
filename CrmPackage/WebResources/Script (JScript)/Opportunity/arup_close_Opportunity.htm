@@ -92,7 +92,7 @@
             var select = document.getElementById("reason");
             var skipCloseOpportunity = false;
 
-            if (isFrameworkOpty && statusCode == 'won')
+            if (isFrameworkOpty == "true" && statusCode == 'won')
                 skipCloseOpportunity = true;
 
             if (skipCloseOpportunity) {

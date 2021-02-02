@@ -43,7 +43,7 @@ function CloseOpportunity(formContext, statusCode, isCloseFramework) {
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var clientUrl = formContext.context.getClientUrl();
     var activeStageId = formContext.data.process.getActiveStage().getId();
-    var oppDetails = getOpportunityReasons(formContext.context.getClientUrl(), activeStageId, statusCode, arupInternal, isCloseFramework);
+    var oppDetails = getOpportunityReasons(formContext.context.getClientUrl(), activeStageId, statusCode, arupInternal, isCloseFramework == true? true : false);
     var isFrameworkOpty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
 
     formContext.getAttribute("arup_biddecisionchair").setRequiredLevel('none');
@@ -71,6 +71,9 @@ function CloseOpportunity(formContext, statusCode, isCloseFramework) {
                     Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
                         function success(returnValue) {
                             OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
+                            if (isFrameworkOpty && statusCode == "won")
+                                formContext.ui.tabs.get("Summary").setFocus();
+
                             formContext.ui.clearFormNotification('userNotify');
                         },
                         function error() {
@@ -94,10 +97,10 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
     var dictionary = {};
     var req = new XMLHttpRequest();
     var isFrameworkOpportunity = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
-    if (isFrameworkOpportunity)
-        req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_frameworkwonopportunityreason&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal + " and  arup_isframeworkopportunity eq " + isFrameworkOpportunity, false);
-    else
-        req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal , false);
+   // if (isFrameworkOpportunity)
+    req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons,arup_frameworkwonopportunityreason&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal + " and  arup_isframeworkopportunity eq " + isFrameworkOpportunity + " and  arup_closeframework eq " + isCloseFrameWork, false);
+    //else
+    //    req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal , false);
 
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
