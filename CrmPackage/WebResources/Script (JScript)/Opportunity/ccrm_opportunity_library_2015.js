@@ -7853,9 +7853,9 @@ function ShowHideFrameworkFields(formContext, trigger) {
 
     if (opptype == '770000004') {
 
-        if (formContext.ui.getFormType() == 1) {
+        //if (formContext.ui.getFormType() == 1) {
             formContext.getAttribute("arup_isthereanexistingcrmframeworkrecord").setValue(1);
-        }
+        //}
         //   if (arupInternal && tab != null) { tab.setVisible(true); }
         formContext.getControl(existingFramework).setVisible(false);
         formContext.getControl(existingFramework).setDisabled(true);
@@ -7937,7 +7937,6 @@ function existingcrmframework_onchange(formContext, trigger) {
         formContext.getAttribute("ccrm_agreementnumber").setRequiredLevel("none");
     }
 }
-
 
 function setTimeoutfn_ec(executionContext, attributeName) {
     var formContext = executionContext.getFormContext();
@@ -8024,7 +8023,6 @@ function RefreshWebResource(formContext, webResourceName) {
         }, 1000);
     }
 }
-
 
 function FormNotificationForOpportunityType(formContext, opportunityTypeValue) {
     if (opportunityTypeValue == '770000005') {
