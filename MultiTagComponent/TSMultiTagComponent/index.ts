@@ -48,7 +48,8 @@ export class MultiTagComponent2 implements ComponentFramework.StandardControl<II
         // @ts-ignore         
         this._tagValueFieldName = this._context.parameters.TagValue.attributes.LogicalName;
         let fieldname: string = "arup_pcfvalues";//this._tagValueFieldName;
-        let dependentFieldType = typeof(context.parameters.DependentField.raw);
+        let dependentFieldValue = context.parameters.DependentField.raw;
+        let dependentFieldType = typeof (dependentFieldValue);
 
         if (dependentFieldType == "object") {
             this._dependentField = context.parameters.DependentField.raw[0].TypeName ? context.parameters.DependentField.raw[0].TypeName : "";
@@ -56,7 +57,7 @@ export class MultiTagComponent2 implements ComponentFramework.StandardControl<II
         }
         else {
             this._dependentField = this._tagValueFieldName;
-            this._dependentFieldValue = "Default";
+            this._dependentFieldValue = dependentFieldValue;
         }
 
         let queryString: string = "?$select=" + fieldname+"&$filter=arup_name eq '" + this._dependentField + "' and " + "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(this._dependentFieldValue) + "'";
