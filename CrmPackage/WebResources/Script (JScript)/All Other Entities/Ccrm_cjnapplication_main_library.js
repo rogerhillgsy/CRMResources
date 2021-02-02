@@ -51,14 +51,10 @@ function Form_onload(executionContext) {
             else defaultCreateMethod = 1;
 
             if (formContext.getAttribute("arup_opportunitytype").getValue() == 770000003) {
-
-                formContext.getControl("ccrm_createmethod").removeOption(2);
-                formContext.getControl("ccrm_createmethod").removeOption(3);
-                formContext.getControl("ccrm_createmethod").removeOption(4);
-
+                RemoveOptionFromOptionSet(formContext, "ccrm_createmethod", 2, 3, 4);
                 RemoveOptionFromOptionSet(formContext, "ccrm_wonreason", 100000007, 100000012, 100000008, 100000011, 100000010, 100000009, 100000013, 100000004);
             } else {
-                RemoveOptionFromOptionSet(formContext, "ccrm_wonreason", 770000007, 770000008, 770000009, 770000010, 770000011, 770000012, 770000013, 770000014);
+                RemoveOptionFromOptionSet(formContext, "ccrm_wonreason", 770000007, 770000008, 770000009, 770000010, 770000011, 770000012, 770000013);
             }
 
             formContext.getAttribute("ccrm_createmethod").setValue(defaultCreateMethod);
