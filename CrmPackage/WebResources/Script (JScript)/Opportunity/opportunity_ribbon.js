@@ -126,7 +126,7 @@ function hideButtonCloseAsWonNoCJN(formContext) {
     var isFrameworkWon = formContext.getAttribute("arup_frameworkwon").getValue();
 
     if (
-        ((isCJNApprovalStage && !isFrameworkOpportunty) || (activeStageId == ArupStages.ConfirmJob && !isFrameworkOpportunty) || (activeStageId == ArupStages.ConfirmJob && isFrameworkOpportunty && !isFrameworkWon)) && statecode == 0
+        ((isCJNApprovalStage && !isFrameworkOpportunty) || (activeStageId == ArupStages.ConfirmJob && !isFrameworkOpportunty) || (activeStageId == ArupStages.ConfirmJob && isFrameworkOpportunty && !isFrameworkWon) || (isCJNApprovalStage && isFrameworkOpportunty && !isFrameworkWon)) && statecode == 0
 
     ) {
         return true;
@@ -152,13 +152,14 @@ function hideButtonCloseAsWonCJNNeeded(formContext) {
     }
 }
 function ShowButtonCloseFramework(formContext) {
-    var activeStage = formContext.data.process.getActiveStage();
-    var activeStageId = activeStage.getId();
+    //var activeStage = formContext.data.process.getActiveStage();
+    //var activeStageId = activeStage.getId();
     var statecode = formContext.getAttribute('statecode').getValue();
-    var isFrameworkOpportunty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
+   // var isFrameworkOpportunty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
     var isFrameworkWon = formContext.getAttribute("arup_frameworkwon").getValue();
 
-    if ((IsCJNApprovalStage(activeStageId) && isFrameworkOpportunty && statecode == 0) || (activeStageId == ArupStages.ConfirmJob && isFrameworkOpportunty && isFrameworkWon && statecode == 0))
+    if (isFrameworkWon && statecode == 0)
+   // if ((IsCJNApprovalStage(activeStageId) && isFrameworkOpportunty && statecode == 0) || (activeStageId == ArupStages.ConfirmJob && isFrameworkOpportunty && isFrameworkWon && statecode == 0))
         return true;
     else
         return false;
@@ -171,7 +172,7 @@ function hideButtonCloseAsLost(formContext) {
     var isFrameworkOpportunty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
     var isFrameworkWon = formContext.getAttribute("arup_frameworkwon").getValue();
 
-    if ((activeStageId == ArupStages.Lead || activeStageId == ArupStages.CrossRegion || IsPJNApprovalStage(activeStageId) || activeStageId == ArupStages.BidDevelopment || activeStageId == ArupStages.BidReviewApproval) || statecode > 0 || (IsCJNApprovalStage(activeStageId) && isFrameworkOpportunty) || isFrameworkWon) {
+    if ((activeStageId == ArupStages.Lead || activeStageId == ArupStages.CrossRegion || IsPJNApprovalStage(activeStageId) || activeStageId == ArupStages.BidDevelopment || activeStageId == ArupStages.BidReviewApproval) || statecode > 0 ||  isFrameworkWon) {
         return false;
     }
     else {
