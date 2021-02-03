@@ -15,7 +15,6 @@ ArupTags =  (
 
         const globalServices = "arup_globalservices";
         const tagTriggerField = "arup_tagstrigger";
-        debugger; 
 
         function onGlobalServicesChange(executioncontext) {
             const formContext = executioncontext.getFormContext();
@@ -25,7 +24,11 @@ ArupTags =  (
             const tagTriggerFieldAttr = formContext.getAttribute(tagTriggerField);
 
             const currentOptions = globalServicesAttr.getText();
-            tagTriggerFieldAttr. setValue(currentOptions.join(";"));
+            if (!!currentOptions) {
+                tagTriggerFieldAttr.setValue(currentOptions.join(";"));
+            } else {
+                tagTriggerFieldAttr.setValue("");
+            }
         }
 
         function onGlobalServicesLoad(executioncontext) {
@@ -34,7 +37,6 @@ ArupTags =  (
             globalServicesAttr.addOnChange(onGlobalServicesChange);
             onGlobalServicesChange(executioncontext);
         }
-
 
         // Add hooks for global services load and change.
 
