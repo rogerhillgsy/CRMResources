@@ -10,7 +10,6 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
     private _tagValueSource : TagValueSource;
 
     private _containerBox: HTMLDivElement;
-    private _container: HTMLDivElement;
     private _innerContainer: HTMLDivElement;
     private _spanElement: HTMLSpanElement;
     private _tagElement: HTMLDivElement;
