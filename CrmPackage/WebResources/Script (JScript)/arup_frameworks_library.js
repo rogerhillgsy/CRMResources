@@ -124,7 +124,10 @@ function exitForm(primaryControl) {
                             }
                         }
                     }
-                    if (cansave) { formContext.data.entity.save("saveandclose"); }
+                    if (cansave) {
+                        formContext.data.entity.save("saveandclose");
+                        setTimeout(function () { formContext.ui.close(); }, 1000)
+                    }
                 },
                 setFocus: true,
                 preventClose: false
