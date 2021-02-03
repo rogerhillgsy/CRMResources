@@ -3,8 +3,9 @@ import { TagValueSource } from "./TagValueSource";
 
 /**
  * Get tag values from the arup_pcfstore entity.
+ * The tag values available are based on the entity (opportunity), the tag value field (arup_advisoryservicestags) and the contents of the DependentField (arup_tagstrigger)
  */
-export class tagsFromPCFValuesStore implements TagValueSource {
+export class TagsFromPCFValuesStore implements TagValueSource {
     private _availableTagValues: string = "";
     private _currentDependentFieldValue = "";
     private readonly _pcfDependentEntity: string;
@@ -14,9 +15,7 @@ export class tagsFromPCFValuesStore implements TagValueSource {
     }
 
     public getAvailableTagValues(context: ComponentFramework.Context<IInputs>): Promise<string> {
-        // let fieldname: string = "arup_pcfvalues";
-        // let entityTypeName = "arup_pcfvaluesstore";
-        // Get a semicolon separated list of services for which we will obtain available tag values
+        // Has a semicolon separated list of services for which we will obtain available tag values
         const services = context.parameters.DependentField.raw;
 
         return new Promise<string>((resolve, reject) => {

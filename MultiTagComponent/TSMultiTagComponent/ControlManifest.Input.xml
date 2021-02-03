@@ -14,9 +14,8 @@
     </type-group>
     <type-group name="optionSet">
         <type>SingleLine.Text</type>
-        <type>OptionSet</type>
-        <type>Lookup.Simple</type>
-        <!-- <type>MultiSelectOptionSet</type> -->
+        <!-- <type>OptionSet</type>
+        <type>Lookup.Simple</type> -->
     </type-group>
     <resources>
       <code path="index.ts" order="1"/>

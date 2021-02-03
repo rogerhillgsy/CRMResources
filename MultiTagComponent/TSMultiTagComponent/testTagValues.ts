@@ -1,6 +1,11 @@
 import { TagValueSource } from "./TagValueSource";
 
-export class testTagValues implements TagValueSource {
+
+
+/**
+ * Tag value source used for testing - this just returns a fixed list of tags.
+ */
+export class TestTagValues implements TagValueSource {
     constructor() {
     }
 

@@ -1,12 +1,7 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-import { tagsFromPCFValuesStore } from "./tagsFromPCFValuesStore";
+import { TagsFromPCFValuesStore } from "./TagsFromPCFValuesStore";
 import { TagValueSource } from "./TagValueSource";
-import { testTagValues } from "./testTagValues";
-
-interface Popup extends ComponentFramework.FactoryApi.Popup.Popup {
-    popupStyle: object;
-    //shadowStyle: object;
-}
+import { TestTagValues } from "./TestTagValues";
 
 export class ArupMultiTagComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
@@ -54,9 +49,9 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
 
         // Get current tag list
         if (context.mode.label == "TestLabel") {
-            this._tagValueSource = new testTagValues();
+            this._tagValueSource = new TestTagValues();
         } else {
-            this._tagValueSource = new tagsFromPCFValuesStore("opportunity");
+            this._tagValueSource = new TagsFromPCFValuesStore("opportunity");
         }
 
         // Set current tag values
