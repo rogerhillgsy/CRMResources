@@ -2703,6 +2703,7 @@ function PreStageChange(executionContext) {
 
     if (eventArgs.getDirection() == "Next") {
         SetFieldRequirementForPreBidStage(formContext);
+        setDefaultQualificationStatus(formContext);
 
         if (!formContext.data.isValid()) {
             eventArgs.preventDefault();
@@ -2737,6 +2738,19 @@ function StageSelected(formContext) {
     makeBidReviewApprovalFieldsReadonly(formContext);
 
     onSelectOfStage(formContext, selectedStage.getId());
+}
+
+function setDefaultQualificationStatus(formContext) {
+    var selectedStage = formContext.data.process.getSelectedStage().getName();
+    if (selectedStage == "PRE-BID") {
+        var isQualificationAdded = formContext.getAttribute("arup_isqualificationadded").getValue();
+        if (isQualificationAdded) {
+            var decisionToQualify = formContext.getAttribute("arup_decisiontoqualify").getValue();
+            var decisionTakenBy = formContext.getAttribute("arup_decisiontakenby").getValue();
+            if (decisionToQualify && decisionTakenBy != null)
+                formContext.getAttribute("arup_qualificationstatus").setValue(770000005)
+        }               
+    }
 }
 
 function makeBidReviewApprovalFieldsReadonly(formContext) {
