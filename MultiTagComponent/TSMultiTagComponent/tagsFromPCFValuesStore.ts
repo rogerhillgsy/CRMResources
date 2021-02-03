@@ -19,13 +19,13 @@ export class TagsFromPCFValuesStore implements TagValueSource {
         const services = context.parameters.DependentField.raw;
 
         return new Promise<string>((resolve, reject) => {
-            if (this._currentDependentFieldValue.localeCompare(services) == 0) {
+            if (this._currentDependentFieldValue.localeCompare(services ?? "") == 0) {
                 // Dependent field value unchanges, so return existing tag value list.
                 resolve(this._availableTagValues);
             } else {
                 // The dependent field contains a semicolon separated list of values. 
                 // For each value in the list we will get the related list of available tag values
-                // from arup_pcfvaluesstore
+                // from arup_pcfvaluesstore.
                 // The combined set of tags from the value store will be returned.
                 this._currentDependentFieldValue = services ?? "";
 
