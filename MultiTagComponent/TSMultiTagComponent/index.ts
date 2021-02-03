@@ -6,9 +6,80 @@ interface Popup extends ComponentFramework.FactoryApi.Popup.Popup {
     //shadowStyle: object;
 }
 
+interface TagValueSource {
+    /** Return a semicolon separated list of tag values via the updateTagValues callback. */
+    // getAvailableTagValues( context: ComponentFramework.Context<IInputs>, updateTagValues: () => string  ) : void;
+    getAvailableTagValues( context: ComponentFramework.Context<IInputs> ) : Promise<string>;
+}
+
+class testTagValues implements TagValueSource {
+    constructor(){
+    }
+
+    public getAvailableTagValues( ) : Promise<string> {
+        return new Promise<string> ((resolve,reject) => {
+            resolve("Tag4;Tag2;Tag1;Tag2;Tag3");
+        });
+    }
+}
+/**
+ * Get tag values from the arup_pcfstore entity.
+ */
+class tagsFromPCFValuesStore implements TagValueSource {
+    private _availableTagValues: string = "";
+    private _currentDependentFieldValue = "";
+    private readonly _pcfDependentEntity: string;
+    private readonly _pcfValueStoreEntity = "arup_pcfvaluesstore";
+    constructor(entityName: string) {
+        this._pcfDependentEntity = entityName;
+    }
+
+    public getAvailableTagValues(context: ComponentFramework.Context<IInputs>): Promise<string> {
+        // let fieldname: string = "arup_pcfvalues";
+        // let entityTypeName = "arup_pcfvaluesstore";
+        // Get a semicolon separated list of services for which we will obtain available tag values
+        const services = context.parameters.DependentField.raw;
+
+        return new Promise<string>((resolve, reject) => {
+            if (this._currentDependentFieldValue.localeCompare(services) == -1) {
+                // Dependent field value unchanges, so return existing tag value list.
+                resolve(this._availableTagValues)
+            } else {
+                // The dependent field contains a semicolon separated list of values. 
+                // For each value in the list we will get the related list of available tag values
+                // from arup_pcfvaluesstore
+                // The combined set of tags from the value store will be returned.
+                this._currentDependentFieldValue = services;
+
+                let pcfDependentEntity = this._pcfDependentEntity;
+                let pcfDependentFieldName = context.parameters.TagValue.attributes?.LogicalName;
+                let dependentFieldValueFilter = this._currentDependentFieldValue.split(';').
+                    map(function (val: string) { return "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(val) + "'" }).
+                    join(" or ");
+
+                let queryString: string = "?$select=arup_pcfvalues&$filter=arup_dependententity eq '" + pcfDependentEntity + "' and arup_name eq '" + pcfDependentFieldName + "' and (" + dependentFieldValueFilter + ")";
+
+                context.webAPI.retrieveMultipleRecords(this._pcfValueStoreEntity, queryString).then(
+                    (response) => {
+                        // TODO: dedupe the list of tags.
+                        this._availableTagValues = response.entities.map(function (v) { return v.arup_pcfvalues }).join(";");
+                        resolve(  this._availableTagValues);
+                    },
+                    function (errorResponse: any) {
+                        reject("ERROR::" + errorResponse.message);
+                    }
+                );
+            } 
+        });
+    }
+}
+
 export class ArupMultiTagComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
+    private _context: ComponentFramework.Context<IInputs>; // ?? Is this valid as it probably changes from one call to the next?
     private _container : HTMLDivElement;
+    private _tagValueSource : TagValueSource;
+
     private _containerBox: HTMLDivElement;
     private _innerContainer: HTMLDivElement;
     private _spanElement: HTMLSpanElement;
@@ -16,7 +87,6 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
     private _tagContent: HTMLDivElement;
     private _tagClose: HTMLAnchorElement;
     private _taggedValues: string[];
-    private _context: ComponentFramework.Context<IInputs>;
     private _currentValues: string;
     private _availableValues: string;
     private _availableTags: string[];
@@ -43,57 +113,225 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
+        // Save context
 		this._context = context;
         this._container = container;
-        
         this._notifyOutputChanged = notifyOutputChanged;
-        // @ts-ignore         
-        this._tagValueFieldName = this._context.parameters.TagValue.attributes.LogicalName;
-        let fieldname: string = "arup_pcfvalues";//this._tagValueFieldName;
-        let dependentFieldValue = context.parameters.DependentField.raw;
-        let dependentFieldType = typeof (dependentFieldValue);
 
-        if (dependentFieldType == "object") {
-            this._dependentField = context.parameters.DependentField.raw[0].TypeName ? context.parameters.DependentField.raw[0].TypeName : "";
-            this._dependentFieldValue = context.parameters.DependentField.raw[0].Name;
-
-        let queryString: string = "?$select=" + fieldname+"&$filter=arup_name eq '" + this._dependentField + "' and " + "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(this._dependentFieldValue) + "'";
-        let currentValues: string = context.parameters.TagValue.raw ? context.parameters.TagValue.raw : "";
-
-        //(<any>context.mode).contextInfo.entityId;
-        let entityTypeName = "arup_pcfvaluesstore";//(<any>context.mode).contextInfo.entityTypeName;
-        //this.getAvailableTags(entityTypeName, queryString);
-		context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
-            (response) => {
-                this._availableValues = response.entities.map( function(v ) { return v.arup_pcfvalues}).join(";");
-
-                this.setCurrentTagValues( currentValues);
-                
-                this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
-                this._availableTagContainer.innerHTML = "";
-                this.loadAvailableTags();
-                //this._inputElement.addEventListener("click", this.onClick.bind(this));
-                this._containerBox.appendChild(this._innerContainer);
-                //this._containerBox.appendChild(this._inputElement);
-                this._container.appendChild(this._containerBox);
-                this._container.appendChild(this._spanElement);
-                this._container.appendChild(this._availableTagContainer);
-			},
-			function(errorResponse: any) {
-				console.log("ERROR::" + errorResponse.message);
-			}
-        );
+        // Get current tag list
+        if (context.mode.label == "TestLabel") {
+            this._tagValueSource = new testTagValues();
         } else {
-            this._dependentField = this._tagValueFieldName;
-            this._dependentFieldValue = dependentFieldValue;
-            this.UpdateDependentFieldTypeString(context, this._dependentFieldValue)
+            this._tagValueSource = new tagsFromPCFValuesStore("opportunity");
         }
 
+        // Set current tag values
+        let currentValues: string = context.parameters.TagValue.raw ? context.parameters.TagValue.raw : "";
+        this.setCurrentTagValues(currentValues);
+
+        // // Get available tag values
+        // this._tagValueSource.getAvailableTagValues(context).then(
+        //     // Resolve
+        //     this.displayTags.bind(this),
+        //     // Reject
+        //     (error: string) => {
+        //         console.log(`Error getting available tag values: ${error}`)
+        //     }
+        // );
+        
+
+        // // @ts-ignore         
+        // this._tagValueFieldName = this._context.parameters.TagValue.attributes.LogicalName;
+        // let fieldname: string = "arup_pcfvalues";//this._tagValueFieldName;
+        // let dependentFieldValue = context.parameters.DependentField.raw;
+        // let dependentFieldType = typeof (dependentFieldValue);
+
+        // if (dependentFieldType == "object") {
+        //     this._dependentField = context.parameters.DependentField.raw[0].TypeName ? context.parameters.DependentField.raw[0].TypeName : "";
+        //     this._dependentFieldValue = context.parameters.DependentField.raw[0].Name;
+
+        // let queryString: string = "?$select=" + fieldname+"&$filter=arup_name eq '" + this._dependentField + "' and " + "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(this._dependentFieldValue) + "'";
+        // let currentValues: string = context.parameters.TagValue.raw ? context.parameters.TagValue.raw : "";
+
+        //(<any>context.mode).contextInfo.entityId;
+        // let entityTypeName = "arup_pcfvaluesstore";//(<any>context.mode).contextInfo.entityTypeName;
+        //this.getAvailableTags(entityTypeName, queryString);
+        // let entityTypeName="opportunity",queryString="";
+		// context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
+        //     (response) => {
+        //         this._availableValues = response.entities.map( function(v ) { return v.arup_pcfvalues}).join(";");
+
+        //         this.setCurrentTagValues( currentValues);
+                
+        //         this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
+        //         this._availableTagContainer.innerHTML = "";
+        //         this.loadAvailableTags();
+        //         //this._inputElement.addEventListener("click", this.onClick.bind(this));
+        //         this._containerBox.appendChild(this._innerContainer);
+        //         //this._containerBox.appendChild(this._inputElement);
+        //         this._container.appendChild(this._containerBox);
+        //         this._container.appendChild(this._spanElement);
+        //         this._container.appendChild(this._availableTagContainer);
+		// 	},
+		// 	function(errorResponse: any) {
+		// 		console.log("ERROR::" + errorResponse.message);
+		// 	}
+        // );
+        // } else {
+        //     this._dependentField = this._tagValueFieldName;
+        //     this._dependentFieldValue = dependentFieldValue;
+        //     this.UpdateDependentFieldTypeString(context, this._dependentFieldValue)
+        // }
     }
-    
+
+    	/**
+	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
+	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
+	 */
+	public updateView(context: ComponentFramework.Context<IInputs>): void
+	{
+        /*let entityId = (<any>context.mode).contextInfo.entityId;
+        let entityTypeName = (<any>context.mode).contextInfo.entityTypeName;*/
+        this._context = context;
+        //console.log("=========>>"+context.updatedProperties.toString());
+        let dependentFieldType = typeof(context.parameters.DependentField.raw);
+
+          // Set current tag values
+          let currentValues: string = context.parameters.TagValue.raw ? context.parameters.TagValue.raw : "";
+          this.setCurrentTagValues(currentValues);
+  
+          // Get available tag values
+          this._tagValueSource.getAvailableTagValues(context).then(
+              // Resolve
+              this.displayTags.bind(this),
+              // Reject
+              (error: string) => {
+                  console.log(`Error getting available tag values: ${error}`)
+              }
+          );
+
+        // if (dependentFieldType == "object" && context.updatedProperties.indexOf("DependentField") != -1) {
+        //     if (this._dependentFieldValue.localeCompare(context.parameters.DependentField.raw[0].Name) != 0) {
+        //         this._dependentFieldValue = context.parameters.DependentField.raw[0].Name;
+        //         let fieldname: string = "arup_pcfvalues";
+        //         let entityTypeName = "arup_pcfvaluesstore";
+        //         let queryString: string = "?$select=" + fieldname+"&$filter=arup_name eq '" + this._dependentField + "' and " + "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(this._dependentFieldValue) + "'";
+        //         context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
+        //             (response) => {
+        //                 this._availableValues = response.entities.map( function(v ) { return v.arup_pcfvalues}).join(";");
+
+        //                 if (!this._currentValues) {
+        //                     this._taggedValues = [];
+        //                     this._innerContainer.classList.add("hideBlock");
+        //                 }
+        //                 else {
+        //                     this._innerContainer.classList.add("displayBlock");
+        //                     this._taggedValues = this._currentValues.split(";").filter(x => this._availableValues.includes(x));
+        //                     this.loadTags();
+        //                 }
+        
+        //                 this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
+        //                 this._availableTagContainer.innerHTML = "";
+        //                 this.loadAvailableTags();
+
+        //                 this._containerBox.appendChild(this._innerContainer);
+        //                 //this._containerBox.appendChild(this._inputElement);
+        //                 this._container.appendChild(this._containerBox);
+        //                 this._container.appendChild(this._spanElement);
+        //                 this._container.appendChild(this._availableTagContainer);
+        //             },
+        //             function(errorResponse: any) {
+        //                 console.log("ERROR::" + errorResponse.message);
+        //             }
+
+        //         );
+        //     }
+        // }      
+        // if (dependentFieldType == "string" && context.updatedProperties.indexOf("DependentField") != -1) {
+        //     const trigger = context.parameters.DependentField.raw;
+        //     this.UpdateDependentFieldTypeString(context, trigger);
+        // }
+    }
+
+    // private UpdateDependentFieldTypeString(context: ComponentFramework.Context<IInputs>, currentServices: string) {
+    //     if (this._dependentFieldValue.localeCompare(currentServices) != 0) {
+    //         this._dependentFieldValue = currentServices;
+    //         let fieldname: string = "arup_pcfvalues";
+    //         let entityTypeName = "arup_pcfvaluesstore";
+    //         let dependentFieldValueFilter = this._dependentFieldValue.split(';').
+    //             map( function(val: string ) { return "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(val) + "'"}).
+    //             join( " or ");
+
+    //         let queryString: string = "?$select=" + fieldname + "&$filter=arup_name eq '" + this._dependentField + "' and (" +dependentFieldValueFilter + ")";
+    //         context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
+    //             (response) => {
+    //                 this._availableValues = response.entities.map( function(v ) { return v.arup_pcfvalues}).join(";");
+
+    //                 var currentValues = context.parameters.TagValue.raw;
+    //                 this.setCurrentTagValues(currentValues);
+
+    //                 this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
+    //                 this._availableTagContainer.innerHTML = "";
+    //                 this.loadAvailableTags();
+    //                 this._containerBox.appendChild(this._innerContainer);
+    //                 //this._containerBox.appendChild(this._inputElement);
+    //                 this._container.appendChild(this._containerBox);
+    //                 this._container.appendChild(this._spanElement);
+    //                 this._container.appendChild(this._availableTagContainer);
+    //             },
+    //             function (errorResponse: any) {
+    //                 console.log("ERROR::" + errorResponse.message);
+    //             }
+
+    //         );
+    //     }
+    //}
+
+	/** 
+	 * It is called by the framework prior to a control receiving new data. 
+	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
+	 */
+	public getOutputs(): IOutputs
+	{
+		var result = <IOutputs>{ TagValue: this._taggedValues.join(";") };
+        return result;
+	}
+
+	/** 
+	 * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
+	 * i.e. cancelling any pending remote calls, removing listeners, etc.
+	 */
+	public destroy(): void
+	{
+		//this._inputElement.removeEventListener("keypress", this.onKeyPress);
+        this._tagClose.removeEventListener("click", this.onClickOfClose);
+        //this._inputElement.removeEventListener("click", this.onClick);
+        this._tagElement.removeEventListener("click", this.onClickOfAvailableTag);
+        //this._popUpService.deletePopup('AvailableTagsPopup');
+	}
+
+    /// Start of private functions that manipulate the DOM to display tag values in the UI.
+
+    /**
+     * 
+     */
+    private displayTags( availableTags: string ) {
+        // Remove any selected tags from the list, sort and dedupe.
+        this._availableTags = availableTags.split(";").filter(x => !this._taggedValues.includes(x)).sort( )
+                        .filter((item,index,array) => array.indexOf(item) === index);
+        this._availableTagContainer.innerHTML = "";
+        this.loadAvailableTags();
+
+        this._container.innerHTML = "";
+        this._containerBox.appendChild(this._innerContainer);
+        this._container.appendChild(this._containerBox);
+        this._container.appendChild(this._spanElement);
+        this._container.appendChild(this._availableTagContainer);
+    }
+
     private setCurrentTagValues( currentValues: string | null ) : void {
         // @ts-ignore 
-        this._currentValues = currentValues;//Xrm.Page.getAttribute(this._tagValueFieldName).getValue();
+        this._currentValues = currentValues;
         this._containerBox = document.createElement("div");
         this._containerBox.setAttribute("class", "container");
         this._innerContainer = document.createElement("div");
@@ -172,11 +410,7 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         this._notifyOutputChanged();
     }
 
-    /*private onClick(e: any): void {
-        //this._popUpService.openPopup('AvailableTagsPopup');
-    }*/
-
-     /**
+    /**
 	 * Function called On click of remove Tag
 	 */
     private onClickOfClose(e: any): void {
@@ -200,117 +434,5 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         }
         this._notifyOutputChanged();
         //this._popUpService.closePopup('AvailableTagsPopup');
-	}
-
-	/**
-	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
-	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
-	 */
-	public updateView(context: ComponentFramework.Context<IInputs>): void
-	{
-        /*let entityId = (<any>context.mode).contextInfo.entityId;
-        let entityTypeName = (<any>context.mode).contextInfo.entityTypeName;*/
-        this._context = context;
-        //console.log("=========>>"+context.updatedProperties.toString());
-        let dependentFieldType = typeof(context.parameters.DependentField.raw);
-
-        if (dependentFieldType == "object" && context.updatedProperties.indexOf("DependentField") != -1) {
-            if (this._dependentFieldValue.localeCompare(context.parameters.DependentField.raw[0].Name) != 0) {
-                this._dependentFieldValue = context.parameters.DependentField.raw[0].Name;
-                let fieldname: string = "arup_pcfvalues";
-                let entityTypeName = "arup_pcfvaluesstore";
-                let queryString: string = "?$select=" + fieldname+"&$filter=arup_name eq '" + this._dependentField + "' and " + "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(this._dependentFieldValue) + "'";
-                context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
-                    (response) => {
-                        this._availableValues = response.entities.map( function(v ) { return v.arup_pcfvalues}).join(";");
-
-                        if (!this._currentValues) {
-                            this._taggedValues = [];
-                            this._innerContainer.classList.add("hideBlock");
-                        }
-                        else {
-                            this._innerContainer.classList.add("displayBlock");
-                            this._taggedValues = this._currentValues.split(";").filter(x => this._availableValues.includes(x));
-                            this.loadTags();
-                        }
-        
-                        this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
-                        this._availableTagContainer.innerHTML = "";
-                        this.loadAvailableTags();
-
-                        this._containerBox.appendChild(this._innerContainer);
-                        //this._containerBox.appendChild(this._inputElement);
-                        this._container.appendChild(this._containerBox);
-                        this._container.appendChild(this._spanElement);
-                        this._container.appendChild(this._availableTagContainer);
-                    },
-                    function(errorResponse: any) {
-                        console.log("ERROR::" + errorResponse.message);
-                    }
-
-                );
-            }
-        }      
-        if (dependentFieldType == "string" && context.updatedProperties.indexOf("DependentField") != -1) {
-            const trigger = context.parameters.DependentField.raw;
-            this.UpdateDependentFieldTypeString(context, trigger);
-        }
-    }
-
-    private UpdateDependentFieldTypeString(context: ComponentFramework.Context<IInputs>, currentServices: string) {
-        if (this._dependentFieldValue.localeCompare(currentServices) != 0) {
-            this._dependentFieldValue = currentServices;
-            let fieldname: string = "arup_pcfvalues";
-            let entityTypeName = "arup_pcfvaluesstore";
-            let dependentFieldValueFilter = this._dependentFieldValue.split(';').
-                map( function(val: string ) { return "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(val) + "'"}).
-                join( " or ");
-
-            let queryString: string = "?$select=" + fieldname + "&$filter=arup_name eq '" + this._dependentField + "' and (" +dependentFieldValueFilter + ")";
-            context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
-                (response) => {
-                    this._availableValues = response.entities.map( function(v ) { return v.arup_pcfvalues}).join(";");
-
-                    var currentValues = context.parameters.TagValue.raw;
-                    this.setCurrentTagValues(currentValues);
-
-                    this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
-                    this._availableTagContainer.innerHTML = "";
-                    this.loadAvailableTags();
-                    this._containerBox.appendChild(this._innerContainer);
-                    //this._containerBox.appendChild(this._inputElement);
-                    this._container.appendChild(this._containerBox);
-                    this._container.appendChild(this._spanElement);
-                    this._container.appendChild(this._availableTagContainer);
-                },
-                function (errorResponse: any) {
-                    console.log("ERROR::" + errorResponse.message);
-                }
-
-            );
-        }
-    }
-
-	/** 
-	 * It is called by the framework prior to a control receiving new data. 
-	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
-	 */
-	public getOutputs(): IOutputs
-	{
-		var result = <IOutputs>{ TagValue: this._taggedValues.join(";") };
-        return result;
-	}
-
-	/** 
-	 * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
-	 * i.e. cancelling any pending remote calls, removing listeners, etc.
-	 */
-	public destroy(): void
-	{
-		//this._inputElement.removeEventListener("keypress", this.onKeyPress);
-        this._tagClose.removeEventListener("click", this.onClickOfClose);
-        //this._inputElement.removeEventListener("click", this.onClick);
-        this._tagElement.removeEventListener("click", this.onClickOfAvailableTag);
-        //this._popUpService.deletePopup('AvailableTagsPopup');
 	}
 }
