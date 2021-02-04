@@ -149,10 +149,7 @@ function exitForm(formContext) {
                             }
                         }
                     }
-                    if (cansave) {
-                        formContext.data.save("saveandclose");
-                        setTimeout(function () { formContext.ui.close(); }, 2000);
-                    }
+                    if (cansave) { formContext.data.save("saveandclose"); }
                 },
                 setFocus: true,
                 preventClose: false

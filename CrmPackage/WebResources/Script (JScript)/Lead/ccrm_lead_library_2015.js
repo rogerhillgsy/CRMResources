@@ -191,11 +191,7 @@ function requestLeadQualification(formContext) {
                                 if (this.status == 200) {
                                     //alert("Action called successfully");
                                     result = JSON.parse(this.response);
-                                    var entityFormOptions = {};
-                                    entityFormOptions["entityName"] = "opportunity"; // logical name of the entity
-                                    entityFormOptions["entityId"] = result["OpportunityId"]; //ID of the entity record
-                                    
-                                    Xrm.Navigation.openForm(entityFormOptions);
+                                    Xrm.Navigation.openForm("opportunity", result["OpportunityId"]);
                                     Alert.hide();
 
                                 } else {

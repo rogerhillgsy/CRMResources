@@ -97,12 +97,10 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
     var dictionary = {};
     var req = new XMLHttpRequest();
     var isFrameworkOpportunity = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
-
-    //Shruti: Consider the filter of isFrameworkOpportunity and closeframework only when stage is confirmed job-commercial or CJN approval. Otherwise at all other stages framework opportunity can be closed as lost as any other opportunity.
-    if (activeStageId == ArupStages.ConfirmJob || IsCJNApprovalStage(activeStageId))   
-        req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons,arup_frameworkwonopportunityreason&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal + " and  arup_isframeworkopportunity eq " + isFrameworkOpportunity + " and  arup_closeframework eq " + isCloseFrameWork, false);
-    else
-        req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal , false);
+   // if (isFrameworkOpportunity)
+    req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons,arup_frameworkwonopportunityreason&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal + " and  arup_isframeworkopportunity eq " + isFrameworkOpportunity + " and  arup_closeframework eq " + isCloseFrameWork, false);
+    //else
+    //    req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal , false);
 
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
