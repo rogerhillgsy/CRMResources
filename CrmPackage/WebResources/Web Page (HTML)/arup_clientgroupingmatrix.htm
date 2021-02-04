@@ -1,13 +1,12 @@
 ﻿<html>
 <head>
+</head>
+<body style="width: 100%; -webkit-print-color-adjust: exact; overflow-wrap: break-word;" onload="OnLoad();" onfocusout="parent.setEmailRange();">
+    ﻿
+
 
     <title>CRM Report - Client Connection Matrix</title>
     <meta charset="utf-8">
-    <!--<link href="arup_BootStrap_MinCSS.css" rel="stylesheet">
-    <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>-->
-    <script src="ccrm_/JavaScripts/Lib/SDK.REST.js"></script>
-    <script src="ccrm_/JavaScripts/Lib/SDK.MetaData.js" type="text/javascript"></script>
-    <!--<script src="ccrm_/JavaScripts/Lib/XrmServiceToolkit.min.js" type="text/javascript"></script>-->
     <script src="ccrm_/JavaScripts/D3V4.js" type="text/javascript"></script>
     <script src="ccrm_/JavaScripts/Lib/jquery_3.2.0.min" type="text/javascript"></script>
     <script>
@@ -22,63 +21,29 @@
         var initialContactList = [];
         var isActivitiesChecked = 0;
         var sizetoggle = 0;
-        debugger;
+
         function OnLoad() {
-            //if we need to display report within form:Starts
-            ////debugger;
-            var parameters = undefined;//GetGlobalContext().getQueryStringParameters().Data;
-            if (parameters != undefined) {
-                accId = parameters.split('&')[0].split('=')[1];
-                parentaccountid = parameters.split('&')[1].split('=')[1];
-                if (accId != parentaccountid) {
-                    var fetchXML = "<fetch>" +
-                        "<entity name='account' >" +
-                        "<attribute name='accountid' />" +
-                        "<filter>" +
-                        "<condition attribute='accountid' operator='eq-or-above' value='" + accId + "' />" +
-                        "<condition attribute='parentaccountid' operator='null' />" +
-                        "</filter>" +
-                        "</entity>" +ccrm_clientg
-                        "</fetch>";
-                    var accounts;// = XrmServiceToolkit.Soap.Fetch(fetchXML);
-                    fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
-                    Xrm.WebApi.retrieveMultipleRecords('account', fetchXML).then(
-                        function success(result) {
-                            accounts = result.entities;
-                        },
-                        function (error) {
-                            Xrm.Navigation.openAlertDialog(error.message);
-                        }
-                    );
-                    if (accounts.length > 0) {
-                        parentaccountid = accounts[0]["accountid"];
-                    }
-                }
-            }
-            else {
-                accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
-                parentaccountid = accId;
-            }
-            ////debugger;
+
+            accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
+            parentaccountid = accId;
+
+
             clientGroupingId = getUrlVars();
             try {
                 PopulateBasicAccProfile();
+            } catch (err) {
             }
-            catch (err) { }
             try {
                 PopulateManagingTeamMembers();
+            } catch (err) {
             }
-            catch (err) { }
             try {
-                //$('#chkShowBidTeam').prop('disabled', true);
-                //$('#chkShowInternal').prop('disabled', true);
-                //$('input[name="opportunitystatus"]').prop('disabled', true);
                 PopulateConnection(true, true, true, true, true);
                 $('#chkContacts').prop('checked', true);
                 $('#chkActivities').prop('disabled', false);
                 DrawMatrixForceLayoutContacts("#connectionMatrix", "", true, true);
+            } catch (err) {
             }
-            catch (err) { }
         }
 
         function getUrlVars() {
@@ -91,27 +56,6 @@
             return vars;
         }
         function PopulateManagingTeamMembers() {
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='account'>" +
-                "<attribute name='name' />" +
-                "<attribute name='address1_city' />" +
-                "<attribute name='address1_line1' />" +
-                "<attribute name='ccrm_countryid' />" +
-                "<attribute name='parentaccountid' />" +
-                "<attribute name='ccrm_keyaccountmanagerid' />" +
-                "<attribute name='ccrm_organisationtype' />" +
-                "<attribute name='ccrm_keyaccount' />" +
-                "<attribute name='ccrm_clienttype' />" +
-                "<attribute name='ccrm_alternativename' />" +
-                "<attribute name='ccrm_address1attentiondepartment' />" +
-                "<attribute name='accountid' />" +
-                "<order attribute='parentaccountid' descending='false' />" +
-                "<order attribute='name' descending='false' />" +
-                "<filter type='and'>" +
-                "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
             var userRecords;
             $.ajax({
                 type: "GET",
@@ -129,24 +73,19 @@
                     userRecords = data.value;
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                    Alert(textStatus + " " + errorThrown);
                 }
             });
             var userList = [];
             if (userRecords.length > 0) {
                 for (var i = 0; i < userRecords.length; i++) {
-                    //////debugger;
                     var sysuserid = userRecords[i]["accountid"];
                     var fullname = userRecords[i]["name"] != undefined ? userRecords[i]["name"] : "";
-                    //var Office = userRecords[i].attributes.Office != undefined ? userRecords[i].attributes.Office.name : "";
-                    //var title = userRecords[i].attributes.title != undefined ? userRecords[i].attributes.title.value : "";
-                    //var business = userRecords[i].attributes.Business != undefined ? userRecords[i].attributes.Business.name : "";
 
                     var user = { "Name": fullname, UserID: sysuserid };
                     userList.push(user);
                     relTeamMembers.push(sysuserid);
                 }
-                //DrawTable("#relationshipTeam", userList, Object.keys(userList[0]));
             }
         }
 
@@ -184,23 +123,10 @@
         }
 
         function PopulateConnection(ContactAccountRoleDM, ContactAccountRoleInf, ContacAccountRoleEmp, ContactAccountRoleOthers, ContactAccountRoleCS) {
-            ////debugger;
             ConnectionContactData = "";
             InititializeGraphDivs();
             InitializeHomeButtonClick();
-            /*new fectxml -  everything is same just modified to populate user/contact image url
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='account'>" +
-                "<attribute name='name' />" +
-                "<attribute name='accountid' />" +
-                "<attribute name='parentaccountid' />" +
-                "<attribute name='ccrm_clientgroupings' />" +
-                "<filter type='and'>" +
-                "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
-            //fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
+
             var userList = [];
             initialOrgList = [];
             $.ajax({
@@ -226,31 +152,19 @@
                         initialOrgList.push(organization);
                         relTeamMembers.push(organizationid);
                     }
-
-                    if (userList.length > 0) {
-                        //DrawMatrixForceLayout("#connectionMatrix", userList);
-                    }
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                    Alert(textStatus + " " + errorThrown);
                 }
             });
         }
 
-
-
-        //   bindCountsforGraph(connectionLstTbl.length - contactLst.length, accOpenOpptys);
-
-        //}
-
         function bindCountsforGraph(Connectioncount, opptycount, decisionmakercount) {
             $('#connectioncount').html(Connectioncount);
             $('#openopportunitycount').html(opptycount);
-            // $('#decisionmakercount').html(decisionmakercount);
         }
         function PopulateBasicAccProfile() {
-            var oppty; //= XrmServiceToolkit.Soap.Fetch(fetchXML);
-            debugger;
+            var oppty;
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -267,12 +181,11 @@
                     oppty = data.value;
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                    Alert(textStatus + " " + errorThrown);
                 }
             });
 
             if (oppty.length > 0) {
-                //////debugger;
                 var result = oppty[0];
                 var basicProfile = {
                     name: result["ccrm_name"] != undefined ? result["ccrm_name"] : ""
@@ -281,10 +194,12 @@
             }
         }
         function AssociateProfileDataWithReport(profileData) {
+
             accName = profileData.name;
-            
+
             $("#accountName").text(profileData.name);
         }
+
         function DrawTable(div, data, columns) {
             d3.select(div).selectAll("table").remove();
             var relTable = d3.select(div).append('table').attr('width', '100%');
@@ -403,12 +318,6 @@
             rows.selectAll('td')
                 .data(function (row) {
                     return columns.map(function (column) {
-                        //if (row['CRM User'] == column) {
-                        //    return { column: column, value: row[column], Color: 'gray' };
-                        //}
-                        //else {
-                        //    return { column: column, value: row[column], Color: 'lightgray' };
-                        //}
                         var exist = matrixData.filter(function (c, i, a) {
                             if (c.value == column && c.key == row.key) { return c; }
                         })
@@ -440,7 +349,6 @@
             if (!isUserClick) {
                 nodelink.nodes.push({
                     id: accName, name: accName, group: 1, rad: 10, imageUrl: 'arup_graphOrg'
-                    //id: accName, name: accName, group: 1, rad: 10, imageUrl: '/%7B637275430220018341%7D/WebResources/arup_collaborate',height:30, width:30
                 });
             }
 
@@ -452,7 +360,6 @@
                     });
                 }
             }
-            //var user = { organizationname: fullname, organizationid: sysuserid, ccrm_clientgroupings: ccrm_clientgroupings };
             for (var i = 0; i < conData.length; i++) {
                 if (conData[i].parentorganisationid == "") {
                     if (!isUserClick)
@@ -515,12 +422,7 @@
                         if (_parentaccountid_value == "nodata") {
                             if (hierarchyCount == 1)
                                 parentacchierarchy = "nodata";
-                            //break;
                         }
-                        //if (parentacchierarchy == '')
-                        //    parentacchierarchy = _parentaccountid_value;
-                        //else if (parentacchierarchy != 'nodata' && _parentaccountid_value != "nodata")
-                        //    parentacchierarchy = parentacchierarchy + "," + _parentaccountid_value;
 
                     } while (_parentaccountid_value != "nodata");
 
@@ -529,7 +431,6 @@
                         splithierarchy.reverse();
                         for (var j = 0; j < splithierarchy.length; j++) {
                             if (j == 0) {
-                                //nodelink.links.push({ source: accName, target: splithierarchy[j], value: 2 });
                                 var isNodeLinkDuplicate = false;
                                 for (var k = 0; k < nodelink.links.length; k++) {
                                     if (nodelink.links[k].source == accName && nodelink.links[k].target == splithierarchy[j]) {
@@ -542,7 +443,6 @@
                                 }
                             }
                             else {
-                                //nodelink.links.push({ source: splithierarchy[j - 1], target: splithierarchy[j], value: 2 });
                                 var isNodeLinkDuplicate = false;
                                 for (var k = 0; k < nodelink.links.length; k++) {
                                     if (nodelink.links[k].source == splithierarchy[j - 1] && nodelink.links[k].target == splithierarchy[j]) {
@@ -582,9 +482,6 @@
                 }
             }
 
-
-            ////debugger;
-
             var svgwidth = $("#connForcelay").width()
 
             var svg = d3.select("#connForcelay"),
@@ -594,13 +491,6 @@
             var zoom = d3.zoom().scaleExtent([1 / 2, 4]).on("zoom", zoomed);
 
             svg.call(zoom);
-
-
-            //svg.append("rect")
-            //    .attr("width", width)
-            //    .attr("height", height)
-            //    .style("fill", "none")
-            //    .style("pointer-events", "all");
 
             var g = svg.append("g");
 
@@ -670,8 +560,6 @@
                     .attr('height', width)
                     .attr('x', xaxis)
                     .attr('y', yaxis)
-                    // .attr('transform', 'translate(' + parseInt(d.posx1) + ',' + parseInt(d.posy1) + ')')
-                    // .attr('transform', 'translate(' + parseInt(d.posx - config.avatar_size + config.avatar_size * .45) + ',' + parseInt(d.posy - config.avatar_size + config.avatar_size * .45) + ')')
                     .attr('clip-path', "url(#clipObj" + i + ")")
 
             })
@@ -709,8 +597,6 @@
                     .delay(100)
                     .duration(700)
                     .call(zoom.scaleBy, zoomLevel);
-                //.call(zoom.transform, transform);
-                //.on("end", function() { canvas.call(transition); });
             }
 
             d3.selectAll('button').on('click', function () {
@@ -731,8 +617,6 @@
                         $(div).css("height", "90%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "1100px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-10').addClass('col-md-9 ml-sm-auto col-lg-12');
-                        //$('#seconddivgraph').hide();
                         $('#clientconnectionHelp').hide();
                         $('#showhideNav').hide();
                         $('#seconddivgraph').css({ 'margin-top': '0px' });
@@ -743,8 +627,6 @@
                         $(div).css("height", "75%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "800px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-12').addClass('col-md-9 ml-sm-auto col-lg-10');
-                        //$('#seconddivgraph').show();
                         $('#clientconnectionHelp').show();
                         $('#showhideNav').show();
                         $('#seconddivgraph').css({ 'margin-top': '65px' });
@@ -775,7 +657,6 @@
                     else { return 0; }
                 }))
                 .style('stroke', function (d) {
-                    //////debugger;
                     if (isManagedClient) {
                         if (d.source == relationshipManager || d.target == relationshipManager) {
                             return "#28AF73";
@@ -812,7 +693,6 @@
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent);
                     return tooltip.style("visibility", "visible");
-                    // tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
 
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
@@ -873,8 +753,6 @@
                     connectedNodes(d);
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent); return tooltip.style("visibility", "visible");
-
-                    //  tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
                 .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
@@ -897,10 +775,6 @@
                 }
                 return name;
             }).style("text-anchor", "middle");
-
-
-            //var title = node.append("title")
-            //     .text(function (d) { return d.id; });
 
             simulation
                 .nodes(nodelink.nodes)
@@ -978,15 +852,11 @@
 
             function dragended(d) {
                 if (!d3.event.active) simulation.alphaTarget(0);
-                //d.fx = null;
-                //d.fy = null;
                 d.fx = d.x;
                 d.fy = d.y;
             }
 
             function releasenode(d) {
-                //d.fx = false; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
-                //force.resume();
                 if (!d3.event.active) simulation.alphaTarget(0);
                 d.fx = null;
                 d.fy = null;
@@ -1023,7 +893,6 @@
                     }
                 })
                     .style('stroke', function (d) {
-                        //////debugger;
                         if (isManagedClient) {
                             if (d.source.id == relationshipManager || d.target.id == relationshipManager) {
                                 return "#28AF73";
@@ -1047,7 +916,6 @@
         }
 
         function DrawMatrixForceLayout1(div, conData, uniqueOrgList, activityList, isUserClick) {
-            //debugger;
             if (isUserClick == undefined)
                 isUserClick = false;
 
@@ -1099,13 +967,6 @@
                     }
                 }
             }
-
-            //for (var i = 0; i < uniqueOrgList.length; i++) {
-
-            //    if (!isUserClick)
-            //        //nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid, value: 2 });
-            //        nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid });
-            //}
 
             //*****
             for (var i = 0; i < uniqueOrgList.length; i++) {
@@ -1170,13 +1031,7 @@
                         if (_parentaccountid_value == "nodata") {
                             if (hierarchyCount == 1)
                                 parentacchierarchy = "nodata";
-                            //break;
                         }
-                        //if (parentacchierarchy == '')
-                        //    parentacchierarchy = _parentaccountid_value;
-                        //else if (parentacchierarchy != 'nodata' && _parentaccountid_value != "nodata")
-                        //    parentacchierarchy = parentacchierarchy + "," + _parentaccountid_value;
-
                     } while (_parentaccountid_value != "nodata");
 
                     if (parentacchierarchy != "nodata" && parentacchierarchy != "" && parentacchierarchy != null && parentacchierarchy != undefined) {
@@ -1184,7 +1039,6 @@
                         splithierarchy.reverse();
                         for (var j = 0; j < splithierarchy.length; j++) {
                             if (j == 0) {
-                                //nodelink.links.push({ source: accName, target: splithierarchy[j], value: 2 });
                                 var isNodeLinkDuplicate = false;
                                 for (var k = 0; k < nodelink.links.length; k++) {
                                     if (nodelink.links[k].source == accName && nodelink.links[k].target == splithierarchy[j]) {
@@ -1197,7 +1051,6 @@
                                 }
                             }
                             else {
-                                //nodelink.links.push({ source: splithierarchy[j - 1], target: splithierarchy[j], value: 2 });
                                 var isNodeLinkDuplicate = false;
                                 for (var k = 0; k < nodelink.links.length; k++) {
                                     if (nodelink.links[k].source == splithierarchy[j - 1] && nodelink.links[k].target == splithierarchy[j]) {
@@ -1236,15 +1089,12 @@
                     }
                 }
             }
-            //*****
-            ////debugger;
 
             for (var i = 0; i < conData.length; i++) {
                 for (var j = 0; j < uniqueOrgList.length; j++) {
                     if (conData[i].organizationid == uniqueOrgList[j].organizationid) {
                         if (!isUserClick) {
                             var nodelinkIndex = uniqueOrgList.length + 1 + i + 1;
-                            //nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid, value: nodelinkIndex });
                             nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid });
                             break;
                         }
@@ -1316,7 +1166,6 @@
                 posx1: 585,
                 posy1: 15,
                 img: "arup_/Images/Contact.png",
-                //color: "#F05023",
                 color: "#FFA500",
                 "label": "C-Suite",
                 width: 10
@@ -1359,8 +1208,6 @@
                     .attr('height', width)
                     .attr('x', xaxis)
                     .attr('y', yaxis)
-                    // .attr('transform', 'translate(' + parseInt(d.posx1) + ',' + parseInt(d.posy1) + ')')
-                    // .attr('transform', 'translate(' + parseInt(d.posx - config.avatar_size + config.avatar_size * .45) + ',' + parseInt(d.posy - config.avatar_size + config.avatar_size * .45) + ')')
                     .attr('clip-path', "url(#clipObj" + i + ")")
             })
 
@@ -1394,8 +1241,6 @@
                     .delay(100)
                     .duration(700)
                     .call(zoom.scaleBy, zoomLevel);
-                //.call(zoom.transform, transform);
-                //.on("end", function() { canvas.call(transition); });
             }
 
             d3.selectAll('button').on('click', function () {
@@ -1416,8 +1261,6 @@
                         $(div).css("height", "90%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "1100px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-10').addClass('col-md-9 ml-sm-auto col-lg-12');
-                        //$('#seconddivgraph').hide();
                         $('#clientconnectionHelp').hide();
                         $('#showhideNav').hide();
                         $('#seconddivgraph').css({ 'margin-top': '0px' });
@@ -1428,8 +1271,6 @@
                         $(div).css("height", "75%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "800px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-12').addClass('col-md-9 ml-sm-auto col-lg-10');
-                        //$('#seconddivgraph').show();
                         $('#clientconnectionHelp').show();
                         $('#showhideNav').show();
                         $('#seconddivgraph').css({ 'margin-top': '65px' });
@@ -1458,7 +1299,6 @@
                     else { return 0; }
                 }))
                 .style('stroke', function (d) {
-                    ////debugger;
                     if (isManagedClient) {
                         if (d.source == relationshipManager || d.target == relationshipManager) {
                             return "#28AF73";
@@ -1467,10 +1307,6 @@
                             return "#A0235F";
                         }
                     }
-                    //If contacts has activities in last 6 months we need to render thick outline outside
-                    //if (d.hasActivitiesInLast6Months != undefined && d.hasActivitiesInLast6Months != null && d.hasActivitiesInLast6Months == 'Yes') {
-                    //    return "#FF0000";
-                    //}
                 })
                 .attr("stroke-width", function (d) { return Math.sqrt(d.value); });
 
@@ -1499,7 +1335,6 @@
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent);
                     return tooltip.style("visibility", "visible");
-                    // tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
 
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
@@ -1560,8 +1395,6 @@
                     connectedNodes(d);
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent); return tooltip.style("visibility", "visible");
-
-                    //  tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
                 .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
@@ -1584,10 +1417,6 @@
                 }
                 return name;
             }).style("text-anchor", "middle");
-
-
-            //var title = node.append("title")
-            //     .text(function (d) { return d.id; });
 
             simulation
                 .nodes(nodelink.nodes)
@@ -1665,15 +1494,11 @@
 
             function dragended(d) {
                 if (!d3.event.active) simulation.alphaTarget(0);
-                //d.fx = null;
-                //d.fy = null;
                 d.fx = d.x;
                 d.fy = d.y;
             }
 
             function releasenode(d) {
-                //d.fx = false; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
-                //force.resume();
                 if (!d3.event.active) simulation.alphaTarget(0);
                 d.fx = null;
                 d.fy = null;
@@ -1683,7 +1508,6 @@
 
             function connectedNodes(d) {
                 var connectedlinks = link.filter(function (e) {
-                    //return e.source.id == d.id || e.target.id == d.id; //connected links
                     if (e.source.id == d.id || e.target.id == d.id) {
                         node.filter(function (k) {
                             return k.id != d.id;
@@ -1731,67 +1555,9 @@
                         .attr('r', 15);
 
             }
-            /////////////////////////////////////////////////////
-
-
-
-
-            //var arupContact = d3.nest()
-            //    .key(function (d) { return d['Name']; })
-            //    .entries(conData);
-            ////var clientContact = d3.nest()
-            ////    .key(function (d) { return d['ccrm_clientgroupings']; })
-            ////    .entries(conData);
-            //arupContact.forEach(function (ac, i) {
-            //    //var userpro = conData.filter(function (currentValue, index, arr) { if (currentValue['CRM User'] == ac.key) return true; });
-            //    nodelink.nodes.push({
-            //        id: ac.key, group: 2, rad: 7, imageUrl: Arup_GetClientURL() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
-            //        , phone: ac.values[0].EmpPhone, jobtitleorCountry: ac.values[0].EmpCountry, userid: ac.values[0].userid,
-            //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
-            //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
-            //        userRegion: ac.values[0].userRegion, orgOpenOpptys: ac.values[0].orgOpenOpptys, userTitle: ac.values[0].userTitle
-            //    });
-            //    if (!isUserClick)
-            //        nodelink.links.push({ source: accName, target: ac.key, value: 2 });
-            //})
-
-            //var contactsids = [];
-            //clientContact.forEach(function (ac, i) {
-            //    //var contactpro = conData.filter(function (currentValue, index, arr) { if (currentValue['Contact'] == ac.key) return true; });
-            //    var ContactRadius = 4;
-            //    var ContactGroup = 3
-            //    if (ac.values[0].AccountRole == "1")  // Decision Maker
-            //    {
-            //        ContactRadius = 10;
-            //        ContactGroup = 6;
-            //    }
-            //    else if (ac.values[0].AccountRole == "3") // Influencer
-            //    {
-            //        ContactRadius = 10;
-            //        ContactGroup = 6;
-            //    }
-            //    nodelink.nodes.push({
-            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: Arup_GetClientURL() + ac.values[0].ContactImage,
-            //        name: ac.values[0].Contact, phone: ac.values[0].ContactPhone, jobtitleorCountry: ac.values[0].JobTitle, userid: "200",
-            //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
-            //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
-            //        userRegion: ac.values[0].userRegion, orgOpenOpptys: ac.values[0].orgOpenOpptys, userTitle: ac.values[0].userTitle
-            //    });
-            //    //  contactsids.push(ac.values[0].ContactId);
-
-            //})
-
-            //conData.forEach(function (cc, i) {
-            //    nodelink.links.push({ source: clientGroupingId, target: cc['UserId'], value: 1 });
-            //})
-
-
-
-
         }
 
         function DrawMatrixForceLayoutForCSuiteAndDecisionMakers(div, conData, uniqueOrgList, activityList, isUserClick) {
-            ////debugger;
             if (isUserClick == undefined)
                 isUserClick = false;
 
@@ -1813,15 +1579,6 @@
                     });
                 }
             }
-
-            //for (var i = 0; i < conData.length; i++) {
-
-            //    if (!isUserClick) {
-            //        nodelink.nodes.push({
-            //            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
-            //        });
-            //    }
-            //}
 
             if (activityList.length > 0) {
                 for (var i = 0; i < conData.length; i++) {
@@ -1851,13 +1608,6 @@
                     }
                 }
             }
-
-            //for (var i = 0; i < uniqueOrgList.length; i++) {
-
-            //    if (!isUserClick)
-            //        //nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid, value: 2 });
-            //        nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid });
-            //}
 
             //*****
             for (var i = 0; i < uniqueOrgList.length; i++) {
@@ -1922,13 +1672,7 @@
                         if (_parentaccountid_value == "nodata") {
                             if (hierarchyCount == 1)
                                 parentacchierarchy = "nodata";
-                            //break;
                         }
-                        //if (parentacchierarchy == '')
-                        //    parentacchierarchy = _parentaccountid_value;
-                        //else if (parentacchierarchy != 'nodata' && _parentaccountid_value != "nodata")
-                        //    parentacchierarchy = parentacchierarchy + "," + _parentaccountid_value;
-
                     } while (_parentaccountid_value != "nodata");
 
                     if (parentacchierarchy != "nodata" && parentacchierarchy != "" && parentacchierarchy != null && parentacchierarchy != undefined) {
@@ -1936,7 +1680,6 @@
                         splithierarchy.reverse();
                         for (var j = 0; j < splithierarchy.length; j++) {
                             if (j == 0) {
-                                //nodelink.links.push({ source: accName, target: splithierarchy[j], value: 2 });
                                 var isNodeLinkDuplicate = false;
                                 for (var k = 0; k < nodelink.links.length; k++) {
                                     if (nodelink.links[k].source == accName && nodelink.links[k].target == splithierarchy[j]) {
@@ -1949,7 +1692,6 @@
                                 }
                             }
                             else {
-                                //nodelink.links.push({ source: splithierarchy[j - 1], target: splithierarchy[j], value: 2 });
                                 var isNodeLinkDuplicate = false;
                                 for (var k = 0; k < nodelink.links.length; k++) {
                                     if (nodelink.links[k].source == splithierarchy[j - 1] && nodelink.links[k].target == splithierarchy[j]) {
@@ -1996,7 +1738,6 @@
                     if (conData[i].organizationid == uniqueOrgList[j].organizationid) {
                         if (!isUserClick) {
                             var nodelinkIndex = uniqueOrgList.length + 1 + i + 1;
-                            //nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid, value: nodelinkIndex });
                             nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid });
                             break;
                         }
@@ -2143,8 +1884,6 @@
                     .delay(100)
                     .duration(700)
                     .call(zoom.scaleBy, zoomLevel);
-                //.call(zoom.transform, transform);
-                //.on("end", function() { canvas.call(transition); });
             }
 
             d3.selectAll('button').on('click', function () {
@@ -2165,8 +1904,6 @@
                         $(div).css("height", "90%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "1100px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-10').addClass('col-md-9 ml-sm-auto col-lg-12');
-                        //$('#seconddivgraph').hide();
                         $('#clientconnectionHelp').hide();
                         $('#showhideNav').hide();
                         $('#seconddivgraph').css({ 'margin-top': '0px' });
@@ -2177,8 +1914,6 @@
                         $(div).css("height", "75%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "800px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-12').addClass('col-md-9 ml-sm-auto col-lg-10');
-                        //$('#seconddivgraph').show();
                         $('#clientconnectionHelp').show();
                         $('#showhideNav').show();
                         $('#seconddivgraph').css({ 'margin-top': '65px' });
@@ -2209,7 +1944,6 @@
                     else { return 0; }
                 }))
                 .style('stroke', function (d) {
-                    //////debugger;
                     if (isManagedClient) {
                         if (d.source == relationshipManager || d.target == relationshipManager) {
                             return "#28AF73";
@@ -2246,7 +1980,6 @@
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent);
                     return tooltip.style("visibility", "visible");
-                    // tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
 
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
@@ -2307,8 +2040,6 @@
                     connectedNodes(d);
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent); return tooltip.style("visibility", "visible");
-
-                    //  tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
                 .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
@@ -2331,10 +2062,6 @@
                 }
                 return name;
             }).style("text-anchor", "middle");
-
-
-            //var title = node.append("title")
-            //     .text(function (d) { return d.id; });
 
             simulation
                 .nodes(nodelink.nodes)
@@ -2419,8 +2146,6 @@
             }
 
             function releasenode(d) {
-                //d.fx = false; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
-                //force.resume();
                 if (!d3.event.active) simulation.alphaTarget(0);
                 d.fx = null;
                 d.fy = null;
@@ -2430,7 +2155,6 @@
 
             function connectedNodes(d) {
                 var connectedlinks = link.filter(function (e) {
-                    //return e.source.id == d.id || e.target.id == d.id; //connected links
                     if (e.source.id == d.id || e.target.id == d.id) {
                         node.filter(function (k) {
                             return k.id != d.id;
@@ -2478,67 +2202,9 @@
                         .attr('r', 15);
 
             }
-            /////////////////////////////////////////////////////
-
-
-
-
-            //var arupContact = d3.nest()
-            //    .key(function (d) { return d['Name']; })
-            //    .entries(conData);
-            ////var clientContact = d3.nest()
-            ////    .key(function (d) { return d['ccrm_clientgroupings']; })
-            ////    .entries(conData);
-            //arupContact.forEach(function (ac, i) {
-            //    //var userpro = conData.filter(function (currentValue, index, arr) { if (currentValue['CRM User'] == ac.key) return true; });
-            //    nodelink.nodes.push({
-            //        id: ac.key, group: 2, rad: 7, imageUrl: Arup_GetClientURL() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
-            //        , phone: ac.values[0].EmpPhone, jobtitleorCountry: ac.values[0].EmpCountry, userid: ac.values[0].userid,
-            //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
-            //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
-            //        userRegion: ac.values[0].userRegion, orgOpenOpptys: ac.values[0].orgOpenOpptys, userTitle: ac.values[0].userTitle
-            //    });
-            //    if (!isUserClick)
-            //        nodelink.links.push({ source: accName, target: ac.key, value: 2 });
-            //})
-
-            //var contactsids = [];
-            //clientContact.forEach(function (ac, i) {
-            //    //var contactpro = conData.filter(function (currentValue, index, arr) { if (currentValue['Contact'] == ac.key) return true; });
-            //    var ContactRadius = 4;
-            //    var ContactGroup = 3
-            //    if (ac.values[0].AccountRole == "1")  // Decision Maker
-            //    {
-            //        ContactRadius = 10;
-            //        ContactGroup = 6;
-            //    }
-            //    else if (ac.values[0].AccountRole == "3") // Influencer
-            //    {
-            //        ContactRadius = 10;
-            //        ContactGroup = 6;
-            //    }
-            //    nodelink.nodes.push({
-            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: Arup_GetClientURL() + ac.values[0].ContactImage,
-            //        name: ac.values[0].Contact, phone: ac.values[0].ContactPhone, jobtitleorCountry: ac.values[0].JobTitle, userid: "200",
-            //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
-            //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
-            //        userRegion: ac.values[0].userRegion, orgOpenOpptys: ac.values[0].orgOpenOpptys, userTitle: ac.values[0].userTitle
-            //    });
-            //    //  contactsids.push(ac.values[0].ContactId);
-
-            //})
-
-            //conData.forEach(function (cc, i) {
-            //    nodelink.links.push({ source: clientGroupingId, target: cc['UserId'], value: 1 });
-            //})
-
-
-
-
         }
 
         function DrawMatrixForceLayoutForDecisionMakers(div, conData, uniqueOrgList, isUserClick) {
-            ////debugger;
             if (isUserClick == undefined)
                 isUserClick = false;
 
@@ -2569,13 +2235,6 @@
                     });
                 }
             }
-
-            //for (var i = 0; i < uniqueOrgList.length; i++) {
-
-            //    if (!isUserClick)
-            //        //nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid, value: 2 });
-            //        nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid });
-            //}
 
             //*****
             for (var i = 0; i < uniqueOrgList.length; i++) {
@@ -2640,13 +2299,7 @@
                         if (_parentaccountid_value == "nodata") {
                             if (hierarchyCount == 1)
                                 parentacchierarchy = "nodata";
-                            //break;
                         }
-                        //if (parentacchierarchy == '')
-                        //    parentacchierarchy = _parentaccountid_value;
-                        //else if (parentacchierarchy != 'nodata' && _parentaccountid_value != "nodata")
-                        //    parentacchierarchy = parentacchierarchy + "," + _parentaccountid_value;
-
                     } while (_parentaccountid_value != "nodata");
 
                     if (parentacchierarchy != "nodata" && parentacchierarchy != "" && parentacchierarchy != null && parentacchierarchy != undefined) {
@@ -2654,7 +2307,6 @@
                         splithierarchy.reverse();
                         for (var j = 0; j < splithierarchy.length; j++) {
                             if (j == 0) {
-                                //nodelink.links.push({ source: accName, target: splithierarchy[j], value: 2 });
                                 var isNodeLinkDuplicate = false;
                                 for (var k = 0; k < nodelink.links.length; k++) {
                                     if (nodelink.links[k].source == accName && nodelink.links[k].target == splithierarchy[j]) {
@@ -2667,7 +2319,6 @@
                                 }
                             }
                             else {
-                                //nodelink.links.push({ source: splithierarchy[j - 1], target: splithierarchy[j], value: 2 });
                                 var isNodeLinkDuplicate = false;
                                 for (var k = 0; k < nodelink.links.length; k++) {
                                     if (nodelink.links[k].source == splithierarchy[j - 1] && nodelink.links[k].target == splithierarchy[j]) {
@@ -2714,7 +2365,6 @@
                     if (conData[i].organizationid == uniqueOrgList[j].organizationid) {
                         if (!isUserClick) {
                             var nodelinkIndex = uniqueOrgList.length + 1 + i + 1;
-                            //nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid, value: nodelinkIndex });
                             nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid });
                             break;
                         }
@@ -2809,8 +2459,6 @@
                     .attr('height', width)
                     .attr('x', xaxis)
                     .attr('y', yaxis)
-                    // .attr('transform', 'translate(' + parseInt(d.posx1) + ',' + parseInt(d.posy1) + ')')
-                    // .attr('transform', 'translate(' + parseInt(d.posx - config.avatar_size + config.avatar_size * .45) + ',' + parseInt(d.posy - config.avatar_size + config.avatar_size * .45) + ')')
                     .attr('clip-path', "url(#clipObj" + i + ")")
 
             })
@@ -2850,8 +2498,6 @@
                     .delay(100)
                     .duration(700)
                     .call(zoom.scaleBy, zoomLevel);
-                //.call(zoom.transform, transform);
-                //.on("end", function() { canvas.call(transition); });
             }
 
             d3.selectAll('button').on('click', function () {
@@ -2872,8 +2518,6 @@
                         $(div).css("height", "90%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "1100px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-10').addClass('col-md-9 ml-sm-auto col-lg-12');
-                        //$('#seconddivgraph').hide();
                         $('#clientconnectionHelp').hide();
                         $('#showhideNav').hide();
                         $('#seconddivgraph').css({ 'margin-top': '0px' });
@@ -2884,8 +2528,6 @@
                         $(div).css("height", "75%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "800px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-12').addClass('col-md-9 ml-sm-auto col-lg-10');
-                        //$('#seconddivgraph').show();
                         $('#clientconnectionHelp').show();
                         $('#showhideNav').show();
                         $('#seconddivgraph').css({ 'margin-top': '65px' });
@@ -2916,7 +2558,6 @@
                     else { return 0; }
                 }))
                 .style('stroke', function (d) {
-                    //////debugger;
                     if (isManagedClient) {
                         if (d.source == relationshipManager || d.target == relationshipManager) {
                             return "#28AF73";
@@ -2953,7 +2594,6 @@
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent);
                     return tooltip.style("visibility", "visible");
-                    // tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
 
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
@@ -3014,8 +2654,6 @@
                     connectedNodes(d);
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent); return tooltip.style("visibility", "visible");
-
-                    //  tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
                 .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
@@ -3038,10 +2676,6 @@
                 }
                 return name;
             }).style("text-anchor", "middle");
-
-
-            //var title = node.append("title")
-            //     .text(function (d) { return d.id; });
 
             simulation
                 .nodes(nodelink.nodes)
@@ -3126,8 +2760,6 @@
             }
 
             function releasenode(d) {
-                //d.fx = false; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
-                //force.resume();
                 if (!d3.event.active) simulation.alphaTarget(0);
                 d.fx = null;
                 d.fy = null;
@@ -3137,7 +2769,6 @@
 
             function connectedNodes(d) {
                 var connectedlinks = link.filter(function (e) {
-                    //return e.source.id == d.id || e.target.id == d.id; //connected links
                     if (e.source.id == d.id || e.target.id == d.id) {
                         node.filter(function (k) {
                             return k.id != d.id;
@@ -3185,63 +2816,6 @@
                         .attr('r', 15);
 
             }
-            /////////////////////////////////////////////////////
-
-
-
-
-            //var arupContact = d3.nest()
-            //    .key(function (d) { return d['Name']; })
-            //    .entries(conData);
-            ////var clientContact = d3.nest()
-            ////    .key(function (d) { return d['ccrm_clientgroupings']; })
-            ////    .entries(conData);
-            //arupContact.forEach(function (ac, i) {
-            //    //var userpro = conData.filter(function (currentValue, index, arr) { if (currentValue['CRM User'] == ac.key) return true; });
-            //    nodelink.nodes.push({
-            //        id: ac.key, group: 2, rad: 7, imageUrl: Arup_GetClientURL() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
-            //        , phone: ac.values[0].EmpPhone, jobtitleorCountry: ac.values[0].EmpCountry, userid: ac.values[0].userid,
-            //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
-            //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
-            //        userRegion: ac.values[0].userRegion, orgOpenOpptys: ac.values[0].orgOpenOpptys, userTitle: ac.values[0].userTitle
-            //    });
-            //    if (!isUserClick)
-            //        nodelink.links.push({ source: accName, target: ac.key, value: 2 });
-            //})
-
-            //var contactsids = [];
-            //clientContact.forEach(function (ac, i) {
-            //    //var contactpro = conData.filter(function (currentValue, index, arr) { if (currentValue['Contact'] == ac.key) return true; });
-            //    var ContactRadius = 4;
-            //    var ContactGroup = 3
-            //    if (ac.values[0].AccountRole == "1")  // Decision Maker
-            //    {
-            //        ContactRadius = 10;
-            //        ContactGroup = 6;
-            //    }
-            //    else if (ac.values[0].AccountRole == "3") // Influencer
-            //    {
-            //        ContactRadius = 10;
-            //        ContactGroup = 6;
-            //    }
-            //    nodelink.nodes.push({
-            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: Arup_GetClientURL() + ac.values[0].ContactImage,
-            //        name: ac.values[0].Contact, phone: ac.values[0].ContactPhone, jobtitleorCountry: ac.values[0].JobTitle, userid: "200",
-            //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
-            //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
-            //        userRegion: ac.values[0].userRegion, orgOpenOpptys: ac.values[0].orgOpenOpptys, userTitle: ac.values[0].userTitle
-            //    });
-            //    //  contactsids.push(ac.values[0].ContactId);
-
-            //})
-
-            //conData.forEach(function (cc, i) {
-            //    nodelink.links.push({ source: clientGroupingId, target: cc['UserId'], value: 1 });
-            //})
-
-
-
-
         }
 
         function DrawMatrixForceLayoutForCSuite(div, conData, uniqueOrgList, isUserClick) {
@@ -3276,13 +2850,6 @@
                     });
                 }
             }
-
-            //for (var i = 0; i < uniqueOrgList.length; i++) {
-
-            //    if (!isUserClick)
-            //        //nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid, value: 2 });
-            //        nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid });
-            //}
 
             //*****
             for (var i = 0; i < uniqueOrgList.length; i++) {
@@ -3347,13 +2914,7 @@
                         if (_parentaccountid_value == "nodata") {
                             if (hierarchyCount == 1)
                                 parentacchierarchy = "nodata";
-                            //break;
                         }
-                        //if (parentacchierarchy == '')
-                        //    parentacchierarchy = _parentaccountid_value;
-                        //else if (parentacchierarchy != 'nodata' && _parentaccountid_value != "nodata")
-                        //    parentacchierarchy = parentacchierarchy + "," + _parentaccountid_value;
-
                     } while (_parentaccountid_value != "nodata");
 
                     if (parentacchierarchy != "nodata" && parentacchierarchy != "" && parentacchierarchy != null && parentacchierarchy != undefined) {
@@ -3361,7 +2922,6 @@
                         splithierarchy.reverse();
                         for (var j = 0; j < splithierarchy.length; j++) {
                             if (j == 0) {
-                                //nodelink.links.push({ source: accName, target: splithierarchy[j], value: 2 });
                                 var isNodeLinkDuplicate = false;
                                 for (var k = 0; k < nodelink.links.length; k++) {
                                     if (nodelink.links[k].source == accName && nodelink.links[k].target == splithierarchy[j]) {
@@ -3374,7 +2934,6 @@
                                 }
                             }
                             else {
-                                //nodelink.links.push({ source: splithierarchy[j - 1], target: splithierarchy[j], value: 2 });
                                 var isNodeLinkDuplicate = false;
                                 for (var k = 0; k < nodelink.links.length; k++) {
                                     if (nodelink.links[k].source == splithierarchy[j - 1] && nodelink.links[k].target == splithierarchy[j]) {
@@ -3414,14 +2973,11 @@
                 }
             }
             //*****
-            ////debugger;
-
             for (var i = 0; i < conData.length; i++) {
                 for (var j = 0; j < uniqueOrgList.length; j++) {
                     if (conData[i].organizationid == uniqueOrgList[j].organizationid) {
                         if (!isUserClick) {
                             var nodelinkIndex = uniqueOrgList.length + 1 + i + 1;
-                            //nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid, value: nodelinkIndex });
                             nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid });
                             break;
                         }
@@ -3580,8 +3136,6 @@
                         $(div).css("height", "90%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "1100px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-10').addClass('col-md-9 ml-sm-auto col-lg-12');
-                        //$('#seconddivgraph').hide();
                         $('#clientconnectionHelp').hide();
                         $('#showhideNav').hide();
                         $('#seconddivgraph').css({ 'margin-top': '0px' });
@@ -3592,8 +3146,6 @@
                         $(div).css("height", "75%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "800px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-12').addClass('col-md-9 ml-sm-auto col-lg-10');
-                        //$('#seconddivgraph').show();
                         $('#clientconnectionHelp').show();
                         $('#showhideNav').show();
                         $('#seconddivgraph').css({ 'margin-top': '65px' });
@@ -3661,7 +3213,6 @@
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent);
                     return tooltip.style("visibility", "visible");
-                    // tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
 
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
@@ -3722,8 +3273,6 @@
                     connectedNodes(d);
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent); return tooltip.style("visibility", "visible");
-
-                    //  tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
                 .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
@@ -3747,9 +3296,6 @@
                 return name;
             }).style("text-anchor", "middle");
 
-
-            //var title = node.append("title")
-            //     .text(function (d) { return d.id; });
 
             simulation
                 .nodes(nodelink.nodes)
@@ -3834,8 +3380,6 @@
             }
 
             function releasenode(d) {
-                //d.fx = false; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
-                //force.resume();
                 if (!d3.event.active) simulation.alphaTarget(0);
                 d.fx = null;
                 d.fy = null;
@@ -3845,7 +3389,6 @@
 
             function connectedNodes(d) {
                 var connectedlinks = link.filter(function (e) {
-                    //return e.source.id == d.id || e.target.id == d.id; //connected links
                     if (e.source.id == d.id || e.target.id == d.id) {
                         node.filter(function (k) {
                             return k.id != d.id;
@@ -3938,13 +3481,6 @@
                 }
             }
 
-            //for (var i = 0; i < uniqueOrgList.length; i++) {
-
-            //    if (!isUserClick)
-            //        //nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid, value: 2 });
-            //        nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid });
-            //}
-
             //*****Start - Populating Org hierarchy
             for (var i = 0; i < uniqueOrgList.length; i++) {
                 if (uniqueOrgList[i].parentorganisationid == "") {
@@ -4008,12 +3544,7 @@
                         if (_parentaccountid_value == "nodata") {
                             if (hierarchyCount == 1)
                                 parentacchierarchy = "nodata";
-                            //break;
                         }
-                        //if (parentacchierarchy == '')
-                        //    parentacchierarchy = _parentaccountid_value;
-                        //else if (parentacchierarchy != 'nodata' && _parentaccountid_value != "nodata")
-                        //    parentacchierarchy = parentacchierarchy + "," + _parentaccountid_value;
 
                     } while (_parentaccountid_value != "nodata");
 
@@ -4022,7 +3553,6 @@
                         splithierarchy.reverse();
                         for (var j = 0; j < splithierarchy.length; j++) {
                             if (j == 0) {
-                                //nodelink.links.push({ source: accName, target: splithierarchy[j], value: 2 });
                                 var isNodeLinkDuplicate = false;
                                 for (var k = 0; k < nodelink.links.length; k++) {
                                     if (nodelink.links[k].source == accName && nodelink.links[k].target == splithierarchy[j]) {
@@ -4035,7 +3565,6 @@
                                 }
                             }
                             else {
-                                //nodelink.links.push({ source: splithierarchy[j - 1], target: splithierarchy[j], value: 2 });
                                 var isNodeLinkDuplicate = false;
                                 for (var k = 0; k < nodelink.links.length; k++) {
                                     if (nodelink.links[k].source == splithierarchy[j - 1] && nodelink.links[k].target == splithierarchy[j]) {
@@ -4075,7 +3604,6 @@
                 }
             }
             //*****End - Populating Org hierarchy
-            ////debugger;
 
             //Linking Contacts with Related Organization
             for (var i = 0; i < conData.length; i++) {
@@ -4083,21 +3611,18 @@
                     if (conData[i].organizationid == uniqueOrgList[j].organizationid) {
                         if (!isUserClick) {
                             var nodelinkIndex = uniqueOrgList.length + 1 + i + 1;
-                            //nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid, value: nodelinkIndex });
                             nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid });
                             break;
                         }
                     }
                 }
             }
-            ////debugger;
             //Linking Activities with Related Contacts
             for (var i = 0; i < activityList.length; i++) {
                 for (var j = 0; j < conData.length; j++) {
                     if (activityList[i].parentcustomerid == conData[j].contactid) {
                         if (!isUserClick) {
                             var nodelinkIndex = uniqueOrgList.length + 1 + i + 1;
-                            //nodelink.links.push({ source: uniqueOrgList[j].organizationid, target: conData[i].contactid, value: nodelinkIndex });
                             nodelink.links.push({ source: conData[j].contactid, target: activityList[i].activityid });
                             break;
                         }
@@ -4114,13 +3639,6 @@
             var zoom = d3.zoom().scaleExtent([1 / 2, 4]).on("zoom", zoomed);
 
             svg.call(zoom);
-
-
-            //svg.append("rect")
-            //    .attr("width", width)
-            //    .attr("height", height)
-            //    .style("fill", "none")
-            //    .style("pointer-events", "all");
 
             var g = svg.append("g");
 
@@ -4308,8 +3826,6 @@
                     .delay(100)
                     .duration(700)
                     .call(zoom.scaleBy, zoomLevel);
-                //.call(zoom.transform, transform);
-                //.on("end", function() { canvas.call(transition); });
             }
 
             d3.selectAll('button').on('click', function () {
@@ -4330,8 +3846,6 @@
                         $(div).css("height", "90%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "1100px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-10').addClass('col-md-9 ml-sm-auto col-lg-12');
-                        //$('#seconddivgraph').hide();
                         $('#clientconnectionHelp').hide();
                         $('#showhideNav').hide();
                         $('#seconddivgraph').css({ 'margin-top': '0px' });
@@ -4342,8 +3856,6 @@
                         $(div).css("height", "75%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "800px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-12').addClass('col-md-9 ml-sm-auto col-lg-10');
-                        //$('#seconddivgraph').show();
                         $('#clientconnectionHelp').show();
                         $('#showhideNav').show();
                         $('#seconddivgraph').css({ 'margin-top': '65px' });
@@ -4411,8 +3923,6 @@
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent);
                     return tooltip.style("visibility", "visible");
-                    // tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
-
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
                 .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
@@ -4492,8 +4002,6 @@
                     connectedNodes(d);
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent); return tooltip.style("visibility", "visible");
-
-                    //  tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
                 .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
@@ -4516,10 +4024,6 @@
                 }
                 return name;
             }).style("text-anchor", "middle");
-
-
-            //var title = node.append("title")
-            //     .text(function (d) { return d.id; });
 
             simulation
                 .nodes(nodelink.nodes)
@@ -4597,15 +4101,11 @@
 
             function dragended(d) {
                 if (!d3.event.active) simulation.alphaTarget(0);
-                //d.fx = null;
-                //d.fy = null;
                 d.fx = d.x;
                 d.fy = d.y;
             }
 
             function releasenode(d) {
-                //d.fx = false; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
-                //force.resume();
                 if (!d3.event.active) simulation.alphaTarget(0);
                 d.fx = null;
                 d.fy = null;
@@ -4615,7 +4115,6 @@
 
             function connectedNodes(d) {
                 var connectedlinks = link.filter(function (e) {
-                    //return e.source.id == d.id || e.target.id == d.id; //connected links
                     if (e.source.id == d.id || e.target.id == d.id) {
                         node.filter(function (k) {
                             return k.id != d.id;
@@ -4642,7 +4141,6 @@
                     }
                 })
                     .style('stroke', function (d) {
-                        //////debugger;
                         if (isManagedClient) {
                             if (d.source.id == relationshipManager || d.target.id == relationshipManager) {
                                 return "#28AF73";
@@ -4664,62 +4162,6 @@
 
             }
             /////////////////////////////////////////////////////
-
-
-
-
-            //var arupContact = d3.nest()
-            //    .key(function (d) { return d['Name']; })
-            //    .entries(conData);
-            ////var clientContact = d3.nest()
-            ////    .key(function (d) { return d['ccrm_clientgroupings']; })
-            ////    .entries(conData);
-            //arupContact.forEach(function (ac, i) {
-            //    //var userpro = conData.filter(function (currentValue, index, arr) { if (currentValue['CRM User'] == ac.key) return true; });
-            //    nodelink.nodes.push({
-            //        id: ac.key, group: 2, rad: 7, imageUrl: Arup_GetClientURL() + ac.values[0].UserImage, empstatus: ac.values[0].EmpStatus, name: ac.values[0].CRMUser
-            //        , phone: ac.values[0].EmpPhone, jobtitleorCountry: ac.values[0].EmpCountry, userid: ac.values[0].userid,
-            //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
-            //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
-            //        userRegion: ac.values[0].userRegion, orgOpenOpptys: ac.values[0].orgOpenOpptys, userTitle: ac.values[0].userTitle
-            //    });
-            //    if (!isUserClick)
-            //        nodelink.links.push({ source: accName, target: ac.key, value: 2 });
-            //})
-
-            //var contactsids = [];
-            //clientContact.forEach(function (ac, i) {
-            //    //var contactpro = conData.filter(function (currentValue, index, arr) { if (currentValue['Contact'] == ac.key) return true; });
-            //    var ContactRadius = 4;
-            //    var ContactGroup = 3
-            //    if (ac.values[0].AccountRole == "1")  // Decision Maker
-            //    {
-            //        ContactRadius = 10;
-            //        ContactGroup = 6;
-            //    }
-            //    else if (ac.values[0].AccountRole == "3") // Influencer
-            //    {
-            //        ContactRadius = 10;
-            //        ContactGroup = 6;
-            //    }
-            //    nodelink.nodes.push({
-            //        id: ac.key, group: ContactGroup, rad: ContactRadius, imageUrl: Arup_GetClientURL() + ac.values[0].ContactImage,
-            //        name: ac.values[0].Contact, phone: ac.values[0].ContactPhone, jobtitleorCountry: ac.values[0].JobTitle, userid: "200",
-            //        orgTownCity: ac.values[0].orgTownCity, orgDepartment: ac.values[0].orgDepartment, contactDepartment: ac.values[0].contactDepartment,
-            //        contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
-            //        userRegion: ac.values[0].userRegion, orgOpenOpptys: ac.values[0].orgOpenOpptys, userTitle: ac.values[0].userTitle
-            //    });
-            //    //  contactsids.push(ac.values[0].ContactId);
-
-            //})
-
-            //conData.forEach(function (cc, i) {
-            //    nodelink.links.push({ source: clientGroupingId, target: cc['UserId'], value: 1 });
-            //})
-
-
-
-
         }
 
         function DrawMatrixForceLayout4(div, conData, connections) {
@@ -4734,7 +4176,6 @@
 
             nodelink.nodes.push({
                 id: conData[0].contactid, name: conData[0].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[0].contactimage
-                //id: accName, name: accName, group: 1, rad: 10, imageUrl: '/%7B637275430220018341%7D/WebResources/arup_collaborate',height:30, width:30
             });
 
             if (connections.length > 0) {
@@ -4744,7 +4185,6 @@
                     });
                 }
 
-                //var user = { organizationname: fullname, organizationid: sysuserid, ccrm_clientgroupings: ccrm_clientgroupings };
                 for (var i = 0; i < connections.length; i++) {
                     nodelink.links.push({ source: conData[0].contactid, target: connections[i].CRMUserId, value: 2 });
                 }
@@ -4762,13 +4202,6 @@
             var zoom = d3.zoom().scaleExtent([1 / 2, 4]).on("zoom", zoomed);
 
             svg.call(zoom);
-
-
-            //svg.append("rect")
-            //    .attr("width", width)
-            //    .attr("height", height)
-            //    .style("fill", "none")
-            //    .style("pointer-events", "all");
 
             var g = svg.append("g");
 
@@ -4858,8 +4291,6 @@
                     .attr('height', width)
                     .attr('x', xaxis)
                     .attr('y', yaxis)
-                    // .attr('transform', 'translate(' + parseInt(d.posx1) + ',' + parseInt(d.posy1) + ')')
-                    // .attr('transform', 'translate(' + parseInt(d.posx - config.avatar_size + config.avatar_size * .45) + ',' + parseInt(d.posy - config.avatar_size + config.avatar_size * .45) + ')')
                     .attr('clip-path', "url(#clipObj" + i + ")")
 
             })
@@ -4897,8 +4328,6 @@
                     .delay(100)
                     .duration(700)
                     .call(zoom.scaleBy, zoomLevel);
-                //.call(zoom.transform, transform);
-                //.on("end", function() { canvas.call(transition); });
             }
 
             d3.selectAll('button').on('click', function () {
@@ -4919,8 +4348,6 @@
                         $(div).css("height", "90%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "1100px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-10').addClass('col-md-9 ml-sm-auto col-lg-12');
-                        //$('#seconddivgraph').hide();
                         $('#clientconnectionHelp').hide();
                         $('#showhideNav').hide();
                         $('#seconddivgraph').css({ 'margin-top': '0px' });
@@ -4931,15 +4358,12 @@
                         $(div).css("height", "75%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "500px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-12').addClass('col-md-9 ml-sm-auto col-lg-10');
-                        //$('#seconddivgraph').show();
                         $('#clientconnectionHelp').show();
                         $('#showhideNav').show();
                         $('#seconddivgraph').css({ 'margin-top': '65px' });
                         sizetoggle = 0;
                     }
                 }
-
             });
 
             var color = d3.scaleOrdinal(d3.schemeCategory20);
@@ -5000,8 +4424,6 @@
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent);
                     return tooltip.style("visibility", "visible");
-                    // tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
-
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
                 .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
@@ -5063,8 +4485,6 @@
                     connectedNodes(d);
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent); return tooltip.style("visibility", "visible");
-
-                    //  tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
                 .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
@@ -5087,10 +4507,6 @@
                 }
                 return name;
             }).style("text-anchor", "middle");
-
-
-            //var title = node.append("title")
-            //     .text(function (d) { return d.id; });
 
             simulation
                 .nodes(nodelink.nodes)
@@ -5175,8 +4591,6 @@
             }
 
             function releasenode(d) {
-                //d.fx = false; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
-                //force.resume();
                 if (!d3.event.active) simulation.alphaTarget(0);
                 d.fx = null;
                 d.fy = null;
@@ -5186,7 +4600,6 @@
 
             function connectedNodes(d) {
                 var connectedlinks = link.filter(function (e) {
-                    //return e.source.id == d.id || e.target.id == d.id; //connected links
                     if (e.source.id == d.id || e.target.id == d.id) {
                         node.filter(function (k) {
                             return k.id != d.id;
@@ -5326,15 +4739,11 @@
                             var contact = { contactid: contactid, contactname: contactname, contactimage: contactimage };
                             contactLst.push(contact);
                         }
-                        else {
-                            //Xrm.Utility.alertDialog(this.statusText);
-                        }
                     }
                 }
             };
             req.send();
 
-            //new fectxml -  everything is same just modified to populate user/contact image url
             var fetchXML = "<fetch distinct='true' >" +
                 "<entity name='connection' >" +
                 "<attribute name='record1id' alias='Contact' />" +
@@ -5390,17 +4799,14 @@
                         var results = JSON.parse(this.response);
                         var connections;
                         connections = results.value;
-                        //var connections = XrmServiceToolkit.Soap.Fetch(fetchXML);
 
                         var connectionLstTbl = [];
 
                         if (connections.length > 0) {
                             for (var i = 0; i < connections.length; i++) {
-                                //////debugger;
                                 var connection = connections[i];
                                 var contact = connection["Contact"] != undefined ? connection["Contact@OData.Community.Display.V1.FormattedValue"] : "";
                                 var contactid = connection["Contact"] != undefined ? connection["Contact"] : "";
-                                //var contactcountry = connection.attributes.ccrm_countryid != undefined ? connection.attributes.ccrm_countryid.name : "";
                                 var contactphone = connection["contactphone"] != undefined ? connection["contactphone"] : "";
                                 var contactDepartment = connection["contactdepartment"] != undefined ? connection["contactdepartment"] : "";
                                 var contactEmail = connection["contactemail"] != undefined ? connection["contactemail"] : "";
@@ -5418,7 +4824,6 @@
                                 var listName = connection["memberlistname"] != undefined ? connection["memberlistname"] : "";
                                 var mlcreatedon = connection["mlcreatedon"] != undefined ? Date.parse(connection["mlcreatedon"]) : "";
                                 var mlOwner = connection["mlownerid"] != undefined ? connection["mlcreatedon@OData.Community.Display.V1.FormattedValue"] : "";
-                                //var MlOffice = connection["mlarupoffice"] != undefined ? connection.attributes.mlarupoffice.name : "";
                                 var MlOffice = connection["mlarupoffice"] != undefined ? connection["mlarupoffice"] : "";
                                 var activityid = connection["activityid"] != undefined ? connection["activityid"] : "";
                                 var activitysubject = connection["activitysubject"] != undefined ? connection["activitysubject"] : "";
@@ -5446,7 +4851,7 @@
 
                         }
                     } else {
-                        Xrm.Navigation.openAlertDialog(this.statusText);
+                        Alert(this.statusText);
                     }
                 }
             };
@@ -5458,16 +4863,7 @@
         var ChildOrgids = [];
         function getChildOrganisations(organisationid) {
 
-            /* var fetchxml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                 "<entity name='account'>" +
-                 "<attribute name='accountid' />" +
-                 "<filter type='and'>" +
-                 "<condition attribute='parentaccountid' operator='eq' value='" + organisationid + "' />" +
-                 "</filter>" +
-                 "</entity>" +
-                 "</fetch>"*/
-            var Orgaccounts; //= XrmServiceToolkit.Soap.Fetch(fetchxml);
-            // fetchxml = "?fetchXml=" + encodeURIComponent(fetchxml);
+            var Orgaccounts;
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -5484,7 +4880,7 @@
                     Orgaccounts = data.value;
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                    Alert(textStatus + " " + errorThrown);
                 }
             });
 
@@ -5606,32 +5002,30 @@
                 "</link-entity>" +
                 "<filter type='and'>" +
                 "<condition attribute='statecode' operator='eq' value='0' />" +
-                //"<condition attribute='parentcustomerid' operator='eq' value='{051A6371-B843-E211-BDB4-78E7D1652028}' />" +
                 "<condition entityname= 'aj' attribute='accountid' operator='eq' uitype='account' value='" + accId + "' />" +
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
-            //////debugger;
-            var connections; //= XrmServiceToolkit.Soap.Fetch(fetchXML);
+            var connections;
             fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
 
-            Xrm.WebApi.online.retrieveMultipleRecords('account', fetchXML).then(
+            RetrieveMultiple('account', fetchXML).then(
                 function success(result) {
                     connections = result.entities;
                 },
                 function (error) {
-                    Xrm.Navigation.openAlertDialog(error.message);
+                    Alert(error.message);
                 }
             );
-            var contacts; //= XrmServiceToolkit.Soap.Fetch(fetchXMLCon);
+            var contacts;
             fetchXMLCon = "?fetchXml=" + encodeURIComponent(fetchXMLCon);
 
-            Xrm.WebApi.online.retrieveMultipleRecords('account', fetchXMLCon).then(
+            RetrieveMultiple('account', fetchXMLCon).then(
                 function success(result) {
                     contacts = result.entities;
                 },
                 function (error) {
-                    Xrm.Navigation.openAlertDialog(error.message);
+                    Alert(error.message);
                 }
             );
             var connectionLst = [];
@@ -5640,7 +5034,6 @@
 
             if (connections.length > 0) {
                 for (var i = 0; i < connections.length; i++) {
-                    //////debugger;
                     var connection = connections[i];
                     var orgTownCity = connection["orgtowncity"] != undefined ? connection["orgtowncity"] : "";
                     var orgDepartment = connection["orgdepartment"] != undefined ? connection["orgdepartment"] : "";
@@ -5652,7 +5045,6 @@
                     var contactDepartment = connection["contactdepartment"] != undefined ? connection["contactdepartment"] : "";
                     var contactEmail = connection["contactemail"] != undefined ? connection["contactemail"] : "";
 
-                    //var contactcountry = connection.attributes.ccrm_countryid != undefined ? connection.attributes.ccrm_countryid.name : "";
                     var contactphone = connection["contactphone"] != undefined ? connection["contactphone"] : "";
                     var jobTitle = connection['co.jobtitle'] != undefined ? connection['co.jobtitle'] : "";
                     var userName = connection["_CRM_User_value@OData.Community.Display.V1.FormattedValue"] != undefined ? connection["_CRM_User_value@OData.Community.Display.V1.FormattedValue"] : "";
@@ -5691,7 +5083,6 @@
 
                 }
 
-                //  DrawMatrixTable("#connectionMatrixtable", connectionLstTbl);
                 if (HasOrg == "") {
                     DrawMatrixForceLayoutForAllUsers("#connectionMatrix", connectionLst, true);
                 }
@@ -5707,7 +5098,6 @@
 
                     if (!contFound) {
                         var fullName = contact["fullname"] != undefined ? contact["fullname"] : "";
-                        //var orgId = connection.attributes['co.jobtitle'] != undefined ? connection.attributes['co.jobtitle'].value : "";
                         var jobTitle = contact["jobtitle"] != undefined ? contact["jobtitle"] : "";
                         var email = contact["emailaddress1"] != undefined ? contact["emailaddress1"] : "";
 
@@ -5777,7 +5167,6 @@
 
             var contactsids = [];
             clientContact.forEach(function (ac, i) {
-                //var contactpro = conData.filter(function (currentValue, index, arr) { if (currentValue['Contact'] == ac.key) return true; });
                 var ContactRadius = 4;
                 var ContactGroup = 3
                 if (ac.values[0].AccountRole == "1")  // Decision Maker
@@ -5797,8 +5186,6 @@
                     contactEmail: ac.values[0].contactEmail, userCompanyCode: ac.values[0].userCompanyCode, userAccountingCode: ac.values[0].userAccountingCode,
                     userRegion: ac.values[0].userRegion, orgOpenOpptys: ac.values[0].orgOpenOpptys, userTitle: ac.values[0].userTitle
                 });
-                //  contactsids.push(ac.values[0].ContactId);
-
             })
 
             conData.forEach(function (cc, i) {
@@ -5930,8 +5317,6 @@
                     .attr('height', width)
                     .attr('x', xaxis)
                     .attr('y', yaxis)
-                    // .attr('transform', 'translate(' + parseInt(d.posx1) + ',' + parseInt(d.posy1) + ')')
-                    // .attr('transform', 'translate(' + parseInt(d.posx - config.avatar_size + config.avatar_size * .45) + ',' + parseInt(d.posy - config.avatar_size + config.avatar_size * .45) + ')')
                     .attr('clip-path', "url(#clipObj" + i + ")")
 
             })
@@ -5969,8 +5354,6 @@
                     .delay(100)
                     .duration(700)
                     .call(zoom.scaleBy, zoomLevel);
-                //.call(zoom.transform, transform);
-                //.on("end", function() { canvas.call(transition); });
             }
 
             d3.selectAll('button').on('click', function () {
@@ -5991,8 +5374,6 @@
                         $(div).css("height", "90%");
                         $(div).css("width", "100%");
                         $('#connForcelay').css("height", "1100px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-10').addClass('col-md-9 ml-sm-auto col-lg-12');
-                        //$('#seconddivgraph').hide();
                         $('#clientconnectionHelp').hide();
                         $('#showhideNav').hide();
                         $('#seconddivgraph').css({ 'margin-top': '0px' });
@@ -6004,8 +5385,6 @@
                         $(div).css("width", "100%");
 
                         $('#connForcelay').css("height", "800px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-12').addClass('col-md-9 ml-sm-auto col-lg-10');
-                        //$('#seconddivgraph').show();
                         $('#clientconnectionHelp').show();
                         $('#showhideNav').show();
                         $('#seconddivgraph').css({ 'margin-top': '65px' });
@@ -6061,7 +5440,6 @@
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent);
                     return tooltip.style("visibility", "visible");
-                    // tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
 
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
@@ -6122,8 +5500,6 @@
                     connectedNodes(d);
                     var tooltipcontent = getToolTipsForConnection(d);
                     tooltip.html(tooltipcontent); return tooltip.style("visibility", "visible");
-
-                    //  tooltip.html(d.name + "<br/>" + d.jobtitleorCountry + "<br/>" + d.phone); return tooltip.style("visibility", "visible");
                 })
                 .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
                 .on("mouseout", function (d) { removehighlighting(d); return tooltip.style("visibility", "hidden"); });
@@ -6147,10 +5523,6 @@
                 }
                 return name;
             }).style("text-anchor", "middle");
-
-
-            //var title = node.append("title")
-            //     .text(function (d) { return d.id; });
 
             simulation
                 .nodes(nodelink.nodes)
@@ -6235,8 +5607,6 @@
             }
 
             function releasenode(d) {
-                //d.fx = false; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
-                //force.resume();
                 if (!d3.event.active) simulation.alphaTarget(0);
                 d.fx = null;
                 d.fy = null;
@@ -6246,7 +5616,6 @@
 
             function connectedNodes(d) {
                 var connectedlinks = link.filter(function (e) {
-                    //return e.source.id == d.id || e.target.id == d.id; //connected links
                     if (e.source.id == d.id || e.target.id == d.id) {
                         node.filter(function (k) {
                             return k.id != d.id;
@@ -6282,9 +5651,6 @@
 
             }
             /////////////////////////////////////////////////////
-
-
-
         }
         function GetNodeBackGrdStrokeWidth(d) {
             if (d.hasActivitiesInLast6Months == 'Yes') {
@@ -6303,7 +5669,6 @@
 
         }
         function GetNodeBackGrdClr(d, color) {
-            //debugger;
             if (d.recordtype == "systemuser") {
                 if (d.EmpStatus != undefined && d.EmpStatus != null && d.EmpStatus == 'Employee') {
                     //Employee
@@ -6356,15 +5721,8 @@
             else {
                 return "#32325F";
             }
-            //debugger;
-            if (d.hasActivitiesInLast6Months != undefined && d.hasActivitiesInLast6Months != null && d.hasActivitiesInLast6Months == 'Yes') {
-                //Employee
-                return '#FF0000';
-            }
-            return color(d.group);
         }
         function GetNodeStrokeClr(d, color) {
-            //debugger;
             if (d.hasActivitiesInLast6Months != undefined && d.hasActivitiesInLast6Months != null && d.hasActivitiesInLast6Months == 'Yes') {
                 //Employee
                 return '#FF0000';
@@ -6427,25 +5785,6 @@
 
         var ConnectionContactData = "";
         function DrawMatrixForceLayoutContacts(div, conData, ShowMarketingList, ShowActivities) {
-            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
-                "<entity name='contact' >" +
-                "<attribute name='fullname' />" +
-                "<attribute name='parentcustomerid' />" +
-                "<attribute name='contactid' />" +
-                "<attribute name='accountrolecode' />" +
-                "<attribute name='entityimage_url' alias='contactimage' />" +
-                "<order attribute='fullname' descending='false' />" +
-                "<link-entity name='account' from='accountid' to='parentcustomerid' link-type='inner' alias='ParentCustomer' >" +
-                "<attribute name='name' />" +
-                "<attribute name='accountid' />" +
-                "<filter type='and' >" +
-                "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
-                "</filter>" +
-                "</link-entity>" +
-                "</entity>" +
-                "</fetch>";
-            ////debugger;
-            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
             var contactList = [];
             var organizationList = [];
             var organizations = [];
@@ -6492,31 +5831,7 @@
                             }
                         }
                     }
-                    //debugger;
-                    /*fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                        "<entity name='activitypointer'>" +
-                        "<attribute name='subject' />" +
-                        "<attribute name='activityid' />" +
-                        "<attribute name='activitytypecode' />" +
-                        "<filter type='and'>" +
-                        "<filter type='or'>" +
-                        "<condition attribute='activitytypecode' operator='eq' value='4201' />" +
-                        "<condition attribute='activitytypecode' operator='eq' value='4210' />" +
-                        "</filter>" +
-                        "<condition attribute='createdon' operator='last-x-months' value='6' />" +
-                        "</filter>" +
-                        "<link-entity name='contact' from='contactid' to='regardingobjectid' link-type='inner' alias='ParentContact'>" +
-                        "<attribute name='contactid' />" +
-                        "<attribute name='accountrolecode' />" +
-                        "<link-entity name='account' from='accountid' to='parentcustomerid' link-type='inner' alias='ae'>" +
-                        "<filter type='and'>" +
-                        "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
-                        "</filter>" +
-                        "</link-entity>" +
-                        "</link-entity>" +
-                        "</entity>" +
-                        "</fetch>";
-                    fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
+
                     var activityList = [];
                     $.ajax({
                         type: "GET",
@@ -6541,8 +5856,6 @@
                                 activityList.push(activity);
                             }
                             if (contactList.length > 0) {
-                                //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
-                                //DrawMatrixForceLayout1("#connectionMatrix", contactList, initialOrgList, false);
                                 DrawMatrixForceLayout1("#connectionMatrix", contactList, initialOrgList, activityList, false);
                             }
                             else {
@@ -6550,59 +5863,18 @@
                             }
                         },
                         error: function (xhr, textStatus, errorThrown) {
-                            Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                            Alert(textStatus + " " + errorThrown);
                         }
                     });
 
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                    Alert(textStatus + " " + errorThrown);
                 }
             });
-
-            //var userRecords = XrmServiceToolkit.Soap.Fetch(fetchXML);
-            //var contactList = [];
-            //if (userRecords.length > 0) {
-            //    for (var i = 0; i < userRecords.length; i++) {
-            //        //////debugger;
-            //        var contactid = userRecords[i].attributes.contactid.value;
-            //        var fullname = userRecords[i].attributes.fullname != undefined ? userRecords[i].attributes.fullname.value : "";
-            //        var parentcustomerid = userRecords[i].attributes.parentcustomerid != undefined ? userRecords[i].attributes.parentcustomerid.value : "";
-            //        var contact = { "Name": fullname, contactId: contactid, parentcustomerid: parentcustomerid,  };
-            //        contactList.push(contact);
-            //    }
-            //    //DrawTable("#relationshipTeam", userList, Object.keys(userList[0]));
-            //}
-
-            //bindCountsforGraph(connectionLstTbl.length, accOpenOpptys, decisionmakercount);
-            //  DrawMatrixTable("#connectionMatrixtable", connectionLstTbl);
-
         }
 
         function DrawMatrixForceLayoutCSuiteAndDecisionMakers(div, conData, ShowMarketingList, ShowActivities) {
-            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
-                "<entity name='contact' >" +
-                "<attribute name='fullname' />" +
-                "<attribute name='parentcustomerid' />" +
-                "<attribute name='contactid' />" +
-                "<attribute name='accountrolecode' />" +
-                "<attribute name='entityimage_url' alias='contactimage' />" +
-                "<order attribute='fullname' descending='false' />" +
-                "<filter type='or' >" +
-                "<condition attribute='accountrolecode' operator='eq' value='1' />" +
-                "<condition attribute='accountrolecode' operator='eq' value='770000000' />" +
-                "</filter>" +
-                "<link-entity name='account' from='accountid' to='parentcustomerid' link-type='inner' alias='ParentCustomer' >" +
-                "<attribute name='name' />" +
-                "<attribute name='accountid' />" +
-                "<filter type='and' >" +
-                "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
-                "</filter>" +
-                "</link-entity>" +
-                "</entity>" +
-                "</fetch>";
-            ////debugger;
-            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
             var contactList = [];
             var organizationList = [];
             var organizations = [];
@@ -6651,35 +5923,6 @@
                         }
                     }
 
-                    //debugger;
-                    /*fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                        "<entity name='activitypointer'>" +
-                        "<attribute name='subject' />" +
-                        "<attribute name='activityid' />" +
-                        "<attribute name='activitytypecode' />" +
-                        "<filter type='and'>" +
-                        "<filter type='or'>" +
-                        "<condition attribute='activitytypecode' operator='eq' value='4201' />" +
-                        "<condition attribute='activitytypecode' operator='eq' value='4210' />" +
-                        "</filter>" +
-                        "<condition attribute='createdon' operator='last-x-months' value='6' />" +
-                        "</filter>" +
-                        "<link-entity name='contact' from='contactid' to='regardingobjectid' link-type='inner' alias='ParentContact'>" +
-                        "<attribute name='contactid' />" +
-                        "<attribute name='accountrolecode' />" +
-                        "<filter type='or' >" +
-                        "<condition attribute='accountrolecode' operator='eq' value='1' />" +
-                        "<condition attribute='accountrolecode' operator='eq' value='770000000' />" +
-                        "</filter>" +
-                        "<link-entity name='account' from='accountid' to='parentcustomerid' link-type='inner' alias='ae'>" +
-                        "<filter type='and'>" +
-                        "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
-                        "</filter>" +
-                        "</link-entity>" +
-                        "</link-entity>" +
-                        "</entity>" +
-                        "</fetch>";
-                    fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
                     var activityList = [];
                     $.ajax({
                         type: "GET",
@@ -6705,7 +5948,6 @@
                                 activityList.push(activity);
                             }
                             if (contactList.length > 0) {
-                                //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
                                 DrawMatrixForceLayoutForCSuiteAndDecisionMakers("#connectionMatrix", contactList, initialOrgList, activityList, false);
                             }
                             else {
@@ -6714,39 +5956,18 @@
 
                         },
                         error: function (xhr, textStatus, errorThrown) {
-                            Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                            Alert(textStatus + " " + errorThrown);
                         }
                     });
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                    Alert(textStatus + " " + errorThrown);
                 }
             });
         }
 
         function DrawMatrixForceLayoutDecisionMakers(div, conData, ShowMarketingList, ShowActivities) {
-            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
-                "<entity name='contact' >" +
-                "<attribute name='fullname' />" +
-                "<attribute name='parentcustomerid' />" +
-                "<attribute name='contactid' />" +
-                "<attribute name='accountrolecode' />" +
-                "<attribute name='entityimage_url' alias='contactimage' />" +
-                "<order attribute='fullname' descending='false' />" +
-                "<filter type='and' >" +
-                "<condition attribute='accountrolecode' operator='eq' value='1' />" +
-                "</filter>" +
-                "<link-entity name='account' from='accountid' to='parentcustomerid' link-type='inner' alias='ParentCustomer' >" +
-                "<attribute name='name' />" +
-                "<attribute name='accountid' />" +
-                "<filter type='and' >" +
-                "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
-                "</filter>" +
-                "</link-entity>" +
-                "</entity>" +
-                "</fetch>";
-            ////debugger;
-            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
+
             var contactList = [];
             var organizationList = [];
             var organizations = [];
@@ -6766,14 +5987,12 @@
                 success: function (data, textStatus, xhr) {
                     var result = data.value;
                     for (var i = 0; i < result.entities.length; i++) {
-                        //console.log(result.entities[i]);
                         var contactid = result.entities[i]["contactid"];
                         var fullname = result.entities[i]["fullname"] != undefined ? result.entities[i]["fullname"] : "";
                         var contactimage = result.entities[i]["contactimage"] != undefined ? result.entities[i]["contactimage"] : "";
                         var parentcustomerid = result.entities[i]["_parentcustomerid_value"] != undefined ? result.entities[i]["_parentcustomerid_value"] : "";
                         var parentcustomername = result.entities[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result.entities[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
                         var role = result.entities[i]["accountrolecode"] != undefined ? result.entities[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
-                        //var role = "Decision Maker";
                         var contact = { contactname: fullname, contactid: contactid, organizationid: parentcustomerid, organizationname: parentcustomername, contactimage: contactimage, role: role };
                         contactList.push(contact);
                         initialContactList.push(contact);
@@ -6784,7 +6003,6 @@
                     var uniqueOrgList = getUnique(organizations);
                     for (var i = 0; i < uniqueOrgList.length; i++) {
                         for (var j = 0; j < result.length; j++) {
-                            //console.log(result.entities[i]);
                             if (uniqueOrgList[i] == result[j]["ParentCustomer.accountid"]) {
                                 var organizationid = result[j]["ParentCustomer.accountid"];
                                 var organizationname = result[j]["ParentCustomer.name"] != undefined ? result[j]["ParentCustomer.name"] : "";
@@ -6795,7 +6013,6 @@
                         }
                     }
                     if (contactList.length > 0) {
-                        //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
                         DrawMatrixForceLayoutForDecisionMakers("#connectionMatrix", contactList, initialOrgList, false);
                     }
                     else {
@@ -6804,34 +6021,13 @@
 
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                    Alert(textStatus + " " + errorThrown);
                 }
             });
         }
 
         function DrawMatrixForceLayoutCSuite(div, conData, ShowMarketingList, ShowActivities) {
-            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false' >" +
-                "<entity name='contact' >" +
-                "<attribute name='fullname' />" +
-                "<attribute name='parentcustomerid' />" +
-                "<attribute name='contactid' />" +
-                "<attribute name='accountrolecode' />" +
-                "<attribute name='entityimage_url' alias='contactimage' />" +
-                "<order attribute='fullname' descending='false' />" +
-                "<filter type='and' >" +
-                "<condition attribute='accountrolecode' operator='eq' value='770000000' />" +
-                "</filter>" +
-                "<link-entity name='account' from='accountid' to='parentcustomerid' link-type='inner' alias='ParentCustomer' >" +
-                "<attribute name='name' />" +
-                "<attribute name='accountid' />" +
-                "<filter type='and' >" +
-                "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
-                "</filter>" +
-                "</link-entity>" +
-                "</entity>" +
-                "</fetch>";
-            ////debugger;
-            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
+
             var contactList = [];
             var organizationList = [];
             var organizations = [];
@@ -6851,13 +6047,11 @@
                 success: function (data, textStatus, xhr) {
                     var result = data.value;
                     for (var i = 0; i < result.length; i++) {
-                        //console.log(result.entities[i]);
                         var contactid = result[i]["contactid"];
                         var fullname = result[i]["fullname"] != undefined ? result[i]["fullname"] : "";
                         var contactimage = result[i]["contactimage"] != undefined ? result[i]["contactimage"] : "";
                         var parentcustomerid = result[i]["_parentcustomerid_value"] != undefined ? result[i]["_parentcustomerid_value"] : "";
                         var parentcustomername = result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] != undefined ? result[i]["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"] : "";
-                        //var role = "C-Suite";
                         var role = result[i]["accountrolecode"] != undefined ? result[i]["accountrolecode@OData.Community.Display.V1.FormattedValue"] : "";
                         var contact = { contactname: fullname, contactid: contactid, organizationid: parentcustomerid, organizationname: parentcustomername, contactimage: contactimage, role: role };
                         contactList.push(contact);
@@ -6869,7 +6063,6 @@
                     var uniqueOrgList = getUnique(organizations);
                     for (var i = 0; i < uniqueOrgList.length; i++) {
                         for (var j = 0; j < result.length; j++) {
-                            //console.log(result.entities[i]);
                             if (uniqueOrgList[i] == result[j]["ParentCustomer.accountid"]) {
                                 var organizationid = result[j]["ParentCustomer.accountid"];
                                 var organizationname = result[j]["ParentCustomer.name"] != undefined ? result[j]["ParentCustomer.name"] : "";
@@ -6888,45 +6081,12 @@
                     }
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                    Alert(textStatus + " " + errorThrown);
                 }
             });
         }
 
         function DrawMatrixForceLayoutActivities(div, conData, ShowMarketingList, ShowActivities) {
-            ////debugger;
-            //if (isActivitiesChecked == 1)
-            //return;
-            //var chkContacts = $("#chkContacts").is(':checked') ? true : false;
-            //var chkDecisionMakers = $("#chkDecisionMakers").is(':checked') ? true : false;
-            //var chkCSuite = $("#chkCSuite").is(':checked') ? true : false;
-
-            //var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-            //    "<entity name='activitypointer'>" +
-            //    "<attribute name='subject' />" +
-            //    "<attribute name='activityid' />" +
-            //    "<attribute name='activitytypecode' />" +
-            //    "<link-entity name='contact' from='contactid' to='regardingobjectid' link-type='inner' alias='ParentContact'>" +
-            //    "<attribute name='contactid' />" +
-            //    "<attribute name='accountrolecode' />";
-            //    if (chkDecisionMakers == true) {
-            //        fetchXML = fetchXML + "<filter type='and' >" +
-            //            "<condition attribute='accountrolecode' operator='eq' value='1' />" +
-            //            "</filter>";
-            //    }
-            //    else if (chkCSuite == true) {
-            //        fetchXML = fetchXML + "<filter type='and' >" +
-            //            "<condition attribute='accountrolecode' operator='eq' value='770000000' />" +
-            //            "</filter>";
-            //    }
-            //    fetchXML = fetchXML + "<link-entity name='account' from='accountid' to='parentcustomerid' link-type='inner' alias='ae'>" +
-            //    "<filter type='and'>" +
-            //    "<condition attribute='ccrm_clientgroupings' operator='eq' value='" + clientGroupingId + "' />" +
-            //    "</filter>" +
-            //    "</link-entity>" +
-            //    "</link-entity>" +
-            //    "</entity>" +
-            //    "</fetch>";
 
             var chkCSuiteAndDecisionMakers = $("#chkCSuiteAndDecisionMakers").is(':checked') ? true : false;
 
@@ -6969,7 +6129,6 @@
                 success: function (data, textStatus, xhr) {
                     var result = data.value;
                     for (var i = 0; i < result.length; i++) {
-                        //console.log(result.entities[i]);
                         var activityid = result[i]["activityid"];
                         var subject = result[i]["subject"] != undefined ? result[i]["subject"] : "";
                         var parentcustomerid = result[i]["ParentContact.contactid"] != undefined ? result[i]["ParentContact.contactid"] : "";
@@ -6979,12 +6138,11 @@
                     }
 
                     if (initialContactList.length > 0) {
-                        //DrawMatrixForceLayout1("#connectionMatrix", contactList, organizationList, false);
                         DrawMatrixForceLayout2("#connectionMatrix", initialContactList, initialOrgList, activityList, false);
                     }
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    Xrm.Navigation.openAlertDialog(textStatus + " " + errorThrown);
+                    Alert(textStatus + " " + errorThrown);
                 }
             });
             isActivitiesChecked = 1;
@@ -7142,14 +6300,13 @@
                 "</fetch>";
 
 
-            var connections; //= XrmServiceToolkit.Soap.Fetch(fetchXML);
+            var connections;
             var connectionLst = [];
             var connectionLstTbl = [];
             var contactLst = [];
 
             if (connections.length > 0) {
                 for (var i = 0; i < connections.length; i++) {
-                    //////debugger;
                     var connection = connections[i];
                     var Opportunityid = connection.attributes.opptyid != undefined ? connection.attributes.opptyid.value : "";
                     var OpportunityName = connection.attributes.opptyname != undefined ? connection.attributes.opptyname.value : "";
@@ -7160,20 +6317,16 @@
 
                     var bidmanager_userid = connection.attributes.ccrm_bidmanager_userid != undefined ? connection.attributes.ccrm_bidmanager_userid.value + ":bm" + OrganisationId : "";
                     var bidmanager_name = connection.attributes['bm.fullname'] != undefined ? connection.attributes['bm.fullname'].value : "";
-                    // var bidmanager_phone = connection.attributes['bm.mobilephone'] != undefined ? connection.attributes['bm.mobilephone'].value : "";
                     var bidmanager_image = connection.attributes.bidmanager_image != undefined ? connection.attributes.bidmanager_image.value : "";
                     var bidmanager_Phone = connection.attributes.bidmanager_phone != undefined ? connection.attributes.bidmanager_phone.value : "";
-                    //  var bidmanager_CompanyCode = connection.attributes.bidmanager_companycode != undefined ? connection.attributes.bidmanager_companycode.value : "";
                     var bidmanager_AccountingCode = connection.attributes.bidmanager_accountingcode != undefined ? connection.attributes.bidmanager_accountingcode.name : "";
                     var bidmanager_Region = connection.attributes.bidmanager_region != undefined ? connection.attributes.bidmanager_region.name : "";
                     var bidmanager_Title = connection.attributes.bidmanager_title != undefined ? connection.attributes.bidmanager_title.value : "";
 
                     var biddirector_userid = connection.attributes.ccrm_biddirector_userid != undefined ? connection.attributes.ccrm_biddirector_userid.value + ":bd" + OrganisationId : "";
                     var biddirector_name = connection.attributes['bd.fullname'] != undefined ? connection.attributes['bd.fullname'].value : "";
-                    // var biddirector_phone = connection.attributes['bd.mobilephone'] != undefined ? connection.attributes['bd.mobilephone'].value : "";
                     var biddirector_image = connection.attributes.biddirector_image != undefined ? connection.attributes.biddirector_image.value : "";
                     var biddirector_Phone = connection.attributes.biddirector_phone != undefined ? connection.attributes.biddirector_phone.value : "";
-                    //var biddirector_CompanyCode = connection.attributes.biddirector_companycode != undefined ? connection.attributes.biddirector_companycode.value : "";
                     var biddirector_AccountingCode = connection.attributes.biddirector_accountingcode != undefined ? connection.attributes.biddirector_accountingcode.name : "";
                     var biddirector_Region = connection.attributes.biddirector_region != undefined ? connection.attributes.biddirector_region.name : "";
                     var biddirector_Title = connection.attributes.biddirector_title != undefined ? connection.attributes.biddirector_title.value : "";
@@ -7181,50 +6334,40 @@
 
                     var bidreviewchair_userid = connection.attributes.ccrm_bidreviewchair_userid != undefined ? connection.attributes.ccrm_bidreviewchair_userid.value + ":brc" + OrganisationId : "";
                     var bidreviewchair_name = connection.attributes['brc.fullname'] != undefined ? connection.attributes['brc.fullname'].value : "";
-                    //var bidreviewchair_phone = connection.attributes['brc.mobilephone'] != undefined ? connection.attributes['brc.mobilephone'].value : "";
                     var bidreviewchair_image = connection.attributes.bidreviewchair_image != undefined ? connection.attributes.bidreviewchair_image.value : "";
                     var bidreviewchair_Phone = connection.attributes.bidreviewchair_phone != undefined ? connection.attributes.bidreviewchair_phone.value : "";
-                    // var bidreviewchair_CompanyCode = connection.attributes.bidreviewchair_companycode != undefined ? connection.attributes.bidreviewchair_companycode.value : "";
                     var bidreviewchair_AccountingCode = connection.attributes.bidreviewchair_accountingcode != undefined ? connection.attributes.bidreviewchair_accountingcode.name : "";
                     var bidreviewchair_Region = connection.attributes.bidreviewchair_region != undefined ? connection.attributes.bidreviewchair_region.name : "";
                     var bidreviewchair_Title = connection.attributes.bidreviewchair_title != undefined ? connection.attributes.bidreviewchair_title.value : "";
 
                     var projectdirector_userid = connection.attributes.ccrm_projectdirector_userid != undefined ? connection.attributes.ccrm_projectdirector_userid.value + ":pd" + OrganisationId : "";
                     var projectdirector_name = connection.attributes['pd.fullname'] != undefined ? connection.attributes['pd.fullname'].value : "";
-                    // var projectdirector_phone = connection.attributes['pd.mobilephone'] != undefined ? connection.attributes['pd.mobilephone'].value : "";
                     var projectdirector_image = connection.attributes.projectdirector_image != undefined ? connection.attributes.projectdirector_image.value : "";
                     var projectdirector_Phone = connection.attributes.projectdirector_phone != undefined ? connection.attributes.projectdirector_phone.value : "";
-                    //var projectdirector_CompanyCode = connection.attributes.projectdirector_companycode != undefined ? connection.attributes.projectdirector_companycode.value : "";
                     var projectdirector_AccountingCode = connection.attributes.projectdirector_accountingcode != undefined ? connection.attributes.projectdirector_accountingcode.name : "";
                     var projectdirector_Region = connection.attributes.projectdirector_region != undefined ? connection.attributes.projectdirector_region.name : "";
                     var projectdirector_Title = connection.attributes.projectdirector_title != undefined ? connection.attributes.projectdirector_title.value : "";
 
                     var projectmanager_userid = connection.attributes.ccrm_projectmanager_userid != undefined ? connection.attributes.ccrm_projectmanager_userid.value + ":pm" + OrganisationId : "";
                     var projectmanager_name = connection.attributes['pm.fullname'] != undefined ? connection.attributes['pm.fullname'].value : "";
-                    //var projectmanager_phone = connection.attributes['pm.mobilephone'] != undefined ? connection.attributes['pm.mobilephone'].value : "";
                     var projectmanager_image = connection.attributes.projectmanager_image != undefined ? connection.attributes.projectmanager_image.value : "";
                     var projectmanager_Phone = connection.attributes.projectmanager_phone != undefined ? connection.attributes.projectmanager_phone.value : "";
-                    //var projectmanager_CompanyCode = connection.attributes.projectmanager_companycode != undefined ? connection.attributes.projectmanager_companycode.value : "";
                     var projectmanager_AccountingCode = connection.attributes.projectmanager_accountingcode != undefined ? connection.attributes.projectmanager_accountingcode.name : "";
                     var projectmanager_Region = connection.attributes.projectmanager_region != undefined ? connection.attributes.projectmanager_region.name : "";
                     var projectmanager_Title = connection.attributes.projectmanager_title != undefined ? connection.attributes.projectmanager_title.value : "";
 
                     var businessadministrator_userid = connection.attributes.ccrm_businessadministrator_userid != undefined ? connection.attributes.ccrm_businessadministrator_userid.value + ":ba" + OrganisationId : "";
                     var businessadministrator_name = connection.attributes['ba.fullname'] != undefined ? connection.attributes['ba.fullname'].value : "";
-                    // var businessadministrator_phone = connection.attributes['ba.mobilephone'] != undefined ? connection.attributes['ba.mobilephone'].value : "";
                     var businessadministrator_image = connection.attributes.businessadministrator_image != undefined ? connection.attributes.businessadministrator_image.value : "";
                     var businessadministrator_Phone = connection.attributes.businessadministrator_phone != undefined ? connection.attributes.businessadministrator_phone.value : "";
-                    //    var businessadministrator_CompanyCode = connection.attributes.businessadministrator_companycode != undefined ? connection.attributes.businessadministrator_companycode.value : "";
                     var businessadministrator_AccountingCode = connection.attributes.businessadministrator_accountingcode != undefined ? connection.attributes.businessadministrator_accountingcode.name : "";
                     var businessadministrator_Region = connection.attributes.businessadministrator_region != undefined ? connection.attributes.businessadministrator_region.name : "";
                     var businessadministrator_Title = connection.attributes.businessadministrator_title != undefined ? connection.attributes.businessadministrator_title.value : "";
 
                     var commercialmanager_userid = connection.attributes.ccrm_commercialmanager_userid != undefined ? connection.attributes.ccrm_commercialmanager_userid.value + ":cm" + OrganisationId : "";
                     var commercialmanager_name = connection.attributes['cm.fullname'] != undefined ? connection.attributes['cm.fullname'].value : "";
-                    //var commercialmanager_phone = connection.attributes['cm.mobilephone'] != undefined ? connection.attributes['cm.mobilephone'].value : "";
                     var commercialmanager_image = connection.attributes.commercialmanager_image != undefined ? connection.attributes.commercialmanager_image.value : "";
                     var commercialmanager_Phone = connection.attributes.commercialmanager_phone != undefined ? connection.attributes.commercialmanager_phone.value : "";
-                    // var commercialmanager_CompanyCode = connection.attributes.commercialmanager_companycode != undefined ? connection.attributes.commercialmanager_companycode.value : "";
                     var commercialmanager_AccountingCode = connection.attributes.commercialmanager_accountingcode != undefined ? connection.attributes.commercialmanager_accountingcode.name : "";
                     var commercialmanager_Region = connection.attributes.commercialmanager_region != undefined ? connection.attributes.commercialmanager_region.name : "";
                     var commercialmanager_Title = connection.attributes.commercialmanager_title != undefined ? connection.attributes.commercialmanager_title.value : "";
@@ -7234,7 +6377,6 @@
                     var aruplocalcontact_phone = connection.attributes['alc.mobilephone'] != undefined ? connection.attributes['alc.mobilephone'].value : "";
                     var aruplocalcontact_image = connection.attributes.aruplocalcontact_image != undefined ? connection.attributes.aruplocalcontact_image.value : "";
                     var aruplocalcontact_Phone = connection.attributes.aruplocalcontact_phone != undefined ? connection.attributes.aruplocalcontact_phone.value : "";
-                    // var aruplocalcontact_CompanyCode = connection.attributes.aruplocalcontact_companycode != undefined ? connection.attributes.aruplocalcontact_companycode.value : "";
                     var aruplocalcontact_AccountingCode = connection.attributes.aruplocalcontact_accountingcode != undefined ? connection.attributes.aruplocalcontact_accountingcode.name : "";
                     var aruplocalcontact_Region = connection.attributes.aruplocalcontact_region != undefined ? connection.attributes.aruplocalcontact_region.name : "";
                     var aruplocalcontact_Title = connection.attributes.aruplocalcontact_title != undefined ? connection.attributes.aruplocalcontact_title.value : "";
@@ -7254,80 +6396,64 @@
 
                         "bidmanager_userid": bidmanager_userid,
                         "bidmanager_name": bidmanager_name,
-                        //"bidmanager_phone": bidmanager_phone,
                         "bidmanager_image": bidmanager_image,
                         "bidmanager_Phone": bidmanager_Phone,
-                        //"bidmanager_CompanyCode" : bidmanager_CompanyCode,
                         "bidmanager_AccountingCode": bidmanager_AccountingCode,
                         "bidmanager_Region": bidmanager_Region,
                         "bidmanager_Title": bidmanager_Title,
 
                         "biddirector_userid": biddirector_userid,
                         "biddirector_name": biddirector_name,
-                        //"biddirector_phone": biddirector_phone,
                         "biddirector_image": biddirector_image,
                         "biddirector_Phone": biddirector_Phone,
-                        //"biddirector_CompanyCode": biddirector_CompanyCode,
                         "biddirector_AccountingCode": biddirector_AccountingCode,
                         "biddirector_Region": biddirector_Region,
                         "biddirector_Title": biddirector_Title,
 
                         "bidreviewchair_userid": bidreviewchair_userid,
                         "bidreviewchair_name": bidreviewchair_name,
-                        //"bidreviewchair_phone": bidreviewchair_phone,
                         "bidreviewchair_image": bidreviewchair_image,
                         "bidreviewchair_Phone": bidreviewchair_Phone,
-                        // "bidreviewchair_CompanyCode": bidreviewchair_CompanyCode,
                         "bidreviewchair_AccountingCode": bidreviewchair_AccountingCode,
                         "bidreviewchair_Region": bidreviewchair_Region,
                         "bidreviewchair_Title": bidreviewchair_Title,
 
                         "projectdirector_userid": projectdirector_userid,
                         "projectdirector_name": projectdirector_name,
-                        //"projectdirector_phone": projectdirector_phone,
                         "projectdirector_image": projectdirector_image,
                         "projectdirector_Phone": projectdirector_Phone,
-                        // "projectdirector_CompanyCode": projectdirector_CompanyCode,
                         "projectdirector_AccountingCode": projectdirector_AccountingCode,
                         "projectdirector_Region": projectdirector_Region,
                         "projectdirector_Title": projectdirector_Title,
 
                         "projectmanager_userid": projectmanager_userid,
                         "projectmanager_name": projectmanager_name,
-                        //"projectmanager_phone": projectmanager_phone,
                         "projectmanager_image": projectmanager_image,
                         "projectmanager_Phone": projectmanager_Phone,
-                        // "projectmanager_CompanyCode": projectmanager_CompanyCode,
                         "projectmanager_AccountingCode": projectmanager_AccountingCode,
                         "projectmanager_Region": projectmanager_Region,
                         "projectmanager_Title": projectmanager_Title,
 
                         "businessadministrator_userid": businessadministrator_userid,
                         "businessadministrator_name": businessadministrator_name,
-                        //"businessadministrator_phone": businessadministrator_phone,
                         "businessadministrator_image": businessadministrator_image,
                         "businessadministrator_Phone": businessadministrator_Phone,
-                        //"businessadministrator_CompanyCode": businessadministrator_CompanyCode,
                         "businessadministrator_AccountingCode": businessadministrator_AccountingCode,
                         "businessadministrator_Region": businessadministrator_Region,
                         "businessadministrator_Title": businessadministrator_Title,
 
                         "commercialmanager_userid": commercialmanager_userid,
                         "commercialmanager_name": commercialmanager_name,
-                        //"commercialmanager_phone": commercialmanager_phone,
                         "commercialmanager_image": commercialmanager_image,
                         "commercialmanager_Phone": commercialmanager_Phone,
-                        // "commercialmanager_CompanyCode": commercialmanager_CompanyCode,
                         "commercialmanager_AccountingCode": commercialmanager_AccountingCode,
                         "commercialmanager_Region": commercialmanager_Region,
                         "commercialmanager_Title": commercialmanager_Title,
 
                         "aruplocalcontact_userid": aruplocalcontact_userid,
                         "aruplocalcontact_name": aruplocalcontact_name,
-                        // "aruplocalcontact_phone": aruplocalcontact_phone,
                         "aruplocalcontact_image": aruplocalcontact_image,
                         "aruplocalcontact_Phone": aruplocalcontact_Phone,
-                        //"aruplocalcontact_CompanyCode": aruplocalcontact_CompanyCode,
                         "aruplocalcontact_AccountingCode": aruplocalcontact_AccountingCode,
                         "aruplocalcontact_Region": aruplocalcontact_Region,
                         "aruplocalcontact_Title": aruplocalcontact_Title,
@@ -7341,29 +6467,13 @@
                     connectionLst.push(conn);
                 }
                 return connectionLst;
-                //  $('#chkMarketingList').prop('checked', false);
-                //  $('#chkContactActivities').prop('checked', false);
-                //  DrawMatrixForceLayoutOpportunities("#connectionMatrix", connectionLst);
             }
         }
 
         function loadChildOpportunityData(currentaccId, opportunityid, showBidTeams, opptystatuscode, showInternal) {
             //Child org Opportunities data
-            var fetchxml = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='account'>" +
-                "<attribute name='name' alias ='orgname' />" +
-                "<attribute name='accountid' alias = 'orgid' />" +
-                "<attribute name='address1_city' />" +
-                "<attribute name='ccrm_address1attentiondepartment' alias = 'orgdepartment' />" +
-                "<attribute name='arup_openopportunitiescalc' alias = 'orgopenopptys' />" +
-                "<order attribute='name' descending='false' />" +
-                "<filter type='and'>" +
-                "<condition attribute='parentaccountid' operator='eq' uitype='account' value='" + currentaccId + "' />" +
-                "<condition attribute='arup_openopportunitiescalc' operator='gt' value='0' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>"
-            var Organisations; //= XrmServiceToolkit.Soap.Fetch(fetchxml);
+
+            var Organisations;
             if (Organisations.length > 0) {
                 for (var i = 0; i < Organisations.length; i++) {
                     var connection = Organisations[i];
@@ -7524,8 +6634,6 @@
                     .attr('height', width)
                     .attr('x', xaxis)
                     .attr('y', yaxis)
-                    // .attr('transform', 'translate(' + parseInt(d.posx1) + ',' + parseInt(d.posy1) + ')')
-                    // .attr('transform', 'translate(' + parseInt(d.posx - config.avatar_size + config.avatar_size * .45) + ',' + parseInt(d.posy - config.avatar_size + config.avatar_size * .45) + ')')
                     .attr('clip-path', "url(#clipObj" + i + ")")
 
             })
@@ -7579,14 +6687,10 @@
                         .call(zoom.scaleTo, 1.5); // return to initial state
                 }
                 if (this.id === 'btnresize') {
-                    //$('#maindivGraph').toggleClass('col-md-9 ml-sm-auto col-lg-10').toggleClass('col-md-12 ml-sm-auto col-lg-12');
-                    //$('#seconddivgraph').toggle();
                     if (sizetoggle == 0) {
                         $('#connectionMatrix').css("height", "90%");
                         $('.row').css("width", "100%");
                         $('#connForcelay').css("height", "1100px");
-                        //$('#maindivGraph').removeClass('col-md-9 ml-sm-auto col-lg-10').addClass('col-md-12 ml-sm-auto col-lg-12').addClass("important");
-                        //$('#seconddivgraph').hide();
                         $('#clientconnectionHelp').hide();
                         $('#showhideNav').hide();
                         $('#seconddivgraph').css({ 'margin-top': '0px' });
@@ -7599,9 +6703,6 @@
                         $('#showhideNav').show();
                         $('#seconddivgraph').css({ 'margin-top': '65px' });
 
-                        //$('#maindivGraph').removeClass('col-md-12 ml-sm-auto col-lg-12').addClass('col-md-9 ml-sm-auto col-lg-10').addClass("important");
-                        //$('#seconddivgraph').show();
-                        //InitializeHomeButtonClick();
                         sizetoggle = 0;
                     }
                 }
@@ -7743,9 +6844,6 @@
                 return name;
             }).style("text-anchor", "middle");
 
-            //var title = node.append("title")
-            //     .text(function (d) { return d.id; });
-
             simulation
                 .nodes(Opportunitynodelink.nodes)
                 .on("tick", ticked);
@@ -7824,15 +6922,11 @@
 
             function dragended(d) {
                 if (!d3.event.active) simulation.alphaTarget(0);
-                //d.fx = null;
-                //d.fy = null;
                 d.fx = d.x;
                 d.fy = d.y;
             }
 
             function releasenode(d) {
-                //d.fx = false; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
-                //force.resume();
                 if (!d3.event.active) simulation.alphaTarget(0);
                 d.fx = null;
                 d.fy = null;
@@ -7842,7 +6936,6 @@
 
             function connectedNodes(d) {
                 var connectedlinks = link.filter(function (e) {
-                    //return e.source.id == d.id || e.target.id == d.id; //connected links
                     if (e.source.id == d.id || e.target.id == d.id) {
                         node.filter(function (k) {
                             var res1 = k.id.split(":");
@@ -7900,8 +6993,6 @@
 
         function NodesOrgOpportunities(curaccId, conData, showBidTeams) {
 
-            // var nodelink = Opportunitynodelink;
-            //  nodelink.nodes.push({ id: curaccId, name: curaccName, NodeName: curaccName, group: 1, rad: 10, imageUrl: 'arup_/Images/AccountFolder.png', phone: "", jobtitleorCountry: "", userid: "100" });
             var Opportunitydata = d3.nest()
                 .key(function (d) { return d['Opportunityid']; })
                 .entries(conData);
@@ -8185,48 +7276,19 @@
             if (d.userid == "100" || d.userid == "1000") {
                 // organisations
                 tooltipcontent += d.name;
-                //if (d.orgDepartment != "")
-                //    tooltipcontent += "<br/>" + d.orgDepartment;
-                //if (d.orgTownCity != "")
-                //    tooltipcontent += "<br/>" + d.orgTownCity;
-                //if (d.orgOpenOpptys != "")
-                //    tooltipcontent += "<br/> Open Opps : " + d.orgOpenOpptys;
             }
             else if (d.userid == "200") {
                 //contacts
                 tooltipcontent += d.name;
-                //if (d.jobtitleorCountry != "")
-                //    tooltipcontent += "<br/>" + d.jobtitleorCountry;
-                //if (d.contactDepartment != "") {
-                //    tooltipcontent += "<br/>" + d.contactDepartment;
-                //}
-                //else {
-                //    if (d.contactEmail != "")
-                //        tooltipcontent += "<br/>" + d.contactEmail;
-                //}
             }
             else {
                 //users
                 if (d.empstatus != undefined && d.empstatus != null && d.empstatus == '770000001') {
                     tooltipcontent += d.name + " | Ex-Employee";
-                    //if (d.userTitle != "")
-                    //    tooltipcontent += "<br/>" + d.userTitle;
-                    //if (d.userAccountingCode != "")
-                    //    tooltipcontent += "<br/>" + d.userCompanyCode + "-" + d.userAccountingCode + " | " + d.userRegion;
                 }
                 else {
                     tooltipcontent += d.name;
-                    //if (d.userTitle != "")
-                    //    tooltipcontent += "<br/>" + d.userTitle
-                    //if (d.userAccountingCode != "")
-                    //    tooltipcontent += "<br/>" + d.userCompanyCode + "-" + d.userAccountingCode + " | " + d.userRegion;
-                    //if (d.phone != "" || d.userRegion != "")
-                    //    tooltipcontent += "<br/>" + d.phone;
                 }
-
-
-
-
             }
 
             return tooltipcontent;
@@ -8267,7 +7329,6 @@
         }
 
         function oncheckCSuiteAndDecisionMakers() {
-            ////debugger;
             var chkAct = $("#chkCSuiteAndDecisionMakers").is(':checked') ? true : false;
             InititializeGraphDivs();
             if (chkAct) {
@@ -8285,7 +7346,6 @@
         }
 
         function oncheckDecisionMakers() {
-            ////debugger;
             var chkAct = $("#chkDecisionMakers").is(':checked') ? true : false;
             InititializeGraphDivs();
             if (chkAct) {
@@ -8303,7 +7363,6 @@
         }
 
         function oncheckCSuite() {
-            ////debugger;
             var chkAct = $("#chkCSuite").is(':checked') ? true : false;
             InititializeGraphDivs();
             if (chkAct) {
@@ -8321,7 +7380,6 @@
         }
 
         function oncheckActivities() {
-            ////debugger;
             InititializeGraphDivs();
             //InitializeHomeButtonClick();
             var chkAct = $("#chkActivities").is(':checked') ? true : false;
@@ -8339,15 +7397,31 @@
                 else if (chkCSuite == true)
                     DrawMatrixForceLayoutCSuite("#connectionMatrix", ConnectionContactData, true, chkCSuite);
             }
-        } Arup_GetClientURL = (function () {
+        }
+
+        Arup_GetClientURL = (function () {
             var clientUrl = document.location.origin;
             return function () {
                 return clientUrl;
             }
         })();
+
+        Alert = function (message, xrmContext ) {
+            var alertStrings = { confirmButtonLabel: "OK", text: message, title: "Alert" };
+            var alertOptions = { height: 120, width: 260 };
+            xrmContext = xrmContext || ( typeof Xrm == 'undefined' ? parent.Xrm : Xrm); // || parent.Xrm;
+
+            if (!xrmContext) {
+                alert("Unable to get Xrm context to display message: " + message);
+                return new Promise();
+            } else {
+                return xrmContext.Navigation.openAlertDialog(alertStrings, alertOptions);
+            }
+        }
+        RetrieveMultiple = function (entity, fetchXml) {
+            return Xrm.WebApi.online.retrieveMultipleRecords(entity, fetchXml);
+        }
     </script>
-    <!--<script src="arup_BootStrap.min" rel="stylesheet"></script>-->
-    <!-- Bootstrap core CSS -->
     <link href="arup_Bootstrap4.3.1.css" rel="stylesheet">
 
     <style type="text/css">
@@ -8406,20 +7480,12 @@
             display: none;
         }
 
-        /*body {
-            font: 10px sans-serif;
-        }*/
-
         .axis path,
         .axis line {
             fill: none;
             stroke: #000;
             shape-rendering: crispEdges;
         }
-
-        /*.bar {
-            fill: steelblue;
-        }*/
 
         .x.axis path {
             display: none;
@@ -8460,15 +7526,15 @@
             fill: #000000;
         }
     </style>
-</head>
-<body style="width: 100%; -webkit-print-color-adjust: exact; overflow-wrap: break-word;" onload="OnLoad();" onfocusout="parent.setEmailRange();">
+
+
     <!--<body style="width: 100%;-webkit-print-color-adjust: exact" onload="OnLoad()">-->
-    <div id="showhideNav" style="width:100%">
+    <div id="showhideNav" style="width: 100%; font-family: undefined;">
         <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
             <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Arup</a>
         </nav>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid" style="font-family: undefined;">
         <div class="row">
             <div id="maindivGraph" role="main" class="col-md-9 ml-sm-auto col-lg-10" style="padding-right:0">
                 <div style="width:100%">
@@ -8523,10 +7589,10 @@
                                                     <td id="parentOrg"></td>
                                                     <td>
                                                         <div class="table-responsive" id="ConnectionButtons" style="float:right;background-color: lightgray; ">
-                                                            <button id='homeButton' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer; background-image:url(arup_HomeIcon)' onclick="onclickHomeButton()" title="Home"> </button>
-                                                            <button id='zoom_in' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphzoomin' style='height:25px' title='Zoom In' /></button>
-                                                            <button id='zoom_out' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphzoomout' style='height:25px' title='Zoom Out' /></button>
-                                                            <button id='zoom_init' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphreset' style='height:25px' title='Reset Zoom' /></button>
+                                                            <button id="homeButton" style="margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer; background-image:url(arup_HomeIcon)" onclick="onclickHomeButton()" title="Home"> </button>
+                                                            <button id="zoom_in" style="margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;" control-id="ControlID-1"> <input type="image" src="arup_graphzoomin" style="height:25px" title="Zoom In" control-id="ControlID-2"></button>
+                                                            <button id="zoom_out" style="margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;" control-id="ControlID-3"> <input type="image" src="arup_graphzoomout" style="height:25px" title="Zoom Out" control-id="ControlID-4"></button>
+                                                            <button id="zoom_init" style="margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;" control-id="ControlID-5"> <input type="image" src="arup_graphreset" style="height:25px" title="Reset Zoom" control-id="ControlID-6"></button>
                                                             <!--<button id='print' style='margin : 1px; float: right;background-color: white; border: 1px white; padding: 0px; cursor: pointer;'> <input type='image' src='arup_graphprint' style='height:26px' title='Print' /></button>-->
                                                         </div>
                                                     </td>
@@ -8563,62 +7629,41 @@
 
                 <div id="Accountfilters" style="border:1px solid grey; padding-right:0px; padding-left:0px; font-size:9pt; width:100%">
                     <div class="list-group" style="width:100%; font-size:11pt">
-                        <button type="button" class="list-group-item list-group-item-action list-group-item-secondary active">
+                        <button type="button" class="list-group-item list-group-item-action list-group-item-secondary active" control-id="ControlID-7">
                             Filters
                         </button>
 
                         <div class="panel-group" style="width:100%">
                             <div class="panel panel-info" style="width:100%; padding : 5px 5px 5px 5px">
                                 <div class="panel-body" style="width:100%">
-                                    <!--<Label class="list-group-item list-group-item-action list-group-item-secondary" style="cursor: pointer;">
-                                        <label style="width:100%; font-size:12pt ">
-                                            <input type="radio" name="RadOrg" id="Radios1" value="C" checked="checked">
-                                            Connections
-                                            <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="connectioncount"></span>
-                                        </label>
-                                    </Label>-->
 
-                                    <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
-                                        <input type="checkbox" value="1" id="chkContacts" onclick="oncheckContacts()" />
+                                    <label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
+                                        <input type="checkbox" value="1" id="chkContacts" onclick="oncheckContacts()" control-id="ControlID-8">
                                         <label for="chkContacts" style="margin-bottom:0px">
                                             All Contacts
                                         </label>
-                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="contactsount"></span>
-                                    </Label>
-                                    <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
-                                        <input type="checkbox" value="1" id="chkCSuiteAndDecisionMakers" onclick="oncheckCSuiteAndDecisionMakers()" />
+
+                                    </label>
+                                    <label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
+                                        <input type="checkbox" value="1" id="chkCSuiteAndDecisionMakers" onclick="oncheckCSuiteAndDecisionMakers()" control-id="ControlID-9">
                                         <label for="chkCSuiteAndDecisionMakers" style="margin-bottom:0px">
                                             C-Suite and Decision Makers
                                         </label>
-                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="decisionmakersount"></span>
-                                    </Label>
-                                    <!--<Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
-                                        <input type="checkbox" value="1" id="chkDecisionMakers" onclick="oncheckDecisionMakers()" />
-                                        <label for="chkDecisionMakers" style="margin-bottom:0px">
-                                            Decision Makers
-                                        </label>
-                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="decisionmakersount"></span>
-                                    </Label>
-                                    <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
-                                        <input type="checkbox" value="1" id="chkCSuite" onclick="oncheckCSuite()" />
-                                        <label for="chkCSuite" style="margin-bottom:0px">
-                                            C-Suite
-                                        </label>
-                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="csuitecount"></span>
-                                    </Label>-->
+
+                                    </label>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-group" style="width:100%">
                             <div class="panel panel-info" style="width:100%; padding : 5px 5px 5px 5px">
                                 <div class="panel-body" style="width:100%">
-                                    <Label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
-                                        <input type="checkbox" value="1" id="chkActivities" disabled="disabled" onclick="oncheckActivities()" />
+                                    <label class="list-group-item list-group-item-action" style="padding-left:30px; cursor: pointer;">
+                                        <input type="checkbox" value="1" id="chkActivities" disabled="disabled" onclick="oncheckActivities()" control-id="ControlID-10">
                                         <label for="chkActivities" style="margin-bottom:0px">
                                             Activities
                                         </label>
-                                        <span class="badge badge-info badge-pill" style="float:right; background-color:#4DABF7" id="activitiescount"></span>
-                                    </Label>
+
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -8626,30 +7671,18 @@
                 </div>
                 <div id="Userfilters" style="border:1px solid grey; display:none;padding-right:0px; padding-left:0px; font-size:9pt; width:100% ">
                     <div class="list-group" style="width:100%; font-size:11pt">
-                        <button type="button" class="list-group-item list-group-item-action list-group-item-secondary active">
+                        <button type="button" class="list-group-item list-group-item-action list-group-item-secondary active" control-id="ControlID-11">
                             Filters
                         </button>
-                        <Label style="cursor: pointer;" class="list-group-item list-group-item-action">
-                            <input type="checkbox" value="1" id="chkShowAllConnectionsforUser" />
+                        <label style="cursor: pointer;" class="list-group-item list-group-item-action">
+                            <input type="checkbox" value="1" id="chkShowAllConnectionsforUser">
                             <label for="chkShowAllConnectionsforUser">Show child org connections</label>
-                        </Label>
+                        </label>
                     </div>
                 </div>
 
                 <div id="Connectionfilters" style="display:none;padding-right:0px; padding-left:0px; font-size:9pt; width:100% ">
                     <div class="list-group" style="width:100%; font-size:11pt">
-                        <!--<button type="button" class="list-group-item list-group-item-action list-group-item-secondary active">
-                            Filters
-                        </button>
-                        <Label style="cursor: pointer;" class="list-group-item list-group-item-action">
-                            <input type="checkbox" value="1" id="chkMarketingList" />
-                            <label for="chkMarketingList">Marketing Lists</label>
-                        </Label>
-
-                        <Label style="cursor: pointer;" class="list-group-item list-group-item-action">
-                            <input type="checkbox" value="2" id="chkContactActivities" />
-                            <label for="chkContactActivities">Activities</label>
-                        </Label>-->
 
                     </div>
                     <div class="alert alert-danger" id="alert-activities" style="display:none; margin-top: 20px;">
@@ -8663,6 +7696,7 @@
             </div>
         </div>
     </div>
+
 
 
 </body>
