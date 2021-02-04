@@ -1,13 +1,12 @@
+import { isArray } from "util";
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-import { TagsFromPCFValuesStore } from "./TagsFromPCFValuesStore";
-import { TagValueSource } from "./TagValueSource";
-import { TestTagValues } from "./TestTagValues";
 
-export class ArupMultiTagComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+interface Popup extends ComponentFramework.FactoryApi.Popup.Popup {
+    popupStyle: object;
+    //shadowStyle: object;
+}
 
-    private _context: ComponentFramework.Context<IInputs>; // ?? Is this valid as it probably changes from one call to the next?
-    private _container : HTMLDivElement;
-    private _tagValueSource : TagValueSource;
+export class MultiTagComponent2 implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
     private _containerBox: HTMLDivElement;
     private _innerContainer: HTMLDivElement;
@@ -16,6 +15,7 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
     private _tagContent: HTMLDivElement;
     private _tagClose: HTMLAnchorElement;
     private _taggedValues: string[];
+    private _context: ComponentFramework.Context<IInputs>;
     private _currentValues: string;
     private _availableValues: string;
     private _availableTags: string[];
@@ -42,127 +42,73 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
-        // Save context
 		this._context = context;
-        this._container = container;
+		
         this._notifyOutputChanged = notifyOutputChanged;
-
-        // Get current tag list
-        if (context.mode.label == "TestLabel") {
-            this._tagValueSource = new TestTagValues();
-        } else {
-            this._tagValueSource = new TagsFromPCFValuesStore("opportunity");
-        }
-
-        // Set current tag values
-        let currentValues: string = context.parameters.TagValue.raw ? context.parameters.TagValue.raw : "";
-        this.setCurrentTagValues(currentValues);
-
-        // May not be necessary as updateView seems to be called immediately after init.
-        // // Get available tag values
-        // this._tagValueSource.getAvailableTagValues(context).then(
-        //     // Resolve
-        //     this.displayTags.bind(this),
-        //     // Reject
-        //     (error: string) => {
-        //         console.log(`Error getting available tag values: ${error}`)
-        //     }
-        // );
-        
-    }
-
-    	/**
-	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
-	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
-	 */
-	public updateView(context: ComponentFramework.Context<IInputs>): void
-	{
-        /*let entityId = (<any>context.mode).contextInfo.entityId;
-        let entityTypeName = (<any>context.mode).contextInfo.entityTypeName;*/
-        this._context = context;
-        //console.log("=========>>"+context.updatedProperties.toString());
+        // @ts-ignore         
+        this._tagValueFieldName = this._context.parameters.TagValue.attributes.LogicalName;
+        let fieldname: string = "arup_pcfvalues";//this._tagValueFieldName;
         let dependentFieldType = typeof(context.parameters.DependentField.raw);
 
-          // Set current tag values
-          let currentValues: string = context.parameters.TagValue.raw ? context.parameters.TagValue.raw : "";
-          this.setCurrentTagValues(currentValues);
-  
-          // Get available tag values
-          this._tagValueSource.getAvailableTagValues(context).then(
-              // Resolve
-              this.displayTags.bind(this),
-              // Reject
-              (error: string) => {
-                  console.log(`Error getting available tag values: ${error}`)
-              }
-          );
-    }
-
-	/** 
-	 * Called by the framework prior to a control receiving new data. 
-	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
-	 */
-	public getOutputs(): IOutputs
-	{
-		var result = <IOutputs>{ TagValue: this._taggedValues.join(";") };
-        return result;
-	}
-
-	/** 
-	 * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
-	 * i.e. cancelling any pending remote calls, removing listeners, etc.
-	 */
-	public destroy(): void
-	{
-        this._tagClose.removeEventListener("click", this.onClickOfClose);
-        this._tagElement.removeEventListener("click", this.onClickOfAvailableTag);
-	}
-
-    ///
-    /// Start of private functions that manipulate the DOM to display tag values in the UI.
-    ///
-    /**
-     * 
-     */
-    private displayTags( availableTags: string ) {
-        // Remove any selected tags from the list, sort and dedupe.
-        this._availableTags = availableTags.split(";").filter(x => !this._taggedValues.includes(x)).sort( )
-                        .filter((item,index,array) => array.indexOf(item) === index).filter( x => x != "" );
-        this._availableTagContainer.innerHTML = "";
-        this.loadAvailableTags();
-
-        this._container.innerHTML = "";
-        if (this._availableTags?.length > 0 || this._currentValues != "") {
-            this._containerBox.appendChild(this._innerContainer);
-            this._container.appendChild(this._containerBox);
-            this._container.appendChild(this._spanElement);
-            this._container.appendChild(this._availableTagContainer);
-        }
-    }
-
-    private setCurrentTagValues( currentValues: string | null ) : void {
-        // @ts-ignore 
-        this._currentValues = currentValues;
-        this._containerBox = document.createElement("div");
-        this._containerBox.setAttribute("class", "container");
-        this._innerContainer = document.createElement("div");
-        this._innerContainer.setAttribute("class", "innerDiv");
-        this._spanElement = document.createElement("span");
-        this._spanElement.innerHTML = "Choose available tags below - ";
-        this._availableTagContainer = document.createElement("div");
-        this._availableTagContainer.setAttribute("class", "innerDiv");
-        this._availableTagContainer.classList.add("displayBlock", "availableTagContainer");
-
-        if (!this._currentValues) {
-            this._taggedValues = [];
-            this._innerContainer.classList.add("hideBlock");
+        if (dependentFieldType == "object") {
+            this._dependentField = context.parameters.DependentField.raw[0].TypeName ? context.parameters.DependentField.raw[0].TypeName : "";
+            this._dependentFieldValue = context.parameters.DependentField.raw[0].Name;
         }
         else {
-            this._innerContainer.classList.add("displayBlock");
-            this._taggedValues = this._currentValues.split(";");
-            this.loadTags();
+            this._dependentField = this._tagValueFieldName;
+            this._dependentFieldValue = "Default";
         }
-    }
+
+        let queryString: string = "?$select=" + fieldname+"&$filter=arup_name eq '" + this._dependentField + "' and " + "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(this._dependentFieldValue) + "'";
+        let currentValues: string = context.parameters.TagValue.raw ? context.parameters.TagValue.raw : "";
+
+        //(<any>context.mode).contextInfo.entityId;
+        let entityTypeName = "arup_pcfvaluesstore";//(<any>context.mode).contextInfo.entityTypeName;
+        //this.getAvailableTags(entityTypeName, queryString);
+		context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
+            (response) => {
+                this._availableValues = response.entities[0].arup_pcfvalues;
+
+                // @ts-ignore 
+                this._currentValues = currentValues;//Xrm.Page.getAttribute(this._tagValueFieldName).getValue();
+                this._containerBox = document.createElement("div");
+                this._containerBox.setAttribute("class", "container");
+                this._innerContainer = document.createElement("div");
+                this._innerContainer.setAttribute("class", "innerDiv");
+                this._spanElement = document.createElement("span");
+                this._spanElement.innerHTML = "Choose available tags below - ";
+                this._availableTagContainer = document.createElement("div");
+                this._availableTagContainer.setAttribute("class", "innerDiv");
+                this._availableTagContainer.classList.add("displayBlock", "availableTagContainer");
+                /*this._inputElement = document.createElement("input");
+                this._inputElement.setAttribute("id", "inputTag");
+                this._inputElement.setAttribute("type", "text");
+                //this._inputElement.addEventListener("keypress", this.onKeyPress.bind(this));*/
+                
+                if (!this._currentValues) {
+                    this._taggedValues = [];
+                    this._innerContainer.classList.add("hideBlock");
+                }
+                else {
+                    this._innerContainer.classList.add("displayBlock");
+                    this._taggedValues = this._currentValues.split(";");
+                    this.loadTags();
+                }
+
+                this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
+                this.loadAvailableTags();
+                //this._inputElement.addEventListener("click", this.onClick.bind(this));
+                this._containerBox.appendChild(this._innerContainer);
+                //this._containerBox.appendChild(this._inputElement);
+                container.appendChild(this._containerBox);
+                container.appendChild(this._spanElement);
+                container.appendChild(this._availableTagContainer);
+			},
+			function(errorResponse: any) {
+				console.log("ERROR::" + errorResponse.message);
+			}
+        );
+	}
 
 	private loadTags(): void {
         for (var i = 0; i < this._taggedValues.length; i++) {
@@ -221,7 +167,11 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         this._notifyOutputChanged();
     }
 
-    /**
+    /*private onClick(e: any): void {
+        //this._popUpService.openPopup('AvailableTagsPopup');
+    }*/
+
+     /**
 	 * Function called On click of remove Tag
 	 */
     private onClickOfClose(e: any): void {
@@ -244,5 +194,74 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
             this._innerContainer.classList.add("hideBlock");
         }
         this._notifyOutputChanged();
+        //this._popUpService.closePopup('AvailableTagsPopup');
+	}
+
+	/**
+	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
+	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
+	 */
+	public updateView(context: ComponentFramework.Context<IInputs>): void
+	{
+        /*let entityId = (<any>context.mode).contextInfo.entityId;
+        let entityTypeName = (<any>context.mode).contextInfo.entityTypeName;*/
+        this._context = context;
+        //console.log("=========>>"+context.updatedProperties.toString());
+        let dependentFieldType = typeof(context.parameters.DependentField.raw);
+
+        if (dependentFieldType == "object" && context.updatedProperties.indexOf("DependentField") != -1) {
+            if (this._dependentFieldValue.localeCompare(context.parameters.DependentField.raw[0].Name) != 0) {
+                this._dependentFieldValue = context.parameters.DependentField.raw[0].Name;
+                let fieldname: string = "arup_pcfvalues";
+                let entityTypeName = "arup_pcfvaluesstore";
+                let queryString: string = "?$select=" + fieldname+"&$filter=arup_name eq '" + this._dependentField + "' and " + "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(this._dependentFieldValue) + "'";
+                context.webAPI.retrieveMultipleRecords(entityTypeName, queryString).then(
+                    (response) => {
+                        this._availableValues = response.entities[0].arup_pcfvalues;
+
+                        if (!this._currentValues) {
+                            this._taggedValues = [];
+                            this._innerContainer.classList.add("hideBlock");
+                        }
+                        else {
+                            this._innerContainer.classList.add("displayBlock");
+                            this._taggedValues = this._currentValues.split(";").filter(x => this._availableValues.includes(x));
+                            this.loadTags();
+                        }
+        
+                        this._availableTags = this._availableValues.split(";").filter(x => !this._taggedValues.includes(x));
+                        this._availableTagContainer.innerHTML = "";
+                        this.loadAvailableTags();
+                    },
+                    function(errorResponse: any) {
+                        console.log("ERROR::" + errorResponse.message);
+                    }
+
+                );
+            }
+        }
+	}
+
+	/** 
+	 * It is called by the framework prior to a control receiving new data. 
+	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
+	 */
+	public getOutputs(): IOutputs
+	{
+		var result = <IOutputs>{ TagValue: this._taggedValues.join(";") };
+        return result;
+	}
+
+	/** 
+	 * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
+	 * i.e. cancelling any pending remote calls, removing listeners, etc.
+	 */
+	public destroy(): void
+	{
+		//this._inputElement.removeEventListener("keypress", this.onKeyPress);
+        this._tagClose.removeEventListener("click", this.onClickOfClose);
+        //this._inputElement.removeEventListener("click", this.onClick);
+        this._tagElement.removeEventListener("click", this.onClickOfAvailableTag);
+        //this._popUpService.deletePopup('AvailableTagsPopup');
 	}
 }

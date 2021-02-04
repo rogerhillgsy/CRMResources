@@ -1180,7 +1180,7 @@ function retreiveTeamDetails(formContext, status) {
                                 }
                             ]);
                         } else {
-                            formContext.getAttribute("ccrm_clientgroupings").setValue(null);
+                            formContext.getAttribute("arup_mostseniorclient").setValue(null);
                         }
                     }
 
@@ -1200,7 +1200,7 @@ function retreiveTeamDetails(formContext, status) {
                         formContext.getAttribute("arup_clientsector").setValue(null);
                     }
 
-                    DisableFields(formContext, true, 'ccrm_clienttype', 'arup_clientsector', 'ccrm_clientgroupings');
+                    DisableFields(formContext, true, 'ccrm_clienttype', 'arup_clientsector');
 
                 } else {
                     XrmOpenAlertDialog(this.statusText);
@@ -1214,7 +1214,7 @@ function retreiveTeamDetails(formContext, status) {
         ClearFields(formContext, 'ccrm_clienttype', 'arup_clientsector', 'ccrm_clientgroupings', 'ccrm_keyaccounttype', 'ccrm_clientprioritisation', 'ccrm_relationshipsnapshot', 'ccrm_keyaccountmanagerid', 'ccrm_arupboardsponsor', 'arup_mostseniorclient');
          formContext.getAttribute("arup_arup150").setValue(null);
         }
-        DisableFields(formContext, false, 'ccrm_clienttype', 'arup_clientsector', 'ccrm_clientgroupings');
+        DisableFields(formContext, false, 'ccrm_clienttype', 'arup_clientsector');
     }
 }
 
