@@ -918,6 +918,7 @@
         function DrawMatrixForceLayout1(div, conData, uniqueOrgList, activityList, isUserClick) {
             if (isUserClick == undefined)
                 isUserClick = false;
+            debugger;
 
             var nodelink = Object();
             nodelink.nodes = [];
@@ -1006,7 +1007,7 @@
                                     }
                                     if (isNodeDuplicate == false) {
                                         nodelink.nodes.push({
-                                            id: uniqueOrgList[i].parentorganisationid, name: result["name"], group: 1, rad: 10, imageUrl: 'arup_graphOrg'
+                                             id: result["accountid"], name: result["name"], group: 1, rad: 10, imageUrl: 'arup_graphOrg'
                                         });
                                     }
                                     //
