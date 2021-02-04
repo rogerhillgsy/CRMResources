@@ -22,6 +22,7 @@
         var initialContactList = [];
         var isActivitiesChecked = 0;
         var sizetoggle = 0;
+        debugger;
         function OnLoad() {
             //if we need to display report within form:Starts
             ////debugger;
@@ -37,7 +38,7 @@
                         "<condition attribute='accountid' operator='eq-or-above' value='" + accId + "' />" +
                         "<condition attribute='parentaccountid' operator='null' />" +
                         "</filter>" +
-                        "</entity>" +
+                        "</entity>" +ccrm_clientg
                         "</fetch>";
                     var accounts;// = XrmServiceToolkit.Soap.Fetch(fetchXML);
                     fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
@@ -248,45 +249,13 @@
             // $('#decisionmakercount').html(decisionmakercount);
         }
         function PopulateBasicAccProfile() {
-
-            /*var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='ccrm_clientgrouping'>" +
-                "<attribute name='ccrm_clientgroupingid' />" +
-                "<attribute name='ccrm_name' />" +
-                "<attribute name='createdon' />" +
-                "<attribute name='ccrm_website' />" +
-                "<attribute name='ccrm_clientgroupingtype' />" +
-                "<attribute name='statuscode' />" +
-                "<attribute name='statecode' />" +
-                "<attribute name='ccrm_accounttype' />" +
-                "<attribute name='ccrm_managingteam' />" +
-                "<attribute name='ccrm_relationshipstatus' />" +
-                "<attribute name='ccrm_relationshipmanager' />" +
-                "<attribute name='overriddencreatedon' />" +
-                "<attribute name='ownerid' />" +
-                "<attribute name='modifiedon' />" +
-                "<attribute name='modifiedonbehalfby' />" +
-                "<attribute name='modifiedby' />" +
-                "<attribute name='ccrm_managedclient' />" +
-                "<attribute name='ccrm_fieldofplay' />" +
-                "<attribute name='ccrm_description' />" +
-                "<attribute name='createdonbehalfby' />" +
-                "<attribute name='createdby' />" +
-                "<attribute name='ccrm_clienttype' />" +
-                "<attribute name='ccrm_clientgroupingnumber' />" +
-                "<order attribute='ccrm_name' descending='false' />" +
-                "<filter type='and'>" +
-                "<condition attribute='ccrm_clientgroupingid' operator='eq' value='" + clientGroupingId + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
-            fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);*/
             var oppty; //= XrmServiceToolkit.Soap.Fetch(fetchXML);
+            debugger;
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
-                url: Arup_GetClientURL() + "/api/data/v9.1/ccrm_clientgroupings?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'ccrm_clientgrouping'%3E%3Cattribute%20name%3D'ccrm_clientgroupingid'%20%2F%3E%3Cattribute%20name%3D'ccrm_name'%20%2F%3E%3Cattribute%20name%3D'createdon'%20%2F%3E%3Cattribute%20name%3D'ccrm_website'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientgroupingtype'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'ccrm_accounttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_managingteam'%20%2F%3E%3Cattribute%20name%3D'ccrm_relationshipstatus'%20%2F%3E%3Cattribute%20name%3D'ccrm_relationshipmanager'%20%2F%3E%3Cattribute%20name%3D'overriddencreatedon'%20%2F%3E%3Cattribute%20name%3D'ownerid'%20%2F%3E%3Cattribute%20name%3D'modifiedon'%20%2F%3E%3Cattribute%20name%3D'modifiedonbehalfby'%20%2F%3E%3Cattribute%20name%3D'modifiedby'%20%2F%3E%3Cattribute%20name%3D'ccrm_managedclient'%20%2F%3E%3Cattribute%20name%3D'ccrm_fieldofplay'%20%2F%3E%3Cattribute%20name%3D'ccrm_description'%20%2F%3E%3Cattribute%20name%3D'createdonbehalfby'%20%2F%3E%3Cattribute%20name%3D'createdby'%20%2F%3E%3Cattribute%20name%3D'ccrm_clienttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientgroupingnumber'%20%2F%3E%3Corder%20attribute%3D'ccrm_name'%20descending%3D'false'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'ccrm_clientgroupingid'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                url: Arup_GetClientURL() + "/api/data/v9.1/ccrm_clientgroupings?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'ccrm_clientgrouping'%3E%3Cattribute%20name%3D'ccrm_clientgroupingid'%20%2F%3E%3Cattribute%20name%3D'ccrm_name'%20%2F%3E%3Cattribute%20name%3D'createdon'%20%2F%3E%3Cattribute%20name%3D'ccrm_website'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientgroupingtype'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'ccrm_accounttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_relationshipstatus'%20%2F%3E%3Cattribute%20name%3D'ccrm_relationshipmanager'%20%2F%3E%3Cattribute%20name%3D'overriddencreatedon'%20%2F%3E%3Cattribute%20name%3D'ownerid'%20%2F%3E%3Cattribute%20name%3D'modifiedon'%20%2F%3E%3Cattribute%20name%3D'modifiedonbehalfby'%20%2F%3E%3Cattribute%20name%3D'modifiedby'%20%2F%3E%3Cattribute%20name%3D'ccrm_managedclient'%20%2F%3E%3Cattribute%20name%3D'ccrm_fieldofplay'%20%2F%3E%3Cattribute%20name%3D'ccrm_description'%20%2F%3E%3Cattribute%20name%3D'createdonbehalfby'%20%2F%3E%3Cattribute%20name%3D'createdby'%20%2F%3E%3Cattribute%20name%3D'ccrm_clienttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientgroupingnumber'%20%2F%3E%3Corder%20attribute%3D'ccrm_name'%20descending%3D'false'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'ccrm_clientgroupingid'%20operator%3D'eq'%20value%3D'" + clientGroupingId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
                 beforeSend: function (XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -306,77 +275,15 @@
                 //////debugger;
                 var result = oppty[0];
                 var basicProfile = {
-                    //accountId: result.accountid.value,
-                    //address_comosite: result.address1_composite != undefined ? result.address1_composite.value : "",
-                    //address1_City: result.address1_city != undefined ? result.address1_city.value : "",
-                    //address1_Line1: result.address1_line1 != undefined ? result.address1_line1.value : "",
-                    //address1_Line2: result.address1_line2 != undefined ? result.address1_line2.value : "",
-                    //address1_Line3: result.address1_line3 != undefined ? result.address1_line3.value : "",
-                    //address1_PostalCode: result.address1_postalcode != undefined ? result.address1_postalcode.value : "",
-                    ////ccrm_ClientSectorPicklistName: result.ClientSectors,
-                    //ccrm_ClientSectorValue: result.ClientSectors != undefined ? result.ClientSectors.value : "",
-                    //ccrm_ClientType: result.Clienttype != undefined ? result.Clienttype.formattedValue : "",
-                    //ccrm_keyaccountmanagerid: result.ccrm_keyaccountmanagerid != undefined ? result.ccrm_keyaccountmanagerid.id : "",
-                    //ccrm_keyaccountmanagername: result.ccrm_keyaccountmanagerid != undefined ? result.ccrm_keyaccountmanagerid.name : "",
-                    //ccrm_keyaccount: result.ccrm_keyaccount != undefined ? result.ccrm_keyaccount.value : false,
-                    //ccrm_managingteamid: result.ManagingTeam != undefined ? result.ManagingTeam.name : "",
-                    //description: result.description != undefined ? result.description.value : "",
                     name: result["ccrm_name"] != undefined ? result["ccrm_name"] : ""
-                    //parentAccountId: result.ParentOrganisation != undefined ? result.ParentOrganisation.name : "",
-                    ////primaryContactId: result.PrimaryContactId,
-                    ////stateCode: result.StateCode,
-                    //statusCode: result.status,
-                    //telephone1: result.telephone != undefined ? result.telephone.value : "",
-                    //webSiteURL: result.weburl != undefined ? result.weburl.value : "",
-                    //orgdepartment: result.orgdepartment != undefined ? result.orgdepartment.value : "",
-                    //orgopenopptys: result.orgopenopptys != undefined ? result.orgopenopptys.value : ""
                 };
                 AssociateProfileDataWithReport(basicProfile);
             }
         }
         function AssociateProfileDataWithReport(profileData) {
-            //////debugger;
-            //var address = '';
-            //if (profileData.address1_Line1 != null && profileData.address1_Line1.length > 0) {
-            //    address = address + profileData.address1_Line1.replace('\t', '').replace('\r', '').replace('\f', '') + " ";
-            //}
-            //if (profileData.address1_Line2 != null && profileData.address1_Line2.length > 0) {
-            //    address = address + profileData.address1_Line2.replace('\t', '').replace('\r', '').replace('\f', '') + " ";
-            //}
-            //if (profileData.address1_Line3 != null && profileData.address1_Line3.length > 0) {
-            //    address = address + profileData.address1_Line3.replace('\t', '').replace('\r', '').replace('\f', '') + " ";
-            //}
-            //if (profileData.address1_City != null && profileData.address1_City.length > 0) {
-            //    address = address + profileData.address1_City.replace('\t', '').replace('\r', '').replace('\f', '') + " ";
-            //    accTownCity = profileData.address1_City.replace('\t', '').replace('\r', '').replace('\f', '');
-            //}
-            //if (profileData.address1_PostalCode != null && profileData.address1_PostalCode.length > 0) {
-            //    address = address + profileData.address1_PostalCode.replace('\t', '').replace('\r', '').replace('\f', '');
-            //}
-            //if (profileData.orgdepartment != "") {
-            //    accDepartment = profileData.orgdepartment;
-            //}
-            //if (profileData.orgopenopptys != "") {
-            //    accOpenOpptys = profileData.orgopenopptys;
-            //}
-
             accName = profileData.name;
-            //isManagedClient = profileData.ccrm_keyaccount;
-            //relationshipManager = profileData.ccrm_keyaccountmanagerid;
-            //relationshipManagername = profileData.ccrm_keyaccountmanagername;
-
+            
             $("#accountName").text(profileData.name);
-            //$("#website").text(profileData.webSiteURL);
-            //$("#relationshipmanager").text(profileData.ccrm_keyaccountmanagername);
-            //if (profileData.parentAccountId != null) {
-            //    $("#parentOrg").text(profileData.parentAccountId);
-            //}
-            //$("#relationshipteam").text(profileData.ccrm_managingteamid);
-            //$("#phonenum").text(profileData.telephone1);
-            //$("#address").text(address);
-            //$("#clientType").text(profileData.ccrm_ClientType);
-            //$("#clientSector").text(profileData.ccrm_ClientSectorValue);
-            //$("#clientDesc").text(profileData.description);
         }
         function DrawTable(div, data, columns) {
             d3.select(div).selectAll("table").remove();
