@@ -132,11 +132,13 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         this.loadAvailableTags();
 
         this._container.innerHTML = "";
-        if (this._availableTags?.length > 0 || this._currentValues != "") {
+        if ( !( availableTags == "" && this._currentValues == "")) {
             this._containerBox.appendChild(this._innerContainer);
             this._container.appendChild(this._containerBox);
-            this._container.appendChild(this._spanElement);
-            this._container.appendChild(this._availableTagContainer);
+            if (availableTags != "" ) {
+                this._container.appendChild(this._spanElement);
+                this._container.appendChild(this._availableTagContainer);
+            }
         }
     }
 

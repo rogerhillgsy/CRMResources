@@ -15,19 +15,36 @@ ArupTags =  (
 
         const globalServices = "arup_globalservices";
         const tagTriggerField = "arup_tagstrigger";
+        const tagValueField = "arup_advisoryservicestags";
+        const tagTriggerFieldAttr = formContext.getAttribute(tagTriggerField);
+        const tagValueAttr = formContext.getAttribute(tagValueField);
+        const globalServicesAttr = formContext.getAttribute(globalServices);
+
+        function setTagFieldsVisibility(visiblity) {
+            tagTriggerFieldAttr.setVisible(visiblity);
+            tagValueAttr.setVisible(visiblity);
+        }
 
         function onGlobalServicesChange(executioncontext) {
             const formContext = executioncontext.getFormContext();
 
             // Dump a list of currently selected options into the trigger field.
-            const globalServicesAttr = formContext.getAttribute(globalServices);
-            const tagTriggerFieldAttr = formContext.getAttribute(tagTriggerField);
+            //const globalServicesAttr = formContext.getAttribute(globalServices);
+            //const tagTriggerFieldAttr = formContext.getAttribute(tagTriggerField);
+            //const tagValueAttr = formContext.getAttribute(tagValueField);
 
             const currentOptions = globalServicesAttr.getText();
             if (!!currentOptions) {
                 tagTriggerFieldAttr.setValue(currentOptions.join(";"));
             } else {
                 tagTriggerFieldAttr.setValue("");
+            }
+
+            var currentTagsValue = tagValueAttr.getValue();
+            if (!!currentOptions && currentTagsValue === "") {
+                setTagFieldsVisibility(false);
+            } else {
+                setTagFieldsVisibility(true);
             }
         }
 
