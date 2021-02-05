@@ -27,7 +27,7 @@ ArupTags =  (
             }
         }
 
-        function onGlobalServicesChange(executioncontext) {
+        function onGlobalServicesChange1(executioncontext) {
             const formContext = executioncontext.getFormContext();
 
             // Dump a list of currently selected options into the trigger field.
@@ -41,14 +41,26 @@ ArupTags =  (
             } else {
                 tagTriggerFieldAttr.setValue("");
             }
+            tagTriggerFieldAttr.fireOnChange();
 
             var currentTagsValue = tagValueAttr.getValue();
-            if ( !!currentOptions && currentOptions.contains("Advisory Services") || currentTagsValue !== "") {
+            if ( ( !!currentOptions && currentOptions.find( p => p === "Advisory Services")) || !!currentTagsValue ) {
                 setTagSectionVisibility(true, formContext);
             } else {
                 setTagSectionVisibility(false, formContext);
             }
         }
+
+        function onGlobalServicesChange(executioncontext) {
+            // Use a promise to defer execution of the value checking till after we have finished updating the control..
+            // Checking the value of a multiselect from within the onChange event is not reliable.
+            const p = new Promise((resolve, reject) => {
+                onGlobalServicesChange1(executioncontext);
+                resolve();
+            });
+            return true;
+        }
+
 
         function onGlobalServicesLoad(executioncontext) {
             const formContext = executioncontext.getFormContext();
