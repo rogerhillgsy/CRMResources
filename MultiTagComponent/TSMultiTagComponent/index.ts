@@ -1,5 +1,6 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-import { TagsFromPCFValuesStore } from "./TagsFromPCFValuesStore";
+// import { TagsFromPCFValuesStore } from "./TagsFromPCFValuesStore";
+import { TagsFromTagGroupDefinition } from "./tagsFromTagGroupsDefinition";
 import { TagValueSource } from "./TagValueSource";
 import { TestTagValues } from "./TestTagValues";
 
@@ -51,7 +52,7 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         if (context.mode.label == "TestLabel") {
             this._tagValueSource = new TestTagValues();
         } else {
-            this._tagValueSource = new TagsFromPCFValuesStore("opportunity");
+            this._tagValueSource = new TagsFromTagGroupDefinition("opportunity");
         }
 
         // Set current tag values
