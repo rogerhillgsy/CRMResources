@@ -15,23 +15,25 @@ ArupTags =  (
 
         const globalServices = "arup_globalservices";
         const tagTriggerField = "arup_tagstrigger";
-        const tagValueField = "arup_advisoryservicestags";
-        const tagTriggerFieldAttr = formContext.getAttribute(tagTriggerField);
-        const tagValueAttr = formContext.getAttribute(tagValueField);
-        const globalServicesAttr = formContext.getAttribute(globalServices);
+        const tagValueField = "arup_tags";
 
-        function setTagFieldsVisibility(visiblity) {
-            tagTriggerFieldAttr.setVisible(visiblity);
-            tagValueAttr.setVisible(visiblity);
+        function setTagSectionVisibility( visibility, formContext) {
+            const tab = formContext.ui.tabs.get("Pre-Bid_Tab");
+            if (!!tab) {
+                const tagSection = tab.sections.get("tabs_section");
+                if (!!tagSection) {
+                    tagSection.setVisible(visibility);
+                }
+            }
         }
 
         function onGlobalServicesChange(executioncontext) {
             const formContext = executioncontext.getFormContext();
 
             // Dump a list of currently selected options into the trigger field.
-            //const globalServicesAttr = formContext.getAttribute(globalServices);
-            //const tagTriggerFieldAttr = formContext.getAttribute(tagTriggerField);
-            //const tagValueAttr = formContext.getAttribute(tagValueField);
+            const globalServicesAttr = formContext.getAttribute(globalServices);
+            const tagTriggerFieldAttr = formContext.getAttribute(tagTriggerField);
+            const tagValueAttr = formContext.getAttribute(tagValueField);
 
             const currentOptions = globalServicesAttr.getText();
             if (!!currentOptions) {
@@ -41,10 +43,10 @@ ArupTags =  (
             }
 
             var currentTagsValue = tagValueAttr.getValue();
-            if (!!currentOptions && currentTagsValue === "") {
-                setTagFieldsVisibility(false);
+            if ( !!currentOptions && currentOptions.contains("Advisory Services") || currentTagsValue !== "") {
+                setTagSectionVisibility(true, formContext);
             } else {
-                setTagFieldsVisibility(true);
+                setTagSectionVisibility(false, formContext);
             }
         }
 
