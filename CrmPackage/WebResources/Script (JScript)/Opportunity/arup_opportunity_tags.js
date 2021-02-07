@@ -17,10 +17,15 @@ ArupTags =  (
         const tagTriggerField = "arup_tagstrigger";
         const tagValueField = "arup_tags";
 
-        function setTagSectionVisibility( visibility, formContext) {
-            const tab = formContext.ui.tabs.get("Pre-Bid_Tab");
+        function setTagSectionVisibility(visibility, formContext) {
+            setTagSectionVisibility1(visibility, formContext, "Pre-Bid_Tab","tags_section");
+            setTagSectionVisibility1(visibility, formContext, "Summary","tags_section1");
+        }
+
+        function setTagSectionVisibility1( visibility, formContext, tabName, sectionName) {
+            const tab = formContext.ui.tabs.get(tabName);
             if (!!tab) {
-                const tagSection = tab.sections.get("tabs_section");
+                const tagSection = tab.sections.get(sectionName);
                 if (!!tagSection) {
                     tagSection.setVisible(visibility);
                 }
@@ -53,14 +58,13 @@ ArupTags =  (
 
         function onGlobalServicesChange(executioncontext) {
             // Use a promise to defer execution of the value checking till after we have finished updating the control..
-            // Checking the value of a multiselect from within the onChange event is not reliable.
+            // Checking the value of a multiselect from within the onChange event is not reliablesetMi
             const p = new Promise((resolve, reject) => {
                 onGlobalServicesChange1(executioncontext);
                 resolve();
             });
             return true;
         }
-
 
         function onGlobalServicesLoad(executioncontext) {
             const formContext = executioncontext.getFormContext();
