@@ -665,7 +665,7 @@ function SetSGDMultiSelect(executionContext, fieldname) {
     var formContext = executionContext.getFormContext();
     if (fieldname == "" || fieldname == null) return;
     var selectedValues = formContext.getAttribute(fieldname).getValue();
-    if (selectedValues.length == 0) return;
+    if (selectedValues == null || selectedValues.length == 0) return;
     var notApplicable = selectedValues.includes(99);
 
     if (notApplicable) {
