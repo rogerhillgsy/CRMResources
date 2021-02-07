@@ -485,48 +485,13 @@ function calcuTotalForecast(executioncontext) {
     var coverageProCosts = formContext.getAttribute("arup_05coveragecostsprovisions").getValue();
     var otherProCosts = formContext.getAttribute("arup_06to98othercostsprovisions").getValue();
 
-    // set 01
-    if (liabilityProvision == null || liabilityProvision == 0) {
-        formContext.getAttribute("arup_01settlementremainingcosts").setValue(0);
-    } else {
-        formContext.getAttribute("arup_01settlementremainingcosts").setValue(liabilityProvision - settlementCost);
-    }
-
-    //set 02
-    if (budgetAllowance02 == null || budgetAllowance02 == 0) {
-        formContext.getAttribute("arup_02internalbusinessremainingcosts").setValue(0);
-    } else {
-        formContext.getAttribute("arup_02internalbusinessremainingcosts").setValue(budgetAllowance02 - internalCostBusiness);
-    }
-
-    //set 03	
-    if (budgetAllowance03 == null || budgetAllowance03 == 0) {
-        formContext.getAttribute("arup_03externallegalremainingcosts").setValue(0);
-    } else {
-        formContext.getAttribute("arup_03externallegalremainingcosts").setValue(budgetAllowance03 - externalCostLegal);
-    }
-
-    //set 04
-    if (budgetAllowance50 == null || budgetAllowance50 == 0) {
-        formContext.getAttribute("arup_04internalrecoverableremainingcosts").setValue(0);
-    } else {
-        formContext.getAttribute("arup_04internalrecoverableremainingcosts").setValue(budgetAllowance50 - externalCostOther);
-    }
-
-    //set 05
-    if (coverageProCosts == null || coverageProCosts == 0) {
-        formContext.getAttribute("arup_05coverageremainingcosts").setValue(0);
-    } else {
-        formContext.getAttribute("arup_05coverageremainingcosts").setValue(coverageProCosts - coverageCosts);
-    }
-
-    //set 06
-    if (otherProCosts == null || otherProCosts == 0) {
-        formContext.getAttribute("arup_06to98otherremainingcosts").setValue(0);
-    } else {
-        formContext.getAttribute("arup_06to98otherremainingcosts").setValue(otherProCosts - otherCosts);
-    }
-
+    formContext.getAttribute("arup_01settlementremainingcosts").setValue(liabilityProvision - settlementCost);
+    formContext.getAttribute("arup_02internalbusinessremainingcosts").setValue(budgetAllowance02 - internalCostBusiness);
+    formContext.getAttribute("arup_03externallegalremainingcosts").setValue(budgetAllowance03 - externalCostLegal);
+    formContext.getAttribute("arup_04internalrecoverableremainingcosts").setValue(budgetAllowance50 - externalCostOther);
+    formContext.getAttribute("arup_05coverageremainingcosts").setValue(coverageProCosts - coverageCosts);
+    formContext.getAttribute("arup_06to98otherremainingcosts").setValue(otherProCosts - otherCosts);
+    
     //set budget remaining 
     formContext.getAttribute("ccrm_totalforecast").setValue(totalBudget - result);
     formContext.getAttribute("ccrm_totalforecast").setSubmitMode("always");
