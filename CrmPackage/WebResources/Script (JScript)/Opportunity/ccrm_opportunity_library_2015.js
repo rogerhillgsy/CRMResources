@@ -5189,8 +5189,9 @@ function stageNotifications(formContext) {
         makeBidReviewApprovalFieldsReadonly(formContext);
         if (formContext.getAttribute("ccrm_bidreviewoutcome").getValue() != 100000002)
             showRibbonButton(formContext, 'ccrm_shwbidreviewappbtn', 1);
-        //setTimeout(function () { formContext.data.save(null); }, 2);
-        setCurrentApproversAsync(formContext);
+
+        if (formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) 
+            setCurrentApproversAsync(formContext);
     }
     if (stageid == ArupStages.CrossRegion) {
         formContext.data.process.removeOnStageChange(function () { StageChange_event(formContext) });
@@ -5245,6 +5246,10 @@ function stageNotifications(formContext) {
     FormNotificationForOpportunityType(formContext, formContext.getAttribute("arup_opportunitytype").getValue());
     restoreFieldVal(formContext, stageid);
     QualificationStatusNotification(formContext);
+    var isPJNApprovalStage = IsPJNApprovalStage(stageid);
+    if (stageid == ArupStages.CrossRegion || stageid == ArupStages.BidDevelopment || isPJNApprovalStage) {
+        setTimeout(function () { ResetReviewApprovalStatusIfQualificationStatus(formContext, isPJNApprovalStage); }, 1000);
+    }
 
     if (formContext.data.getIsDirty())
         formContext.data.save();
@@ -5255,6 +5260,8 @@ function stageNotifications(formContext) {
     } else {
         formContext.ui.clearFormNotification('userNotify');
     }
+
+   
 }
 
 //Move Previous Stage
@@ -5403,6 +5410,8 @@ function StageChange_event(formContext) {
                 })
             }
         }
+
+       
     }
 
     stageNotifications(formContext);
@@ -5430,6 +5439,27 @@ function StageChange_event(formContext) {
 
 function IsPJNApprovalStage(stageid) {
     return (stageid == ArupStages.PJNApproval || stageid == ArupStages.PJNApproval1 || stageid == ArupStages.PJNApproval2 || stageid == ArupStages.PJNApproval3 || stageid == ArupStages.PJNApproval4 || stageid == ArupStages.PJNApproval5 || stageid == ArupStages.PJNApproval6 || stageid == ArupStages.PJNApproval7 || stageid == ArupStages.PJNApproval8 || stageid == ArupStages.PJNApproval9);
+}
+
+function ResetReviewApprovalStatusIfQualificationStatus(formContext, isPJNApprovalStage) {
+    var reviewApprovalStatus = formContext.getAttribute("statuscode").getValue();
+   // var isPJNApprovalStage = IsPJNApprovalStage(stageid);
+    //if reviewapproval status is one of the qualification status past pre bid stage
+    if (reviewApprovalStatus == '770000005' || reviewApprovalStatus == '770000004' || reviewApprovalStatus == '770000003' || reviewApprovalStatus == '770000002') {
+        var pjn = formContext.getAttribute("ccrm_pjna").getValue();
+        if (pjn != null) {
+           // updateStatusCode(formContext, 200016);
+            formContext.getAttribute("statuscode").setValue(200016); //Revert to 'Decision to Proceed - Approved' as PJN is alrady present for given opportunity
+        } else if (pjn == null) {
+            if (isPJNApprovalStage)
+              //  updateStatusCode(formContext, 200014);
+                formContext.getAttribute("statuscode").setValue(200014); //Revert to 'Decision to Proceed - In Progress' as PJN is not present for given opportunity
+            else
+              // updateStatusCode(formContext, 200013);
+                formContext.getAttribute("statuscode").setValue(200013); //Revert to 'Pre-Bid' as PJN is not present for given opportunity
+        }
+        
+    }
 }
 
 function checkAccountingCentre(formContext) {
