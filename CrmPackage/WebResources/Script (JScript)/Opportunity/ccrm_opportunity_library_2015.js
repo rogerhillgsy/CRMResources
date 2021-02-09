@@ -5248,11 +5248,11 @@ function stageNotifications(formContext) {
     QualificationStatusNotification(formContext);
     var isPJNApprovalStage = IsPJNApprovalStage(stageid);
     if (stageid == ArupStages.CrossRegion || stageid == ArupStages.BidDevelopment || isPJNApprovalStage) {
-        setTimeout(function () { ResetReviewApprovalStatusIfQualificationStatus(formContext, isPJNApprovalStage); }, 1000);
+        ResetReviewApprovalStatusIfQualificationStatus(formContext, isPJNApprovalStage);
     }
 
     if (formContext.data.getIsDirty())
-        formContext.data.save();
+        setTimeout(function () { formContext.data.save(); }, 1000);
 
     var isBidSubmitted = formContext.getAttribute("arup_bidsubmissionoutcome").getValue();
     if (isBidSubmitted == 770000001 && stageid == ArupStages.BidReviewApproval && formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
@@ -5448,15 +5448,15 @@ function ResetReviewApprovalStatusIfQualificationStatus(formContext, isPJNApprov
     if (reviewApprovalStatus == '770000005' || reviewApprovalStatus == '770000004' || reviewApprovalStatus == '770000003' || reviewApprovalStatus == '770000002') {
         var pjn = formContext.getAttribute("ccrm_pjna").getValue();
         if (pjn != null) {
-           // updateStatusCode(formContext, 200016);
-            formContext.getAttribute("statuscode").setValue(200016); //Revert to 'Decision to Proceed - Approved' as PJN is alrady present for given opportunity
+            updateStatusCode(formContext, 200016);
+           // formContext.getAttribute("statuscode").setValue(200016); //Revert to 'Decision to Proceed - Approved' as PJN is alrady present for given opportunity
         } else if (pjn == null) {
             if (isPJNApprovalStage)
-              //  updateStatusCode(formContext, 200014);
-                formContext.getAttribute("statuscode").setValue(200014); //Revert to 'Decision to Proceed - In Progress' as PJN is not present for given opportunity
+               updateStatusCode(formContext, 200014);
+              //  formContext.getAttribute("statuscode").setValue(200014); //Revert to 'Decision to Proceed - In Progress' as PJN is not present for given opportunity
             else
-              // updateStatusCode(formContext, 200013);
-                formContext.getAttribute("statuscode").setValue(200013); //Revert to 'Pre-Bid' as PJN is not present for given opportunity
+              updateStatusCode(formContext, 200013);
+              //  formContext.getAttribute("statuscode").setValue(200013); //Revert to 'Pre-Bid' as PJN is not present for given opportunity
         }
         
     }
