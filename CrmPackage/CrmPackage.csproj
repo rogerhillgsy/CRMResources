@@ -1887,6 +1887,11 @@
       <UniqueName>arup_FrameworkButtons</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\msdyn_csp.html">
+      <DisplayName>msdyn_csp</DisplayName>
+      <UniqueName>new_msdyn_csp</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page (HTML)\arup_DuplicateCheckResult.html">
       <DisplayName>arup_DuplicateCheckResult</DisplayName>
       <UniqueName>arup_arup_DuplicateCheckResult</UniqueName>

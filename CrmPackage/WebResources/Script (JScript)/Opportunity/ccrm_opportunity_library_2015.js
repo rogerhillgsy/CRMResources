@@ -7913,7 +7913,7 @@ function ShowHideFrameworkFields(formContext, trigger) {
     else if (opptype == '770000003') {
         //  if (arupInternal && tab != null) { tab.setVisible(true); }
         formContext.getAttribute(existingFramework).setValue(0);
-        //formContext.getControl(existingFramework).setVisible(false);
+        formContext.getControl(existingFramework).setVisible(false);
         formContext.getControl(existingFramework).setDisabled(true);
         formContext.getAttribute(existingFramework).setRequiredLevel('required');
         formContext.getControl("ccrm_parentopportunityid").setDisabled(false);
