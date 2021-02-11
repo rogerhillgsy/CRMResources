@@ -433,7 +433,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'islabel': true
                 },
                 {
-                    'label': 'Approve Decision to Proceed',
+                    'label': 'Approve Decision to Bid',
                     'action': function () {
                         Log("Approving bid decision");
                         parent.Arup.BidDicisionConfirmation();
@@ -478,18 +478,19 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'isredbutton': false
                 },
                 {
+                    'label': function () { return GetLabelTextForPJN(); },
+                    'hidden': function () { return !parent.Arup.IsRequestPossibleJobEnabled(formContext); },
+                    'islabel': true
+                },
+                {
                     'label': 'Proceed to Bid Review Stage',
                     'action': function () {
                         Log("Move next stage");
                         MoveNext();
                     },
                     'isredbutton': true
-                },
-                {
-                    'label': function () { return GetLabelTextForPJN(); },
-                    'hidden': function () { return !parent.Arup.IsRequestPossibleJobEnabled(formContext); },
-                    'islabel': true
                 }
+                
             ],
             'Bid_Review_Submission_tab': [
                 {

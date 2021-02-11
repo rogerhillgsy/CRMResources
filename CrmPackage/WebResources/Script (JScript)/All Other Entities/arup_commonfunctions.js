@@ -3,8 +3,10 @@
     if (tabControl != null) {
         formContext.ui.controls.forEach(
             function (control, index) {
-                if (control.getParent().getParent() == tabControl && control.getControlType() != "subgrid") {
-                    control.setDisabled(true);
+                if (control != null && control.getParent() != null && control.getParent().getParent() != null) {
+                    if (control.getParent().getParent() == tabControl && control.getControlType() != "subgrid") {
+                        control.setDisabled(true);
+                    }
                 }
             });
     }

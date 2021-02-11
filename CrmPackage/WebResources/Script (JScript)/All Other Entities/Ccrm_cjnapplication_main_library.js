@@ -148,6 +148,26 @@ function Form_onsave(executionObj) {
         };
         req.send(JSON.stringify(entity));
     }
+
+
+    if (formContext.getAttribute("arup_opportunitytype").getValue() == 770000003) {
+        DisplayFrameworkPopUp();
+    }
+
+
+}
+
+function DisplayFrameworkPopUp() {
+    Alert.show('<font size="6" color="#2E74B5"><b>Framework Record Created</b></font>',
+        '<font size="3" color="#000000"></br>' + 'A Framework record will be created using information from this opportunity once the confirmed job number approvals process has been completed.  It can be accessed from the Frameworks/Panels link at the side of the CRM screen.  Please ensure that the record is filled in as soon as possible, and before any opportunity is taken out for work under the framework. </br></br>This opportunity will be kept open so that the fee value and Arup Project End Date(the end date of the framework) can be updated as per regional guidelines.</br></br>Click on ‘OK’ to begin the confirmed job number approvals process.' + '</font>',
+        [
+            {
+                label: "<b>OK</b>",
+                setFocus: true
+            },
+        ], "INFO", 600, 450, '', true);
+
+    return;
 }
 
 // SET AvailableSuffixes URL

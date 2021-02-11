@@ -71,8 +71,10 @@ function CloseOpportunity(formContext, statusCode, isCloseFramework) {
                     Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
                         function success(returnValue) {
                             OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
-                            if (isFrameworkOpty && statusCode == "won")
-                                formContext.ui.tabs.get("Summary").setFocus();
+                            if (isFrameworkOpty && statusCode == "won") {
+                                DisplayFrameworkPopUp();
+                              //  formContext.ui.tabs.get("Summary").setFocus();
+                            }
 
                             formContext.ui.clearFormNotification('userNotify');
                         },
@@ -86,6 +88,18 @@ function CloseOpportunity(formContext, statusCode, isCloseFramework) {
         function (status) {
             console.log("failure status " + status.message);
         });
+}
+function DisplayFrameworkPopUp() {
+    Alert.show('<font size="6" color="#2E74B5"><b>Framework Record Created</b></font>',
+        '<font size="3" color="#000000"></br>' + 'A Framework record has been created using information from this opportunity.  It can be accessed from the Frameworks/Panels link at the side of the CRM screen.  Please ensure that the record is completed as soon as possible, before any opportunity is taken out for work under the framework. </br></br>This opportunity will be kept open so that the fee value and Arup Project End Date(the end date of the framework) can be updated as per regional guidelines.' + '</font>',
+        [
+            {
+                label: "<b>OK</b>",
+                setFocus: true
+            },
+        ], "INFO", 600, 350, '', true);
+
+    return;
 }
 
 function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInternal,isCloseFrameWork) {
@@ -665,7 +679,7 @@ function SetSGDMultiSelect(executionContext, fieldname) {
     var formContext = executionContext.getFormContext();
     if (fieldname == "" || fieldname == null) return;
     var selectedValues = formContext.getAttribute(fieldname).getValue();
-    if (selectedValues.length == 0) return;
+    if (selectedValues == null || selectedValues.length == 0) return;
     var notApplicable = selectedValues.includes(99);
 
     if (notApplicable) {

@@ -2,14 +2,14 @@ import { IInputs } from "./generated/ManifestTypes";
 import { TagValueSource } from "./TagValueSource";
 
 /**
- * Get tag values from the arup_pcfstore entity.
+ * Get tag values from the arup_taggroupdefinition entity.
  * The tag values available are based on the entity (opportunity), the tag value field (arup_advisoryservicestags) and the contents of the DependentField (arup_tagstrigger)
  */
-export class TagsFromPCFValuesStore implements TagValueSource {
+export class TagsFromTagGroupDefinition implements TagValueSource {
     private _availableTagValues: string = "";
     private _currentDependentFieldValue = "";
     private readonly _pcfDependentEntity: string;
-    private readonly _pcfValueStoreEntity = "arup_pcfvaluesstore";
+    private readonly _pcfValueStoreEntity = "arup_taggroupdefinition";
     constructor(entityName: string) {
         this._pcfDependentEntity = entityName;
     }
@@ -39,15 +39,15 @@ export class TagsFromPCFValuesStore implements TagValueSource {
                     let pcfDependentEntity = this._pcfDependentEntity;
                     let pcfDependentFieldName = context.parameters.TagValue.attributes?.LogicalName;
                     let dependentFieldValueFilter = this._currentDependentFieldValue.split(';').
-                        map(function (val: string) { return "arup_pcfdependentfieldvalue eq '" + encodeURIComponent(val) + "'"; }).
+                        map(function (val: string) { return "arup_taggroupname eq '" + encodeURIComponent(val) + "'"; }).
                         join(" or ");
 
-                    let queryString: string = "?$select=arup_pcfvalues&$filter=arup_dependententity eq '" + pcfDependentEntity + "' and arup_name eq '" + pcfDependentFieldName + "' and (" + dependentFieldValueFilter + ") and statecode eq 0";
+                    let queryString: string = "?$select=arup_taglist&$filter=arup_targetentity eq '" + pcfDependentEntity + "' and arup_targetfield eq '" + pcfDependentFieldName + "' and (" + dependentFieldValueFilter + ") and statecode eq 0";
 
                     context.webAPI.retrieveMultipleRecords(this._pcfValueStoreEntity, queryString).then(
                         (response) => {
                             // TODO: dedupe the list of tags.
-                            this._availableTagValues = response.entities.map(function (v) { return v.arup_pcfvalues; }).join(";");
+                            this._availableTagValues = response.entities.map(function (v) { return v.arup_taglist; }).join(";");
                             resolve(this._availableTagValues);
                         },
                         function (errorResponse: any) {
