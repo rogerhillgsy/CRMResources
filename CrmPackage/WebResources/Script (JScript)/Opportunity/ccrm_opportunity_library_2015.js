@@ -149,7 +149,10 @@ function exitForm(formContext) {
                             }
                         }
                     }
-                    if (cansave) { formContext.data.save("saveandclose"); }
+                    if (cansave) {
+                        formContext.data.save("saveandclose");
+                        setTimeout(function () { formContext.ui.close(); }, 2000);
+                    }
                 },
                 setFocus: true,
                 preventClose: false
@@ -722,7 +725,7 @@ function FormOnload(executionContext) {
 
 
 
-        FrameworkWinNotification(formContext);
+       // FrameworkWinNotification(formContext);
         /*if (formContext.ui.getFormType() != 1) {
             if (formContext.getAttribute("ccrm_confidentialoptionset").getValue() == 2) {
                 setPrintPreviewURL(formContext);

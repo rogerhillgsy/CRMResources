@@ -71,7 +71,7 @@ function CloseOpportunity(formContext, statusCode, isCloseFramework) {
                     Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
                         function success(returnValue) {
                             OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
-                            if (isFrameworkOpty && statusCode == "won") {
+                            if (isFrameworkOpty && statusCode == "won" && parent.buttonEvent == 'UpdateFrameworkWon') {
                                 DisplayFrameworkPopUp();
                               //  formContext.ui.tabs.get("Summary").setFocus();
                             }
