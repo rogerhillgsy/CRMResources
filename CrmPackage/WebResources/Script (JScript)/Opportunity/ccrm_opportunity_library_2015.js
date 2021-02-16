@@ -4812,7 +4812,7 @@ function name_onchange(executionContext) {
     if (formContext.getAttribute("name").getValue() != null) {
         var x = formContext.getAttribute("name").getValue();
         var y = x.replace(/;/g, ' ');
-        if (formContext.getAttribute("ccrm_shorttitle").getValue() == null) {
+        if (formContext.ui.getFormType() == 1) {
             setShortTitle(formContext, y);
         }
     }
