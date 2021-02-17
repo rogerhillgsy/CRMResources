@@ -6165,25 +6165,41 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
 
 
                             if (approvalType == 'FinanceApproval') {
-                                // Action to be called when the 
-                                var approvalCompleteAction = function () {
-                                    pollForChangeAsync(formContext,
-                                        "statecode",
-                                        function isWon(statecode) {
-                                            console.log("isWon - statecode is " + statecode);
-                                            return !!statecode && statecode != OPPORTUNITY_STATE.OPEN;
-                                        },
-                                        function reloadForm() {
-                                            console.log("Inside reloadForm ");
-                                            OpenForm(formContext.data.entity.getEntityName(),
-                                                formContext.data.entity.getId());
-                                        });
-                                }
+                           
                                 //if opportunitytype is 'New Framework/Panel/Call-Off' then do not close the opportunity
-                                if (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003')
-                                    approveCallbackAction(formContext, approvalType);
-                                else
+                                if (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') {
+                                    var FrameworkapprovalCompleteAction = function () {
+                                        pollForChangeAsync(formContext,
+                                            "arup_frameworkwon",
+                                            function isFrameworkWon(arup_frameworkwon) {
+                                                console.log("isFrameworkWon - arup_frameworkwon is " + arup_frameworkwon);
+                                                return arup_frameworkwon == 1;
+                                            },
+                                            function reloadForm() {
+                                                console.log("Inside reloadForm ");
+                                                OpenForm(formContext.data.entity.getEntityName(),
+                                                    formContext.data.entity.getId());
+                                            });
+                                    }
+                                    approveCallbackAction(formContext, approvalType, FrameworkapprovalCompleteAction);
+                                }
+                                else {
+                                    // Action to be called when the 
+                                    var approvalCompleteAction = function () {
+                                        pollForChangeAsync(formContext,
+                                            "statecode",
+                                            function isWon(statecode) {
+                                                console.log("isWon - statecode is " + statecode);
+                                                return !!statecode && statecode != OPPORTUNITY_STATE.OPEN;
+                                            },
+                                            function reloadForm() {
+                                                console.log("Inside reloadForm ");
+                                                OpenForm(formContext.data.entity.getEntityName(),
+                                                    formContext.data.entity.getId());
+                                            });
+                                    }
                                     approveCallbackAction(formContext, approvalType, approvalCompleteAction);
+                                }
 
                                 formContext.getAttribute(statusField).fireOnChange();
                                 formContext.ui.clearFormNotification('CurrentApprovers');

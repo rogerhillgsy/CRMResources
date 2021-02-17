@@ -72,8 +72,7 @@ function CloseOpportunity(formContext, statusCode, isCloseFramework) {
                         function success(returnValue) {
                             OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
                             if (isFrameworkOpty && statusCode == "won" && parent.buttonEvent == 'UpdateFrameworkWon') {
-                                DisplayFrameworkPopUp();
-                              //  formContext.ui.tabs.get("Summary").setFocus();
+                                DisplayFrameworkPopUp();                                
                             }
 
                             formContext.ui.clearFormNotification('userNotify');
