@@ -7334,11 +7334,11 @@ function PullParentOpportunityDetailsForDiffOpportunityType(formContext, parentO
 
             var req = new XMLHttpRequest();
             if (opportunitytype == '770000002') {
-                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_location,_ccrm_projectlocationid_value,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
+                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_location,_ccrm_projectlocationid_value,_arup_framework_value,arup_opportunitytype,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
             } else if (opportunitytype == '770000006') {
                 req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arups_role_in_project,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_contractarrangement,ccrm_location,_ccrm_projectlocationid_value,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
             } else if (opportunitytype == '770000001') {
-                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arups_role_in_project,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_contractarrangement,ccrm_contractconditions,ccrm_contractlimitofliability,ccrm_limitamount_num,ccrm_limitofliabilityagreement,ccrm_location,_ccrm_pi_transactioncurrencyid_value,ccrm_pilevelmoney_num,ccrm_pirequirement,_ccrm_projectlocationid_value,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
+                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arups_role_in_project,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_contractarrangement,ccrm_contractconditions,ccrm_contractlimitofliability,ccrm_limitamount_num,ccrm_limitofliabilityagreement,ccrm_location,_ccrm_pi_transactioncurrencyid_value,ccrm_pilevelmoney_num,ccrm_pirequirement,_ccrm_projectlocationid_value,_arup_framework_value,arup_opportunitytype,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
             }
 
             req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -7359,6 +7359,9 @@ function PullParentOpportunityDetailsForDiffOpportunityType(formContext, parentO
             };
             req.send();
         }
+
+        if (opportunitytype == '770000002' && formContext.ui.getFormType() != 1)
+            VerifyParentOpportunity(formContext); // This function is called to update CRM Framework Record from Parent if applicable.
     }
 }
 
@@ -7366,7 +7369,7 @@ function PullDetailsFromParentOpportunity(formContext, parentOpportunity, event)
     if (parentOpportunity != null && parentOpportunity != "undefined") {
         var parentOpportunityId = parentOpportunity[0].id.replace('{', '').replace('}', '');
         var req = new XMLHttpRequest();
-        req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_contractarrangement,ccrm_leadsource,ccrm_location,ccrm_probabilityofprojectproceeding,_ccrm_projectlocationid_value,_ccrm_ultimateendclientid_value,closeprobability", true);
+        req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_contractarrangement,ccrm_leadsource,ccrm_location,ccrm_probabilityofprojectproceeding,_ccrm_projectlocationid_value,_ccrm_ultimateendclientid_value,closeprobability,_arup_framework_value,arup_opportunitytype", true);
         req.setRequestHeader("OData-MaxVersion", "4.0");
         req.setRequestHeader("OData-Version", "4.0");
         req.setRequestHeader("Accept", "application/json");
@@ -7537,6 +7540,7 @@ function UpdateDetailsFromParentOpportunity(formContext, result, event) {
     }
     UpdateFieldFromParentOpportunity(formContext, "ccrm_ultimateendclientid", result["_ccrm_ultimateendclientid_value"], result["_ccrm_ultimateendclientid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_ultimateendclientid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
 
+
     setTimeout(function () {
         UpdateFieldFromParentOpportunity(formContext, "ccrm_arupusstateid", result["_ccrm_arupusstateid_value"], result["_ccrm_arupusstateid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupusstateid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
         // UpdateFieldFromParentOpportunity(formContext,"ccrm_arupcompanyid", result["_ccrm_arupcompanyid_value"], result["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupcompanyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
@@ -7611,6 +7615,13 @@ function AssignBasicDetailsFromParentOpportunity(formContext, results) {
     AssignFieldValueFromParent(formContext, "ccrm_arupuniversityiiaresearchinitiative", results.value[0]["ccrm_arupuniversityiiaresearchinitiative"]);
     AssignFieldValueFromParent(formContext, "description", results.value[0]["description"]);
 }
+function UpdateCRMFrameworkRecord(formContext, parentOpportunity_OpportunityType, parentOpportunityCRMFrameworkId, parentOpportunityCRMFrameworkName,entityName) {
+    if (parentOpportunity_OpportunityType == '770000004') {
+            AssignFieldValueFromParent(formContext, "arup_framework", parentOpportunityCRMFrameworkId, parentOpportunityCRMFrameworkName, entityName);
+    } else {
+            formContext.getAttribute("arup_framework").setValue(null);
+    }
+}
 
 function AssignDetailsWhenOpportunityTypeNewContract(formContext, results) {
 
@@ -7619,9 +7630,14 @@ function AssignDetailsWhenOpportunityTypeNewContract(formContext, results) {
     if (procurementType != null && procurementType != 100000003) {
         AssignFieldValueFromParent(formContext, "ccrm_client", results.value[0]["_ccrm_client_value"], results.value[0]["_ccrm_client_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_client_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
     }
+
+    UpdateCRMFrameworkRecord(formContext, results.value[0]["arup_opportunitytype"], results.value[0]["_arup_framework_value"], results.value[0]["_arup_framework_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_arup_framework_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+
 }
 
 function AssignDetailsWhenOpportunityTypeExistingContract(formContext, results) {
+
+    UpdateCRMFrameworkRecord(formContext, results.value[0]["arup_opportunitytype"], results.value[0]["_arup_framework_value"], results.value[0]["_arup_framework_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_arup_framework_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
 
     if (formContext.ui.getFormType() != 1 && results.value[0]["ccrm_contractarrangement"] != null) {
         formContext.getAttribute("ccrm_contractarrangement").setValue(results.value[0]["ccrm_contractarrangement"]);
@@ -7796,13 +7812,17 @@ function VerifyParentOpportunity_ec(executionContext) {
 function VerifyParentOpportunity(formContext) {
 
     var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue();
-    if (opportunitytype == '770000001') {
+    if (opportunitytype == '770000001' || opportunitytype == '770000002') {
         var parentOpportunity = formContext.getAttribute("ccrm_parentopportunityid").getValue();
         if (parentOpportunity != null && parentOpportunity != "undefined") {
             var parentOpportunityId = parentOpportunity[0].id.replace('{', '').replace('}', '');
 
             var req = new XMLHttpRequest();
-            req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=statecode,ccrm_contractarrangement", true);
+            if (opportunitytype == '770000001')
+                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=statecode,ccrm_contractarrangement,_arup_framework_value,arup_opportunitytype", true);
+            else if (opportunitytype == '770000002') 
+                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=_arup_framework_value,arup_opportunitytype", true);
+            
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -7813,6 +7833,8 @@ function VerifyParentOpportunity(formContext) {
                     req.onreadystatechange = null;
                     if (this.status === 200) {
                         var result = JSON.parse(this.response);
+                        if (!formContext.getAttribute("ccrm_arupinternal").getValue())
+                            UpdateCRMFrameworkRecord(formContext, result["arup_opportunitytype"], result["_arup_framework_value"], result["_arup_framework_value@OData.Community.Display.V1.FormattedValue"], result["_arup_framework_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
 
                         if (opportunitytype == '770000001') {
 
@@ -7821,7 +7843,7 @@ function VerifyParentOpportunity(formContext) {
                             else
                                 formContext.getAttribute("ccrm_contractarrangement").setValue(result["ccrm_contractarrangement"])
 
-                        }
+                        } 
                     } else {
                         Xrm.Navigation.openAlertDialog(this.statusText);
                     }
