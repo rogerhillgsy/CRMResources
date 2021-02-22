@@ -24,6 +24,7 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
     private _dependentField: any;
     private _dependentFieldValue: string;
 	private _notifyOutputChanged: () => void;
+    private _isLocked: boolean;
     //private _popUpService: ComponentFramework.FactoryApi.Popup.PopupService;
     private _availableTagContainer: HTMLDivElement;
 	//private _entity: ComponentFramework.EntityReference;
@@ -48,6 +49,9 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         this._container = container;
         this._notifyOutputChanged = notifyOutputChanged;
 
+        // Is the control locked/readonly?
+        this._isLocked = context.mode.isControlDisabled
+
         // Get current tag list
         if (context.mode.label == "TestLabel") {
             this._tagValueSource = new TestTagValues();
@@ -58,18 +62,6 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         // Set current tag values
         let currentValues: string = context.parameters.TagValue.raw ? context.parameters.TagValue.raw : "";
         this.setCurrentTagValues(currentValues);
-
-        // May not be necessary as updateView seems to be called immediately after init.
-        // // Get available tag values
-        // this._tagValueSource.getAvailableTagValues(context).then(
-        //     // Resolve
-        //     this.displayTags.bind(this),
-        //     // Reject
-        //     (error: string) => {
-        //         console.log(`Error getting available tag values: ${error}`)
-        //     }
-        // );
-        
     }
 
     	/**
@@ -136,7 +128,7 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         if ( !( availableTags == "" && this._currentValues == "")) {
             this._containerBox.appendChild(this._innerContainer);
             this._container.appendChild(this._containerBox);
-            if (availableTags != "" ) {
+            if (availableTags != "" && ! this._isLocked ) {
                 this._container.appendChild(this._spanElement);
                 this._container.appendChild(this._availableTagContainer);
             }
@@ -154,7 +146,10 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         this._spanElement.innerHTML = "Choose available tags below - ";
         this._availableTagContainer = document.createElement("div");
         this._availableTagContainer.setAttribute("class", "innerDiv");
-        this._availableTagContainer.classList.add("displayBlock", "availableTagContainer");
+        this._availableTagContainer.classList.add(
+          "displayBlock",
+          "availableTagContainer"
+        );
 
         if (!this._currentValues) {
             this._taggedValues = [];
@@ -174,8 +169,10 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
             this._tagContent = document.createElement("div");
             this._tagContent.innerHTML = this._taggedValues[i];
             this._tagClose = document.createElement("a");
-            this._tagClose.innerHTML = "X";
-            this._tagClose.addEventListener("click", this.onClickOfClose.bind(this));
+            if (!this._isLocked) {
+               this._tagClose.innerHTML = "X";
+                this._tagClose.addEventListener("click", this.onClickOfClose.bind(this));
+            }
             this._tagClose.setAttribute("class", "closeTag");
             this._tagElement.append(this._tagContent);
             this._tagElement.appendChild(this._tagClose);
