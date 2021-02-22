@@ -168,14 +168,14 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
             this._tagElement.setAttribute("class", "customTag selectedTag");
             this._tagContent = document.createElement("div");
             this._tagContent.innerHTML = this._taggedValues[i];
-            this._tagClose = document.createElement("a");
             if (!this._isLocked) {
-               this._tagClose.innerHTML = "X";
+                this._tagClose = document.createElement("a");
+                this._tagClose.innerHTML = "X";
                 this._tagClose.addEventListener("click", this.onClickOfClose.bind(this));
+                this._tagClose.setAttribute("class", "closeTag");
+                this._tagElement.appendChild(this._tagClose);
             }
-            this._tagClose.setAttribute("class", "closeTag");
             this._tagElement.append(this._tagContent);
-            this._tagElement.appendChild(this._tagClose);
             this._innerContainer.appendChild(this._tagElement);
         }
 	}
