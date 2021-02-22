@@ -688,7 +688,7 @@ function SetSGDMultiSelect(executionContext, fieldname) {
             var removeValues = [99];
             updatedValues = RemoveFromArray(selectedValues, removeValues);
             formContext.getAttribute(fieldname).setValue(updatedValues);
-            formContext.ui.setFormNotification('"None of Above" option is removed from the selected ' + fieldname + ' list. To select "None of the Above" value, please remove all other options.', 'INFO', '3');
+            formContext.ui.setFormNotification('"None of Above" option is removed from the selected ' + fieldname + ' list. To select "None of the Above" option, please remove all other options.', 'INFO', '3');
         } else {
             formContext.getAttribute(fieldname).setValue([99]);
         }

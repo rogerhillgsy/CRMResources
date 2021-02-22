@@ -8203,7 +8203,7 @@ function SetMultiSelect(formContext) {
             var removeValues = [770000000];
             updatedValues = RemoveFromArray(selectedValues, removeValues);
             formContext.getAttribute("arup_globalservices").setValue(updatedValues);
-            formContext.ui.setFormNotification('"Not Applicable" option is removed from the selected Global Services list.', 'INFO', '3');
+            formContext.ui.setFormNotification('"Not Applicable" option is removed from the selected Global Services list. To select "Not Applicable" option, please remove all other options.', 'INFO', '3');
 
             //formContext.ui.setFormNotification('You have selected "Not Applicable" option for Global Services. This will not allow you to add more options.', 'WARNING', '3');
             setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
