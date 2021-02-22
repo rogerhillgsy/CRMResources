@@ -8199,12 +8199,19 @@ function SetMultiSelect(formContext) {
 
     if (notApplicable) {
         if (selectedValues.length > 1) {
-            formContext.ui.setFormNotification('You have selected "Not Applicable" option for Global Services. This will not allow you to add more options.', 'WARNING', '3');
+
+            var removeValues = [770000000];
+            updatedValues = RemoveFromArray(selectedValues, removeValues);
+            formContext.getAttribute("arup_globalservices").setValue(updatedValues);
+            formContext.ui.setFormNotification('"Not Applicable" option is removed from the selected Global Services list.', 'INFO', '3');
+
+            //formContext.ui.setFormNotification('You have selected "Not Applicable" option for Global Services. This will not allow you to add more options.', 'WARNING', '3');
             setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
             formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
             formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
+        } else {
+            formContext.getAttribute("arup_globalservices").setValue([770000000]);
         }
-        formContext.getAttribute("arup_globalservices").setValue([770000000]);
         return;
     }
 

@@ -685,12 +685,29 @@ function SetSGDMultiSelect(executionContext, fieldname) {
 
     if (notApplicable) {
         if (selectedValues.length > 1) {
-            formContext.ui.setFormNotification('You have selected "None of Above" option for ' + fieldname + '. This will not allow you to add more options.', 'WARNING', '3');
+            var removeValues = [99];
+            updatedValues = RemoveFromArray(selectedValues, removeValues);
+            formContext.getAttribute(fieldname).setValue(updatedValues);
+            formContext.ui.setFormNotification('"None of Above" option is removed from the selected ' + fieldname + ' list. To select "None of the Above" value, please remove all other options.', 'INFO', '3');
+        } else {
+            formContext.getAttribute(fieldname).setValue([99]);
         }
         setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
-        formContext.getAttribute(fieldname).setValue([99]);
+        return;
     }
-    return;
+}
+
+function RemoveFromArray(existingValues, removeValues) {
+    if (existingValues === null || Array.isArray(existingValues) === false) {
+        return removeValues;
+    }
+    if (removeValues === null || Array.isArray(removeValues) === false) {
+        return existingValues;
+    }
+
+    return existingValues.filter(function (value, index) {
+        return removeValues.indexOf(value) == -1;
+    })
 }
 
 function QualificationStatus_OnChange_ec(executionContext) {
