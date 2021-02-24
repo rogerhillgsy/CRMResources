@@ -485,8 +485,8 @@ function FormOnload(executionContext) {
                 setDefaultClientUnassigned(formContext);
             }
 
-            formContext.getAttribute("ccrm_accountingcentreid").setRequiredLevel('recommended');
-            formContext.getAttribute("ccrm_arupcompanyid").setRequiredLevel('recommended');
+            //formContext.getAttribute("ccrm_accountingcentreid").setRequiredLevel('recommended');
+            //formContext.getAttribute("ccrm_arupcompanyid").setRequiredLevel('recommended');
             SetLookupField(formContext, currUserData.arupcompanyid,
                 currUserData.arupcompanyname,
                 'ccrm_arupcompany',
@@ -7617,9 +7617,11 @@ function AssignBasicDetailsFromParentOpportunity(formContext, results) {
 }
 function UpdateCRMFrameworkRecord(formContext, parentOpportunity_OpportunityType, parentOpportunityCRMFrameworkId, parentOpportunityCRMFrameworkName,entityName) {
     if (parentOpportunity_OpportunityType == '770000004') {
-            AssignFieldValueFromParent(formContext, "arup_framework", parentOpportunityCRMFrameworkId, parentOpportunityCRMFrameworkName, entityName);
+        AssignFieldValueFromParent(formContext, "arup_framework", parentOpportunityCRMFrameworkId, parentOpportunityCRMFrameworkName, entityName);
+        formContext.getControl("arup_framework").setVisible(true);
     } else {
-            formContext.getAttribute("arup_framework").setValue(null);
+        formContext.getAttribute("arup_framework").setValue(null);
+        formContext.getControl("arup_framework").setVisible(false);
     }
 }
 
@@ -7781,6 +7783,11 @@ function AddParentOpportunityFilter(formContext) {
                     "<condition attribute='statecode' operator='eq' value='0' />" +
                     "</filter>";
             }
+            break;
+        case 770000004: /* Project under existing Framework/Panel/Call-Off */
+            fetch = "<filter type='and'>" +
+                "<condition attribute='arup_opportunitytype' operator='eq' value='770000003' />" +
+            "</filter>";
             break;
         case 770000006:
             fetch = "<filter type='and'>" +
@@ -7944,7 +7951,7 @@ function ShowHideFrameworkFields(formContext, trigger) {
         //   if (arupInternal && tab != null) { tab.setVisible(true); }
         formContext.getControl(existingFramework).setVisible(false);
         //formContext.getControl(existingFramework).setDisabled(true);
-        formContext.getControl("ccrm_parentopportunityid").setDisabled(true);
+       // formContext.getControl("ccrm_parentopportunityid").setDisabled(true);
         formContext.getControl(frameworkAgreement).setVisible(false);
         formContext.getAttribute(frameworkAgreement).setRequiredLevel("none");
         formContext.getAttribute(existingFramework).setRequiredLevel('required');
