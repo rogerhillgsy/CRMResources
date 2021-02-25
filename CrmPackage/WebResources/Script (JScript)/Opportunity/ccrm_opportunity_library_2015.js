@@ -725,7 +725,7 @@ function FormOnload(executionContext) {
 
 
 
-       // FrameworkWinNotification(formContext);
+        // FrameworkWinNotification(formContext);
         /*if (formContext.ui.getFormType() != 1) {
             if (formContext.getAttribute("ccrm_confidentialoptionset").getValue() == 2) {
                 setPrintPreviewURL(formContext);
@@ -2749,7 +2749,7 @@ function setDefaultQualificationStatus(formContext) {
             var decisionTakenBy = formContext.getAttribute("arup_decisiontakenby").getValue();
             if (decisionToQualify && decisionTakenBy != null)
                 formContext.getAttribute("arup_qualificationstatus").setValue(770000005)
-        }               
+        }
     }
 }
 
@@ -5193,7 +5193,7 @@ function stageNotifications(formContext) {
         if (formContext.getAttribute("ccrm_bidreviewoutcome").getValue() != 100000002)
             showRibbonButton(formContext, 'ccrm_shwbidreviewappbtn', 1);
 
-        if (formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) 
+        if (formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN)
             setCurrentApproversAsync(formContext);
     }
     if (stageid == ArupStages.CrossRegion) {
@@ -5264,7 +5264,7 @@ function stageNotifications(formContext) {
         formContext.ui.clearFormNotification('userNotify');
     }
 
-   
+
 }
 
 //Move Previous Stage
@@ -5414,7 +5414,7 @@ function StageChange_event(formContext) {
             }
         }
 
-       
+
     }
 
     stageNotifications(formContext);
@@ -5446,22 +5446,22 @@ function IsPJNApprovalStage(stageid) {
 
 function ResetReviewApprovalStatusIfQualificationStatus(formContext, isPJNApprovalStage) {
     var reviewApprovalStatus = formContext.getAttribute("statuscode").getValue();
-   // var isPJNApprovalStage = IsPJNApprovalStage(stageid);
+    // var isPJNApprovalStage = IsPJNApprovalStage(stageid);
     //if reviewapproval status is one of the qualification status past pre bid stage
     if (reviewApprovalStatus == '770000005' || reviewApprovalStatus == '770000004' || reviewApprovalStatus == '770000003' || reviewApprovalStatus == '770000002') {
         var pjn = formContext.getAttribute("ccrm_pjna").getValue();
         if (pjn != null) {
             updateStatusCode(formContext, 200016);
-           // formContext.getAttribute("statuscode").setValue(200016); //Revert to 'Decision to Proceed - Approved' as PJN is alrady present for given opportunity
+            // formContext.getAttribute("statuscode").setValue(200016); //Revert to 'Decision to Proceed - Approved' as PJN is alrady present for given opportunity
         } else if (pjn == null) {
             if (isPJNApprovalStage)
-               updateStatusCode(formContext, 200014);
-              //  formContext.getAttribute("statuscode").setValue(200014); //Revert to 'Decision to Proceed - In Progress' as PJN is not present for given opportunity
+                updateStatusCode(formContext, 200014);
+            //  formContext.getAttribute("statuscode").setValue(200014); //Revert to 'Decision to Proceed - In Progress' as PJN is not present for given opportunity
             else
-              updateStatusCode(formContext, 200013);
-              //  formContext.getAttribute("statuscode").setValue(200013); //Revert to 'Pre-Bid' as PJN is not present for given opportunity
+                updateStatusCode(formContext, 200013);
+            //  formContext.getAttribute("statuscode").setValue(200013); //Revert to 'Pre-Bid' as PJN is not present for given opportunity
         }
-        
+
     }
 }
 
@@ -6165,7 +6165,7 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
 
 
                             if (approvalType == 'FinanceApproval') {
-                           
+
                                 //if opportunitytype is 'New Framework/Panel/Call-Off' then do not close the opportunity
                                 if (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') {
                                     var FrameworkapprovalCompleteAction = function () {
@@ -7615,7 +7615,7 @@ function AssignBasicDetailsFromParentOpportunity(formContext, results) {
     AssignFieldValueFromParent(formContext, "ccrm_arupuniversityiiaresearchinitiative", results.value[0]["ccrm_arupuniversityiiaresearchinitiative"]);
     AssignFieldValueFromParent(formContext, "description", results.value[0]["description"]);
 }
-function UpdateCRMFrameworkRecord(formContext, parentOpportunity_OpportunityType, parentOpportunityCRMFrameworkId, parentOpportunityCRMFrameworkName,entityName) {
+function UpdateCRMFrameworkRecord(formContext, parentOpportunity_OpportunityType, parentOpportunityCRMFrameworkId, parentOpportunityCRMFrameworkName, entityName) {
     if (parentOpportunity_OpportunityType == '770000004') {
         AssignFieldValueFromParent(formContext, "arup_framework", parentOpportunityCRMFrameworkId, parentOpportunityCRMFrameworkName, entityName);
         formContext.getControl("arup_framework").setVisible(true);
@@ -7787,7 +7787,7 @@ function AddParentOpportunityFilter(formContext) {
         case 770000004: /* Project under existing Framework/Panel/Call-Off */
             fetch = "<filter type='and'>" +
                 "<condition attribute='arup_opportunitytype' operator='eq' value='770000003' />" +
-            "</filter>";
+                "</filter>";
             break;
         case 770000006:
             fetch = "<filter type='and'>" +
@@ -7827,9 +7827,9 @@ function VerifyParentOpportunity(formContext) {
             var req = new XMLHttpRequest();
             if (opportunitytype == '770000001')
                 req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=statecode,ccrm_contractarrangement,_arup_framework_value,arup_opportunitytype", true);
-            else if (opportunitytype == '770000002') 
+            else if (opportunitytype == '770000002')
                 req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=_arup_framework_value,arup_opportunitytype", true);
-            
+
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -7850,7 +7850,7 @@ function VerifyParentOpportunity(formContext) {
                             else
                                 formContext.getAttribute("ccrm_contractarrangement").setValue(result["ccrm_contractarrangement"])
 
-                        } 
+                        }
                     } else {
                         Xrm.Navigation.openAlertDialog(this.statusText);
                     }
@@ -7951,7 +7951,7 @@ function ShowHideFrameworkFields(formContext, trigger) {
         //   if (arupInternal && tab != null) { tab.setVisible(true); }
         formContext.getControl(existingFramework).setVisible(false);
         //formContext.getControl(existingFramework).setDisabled(true);
-       // formContext.getControl("ccrm_parentopportunityid").setDisabled(true);
+        // formContext.getControl("ccrm_parentopportunityid").setDisabled(true);
         formContext.getControl(frameworkAgreement).setVisible(false);
         formContext.getAttribute(frameworkAgreement).setRequiredLevel("none");
         formContext.getAttribute(existingFramework).setRequiredLevel('required');
@@ -8205,21 +8205,14 @@ function SetMultiSelect(formContext) {
     var length = selectedValues.length;
 
     if (notApplicable) {
-        if (selectedValues.length > 1) {
-
-            var removeValues = [770000000];
-            updatedValues = RemoveFromArray(selectedValues, removeValues);
-            formContext.getAttribute("arup_globalservices").setValue(updatedValues);
-            formContext.ui.setFormNotification('"Not Applicable" option is removed from the selected Global Services list. To select "Not Applicable" option, please remove all other options.', 'INFO', '3');
-
-            //formContext.ui.setFormNotification('You have selected "Not Applicable" option for Global Services. This will not allow you to add more options.', 'WARNING', '3');
-            setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
-            formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
-            formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
-        } else {
+        if (length > 1) {
             formContext.getAttribute("arup_globalservices").setValue([770000000]);
+            formContext.ui.setFormNotification('You have selected "Not Applicable" option for Global Services. This will not allow you to add more options.', 'INFO', '3');
         }
-        return;
+        setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
+
+        formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
+        formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
     }
 
     if (length > 3) {

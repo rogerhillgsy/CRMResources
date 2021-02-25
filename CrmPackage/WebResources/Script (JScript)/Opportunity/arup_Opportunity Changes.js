@@ -43,7 +43,7 @@ function CloseOpportunity(formContext, statusCode, isCloseFramework) {
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var clientUrl = formContext.context.getClientUrl();
     var activeStageId = formContext.data.process.getActiveStage().getId();
-    var oppDetails = getOpportunityReasons(formContext.context.getClientUrl(), activeStageId, statusCode, arupInternal, isCloseFramework == true? true : false);
+    var oppDetails = getOpportunityReasons(formContext.context.getClientUrl(), activeStageId, statusCode, arupInternal, isCloseFramework == true ? true : false);
     var isFrameworkOpty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
 
     formContext.getAttribute("arup_biddecisionchair").setRequiredLevel('none');
@@ -72,7 +72,7 @@ function CloseOpportunity(formContext, statusCode, isCloseFramework) {
                         function success(returnValue) {
                             OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
                             if (isFrameworkOpty && statusCode == "won" && parent.buttonEvent == 'UpdateFrameworkWon') {
-                                DisplayFrameworkPopUp();                                
+                                DisplayFrameworkPopUp();
                             }
 
                             formContext.ui.clearFormNotification('userNotify');
@@ -101,7 +101,7 @@ function DisplayFrameworkPopUp() {
     return;
 }
 
-function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInternal,isCloseFrameWork) {
+function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInternal, isCloseFrameWork) {
 
     var ccrm_lostopp_reason = new String();
     var ccrm_lostopp_resaon_values = new String();
@@ -112,10 +112,10 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
     var isFrameworkOpportunity = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
 
     //Shruti: Consider the filter of isFrameworkOpportunity and closeframework only when stage is confirmed job-commercial or CJN approval. Otherwise at all other stages framework opportunity can be closed as lost as any other opportunity.
-    if (activeStageId == ArupStages.ConfirmJob || IsCJNApprovalStage(activeStageId))   
+    if (activeStageId == ArupStages.ConfirmJob || IsCJNApprovalStage(activeStageId))
         req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons,arup_frameworkwonopportunityreason&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal + " and  arup_isframeworkopportunity eq " + isFrameworkOpportunity + " and  arup_closeframework eq " + isCloseFrameWork, false);
     else
-        req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal , false);
+        req.open("GET", ClientUrl + "/api/data/v9.1/arup_closeopportunityreasons?$select=arup_lostreasons,arup_wonreasons&$filter=ccrm_stageid eq '" + activeStageId + "' and  arup_arupinternalopportunity eq " + arupInternal, false);
 
     req.setRequestHeader("OData-MaxVersion", "4.0");
     req.setRequestHeader("OData-Version", "4.0");
@@ -404,14 +404,14 @@ function setBidDecisionChairRequired(formContext) {
 
     var isRegionValidForBidDecision = (regionName == ArupRegionName.UKMEA.toUpperCase() || regionName == ArupRegionName.Americas.toUpperCase() || regionName == ArupRegionName.Europe.toUpperCase()) ? true : false;
     var isHidden = (!isRegionValidForBidDecision || opportunityType == 770000005 || arupInternal) ? true : false;
-  //  var requiredLevel = (!isHidden && stage == ArupStages.Lead) ? 'required' : 'none';
+    //  var requiredLevel = (!isHidden && stage == ArupStages.Lead) ? 'required' : 'none';
 
     formContext.getControl("header_process_arup_biddecisionchair").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionchair").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionchair1").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionproxy").setVisible(!isHidden);
     formContext.getControl("arup_biddecisiondate").setVisible(!isHidden);
- //   formContext.getAttribute("arup_biddecisionchair").setRequiredLevel(requiredLevel);
+    //   formContext.getAttribute("arup_biddecisionchair").setRequiredLevel(requiredLevel);
     if (isHidden) {
         formContext.getAttribute("arup_biddecisionchair").setValue(null);
     }
@@ -679,23 +679,44 @@ function showSDGFields(formContext, arupInternal) {
 function SetSGDMultiSelect(executionContext, fieldname) {
     var formContext = executionContext.getFormContext();
     if (fieldname == "" || fieldname == null) return;
+    var fieldLength = formContext.getAttribute(fieldname).getOptions().length;
     var selectedValues = formContext.getAttribute(fieldname).getValue();
     if (selectedValues == null || selectedValues.length == 0) return;
     var notApplicable = selectedValues.includes(99);
 
     if (notApplicable) {
-        if (selectedValues.length > 1) {
-            var removeValues = [99];
-            updatedValues = RemoveFromArray(selectedValues, removeValues);
-            formContext.getAttribute(fieldname).setValue(updatedValues);
-            formContext.ui.setFormNotification('"None of Above" option is removed from the selected ' + fieldname + ' list. To select "None of the Above" option, please remove all other options.', 'INFO', '3');
-        } else {
+        if (selectedValues.length < fieldLength) {
             formContext.getAttribute(fieldname).setValue([99]);
+            formContext.ui.setFormNotification('You have selected "None of Above" option for ' + fieldname + ' . This will not allow you to add more options.', 'INFO', '3');
         }
         setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
-        return;
     }
 }
+
+function saveMultiSelectFields(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var multiSelectFields = ["arup_keymarkets", "arup_sharedvalues", "arup_betterway", "arup_safeguardplanet"]
+
+    multiSelectFields.forEach(function (fieldname) {
+        var isfieldDirty = formContext.getAttribute(fieldname).getIsDirty();
+
+        if (isfieldDirty) {
+            var fieldLength = formContext.getAttribute(fieldname).getOptions().length;
+            var selectedValues = formContext.getAttribute(fieldname).getValue();
+            if (selectedValues == null || selectedValues.length == 0) return;
+            var notApplicable = selectedValues.includes(99);
+
+            if (notApplicable) {
+                if (selectedValues.length == fieldLength) {
+                    var removeValues = [99];
+                    updatedValues = RemoveFromArray(selectedValues, removeValues);
+                    formContext.getAttribute(fieldname).setValue(updatedValues);
+                }
+            }
+        }
+    });
+}
+
 
 function RemoveFromArray(existingValues, removeValues) {
     if (existingValues === null || Array.isArray(existingValues) === false) {
