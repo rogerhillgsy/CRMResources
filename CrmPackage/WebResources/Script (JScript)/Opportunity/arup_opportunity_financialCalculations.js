@@ -11,14 +11,15 @@ ArupFinancials = (
 
         const inputBidValues = ["ccrm_salarycost_num", "ccrm_grossexpenses_num", "ccrm_staffoverheadspercent"];
         const inputProjectValues = [
-            "project_name", "ccrm_estimatedvalue_num", "ccrm_estexpenseincome_num",
+            "ccrm_estimatedvalue_num", "ccrm_estexpenseincome_num",
             "ccrm_anticipatedprojectcashflow_num", "ccrm_estprojectresourcecosts_num",
             "ccrm_estprojectstaffoverheadsrate", "arup_expenses_num", "ccrm_estprojectsubcontractorfees_num",
             "ccrm_contingency", "arup_importedsalarycost_num", "arup_importedstaffohcost_num",
             "arup_importedexpenses_num", "ccrm_probabilityofprojectproceeding", "closeprobability"
             //"ccrm_totalbidcost_num"
         ];
-        const inputValues = [...inputBidValues, ...inputProjectValues];
+        const watchedAttributes = [...inputBidValues, ...inputProjectValues];
+        const inputValues = [ "name", ...inputBidValues, ...inputProjectValues];
         const outputAttributes = [
             // Bid outputs
             "ccrm_staffoverheads_num", "ccrm_totalbidcost_num", 
@@ -34,17 +35,17 @@ ArupFinancials = (
          * Setup onchange events on the input parameters to the financial calculations.
          * @param {any} executionContext
          */
-        function SetupAttributeOnChangeEvents(executionContext ) {
+        function setupAttributeOnChangeEvents(executioncontext ) {
             const formContext = executioncontext.getFormContext();
-            inputValues.forEach( (attributeName) => {
+            watchedAttributes.forEach( (attributeName) => {
                 const attribute = formContext.getAttribute(attributeName);
-                if (!!attribute) {
+                if (!attribute) {
                     console.warn("Input attribute not found " + attributeName);
                 } else {
                     attribute.addOnChange(onFinancialValueChanged);
                 }
             });
-            onFinancialValueChanged(executionContext);
+            onFinancialValueChanged(executioncontext);
         }
 
         /**
@@ -70,7 +71,7 @@ ArupFinancials = (
                     };
                 }
             };
-            return Xrm.WebApi.online.Execute(arup_A20OpportunityFinancialCalculationsRequest);
+            return Xrm.WebApi.online.execute(arup_A20OpportunityFinancialCalculationsRequest);
         }
 
         /**
@@ -89,7 +90,7 @@ ArupFinancials = (
 
             // Check to see there are no "extras" that we are not updating.
             for (const property in updates) {
-                if (!outputAttributes.contains(property)) 
+                if (!outputAttributes.includes(property)) 
                 {
                     console.log("Orphan update attribute :" + property + " = " + updates[property]);
                 }
@@ -102,10 +103,10 @@ ArupFinancials = (
          */
         function collectInputValues(formContext, inputFields) {
             var rv = {};
-            inputValues.every((attributeName) => {
+            inputValues.forEach((attributeName) => {
                 var attribute = formContext.getAttribute(attributeName);
                 if (!!attribute) {
-                    rv[attributeName] = a.getValue();
+                    rv[attributeName] = attribute.getValue();
                 } else {
                     console.log("Attribute " + attributeName + " not found");
                 }
@@ -133,14 +134,19 @@ ArupFinancials = (
 
             // Convert to Json
             var request = JSON.stringify(inputs);
-
+            
             // Call out to the server based action to carry out the calculations.
             executeFinancialCalculationsAction(request).then(
                 function success(result) {
-                    // Unpack JSON in result.
-                    const updates = JSON.parse(result.responseText);
-                    updateAttributes(formContext, updates);
-                    // Populate financial fields.
+                    if (result.ok) {
+                        result.json().then(
+                            function(responseBody) {
+                                // Unpack JSON in result.
+                                const updates = JSON.parse(responseBody.outputValuesJSON);
+                                updateAttributes(formContext, updates);
+                                // Populate financial fields.
+                            });
+                    }
                 },
                 function error(status) {
                     // Log error data to console
@@ -153,6 +159,8 @@ ArupFinancials = (
 
         // Export a function to allow update of financials to be triggered externally.
         obj.UpdateFinancialValues = updateFinancialValues; // Call with the formContext.
-        obj.SetupAttributeOnChangeEvents = SetupAttributeOnChangeEvents; // Setup from UI as "ArupFinancials.SetupAttributeOnChangeEvents". Pass excutioncontext.
+        obj.SetupAttributeOnChangeEvents = setupAttributeOnChangeEvents; // Setup from UI as "ArupFinancials.SetupAttributeOnChangeEvents". Pass excutioncontext.
+
+        return obj;
     }
     )();
