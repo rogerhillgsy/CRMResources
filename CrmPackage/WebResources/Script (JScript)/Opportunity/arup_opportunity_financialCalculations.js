@@ -18,7 +18,7 @@ ArupFinancials = (
             "arup_importedexpenses_num", "ccrm_probabilityofprojectproceeding", "closeprobability"
             //"ccrm_totalbidcost_num"
         ];
-        const watchedAttributes = [...inputBidValues, ...inputProjectValues];
+        const watchedAttributes = [...inputBidValues, ...inputProjectValues, "ccrm_accountingcentreid"];
         const inputValues = [ "name", ...inputBidValues, ...inputProjectValues];
         const outputAttributes = [
             // Bid outputs
@@ -26,7 +26,7 @@ ArupFinancials = (
             // Project outputs
             "ccrm_projecttotalincome_num", "ccrm_estprojectoverheads_num", "arup_grossstaffcost_num",
             "ccrm_estprojectexpenses_num", "ccrm_projecttotalcosts_num", "ccrm_estprojectprofit_num",
-            "ccrm_profitasaprcentageoffeedec", "ccrm_proj_factoredprofit_num", "ccrm_proj_factoredincome_num",
+            "ccrm_profitasapercentageoffeedec", "ccrm_proj_factoredprofit_num", "ccrm_proj_factoredincome_num",
             "ccrm_factorednetreturntoarup_num", "ccrm_ratfactnetreturntoarupnetarupbidcost_num",
             "ccrm_calccashflowdeficit"
         ];
