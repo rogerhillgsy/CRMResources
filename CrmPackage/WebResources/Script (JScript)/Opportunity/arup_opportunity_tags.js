@@ -46,6 +46,7 @@ ArupTags =  (
             } else {
                 tagTriggerFieldAttr.setValue("");
             }
+            tagTriggerFieldAttr.setSubmitMode('never');
             tagTriggerFieldAttr.fireOnChange();
 
             var currentTagsValue = tagValueAttr.getValue();
