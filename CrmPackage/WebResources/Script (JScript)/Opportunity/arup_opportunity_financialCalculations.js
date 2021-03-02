@@ -30,6 +30,7 @@ ArupFinancials = (
             "ccrm_factorednetreturntoarup_num", "ccrm_ratfactnetreturntoarupnetarupbidcost_num",
             "ccrm_calccashflowdeficit"
         ];
+        const formTypeUpdate = 2;
 
         /**
          * Setup onchange events on the input parameters to the financial calculations.
@@ -50,7 +51,7 @@ ArupFinancials = (
 
         /**
          * Call out to the CRM server to execute the action to carry out the financial values calculations.
-         * @param {any} request  Json formatted object contianing the input arguments to the calculations.
+         * @param {any} request  Json formatted object containing the input arguments to the calculations.
          * @returns A promise that will resolve when the action completes.
          */
         function executeFinancialCalculationsAction(request) {
@@ -121,8 +122,9 @@ ArupFinancials = (
          */
         function onFinancialValueChanged(executionContext) {
             const formContext = executionContext.getFormContext();
-
-            updateFinancialValues(formContext);
+            if (formContext.ui.getFormType() === formTypeUpdate) {
+                updateFinancialValues(formContext);
+            }
         }
 
         /**
