@@ -72,7 +72,8 @@ function CloseOpportunity(formContext, statusCode, isCloseFramework) {
                         function success(returnValue) {
                             OpenForm(formContext.data.entity.getEntityName(), formContext.data.entity.getId());
                             if (isFrameworkOpty && statusCode == "won" && parent.buttonEvent == 'UpdateFrameworkWon') {
-                                DisplayFrameworkPopUp();
+                                var messageText = 'A Framework record has been created using information from this opportunity.  It can be accessed from the Frameworks/Panels link at the side of the CRM screen.  Please ensure that the record is completed as soon as possible, before any opportunity is taken out for work under the framework. \n\n This opportunity will be kept open so that the fee value and Arup Project End Date(the end date of the framework) can be updated as per regional guidelines.';
+                                DisplayFrameworkPopUp(messageText);
                             }
 
                             formContext.ui.clearFormNotification('userNotify');
@@ -88,17 +89,9 @@ function CloseOpportunity(formContext, statusCode, isCloseFramework) {
             console.log("failure status " + status.message);
         });
 }
-function DisplayFrameworkPopUp() {
-    Alert.show('<font size="6" color="#2E74B5"><b>Framework Record Created</b></font>',
-        '<font size="3" color="#000000"></br>' + 'A Framework record has been created using information from this opportunity.  It can be accessed from the Frameworks/Panels link at the side of the CRM screen.  Please ensure that the record is completed as soon as possible, before any opportunity is taken out for work under the framework. </br></br>This opportunity will be kept open so that the fee value and Arup Project End Date(the end date of the framework) can be updated as per regional guidelines.' + '</font>',
-        [
-            {
-                label: "<b>OK</b>",
-                setFocus: true
-            },
-        ], "INFO", 600, 350, '', true);
-
-    return;
+function DisplayFrameworkPopUp(messageText) {
+    var customParameters = "&messageText=" + messageText;
+    DisplayWebResource("arup_PopUp", customParameters, 400, 800);
 }
 
 function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInternal, isCloseFrameWork) {

@@ -22,3 +22,27 @@ function RemoveOptionFromOptionSet(formContext, optionSetName, listOfOptions) {
         }
     }
 }
+
+function DisplayWebResource(webResourceName,customParameters,height,width) {
+    var pageInput = {
+        pageType: "webresource",
+        webresourceName: webResourceName,// "arup_PopUp",
+        data: customParameters
+
+    };
+    var navigationOptions = {
+        target: 2,
+        width: width,
+        height: height,
+        position: 1
+    };
+    Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
+        function success(returnValue) {
+        },
+        function error() {
+            // Handle errors
+        }
+    );
+
+    return;
+}
