@@ -6195,12 +6195,14 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
                                                 return !!statecode && statecode != OPPORTUNITY_STATE.OPEN;
                                             },
                                             function reloadForm() {
+                                                Xrm.Utility.closeProgressIndicator();
                                                 console.log("Inside reloadForm ");
                                                 OpenForm(formContext.data.entity.getEntityName(),
                                                     formContext.data.entity.getId());
                                             });
                                     }
                                     approveCallbackAction(formContext, approvalType, approvalCompleteAction);
+                                    Xrm.Utility.showProgressIndicator("The opportunity is being closed...");
                                 }
 
                                 formContext.getAttribute(statusField).fireOnChange();
