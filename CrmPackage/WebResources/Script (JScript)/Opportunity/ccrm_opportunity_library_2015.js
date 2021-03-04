@@ -582,6 +582,11 @@ function FormOnload(executionContext) {
                     formContext.getAttribute("ccrm_systemcjnarequesttrigger").setValue(false);
                     moveToNextTrigger = true;
                     formContext.data.save();
+
+                    if (formContext.getAttribute("arup_opportunitytype").getValue() == 770000003) {
+                        var messageText = 'A Framework record will be created using information from this opportunity once the confirmed job number approvals process has been completed.  It can be accessed from the Frameworks/Panels link at the side of the CRM screen.  Please ensure that the record is filled in as soon as possible, and before any opportunity is taken out for work under the framework. \n\n This opportunity will be kept open so that the fee value and Arup Project End Date(the end date of the framework) can be updated as per regional guidelines.\n\n Click on ‘OK’ to begin the confirmed job number approvals process.';
+                        DisplayFrameworkPopUp(messageText);
+                    }
                 }
             }
 
@@ -721,9 +726,6 @@ function FormOnload(executionContext) {
         }
         setTimeout(function () { SetMultiSelect(formContext); }, 10000);
 
-
-
-        // FrameworkWinNotification(formContext);
         /*if (formContext.ui.getFormType() != 1) {
             if (formContext.getAttribute("ccrm_confidentialoptionset").getValue() == 2) {
                 setPrintPreviewURL(formContext);
@@ -5828,12 +5830,14 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
                                                 return !!statecode && statecode != OPPORTUNITY_STATE.OPEN;
                                             },
                                             function reloadForm() {
+                                                Xrm.Utility.closeProgressIndicator();
                                                 console.log("Inside reloadForm ");
                                                 OpenForm(formContext.data.entity.getEntityName(),
                                                     formContext.data.entity.getId());
                                             });
                                     }
                                     approveCallbackAction(formContext, approvalType, approvalCompleteAction);
+                                    Xrm.Utility.showProgressIndicator("The opportunity is being closed...");
                                 }
 
                                 formContext.getAttribute(statusField).fireOnChange();
@@ -7952,13 +7956,6 @@ function checkBusinessStatus(formContext, BusinessID, entityName) {
     };
     req.send();
     return statecode;
-}
-
-function FrameworkWinNotification(formContext) {
-    var isFrameworkOpty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
-    if (isFrameworkOpty && formContext.getAttribute("ccrm_wonreason").getValue() != null)
-        Notify.add("<span style=' color: white; border-style: solid;border - color: #ff0000;'>This is a framework win </span>", "WARNING", "frameworkwin", null, null, "#ff0000");
-
 }
 
 function existingcrmframework_onchange_qc(executionContext) {

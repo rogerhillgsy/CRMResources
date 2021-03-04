@@ -1902,6 +1902,11 @@
       <UniqueName>new_msdyn_csp</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\PopUp.html">
+      <DisplayName>PopUp</DisplayName>
+      <UniqueName>new_PopUp</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page (HTML)\arup_DuplicateCheckResult.html">
       <DisplayName>arup_DuplicateCheckResult</DisplayName>
       <UniqueName>arup_arup_DuplicateCheckResult</UniqueName>
