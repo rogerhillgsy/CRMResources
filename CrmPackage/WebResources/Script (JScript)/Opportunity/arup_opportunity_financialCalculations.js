@@ -73,6 +73,26 @@ ArupFinancials = (
                 }
             };
             return Xrm.WebApi.online.execute(arup_A20OpportunityFinancialCalculationsRequest);
+        }  
+        
+        /**
+         * Schedule a call out to the financial calculations server.
+         * What we are trying to do here is to avoid multiple calls to the A20 action within a very short period of time.
+         * We queue up any requests within a 0.25s interval and send them as one request to the server.
+         * @param {any} formContext  Xrm form context.
+         * @returns A promise that will resolve when the action completes.
+         */
+        var calculationPromise = null;
+        function scheduleFinancialCalculationsAction(formContext) {
+            if (!calculationPromise) {
+                calculationPromise = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        updateFinancialValues(formContext);
+                        calculationPromise = null;
+                    }, 250);
+                });
+            }
+            return calculationPromise;
         }
 
         /**
@@ -123,7 +143,8 @@ ArupFinancials = (
         function onFinancialValueChanged(executionContext) {
             const formContext = executionContext.getFormContext();
             if (formContext.ui.getFormType() === formTypeUpdate) {
-                updateFinancialValues(formContext);
+                //updateFinancialValues(formContext);
+                scheduleFinancialCalculationsAction(formContext);
             }
         }
 
