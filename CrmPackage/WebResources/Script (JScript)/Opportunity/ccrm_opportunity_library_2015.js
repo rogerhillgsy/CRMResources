@@ -2443,7 +2443,6 @@ function validateAccCenter(formContext, checkOHRate) {
 function getAccountingCentreDetails(formContext, accountCentreID, checkOHrate) {
     //check if the Acount Centre field is populated
     if (accountCentreID == null) return;
-
     Xrm.WebApi.online.retrieveRecord("ccrm_arupaccountingcode", accountCentreID, "?$select=ccrm_arupgroup,ccrm_arupgroupcode,_ccrm_arupgroupid_value,ccrm_estprojectstaffoverheadsrate,ccrm_practice,ccrm_practicecode,ccrm_subpractice,ccrm_subpracticecode").then(
         function success(result) {
             //take the Arup group from xml file and copy it to the Arup group field on opportunity
@@ -2484,10 +2483,12 @@ function getAccountingCentreDetails(formContext, accountCentreID, checkOHrate) {
                     formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").setValue(parseFloat(projStaffOverheadsRate));
                     formContext.getAttribute("ccrm_staffoverheadspercent").setValue(parseFloat(projStaffOverheadsRate));
                     formContext.getAttribute("ccrm_staffoverheadspercent").setSubmitMode("always");
+                    formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").fireOnChange();
                     formContext.getAttribute("ccrm_staffoverheadspercent").fireOnChange();
                 } else {
                     formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").setValue(0);
                     formContext.getAttribute("ccrm_staffoverheadspercent").setValue(0);
+                    formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").fireOnChange();
                     formContext.getAttribute("ccrm_staffoverheadspercent").fireOnChange();
                 }
             }
