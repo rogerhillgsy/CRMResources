@@ -755,7 +755,7 @@
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
-                url: clientURL + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'account'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'status'%20%2F%3E%3Cattribute%20name%3D'primarycontactid'%20%2F%3E%3Cattribute%20name%3D'parentaccountid'%20alias%3D'ParentOrganisation'%2F%3E%3Cattribute%20name%3D'ccrm_managingteamid'%20alias%3D'ManagingTeam'%2F%3E%3Cattribute%20name%3D'ccrm_clienttype'%20alias%3D'Clienttype'%20%2F%3E%3Cattribute%20name%3D'ccrm_clientsectorpicklistname'%20alias%3D'ClientSectors'%2F%3E%3Cattribute%20name%3D'websiteurl'%20alias%3D'weburl'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%3D'telephone'%2F%3E%3Cattribute%20name%3D'ccrm_keyaccountmanagerid'%2F%3E%3Cattribute%20name%3D'ccrm_keyaccount'%2F%3E%3Cattribute%20name%3D'description'%2F%3E%3Cattribute%20name%3D'address1_postalcode'%20%2F%3E%3Cattribute%20name%3D'address1_line3'%20%2F%3E%3Cattribute%20name%3D'address1_line2'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cattribute%20name%3D'ccrm_address1attentiondepartment'%20alias%20%3D%20'orgdepartment'%20%2F%3E%3Cattribute%20name%3D'arup_openopportunitiescalc'%20alias%20%3D%20'orgopenopptys'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'accountid'%20operator%3D'eq'%20value%3D'" + accId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                url: clientURL + "/api/data/v9.1/accounts?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'account'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'accountid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'status'%20%2F%3E%3Cattribute%20name%3D'primarycontactid'%20%2F%3E%3Cattribute%20name%3D'parentaccountid'%20alias%3D'ParentOrganisation'%2F%3E%3Cattribute%20name%3D'ccrm_managingteamid'%20alias%3D'ManagingTeam'%2F%3E%3Cattribute%20name%3D'ccrm_clienttype'%20alias%3D'Clienttype'%20%2F%3E%3Cattribute%20name%3D'arup_clientsector'%20alias%3D'ClientSectors'%2F%3E%3Cattribute%20name%3D'websiteurl'%20alias%3D'weburl'%2F%3E%3Cattribute%20name%3D'telephone1'%20alias%3D'telephone'%2F%3E%3Cattribute%20name%3D'ccrm_keyaccountmanagerid'%2F%3E%3Cattribute%20name%3D'ccrm_keyaccount'%2F%3E%3Cattribute%20name%3D'description'%2F%3E%3Cattribute%20name%3D'address1_postalcode'%20%2F%3E%3Cattribute%20name%3D'address1_line3'%20%2F%3E%3Cattribute%20name%3D'address1_line2'%20%2F%3E%3Cattribute%20name%3D'address1_line1'%20%2F%3E%3Cattribute%20name%3D'address1_city'%20%2F%3E%3Cattribute%20name%3D'ccrm_address1attentiondepartment'%20alias%20%3D%20'orgdepartment'%20%2F%3E%3Cattribute%20name%3D'arup_openopportunitiescalc'%20alias%20%3D%20'orgopenopptys'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'accountid'%20operator%3D'eq'%20value%3D'" + accId + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
                 beforeSend: function (XMLHttpRequest) {
                     XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                     XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
@@ -764,39 +764,18 @@
                 },
                 async: false,
                 success: function (data, textStatus, xhr) {
+                    debugger;
                     oppty = data.value;
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    Arup_alertDialog(textStatus + " " + errorThrown);
+                    var message = "Unknown error getting account profile";
+                    if (!!xhr && !! xhr.responseJSON && !! xhr.responseJSON.error) {
+                        message = xhr.responseJSON.error.message ;
+                    }
+                    Arup_alertDialog(message);
                 }
             });
-            var fetchXML = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
-                "<entity name='account'>" +
-                "<attribute name='name' />" +
-                "<attribute name='accountid' />" +
-                "<attribute name='statuscode' alias='status' />" +
-                "<attribute name='primarycontactid' />" +
-                "<attribute name='parentaccountid' alias='ParentOrganisation'/>" +
-                "<attribute name='ccrm_managingteamid' alias='ManagingTeam'/>" +
-                "<attribute name='ccrm_clienttype' alias='Clienttype' />" +
-                "<attribute name='ccrm_clientsectorpicklistname' alias='ClientSectors'/>" +
-                "<attribute name='websiteurl' alias='weburl'/>" +
-                "<attribute name='telephone1' alias='telephone'/>" +
-                "<attribute name='ccrm_keyaccountmanagerid'/>" +
-                "<attribute name='ccrm_keyaccount'/>" +
-                "<attribute name='description'/>" +
-                "<attribute name='address1_postalcode' />" +
-                "<attribute name='address1_line3' />" +
-                "<attribute name='address1_line2' />" +
-                "<attribute name='address1_line1' />" +
-                "<attribute name='address1_city' />" +
-                "<attribute name='ccrm_address1attentiondepartment' alias = 'orgdepartment' />" +
-                "<attribute name='arup_openopportunitiescalc' alias = 'orgopenopptys' />" +
-                "<filter type='and'>" +
-                "<condition attribute='accountid' operator='eq' value='" + accId + "' />" +
-                "</filter>" +
-                "</entity>" +
-                "</fetch>";
+
             if (oppty.length > 0) {
                 //debugger;
                 var result = oppty[0];
@@ -809,7 +788,8 @@
                     address1_Line3: result.address1_line3 != undefined ? result.address1_line3 : "",
                     address1_PostalCode: result.address1_postalcode != undefined ? result.address1_postalcode : "",
                     //ccrm_ClientSectorPicklistName: result.ClientSectors,
-                    ccrm_ClientSectorValue: result.ClientSectors != undefined ? result.ClientSectors : "",
+                    ccrm_ClientSectorValue: result["ClientSectors@OData.Community.Display.V1.FormattedValue"] != undefined ? result["ClientSectors@OData.Community.Display.V1.FormattedValue"] : "",
+                    // ccrm_ClientSectorValue: result.ClientSectors != undefined ? result.ClientSectors : "",
                     ccrm_ClientType: result.Clienttype != undefined ? result["Clienttype@OData.Community.Display.V1.FormattedValue"] : "",
                     ccrm_keyaccountmanagerid: result.ccrm_keyaccountmanagerid != undefined ? result.ccrm_keyaccountmanagerid : "",
                     ccrm_keyaccountmanagername: result.ccrm_keyaccountmanagerid != undefined ? result["ccrm_keyaccountmanagerid@OData.Community.Display.V1.FormattedValue"] : "",
