@@ -118,6 +118,9 @@ function exitForm(formContext) {
     }
 
     if (ismodified == true && formContext.getAttribute("statecode").getValue() != 0) {
+        // Output the modified fields to Debug console.
+        console.log("Form has been modified - fields requiring saving are: " + formContext.data.entity.getDataXml());
+
         //get list of dirty fields
         var oppAttributes = formContext.data.entity.attributes.get();
         if (oppAttributes != null) {
