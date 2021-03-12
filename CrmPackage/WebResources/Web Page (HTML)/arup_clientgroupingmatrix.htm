@@ -1,7 +1,7 @@
 ﻿<html>
 <head>
 </head>
-<body style="width: 100%; -webkit-print-color-adjust: exact; overflow-wrap: break-word;" onload="OnLoad();" onfocusout="parent.setEmailRange();">
+<body style="width: 100%; -webkit-print-color-adjust: exact; overflow-wrap: break-word;" onload="OnLoad();">
     ﻿
 
 
@@ -9,6 +9,7 @@
     <meta charset="utf-8">
     <script src="ccrm_/JavaScripts/D3V4.js" type="text/javascript"></script>
     <script src="ccrm_/JavaScripts/Lib/jquery_3.2.0.min" type="text/javascript"></script>
+    <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
     <script>
         var clientGroupingId, accId, accName, parentaccountid, isManagedClient, relationshipManager, accTownCity = "", accDepartment = "", accOpenOpptys = "";
         var currentselectedUserid = "";
@@ -367,7 +368,7 @@
                 }
             }
             for (var i = 0; i < conData.length; i++) {
-                if (conData[i].parentorganisationid != "") {
+                if (!!conData[i].parentorganisationid ) {
 
                     var parentacchierarchy = '';
                     var _parentaccountid_value = '';
@@ -918,7 +919,7 @@
         function DrawMatrixForceLayout1(div, conData, uniqueOrgList, activityList, isUserClick) {
             if (isUserClick == undefined)
                 isUserClick = false;
-            debugger;
+            // debugger;
 
             var nodelink = Object();
             nodelink.nodes = [];
@@ -1390,7 +1391,9 @@
                 .attr("clip-path", function (d, i) { return "url(#clipCircle_" + i + ")" })
                 .on("click", function (d) {
                     tooltip.style("visibility", "hidden");
-                    getDataforUser(d.userid, d.id)
+                    if (d.type === "contact") {
+                        getDataforUser("200", d.id);
+                    }
                 })
                 .on("mouseover", function (d) {
                     connectedNodes(d);
@@ -4480,7 +4483,11 @@
                 .attr("clip-path", function (d, i) { return "url(#clipCircle_" + i + ")" })
                 .on("click", function (d) {
                     tooltip.style("visibility", "hidden");
-                    getDataforUser(d.userid, d.id)
+                    if (d.recordtype === "systemuser") {
+                        getDataforUser(d.id, d.id);
+                    } else {
+                        getDataforUser("200", d.id);
+                    }
                 })
                 .on("mouseover", function (d) {
                     connectedNodes(d);
@@ -4651,12 +4658,11 @@
         }
 
         function getDataforUser(userid, id) {
-            ////debugger;
-            userid = "200";
-            if (userid === "100") {
+            debugger;
+            if (userid == "100") {
                 PopulateConnection(true, true, true, true, true);
             }
-            else if (userid === "200") {
+            else if (userid == "200") {
                 PopulateConnectionForContact(id);
             }
             else if (userid == "400" || userid == "500" || userid == "1000") {
@@ -4664,7 +4670,7 @@
             }
             if (userid != "" && userid != "100" && userid != "200") {
                 $('#chkShowAllConnectionsforUser').prop('checked', false);
-                PopulateConnectionForuser(userid);
+                PopulateConnectionForuser(userid, false);
                 currentselectedUserid = userid;
             }
         }
@@ -4957,7 +4963,7 @@
                 "<attribute name='ccrm_address1attentiondepartment' alias = 'orgdepartment' />" +
                 "<attribute name='arup_openopportunitiescalc' alias = 'orgopenopptys' />" +
                 "<filter type='and' >" +
-                hasOrgCondition +
+/*                hasOrgCondition +*/
                 "</filter>" +
                 "</link-entity>" +
                 "</link-entity>" +
@@ -4979,7 +4985,9 @@
                 "<attribute name='ccrm_name' alias = 'userregion' />" +
                 "</link-entity>" +
                 "<filter type='and'>" +
-                "<condition attribute='systemuserid' operator='eq' value='" + clickuserid + "' />" +
+                "<condition attribute='systemuserid' operator='eq' value='" +
+                clickuserid +
+                "' />" +
                 "</filter>" +
                 "</link-entity>" +
                 "</entity>" +
@@ -5003,121 +5011,148 @@
                 "</link-entity>" +
                 "<filter type='and'>" +
                 "<condition attribute='statecode' operator='eq' value='0' />" +
-                "<condition entityname= 'aj' attribute='accountid' operator='eq' uitype='account' value='" + accId + "' />" +
+                "<condition entityname= 'aj' attribute='accountid' operator='eq' uitype='account' value='" +
+                /*    accId +*/
+                "' />" +
                 "</filter>" +
                 "</entity>" +
                 "</fetch>";
-            var connections;
+            var connections = [];
             fetchXML = "?fetchXml=" + encodeURIComponent(fetchXML);
 
-            RetrieveMultiple('account', fetchXML).then(
+            var accountsPromise = RetrieveMultiple('connection', fetchXML).then(
                 function success(result) {
                     connections = result.entities;
                 },
-                function (error) {
-                    Alert(error.message);
+                function(error) {
+                    Alert("Getting connection " + clickuserid + "\n" + error.message + "\n" + error.stack);
                 }
             );
-            var contacts;
+            var contacts = [];
             fetchXMLCon = "?fetchXml=" + encodeURIComponent(fetchXMLCon);
 
-            RetrieveMultiple('account', fetchXMLCon).then(
-                function success(result) {
-                    contacts = result.entities;
-                },
-                function (error) {
-                    Alert(error.message);
-                }
-            );
-            var connectionLst = [];
-            var connectionLstTbl = [];
-            var contactLst = [];
-
-            if (connections.length > 0) {
-                for (var i = 0; i < connections.length; i++) {
-                    var connection = connections[i];
-                    var orgTownCity = connection["orgtowncity"] != undefined ? connection["orgtowncity"] : "";
-                    var orgDepartment = connection["orgdepartment"] != undefined ? connection["orgdepartment"] : "";
-                    var orgOpenOpptys = connection["orgopenopptys"] != undefined ? connection["orgopenopptys"] : "";
-
-                    var contact = connection["fullname"] != undefined ? connection["fullname"] : "";
-                    var contactid = connection["contactid"] != undefined ? connection["contactid"] : "";
-
-                    var contactDepartment = connection["contactdepartment"] != undefined ? connection["contactdepartment"] : "";
-                    var contactEmail = connection["contactemail"] != undefined ? connection["contactemail"] : "";
-
-                    var contactphone = connection["contactphone"] != undefined ? connection["contactphone"] : "";
-                    var jobTitle = connection['co.jobtitle'] != undefined ? connection['co.jobtitle'] : "";
-                    var userName = connection["_CRM_User_value@OData.Community.Display.V1.FormattedValue"] != undefined ? connection["_CRM_User_value@OData.Community.Display.V1.FormattedValue"] : "";
-                    var userid = connection["_CRM_User_value"] != undefined ? connection["_CRM_User_value"] : "";
-                    var contactimage = connection["contactimage"] != undefined ? connection["contactimage"] : "";
-                    var userimage = connection["userimage"] != undefined ? connection["userimage"] : "";
-                    var employmentstatus = connection["employmentstatus"] != undefined ? connection["employmentstatus"] : "";
-                    var userPhone = connection["userphone"] != undefined ? connection["userphone"] : "";
-                    var usercountry = connection["usercountry"] != undefined ? connection["usercountry"] : "";
-                    var accountRole = connection['co.accountrolecode'] != undefined ? connection['co.accountrolecode'] : "";
-
-                    var userCompanyCode = connection["usercompanycode"] != undefined ? connection["usercompanycode"] : "";
-                    var userAccountingCode = connection["useraccountingcode"] != undefined ? connection["useraccountingcode"] : "";
-                    var userRegion = connection["userregion"] != undefined ? connection["userregion"] : "";
-                    var userTitle = connection["usertitle"] != undefined ? connection["usertitle"] : "";
-                    var organisationid = connection['ac.accountid'] != undefined ? connection['ac.accountid'] : "";
-                    var organisationame = connection['ac.name'] != undefined ? connection['ac.name'] : "";
-                    var conn = {
-                        "Contact": contact, "ContactId": contactid, "JobTitle": jobTitle, "ContactPhone": contactphone,
-                        "CRMUser": userName, "CRM UserId": userid, "ContactImage": contactimage,
-                        "UserImage": userimage, "EmpStatus": employmentstatus, "EmpPhone": userPhone,
-                        "EmpCountry": usercountry, "userid": userid, "AccountRole": accountRole,
-                        "orgTownCity": orgTownCity, "orgDepartment": orgDepartment, "contactDepartment": contactDepartment,
-                        "contactEmail": contactEmail, "userCompanyCode": userCompanyCode, "userAccountingCode": userAccountingCode,
-                        "userRegion": userRegion, "orgOpenOpptys": orgOpenOpptys, "userTitle": userTitle,
-                        "OrganisationName": organisationame, "OrganisationId": organisationid
-                    };
-                    if (userid == clickuserid) {
-                        connectionLst.push(conn);
+            var contactPromise;
+            if (!!clickuserid ) {
+                contactPromise = RetrieveMultiple('contact', fetchXMLCon).then(
+                    function success(result) {
+                        contacts = result.entities;
+                    },
+                    function(error) {
+                        Alert("Getting contacts " + error.message + "\n" + error.stack);
                     }
-                    var conntable = {
-                        "Contact": contact, "Job Title": jobTitle, "CRM User": userName
-                    };
-
-                    connectionLstTbl.push(conntable);
-
-                }
-
-                if (HasOrg == "") {
-                    DrawMatrixForceLayoutForAllUsers("#connectionMatrix", connectionLst, true);
-                }
-                else {
-                    DrawMatrixForceLayout("#connectionMatrix", connectionLst, true);
-                }
+                );
             }
 
-            if (contacts.length > 0) {
-                for (var j = 0; j < contacts.length; j++) {
-                    var contact = contacts[j];
-                    var contFound = contExists(contact["contactid"]);
+            Promise.all([accountsPromise, contactPromise]).then((values) => {
+                // debugger;
+                var connectionLst = [];
+                var connectionLstTbl = [];
+                var contactLst = [];
 
-                    if (!contFound) {
-                        var fullName = contact["fullname"] != undefined ? contact["fullname"] : "";
-                        var jobTitle = contact["jobtitle"] != undefined ? contact["jobtitle"] : "";
-                        var email = contact["emailaddress1"] != undefined ? contact["emailaddress1"] : "";
+                if (connections.length > 0) {
+                    for (var i = 0; i < connections.length; i++) {
+                        var connection = connections[i];
+                        var orgTownCity = connection["orgtowncity"] != undefined ? connection["orgtowncity"] : "";
+                        var orgDepartment = connection["orgdepartment"] != undefined ? connection["orgdepartment"] : "";
+                        var orgOpenOpptys = connection["orgopenopptys"] != undefined ? connection["orgopenopptys"] : "";
 
-                        var contarray = {
-                            "Full Name": fullName, "Job Title": jobTitle, "Email": email
+                        var contact = connection["co.fullname"] != undefined ? connection["co.fullname"] : "";
+                        var contactid = connection["co.contactid"] != undefined ? connection["co.contactid"] : "";
+
+                        var contactDepartment = connection["orgdepartment"] != undefined ? connection["orgdepartment"] : "";
+                        var contactEmail = connection["contactemail"] != undefined ? connection["contactemail"] : "";
+
+                        var contactphone = connection["contactphone"] != undefined ? connection["contactphone"] : "";
+                        var jobTitle = connection['co.jobtitle'] != undefined ? connection['co.jobtitle'] : "";
+                        var userName = connection["CRM_User@OData.Community.Display.V1.FormattedValue"] != undefined ? connection["CRM_User@OData.Community.Display.V1.FormattedValue"] : "";
+                        var userid = connection["CRM_User"] != undefined ? connection["CRM_User"] : "";
+                        var contactimage = connection["contactimage"] != undefined ? connection["contactimage"] : "";
+                        var userimage = connection["userimage"] != undefined ? connection["userimage"] : "";
+                        var employmentstatus = connection["employmentstatus@OData.Community.Display.V1.FormattedValue"] != undefined ? connection["employmentstatus@OData.Community.Display.V1.FormattedValue"] : "";
+                        var userPhone = connection["userphone"] != undefined ? connection["userphone"] : "";
+                        var usercountry = connection["usercountry"] != undefined ? connection["usercountry"] : "";
+                        var accountRole = connection['co.accountrolecode'] != undefined ? connection['co.accountrolecode'] : "";
+
+                        var userCompanyCode = connection["usercompanycode"] != undefined ? connection["usercompanycode"] : "";
+                        var userAccountingCode = connection["useraccountingcode"] != undefined ? connection["useraccountingcode"] : "";
+                        var userRegion = connection["userregion"] != undefined ? connection["userregion"] : "";
+                        var userTitle = connection["usertitle"] != undefined ? connection["usertitle"] : "";
+                        var organisationid = connection['ac.accountid'] != undefined ? connection['ac.accountid'] : "";
+                        var organisationame = connection['ac.name'] != undefined ? connection['ac.name'] : "";
+                        var conn = {
+                            "Contact": contact,
+                            "ContactId": contactid,
+                            "JobTitle": jobTitle,
+                            "ContactPhone": contactphone,
+                            "CRMUser": userName,
+                            "CRM UserId": userid,
+                            "ContactImage": contactimage,
+                            "UserImage": userimage,
+                            "EmpStatus": employmentstatus,
+                            "EmpPhone": userPhone,
+                            "EmpCountry": usercountry,
+                            "userid": userid,
+                            "AccountRole": accountRole,
+                            "orgTownCity": orgTownCity,
+                            "orgDepartment": orgDepartment,
+                            "contactDepartment": contactDepartment,
+                            "contactEmail": contactEmail,
+                            "userCompanyCode": userCompanyCode,
+                            "userAccountingCode": userAccountingCode,
+                            "userRegion": userRegion,
+                            "orgOpenOpptys": orgOpenOpptys,
+                            "userTitle": userTitle,
+                            "OrganisationName": organisationame,
+                            "OrganisationId": organisationid,
+                            "parentorganisationid": organisationid
+                        };
+                        if (userid == clickuserid) {
+                            connectionLst.push(conn);
+                        }
+                        var conntable = {
+                            "Contact": contact,
+                            "Job Title": jobTitle,
+                            "CRM User": userName
                         };
 
-                        contactLst.push(contarray);
+                        connectionLstTbl.push(conntable);
+
                     }
 
-                    function contExists(contid) {
-                        return connectionLst.some(function (el) {
-                            return el.ContactId === contid;
-                        });
+                    if (contacts.length > 0) {
+                        for (var j = 0; j < contacts.length; j++) {
+                            var contact = contacts[j];
+                            var contFound = contExists(contact["contactid"]);
+
+                            if (!contFound) {
+                                var fullName = contact["fullname"] != undefined ? contact["fullname"] : "";
+                                var jobTitle = contact["jobtitle"] != undefined ? contact["jobtitle"] : "";
+                                var email = contact["emailaddress1"] != undefined ? contact["emailaddress1"] : "";
+
+                                var contarray = {
+                                    "Full Name": fullName,
+                                    "Job Title": jobTitle,
+                                    "Email": email
+                                };
+
+                                contactLst.push(contarray);
+                            }
+
+                            function contExists(contid) {
+                                return connectionLst.some(function(el) {
+                                    return el.ContactId === contid;
+                                });
+                            }
+                        }
+                    }
+
+                    if (HasOrg == "") {
+                        DrawMatrixForceLayoutForAllUsers("#connectionMatrix", connectionLst, true);
+                    } else {
+                        DrawMatrixForceLayout("#connectionMatrix", connectionLst, true);
                     }
                 }
-
-
-            }
+            });
         }
 
         function DrawMatrixForceLayoutForAllUsers(div, conData, isUserClick) {
@@ -7408,6 +7443,8 @@
         })();
 
         Alert = function (message, xrmContext ) {
+            var err = new Error();
+            message = message + "\n" + err.stack;
             var alertStrings = { confirmButtonLabel: "OK", text: message, title: "Alert" };
             var alertOptions = { height: 120, width: 260 };
             xrmContext = xrmContext || ( typeof Xrm == 'undefined' ? parent.Xrm : Xrm); // || parent.Xrm;
