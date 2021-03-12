@@ -525,7 +525,8 @@ function retreiveOrganisationChecks(executionContext) {
     //Check if client is not Unassigned and Not Internal Opportuntiy
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var client = formContext.getAttribute("ccrm_client").getValue();
-    if (client != null && client[0].name != 'Unassigned' && arupInternal != true) {
+    var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
+    if (client != null && client[0].name != 'Unassigned' && arupInternal != true && isWriteable) {
         var oppSanctionCheck = formContext.getAttribute("arup_duediligencecheck").getValue();
         var clientDirty = formContext.getAttribute("ccrm_client").getIsDirty();
         if (client != null) {
