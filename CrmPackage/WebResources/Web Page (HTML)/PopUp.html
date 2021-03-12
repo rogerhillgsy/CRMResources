@@ -1,0 +1,114 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Framework Record Created</title>
+    <script type="text/javascript">
+        function getUrlParameters() {
+            var queryString = location.search.substring(1);
+            queryString = decodeURIComponent(queryString)
+            var params = {};
+            var queryStringParts = queryString.split("&");
+            for (var i = 0; i < queryStringParts.length; i++) {
+                var pieces = queryStringParts[i].split("=");
+                params[pieces[0].toLowerCase()] = pieces.length === 1 ? null : decodeURIComponent(pieces[1]);
+            }
+            return params;
+        }
+
+        function GetMessageText() {
+
+            var messageText;
+            var params = getUrlParameters();
+            if (params != undefined) {
+                //oppId = parameters.data.split('&amp;')[0].split('=')[1];
+                messageText = params.messagetext;
+
+                if (messageText != null) {
+                    messageText = messageText.replace(/\n/g, '<br />');
+                    document.getElementById("PopUpText").innerHTML = messageText;
+                }
+            }
+        }
+        function closeDlg() {
+            try {
+                window.close();
+            } catch (e) {
+            }
+        }
+    </script>
+    <style>
+        .button {
+            color: #444444;
+            background-color: #FFFFFF;
+            height: 24px;
+            font-family: Segoe UI,Tahoma,Arial;
+            border: 1px solid #C6C6C6;
+            background-image: none;
+            margin-top: 10px;
+            width: auto;
+            min-width: 84px;
+            white-space: nowrap;
+            font-size: 12px;
+            line-height: 16px;
+            text-align: center;
+            cursor: pointer;
+            background-repeat: repeat-x;
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-left: 8px;
+        }
+
+        .popup-js-image {
+            height: 53px;
+            width: 52px;
+            background: transparent url(..//WebResources/mag_/img/alert.png) no-repeat scroll;
+        }
+
+        .popup-js-image-info {
+            background-position: -104px 0px;
+            background-position-x: -104px;
+            background-position-y: 0px;
+        }
+
+        .alert-js-RefreshDialog-Footer {
+            position: absolute;
+            bottom: 0px;
+            width: calc(100% - 30px);
+            height: 44px;
+            text-align: right;
+            background-color: #F8F8F8;
+            border-top-color: #ffffff;
+            right: 0;
+            padding-right: 30px;
+        }
+
+        .alert-js-image-td {
+            width: 68px;
+        }
+
+        .alert-js-td-top {
+            vertical-align: top !important;
+            height: 100%;
+        }
+    </style>
+    <script src="mag_/jquery1.8.3.min.js" type="text/javascript"></script>
+
+</head>
+<body onload="GetMessageText();" style="text-align: center; font-size: x-small; font-family: 'Segoe UI';">
+    <table>
+        <tr>
+            <td valign="top" class="alert-js-image-td alert-js-td-top" style="padding-top: 20px; padding-bottom: 20px;"><div id="imageDiv" class="popup-js-image popup-js-image-info"></div></td>
+            <td class="alert-js-td-top" style="padding-top: 20px; padding-bottom: 20px;">
+                <div id="divMessageText">
+                    <p id="PopUpText" style="font-family: 'SegoeUI', 'Segoe UI'; font-style: normal; font-weight: normal; font-size: 16px; color: #000000"></p>
+                </div>
+                <div class="alert-js-RefreshDialog-Footer">
+                    <input type="submit" value="Ok" class="button" onclick="closeDlg();">
+                </div>
+            </td>
+            <td><div style="padding-left: 20px; padding-right: 20px"></div></td>
+        </tr>
+
+    </table>
+</body>
+</html>

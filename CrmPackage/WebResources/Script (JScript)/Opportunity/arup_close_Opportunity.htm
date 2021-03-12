@@ -45,8 +45,11 @@
                 document.getElementById("dateValue").setAttribute("max", today);
                 document.getElementById("dateValue").setAttribute("value", today);
 
-                if (isFrameworkOpty == "true" && statusCode == 'won') 
-                    document.getElementById("frameworkText").setAttribute("style", "visibility : visible;");
+                if (isFrameworkOpty == "true" && statusCode == 'won') {
+                    document.getElementById("frameworkText").setAttribute("style", "display:block; margin-bottom: 16px; margin-top: 16px;");
+                    document.getElementById("frameworkText2").setAttribute("style", "display:block; margin-bottom: 16px; margin-top: 16px;");
+                    document.getElementById("opportunityText").setAttribute("style", "display:none;margin: 0px;");                    
+                }
             }
         }
 
@@ -96,8 +99,7 @@
                 skipCloseOpportunity = true;
 
             if (skipCloseOpportunity) {
-                UpdateWonReason(select.options[select.selectedIndex].value);
-                closeDlg();
+                UpdateWonReason(select.options[select.selectedIndex].value);              
             } else {
                 var parameters = {};
 
@@ -149,7 +151,7 @@
                     if (this.readyState === 4) {
                         req.onreadystatechange = null;
                         if (this.status === 204) {
-                            window.close();
+                            closeDlg('UpdateFrameworkWon');
                         } else {
                             ArupAlert.alertDialog("Error updating Opportunity Status : " + this.statusText);
                         }
@@ -162,9 +164,10 @@
             }
         }
 
-        function closeDlg() {
+        function closeDlg(buttonEventName) {
             try {
                 window.close();
+                parent.buttonEvent = buttonEventName;
             } catch (e) {
             }
         }
@@ -210,7 +213,6 @@
         .container {
             border-radius: 5px;
             background-color: #ffffff;
-            padding: 20px;
         }
 
         label {
@@ -266,13 +268,13 @@
     <meta>
     <meta>
 </head>
-<body onload="getOpportunityStatus();" style="overflow-wrap: break-word;" onfocusout="parent.setEmailRange();">
-   
-    <h1 style="color: #1B76D5; font-size: 25px;">Close Opportunity</h1>
-    <p id="frameworkText" style="visibility :hidden;font-size: 16px;font-family: undefined;">The framework has been won but that the opportunity record will be kept open to record its ongoing contribution to pipeline of work.</p>
-    <p style="font-family: undefined;">Provide the following information about why this opportunity is being closed.</p>
+<body onload="getOpportunityStatus();" style="overflow-wrap: break-word;" onfocusout="parent.setEmailRange();"> 
     <div class="container" style="font-family: undefined;">
         <form>
+            <h1 style="color: #1B76D5;font-size: 25px;">Close Opportunity</h1>
+            <p id="frameworkText" style="display: none; font-size: 16px; font-family: undefined; margin: 0px;">The framework/panel has been won but that the opportunity record will be kept open to record its ongoing contribution to pipeline of work.</p>
+            <p id ="frameworkText2" style="display: none;font-family: undefined; margin: 0px;">Please select the reason why we have been appointed to the framework/panel.</p>
+            <p id="opportunityText" style="display:block; font-family: undefined; margin-bottom: 16px; margin-top:0px">Provide the following information about why this opportunity is being closed.</p>
             <label>Status Reason:</label>
             <select required="" id="reason" name="reason">
                 <option selected="" disabled="" value="">Please Select</option>
@@ -285,7 +287,7 @@
             <textarea id="description" name="subject" style="height:60px"></textarea>
             <div align="right">
                 <input type="submit" value="Ok" onclick="closeOpportunity();">
-                <input type="submit" value="Cancel" onclick="closeDlg();">
+                <input type="submit" value="Cancel" onclick="closeDlg('Cancel');">
             </div>
         </form>
     </div>

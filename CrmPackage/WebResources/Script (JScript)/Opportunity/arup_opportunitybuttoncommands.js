@@ -339,7 +339,7 @@ Arup = (
                         tab.setVisible(false);
                     }
                 }
-                if (formContext.getAttribute('statecode').getValue() != 0) {
+                if (formContext.getAttribute('statecode').getValue() != 0 || formContext.getAttribute('arup_frameworkwon').getValue() == 1) {
                     formContext.ui.tabs.get("Summary").setFocus();
                 }
             },

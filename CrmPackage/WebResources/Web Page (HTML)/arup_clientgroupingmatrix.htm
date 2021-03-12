@@ -927,7 +927,7 @@
 
             if (!isUserClick) {
                 nodelink.nodes.push({
-                    id: accName, name: accName, group: 1, rad: 10, imageUrl: 'arup_graphOrg'
+                    id: accName, name: accName, group: 1, rad: 10, imageUrl: 'arup_graphOrg', type : "account"
                 });
             }
 
@@ -935,7 +935,7 @@
 
                 if (!isUserClick) {
                     nodelink.nodes.push({
-                        id: uniqueOrgList[i].organizationid, name: uniqueOrgList[i].organizationname, group: 1, rad: 10, imageUrl: 'arup_graphOrg'
+                        id: uniqueOrgList[i].organizationid, name: uniqueOrgList[i].organizationname, group: 1, rad: 10, imageUrl: 'arup_graphOrg', type : "account"
                     });
                 }
             }
@@ -948,14 +948,15 @@
                         if (conData[i].contactid == activityList[j].parentcustomerid) {
                             hasActivitiesInLast6Months = 'Yes';
                             nodelink.nodes.push({
-                                id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role, hasActivitiesInLast6Months: 'Yes'
+                                id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role, hasActivitiesInLast6Months: 'Yes',
+                                type : "contact"
                             });
                             break;
                         }
                     }
                     if (hasActivitiesInLast6Months == 'No') {
                         nodelink.nodes.push({
-                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
+                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role, type : "contact"
                         });
                     }
                 }
@@ -964,7 +965,7 @@
                 for (var i = 0; i < conData.length; i++) {
                     if (!isUserClick) {
                         nodelink.nodes.push({
-                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
+                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role, type : "contact"
                         });
                     }
                 }
@@ -1008,7 +1009,7 @@
                                     }
                                     if (isNodeDuplicate == false) {
                                         nodelink.nodes.push({
-                                             id: result["accountid"], name: result["name"], group: 1, rad: 10, imageUrl: 'arup_graphOrg'
+                                             id: result["accountid"], name: result["name"], group: 1, rad: 10, imageUrl: 'arup_graphOrg', type : "account"
                                         });
                                     }
                                     //
@@ -1579,7 +1580,7 @@
 
                 if (!isUserClick) {
                     nodelink.nodes.push({
-                        id: uniqueOrgList[i].organizationid, name: uniqueOrgList[i].organizationname, group: 1, rad: 10, imageUrl: 'arup_graphOrg'
+                        id: uniqueOrgList[i].organizationid, name: uniqueOrgList[i].organizationname, group: 1, rad: 10, imageUrl: 'arup_graphOrg', type: "account"
                     });
                 }
             }
@@ -1591,14 +1592,15 @@
                         if (conData[i].contactid == activityList[j].parentcustomerid) {
                             hasActivitiesInLast6Months = 'Yes';
                             nodelink.nodes.push({
-                                id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role, hasActivitiesInLast6Months: 'Yes'
+                                id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role, hasActivitiesInLast6Months: 'Yes',
+                                type : "contact"
                             });
                             break;
                         }
                     }
                     if (hasActivitiesInLast6Months == 'No') {
                         nodelink.nodes.push({
-                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
+                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role, type: "contact"
                         });
                     }
                 }
@@ -1607,7 +1609,7 @@
                 for (var i = 0; i < conData.length; i++) {
                     if (!isUserClick) {
                         nodelink.nodes.push({
-                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role
+                            id: conData[i].contactid, name: conData[i].contactname, group: 1, rad: 10, imageUrl: Arup_GetClientURL() + conData[i].contactimage, role: conData[i].role, type: "contact"
                         });
                     }
                 }
@@ -1617,7 +1619,7 @@
             for (var i = 0; i < uniqueOrgList.length; i++) {
                 if (uniqueOrgList[i].parentorganisationid == "") {
                     if (!isUserClick)
-                        nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid, value: 2 });
+                        nodelink.links.push({ source: accName, target: uniqueOrgList[i].organizationid, value: 2, type : "account" });
                 }
             }
             for (var i = 0; i < uniqueOrgList.length; i++) {
@@ -1651,7 +1653,7 @@
                                     }
                                     if (isNodeDuplicate == false) {
                                         nodelink.nodes.push({
-                                            id: result["accountid"], name: result["name"], group: 1, rad: 10, imageUrl: 'arup_graphOrg'
+                                            id: result["accountid"], name: result["name"], group: 1, rad: 10, imageUrl: 'arup_graphOrg', type : "account"
                                         });
                                     }
                                     //

@@ -1307,6 +1307,21 @@
       <UniqueName>arup_Contact</UniqueName>
       <WebResourceType>PNG</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_ie_warning.js">
+      <DisplayName>arup_ie_warning.js</DisplayName>
+      <UniqueName>arup_ie_warning.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_opportunity_financialCalculations.js">
+      <DisplayName>arup_opportunity_financialCalculations.js</DisplayName>
+      <UniqueName>arup_opportunity_financialCalculations.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_opportunity_tags.js">
+      <DisplayName>arup_opportunity_tags.js</DisplayName>
+      <UniqueName>arup_opportunity_tags.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\All Other Entities\arup_commonfunctions.js">
       <DisplayName>arup_commonfunction</DisplayName>
       <UniqueName>new_arup_commonfunction</UniqueName>
@@ -1880,6 +1895,16 @@
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_FrameworkButtons.htm">
       <DisplayName>arup_FrameworkButtons</DisplayName>
       <UniqueName>arup_FrameworkButtons</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\msdyn_csp.html">
+      <DisplayName>msdyn_csp</DisplayName>
+      <UniqueName>new_msdyn_csp</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\PopUp.html">
+      <DisplayName>PopUp</DisplayName>
+      <UniqueName>new_PopUp</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page (HTML)\arup_DuplicateCheckResult.html">

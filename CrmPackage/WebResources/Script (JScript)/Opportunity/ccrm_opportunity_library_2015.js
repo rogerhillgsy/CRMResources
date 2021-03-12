@@ -149,7 +149,10 @@ function exitForm(formContext) {
                             }
                         }
                     }
-                    if (cansave) { formContext.data.save("saveandclose"); }
+                    if (cansave) {
+                        formContext.data.save("saveandclose");
+                        setTimeout(function () { formContext.ui.close(); }, 2000);
+                    }
                 },
                 setFocus: true,
                 preventClose: false
@@ -482,8 +485,8 @@ function FormOnload(executionContext) {
                 setDefaultClientUnassigned(formContext);
             }
 
-            formContext.getAttribute("ccrm_accountingcentreid").setRequiredLevel('recommended');
-            formContext.getAttribute("ccrm_arupcompanyid").setRequiredLevel('recommended');
+            //formContext.getAttribute("ccrm_accountingcentreid").setRequiredLevel('recommended');
+            //formContext.getAttribute("ccrm_arupcompanyid").setRequiredLevel('recommended');
             SetLookupField(formContext, currUserData.arupcompanyid,
                 currUserData.arupcompanyname,
                 'ccrm_arupcompany',
@@ -536,8 +539,6 @@ function FormOnload(executionContext) {
 
             stageNotifications(formContext);
 
-            calcFactoredNetReturnToArup(formContext);
-
             ccrm_arupbusinessid_onChange(formContext, false);
 
             setTimeout(function () { ccrm_confidential_onchange(formContext, 0); }, 1000);
@@ -581,6 +582,11 @@ function FormOnload(executionContext) {
                     formContext.getAttribute("ccrm_systemcjnarequesttrigger").setValue(false);
                     moveToNextTrigger = true;
                     formContext.data.save();
+
+                    if (formContext.getAttribute("arup_opportunitytype").getValue() == 770000003) {
+                        var messageText = 'A Framework record will be created using information from this opportunity once the confirmed job number approvals process has been completed.  It can be accessed from the Frameworks/Panels link at the side of the CRM screen.  Please ensure that the record is filled in as soon as possible, and before any opportunity is taken out for work under the framework. \n\n This opportunity will be kept open so that the fee value and Arup Project End Date(the end date of the framework) can be updated as per regional guidelines.\n\n Click on ‘OK’ to begin the confirmed job number approvals process.';
+                        DisplayFrameworkPopUp(messageText);
+                    }
                 }
             }
 
@@ -720,9 +726,6 @@ function FormOnload(executionContext) {
         }
         setTimeout(function () { SetMultiSelect(formContext); }, 10000);
 
-
-
-        FrameworkWinNotification(formContext);
         /*if (formContext.ui.getFormType() != 1) {
             if (formContext.getAttribute("ccrm_confidentialoptionset").getValue() == 2) {
                 setPrintPreviewURL(formContext);
@@ -1763,10 +1766,6 @@ function FormOnSave(executionContext) {
         setProjectParticipantFlag(formContext);
     }
 
-    if (formContext.getAttribute('ccrm_estimatedvalue_num').getValue() != null && formContext.getAttribute('ccrm_projecttotalincome_num').getValue() == null) {
-        calcRecalcIncome(formContext);
-    }
-
     if (formContext.data.entity.getIsDirty()) {
         formContext.getAttribute("ccrm_stagetoggle").setSubmitMode("never");
         formContext.getAttribute("ccrm_stagetoggle").setValue(2);
@@ -2444,7 +2443,6 @@ function validateAccCenter(formContext, checkOHRate) {
 function getAccountingCentreDetails(formContext, accountCentreID, checkOHrate) {
     //check if the Acount Centre field is populated
     if (accountCentreID == null) return;
-
     Xrm.WebApi.online.retrieveRecord("ccrm_arupaccountingcode", accountCentreID, "?$select=ccrm_arupgroup,ccrm_arupgroupcode,_ccrm_arupgroupid_value,ccrm_estprojectstaffoverheadsrate,ccrm_practice,ccrm_practicecode,ccrm_subpractice,ccrm_subpracticecode").then(
         function success(result) {
             //take the Arup group from xml file and copy it to the Arup group field on opportunity
@@ -2483,16 +2481,15 @@ function getAccountingCentreDetails(formContext, accountCentreID, checkOHrate) {
                 var projStaffOverheadsRate = (result["ccrm_estprojectstaffoverheadsrate"] != null) ? result["ccrm_estprojectstaffoverheadsrate"] : null;
                 if (projStaffOverheadsRate != null) {
                     formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").setValue(parseFloat(projStaffOverheadsRate));
-                    calcEstProjStaffOverheadsValue(formContext);
-                    calcTotalCosts(formContext);
                     formContext.getAttribute("ccrm_staffoverheadspercent").setValue(parseFloat(projStaffOverheadsRate));
                     formContext.getAttribute("ccrm_staffoverheadspercent").setSubmitMode("always");
-                    staffoverheadspercent(formContext);
+                    formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").fireOnChange();
+                    formContext.getAttribute("ccrm_staffoverheadspercent").fireOnChange();
                 } else {
                     formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").setValue(0);
-                    calcEstProjStaffOverheadsValue(formContext);
                     formContext.getAttribute("ccrm_staffoverheadspercent").setValue(0);
-                    staffoverheadspercent(formContext);
+                    formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").fireOnChange();
+                    formContext.getAttribute("ccrm_staffoverheadspercent").fireOnChange();
                 }
             }
         },
@@ -2500,31 +2497,6 @@ function getAccountingCentreDetails(formContext, accountCentreID, checkOHrate) {
             Xrm.Navigation.openAlertDialog(error.message);
         }
     );
-}
-
-function staffoverheadspercent(formContext) {
-    calcStaffOverheads(formContext);
-    calcTotalBidCost(formContext);
-}
-
-calcTotalBidCost = function () {
-    var salary = formContext.getAttribute("ccrm_salarycost_num").getValue();
-    var staffoverheads = formContext.getAttribute("ccrm_staffoverheads_num").getValue();
-    var expenses = formContext.getAttribute("ccrm_grossexpenses_num").getValue();
-    var result = (salary + staffoverheads + expenses);
-    formContext.getAttribute("ccrm_totalbidcost_num").setValue(result);
-}
-
-function calcStaffOverheads(formContext) {
-    var salary = formContext.getAttribute("ccrm_salarycost_num").getValue();
-    var staffoverheadspercent = formContext.getAttribute("ccrm_staffoverheadspercent").getValue();
-    var calcSOH = 0;
-
-    if (salary > 0 && staffoverheadspercent > 0)
-        calcSOH = (staffoverheadspercent / 100) * salary;
-
-    formContext.getAttribute("ccrm_staffoverheads_num").setValue(calcSOH);
-    formContext.getAttribute("ccrm_staffoverheads_num").setSubmitMode("always");
 }
 
 function checkAccountingCentreStatus(formContext, newoppcreationflag) {
@@ -2746,7 +2718,7 @@ function setDefaultQualificationStatus(formContext) {
             var decisionTakenBy = formContext.getAttribute("arup_decisiontakenby").getValue();
             if (decisionToQualify && decisionTakenBy != null)
                 formContext.getAttribute("arup_qualificationstatus").setValue(770000005)
-        }               
+        }
     }
 }
 
@@ -4163,344 +4135,22 @@ function ccrm_confidential_onchange(formContext, mode) {
             "WARNING", 600, 380, formContext.context.getClientUrl(), true);
     }
 }
-
+/**!!!!!!!!!!!!!!!!!!!
+ * Start of deletion
+ * @param {any} executionContext
+ */
 function ccrm_estimatedvalue_num_onchange(executionContext) {
     var formContext = executionContext.getFormContext();
     feeIncomeCheck(formContext);
-    if (formContext.getAttribute('ccrm_estimatedvalue_num').getValue() != null) {
-        calcRecalcIncome(formContext);
-    }
-}
-
-function ccrm_estexpenseincome_num_onchange(executionContext) {
-
-    var formContext = executionContext.getFormContext();
-    calcRecalcIncome(formContext);
 }
 
 function closeprobability_onchange(executionContext) {
     var formContext = executionContext.getFormContext();
+    var closeProbabilityAttribute = formContext.getAttribute("closeprobability");
+    var oldCloseProbability = closeProbabilityAttribute.getValue();
     sync_values_onchange(formContext, 'closeprobability', 'ccrm_closeprobability_synced');
-    calcRecalcIncome(formContext);
-}
-
-function ccrm_probabilityofprojectproceeding_onchange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    calcRecalcIncome(formContext);
-}
-
-function ccrm_estprojectresourcecosts_num_onchange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    calcRecalcCosts(formContext);
-}
-
-function arup_importedsalarycost_num_onchange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    calcRecalcCosts(formContext);
-}
-
-function arup_importedstaffohcost_num_onchange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    calcRecalcCosts(formContext);
-}
-
-function SetGrossExpense(formContext) {
-    var expenses = formContext.getAttribute("arup_expenses_num").getValue();
-    var subConFees = formContext.getAttribute("ccrm_estprojectsubcontractorfees_num").getValue();
-    var contingency = formContext.getAttribute("ccrm_contingency").getValue();
-    var importedExpense = formContext.getAttribute("arup_importedexpenses_num").getValue();
-
-    var grossExpenses = expenses + subConFees + contingency + importedExpense;
-    formContext.getAttribute("ccrm_estprojectexpenses_num").setValue(grossExpenses);
-    formContext.getAttribute("ccrm_estprojectexpenses_num").setSubmitMode("always");
-}
-
-function ccrm_estprojectsubcontractorfees_num_onchange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    SetGrossExpense(formContext);
-    calcRecalcCosts(formContext);
-}
-
-function ccrm_contingency_onchange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    SetGrossExpense(formContext);
-    calcRecalcCosts(formContext);
-}
-
-function ccrm_estprojectstaffoverheadsrate_onchange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    calcRecalcCosts(formContext);
-}
-
-function ccrm_anticipatedprojectcashflow_num_onchange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    calcMaxCashFlowDeficit(formContext);
-}
-
-function arup_expenses_num_onchange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    SetGrossExpense(formContext);
-    calcRecalcCosts(formContext);
-}
-
-function arup_importedexpenses_num_onchange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    SetGrossExpense(formContext);
-    calcRecalcCosts(formContext);
-}
-
-function ccrm_estprojectexpenses_num_onchange(executionContext) {
-    var formContext = executionContext.getFormContext();
-    calcRecalcCosts(formContext);
-}
-
-//FINANCIAL FUNCTIONS
-//function to calculate income and associated fields if an income related field changes
-function calcRecalcIncome(formContext) {
-    calcTotalIncome(formContext);
-    calcFactoredIncome(formContext); // sets - "ccrm_proj_factoredincome_num"
-    calcEstProjectProfit(formContext);
-    // sets - "ccrm_estprojectprofit_num", "ccrm_profitasapercentageoffeedec", "ccrm_proj_factoredprofit_num"
-    calcFactoredNetReturnToArup(formContext); // sets - "ccrm_factorednetreturntoarup_num"
-}
-
-function calcRecalcCosts(formContext) {
-    calcEstProjStaffOverheadsValue(formContext); // sets - "ccrm_estprojectoverheads_num"
-    calcGrossStaffCost(formContext); // sets- arup_grossstaffcost_num
-    calcTotalCosts(formContext); // sets - "ccrm_projecttotalcosts_num"
-    calcEstProjectProfit(formContext); // sets - "ccrm_proj_factoredincome_num"
-    calcFactoredNetReturnToArup(formContext); // sets - "ccrm_factorednetreturntoarup_num"
-}
-
-function calcTotalCosts(formContext) {
-    var grossExpenses = formContext.getAttribute("ccrm_estprojectexpenses_num").getValue();
-    var grossStaffCost = formContext.getAttribute("arup_grossstaffcost_num").getValue();
-
-    if (grossExpenses == null) grossExpenses = 0;
-    if (grossStaffCost == null) grossStaffCost = 0;
-
-    var totalCosts = grossStaffCost + grossExpenses;
-    if (formContext.getAttribute("ccrm_projecttotalcosts_num").getValue() != totalCosts) {
-        formContext.getAttribute("ccrm_projecttotalcosts_num").setValue(totalCosts);
-        formContext.getAttribute("ccrm_projecttotalcosts_num").setSubmitMode("always");
-    }
-}
-
-function calcGrossStaffCost(formContext) {
-    var salaryCosts = formContext.getAttribute("ccrm_estprojectresourcecosts_num").getValue();
-    var staffOverheads = formContext.getAttribute("ccrm_estprojectoverheads_num").getValue();
-    var importedSalaryCost = formContext.getAttribute("arup_importedsalarycost_num").getValue();
-    var importedStaffOHCost = formContext.getAttribute("arup_importedstaffohcost_num").getValue();
-
-
-    if (salaryCosts == null) salaryCosts = 0;
-    if (staffOverheads == null) staffOverheads = 0;
-    if (importedSalaryCost == null) importedSalaryCost = 0;
-    if (importedStaffOHCost == null) importedStaffOHCost = 0;
-
-    var grossStaffCost = salaryCosts + staffOverheads + importedSalaryCost + importedStaffOHCost;
-    if (formContext.getAttribute("arup_grossstaffcost_num").getValue() != grossStaffCost) {
-        formContext.getAttribute("arup_grossstaffcost_num").setValue(grossStaffCost);
-        formContext.getAttribute("arup_grossstaffcost_num").setSubmitMode("always");
-    }
-}
-
-function calcBidCosts(executionContext) {
-    var formContext = executionContext.getFormContext();
-    var salaryCosts = formContext.getAttribute("ccrm_salarycost_num").getValue();
-    var staffOverheads = formContext.getAttribute("ccrm_staffoverheadspercent").getValue() / 100;
-    var grossExpenses = formContext.getAttribute("ccrm_grossexpenses_num").getValue();
-    if (salaryCosts == null) salaryCosts = 0;
-    if (staffOverheads == null) staffOverheads = 0;
-    if (grossExpenses == null) grossExpenses = 0;
-
-    var totalCosts = salaryCosts + (salaryCosts * staffOverheads) + grossExpenses;
-    if (formContext.getAttribute("ccrm_staffoverheads_num").getValue() != (salaryCosts * staffOverheads)) {
-        formContext.getAttribute("ccrm_staffoverheads_num").setValue(salaryCosts * staffOverheads);
-        formContext.getAttribute("ccrm_staffoverheads_num").setSubmitMode("always");
-    }
-    if (formContext.getAttribute("ccrm_totalbidcost_num").getValue() != totalCosts) {
-        formContext.getAttribute("ccrm_totalbidcost_num").setValue(totalCosts);
-        formContext.getAttribute("ccrm_totalbidcost_num").setSubmitMode("always");
-    }
-    calcFactoredNetReturnToArup(formContext);
-}
-
-//function to calculate ProfitAsPercentageFee
-function calcEstProjectProfit(formContext) {
-    var totalEstProjectProfit = 0;
-    var Projectfee = formContext.getAttribute("ccrm_estimatedvalue_num").getValue();
-    var Expenses = formContext.getAttribute("ccrm_estprojectexpenses_num").getValue();
-    var GrossStaffCosts = formContext.getAttribute("arup_grossstaffcost_num").getValue();
-    var ProjectForecastExpenseIncome = formContext.getAttribute("ccrm_estexpenseincome_num").getValue();
-    var result = formContext.getAttribute("ccrm_estprojectprofit_num").getValue();
-
-    totalEstProjectProfit = (Projectfee + ProjectForecastExpenseIncome - (GrossStaffCosts + Expenses));
-    if (formContext.getAttribute("ccrm_estprojectprofit_num").getValue() != totalEstProjectProfit) {
-        formContext.getAttribute("ccrm_estprojectprofit_num").setValue(totalEstProjectProfit);
-        formContext.getAttribute("ccrm_estprojectprofit_num").setSubmitMode("always");
-    }
-    calcProfitAsPercentageFee(formContext, totalEstProjectProfit, Projectfee, ProjectForecastExpenseIncome);
-}
-
-//function to calculate the profit as a percentage of Fee
-function calcProfitAsPercentageFee(formContext, totalEstProjectProfit, projectFee, expIncome) {
-    var result = 0;
-
-    // check if the field is present in the form
-    if ((projectFee > 0) || (expIncome > 0)) { // Do the calculation
-        result = ((totalEstProjectProfit * 100) / (projectFee + expIncome));
-    }
-    //set the result value
-    if (formContext.getAttribute("ccrm_profitasapercentageoffeedec").getValue() != result) {
-        formContext.getAttribute("ccrm_profitasapercentageoffeedec").setValue(result);
-        formContext.getAttribute("ccrm_profitasapercentageoffeedec").setSubmitMode("always");
-    }
-    //set the FactoredProfit
-    calcFactoredProfit(formContext, result, formContext.getAttribute("ccrm_proj_factoredincome_num").getValue());
-}
-
-function calcFactoredProfit(formContext, profitAsPercentageFee, factoredIncome) {
-    var result = 0;
-    if (formContext.getAttribute("ccrm_profitasapercentageoffeedec").getValue() > 0 && factoredIncome > 0) {
-        result = formContext.getAttribute("ccrm_estprojectprofit_num").getValue() *
-            ((formContext.getAttribute("closeprobability").getValue() / 100) *
-                (formContext.getAttribute("ccrm_probabilityofprojectproceeding").getValue() / 100));
-        if (formContext.getAttribute("ccrm_proj_factoredprofit_num").getValue() != result) {
-            formContext.getAttribute("ccrm_proj_factoredprofit_num").setValue(result);
-            formContext.getAttribute("ccrm_proj_factoredprofit_num").setSubmitMode("always");
-        }
-    } else if (formContext.getAttribute("ccrm_proj_factoredprofit_num").getValue() != result) {
-        //set the FactoredIncome result
-        formContext.getAttribute("ccrm_proj_factoredprofit_num").setValue(result);
-        formContext.getAttribute("ccrm_proj_factoredprofit_num").setSubmitMode("always");
-    }
-}
-
-function calcTotalIncome(formContext) {
-    var feeIncome = formContext.getAttribute("ccrm_estimatedvalue_num").getValue();
-    var expenseIncome = formContext.getAttribute("ccrm_estexpenseincome_num").getValue();
-    if (feeIncome == null) feeIncome = 0;
-    if (expenseIncome == null) expenseIncome = 0;
-    var totalIncome = feeIncome + expenseIncome;
-    if (formContext.getAttribute("ccrm_projecttotalincome_num").getValue() != totalIncome) {
-        formContext.getAttribute("ccrm_projecttotalincome_num").setValue(totalIncome);
-        formContext.getAttribute("ccrm_projecttotalincome_num").setSubmitMode("always");
-    }
-}
-
-//function to calcuate Factored Income
-function calcFactoredIncome(formContext) {
-    var estimatedValue_num = formContext.getAttribute("ccrm_projecttotalincome_num").getValue();
-    var probabilityOfProjectProceeding = formContext.getAttribute("ccrm_probabilityofprojectproceeding").getValue();
-    var closeProbability = formContext.getAttribute("closeprobability").getValue();
-    var result = 0;
-
-    //check for null values
-    if (estimatedValue_num == null) {
-        estimatedValue_num = 0;
-    }
-    if (probabilityOfProjectProceeding == null) {
-        probabilityOfProjectProceeding = 0;
-    }
-    if (closeProbability == null) {
-        closeProbability = 0;
-    }
-
-    probabilityOfProjectProceeding = probabilityOfProjectProceeding / 100;
-    closeProbability = closeProbability / 100;
-    result = estimatedValue_num * probabilityOfProjectProceeding * closeProbability;
-    //set the FactoredIncome result
-    if (formContext.getAttribute("ccrm_proj_factoredincome_num").getValue() != result) {
-        formContext.getAttribute("ccrm_proj_factoredincome_num").setValue(result);
-        formContext.getAttribute("ccrm_proj_factoredincome_num").setSubmitMode("always");
-    }
-}
-
-function calcFactoredNetReturnToArup_ec(executionContext) {
-    var formContext = executionContext.getFormContext();
-    calcFactoredNetReturnToArup(formContext);
-}
-
-//function to calculate FacturedNetReturnToArup
-function calcFactoredNetReturnToArup(formContext) {
-
-    var ProjectFee = formContext.getAttribute("ccrm_estimatedvalue_num").getValue();
-    var ProjectProcedingProb = formContext.getAttribute("ccrm_probabilityofprojectproceeding").getValue();
-    var ProbWin = formContext.getAttribute("closeprobability").getValue();
-    var profitAsPercentOfFee = formContext.getAttribute("ccrm_profitasapercentageoffeedec").getValue();
-    var totalIncome = formContext.getAttribute("ccrm_projecttotalincome_num").getValue();
-    var totalBidCost = formContext.getAttribute("ccrm_totalbidcost_num").getValue();
-    var totalProfit = formContext.getAttribute("ccrm_estprojectprofit_num").getValue();
-    var result = 0;
-    if (ProjectProcedingProb != null && ProbWin != null && profitAsPercentOfFee != null && totalIncome)
-        result = totalProfit * (ProjectProcedingProb / 100) * (ProbWin / 100);
-
-    if (formContext.getAttribute("ccrm_factorednetreturntoarup_num").getValue() != result) {
-        formContext.getAttribute("ccrm_factorednetreturntoarup_num").setValue(result);
-        formContext.getAttribute("ccrm_factorednetreturntoarup_num").setSubmitMode("always");
-    }
-
-    if (totalBidCost != null && totalBidCost != 0 && formContext.getAttribute("ccrm_ratfactnetreturntoarupnetarupbidcost_num").getValue() != (result / totalBidCost)) {
-        formContext.getAttribute("ccrm_ratfactnetreturntoarupnetarupbidcost_num").setValue(result / totalBidCost);
-        formContext.getAttribute("ccrm_ratfactnetreturntoarupnetarupbidcost_num").setSubmitMode("always");
-    }
-    else if (formContext.getAttribute("ccrm_ratfactnetreturntoarupnetarupbidcost_num").getValue() != 0) {
-        formContext.getAttribute("ccrm_ratfactnetreturntoarupnetarupbidcost_num").setValue(0);
-        formContext.getAttribute("ccrm_ratfactnetreturntoarupnetarupbidcost_num").setSubmitMode("always");
-    }
-}
-
-function calcEstProjStaffOverheadsValue(formContext) {
-
-    var salary = formContext.getAttribute("ccrm_estprojectresourcecosts_num").getValue();
-    var staffoverheadspercent = formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").getValue();
-    var calcSOH = 0;
-
-    if (salary > 0 && staffoverheadspercent > 0)
-        var calcSOH = (staffoverheadspercent / 100) * salary;
-    //set the value for Project Staff Overheads
-    if (formContext.getAttribute("ccrm_estprojectoverheads_num").getValue() != calcSOH) {
-        formContext.getAttribute("ccrm_estprojectoverheads_num").setValue(calcSOH);
-        formContext.getAttribute("ccrm_estprojectoverheads_num").setSubmitMode("always");
-    }
-
-}
-
-//function to calculate the est proj Staff Overheads Rate
-function calcEstProjStaffOverheadsRate(executionContext) {
-    var formContext = executionContext.getFormContext();
-    var staffoverheads = formContext.getAttribute("ccrm_estprojectoverheads_num");
-    var salary = formContext.getAttribute("ccrm_estprojectresourcecosts_num");
-    var result = formContext.getAttribute("ccrm_estprojectstaffoverheadsrate");
-    // check if the field is present in the form
-    if (salary.getValue() > 0 && staffoverheads.getValue() > 0) { // Do the calculation
-        var c = (staffoverheads.getValue() / salary.getValue()) * 100;
-        if (result.getValue() != c) {
-            result.setValue(c);
-            formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").setSubmitMode("always");
-        }
-    } else if (formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").getValue() != 0) {
-        formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").setValue(0);
-        formContext.getAttribute("ccrm_estprojectstaffoverheadsrate").setSubmitMode("always");
-    }
-}
-
-function calcMaxCashFlowDeficit(formContext) {
-    var cashflow = formContext.getAttribute("ccrm_anticipatedprojectcashflow_num").getValue();
-    var feeIncome = formContext.getAttribute("ccrm_projecttotalincome_num").getValue();
-    var calcFlowDeficitOption = formContext.getAttribute("ccrm_calccashflowdeficit").getValue();
-    // Calculates 25% of Fee Income
-    var calcDeficit = feeIncome * 0.25;
-
-    if (Math.abs(cashflow) > calcDeficit &&
-        cashflow != null &&
-        feeIncome != null &&
-        calcFlowDeficitOption != true &&
-        formContext.getAttribute("ccrm_calccashflowdeficit").getValue() != true) {
-        formContext.getAttribute("ccrm_calccashflowdeficit").setValue(true);
-    } else if (calcFlowDeficitOption == true && Math.abs(cashflow) < calcDeficit && formContext.getAttribute("ccrm_calccashflowdeficit").getValue() != false) {
-        formContext.getAttribute("ccrm_calccashflowdeficit").setValue(false);
+    if (oldCloseProbability !== closeProbabilityAttribute.getValue()) {
+        closeProbabilityAttribute.fireOnChange();
     }
 }
 
@@ -4809,7 +4459,7 @@ function name_onchange(executionContext) {
     if (formContext.getAttribute("name").getValue() != null) {
         var x = formContext.getAttribute("name").getValue();
         var y = x.replace(/;/g, ' ');
-        if (formContext.getAttribute("ccrm_shorttitle").getValue() == null) {
+        if (formContext.ui.getFormType() == 1) {
             setShortTitle(formContext, y);
         }
     }
@@ -5001,15 +4651,6 @@ function setRequiredFields_DecisionToProceed(formContext) {
     formContext.getAttribute("ccrm_grossexpenses_num").setRequiredLevel("required")
 }
 
-function RatFactNetReturnToArupNetArupBidCost(executionContext) {
-    var formContext = executionContext.getFormContext();
-    var ratFactNetRet = formContext.getAttribute("ccrm_factorednetreturntoarup_num").getValue() / formContext.getAttribute("ccrm_netarupbidcost_num").getValue();
-    if (ratFactNetRet < 1.0)
-        return false;
-    else
-        return true;
-}
-
 function setRequiredFields_BidSubmitted(executionContext) {
     var formContext = executionContext.getFormContext();
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
@@ -5189,8 +4830,9 @@ function stageNotifications(formContext) {
         makeBidReviewApprovalFieldsReadonly(formContext);
         if (formContext.getAttribute("ccrm_bidreviewoutcome").getValue() != 100000002)
             showRibbonButton(formContext, 'ccrm_shwbidreviewappbtn', 1);
-        //setTimeout(function () { formContext.data.save(null); }, 2);
-        setCurrentApproversAsync(formContext);
+
+        if (formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN)
+            setCurrentApproversAsync(formContext);
     }
     if (stageid == ArupStages.CrossRegion) {
         formContext.data.process.removeOnStageChange(function () { StageChange_event(formContext) });
@@ -5245,9 +4887,13 @@ function stageNotifications(formContext) {
     FormNotificationForOpportunityType(formContext, formContext.getAttribute("arup_opportunitytype").getValue());
     restoreFieldVal(formContext, stageid);
     QualificationStatusNotification(formContext);
+    var isPJNApprovalStage = IsPJNApprovalStage(stageid);
+    if (stageid == ArupStages.CrossRegion || stageid == ArupStages.BidDevelopment || isPJNApprovalStage) {
+        ResetReviewApprovalStatusIfQualificationStatus(formContext, isPJNApprovalStage);
+    }
 
     if (formContext.data.getIsDirty())
-        formContext.data.save();
+        setTimeout(function () { formContext.data.save(); }, 1000);
 
     var isBidSubmitted = formContext.getAttribute("arup_bidsubmissionoutcome").getValue();
     if (isBidSubmitted == 770000001 && stageid == ArupStages.BidReviewApproval && formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
@@ -5255,6 +4901,8 @@ function stageNotifications(formContext) {
     } else {
         formContext.ui.clearFormNotification('userNotify');
     }
+
+
 }
 
 //Move Previous Stage
@@ -5403,6 +5051,8 @@ function StageChange_event(formContext) {
                 })
             }
         }
+
+
     }
 
     stageNotifications(formContext);
@@ -5430,6 +5080,27 @@ function StageChange_event(formContext) {
 
 function IsPJNApprovalStage(stageid) {
     return (stageid == ArupStages.PJNApproval || stageid == ArupStages.PJNApproval1 || stageid == ArupStages.PJNApproval2 || stageid == ArupStages.PJNApproval3 || stageid == ArupStages.PJNApproval4 || stageid == ArupStages.PJNApproval5 || stageid == ArupStages.PJNApproval6 || stageid == ArupStages.PJNApproval7 || stageid == ArupStages.PJNApproval8 || stageid == ArupStages.PJNApproval9);
+}
+
+function ResetReviewApprovalStatusIfQualificationStatus(formContext, isPJNApprovalStage) {
+    var reviewApprovalStatus = formContext.getAttribute("statuscode").getValue();
+    // var isPJNApprovalStage = IsPJNApprovalStage(stageid);
+    //if reviewapproval status is one of the qualification status past pre bid stage
+    if (reviewApprovalStatus == '770000005' || reviewApprovalStatus == '770000004' || reviewApprovalStatus == '770000003' || reviewApprovalStatus == '770000002') {
+        var pjn = formContext.getAttribute("ccrm_pjna").getValue();
+        if (pjn != null) {
+            updateStatusCode(formContext, 200016);
+            // formContext.getAttribute("statuscode").setValue(200016); //Revert to 'Decision to Proceed - Approved' as PJN is alrady present for given opportunity
+        } else if (pjn == null) {
+            if (isPJNApprovalStage)
+                updateStatusCode(formContext, 200014);
+            //  formContext.getAttribute("statuscode").setValue(200014); //Revert to 'Decision to Proceed - In Progress' as PJN is not present for given opportunity
+            else
+                updateStatusCode(formContext, 200013);
+            //  formContext.getAttribute("statuscode").setValue(200013); //Revert to 'Pre-Bid' as PJN is not present for given opportunity
+        }
+
+    }
 }
 
 function checkAccountingCentre(formContext) {
@@ -6132,25 +5803,43 @@ function CJNApprovalButtonClick(formContext, type, approvalType, statusField, us
 
 
                             if (approvalType == 'FinanceApproval') {
-                                // Action to be called when the 
-                                var approvalCompleteAction = function () {
-                                    pollForChangeAsync(formContext,
-                                        "statecode",
-                                        function isWon(statecode) {
-                                            console.log("isWon - statecode is " + statecode);
-                                            return !!statecode && statecode != OPPORTUNITY_STATE.OPEN;
-                                        },
-                                        function reloadForm() {
-                                            console.log("Inside reloadForm ");
-                                            OpenForm(formContext.data.entity.getEntityName(),
-                                                formContext.data.entity.getId());
-                                        });
-                                }
+
                                 //if opportunitytype is 'New Framework/Panel/Call-Off' then do not close the opportunity
-                                if (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003')
-                                    approveCallbackAction(formContext, approvalType);
-                                else
+                                if (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') {
+                                    var FrameworkapprovalCompleteAction = function () {
+                                        pollForChangeAsync(formContext,
+                                            "arup_frameworkwon",
+                                            function isFrameworkWon(arup_frameworkwon) {
+                                                console.log("isFrameworkWon - arup_frameworkwon is " + arup_frameworkwon);
+                                                return arup_frameworkwon == 1;
+                                            },
+                                            function reloadForm() {
+                                                console.log("Inside reloadForm ");
+                                                OpenForm(formContext.data.entity.getEntityName(),
+                                                    formContext.data.entity.getId());
+                                            });
+                                    }
+                                    approveCallbackAction(formContext, approvalType, FrameworkapprovalCompleteAction);
+                                }
+                                else {
+                                    // Action to be called when the 
+                                    var approvalCompleteAction = function () {
+                                        pollForChangeAsync(formContext,
+                                            "statecode",
+                                            function isWon(statecode) {
+                                                console.log("isWon - statecode is " + statecode);
+                                                return !!statecode && statecode != OPPORTUNITY_STATE.OPEN;
+                                            },
+                                            function reloadForm() {
+                                                Xrm.Utility.closeProgressIndicator();
+                                                console.log("Inside reloadForm ");
+                                                OpenForm(formContext.data.entity.getEntityName(),
+                                                    formContext.data.entity.getId());
+                                            });
+                                    }
                                     approveCallbackAction(formContext, approvalType, approvalCompleteAction);
+                                    Xrm.Utility.showProgressIndicator("The opportunity is being closed...");
+                                }
 
                                 formContext.getAttribute(statusField).fireOnChange();
                                 formContext.ui.clearFormNotification('CurrentApprovers');
@@ -7285,11 +6974,11 @@ function PullParentOpportunityDetailsForDiffOpportunityType(formContext, parentO
 
             var req = new XMLHttpRequest();
             if (opportunitytype == '770000002') {
-                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_location,_ccrm_projectlocationid_value,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
+                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_location,_ccrm_projectlocationid_value,_arup_framework_value,arup_opportunitytype,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
             } else if (opportunitytype == '770000006') {
                 req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arups_role_in_project,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_contractarrangement,ccrm_location,_ccrm_projectlocationid_value,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
             } else if (opportunitytype == '770000001') {
-                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arups_role_in_project,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_contractarrangement,ccrm_contractconditions,ccrm_contractlimitofliability,ccrm_limitamount_num,ccrm_limitofliabilityagreement,ccrm_location,_ccrm_pi_transactioncurrencyid_value,ccrm_pilevelmoney_num,ccrm_pirequirement,_ccrm_projectlocationid_value,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
+                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arups_role_in_project,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_contractarrangement,ccrm_contractconditions,ccrm_contractlimitofliability,ccrm_limitamount_num,ccrm_limitofliabilityagreement,ccrm_location,_ccrm_pi_transactioncurrencyid_value,ccrm_pilevelmoney_num,ccrm_pirequirement,_ccrm_projectlocationid_value,_arup_framework_value,arup_opportunitytype,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
             }
 
             req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -7310,6 +6999,9 @@ function PullParentOpportunityDetailsForDiffOpportunityType(formContext, parentO
             };
             req.send();
         }
+
+        if (opportunitytype == '770000002' && formContext.ui.getFormType() != 1)
+            VerifyParentOpportunity(formContext); // This function is called to update CRM Framework Record from Parent if applicable.
     }
 }
 
@@ -7317,7 +7009,7 @@ function PullDetailsFromParentOpportunity(formContext, parentOpportunity, event)
     if (parentOpportunity != null && parentOpportunity != "undefined") {
         var parentOpportunityId = parentOpportunity[0].id.replace('{', '').replace('}', '');
         var req = new XMLHttpRequest();
-        req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_contractarrangement,ccrm_leadsource,ccrm_location,ccrm_probabilityofprojectproceeding,_ccrm_projectlocationid_value,_ccrm_ultimateendclientid_value,closeprobability", true);
+        req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_contractarrangement,ccrm_leadsource,ccrm_location,ccrm_probabilityofprojectproceeding,_ccrm_projectlocationid_value,_ccrm_ultimateendclientid_value,closeprobability,_arup_framework_value,arup_opportunitytype", true);
         req.setRequestHeader("OData-MaxVersion", "4.0");
         req.setRequestHeader("OData-Version", "4.0");
         req.setRequestHeader("Accept", "application/json");
@@ -7488,6 +7180,7 @@ function UpdateDetailsFromParentOpportunity(formContext, result, event) {
     }
     UpdateFieldFromParentOpportunity(formContext, "ccrm_ultimateendclientid", result["_ccrm_ultimateendclientid_value"], result["_ccrm_ultimateendclientid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_ultimateendclientid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
 
+
     setTimeout(function () {
         UpdateFieldFromParentOpportunity(formContext, "ccrm_arupusstateid", result["_ccrm_arupusstateid_value"], result["_ccrm_arupusstateid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupusstateid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
         // UpdateFieldFromParentOpportunity(formContext,"ccrm_arupcompanyid", result["_ccrm_arupcompanyid_value"], result["_ccrm_arupcompanyid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_arupcompanyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
@@ -7562,6 +7255,15 @@ function AssignBasicDetailsFromParentOpportunity(formContext, results) {
     AssignFieldValueFromParent(formContext, "ccrm_arupuniversityiiaresearchinitiative", results.value[0]["ccrm_arupuniversityiiaresearchinitiative"]);
     AssignFieldValueFromParent(formContext, "description", results.value[0]["description"]);
 }
+function UpdateCRMFrameworkRecord(formContext, parentOpportunity_OpportunityType, parentOpportunityCRMFrameworkId, parentOpportunityCRMFrameworkName, entityName) {
+    if (parentOpportunity_OpportunityType == '770000004') {
+        AssignFieldValueFromParent(formContext, "arup_framework", parentOpportunityCRMFrameworkId, parentOpportunityCRMFrameworkName, entityName);
+        formContext.getControl("arup_framework").setVisible(true);
+    } else {
+        formContext.getAttribute("arup_framework").setValue(null);
+        formContext.getControl("arup_framework").setVisible(false);
+    }
+}
 
 function AssignDetailsWhenOpportunityTypeNewContract(formContext, results) {
 
@@ -7570,9 +7272,14 @@ function AssignDetailsWhenOpportunityTypeNewContract(formContext, results) {
     if (procurementType != null && procurementType != 100000003) {
         AssignFieldValueFromParent(formContext, "ccrm_client", results.value[0]["_ccrm_client_value"], results.value[0]["_ccrm_client_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_client_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
     }
+
+    UpdateCRMFrameworkRecord(formContext, results.value[0]["arup_opportunitytype"], results.value[0]["_arup_framework_value"], results.value[0]["_arup_framework_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_arup_framework_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+
 }
 
 function AssignDetailsWhenOpportunityTypeExistingContract(formContext, results) {
+
+    UpdateCRMFrameworkRecord(formContext, results.value[0]["arup_opportunitytype"], results.value[0]["_arup_framework_value"], results.value[0]["_arup_framework_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_arup_framework_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
 
     if (formContext.ui.getFormType() != 1 && results.value[0]["ccrm_contractarrangement"] != null) {
         formContext.getAttribute("ccrm_contractarrangement").setValue(results.value[0]["ccrm_contractarrangement"]);
@@ -7717,6 +7424,11 @@ function AddParentOpportunityFilter(formContext) {
                     "</filter>";
             }
             break;
+        case 770000004: /* Project under existing Framework/Panel/Call-Off */
+            fetch = "<filter type='and'>" +
+                "<condition attribute='arup_opportunitytype' operator='eq' value='770000003' />" +
+                "</filter>";
+            break;
         case 770000006:
             fetch = "<filter type='and'>" +
                 "<condition attribute='arup_opportunitytype' operator='eq' value='770000005' />" +
@@ -7747,13 +7459,17 @@ function VerifyParentOpportunity_ec(executionContext) {
 function VerifyParentOpportunity(formContext) {
 
     var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue();
-    if (opportunitytype == '770000001') {
+    if (opportunitytype == '770000001' || opportunitytype == '770000002') {
         var parentOpportunity = formContext.getAttribute("ccrm_parentopportunityid").getValue();
         if (parentOpportunity != null && parentOpportunity != "undefined") {
             var parentOpportunityId = parentOpportunity[0].id.replace('{', '').replace('}', '');
 
             var req = new XMLHttpRequest();
-            req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=statecode,ccrm_contractarrangement", true);
+            if (opportunitytype == '770000001')
+                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=statecode,ccrm_contractarrangement,_arup_framework_value,arup_opportunitytype", true);
+            else if (opportunitytype == '770000002')
+                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities(" + parentOpportunityId + ")?$select=_arup_framework_value,arup_opportunitytype", true);
+
             req.setRequestHeader("OData-MaxVersion", "4.0");
             req.setRequestHeader("OData-Version", "4.0");
             req.setRequestHeader("Accept", "application/json");
@@ -7764,6 +7480,8 @@ function VerifyParentOpportunity(formContext) {
                     req.onreadystatechange = null;
                     if (this.status === 200) {
                         var result = JSON.parse(this.response);
+                        if (!formContext.getAttribute("ccrm_arupinternal").getValue())
+                            UpdateCRMFrameworkRecord(formContext, result["arup_opportunitytype"], result["_arup_framework_value"], result["_arup_framework_value@OData.Community.Display.V1.FormattedValue"], result["_arup_framework_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
 
                         if (opportunitytype == '770000001') {
 
@@ -7872,8 +7590,8 @@ function ShowHideFrameworkFields(formContext, trigger) {
         //}
         //   if (arupInternal && tab != null) { tab.setVisible(true); }
         formContext.getControl(existingFramework).setVisible(false);
-        formContext.getControl(existingFramework).setDisabled(true);
-        formContext.getControl("ccrm_parentopportunityid").setDisabled(true);
+        //formContext.getControl(existingFramework).setDisabled(true);
+        // formContext.getControl("ccrm_parentopportunityid").setDisabled(true);
         formContext.getControl(frameworkAgreement).setVisible(false);
         formContext.getAttribute(frameworkAgreement).setRequiredLevel("none");
         formContext.getAttribute(existingFramework).setRequiredLevel('required');
@@ -7883,7 +7601,7 @@ function ShowHideFrameworkFields(formContext, trigger) {
     else if (opptype == '770000003') {
         //  if (arupInternal && tab != null) { tab.setVisible(true); }
         formContext.getAttribute(existingFramework).setValue(0);
-        formContext.getControl(existingFramework).setVisible(true);
+        formContext.getControl(existingFramework).setVisible(false);
         formContext.getControl(existingFramework).setDisabled(true);
         formContext.getAttribute(existingFramework).setRequiredLevel('required');
         formContext.getControl("ccrm_parentopportunityid").setDisabled(false);
@@ -8127,14 +7845,14 @@ function SetMultiSelect(formContext) {
     var length = selectedValues.length;
 
     if (notApplicable) {
-        if (selectedValues.length > 1) {
-            formContext.ui.setFormNotification('You have selected "Not Applicable" option for Global Services. This will not allow you to add more options.', 'WARNING', '3');
-            setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
-            formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
-            formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
+        if (length > 1) {
+            formContext.getAttribute("arup_globalservices").setValue([770000000]);
+            formContext.ui.setFormNotification('You have selected "Not Applicable" option for Global Services. This will not allow you to add more options.', 'INFO', '3');
         }
-        formContext.getAttribute("arup_globalservices").setValue([770000000]);
-        return;
+        setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
+
+        formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
+        formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
     }
 
     if (length > 3) {
@@ -8239,13 +7957,6 @@ function checkBusinessStatus(formContext, BusinessID, entityName) {
     };
     req.send();
     return statecode;
-}
-
-function FrameworkWinNotification(formContext) {
-    var isFrameworkOpty = (formContext.getAttribute("arup_opportunitytype").getValue() == '770000003') ? true : false;
-    if (isFrameworkOpty && formContext.getAttribute("ccrm_wonreason").getValue() != null)
-        Notify.add("<span style=' color: white; border-style: solid;border - color: #ff0000;'>This is a framework win </span>", "WARNING", "frameworkwin", null, null, "#ff0000");
-
 }
 
 function existingcrmframework_onchange_qc(executionContext) {

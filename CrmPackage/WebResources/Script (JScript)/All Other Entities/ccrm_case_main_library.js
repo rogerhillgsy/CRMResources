@@ -355,6 +355,9 @@ function forceSubmitOnCreation(formContext) {
     formContext.getAttribute("ccrm_originalprojectmanager").setSubmitMode("always");
     formContext.getAttribute("ccrm_projectid").setSubmitMode("always");
     formContext.getAttribute("ccrm_ultimateclient").setSubmitMode("always");
+    formContext.getAttribute("ccrm_projectcountry").setSubmitMode("always");
+    formContext.getAttribute("ccrm_ultimateclient").setSubmitMode("always");
+    formContext.getAttribute("customerid").setSubmitMode("always");
 }
 
 function clientChange(formContext) {
