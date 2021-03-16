@@ -382,7 +382,8 @@
             <tr>
                 <td style="border-bottom: 2pt solid Black;">
                     <div>
-                        <span style="margin-right:10px;font-weight:bold;">CONNECTION MATRIX (this organisation only)</span>
+                        // TODO: - should this be set programatically?
+                        <span style="margin-right: 10px; font-weight: bold;">CONNECTION MATRIX (this organisation only)</span>
                         <a id="connMatrix"><span>Click here for a complete matrix</span></a>
                     </div>
                 </td>
@@ -1311,6 +1312,7 @@
             $("#accountName").text(profileData.name);
             $("#website").text(profileData.webSiteURL);
             $("#relationshipmanager").text(profileData.ccrm_keyaccountmanager);
+            // TODO - change 
             if (profileData.parentAccount != null) {
                 $("#parentOrg").text(profileData.parentAccount);
             }
