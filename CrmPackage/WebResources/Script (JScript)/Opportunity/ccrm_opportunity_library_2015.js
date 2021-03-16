@@ -2833,20 +2833,7 @@ function requestPossibleJob(formContext) {
                         setFocus: true
                     },
                 ], "WARNING", 600, 250, ClientUrl, true);
-        }
-
-        if (arupCompanyCode == '5006') {
-            Alert.show('<font size="6" color="#F69922"><b>Invalid Company for PJN</b></font>',
-                '<font size="3" color="#000000"></br>' + 'PJN cannot be requested for company Arup US, INC (5006).' + '</font>',
-                [
-                    {
-                        label: "<b>OK</b>",
-                        setFocus: true
-                    },
-                ], "WARNING", 600, 250, ClientUrl, true);
-
-            return;
-        }
+        }    
     }
 
     SetFieldRequirementForPreBidStage(formContext);
