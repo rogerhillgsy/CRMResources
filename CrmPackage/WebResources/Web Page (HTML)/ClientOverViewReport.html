@@ -514,103 +514,129 @@
                 accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
                 parentaccountid = accId;
             }
-            try {
-                PopulateBasicAccProfile();
-            }
-            catch (err) { }
-            try {
-                GetExchangeRate();
-                GetUserDateSettings();
-                var div = document.getElementById('currencytext');
 
-                div.innerHTML += '(All currencies are in ' + currencyname + ')';
+            debugger;
 
-            }
-            catch (err) { }
-            try {
-                PopulateManagingTeamMembers();
-            }
-            catch (err) { }
-            try {
-                PopulateChildOrganizations();
-            }
-            catch (err) { }
-            try {
-                Populate5MostRecentWins();
-            }
-            catch (err) { }
-            try {
-                GetOpenOpportunities();
-            }
-            catch (err) { }
-            //GetForCastOpportunities();}
-
-            //PopulateTop10OpenOppors();}
-            try {
-                PopulateLeads(false);
-            }
-            catch (err) { }
-            try {
-                PopulateTop5LostOppors();
-            }
-            catch (err) { }
-            try {
-                PopulateBidHistory();
-            }
-            catch (err) { }
-            try {
-                PopulateRecentActivities();
-            }
-            catch (err) { }
-            try {
-                PopulateNotes();
-            }
-            catch (err) { }
-            try {
-                PopulateConnection();
-            }
-            catch (err) { }
-            try {
+            Promise.all([
+                PopulateBasicAccProfile(),
+                GetExchangeRate().then(() => {
+                    var div = document.getElementById('currencytext');
+                    div.innerHTML += '(All currencies are in ' + currencyname + ')';
+                }),
+                GetUserDateSettings(),
+                PopulateManagingTeamMembers(),
+                PopulateChildOrganizations(),
+                PopulateChildOrganizations(),
+                Populate5MostRecentWins(),
+                GetOpenOpportunities(),
+                PopulateLeads(false),
+                PopulateTop5LostOppors(),
+                PopulateBidHistory(),
+                PopulateRecentActivities(),
+                PopulateRecentActivities(),
+                PopulateNotes()
+            ]).then(() => {
                 BindSubReport();
-            }
-            catch (err) { }
+            });
+            //try {
+            //    PopulateManagingTeamMembers();
+            //}
+            //catch (err) { }
+            //try {
+            //    PopulateChildOrganizations();
+            //}
+            //catch (err) { }
+            //try {
+            //    Populate5MostRecentWins();
+            //}
+            //catch (err) { }
+            //try {
+            //    GetOpenOpportunities();
+            //}
+            //catch (err) { }
+            ////GetForCastOpportunities();}
+
+            ////PopulateTop10OpenOppors();}
+            //try {
+            //    PopulateLeads(false);
+            //}
+            //catch (err) { }
+            //try {
+            //    PopulateTop5LostOppors();
+            //}
+            //catch (err) { }
+            //try {
+            //    PopulateBidHistory();
+            //}
+            //catch (err) { }
+            //try {
+            //    PopulateRecentActivities();
+            //}
+            //catch (err) { }
+            //try {
+            //    PopulateRecentActivities();
+            //}
+            //catch (err) { }
+            //try {
+            //    PopulateNotes();
+            //}
+            //catch (err) { }
+            //try {
+            //    BindSubReport();
+            //}
+            //catch (err) { }
         }
 
         function GetExchangeRate() {
-            var fetchexchangerates;
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
-                url: clientURL + "/api/data/v9.1/transactioncurrencies?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22transactioncurrency%22%20%3E%3Cattribute%20name%3D%22transactioncurrencyid%22%20%2F%3E%3Cattribute%20name%3D%22exchangerate%22%20%2F%3E%3Cattribute%20name%3D%22isocurrencycode%22%20%2F%3E%3Cattribute%20name%3D%22currencyname%22%20%2F%3E%3Cattribute%20name%3D%22currencyprecision%22%20%2F%3E%3Corder%20attribute%3D%22currencyname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22ccrm_arupcompany%22%20from%3D%22ccrm_currencyid%22%20to%3D%22transactioncurrencyid%22%20alias%3D%22av%22%20%3E%3Clink-entity%20name%3D%22systemuser%22%20from%3D%22ccrm_arupcompanyid%22%20to%3D%22ccrm_arupcompanyid%22%20alias%3D%22aw%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq-userid%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-                },
-                async: false,
-                success: function(data, textStatus, xhr) {
-                    fetchexchangerates = data.value;
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
-                    var alertOptions = { height: 120, width: 260 };
-                    AlertDialog( alertStrings, alertOptions);
-                }
-            });
-
-            if (fetchexchangerates.length > 0) {
-                for (var i = 0; i < fetchexchangerates.length; i++) {
-                    var exchangeNode = fetchexchangerates[i];
-                    if (exchangeNode.exchangerate != undefined) {
-
-                        exchangeratevalue = exchangeNode.exchangerate;
-                        currencyname = exchangeNode.currencyname;
-                        currencyid = exchangeNode.transactioncurrencyid;
+            var query = "transactioncurrencies?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22transactioncurrency%22%20%3E%3Cattribute%20name%3D%22transactioncurrencyid%22%20%2F%3E%3Cattribute%20name%3D%22exchangerate%22%20%2F%3E%3Cattribute%20name%3D%22isocurrencycode%22%20%2F%3E%3Cattribute%20name%3D%22currencyname%22%20%2F%3E%3Cattribute%20name%3D%22currencyprecision%22%20%2F%3E%3Corder%20attribute%3D%22currencyname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22ccrm_arupcompany%22%20from%3D%22ccrm_currencyid%22%20to%3D%22transactioncurrencyid%22%20alias%3D%22av%22%20%3E%3Clink-entity%20name%3D%22systemuser%22%20from%3D%22ccrm_arupcompanyid%22%20to%3D%22ccrm_arupcompanyid%22%20alias%3D%22aw%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq-userid%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E";
+            return GetCRMData(query,
+                function (fetchexchangerates ) {
+                    if (fetchexchangerates.length > 0) {
+                        for (var i = 0; i < fetchexchangerates.length; i++) {
+                            var exchangeNode = fetchexchangerates[i];
+                            if (exchangeNode.exchangerate != undefined) {
+                                exchangeratevalue = exchangeNode.exchangerate;
+                                currencyname = exchangeNode.currencyname;
+                                currencyid = exchangeNode.transactioncurrencyid;
+                            }
+                        }
                     }
-                }
-            }
+                },
+                "Getting Exchange Rate data");
+            //var fetchexchangerates;
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json; charset=utf-8",
+            //    datatype: "json",
+            //    url: clientURL + "/api/data/v9.1/transactioncurrencies?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22transactioncurrency%22%20%3E%3Cattribute%20name%3D%22transactioncurrencyid%22%20%2F%3E%3Cattribute%20name%3D%22exchangerate%22%20%2F%3E%3Cattribute%20name%3D%22isocurrencycode%22%20%2F%3E%3Cattribute%20name%3D%22currencyname%22%20%2F%3E%3Cattribute%20name%3D%22currencyprecision%22%20%2F%3E%3Corder%20attribute%3D%22currencyname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22ccrm_arupcompany%22%20from%3D%22ccrm_currencyid%22%20to%3D%22transactioncurrencyid%22%20alias%3D%22av%22%20%3E%3Clink-entity%20name%3D%22systemuser%22%20from%3D%22ccrm_arupcompanyid%22%20to%3D%22ccrm_arupcompanyid%22%20alias%3D%22aw%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq-userid%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+            //    beforeSend: function(XMLHttpRequest) {
+            //        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+            //        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+            //        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+            //        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            //    },
+            //    async: false,
+            //    success: function(data, textStatus, xhr) {
+            //        fetchexchangerates = data.value;
+            //    },
+            //    error: function (xhr, textStatus, errorThrown) {
+            //        var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+            //        var alertOptions = { height: 120, width: 260 };
+            //        AlertDialog( alertStrings, alertOptions);
+            //    }
+            //});
+
+            //if (fetchexchangerates.length > 0) {
+            //    for (var i = 0; i < fetchexchangerates.length; i++) {
+            //        var exchangeNode = fetchexchangerates[i];
+            //        if (exchangeNode.exchangerate != undefined) {
+
+            //            exchangeratevalue = exchangeNode.exchangerate;
+            //            currencyname = exchangeNode.currencyname;
+            //            currencyid = exchangeNode.transactioncurrencyid;
+            //        }
+            //    }
+            //}
         }
 
         function GetUserDateSettings() {
@@ -1262,7 +1288,7 @@
         function PopulateBasicAccProfile() {
             var query = "accounts("+accId+")?$select=address1_addressid,address1_city,address1_country,address1_line1,address1_line2,address1_line3,address1_postalcode,arup_clientscovid19bcadvised,ccrm_clienttype,_ccrm_keyaccountmanagerid_value,_ccrm_managingteamid_value,description,name,_parentaccountid_value,statuscode,telephone1,websiteurl,arup_clientsector";
             var basicProfile = {};
-            GetCRMData(query,
+            return GetCRMData(query,
                 function(result) {
                     basicProfile = {
                         accountId: result.accountid,
@@ -1497,8 +1523,10 @@
                 else
                 o = fetchLeads(acctid, true);
             }
-            
-            DrawTable("#leadsList", o, Object.keys(o[0]).filter(function (d) { return d !== 'leadid'; }));
+
+            if (o.length > 0) {
+                DrawTable("#leadsList", o, Object.keys(o[0]).filter(function(d) { return d !== 'leadid'; }));
+            }
         }
 
         function fetchLeads(acctid, op) {
