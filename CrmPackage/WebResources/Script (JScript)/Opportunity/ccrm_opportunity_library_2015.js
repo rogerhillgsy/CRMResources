@@ -456,6 +456,7 @@ function OnChangeToDirtyField(a) {
 function FormOnload(executionContext) {
 
     var formContext = executionContext.getFormContext();
+    var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
 
     parent.formContext = formContext;
 
@@ -553,7 +554,7 @@ function FormOnload(executionContext) {
             currentStage = getStageId(formContext);
 
             //ensure that the stage toggle flag is set to something other than 2
-            if (formContext.getAttribute("ccrm_stagetoggle").getValue() != 0) {
+            if (formContext.getAttribute("ccrm_stagetoggle").getValue() != 0 && isWriteable) {
                 formContext.getAttribute("ccrm_stagetoggle").setValue(0);
                 formContext.getAttribute("ccrm_stagetoggle").setSubmitMode("always");
                 formContext.getAttribute("ccrm_stagetoggle").fireOnChange();
