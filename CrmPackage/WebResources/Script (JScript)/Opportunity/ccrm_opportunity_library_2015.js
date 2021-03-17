@@ -2834,7 +2834,7 @@ function requestPossibleJob(formContext) {
                 [
                     {
                         label: "<b>OK</b>",
-                        setFocus: true
+                         setFocus: true
                     },
                 ], "WARNING", 600, 250, ClientUrl, true);
         }
