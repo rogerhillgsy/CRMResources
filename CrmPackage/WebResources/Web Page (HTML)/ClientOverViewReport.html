@@ -1076,20 +1076,40 @@
         }
 
         function PopulateTop5LostOppors() {
-            return GetCRMData("opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20top%3D'5'%20aggregate%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20alias%3D'LostOpp_count'%20aggregate%3D'count'%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%20groupby%3D'true'%2F%3E%3Corder%20alias%3D'LostOpp_count'%20descending%3D'true'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'outer'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'bj'%20link-type%3D'outer'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Cfilter%20type%3D'or'%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3Ccondition%20entityname%3D%20'bj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                function(opportunities) {
-                    var opporLst = [];
-                    if (opportunities.length > 0) {
-                        for (var i = 0; i < opportunities.length; i++) {
-                            var count = opportunities[i].LostOpp_count != undefined ? opportunities[i].LostOpp_count : 0;
-                            var status = opportunities[i].StatusCode != undefined ? opportunities[i]["StatusCode@OData.Community.Display.V1.FormattedValue"] : "";
-
-                            var oppor = {
-                                "label": status, "value": count
-                            };
-                            opporLst.push(oppor);
-                        }
+            var opportRecords;
+            var req = new XMLHttpRequest();
+            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20top%3D'5'%20aggregate%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20alias%3D'LostOpp_count'%20aggregate%3D'count'%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%20groupby%3D'true'%2F%3E%3Corder%20alias%3D'LostOpp_count'%20descending%3D'true'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'outer'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'bj'%20link-type%3D'outer'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Cfilter%20type%3D'or'%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3Ccondition%20entityname%3D%20'bj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            req.setRequestHeader("OData-MaxVersion", "4.0");
+            req.setRequestHeader("OData-Version", "4.0");
+            req.setRequestHeader("Accept", "application/json");
+            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            req.onreadystatechange = function() {
+                if (this.readyState === 4) {
+                    req.onreadystatechange = null;
+                    if (this.status === 200) {
+                        opportRecords = JSON.parse(this.response).value;
+                    } else {
+                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+                        var alertOptions = { height: 120, width: 260 };
+                        AlertDialog( alertStrings, alertOptions);
                     }
+                }
+            };
+            req.send();
+
+            var opporLst = [];
+
+            if (opportRecords.length > 0) {
+                for (var i = 0; i < opportRecords.length; i++) {
+                    var count = opportRecords[i].LostOpp_count != undefined ? opportRecords[i].LostOpp_count : 0;
+                    var status = opportRecords[i].StatusCode != undefined ? opportRecords[i]["StatusCode@OData.Community.Display.V1.FormattedValue"] : "";
+
+                    var oppor = {
+                        "label": status, "value": count
+                    };
+                    opporLst.push(oppor);
+                }
+            }
 
                     DrawPieChart("#top5BidLossReason", opporLst);
                 },
@@ -1189,7 +1209,8 @@
             var ultClient = GetCRMData("opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'customerid'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Cfilter%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid +"'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'opportunityclose'%20from%3D'opportunityid'%20to%3D'opportunityid'%20alias%3D'ab'%3E%3Cattribute%20name%3D'actualend'%20%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
                 function(ultRecs) {
                     opportRecordsUlt = ultRecs;
-                }, "Get Ultimate clients");
+                }, "Get Ultimate clients");
+
             return Promise.all([wins, ultClient]).then(
                 function(done) {
                     var opporLst = [];
