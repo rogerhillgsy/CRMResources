@@ -6,6 +6,10 @@ var optionsetSelectedValue;
 
 function GetDependentOptionSetFieldValues(executionContext, mainOptionsetFieldName, dependentOptionsetFieldName) {
     var formContext = executionContext.getFormContext();
+
+    var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
+    if (!isWriteable) return;
+
     var mainOptionSetFieldValue = formContext.getAttribute(mainOptionsetFieldName).getValue();
 
     optionsetDefaultValue = null;
@@ -102,6 +106,10 @@ function fireOnFormLoad(executionContext, attributename) {
 
 function GetDependentFieldValues(executionContext) {
     var formContext = executionContext.getFormContext();
+
+    var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
+    if (!isWriteable) return;
+
     var attribute = executionContext.getEventSource();
     var mainOptionsetFieldName = attribute.getName();
     var mainOptionSetFieldValue = attribute.getValue();
