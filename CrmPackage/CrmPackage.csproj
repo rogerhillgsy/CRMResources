@@ -1457,11 +1457,6 @@
       <UniqueName>arup_DupeCheckHtmlWithQC.htm</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\Lead\arup_dynamic_display_of_fieldvalue.js">
-      <DisplayName>arup_dynamic_display_of_fieldvalue</DisplayName>
-      <UniqueName>new_arup_dynamic_display_of_fieldvalue</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Lead\ccrm_lead_library_2015.js">
       <DisplayName>ccrm_lead_library_2015</DisplayName>
       <UniqueName>ccrm_lead_library_2015</UniqueName>
