@@ -118,6 +118,9 @@ function exitForm(formContext) {
     }
 
     if (ismodified == true && formContext.getAttribute("statecode").getValue() != 0) {
+        // Output the modified fields to Debug console.
+        console.log("Form has been modified - fields requiring saving are: " + formContext.data.entity.getDataXml());
+
         //get list of dirty fields
         var oppAttributes = formContext.data.entity.attributes.get();
         if (oppAttributes != null) {
@@ -450,6 +453,7 @@ function OnChangeToDirtyField(a) {
 function FormOnload(executionContext) {
 
     var formContext = executionContext.getFormContext();
+    var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
 
     parent.formContext = formContext;
 
@@ -571,7 +575,7 @@ function FormOnload(executionContext) {
             currentStage = getStageId(formContext);
 
             //ensure that the stage toggle flag is set to something other than 2
-            if (formContext.getAttribute("ccrm_stagetoggle").getValue() != 0) {
+            if (formContext.getAttribute("ccrm_stagetoggle").getValue() != 0 && isWriteable) {
                 formContext.getAttribute("ccrm_stagetoggle").setValue(0);
                 formContext.getAttribute("ccrm_stagetoggle").setSubmitMode("always");
                 formContext.getAttribute("ccrm_stagetoggle").fireOnChange();
@@ -2830,23 +2834,10 @@ function requestPossibleJob(formContext) {
                 [
                     {
                         label: "<b>OK</b>",
-                        setFocus: true
+                         setFocus: true
                     },
                 ], "WARNING", 600, 250, ClientUrl, true);
-        }
-
-        if (arupCompanyCode == '5006') {
-            Alert.show('<font size="6" color="#F69922"><b>Invalid Company for PJN</b></font>',
-                '<font size="3" color="#000000"></br>' + 'PJN cannot be requested for company Arup US, INC (5006).' + '</font>',
-                [
-                    {
-                        label: "<b>OK</b>",
-                        setFocus: true
-                    },
-                ], "WARNING", 600, 250, ClientUrl, true);
-
-            return;
-        }
+        }    
     }
 
     SetFieldRequirementForPreBidStage(formContext);

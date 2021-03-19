@@ -161,18 +161,6 @@ function CloseOpportunityConfirmation(formContext, statusCode) {
 
         if (arupCompany != null) {
             denyArupCompanyPJN(formContext, arupCompany[0].id);
-            if (arupCompanyCode == '5006') {
-                Alert.show('<font size="6" color="#F69922"><b>Invalid Company for CJN</b></font>',
-                    '<font size="3" color="#000000"></br>' + 'CJN cannot be requested for company Arup US, INC (5006).' + '</font>',
-                    [
-                        {
-                            label: "<b>OK</b>",
-                            setFocus: true
-                        },
-                    ], "WARNING", 600, 250, '', true);
-
-                return;
-            }
         }
     }
 
@@ -537,7 +525,8 @@ function retreiveOrganisationChecks(executionContext) {
     //Check if client is not Unassigned and Not Internal Opportuntiy
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var client = formContext.getAttribute("ccrm_client").getValue();
-    if (client != null && client[0].name != 'Unassigned' && arupInternal != true) {
+    var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
+    if (client != null && client[0].name != 'Unassigned' && arupInternal != true && isWriteable) {
         var oppSanctionCheck = formContext.getAttribute("arup_duediligencecheck").getValue();
         var clientDirty = formContext.getAttribute("ccrm_client").getIsDirty();
         if (client != null) {

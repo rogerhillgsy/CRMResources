@@ -382,7 +382,7 @@
             <tr>
                 <td style="border-bottom: 2pt solid Black;">
                     <div>
-                        <span style="margin-right:10px;font-weight:bold;">CONNECTION MATRIX (this organisation only)</span>
+                        <span style="margin-right: 10px; font-weight: bold;">CONNECTION MATRIX</span>
                         <a id="connMatrix"><span>Click here for a complete matrix</span></a>
                     </div>
                 </td>
@@ -513,141 +513,181 @@
                 accId = "29616C21-7745-E011-9CF6-78E7D16510D0";
                 parentaccountid = accId;
             }
-            try {
-                PopulateBasicAccProfile();
-            }
-            catch (err) { }
-            try {
-                GetExchangeRate();
-                GetUserDateSettings();
-                var div = document.getElementById('currencytext');
 
-                div.innerHTML += '(All currencies are in ' + currencyname + ')';
+            // debugger;
 
-            }
-            catch (err) { }
-            try {
-                PopulateManagingTeamMembers();
-            }
-            catch (err) { }
-            try {
-                PopulateChildOrganizations();
-            }
-            catch (err) { }
-            try {
-                Populate5MostRecentWins();
-            }
-            catch (err) { }
-            try {
-                GetOpenOpportunities();
-            }
-            catch (err) { }
-            //GetForCastOpportunities();}
-
-            //PopulateTop10OpenOppors();}
-            try {
-                PopulateLeads(false);
-            }
-            catch (err) { }
-            try {
-                PopulateTop5LostOppors();
-            }
-            catch (err) { }
-            try {
-                PopulateBidHistory();
-            }
-            catch (err) { }
-            try {
-                PopulateRecentActivities();
-            }
-            catch (err) { }
-            try {
-                PopulateNotes();
-            }
-            catch (err) { }
-            try {
-                PopulateConnection();
-            }
-            catch (err) { }
-            try {
+            Promise.all([
+                PopulateBasicAccProfile(),
+                GetExchangeRate().then(() => {
+                    var div = document.getElementById('currencytext');
+                    div.innerHTML += '(All currencies are in ' + currencyname + ')';
+                }),
+                GetUserDateSettings(),
+                PopulateManagingTeamMembers(),
+                PopulateChildOrganizations(),
+                Populate5MostRecentWins(),
+                GetOpenOpportunities(),
+                PopulateLeads(false),
+                PopulateTop5LostOppors(),
+                PopulateBidHistory(),
+                PopulateRecentActivities(),
+                PopulateNotes()
+            ]).then(() => {
                 BindSubReport();
-            }
-            catch (err) { }
+            });
+            //try {
+            //    PopulateManagingTeamMembers();
+            //}
+            //catch (err) { }
+            //try {
+            //    PopulateChildOrganizations();
+            //}
+            //catch (err) { }
+            //try {
+            //    Populate5MostRecentWins();
+            //}
+            //catch (err) { }
+            //try {
+            //    GetOpenOpportunities();
+            //}
+            //catch (err) { }
+            ////GetForCastOpportunities();}
+
+            ////PopulateTop10OpenOppors();}
+            //try {
+            //    PopulateLeads(false);
+            //}
+            //catch (err) { }
+            //try {
+            //    PopulateTop5LostOppors();
+            //}
+            //catch (err) { }
+            //try {
+            //    PopulateBidHistory();
+            //}
+            //catch (err) { }
+            //try {
+            //    PopulateRecentActivities();
+            //}
+            //catch (err) { }
+            //try {
+            //    PopulateRecentActivities();
+            //}
+            //catch (err) { }
+            //try {
+            //    PopulateNotes();
+            //}
+            //catch (err) { }
+            //try {
+            //    BindSubReport();
+            //}
+            //catch (err) { }
         }
 
         function GetExchangeRate() {
-            var fetchexchangerates;
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
-                url: clientURL + "/api/data/v9.1/transactioncurrencies?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22transactioncurrency%22%20%3E%3Cattribute%20name%3D%22transactioncurrencyid%22%20%2F%3E%3Cattribute%20name%3D%22exchangerate%22%20%2F%3E%3Cattribute%20name%3D%22isocurrencycode%22%20%2F%3E%3Cattribute%20name%3D%22currencyname%22%20%2F%3E%3Cattribute%20name%3D%22currencyprecision%22%20%2F%3E%3Corder%20attribute%3D%22currencyname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22ccrm_arupcompany%22%20from%3D%22ccrm_currencyid%22%20to%3D%22transactioncurrencyid%22%20alias%3D%22av%22%20%3E%3Clink-entity%20name%3D%22systemuser%22%20from%3D%22ccrm_arupcompanyid%22%20to%3D%22ccrm_arupcompanyid%22%20alias%3D%22aw%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq-userid%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-                },
-                async: false,
-                success: function(data, textStatus, xhr) {
-                    fetchexchangerates = data.value;
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
-                    var alertOptions = { height: 120, width: 260 };
-                    AlertDialog( alertStrings, alertOptions);
-                }
-            });
-
-            if (fetchexchangerates.length > 0) {
-                for (var i = 0; i < fetchexchangerates.length; i++) {
-                    var exchangeNode = fetchexchangerates[i];
-                    if (exchangeNode.exchangerate != undefined) {
-
-                        exchangeratevalue = exchangeNode.exchangerate;
-                        currencyname = exchangeNode.currencyname;
-                        currencyid = exchangeNode.transactioncurrencyid;
+            var query = "transactioncurrencies?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22transactioncurrency%22%20%3E%3Cattribute%20name%3D%22transactioncurrencyid%22%20%2F%3E%3Cattribute%20name%3D%22exchangerate%22%20%2F%3E%3Cattribute%20name%3D%22isocurrencycode%22%20%2F%3E%3Cattribute%20name%3D%22currencyname%22%20%2F%3E%3Cattribute%20name%3D%22currencyprecision%22%20%2F%3E%3Corder%20attribute%3D%22currencyname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22ccrm_arupcompany%22%20from%3D%22ccrm_currencyid%22%20to%3D%22transactioncurrencyid%22%20alias%3D%22av%22%20%3E%3Clink-entity%20name%3D%22systemuser%22%20from%3D%22ccrm_arupcompanyid%22%20to%3D%22ccrm_arupcompanyid%22%20alias%3D%22aw%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq-userid%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E";
+            return GetCRMData(query,
+                function (fetchexchangerates ) {
+                    if (fetchexchangerates.length > 0) {
+                        for (var i = 0; i < fetchexchangerates.length; i++) {
+                            var exchangeNode = fetchexchangerates[i];
+                            if (exchangeNode.exchangerate != undefined) {
+                                exchangeratevalue = exchangeNode.exchangerate;
+                                currencyname = exchangeNode.currencyname;
+                                currencyid = exchangeNode.transactioncurrencyid;
+                            }
+                        }
                     }
-                }
-            }
+                },
+                "Getting Exchange Rate data");
+            //var fetchexchangerates;
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json; charset=utf-8",
+            //    datatype: "json",
+            //    url: clientURL + "/api/data/v9.1/transactioncurrencies?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22transactioncurrency%22%20%3E%3Cattribute%20name%3D%22transactioncurrencyid%22%20%2F%3E%3Cattribute%20name%3D%22exchangerate%22%20%2F%3E%3Cattribute%20name%3D%22isocurrencycode%22%20%2F%3E%3Cattribute%20name%3D%22currencyname%22%20%2F%3E%3Cattribute%20name%3D%22currencyprecision%22%20%2F%3E%3Corder%20attribute%3D%22currencyname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22ccrm_arupcompany%22%20from%3D%22ccrm_currencyid%22%20to%3D%22transactioncurrencyid%22%20alias%3D%22av%22%20%3E%3Clink-entity%20name%3D%22systemuser%22%20from%3D%22ccrm_arupcompanyid%22%20to%3D%22ccrm_arupcompanyid%22%20alias%3D%22aw%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq-userid%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+            //    beforeSend: function(XMLHttpRequest) {
+            //        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+            //        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+            //        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+            //        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            //    },
+            //    async: false,
+            //    success: function(data, textStatus, xhr) {
+            //        fetchexchangerates = data.value;
+            //    },
+            //    error: function (xhr, textStatus, errorThrown) {
+            //        var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+            //        var alertOptions = { height: 120, width: 260 };
+            //        AlertDialog( alertStrings, alertOptions);
+            //    }
+            //});
+
+            //if (fetchexchangerates.length > 0) {
+            //    for (var i = 0; i < fetchexchangerates.length; i++) {
+            //        var exchangeNode = fetchexchangerates[i];
+            //        if (exchangeNode.exchangerate != undefined) {
+
+            //            exchangeratevalue = exchangeNode.exchangerate;
+            //            currencyname = exchangeNode.currencyname;
+            //            currencyid = exchangeNode.transactioncurrencyid;
+            //        }
+            //    }
+            //}
         }
 
         function GetUserDateSettings() {
-          
-            var fetchdatesettings;
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
-                url: clientURL + "/api/data/v9.1/usersettingscollection?fetchXml=%3Cfetch%20mapping%3D%22logical%22%20%3E%3Centity%20name%3D%22usersettings%22%20%3E%3Cattribute%20name%3D%22dateseparator%22%20%2F%3E%3Cattribute%20name%3D%22dateformatstring%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq-userid%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-                },
-                async: false,
-                success: function(data, textStatus, xhr) {
-                    fetchdatesettings = data.value;
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
-                    var alertOptions = { height: 120, width: 260 };
-                    AlertDialog( alertStrings, alertOptions);
-                }
-            });
 
-            if (fetchdatesettings.length > 0) {
-                for (var i = 0; i < fetchdatesettings.length; i++) {
-                    var datesettingNode = fetchdatesettings[i];
-                    if (datesettingNode.dateformatstring != undefined) {
+            return GetCRMData("usersettingscollection?fetchXml=%3Cfetch%20mapping%3D%22logical%22%20%3E%3Centity%20name%3D%22usersettings%22%20%3E%3Cattribute%20name%3D%22dateseparator%22%20%2F%3E%3Cattribute%20name%3D%22dateformatstring%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq-userid%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                function(fetchdatesettings) {
+                    if (fetchdatesettings.length > 0) {
+                        for (var i = 0; i < fetchdatesettings.length; i++) {
+                            var datesettingNode = fetchdatesettings[i];
+                            if (datesettingNode.dateformatstring != undefined) {
 
-                        var dateseperator = datesettingNode.dateseparator;
-                        dateformat = datesettingNode.dateformatstring.replace("/", dateseperator).replace("/", dateseperator);
+                                var dateseperator = datesettingNode.dateseparator;
+                                dateformat = datesettingNode.dateformatstring.replace("/", dateseperator).replace("/", dateseperator);
 
+                            }
+                        }
                     }
-                }
-            }
+                },
+                "Get User Date Settings"
+            );
+            //var fetchdatesettings;
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json; charset=utf-8",
+            //    datatype: "json",
+            //    url: clientURL + "/api/data/v9.1/usersettingscollection?fetchXml=%3Cfetch%20mapping%3D%22logical%22%20%3E%3Centity%20name%3D%22usersettings%22%20%3E%3Cattribute%20name%3D%22dateseparator%22%20%2F%3E%3Cattribute%20name%3D%22dateformatstring%22%20%2F%3E%3Cfilter%3E%3Ccondition%20attribute%3D%22systemuserid%22%20operator%3D%22eq-userid%22%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+            //    beforeSend: function(XMLHttpRequest) {
+            //        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+            //        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+            //        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+            //        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            //    },
+            //    async: false,
+            //    success: function(data, textStatus, xhr) {
+            //        fetchdatesettings = data.value;
+            //    },
+            //    error: function (xhr, textStatus, errorThrown) {
+            //        var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+            //        var alertOptions = { height: 120, width: 260 };
+            //        AlertDialog( alertStrings, alertOptions);
+            //    }
+            //});
+
+            //if (fetchdatesettings.length > 0) {
+            //    for (var i = 0; i < fetchdatesettings.length; i++) {
+            //        var datesettingNode = fetchdatesettings[i];
+            //        if (datesettingNode.dateformatstring != undefined) {
+
+            //            var dateseperator = datesettingNode.dateseparator;
+            //            dateformat = datesettingNode.dateformatstring.replace("/", dateseperator).replace("/", dateseperator);
+
+            //        }
+            //    }
+            //}
         }
 
         function BindSubReport() {
@@ -691,48 +731,74 @@
         }
 
         function PopulateNotes() {
-            var notes;
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
-                url: clientURL + "/api/data/v9.1/annotations?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%20count%3D%225%22%20%3E%3Centity%20name%3D%22annotation%22%20%3E%3Cattribute%20name%3D%22annotationid%22%20%2F%3E%3Cattribute%20name%3D%22subject%22%20%2F%3E%3Cattribute%20name%3D%22annotationid%22%20%2F%3E%3Cattribute%20name%3D%22notetext%22%20%2F%3E%3Cattribute%20name%3D%22createdon%22%20%2F%3E%3Cattribute%20name%3D%22createdby%22%20%2F%3E%3Corder%20attribute%3D%22createdon%22%20descending%3D%22true%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22createdbyname%22%20operator%3D%22not-like%22%20value%3D%22%25CRM%20Admin%25%22%20%2F%3E%3Ccondition%20attribute%3D%22notetext%22%20operator%3D%22not-like%22%20value%3D%22%25credit%25%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22objectid%22%20alias%3D%22ab%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
-                beforeSend: function(XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-                },
-                async: false,
-                success: function(data, textStatus, xhr) {
-                    notes = data.value;
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
-                    var alertOptions = { height: 120, width: 260 };
-                    AlertDialog( alertStrings, alertOptions);
-                }
-            });
-            var noteLst = [];
-            if (notes.length > 0) {
-                for (var i = 0; i < notes.length; i++) {
-                    var note = notes[i];
-                    if (note.notetext != undefined && note.notetext.length > 0) {
+            return GetCRMData("annotations?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%20count%3D%225%22%20%3E%3Centity%20name%3D%22annotation%22%20%3E%3Cattribute%20name%3D%22annotationid%22%20%2F%3E%3Cattribute%20name%3D%22subject%22%20%2F%3E%3Cattribute%20name%3D%22annotationid%22%20%2F%3E%3Cattribute%20name%3D%22notetext%22%20%2F%3E%3Cattribute%20name%3D%22createdon%22%20%2F%3E%3Cattribute%20name%3D%22createdby%22%20%2F%3E%3Corder%20attribute%3D%22createdon%22%20descending%3D%22true%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22createdbyname%22%20operator%3D%22not-like%22%20value%3D%22%25CRM%20Admin%25%22%20%2F%3E%3Ccondition%20attribute%3D%22notetext%22%20operator%3D%22not-like%22%20value%3D%22%25credit%25%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22objectid%22%20alias%3D%22ab%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                function(notes) {
+                    var noteLst = [];
+                    if (notes.length > 0) {
+                        for (var i = 0; i < notes.length; i++) {
+                            var note = notes[i];
+                            if (note.notetext != undefined && note.notetext.length > 0) {
 
-                        var text = note.notetext;
-                        var createdBy = note["_createdby_value@OData.Community.Display.V1.FormattedValue"];
-                        var createdOn = note["createdon@OData.Community.Display.V1.FormattedValue"];
+                                var text = note.notetext;
+                                var createdBy = note["_createdby_value@OData.Community.Display.V1.FormattedValue"];
+                                var createdOn = note["createdon@OData.Community.Display.V1.FormattedValue"];
 
-                        var comment = {
-                            "Note": text, "Created By": createdBy, "Created On": createdOn
-                        };
-                        noteLst.push(comment);
+                                var comment = {
+                                    "Note": text,
+                                    "Created By": createdBy,
+                                    "Created On": createdOn
+                                };
+                                noteLst.push(comment);
+                            }
+                        }
+                        if (noteLst.length > 0) {
+                            DrawTable("#recentNotes", noteLst, Object.keys(noteLst[0]));
+                        }
                     }
-                }
-                if (noteLst.length > 0) {
-                    DrawTable("#recentNotes", noteLst, Object.keys(noteLst[0]));
-                }
-            }
+                },
+                "Get Notes data");
+            //var notes;
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json; charset=utf-8",
+            //    datatype: "json",
+            //    url: clientURL + "/api/data/v9.1/annotations?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%20count%3D%225%22%20%3E%3Centity%20name%3D%22annotation%22%20%3E%3Cattribute%20name%3D%22annotationid%22%20%2F%3E%3Cattribute%20name%3D%22subject%22%20%2F%3E%3Cattribute%20name%3D%22annotationid%22%20%2F%3E%3Cattribute%20name%3D%22notetext%22%20%2F%3E%3Cattribute%20name%3D%22createdon%22%20%2F%3E%3Cattribute%20name%3D%22createdby%22%20%2F%3E%3Corder%20attribute%3D%22createdon%22%20descending%3D%22true%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22createdbyname%22%20operator%3D%22not-like%22%20value%3D%22%25CRM%20Admin%25%22%20%2F%3E%3Ccondition%20attribute%3D%22notetext%22%20operator%3D%22not-like%22%20value%3D%22%25credit%25%22%20%2F%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22objectid%22%20alias%3D%22ab%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+            //    beforeSend: function(XMLHttpRequest) {
+            //        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+            //        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+            //        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+            //        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            //    },
+            //    async: false,
+            //    success: function(data, textStatus, xhr) {
+            //        notes = data.value;
+            //    },
+            //    error: function(xhr, textStatus, errorThrown) {
+            //        var alertStrings = { confirmButtonLabel: "OK", text: textStatus + " " + errorThrown, title: "Alert" };
+            //        var alertOptions = { height: 120, width: 260 };
+            //        AlertDialog( alertStrings, alertOptions);
+            //    }
+            //});
+            //var noteLst = [];
+            //if (notes.length > 0) {
+            //    for (var i = 0; i < notes.length; i++) {
+            //        var note = notes[i];
+            //        if (note.notetext != undefined && note.notetext.length > 0) {
+
+            //            var text = note.notetext;
+            //            var createdBy = note["_createdby_value@OData.Community.Display.V1.FormattedValue"];
+            //            var createdOn = note["createdon@OData.Community.Display.V1.FormattedValue"];
+
+            //            var comment = {
+            //                "Note": text, "Created By": createdBy, "Created On": createdOn
+            //            };
+            //            noteLst.push(comment);
+            //        }
+            //    }
+            //    if (noteLst.length > 0) {
+            //        DrawTable("#recentNotes", noteLst, Object.keys(noteLst[0]));
+            //    }
+            //}
         }
 
         function PopulateConnection() {
@@ -760,7 +826,7 @@
 
         function PopulateRecentActivities() {
             var recentActivitylst = [], planedActivitylst = [];
-            GetCRMData(
+            return GetCRMData(
                 "activitypointers?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22true%22%20count%3D%225%22%20%3E%3Centity%20name%3D%22activitypointer%22%20%3E%3Cattribute%20name%3D%22activitytypecode%22%20%2F%3E%3Cattribute%20name%3D%22subject%22%20%2F%3E%3Cattribute%20name%3D%22activityid%22%20%2F%3E%3Cattribute%20name%3D%22instancetypecode%22%20%2F%3E%3Cattribute%20name%3D%22ownerid%22%20%2F%3E%3Cattribute%20name%3D%22createdon%22%20%2F%3E%3Cattribute%20name%3D%22statecode%22%20%2F%3E%3Corder%20attribute%3D%22createdon%22%20descending%3D%22true%22%20%2F%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22regardingobjectid%22%20alias%3D%22aj%22%20link-type%3D%22outer%22%20%2F%3E%3Clink-entity%20name%3D%22contact%22%20from%3D%22contactid%22%20to%3D%22regardingobjectid%22%20alias%3D%22ac%22%20link-type%3D%22outer%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22isworkflowcreated%22%20operator%3D%22eq%22%20value%3D%220%22%20%2F%3E%3Ccondition%20attribute%3D%22statecode%22%20operator%3D%22in%22%20%3E%3Cvalue%3E1%3C%2Fvalue%3E%3Cvalue%3E3%3C%2Fvalue%3E%3Cvalue%3E0%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20attribute%3D%22activitytypecode%22%20operator%3D%22in%22%20%3E%3Cvalue%3E4201%3C%2Fvalue%3E%3Cvalue%3E4202%3C%2Fvalue%3E%3Cvalue%3E4204%3C%2Fvalue%3E%3Cvalue%3E4207%3C%2Fvalue%3E%3Cvalue%3E4210%3C%2Fvalue%3E%3Cvalue%3E4212%3C%2Fvalue%3E%3C%2Fcondition%3E%3Cfilter%20type%3D%22or%22%20%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22under%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20entityname%3D%22ac%22%20attribute%3D%22parentcustomerid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + accId + "%22%20%2F%3E%3Ccondition%20attribute%3D%22regardingobjectid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + parentaccountid + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
                 function(results) {
                     for (var i = 0; i < results.length; i++) {
@@ -795,103 +861,184 @@
         function PopulateBidHistory() {
             var opportRecords;
             var opportRecordsUlt;
-            var req = new XMLHttpRequest();
-            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'customerid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee_base'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'StateCode'%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'in'%3E%3Cvalue%3E2%3C%2Fvalue%3E%3Cvalue%3E1%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            req.onreadystatechange = function() {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 200) {
-                        opportRecords = JSON.parse(this.response).value;
-                    } else {
-                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
-                        var alertOptions = { height: 120, width: 260 };
-                        AlertDialog( alertStrings, alertOptions);
-                    }
-                }
-            };
-            req.send();
+            var  bids1= GetCRMData("opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'customerid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee_base'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'StateCode'%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'in'%3E%3Cvalue%3E2%3C%2Fvalue%3E%3Cvalue%3E1%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                function(data) {
+                    opportRecords = data;
+                },
+                "Get Bid History 1"
+            );
+            var bids2 = GetCRMData("opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'ccrm_ultimateendclientid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee_base'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'StateCode'%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'in'%3E%3Cvalue%3E2%3C%2Fvalue%3E%3Cvalue%3E1%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                function(data) {
+                    opportRecordsUlt = data;
+                },
+                "Get Bid History 2");
 
-            var req = new XMLHttpRequest();
-            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'ccrm_ultimateendclientid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee_base'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'StateCode'%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'in'%3E%3Cvalue%3E2%3C%2Fvalue%3E%3Cvalue%3E1%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            req.onreadystatechange = function() {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 200) {
-                        opportRecordsUlt = JSON.parse(this.response).value;
-                    } else {
-                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
-                        var alertOptions = { height: 120, width: 260 };
-                        AlertDialog( alertStrings, alertOptions);
-                    }
-                }
-            };
-            req.send();
+            return Promise.all([bids1, bids2])
+                .then(function(done) {
+                    var opporLst = [];
+                    if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
+                        if (opportRecords.length > 0) {
+                            for (var i = 0; i < opportRecords.length; i++) {
+                                var clientName = opportRecords[i].ClientName.toUpperCase() == parentaccountid.toUpperCase() ? opportRecords[i]['ClientName@OData.Community.Display.V1.FormattedValue'] : "Related Child Org";
+                                var opportunityId = opportRecords[i].opportunityid;
+                                var status = opportRecords[i]['StateCode@OData.Community.Display.V1.FormattedValue'];
+                                var fee = opportRecords[i].fee_base != undefined ? opportRecords[i].fee_base * exchangeratevalue : 0.00;
 
-            var opporLst = [];
-            if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
-                if (opportRecords.length > 0) {
-                    for (var i = 0; i < opportRecords.length; i++) {
-                        var clientName = opportRecords[i].ClientName.toUpperCase() == parentaccountid.toUpperCase() ? opportRecords[i]['ClientName@OData.Community.Display.V1.FormattedValue'] : "Related Child Org";
-                        var opportunityId = opportRecords[i].opportunityid;
-                        var status = opportRecords[i]['StateCode@OData.Community.Display.V1.FormattedValue'];
-                        var fee = opportRecords[i].fee_base != undefined ? opportRecords[i].fee_base * exchangeratevalue : 0.00;
-
-                        var oppor = {
-                            "ClientName": clientName, "OpportunityId": opportunityId, "Status": status, "Fee": fee
-                        };
-                        opporLst.push(oppor);
-                    }
-                }
-
-                if (opportRecordsUlt.length > 0) {
-                    for (var i = 0; i < opportRecordsUlt.length; i++) {
-                        var clientName = opportRecordsUlt[i].ClientName.toUpperCase() == parentaccountid.toUpperCase() ? opportRecordsUlt[i]['ClientName@OData.Community.Display.V1.FormattedValue'] : "Related Child Org";
-                        var opportunityId = opportRecordsUlt[i].opportunityid;
-                        var status = opportRecordsUlt[i]['StateCode@OData.Community.Display.V1.FormattedValue'];
-                        var fee = opportRecordsUlt[i].fee_base != undefined ? opportRecordsUlt[i].fee_base * exchangeratevalue : 0.00;
-
-                        var opporUlt = {
-                            "ClientName": clientName, "OpportunityId": opportunityId, "Status": status, "Fee": fee
-                        };
-
-                        var oppFound = oppExists(opportunityId);
-
-                        if (!oppFound) {
-                            opporLst.push(opporUlt);
+                                var oppor = {
+                                    "ClientName": clientName,
+                                    "OpportunityId": opportunityId,
+                                    "Status": status,
+                                    "Fee": fee
+                                };
+                                opporLst.push(oppor);
+                            }
                         }
 
-                        function oppExists(oppid) {
-                            return opporLst.some(function (el) {
-                                return el.OpportunityId === oppid;
-                            });
+                        if (opportRecordsUlt.length > 0) {
+                            for (var i = 0; i < opportRecordsUlt.length; i++) {
+                                var clientName = opportRecordsUlt[i].ClientName.toUpperCase() == parentaccountid.toUpperCase() ? opportRecordsUlt[i]['ClientName@OData.Community.Display.V1.FormattedValue'] : "Related Child Org";
+                                var opportunityId = opportRecordsUlt[i].opportunityid;
+                                var status = opportRecordsUlt[i]['StateCode@OData.Community.Display.V1.FormattedValue'];
+                                var fee = opportRecordsUlt[i].fee_base != undefined ? opportRecordsUlt[i].fee_base * exchangeratevalue : 0.00;
+
+                                var opporUlt = {
+                                    "ClientName": clientName,
+                                    "OpportunityId": opportunityId,
+                                    "Status": status,
+                                    "Fee": fee
+                                };
+
+                                var oppFound = oppExists(opportunityId);
+
+                                if (!oppFound) {
+                                    opporLst.push(opporUlt);
+                                }
+
+                                function oppExists(oppid) {
+                                    return opporLst.some(function(el) {
+                                        return el.OpportunityId === oppid;
+                                    });
+                                }
+
+                            }
                         }
 
+                        var x = d3.nest()
+                            .key(function(d) { return d.Status })
+                            .key(function(d) { return d.ClientName })
+                            .rollup(function(d) { return { "Count": d.length, "Sum": d3.sum(d, function(d) { return parseFloat(d.Fee) }) } })
+                            .entries(opporLst);
+
+                        var bidHist = [];
+                        x.forEach(function(d) {
+                            d.values.forEach(function(e) {
+                                bidHist.push({ "label": d.key + " (" + e.value.Count + ") - " + e.key, "value": e.value.Sum });
+                            })
+                        });
+
+                        DrawPieChart("#bidHistory", bidHist, true);
                     }
-                }
-
-                var x = d3.nest()
-                    .key(function (d) { return d.Status })
-                    .key(function (d) { return d.ClientName })
-                    .rollup(function (d) { return { "Count": d.length, "Sum": d3.sum(d, function (d) { return parseFloat(d.Fee) }) } })
-                    .entries(opporLst);
-
-                var bidHist = [];
-                x.forEach(function (d) {
-                    d.values.forEach(function (e) {
-                        bidHist.push({ "label": d.key + " (" + e.value.Count + ") - " + e.key, "value": e.value.Sum });
-                    })
                 });
 
-                DrawPieChart("#bidHistory", bidHist, true);
-            }
+            //var opportRecords;
+            //var opportRecordsUlt;
+            //var req = new XMLHttpRequest();
+            //req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'customerid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee_base'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'StateCode'%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'in'%3E%3Cvalue%3E2%3C%2Fvalue%3E%3Cvalue%3E1%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            //req.setRequestHeader("OData-MaxVersion", "4.0");
+            //req.setRequestHeader("OData-Version", "4.0");
+            //req.setRequestHeader("Accept", "application/json");
+            //req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            //req.onreadystatechange = function() {
+            //    if (this.readyState === 4) {
+            //        req.onreadystatechange = null;
+            //        if (this.status === 200) {
+            //            opportRecords = JSON.parse(this.response).value;
+            //        } else {
+            //            var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+            //            var alertOptions = { height: 120, width: 260 };
+            //            AlertDialog( alertStrings, alertOptions);
+            //        }
+            //    }
+            //};
+            //req.send();
+
+            //var req = new XMLHttpRequest();
+            //req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'ccrm_ultimateendclientid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee_base'%20%2F%3E%3Cattribute%20name%3D'statecode'%20alias%3D'StateCode'%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'in'%3E%3Cvalue%3E2%3C%2Fvalue%3E%3Cvalue%3E1%3C%2Fvalue%3E%3C%2Fcondition%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            //req.setRequestHeader("OData-MaxVersion", "4.0");
+            //req.setRequestHeader("OData-Version", "4.0");
+            //req.setRequestHeader("Accept", "application/json");
+            //req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            //req.onreadystatechange = function() {
+            //    if (this.readyState === 4) {
+            //        req.onreadystatechange = null;
+            //        if (this.status === 200) {
+            //            opportRecordsUlt = JSON.parse(this.response).value;
+            //        } else {
+            //            var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+            //            var alertOptions = { height: 120, width: 260 };
+            //            AlertDialog( alertStrings, alertOptions);
+            //        }
+            //    }
+            //};
+            //req.send();
+
+            //var opporLst = [];
+            //if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
+            //    if (opportRecords.length > 0) {
+            //        for (var i = 0; i < opportRecords.length; i++) {
+            //            var clientName = opportRecords[i].ClientName.toUpperCase() == parentaccountid.toUpperCase() ? opportRecords[i]['ClientName@OData.Community.Display.V1.FormattedValue'] : "Related Child Org";
+            //            var opportunityId = opportRecords[i].opportunityid;
+            //            var status = opportRecords[i]['StateCode@OData.Community.Display.V1.FormattedValue'];
+            //            var fee = opportRecords[i].fee_base != undefined ? opportRecords[i].fee_base * exchangeratevalue : 0.00;
+
+            //            var oppor = {
+            //                "ClientName": clientName, "OpportunityId": opportunityId, "Status": status, "Fee": fee
+            //            };
+            //            opporLst.push(oppor);
+            //        }
+            //    }
+
+            //    if (opportRecordsUlt.length > 0) {
+            //        for (var i = 0; i < opportRecordsUlt.length; i++) {
+            //            var clientName = opportRecordsUlt[i].ClientName.toUpperCase() == parentaccountid.toUpperCase() ? opportRecordsUlt[i]['ClientName@OData.Community.Display.V1.FormattedValue'] : "Related Child Org";
+            //            var opportunityId = opportRecordsUlt[i].opportunityid;
+            //            var status = opportRecordsUlt[i]['StateCode@OData.Community.Display.V1.FormattedValue'];
+            //            var fee = opportRecordsUlt[i].fee_base != undefined ? opportRecordsUlt[i].fee_base * exchangeratevalue : 0.00;
+
+            //            var opporUlt = {
+            //                "ClientName": clientName, "OpportunityId": opportunityId, "Status": status, "Fee": fee
+            //            };
+
+            //            var oppFound = oppExists(opportunityId);
+
+            //            if (!oppFound) {
+            //                opporLst.push(opporUlt);
+            //            }
+
+            //            function oppExists(oppid) {
+            //                return opporLst.some(function (el) {
+            //                    return el.OpportunityId === oppid;
+            //                });
+            //            }
+
+            //        }
+            //    }
+
+            //    var x = d3.nest()
+            //        .key(function (d) { return d.Status })
+            //        .key(function (d) { return d.ClientName })
+            //        .rollup(function (d) { return { "Count": d.length, "Sum": d3.sum(d, function (d) { return parseFloat(d.Fee) }) } })
+            //        .entries(opporLst);
+
+            //    var bidHist = [];
+            //    x.forEach(function (d) {
+            //        d.values.forEach(function (e) {
+            //            bidHist.push({ "label": d.key + " (" + e.value.Count + ") - " + e.key, "value": e.value.Sum });
+            //        })
+            //    });
+
+            //    DrawPieChart("#bidHistory", bidHist, true);
+            //}
         }
 
         function PopulateHierOrganizationIds() {
@@ -964,7 +1111,45 @@
                 }
             }
 
-            DrawPieChart("#top5BidLossReason", opporLst);
+                    DrawPieChart("#top5BidLossReason", opporLst);
+                },
+                "Populate Top 5 lost opportunities");
+        //    var opportRecords;
+        //    var req = new XMLHttpRequest();
+        //    req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20top%3D'5'%20aggregate%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20alias%3D'LostOpp_count'%20aggregate%3D'count'%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%20groupby%3D'true'%2F%3E%3Corder%20alias%3D'LostOpp_count'%20descending%3D'true'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'outer'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'bj'%20link-type%3D'outer'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Cfilter%20type%3D'or'%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3Ccondition%20entityname%3D%20'bj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+        //    req.setRequestHeader("OData-MaxVersion", "4.0");
+        //    req.setRequestHeader("OData-Version", "4.0");
+        //    req.setRequestHeader("Accept", "application/json");
+        //    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+        //    req.onreadystatechange = function() {
+        //        if (this.readyState === 4) {
+        //            req.onreadystatechange = null;
+        //            if (this.status === 200) {
+        //                opportRecords = JSON.parse(this.response).value;
+        //            } else {
+        //                var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+        //                var alertOptions = { height: 120, width: 260 };
+        //                AlertDialog( alertStrings, alertOptions);
+        //            }
+        //        }
+        //    };
+        //    req.send();
+
+        //    var opporLst = [];
+
+        //    if (opportRecords.length > 0) {
+        //        for (var i = 0; i < opportRecords.length; i++) {
+        //            var count = opportRecords[i].LostOpp_count != undefined ? opportRecords[i].LostOpp_count : 0;
+        //            var status = opportRecords[i].StatusCode != undefined ? opportRecords[i]["StatusCode@OData.Community.Display.V1.FormattedValue"] : "";
+
+        //            var oppor = {
+        //                "label": status, "value": count
+        //            };
+        //            opporLst.push(oppor);
+        //        }
+        //    }
+
+        //    DrawPieChart("#top5BidLossReason", opporLst);
         }
 
         function PopulateTop10OpenOppors() {
@@ -1015,159 +1200,288 @@
         function Populate5MostRecentWins() {
             var opportRecords;
             var opportRecordsUlt;
-            var req = new XMLHttpRequest();
-            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'customerid'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Cfilter%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'"+parentaccountid+"'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'opportunityclose'%20from%3D'opportunityid'%20to%3D'opportunityid'%20alias%3D'ab'%3E%3Cattribute%20name%3D'actualend'%20%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            req.onreadystatechange = function() {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 200) {
-                        opportRecords = JSON.parse(this.response).value;
-                    } else {
-                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
-                        var alertOptions = { height: 120, width: 260 };
-                        AlertDialog( alertStrings, alertOptions);
-                    }
-                }
-            };
-            req.send();
+            var wins = GetCRMData("opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'customerid'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Cfilter%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'opportunityclose'%20from%3D'opportunityid'%20to%3D'opportunityid'%20alias%3D'ab'%3E%3Cattribute%20name%3D'actualend'%20%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                function(winData) {
+                    opportRecords = winData;
+                },
+                "Get most recent wins");
 
-            //Fetch XML for ultimate client
-            var req = new XMLHttpRequest();
-            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'customerid'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Cfilter%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'opportunityclose'%20from%3D'opportunityid'%20to%3D'opportunityid'%20alias%3D'ab'%3E%3Cattribute%20name%3D'actualend'%20%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            req.onreadystatechange = function() {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 200) {
-                        opportRecordsUlt = JSON.parse(this.response).value;
-                    } else {
-                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
-                        var alertOptions = { height: 120, width: 260 };
-                        AlertDialog( alertStrings, alertOptions);
-                    }
-                }
-            };
-            req.send();
+            var ultClient = GetCRMData("opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'customerid'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Cfilter%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid +"'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'opportunityclose'%20from%3D'opportunityid'%20to%3D'opportunityid'%20alias%3D'ab'%3E%3Cattribute%20name%3D'actualend'%20%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                function(ultRecs) {
+                    opportRecordsUlt = ultRecs;
+                }, "Get Ultimate clients");
 
-            var opporLst = [];
-            if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
-                if (opportRecords.length > 0) {
-                    for (var i = 0; i < opportRecords.length; i++) {
-                        var oppId = opportRecords[i].id;
-                        var name = opportRecords[i].name != undefined ? opportRecords[i].name : "";
-                        var projectDirector = opportRecords[i]._ccrm_projectdirector_userid_value != undefined ? opportRecords[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
-                        var fee = opportRecords[i].estimatedvalue_base != undefined ? opportRecords[i].estimatedvalue_base * exchangeratevalue : 0.00;
-                        var arupStartDate = opportRecords[i].ccrm_estarupinvolvementstart != undefined ? opportRecords[i].ccrm_estarupinvolvementstart : "";
-                        var actualWonDate = opportRecords[i]['ab.actualend'] != undefined ? opportRecords[i]['ab.actualend'] : "";
+            return Promise.all([wins, ultClient]).then(
+                function(done) {
+                    var opporLst = [];
+                    if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
+                        if (opportRecords.length > 0) {
+                            for (var i = 0; i < opportRecords.length; i++) {
+                                var oppId = opportRecords[i].id;
+                                var name = opportRecords[i].name != undefined ? opportRecords[i].name : "";
+                                var projectDirector = opportRecords[i]._ccrm_projectdirector_userid_value != undefined ? opportRecords[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
+                                var fee = opportRecords[i].estimatedvalue_base != undefined ? opportRecords[i].estimatedvalue_base * exchangeratevalue : 0.00;
+                                var arupStartDate = opportRecords[i].ccrm_estarupinvolvementstart != undefined ? opportRecords[i].ccrm_estarupinvolvementstart : "";
+                                var actualWonDate = opportRecords[i]['ab.actualend'] != undefined ? opportRecords[i]['ab.actualend'] : "";
 
-                        var oppor = {
-                            "Title": name, "Project Director": projectDirector, "Total Fee Income": fee, "Arup Start Date": arupStartDate, "Date Won": actualWonDate, "OppId": oppId
-                        };
-                        opporLst.push(oppor);
-                    }
-                }
-
-                if (opportRecordsUlt.length > 0) {
-                    for (var i = 0; i < opportRecordsUlt.length; i++) {
-                        var oppId = opportRecordsUlt[i].id;
-                        var name = opportRecordsUlt[i].name != undefined ? opportRecordsUlt[i].name : "";
-                        var projectDirector = opportRecordsUlt[i].ccrm_projectdirector_userid != undefined ? opportRecordsUlt[i].ccrm_projectdirector_userid : "";
-                        var fee = opportRecordsUlt[i].estimatedvalue_base != undefined ? opportRecordsUlt[i].estimatedvalue_base * exchangeratevalue : 0.00;
-                        var arupStartDate = opportRecordsUlt[i].ccrm_estarupinvolvementstart != undefined ? opportRecordsUlt[i].ccrm_estarupinvolvementstart : "";
-                        var actualWonDate = opportRecordsUlt[i]['ab.actualend'] != undefined ? opportRecordsUlt[i]['ab.actualend'] : "";
-
-                        var opporUlt = {
-                            "Title": name, "Project Director": projectDirector, "Total Fee Income": fee, "Arup Start Date": arupStartDate, "Date Won": actualWonDate, "OppId": oppId
-                        };
-                        var oppFound = oppExists(oppId);
-
-                        if (!oppFound) {
-                            opporLst.push(opporUlt);
+                                var oppor = {
+                                    "Title": name,
+                                    "Project Director": projectDirector,
+                                    "Total Fee Income": fee,
+                                    "Arup Start Date": arupStartDate,
+                                    "Date Won": actualWonDate,
+                                    "OppId": oppId
+                                };
+                                opporLst.push(oppor);
+                            }
                         }
 
-                        function oppExists(oppid) {
-                            return opporLst.some(function (el) {
-                                return el.OppId === oppid;
-                            });
+                        if (opportRecordsUlt.length > 0) {
+                            for (var i = 0; i < opportRecordsUlt.length; i++) {
+                                var oppId = opportRecordsUlt[i].id;
+                                var name = opportRecordsUlt[i].name != undefined ? opportRecordsUlt[i].name : "";
+                                var projectDirector = opportRecordsUlt[i].ccrm_projectdirector_userid != undefined ? opportRecordsUlt[i].ccrm_projectdirector_userid : "";
+                                var fee = opportRecordsUlt[i].estimatedvalue_base != undefined ? opportRecordsUlt[i].estimatedvalue_base * exchangeratevalue : 0.00;
+                                var arupStartDate = opportRecordsUlt[i].ccrm_estarupinvolvementstart != undefined ? opportRecordsUlt[i].ccrm_estarupinvolvementstart : "";
+                                var actualWonDate = opportRecordsUlt[i]['ab.actualend'] != undefined ? opportRecordsUlt[i]['ab.actualend'] : "";
+
+                                var opporUlt = {
+                                    "Title": name,
+                                    "Project Director": projectDirector,
+                                    "Total Fee Income": fee,
+                                    "Arup Start Date": arupStartDate,
+                                    "Date Won": actualWonDate,
+                                    "OppId": oppId
+                                };
+                                var oppFound = oppExists(oppId);
+
+                                if (!oppFound) {
+                                    opporLst.push(opporUlt);
+                                }
+
+                                function oppExists(oppid) {
+                                    return opporLst.some(function(el) {
+                                        return el.OppId === oppid;
+                                    });
+                                }
+                            }
                         }
+
+                        var depOpps = [];
+
+                        var sortOpp = opporLst.sort(function(a, b) {
+                            var datea = $(a).attr("Date Won") != "" ? $(a).attr("Date Won") : $(a).attr("Arup Start Date");
+                            var dateb = $(b).attr("Date Won") != "" ? $(b).attr("Date Won") : $(b).attr("Arup Start Date");
+                            return new Date(dateb) - new Date(datea);
+                        }).filter(function(currentValue, index, arr) {
+                            if (depOpps.length == 5) {
+                                return false;
+                            }
+                            if (depOpps.indexOf(currentValue.OppId) > -1) {
+                                return false;
+                            } else {
+                                depOpps.push(currentValue.OppId);
+                                return true;
+                            }
+                        });
+
+                        var o = sortOpp.map(function(currentValue, index, arr) {
+                            var options = {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            };
+                            return { "Title": currentValue["Title"], "Project Director": currentValue["Project Director"], "Total Fee Income": Math.round(currentValue["Total Fee Income"] / 1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), "Arup Start Date": currentValue["Arup Start Date"] == "" ? currentValue["Arup Start Date"] : new Date(currentValue["Arup Start Date"]).toLocaleDateString('en-US', options), "Date Won": currentValue["Date Won"] == "" ? currentValue["Date Won"] : new Date(currentValue["Date Won"]).toLocaleDateString('en-US', options) };
+                            //}
+                        });
+
+                        DrawTable("#top5WonOpps", o, Object.keys(o[0]));
+                        $("#top5OppWonCnt").text("( " + opporLst.length + " in Total )");
                     }
                 }
+            );
 
-                var depOpps = [];
+            // var opportRecords;
+            //var opportRecordsUlt;
+            //var req = new XMLHttpRequest();
+            //req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'customerid'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Cfilter%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'"+parentaccountid+"'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'opportunityclose'%20from%3D'opportunityid'%20to%3D'opportunityid'%20alias%3D'ab'%3E%3Cattribute%20name%3D'actualend'%20%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            //req.setRequestHeader("OData-MaxVersion", "4.0");
+            //req.setRequestHeader("OData-Version", "4.0");
+            //req.setRequestHeader("Accept", "application/json");
+            //req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            //req.onreadystatechange = function() {
+            //    if (this.readyState === 4) {
+            //        req.onreadystatechange = null;
+            //        if (this.status === 200) {
+            //            opportRecords = JSON.parse(this.response).value;
+            //        } else {
+            //            var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+            //            var alertOptions = { height: 120, width: 260 };
+            //            AlertDialog( alertStrings, alertOptions);
+            //        }
+            //    }
+            //};
+            //req.send();
 
-                var sortOpp = opporLst.sort(function (a, b) {
-                    var datea = $(a).attr("Date Won") != "" ? $(a).attr("Date Won") : $(a).attr("Arup Start Date");
-                    var dateb = $(b).attr("Date Won") != "" ? $(b).attr("Date Won") : $(b).attr("Arup Start Date");
-                    return new Date(dateb) - new Date(datea);
-                }).filter(function (currentValue, index, arr) {
-                    if (depOpps.length == 5) {
-                        return false;
-                    }
-                    if (depOpps.indexOf(currentValue.OppId) > -1) {
-                        return false;
-                    }
-                    else {
-                        depOpps.push(currentValue.OppId);
-                        return true;
-                    }
-                    //if (index <= 4) {
-                    //    return true;
-                    //}
-                });
+            ////Fetch XML for ultimate client
+            //var req = new XMLHttpRequest();
+            //req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'customerid'%20%2F%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'1'%20%2F%3E%3Cfilter%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3Clink-entity%20name%3D'opportunityclose'%20from%3D'opportunityid'%20to%3D'opportunityid'%20alias%3D'ab'%3E%3Cattribute%20name%3D'actualend'%20%20%2F%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            //req.setRequestHeader("OData-MaxVersion", "4.0");
+            //req.setRequestHeader("OData-Version", "4.0");
+            //req.setRequestHeader("Accept", "application/json");
+            //req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            //req.onreadystatechange = function() {
+            //    if (this.readyState === 4) {
+            //        req.onreadystatechange = null;
+            //        if (this.status === 200) {
+            //            opportRecordsUlt = JSON.parse(this.response).value;
+            //        } else {
+            //            var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+            //            var alertOptions = { height: 120, width: 260 };
+            //            AlertDialog( alertStrings, alertOptions);
+            //        }
+            //    }
+            //};
+            //req.send();
 
-                var o = sortOpp.map(function (currentValue, index, arr) {
-                    //if (index <= 4) {
-                    var options = {year: 'numeric',
-                                    month: 'long', day: 'numeric' };
-                    return { "Title": currentValue["Title"], "Project Director": currentValue["Project Director"], "Total Fee Income": Math.round(currentValue["Total Fee Income"] / 1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), "Arup Start Date": currentValue["Arup Start Date"] == "" ? currentValue["Arup Start Date"] : new Date(currentValue["Arup Start Date"]).toLocaleDateString('en-US', options), "Date Won": currentValue["Date Won"] == "" ? currentValue["Date Won"] : new Date(currentValue["Date Won"]).toLocaleDateString('en-US', options) };
-                    //}
-                });
+            //var opporLst = [];
+            //if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
+            //    if (opportRecords.length > 0) {
+            //        for (var i = 0; i < opportRecords.length; i++) {
+            //            var oppId = opportRecords[i].id;
+            //            var name = opportRecords[i].name != undefined ? opportRecords[i].name : "";
+            //            var projectDirector = opportRecords[i]._ccrm_projectdirector_userid_value != undefined ? opportRecords[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
+            //            var fee = opportRecords[i].estimatedvalue_base != undefined ? opportRecords[i].estimatedvalue_base * exchangeratevalue : 0.00;
+            //            var arupStartDate = opportRecords[i].ccrm_estarupinvolvementstart != undefined ? opportRecords[i].ccrm_estarupinvolvementstart : "";
+            //            var actualWonDate = opportRecords[i]['ab.actualend'] != undefined ? opportRecords[i]['ab.actualend'] : "";
 
-                DrawTable("#top5WonOpps", o, Object.keys(o[0]));
-                $("#top5OppWonCnt").text("( " + opporLst.length + " in Total )");
-            }
+            //            var oppor = {
+            //                "Title": name, "Project Director": projectDirector, "Total Fee Income": fee, "Arup Start Date": arupStartDate, "Date Won": actualWonDate, "OppId": oppId
+            //            };
+            //            opporLst.push(oppor);
+            //        }
+            //    }
+
+            //    if (opportRecordsUlt.length > 0) {
+            //        for (var i = 0; i < opportRecordsUlt.length; i++) {
+            //            var oppId = opportRecordsUlt[i].id;
+            //            var name = opportRecordsUlt[i].name != undefined ? opportRecordsUlt[i].name : "";
+            //            var projectDirector = opportRecordsUlt[i].ccrm_projectdirector_userid != undefined ? opportRecordsUlt[i].ccrm_projectdirector_userid : "";
+            //            var fee = opportRecordsUlt[i].estimatedvalue_base != undefined ? opportRecordsUlt[i].estimatedvalue_base * exchangeratevalue : 0.00;
+            //            var arupStartDate = opportRecordsUlt[i].ccrm_estarupinvolvementstart != undefined ? opportRecordsUlt[i].ccrm_estarupinvolvementstart : "";
+            //            var actualWonDate = opportRecordsUlt[i]['ab.actualend'] != undefined ? opportRecordsUlt[i]['ab.actualend'] : "";
+
+            //            var opporUlt = {
+            //                "Title": name, "Project Director": projectDirector, "Total Fee Income": fee, "Arup Start Date": arupStartDate, "Date Won": actualWonDate, "OppId": oppId
+            //            };
+            //            var oppFound = oppExists(oppId);
+
+            //            if (!oppFound) {
+            //                opporLst.push(opporUlt);
+            //            }
+
+            //            function oppExists(oppid) {
+            //                return opporLst.some(function (el) {
+            //                    return el.OppId === oppid;
+            //                });
+            //            }
+            //        }
+            //    }
+
+            //    var depOpps = [];
+
+            //    var sortOpp = opporLst.sort(function (a, b) {
+            //        var datea = $(a).attr("Date Won") != "" ? $(a).attr("Date Won") : $(a).attr("Arup Start Date");
+            //        var dateb = $(b).attr("Date Won") != "" ? $(b).attr("Date Won") : $(b).attr("Arup Start Date");
+            //        return new Date(dateb) - new Date(datea);
+            //    }).filter(function (currentValue, index, arr) {
+            //        if (depOpps.length == 5) {
+            //            return false;
+            //        }
+            //        if (depOpps.indexOf(currentValue.OppId) > -1) {
+            //            return false;
+            //        }
+            //        else {
+            //            depOpps.push(currentValue.OppId);
+            //            return true;
+            //        }
+            //        //if (index <= 4) {
+            //        //    return true;
+            //        //}
+            //    });
+
+            //    var o = sortOpp.map(function (currentValue, index, arr) {
+            //        //if (index <= 4) {
+            //        var options = {year: 'numeric',
+            //                        month: 'long', day: 'numeric' };
+            //        return { "Title": currentValue["Title"], "Project Director": currentValue["Project Director"], "Total Fee Income": Math.round(currentValue["Total Fee Income"] / 1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), "Arup Start Date": currentValue["Arup Start Date"] == "" ? currentValue["Arup Start Date"] : new Date(currentValue["Arup Start Date"]).toLocaleDateString('en-US', options), "Date Won": currentValue["Date Won"] == "" ? currentValue["Date Won"] : new Date(currentValue["Date Won"]).toLocaleDateString('en-US', options) };
+            //        //}
+            //    });
+
+            //    DrawTable("#top5WonOpps", o, Object.keys(o[0]));
+            //    $("#top5OppWonCnt").text("( " + opporLst.length + " in Total )");
+            //}
         }
 
         function PopulateChildOrganizations() {
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
-                url: clientURL + "/api/data/v9.1/accounts?$select=accountid,address1_city,address1_line1,name,telephone1&$filter=_parentaccountid_value eq '"+ accId + "'  and  statecode ne 1&$orderby=name asc",
-                beforeSend: function (XMLHttpRequest) {
-                    XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
-                    XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
-                    XMLHttpRequest.setRequestHeader("Accept", "application/json");
-                    XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=5");
-                },
-                success: function (r) {
-                    childOrgs = $.merge(data,
-                        $.map(r.value,
-                            function (account) {
-                                return {
-                                    Name: account.name,
-                                    "Town/City": account.address1_city,
-                                    AccountId: account.accountid,
-                                    Address1_Line1: account.address1_line1,
-                                    Telephone1: account.telephone1
-                                }
-                            }));
-                },
-                error: function (r) {
-                    $("#dashboard").text("Ad error occurred: " + r);
-                }
-            }).done( function() {
-                if (childOrgs.length > 0) {
-                    DrawTable("#childorganizations", childOrgs, Object.keys(childOrgs[0]).slice(0, 2));
-                }
-            });
+            return GetCRMData("accounts?$select=accountid,address1_city,address1_line1,name,telephone1&$filter=_parentaccountid_value eq '" + accId + "'  and  statecode ne 1&$orderby=name asc",
+                    function(orgs) {
+                        childOrgs = $.merge(data,
+                            $.map(orgs,
+                                function(account) {
+                                    return {
+                                        Name: account.name,
+                                        "Town/City": account.address1_city,
+                                        AccountId: account.accountid,
+                                        Address1_Line1: account.address1_line1,
+                                        Telephone1: account.telephone1
+                                    }
+                                }));
+                    },
+                    "Populate Child Organizations",
+                    { maxpagesize: 5 })
+                .then(function() {
+                    if (childOrgs.length > 0) {
+                        DrawTable("#childorganizations", childOrgs, Object.keys(childOrgs[0]).slice(0, 2));
+                    }
+                    return GetCRMData("systemusers?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20top%3D%225%22%20distinct%3D%22true%22%20%3E%3Centity%20name%3D%22systemuser%22%20%3E%3Cattribute%20name%3D%22fullname%22%20%2F%3E%3Cattribute%20name%3D%22systemuserid%22%20%2F%3E%3Cattribute%20name%3D%22title%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_arupofficeid%22%20alias%3D%22Office%22%20%2F%3E%3Cattribute%20name%3D%22businessunitid%22%20alias%3D%22Business%22%20%2F%3E%3Corder%20attribute%3D%22fullname%22%20descending%3D%22false%22%20%2F%3E%3Clink-entity%20name%3D%22teammembership%22%20from%3D%22systemuserid%22%20to%3D%22systemuserid%22%20visible%3D%22false%22%20intersect%3D%22true%22%20%3E%3Clink-entity%20name%3D%22team%22%20from%3D%22teamid%22%20to%3D%22teamid%22%20alias%3D%22af%22%20%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22ccrm_managingteamid%22%20to%3D%22teamid%22%20alias%3D%22ag%22%20%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20value%3D%22" + accId + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Flink-entity%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                        function(users) {
+                            userRecords = users;
+                        }
+                    );
+                })
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json; charset=utf-8",
+            //    datatype: "json",
+            //    url: clientURL + "/api/data/v9.1/accounts?$select=accountid,address1_city,address1_line1,name,telephone1&$filter=_parentaccountid_value eq '"+ accId + "'  and  statecode ne 1&$orderby=name asc",
+            //    beforeSend: function (XMLHttpRequest) {
+            //        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+            //        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+            //        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+            //        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\",odata.maxpagesize=5");
+            //    },
+            //    success: function (r) {
+            //        childOrgs = $.merge(data,
+            //            $.map(r.value,
+            //                function (account) {
+            //                    return {
+            //                        Name: account.name,
+            //                        "Town/City": account.address1_city,
+            //                        AccountId: account.accountid,
+            //                        Address1_Line1: account.address1_line1,
+            //                        Telephone1: account.telephone1
+            //                    }
+            //                }));
+            //    },
+            //    error: function (r) {
+            //        $("#dashboard").text("Ad error occurred: " + r);
+            //    }
+            //}).done( function() {
+            //    if (childOrgs.length > 0) {
+            //        DrawTable("#childorganizations", childOrgs, Object.keys(childOrgs[0]).slice(0, 2));
+            //    }
+            //});
 
             $.ajax({
                 type: "GET",
@@ -1226,7 +1540,8 @@
          * @param {string} errorMessage - message to be displayed in the event of an error.
          * @returns {Promise} promise -  a promise that will complete when all data has been returned. If the promise is rejected/ an error occurs an error dialog will be displayed.
          */
-        function GetCRMData(query, onData, errorMessage ) {
+        function GetCRMData(query, onData, errorMessage, options ) {
+            options = options || {};
             var p = new Promise(function(success, reject) {
                 $.ajax({
                     type: "GET",
@@ -1237,7 +1552,7 @@
                         xmlHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
                         xmlHttpRequest.setRequestHeader("OData-Version", "4.0");
                         xmlHttpRequest.setRequestHeader("Accept", "application/json");
-                        xmlHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                        xmlHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"" + (!!options.maxpagesize  ? ",odata.maxpagesize="+ options.maxpagesize : ""));
                     },
                     async: true,
                     success : function(data, testStatus, xhr) {
@@ -1261,7 +1576,7 @@
         function PopulateBasicAccProfile() {
             var query = "accounts("+accId+")?$select=address1_addressid,address1_city,address1_country,address1_line1,address1_line2,address1_line3,address1_postalcode,arup_clientscovid19bcadvised,ccrm_clienttype,_ccrm_keyaccountmanagerid_value,_ccrm_managingteamid_value,description,name,_parentaccountid_value,statuscode,telephone1,websiteurl,arup_clientsector";
             var basicProfile = {};
-            GetCRMData(query,
+            return GetCRMData(query,
                 function(result) {
                     basicProfile = {
                         accountId: result.accountid,
@@ -1311,6 +1626,7 @@
             $("#accountName").text(profileData.name);
             $("#website").text(profileData.webSiteURL);
             $("#relationshipmanager").text(profileData.ccrm_keyaccountmanager);
+            // TODO - change 
             if (profileData.parentAccount != null) {
                 $("#parentOrg").text(profileData.parentAccount);
             }
@@ -1363,123 +1679,238 @@
         function GetOpenOpportunities() {
             var opportRecords;
             var opportRecordsUlt;
-            var req = new XMLHttpRequest();
-            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_probabilityofprojectproceeding'%20alias%3D'Probability_of_Proceeding'%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Cattribute%20name%3D'closeprobability'%20%2F%3E%3Cattribute%20name%3D'ccrm_bidmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_biddirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'customerid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee'%20%2F%3E%3Cattribute%20name%3D'ccrm_proj_factoredincome_curr_base'%20alias%3D'Factored_fee'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'ne'%20value%3D'3'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'not-null'%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            req.onreadystatechange = function() {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 200) {
-                        opportRecords = JSON.parse(this.response).value;
-                    } else {
-                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
-                        var alertOptions = { height: 120, width: 260 };
-                        AlertDialog( alertStrings, alertOptions);
-                    }
-                }
-            };
-            req.send();
+            var opp1 = GetCRMData("opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_probabilityofprojectproceeding'%20alias%3D'Probability_of_Proceeding'%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Cattribute%20name%3D'closeprobability'%20%2F%3E%3Cattribute%20name%3D'ccrm_bidmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_biddirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'customerid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee'%20%2F%3E%3Cattribute%20name%3D'ccrm_proj_factoredincome_curr_base'%20alias%3D'Factored_fee'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'ne'%20value%3D'3'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'not-null'%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                function(oppData) {
+                    opportRecords = oppData;
+                },
+                "Get Open Opportunitites"
+            );
+            var opp2 = GetCRMData("opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_probabilityofprojectproceeding'%20alias%3D'Probability_of_Proceeding'%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Cattribute%20name%3D'closeprobability'%20%2F%3E%3Cattribute%20name%3D'ccrm_bidmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_biddirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'ccrm_ultimateendclientid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee'%20%2F%3E%3Cattribute%20name%3D'ccrm_proj_factoredincome_curr_base'%20alias%3D'Factored_fee'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'ne'%20value%3D'3'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'not-null'%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                function(oppData) {
+                    opportRecordsUlt = oppData;
+                },
+                "Get Open Opportunities ult"
+            );
 
-            //Fetch for ultimate client
-            var req = new XMLHttpRequest();
-            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_probabilityofprojectproceeding'%20alias%3D'Probability_of_Proceeding'%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Cattribute%20name%3D'closeprobability'%20%2F%3E%3Cattribute%20name%3D'ccrm_bidmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_biddirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'ccrm_ultimateendclientid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee'%20%2F%3E%3Cattribute%20name%3D'ccrm_proj_factoredincome_curr_base'%20alias%3D'Factored_fee'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'ne'%20value%3D'3'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'not-null'%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            req.onreadystatechange = function() {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 200) {
-                        opportRecordsUlt = JSON.parse(this.response).value;
-                    } else {
-                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
-                        var alertOptions = { height: 120, width: 260 };
-                        AlertDialog( alertStrings, alertOptions);
-                    }
-                }
-            };
-            req.send();
+            return Promise.all([opp1, opp2]).then(
+                function(done) {
+                    var opporLst = [];
+                    if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
+                        if (opportRecords.length > 0) {
+                            for (var i = 0; i < opportRecords.length; i++) {
 
-            var opporLst = [];
-            if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
-                if (opportRecords.length > 0) {
-                    for (var i = 0; i < opportRecords.length; i++) {
+                                var clientName = opportRecords[i].ClientName.toUpperCase() == accId.toUpperCase() ? opportRecords[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "Related Child Org";
+                                var actualClientName = opportRecords[i].ClientName != undefined ? opportRecords[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "";
+                                var feeBase = opportRecords[i].fee != undefined ? opportRecords[i].fee * exchangeratevalue : 0.00;
+                                var factoredFee = opportRecords[i].Factored_fee != undefined ? opportRecords[i].Factored_fee : 0.00;
+                                var PhaseOrder = GetPhase(opportRecords[i].StatusCode);
+                                var phase = PhaseOrder.Phase;
+                                var sortOrder = PhaseOrder.SortOrder;
+                                var name = opportRecords[i].name != undefined ? opportRecords[i].name : "";
+                                var projectDirector = opportRecords[i]._ccrm_projectdirector_userid_value != undefined ? opportRecords[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
+                                var status = opportRecords[i]["StatusCode@OData.Community.Display.V1.FormattedValue"];
+                                var probWin = opportRecords[i].closeprobability != undefined ? opportRecords[i].closeprobability : "";
+                                var probPros = opportRecords[i].Probability_of_Proceeding != undefined ? opportRecords[i].Probability_of_Proceeding : "";
+                                var arupStartDate = opportRecords[i].ccrm_estarupinvolvementstart != undefined ? opportRecords[i]["ccrm_estarupinvolvementstart@OData.Community.Display.V1.FormattedValue"] : "";
+                                var opportunityid = opportRecords[i].opportunityid;
 
-                        var clientName = opportRecords[i].ClientName.toUpperCase() == accId.toUpperCase() ? opportRecords[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "Related Child Org";
-                        var actualClientName = opportRecords[i].ClientName != undefined ? opportRecords[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "";
-                        var feeBase = opportRecords[i].fee != undefined ? opportRecords[i].fee * exchangeratevalue : 0.00;
-                        var factoredFee = opportRecords[i].Factored_fee != undefined ? opportRecords[i].Factored_fee : 0.00;
-                        var PhaseOrder = GetPhase(opportRecords[i].StatusCode);
-                        var phase = PhaseOrder.Phase;
-                        var sortOrder = PhaseOrder.SortOrder;
-                        var name = opportRecords[i].name != undefined ? opportRecords[i].name : "";
-                        var projectDirector = opportRecords[i]._ccrm_projectdirector_userid_value != undefined ? opportRecords[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
-                        var status = opportRecords[i]["StatusCode@OData.Community.Display.V1.FormattedValue"];
-                        var probWin = opportRecords[i].closeprobability != undefined ? opportRecords[i].closeprobability : "";
-                        var probPros = opportRecords[i].Probability_of_Proceeding != undefined ? opportRecords[i].Probability_of_Proceeding : "";
-                        var arupStartDate = opportRecords[i].ccrm_estarupinvolvementstart != undefined ? opportRecords[i]["ccrm_estarupinvolvementstart@OData.Community.Display.V1.FormattedValue"] : "";
-                        var opportunityid = opportRecords[i].opportunityid;
-
-                        var oppor = {
-                            Client: clientName, ActualClientName: actualClientName, Fee: feeBase, FactoredFee: factoredFee, Phase: phase, Name: name, ProjectDirector: projectDirector,
-                            Status: status, ProbWin: probWin, ProbPros: probPros, ArupStartDate: arupStartDate, SortOrder: sortOrder, OpportunityId: opportunityid
-                        };
-                        opporLst.push(oppor);
-                    }
-                }
-
-                if (opportRecordsUlt.length > 0) {
-                    for (var i = 0; i < opportRecordsUlt.length; i++) {
-
-                        var clientName = opportRecordsUlt[i].ClientName.toUpperCase() == accId.toUpperCase() ? opportRecordsUlt[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "Related Child Org";
-                        var actualClientName = opportRecordsUlt[i].ClientName != undefined ? opportRecordsUlt[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "";
-                        var feeBase = opportRecordsUlt[i].fee != undefined ? opportRecordsUlt[i].fee * exchangeratevalue : 0.00;
-                        var factoredFee = opportRecordsUlt[i].Factored_fee != undefined ? opportRecordsUlt[i].Factored_fee : 0.00;
-                        var PhaseOrder = GetPhase(opportRecordsUlt[i].StatusCode);
-                        var phase = PhaseOrder.Phase;
-                        var sortOrder = PhaseOrder.SortOrder;
-                        var name = opportRecordsUlt[i].name != undefined ? opportRecordsUlt[i].name : "";
-                        var projectDirector = opportRecordsUlt[i]._ccrm_projectdirector_userid_value != undefined ? opportRecordsUlt[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
-                        var status = opportRecordsUlt[i]["StatusCode@OData.Community.Display.V1.FormattedValue"];
-                        var probWin = opportRecordsUlt[i].closeprobability != undefined ? opportRecordsUlt[i].closeprobability : "";
-                        var probPros = opportRecordsUlt[i].Probability_of_Proceeding != undefined ? opportRecordsUlt[i].Probability_of_Proceeding : "";
-                        var arupStartDate = opportRecordsUlt[i].ccrm_estarupinvolvementstart != undefined ? opportRecordsUlt[i]["ccrm_estarupinvolvementstart@OData.Community.Display.V1.FormattedValue"] : "";
-                        var opportunityid = opportRecordsUlt[i].opportunityid;
-
-                        var opporUlt = {
-                            Client: clientName, ActualClientName: actualClientName, Fee: feeBase, FactoredFee: factoredFee, Phase: phase, Name: name, ProjectDirector: projectDirector,
-                            Status: status, ProbWin: probWin, ProbPros: probPros, ArupStartDate: arupStartDate, SortOrder: sortOrder, OpportunityId: opportunityid
-                        };
-
-
-
-                        var oppFound = oppExists(opportunityid);
-
-                        if (!oppFound) {
-                            opporLst.push(opporUlt);
+                                var oppor = {
+                                    Client: clientName,
+                                    ActualClientName: actualClientName,
+                                    Fee: feeBase,
+                                    FactoredFee: factoredFee,
+                                    Phase: phase,
+                                    Name: name,
+                                    ProjectDirector: projectDirector,
+                                    Status: status,
+                                    ProbWin: probWin,
+                                    ProbPros: probPros,
+                                    ArupStartDate: arupStartDate,
+                                    SortOrder: sortOrder,
+                                    OpportunityId: opportunityid
+                                };
+                                opporLst.push(oppor);
+                            }
                         }
 
-                        function oppExists(oppid) {
-                            return opporLst.some(function (el) {
-                                return el.OpportunityId === oppid;
-                            });
+                        if (opportRecordsUlt.length > 0) {
+                            for (var i = 0; i < opportRecordsUlt.length; i++) {
+
+                                var clientName = opportRecordsUlt[i].ClientName.toUpperCase() == accId.toUpperCase() ? opportRecordsUlt[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "Related Child Org";
+                                var actualClientName = opportRecordsUlt[i].ClientName != undefined ? opportRecordsUlt[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "";
+                                var feeBase = opportRecordsUlt[i].fee != undefined ? opportRecordsUlt[i].fee * exchangeratevalue : 0.00;
+                                var factoredFee = opportRecordsUlt[i].Factored_fee != undefined ? opportRecordsUlt[i].Factored_fee : 0.00;
+                                var PhaseOrder = GetPhase(opportRecordsUlt[i].StatusCode);
+                                var phase = PhaseOrder.Phase;
+                                var sortOrder = PhaseOrder.SortOrder;
+                                var name = opportRecordsUlt[i].name != undefined ? opportRecordsUlt[i].name : "";
+                                var projectDirector = opportRecordsUlt[i]._ccrm_projectdirector_userid_value != undefined ? opportRecordsUlt[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
+                                var status = opportRecordsUlt[i]["StatusCode@OData.Community.Display.V1.FormattedValue"];
+                                var probWin = opportRecordsUlt[i].closeprobability != undefined ? opportRecordsUlt[i].closeprobability : "";
+                                var probPros = opportRecordsUlt[i].Probability_of_Proceeding != undefined ? opportRecordsUlt[i].Probability_of_Proceeding : "";
+                                var arupStartDate = opportRecordsUlt[i].ccrm_estarupinvolvementstart != undefined ? opportRecordsUlt[i]["ccrm_estarupinvolvementstart@OData.Community.Display.V1.FormattedValue"] : "";
+                                var opportunityid = opportRecordsUlt[i].opportunityid;
+
+                                var opporUlt = {
+                                    Client: clientName,
+                                    ActualClientName: actualClientName,
+                                    Fee: feeBase,
+                                    FactoredFee: factoredFee,
+                                    Phase: phase,
+                                    Name: name,
+                                    ProjectDirector: projectDirector,
+                                    Status: status,
+                                    ProbWin: probWin,
+                                    ProbPros: probPros,
+                                    ArupStartDate: arupStartDate,
+                                    SortOrder: sortOrder,
+                                    OpportunityId: opportunityid
+                                };
+
+
+                                var oppFound = oppExists(opportunityid);
+
+                                if (!oppFound) {
+                                    opporLst.push(opporUlt);
+                                }
+
+                                function oppExists(oppid) {
+                                    return opporLst.some(function(el) {
+                                        return el.OpportunityId === oppid;
+                                    });
+                                }
+
+
+                            }
                         }
+                        var opporLstThisOrg = opporLst.filter(function(orgRecord) {
+                            return orgRecord.Client != 'Related Child Org'
+                        });
 
-
+                        OpenOppPieChart(opporLst, 'Fee');
+                        ForecastOpporBarChart(opporLst, false);
+                        OpenOppTop10Table(opporLstThisOrg);
                     }
                 }
-                var opporLstThisOrg = opporLst.filter(function (orgRecord) {
-                    return orgRecord.Client != 'Related Child Org'
-                });
+            );
 
-                OpenOppPieChart(opporLst, 'Fee');
-                ForecastOpporBarChart(opporLst, false);
-                OpenOppTop10Table(opporLstThisOrg);
-            }
+            //var req = new XMLHttpRequest();
+            //req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_probabilityofprojectproceeding'%20alias%3D'Probability_of_Proceeding'%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Cattribute%20name%3D'closeprobability'%20%2F%3E%3Cattribute%20name%3D'ccrm_bidmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_biddirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'customerid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee'%20%2F%3E%3Cattribute%20name%3D'ccrm_proj_factoredincome_curr_base'%20alias%3D'Factored_fee'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'ne'%20value%3D'3'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'not-null'%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            //req.setRequestHeader("OData-MaxVersion", "4.0");
+            //req.setRequestHeader("OData-Version", "4.0");
+            //req.setRequestHeader("Accept", "application/json");
+            //req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            //req.onreadystatechange = function() {
+            //    if (this.readyState === 4) {
+            //        req.onreadystatechange = null;
+            //        if (this.status === 200) {
+            //            opportRecords = JSON.parse(this.response).value;
+            //        } else {
+            //            var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+            //            var alertOptions = { height: 120, width: 260 };
+            //            AlertDialog( alertStrings, alertOptions);
+            //        }
+            //    }
+            //};
+            //req.send();
+
+            ////Fetch for ultimate client
+            //var req = new XMLHttpRequest();
+            //req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20%2F%3E%3Cattribute%20name%3D'name'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_projectdirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_probabilityofprojectproceeding'%20alias%3D'Probability_of_Proceeding'%2F%3E%3Cattribute%20name%3D'ccrm_estarupinvolvementstart'%20%2F%3E%3Cattribute%20name%3D'closeprobability'%20%2F%3E%3Cattribute%20name%3D'ccrm_bidmanager_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_biddirector_userid'%20%2F%3E%3Cattribute%20name%3D'ccrm_arupregionid'%20%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%2F%3E%3Cattribute%20name%3D'statecode'%20%2F%3E%3Cattribute%20name%3D'ccrm_ultimateendclientid'%20alias%3D'ClientName'%20%2F%3E%3Cattribute%20name%3D'estimatedvalue_base'%20alias%3D'fee'%20%2F%3E%3Cattribute%20name%3D'ccrm_proj_factoredincome_curr_base'%20alias%3D'Factored_fee'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'aj'%20link-type%3D'inner'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'0'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'ne'%20value%3D'3'%20%2F%3E%3Ccondition%20attribute%3D'statuscode'%20operator%3D'not-null'%2F%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
+            //req.setRequestHeader("OData-MaxVersion", "4.0");
+            //req.setRequestHeader("OData-Version", "4.0");
+            //req.setRequestHeader("Accept", "application/json");
+            //req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            //req.onreadystatechange = function() {
+            //    if (this.readyState === 4) {
+            //        req.onreadystatechange = null;
+            //        if (this.status === 200) {
+            //            opportRecordsUlt = JSON.parse(this.response).value;
+            //        } else {
+            //            var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
+            //            var alertOptions = { height: 120, width: 260 };
+            //            AlertDialog( alertStrings, alertOptions);
+            //        }
+            //    }
+            //};
+            //req.send();
+
+            //var opporLst = [];
+            //if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
+            //    if (opportRecords.length > 0) {
+            //        for (var i = 0; i < opportRecords.length; i++) {
+
+            //            var clientName = opportRecords[i].ClientName.toUpperCase() == accId.toUpperCase() ? opportRecords[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "Related Child Org";
+            //            var actualClientName = opportRecords[i].ClientName != undefined ? opportRecords[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "";
+            //            var feeBase = opportRecords[i].fee != undefined ? opportRecords[i].fee * exchangeratevalue : 0.00;
+            //            var factoredFee = opportRecords[i].Factored_fee != undefined ? opportRecords[i].Factored_fee : 0.00;
+            //            var PhaseOrder = GetPhase(opportRecords[i].StatusCode);
+            //            var phase = PhaseOrder.Phase;
+            //            var sortOrder = PhaseOrder.SortOrder;
+            //            var name = opportRecords[i].name != undefined ? opportRecords[i].name : "";
+            //            var projectDirector = opportRecords[i]._ccrm_projectdirector_userid_value != undefined ? opportRecords[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
+            //            var status = opportRecords[i]["StatusCode@OData.Community.Display.V1.FormattedValue"];
+            //            var probWin = opportRecords[i].closeprobability != undefined ? opportRecords[i].closeprobability : "";
+            //            var probPros = opportRecords[i].Probability_of_Proceeding != undefined ? opportRecords[i].Probability_of_Proceeding : "";
+            //            var arupStartDate = opportRecords[i].ccrm_estarupinvolvementstart != undefined ? opportRecords[i]["ccrm_estarupinvolvementstart@OData.Community.Display.V1.FormattedValue"] : "";
+            //            var opportunityid = opportRecords[i].opportunityid;
+
+            //            var oppor = {
+            //                Client: clientName, ActualClientName: actualClientName, Fee: feeBase, FactoredFee: factoredFee, Phase: phase, Name: name, ProjectDirector: projectDirector,
+            //                Status: status, ProbWin: probWin, ProbPros: probPros, ArupStartDate: arupStartDate, SortOrder: sortOrder, OpportunityId: opportunityid
+            //            };
+            //            opporLst.push(oppor);
+            //        }
+            //    }
+
+            //    if (opportRecordsUlt.length > 0) {
+            //        for (var i = 0; i < opportRecordsUlt.length; i++) {
+
+            //            var clientName = opportRecordsUlt[i].ClientName.toUpperCase() == accId.toUpperCase() ? opportRecordsUlt[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "Related Child Org";
+            //            var actualClientName = opportRecordsUlt[i].ClientName != undefined ? opportRecordsUlt[i]["ClientName@OData.Community.Display.V1.FormattedValue"] : "";
+            //            var feeBase = opportRecordsUlt[i].fee != undefined ? opportRecordsUlt[i].fee * exchangeratevalue : 0.00;
+            //            var factoredFee = opportRecordsUlt[i].Factored_fee != undefined ? opportRecordsUlt[i].Factored_fee : 0.00;
+            //            var PhaseOrder = GetPhase(opportRecordsUlt[i].StatusCode);
+            //            var phase = PhaseOrder.Phase;
+            //            var sortOrder = PhaseOrder.SortOrder;
+            //            var name = opportRecordsUlt[i].name != undefined ? opportRecordsUlt[i].name : "";
+            //            var projectDirector = opportRecordsUlt[i]._ccrm_projectdirector_userid_value != undefined ? opportRecordsUlt[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
+            //            var status = opportRecordsUlt[i]["StatusCode@OData.Community.Display.V1.FormattedValue"];
+            //            var probWin = opportRecordsUlt[i].closeprobability != undefined ? opportRecordsUlt[i].closeprobability : "";
+            //            var probPros = opportRecordsUlt[i].Probability_of_Proceeding != undefined ? opportRecordsUlt[i].Probability_of_Proceeding : "";
+            //            var arupStartDate = opportRecordsUlt[i].ccrm_estarupinvolvementstart != undefined ? opportRecordsUlt[i]["ccrm_estarupinvolvementstart@OData.Community.Display.V1.FormattedValue"] : "";
+            //            var opportunityid = opportRecordsUlt[i].opportunityid;
+
+            //            var opporUlt = {
+            //                Client: clientName, ActualClientName: actualClientName, Fee: feeBase, FactoredFee: factoredFee, Phase: phase, Name: name, ProjectDirector: projectDirector,
+            //                Status: status, ProbWin: probWin, ProbPros: probPros, ArupStartDate: arupStartDate, SortOrder: sortOrder, OpportunityId: opportunityid
+            //            };
+
+
+
+            //            var oppFound = oppExists(opportunityid);
+
+            //            if (!oppFound) {
+            //                opporLst.push(opporUlt);
+            //            }
+
+            //            function oppExists(oppid) {
+            //                return opporLst.some(function (el) {
+            //                    return el.OpportunityId === oppid;
+            //                });
+            //            }
+
+
+            //        }
+            //    }
+            //    var opporLstThisOrg = opporLst.filter(function (orgRecord) {
+            //        return orgRecord.Client != 'Related Child Org'
+            //    });
+
+            //    OpenOppPieChart(opporLst, 'Fee');
+            //    ForecastOpporBarChart(opporLst, false);
+            //    OpenOppTop10Table(opporLstThisOrg);
+            //}
         }
 
         function PopulateLeads(opporlist) {
@@ -1495,8 +1926,10 @@
                 else
                 o = fetchLeads(acctid, true);
             }
-            
-            DrawTable("#leadsList", o, Object.keys(o[0]).filter(function (d) { return d !== 'leadid'; }));
+
+            if (o.length > 0) {
+                DrawTable("#leadsList", o, Object.keys(o[0]).filter(function(d) { return d !== 'leadid'; }));
+            }
         }
 
         function fetchLeads(acctid, op) {
@@ -1662,7 +2095,9 @@
 
             $("#top10OpenOpporCnt").text("( " + allOpenOppor.length + " in Total)");
 
-            DrawTable("#top10OpenOportunities", finalOpp, Object.keys(finalOpp[0]).filter(function (d) { return d !== 'OpportunityId'; }));
+            if (finalOpp.length > 0) {
+                DrawTable("#top10OpenOportunities", finalOpp, Object.keys(finalOpp[0]).filter(function(d) { return d !== 'OpportunityId'; }));
+            }
         }
         function GetPhase(status) {
             var statusCode = status.value;
