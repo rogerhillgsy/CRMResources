@@ -1892,6 +1892,16 @@
       <UniqueName>arup_arup_DeclineReason</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_DupeCheckHtmlWithQC.htm">
+      <DisplayName>arup_DupeCheckHtmlWithQC</DisplayName>
+      <UniqueName>new_arup_DupeCheckHtmlWithQC</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_duplicateCheck_Marketo_Contact.htm">
+      <DisplayName>arup_duplicateCheck_Marketo_Contact</DisplayName>
+      <UniqueName>new_arup_duplicateCheck_Marketo_Contact</UniqueName>
+      <WebResourceType>WebPage</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Web Page %28HTML%29\arup_FrameworkButtons.htm">
       <DisplayName>arup_FrameworkButtons</DisplayName>
       <UniqueName>arup_FrameworkButtons</UniqueName>

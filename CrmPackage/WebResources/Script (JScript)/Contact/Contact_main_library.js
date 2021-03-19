@@ -1212,3 +1212,23 @@ function onBulkEmailsSetPreferncesField(executionContext) {
             ], 'INFO', 500, 350, formContext.context.getClientUrl(), true);
     }
 }
+
+function checkDuplicateContact(primaryControl) {
+    var formContext = primaryControl;
+
+    debugger;
+    var emailAddress = formContext.getAttribute("emailaddress1").getValue();
+    var firstName = formContext.getAttribute("firstname").getValue();
+    var lastName = formContext.getAttribute("lastname").getValue();
+    var entName = "contact";
+    var warningMsg = "";
+    var clientURL = formContext.context.getClientUrl();
+
+    var alertButton = new Alert.Button();
+    alertButton.label = "Close";
+    var array = new Array();
+    array.push(alertButton);
+
+    var dataparams = "FirstName=" + firstName + "&LastName=" + lastName + "&email=" + emailAddress + "&entLogicName=" + entName + "&warningMsg=" + warningMsg + "&clientUrl=" + clientURL;
+    Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 300, 700, "Potential Duplicates", array, clientURL, false, 20);
+}
