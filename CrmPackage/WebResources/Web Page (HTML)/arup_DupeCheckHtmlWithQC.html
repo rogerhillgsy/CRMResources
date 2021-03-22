@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
     <title>Records with similar name</title>
     <style type="text/css">
@@ -99,6 +99,7 @@
         var entLogicName = "";
         var clientId = "null";
         var warningMsg = "";
+        var clientURL = "";
 
         document.onreadystatechange = function () {
             if (document.readyState == "complete") {
@@ -164,6 +165,9 @@
                         break;
                     case "warningMsg":
                         warningMsg = vals[i][1];
+                        break;
+                    case "clientUrl":
+                        clientURL = vals[i][1];
                 }
             }
 
@@ -198,28 +202,28 @@
                 return;
             }
             // call the DuplicateCheck.js function to return the json
-            QCViewMoreButton(accName, entLogicName, firstName, lastName, ctryId, ipCity, recID, IPbussID);
+            QCViewMoreButton(accName, entLogicName, firstName, lastName, ctryId, ipCity, recID, IPbussID, clientURL);
         }
 
-        function QCViewMoreButton(name, entLogicName, FN, LN, ctryId, ipCity, recID, IPbussID) {
+        function QCViewMoreButton(name, entLogicName, FN, LN, ctryId, ipCity, recID, IPbussID, clientURL) {
             if (name != null && name != "null" && jsonMsgToRet == "None" && entLogicName == "account") {
                 if (ctryId == "") { ctryId = "null"; }
                 if (ipCity == "") { ipCity = "null"; }
-                callAction("arup_DupeDetect", name, null, null, recID, ctryId, ipCity, IPbussID, "QuickButton");
+                callAction("arup_DupeDetect", name, null, null, recID, ctryId, ipCity, IPbussID, "QuickButton", clientURL);
             }
             if (FN != null && FN != "null" && LN != null && LN != "null" && jsonMsgToRet == "None" && entLogicName == "contact") {
                 if (ctryId == "") { ctryId = "null"; }
                 if (ipCity == "") { ipCity = "null"; }
-                callAction("arup_DupeDetectContact", null, FN, LN, recID, ctryId, ipCity, IPbussID, "QuickButton");
+                callAction("arup_DupeDetectContact", null, FN, LN, recID, ctryId, ipCity, IPbussID, "QuickButton", clientURL);
             }
             if (name != null && name != "null" && jsonMsgToRet == "None" && entLogicName == "lead") {
                 if (ctryId == "") { ctryId = "null"; }
                 if (ipCity == "") { ipCity = "null"; }
-                callAction("arup_DupeDetectLead", name, null, null, recID, ctryId, ipCity, IPbussID, "QuickButton");
+                callAction("arup_DupeDetectLead", name, null, null, recID, ctryId, ipCity, IPbussID, "QuickButton", clientURL);
             }
         }
 
-        function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IPbussID, formtype) {
+        function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IPbussID, formtype, clientURL) {
             var actionName = actName;//"arup_DupeDetect";
             recordName = (recordName == "" || recordName == null) ? recordName : htmlSpecialChars(recordName);
 
@@ -234,7 +238,7 @@
                 parameters.InputName = recordName;
 
                 var req = new XMLHttpRequest();
-                req.open("POST", parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetect622be8c63365ea11a813000d3a86ab8d", true);
+                req.open("POST", clientURL + "/api/data/v9.1/arup_DupeDetect622be8c63365ea11a813000d3a86ab8d", true);
                 req.setRequestHeader("OData-MaxVersion", "4.0");
                 req.setRequestHeader("OData-Version", "4.0");
                 req.setRequestHeader("Accept", "application/json");
@@ -248,7 +252,7 @@
                                 parseMainSuccessActionResponse(results);
                             }
                         } else {
-                            Xrm.Utility.alertDialog(this.statusText);
+                            Xrm.Navigation.openAlertDialog(this.statusText);
                         }
                     }
                 };
@@ -263,7 +267,7 @@
                 parameters.InputLN = LN;
 
                 var req = new XMLHttpRequest();
-                req.open("POST", parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetectContact", true);
+                req.open("POST", clientURL + "/api/data/v9.1/arup_DupeDetectContact", true);
                 req.setRequestHeader("OData-MaxVersion", "4.0");
                 req.setRequestHeader("OData-Version", "4.0");
                 req.setRequestHeader("Accept", "application/json");
@@ -277,7 +281,7 @@
                                 parseMainSuccessActionResponse(results);
                             }
                         } else {
-                            Xrm.Utility.alertDialog(this.statusText);
+                            Xrm.Navigation.openAlertDialog(this.statusText);
                         }
                     }
                 };
@@ -293,7 +297,7 @@
                 parameters.InputBussID = IPbussID;
 
                 var req = new XMLHttpRequest();
-                req.open("POST", parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetectLead", true);
+                req.open("POST", clientURL + "/api/data/v9.1/arup_DupeDetectLead", true);
                 req.setRequestHeader("OData-MaxVersion", "4.0");
                 req.setRequestHeader("OData-Version", "4.0");
                 req.setRequestHeader("Accept", "application/json");
@@ -307,7 +311,7 @@
                                 parseMainSuccessActionResponse(results);
                             }
                         } else {
-                            Xrm.Utility.alertDialog(this.statusText);
+                            Xrm.Navigation.openAlertDialog(this.statusText);
                         }
                     }
                 };
@@ -331,8 +335,7 @@
             }
             removeElements();
             displayWarningMessage();
-            var strURL = getClientUrl();
-            //var parentAccId = parent.Xrm.Page.data.entity.getId().replace("{", "").replace("}", "");
+            var strURL = clientURL;
             var firstColLabel = entLogicName == "account" ? "Account Name" : (entLogicName == "contact" ? "Contact Name" : "Project Name");
             //Create a table and header using the DOM
             var oTable = document.createElement("table");
@@ -374,13 +377,13 @@
                 var oTRowTD1 = document.createElement("td");
                 var recordLink = "";
                 if (entLogicName == "account") {
-                    recordLink = '<a href="' + strURL + "main.aspx?etn=account&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
+                    recordLink = '<a href="' + strURL + "/main.aspx?etn=account&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
                 }
                 else if (entLogicName == "contact") {
-                    recordLink = '<a href="' + strURL + "main.aspx?etn=contact&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
+                    recordLink = '<a href="' + strURL + "/main.aspx?etn=contact&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
                 }
                 else if (entLogicName == "lead") {
-                    recordLink = '<a href="' + strURL + "main.aspx?etn=lead&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
+                    recordLink = '<a href="' + strURL + "/main.aspx?etn=lead&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
                 }
                 oTRowTD1.innerHTML = recordLink;
 
@@ -478,18 +481,7 @@
             }
         }
 
-        function getClientUrl() {
-            var strUrl = parent.Xrm.Page.context.getClientUrl();
-            if (strUrl.substr(strUrl.length - 1) != "/") {
-                strUrl += "/";
-            }
-            //var strUrl = "https://crm15-dev.arup.com/Test1";
-            return strUrl;
-        }
-
         function displayWaiting() {
-
-            var url = getClientUrl();
             removeElements();
 
             var oTBody = document.createElement("tbody");
@@ -540,7 +532,9 @@
     <meta>
     <meta>
     <meta>
+    <meta>
 </head>
 <body style="word-wrap: break-word;" id="ArupBody" onfocusout="parent.setEmailRange();">
+
 </body>
 </html>

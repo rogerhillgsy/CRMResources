@@ -1182,7 +1182,6 @@ function getHPRejectReasons(clientUrl) {
 
 function onBulkEmailsSetPreferncesField(executionContext) {
     var formContext = executionContext.getFormContext();
-    debugger;
     var donotbulkemail = formContext.getAttribute("donotbulkemail").getValue();
     if (!donotbulkemail) {
         Alert.show('<font size="6" color="#187ACD"><b>Bulk E-mails Update</b></font>',
@@ -1211,4 +1210,54 @@ function onBulkEmailsSetPreferncesField(executionContext) {
                 }
             ], 'INFO', 500, 350, formContext.context.getClientUrl(), true);
     }
+}
+
+function checkDuplicateContact(primaryControl) {
+    var formContext = primaryControl;
+
+    var emailAddress = formContext.getAttribute("emailaddress1").getValue();
+    var firstName = formContext.getAttribute("firstname").getValue();
+    var lastName = formContext.getAttribute("lastname").getValue();
+    var entName = "contact";
+    var warningMsg = "";
+    var clientURL = formContext.context.getClientUrl();
+
+    var alertButton = new Alert.Button();
+    alertButton.label = "Close";
+    var array = new Array();
+    array.push(alertButton);
+
+    var req = new XMLHttpRequest();
+    req.open("GET", clientURL + "/api/data/v9.1/contacts?$filter=emailaddress1 eq '" + emailAddress + "' and  arup_holdingpencontact ne true", true);
+    req.setRequestHeader("OData-MaxVersion", "4.0");
+    req.setRequestHeader("OData-Version", "4.0");
+    req.setRequestHeader("Accept", "application/json");
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var results = JSON.parse(this.response);
+                debugger;
+                if (results.value.length > 0) {
+                    for (var i = 0; i < results.value.length; i++) {
+                        var dataparams = "FirstName=" + firstName + "&LastName=" + lastName + "&email=" + emailAddress + "&entLogicName=" + entName + "&warningMsg=" + warningMsg + "&clientUrl=" + clientURL;
+                        Alert.showWebResource("arup_DupeCheckHtmlWithQC.htm?Data=" + encodeURIComponent(dataparams), 700, 300, "Potential Duplicates", array, clientURL, false, 20);
+                    }
+                } else {
+                    Alert.show('<font size="6" color="#2E74B5"><b>Potential Duplicates</b></font>',
+                        '<font size="3" color="#000000"></br>No Duplicate contacts were found.</font>',
+                        [
+                            new Alert.Button("<b>OK</b>")
+                        ],
+                        "INFO", 600, 200, formContext.context.getClientUrl(), true);
+                }
+            } else {
+                Xrm.Navigation.openAlertDialog(this.statusText);
+
+            }
+        }
+    };
+    req.send();
 }

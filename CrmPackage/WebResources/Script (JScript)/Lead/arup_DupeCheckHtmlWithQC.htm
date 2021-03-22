@@ -99,7 +99,7 @@
         var entLogicName = "";
         var clientId = "null";
         var warningMsg = "";
-        var clientURL = "";
+        var clientUrl = "";
 
         document.onreadystatechange = function () {
             if (document.readyState == "complete") {
@@ -125,7 +125,8 @@
             var firstName = "";
             var lastName = "";
             var recID = "null";
-            var IPbussID = "null";        
+            var IPbussID = "null";
+            var email = "";
 
             //var entLogicName = "";
             var vals = new Array();
@@ -163,11 +164,14 @@
                     case "ipCity":
                         ipCity = vals[i][1];
                         break;
-                    case "warningMsg":
-                        warningMsg = vals[i][1];
+                    case "email":
+                        email = vals[i][1];
                         break;
                     case "clientUrl":
-                        clientURL = vals[i][1];
+                        clientUrl = vals[i][1];
+                        break;
+                    case "warningMsg":
+                        warningMsg = vals[i][1];
                 }
             }
 
@@ -196,34 +200,40 @@
                 lastName = lastName.replace("aposArup", "'");
             }
 
+            var emailAddress = encodeURIComponent(email);
+
             //var resJsonMsg = "[{\"AccName\":\"name1\",\"guid\":\"B0D86709-67D3-E611-80F4-005056B55B13\",\"rank\":0.9},{\"AccName\":\"Organization Name\",\"guid\":\"A19071CF-85D5-E511-80E0-005056B55B13\",\"rank\":0.87}]";
             if (accName == null) {
                 noDupes(accName);
                 return;
             }
             // call the DuplicateCheck.js function to return the json
-            QCViewMoreButton(accName, entLogicName, firstName, lastName, ctryId, ipCity, recID, IPbussID, clientURL);
+            if (emailAddress != "" || emailAddress != null && entLogicName == "contact") {
+                retreiveduplicateContacts(emailAddress);
+            } else {
+                QCViewMoreButton(accName, entLogicName, firstName, lastName, ctryId, ipCity, recID, IPbussID);
+            }
         }
 
-        function QCViewMoreButton(name, entLogicName, FN, LN, ctryId, ipCity, recID, IPbussID, clientURL) {
+        function QCViewMoreButton(name, entLogicName, FN, LN, ctryId, ipCity, recID, IPbussID) {
             if (name != null && name != "null" && jsonMsgToRet == "None" && entLogicName == "account") {
                 if (ctryId == "") { ctryId = "null"; }
                 if (ipCity == "") { ipCity = "null"; }
-                callAction("arup_DupeDetect", name, null, null, recID, ctryId, ipCity, IPbussID, "QuickButton", clientURL);
+                callAction("arup_DupeDetect", name, null, null, recID, ctryId, ipCity, IPbussID, "QuickButton");
             }
             if (FN != null && FN != "null" && LN != null && LN != "null" && jsonMsgToRet == "None" && entLogicName == "contact") {
                 if (ctryId == "") { ctryId = "null"; }
                 if (ipCity == "") { ipCity = "null"; }
-                callAction("arup_DupeDetectContact", null, FN, LN, recID, ctryId, ipCity, IPbussID, "QuickButton", clientURL);
+                callAction("arup_DupeDetectContact", null, FN, LN, recID, ctryId, ipCity, IPbussID, "QuickButton");
             }
             if (name != null && name != "null" && jsonMsgToRet == "None" && entLogicName == "lead") {
                 if (ctryId == "") { ctryId = "null"; }
                 if (ipCity == "") { ipCity = "null"; }
-                callAction("arup_DupeDetectLead", name, null, null, recID, ctryId, ipCity, IPbussID, "QuickButton", clientURL);
+                callAction("arup_DupeDetectLead", name, null, null, recID, ctryId, ipCity, IPbussID, "QuickButton");
             }
         }
 
-        function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IPbussID, formtype, clientURL) {
+        function callAction(actName, recordName, FN, LN, recordId, countryId, cityIP, IPbussID, formtype) {
             var actionName = actName;//"arup_DupeDetect";
             recordName = (recordName == "" || recordName == null) ? recordName : htmlSpecialChars(recordName);
 
@@ -238,7 +248,7 @@
                 parameters.InputName = recordName;
 
                 var req = new XMLHttpRequest();
-                req.open("POST", clientURL + "/api/data/v9.1/arup_DupeDetect622be8c63365ea11a813000d3a86ab8d", true);
+                req.open("POST", parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetect622be8c63365ea11a813000d3a86ab8d", true);
                 req.setRequestHeader("OData-MaxVersion", "4.0");
                 req.setRequestHeader("OData-Version", "4.0");
                 req.setRequestHeader("Accept", "application/json");
@@ -267,7 +277,7 @@
                 parameters.InputLN = LN;
 
                 var req = new XMLHttpRequest();
-                req.open("POST", clientURL + "/api/data/v9.1/arup_DupeDetectContact", true);
+                req.open("POST", parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetectContact", true);
                 req.setRequestHeader("OData-MaxVersion", "4.0");
                 req.setRequestHeader("OData-Version", "4.0");
                 req.setRequestHeader("Accept", "application/json");
@@ -297,7 +307,7 @@
                 parameters.InputBussID = IPbussID;
 
                 var req = new XMLHttpRequest();
-                req.open("POST", clientURL + "/api/data/v9.1/arup_DupeDetectLead", true);
+                req.open("POST", parent.Xrm.Page.context.getClientUrl() + "/api/data/v9.1/arup_DupeDetectLead", true);
                 req.setRequestHeader("OData-MaxVersion", "4.0");
                 req.setRequestHeader("OData-Version", "4.0");
                 req.setRequestHeader("Accept", "application/json");
@@ -319,10 +329,137 @@
             }
         }
 
+        function retreiveduplicateContacts(emailAddress) {
+            var req = new XMLHttpRequest();
+            req.open("GET", clientUrl + "/api/data/v9.1/contacts?$select=address1_city,_ccrm_countryid_value,firstname,fullname,jobtitle,lastname,_parentcustomerid_value,emailaddress1&$filter=emailaddress1 eq '" + emailAddress + "' and  arup_holdingpencontact ne true", true);
+            req.setRequestHeader("OData-MaxVersion", "4.0");
+            req.setRequestHeader("OData-Version", "4.0");
+            req.setRequestHeader("Accept", "application/json");
+            req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+            req.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    req.onreadystatechange = null;
+                    if (this.status === 200) {
+                        var results = JSON.parse(this.response);
+                        for (var i = 0; i < results.value.length; i++) {
+                            parseMainSuccessResponse(results);
+                        }
+                    } else {
+                        Xrm.Navigation.openAlertDialog(this.statusText);
+                    }
+                }
+            };
+            req.send();
+        }
+
         function parseMainSuccessActionResponse(results) {
             var jsMsg3 = ProcessSuccess(results);
             jsonMsgToRet = jsMsg3;
             PrepareTable(jsMsg3);
+        }
+
+        function parseMainSuccessResponse(results) {
+            var list = results;
+            var len = list.value.length;
+
+            removeElements();
+            displayWarningMessage();
+            var strURL = getClientUrl();
+
+            //Create a table and header using the DOM
+            var oTable = document.createElement("table");
+            oTable.setAttribute("class", "hovertable");
+            oTable.setAttribute("id", "Aruptab");
+            var oTHead = document.createElement("thead");
+            var oTHeadTR = document.createElement("tr");
+
+            var oTHeadTRTH1 = document.createElement("th");
+            oTHeadTRTH1.align = "left";
+            setText(oTHeadTRTH1, "Contact Name");
+
+            var oTHeadTRTH2 = document.createElement("th");
+            oTHeadTRTH2.align = "left";
+            setText(oTHeadTRTH2, "City");
+
+            var oTHeadTRTH3 = document.createElement("th");
+            oTHeadTRTH3.align = "left";
+            setText(oTHeadTRTH3, "Country");
+
+            var oTHeadTRTH4 = document.createElement("th");
+            oTHeadTRTH4.align = "left";
+            setText(oTHeadTRTH4, "Email");
+
+            var oTHeadTRTH5 = document.createElement("th");
+            oTHeadTRTH5.align = "left";
+            setText(oTHeadTRTH5, "Organisation");
+
+            oTHeadTR.appendChild(oTHeadTRTH1);
+            oTHeadTR.appendChild(oTHeadTRTH2);
+            oTHeadTR.appendChild(oTHeadTRTH3);
+            oTHeadTR.appendChild(oTHeadTRTH4);
+            oTHeadTR.appendChild(oTHeadTRTH5);
+
+            oTHead.appendChild(oTHeadTR);
+            oTable.appendChild(oTHead);
+            var oTBody = document.createElement("tbody");
+
+            for (var i = 0; i < len; ++i) {
+                var acc = list.value[i];
+                var oTRow = document.createElement("tr");
+
+                var oTRowTD1 = document.createElement("td");
+                var recordLink = "";
+                recordLink = '<a href="' + strURL + "main.aspx?etn=contact&pagetype=entityrecord&id=%7B" + acc.contactid + "%7D" + '" target="_blank">' + acc.fullname + '</a>';
+
+                oTRowTD1.innerHTML = recordLink;
+
+                var oTRowTD2 = document.createElement("td");
+                setText(oTRowTD2, acc.address1_city);
+
+                var oTRowTD3 = document.createElement("td");
+                setText(oTRowTD3, acc["_ccrm_countryid_value@OData.Community.Display.V1.FormattedValue"]);
+
+                var oTRowTD4 = document.createElement("td");
+                oTRowTD4.align = "center";
+                setText(oTRowTD4, acc.emailaddress1);
+
+                var oTRowTD5 = document.createElement("td");
+                oTRowTD5.align = "center";
+                setText(oTRowTD5, acc["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"]);
+
+                oTRow.appendChild(oTRowTD1);
+                oTRow.appendChild(oTRowTD2);
+                oTRow.appendChild(oTRowTD3);
+                oTRow.appendChild(oTRowTD4);
+                oTRow.appendChild(oTRowTD5);
+                oTBody.appendChild(oTRow);
+            }
+
+            var oTFoot = document.createElement("tfoot");
+            var oTFootTR = document.createElement("tr");
+            var oTFootTRTD1 = document.createElement("td");
+            var oTFootTRTD2 = document.createElement("td");
+            var oTFootTRTD3 = document.createElement("td");
+            var oTFootTRTD4 = document.createElement("td");
+            var oTFootTRTD5 = document.createElement("td");
+
+            oTFootTRTD1.align = "left";
+            if (list.length <= 20) {
+                setText(oTFootTRTD1, "1 - " + list.length + " of " + list.length);
+            }
+
+            oTFootTR.appendChild(oTFootTRTD1);
+            oTFootTR.appendChild(oTFootTRTD2);
+            oTFootTR.appendChild(oTFootTRTD3);
+            oTFootTR.appendChild(oTFootTRTD4);
+            oTFootTR.appendChild(oTFootTRTD5);
+            oTFoot.appendChild(oTFootTR);
+            oTable.appendChild(oTFoot);
+
+            oTable.appendChild(oTBody);
+            document.body.appendChild(oTable);
+
         }
 
         function PrepareTable(jsMsg3P) {
@@ -335,7 +472,8 @@
             }
             removeElements();
             displayWarningMessage();
-            var strURL = clientURL;
+            var strURL = getClientUrl();
+            //var parentAccId = parent.Xrm.Page.data.entity.getId().replace("{", "").replace("}", "");
             var firstColLabel = entLogicName == "account" ? "Account Name" : (entLogicName == "contact" ? "Contact Name" : "Project Name");
             //Create a table and header using the DOM
             var oTable = document.createElement("table");
@@ -377,13 +515,13 @@
                 var oTRowTD1 = document.createElement("td");
                 var recordLink = "";
                 if (entLogicName == "account") {
-                    recordLink = '<a href="' + strURL + "/main.aspx?etn=account&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
+                    recordLink = '<a href="' + strURL + "main.aspx?etn=account&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
                 }
                 else if (entLogicName == "contact") {
-                    recordLink = '<a href="' + strURL + "/main.aspx?etn=contact&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
+                    recordLink = '<a href="' + strURL + "main.aspx?etn=contact&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
                 }
                 else if (entLogicName == "lead") {
-                    recordLink = '<a href="' + strURL + "/main.aspx?etn=lead&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
+                    recordLink = '<a href="' + strURL + "main.aspx?etn=lead&pagetype=entityrecord&id=%7B" + acc.Id + "%7D" + '" target="_blank">' + acc.Name + '</a>';
                 }
                 oTRowTD1.innerHTML = recordLink;
 
@@ -481,7 +619,17 @@
             }
         }
 
+        function getClientUrl() {
+            var strUrl = parent.Xrm.Page.context.getClientUrl();
+            if (strUrl.substr(strUrl.length - 1) != "/") {
+                strUrl += "/";
+            }
+            return strUrl;
+        }
+
         function displayWaiting() {
+
+            var url = getClientUrl();
             removeElements();
 
             var oTBody = document.createElement("tbody");
