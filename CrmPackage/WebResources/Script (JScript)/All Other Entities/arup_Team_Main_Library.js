@@ -487,3 +487,38 @@ function ClearFields(formContext, fieldName) {
         }
     }
 }
+
+function MicrosoftTeams(primaryControl) {
+    var formContext = primaryControl;
+    var teamId = formContext.data.entity.getId().replace(/[{}]/g, "");
+    var entityName = formContext.data.entity.getEntityName();
+    var microsoftTeamsUrl = formContext.getAttribute("arup_microsoftteamsurl").getValue();
+    var clientUrl = formContext.context.getClientUrl();
+    if (microsoftTeamsUrl != null) {
+        window.open(microsoftTeamsUrl, null, 800, 600, true, false, null);
+    } else {
+        if (teamId != null) {
+            var customParameters = "&entId=" + teamId + "&clientUrl=" + clientUrl + "&entName=" + entityName;
+
+            var pageInput = {
+                pageType: "webresource",
+                webresourceName: "arup_MicrosoftTeams",
+                data: customParameters
+
+            };
+            var navigationOptions = {
+                target: 2,
+                width: 700,
+                height: 500,
+                position: 1
+            };
+            Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
+                function success() {
+                    formContext.data.entity.save();
+                },
+                function error() {
+                }
+            );
+        }
+    }
+}
