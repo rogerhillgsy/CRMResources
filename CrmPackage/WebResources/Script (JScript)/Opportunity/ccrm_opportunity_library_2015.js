@@ -323,11 +323,14 @@ function getCurrentUserDetails(formContext) {
                 var retrievedreq = JSON.parse(this.response);
                 if (retrievedreq != null) {
                     result.FullName = retrievedreq["fullname"];
+                    if (retrievedreq["_ccrm_arupofficeid_value"] != null) {
+                        result.userOfficeID = retrievedreq["_ccrm_arupofficeid_value"];
+                    }
                     if (retrievedreq["_ccrm_arupregionid_value"] != null) {
 
                         result.userRegionID = retrievedreq["_ccrm_arupregionid_value"];
                         result.userRegionName = retrievedreq["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
-                        result.userOfficeID = retrievedreq["_ccrm_arupofficeid_value"];
+                        
                         var userCountry;
 
                         if (result.userRegionName == 'Australasia Region' && result.userOfficeID != null) {
@@ -483,37 +486,13 @@ function FormOnload(executionContext) {
 
             if (formContext.getAttribute("customerid").getValue() == null) {
                 setDefaultClientUnassigned(formContext);
-            }
-
-            //formContext.getAttribute("ccrm_accountingcentreid").setRequiredLevel('recommended');
-            //formContext.getAttribute("ccrm_arupcompanyid").setRequiredLevel('recommended');
-            SetLookupField(formContext, currUserData.arupcompanyid,
-                currUserData.arupcompanyname,
-                'ccrm_arupcompany',
-                'ccrm_arupcompanyid');
-            SetLookupField(formContext, globalContext.userSettings.userId,
-                globalContext.userSettings.userName,
-                'systemuser',
-                'ccrm_leadoriginator');
-            SetLookupField(formContext, globalContext.userSettings.userId,
-                globalContext.userSettings.userName,
-                'systemuser',
-                'ccrm_businessadministrator_userid');
-            formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
-
-            if (useAccountingCentre) {
-                SetLookupField(formContext, currUserData.ccrm_accountingcentreid,
-                    currUserData.ccrm_accountingcentrename,
-                    'ccrm_arupaccountingcode',
-                    'ccrm_accountingcentreid');
-            } else {
-                formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
-            }
-
-            formContext.getAttribute("ccrm_accountingcentreid").fireOnChange();
+            }          
+            SetDefaultDetailsFromProfile(formContext, useAccountingCentre)                                   
+                    
             ccrm_arupbusinessid_onChange(formContext, false);
 
-        } else if (formContext.ui.getFormType() != 1) {
+        }
+        else if (formContext.ui.getFormType() != 1) {
 
             //set internal opportunity banner
             if (formContext.getAttribute("ccrm_arupinternal").getValue() == true) {
@@ -732,6 +711,39 @@ function FormOnload(executionContext) {
             }
         }*/
     }
+}
+function setDefaultArupCompanyandCentre(formContext, useAccountingCentre) {
+    SetLookupField(formContext, currUserData.arupcompanyid, currUserData.arupcompanyname, 'ccrm_arupcompany', 'ccrm_arupcompanyid');
+    formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
+    if (useAccountingCentre) {
+        SetLookupField(formContext, currUserData.ccrm_accountingcentreid, currUserData.ccrm_accountingcentrename, 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid');
+    } else {
+        formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
+    }
+    formContext.getAttribute("ccrm_accountingcentreid").fireOnChange();
+}
+
+function SetDefaultDetailsFromProfile(formContext, useAccountingCentre) {
+    //if Arup Office associated with current user has arup_donotdefault = true, then don't default Arup Company and Accounting centre
+    // If arup_donotdefault = flase or null or user office is blank on profile,then default Arup Company and Accounting centre from profile
+    if (currUserData.userOfficeID != undefined) {
+        Xrm.WebApi.online.retrieveRecord("ccrm_arupoffice", currUserData.userOfficeID, "?$select=arup_donotdefault").then(
+            function success(result) {
+                var arup_donotdefault = result["arup_donotdefault"];
+                if (!arup_donotdefault || arup_donotdefault == null) {
+                    setDefaultArupCompanyandCentre(formContext, useAccountingCentre);
+                }
+            },
+            function (error) {
+                ArupAlert.alertDialog("Error while retrieving Office Details : " + error.message);
+            }
+        );
+    } else {
+        setDefaultArupCompanyandCentre(formContext, useAccountingCentre);
+    }
+  
+    SetLookupField(formContext, globalContext.userSettings.userId, globalContext.userSettings.userName, 'systemuser', 'ccrm_leadoriginator');
+    SetLookupField(formContext, globalContext.userSettings.userId, globalContext.userSettings.userName, 'systemuser', 'ccrm_businessadministrator_userid');  
 }
 
 function HideShowBidDevTab(formContext) {
