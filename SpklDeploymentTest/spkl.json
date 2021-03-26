@@ -1,0 +1,31 @@
+{
+  "webresources": [
+    {
+      "profile": "default,debug",
+      "root": "../CrmPackage/WebResources/Script (JScript)",
+      "solution": "BidReview88790",
+      "files": [
+        {
+          "uniquename": "arup_BidReviewTabs",
+          "file": "BidReview\\arup_bidReviewTabs.html",
+          "description": ""
+        },
+        {
+          "uniquename": "ccrm_BidReview_Label",
+          "file": "BidReview\\ccrm_BidReview_Label.html",
+          "description": ""
+        },
+        {
+          "uniquename": "ccrm_bidreview_main_library_2015.js",
+          "file": "BidReview\\ccrm_bidreview_main_library_2015.js",
+          "description": ""
+        },
+        {
+          "uniquename": "ccrm_bidreviewjcloseout",
+          "file": "BidReview\\ccrm_bidreviewjcloseout.html",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

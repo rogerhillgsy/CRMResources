@@ -1,0 +1,173 @@
+09:27:26	Deploying WebResources
+09:27:27	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+09:28:11	Deploying WebResources
+09:28:11	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+09:31:05	Deploying WebResources
+09:31:05	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+09:31:05	arup_BidReviewTabs has not changed, skipping...
+09:31:05	Deployed 0 webresource(s)
+09:31:05	Publishing 0 webresources...
+09:31:05	Publish complete.
+09:31:05	Processed 1 section(s)
+09:31:05	Processed 1 config(s)
+09:33:12	Deploying WebResources
+09:33:12	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+09:33:52	Deploying WebResources
+09:33:52	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+09:33:53	arup_BidReviewTabs has not changed, skipping...
+09:33:53	Deployed 0 webresource(s)
+09:33:53	Publishing 0 webresources...
+09:33:53	Publish complete.
+09:33:53	Processed 1 section(s)
+09:33:53	Processed 1 config(s)
+09:36:45	Downloading Webresources
+09:36:45	Searching for webresources in 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\spkl'
+09:37:13	Downloading Webresources
+09:37:13	Searching for webresources in 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\spkl'
+09:39:20	Downloading Webresources
+09:39:20	Searching for webresources in 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\spkl'
+09:40:41	Downloading Webresources
+09:40:42	Searching for webresources in 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\spkl'
+09:41:51	Downloading Webresources
+09:41:52	Searching for webresources in 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\spkl'
+10:02:22	Deploying WebResources
+10:02:22	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+10:02:22	arup_BidReviewTabs has not changed, skipping...
+10:02:22	Updating Webresource 'BidReview\ccrm_BidReview_Label.html' -> 'ccrm_BidReview_Label'
+10:02:31	Adding to solution 'BidReview88790'
+10:02:32	Creating Webresource 'BidReview\ccrm_bidreview_main_library_2015.js' -> 'ccrm_bidreview_main_library_2015'
+10:02:33	Adding to solution 'BidReview88790'
+10:02:33	Updating Webresource 'BidReview\ccrm_bidreviewjcloseout.html' -> 'ccrm_bidreviewjcloseout'
+10:02:41	Adding to solution 'BidReview88790'
+10:02:41	Deployed 3 webresource(s)
+10:02:41	Publishing 3 webresources...
+10:02:55	Publish complete.
+10:02:55	Processed 1 section(s)
+10:02:55	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\spkl'
+10:02:55	Deployed 0 webresource(s)
+10:02:55	Publishing 0 webresources...
+10:02:55	Publish complete.
+10:02:55	Processed 1 section(s)
+10:02:55	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\Webresources\BidReview'
+10:02:55	Deployed 0 webresource(s)
+10:02:55	Publishing 0 webresources...
+10:02:55	Publish complete.
+10:02:55	Processed 1 section(s)
+10:02:55	Processed 3 config(s)
+10:03:10	Deploying WebResources
+10:03:10	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+10:03:10	arup_BidReviewTabs has not changed, skipping...
+10:03:10	ccrm_BidReview_Label has not changed, skipping...
+10:03:11	Updating Webresource 'BidReview\ccrm_bidreview_main_library_2015.js' -> 'ccrm_bidreview_main_library_2015.js'
+10:03:18	Adding to solution 'BidReview88790'
+10:03:19	ccrm_bidreviewjcloseout has not changed, skipping...
+10:03:19	Deployed 1 webresource(s)
+10:03:19	Publishing 1 webresources...
+10:03:29	Publish complete.
+10:03:29	Processed 1 section(s)
+10:03:29	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\spkl'
+10:03:29	Deployed 0 webresource(s)
+10:03:29	Publishing 0 webresources...
+10:03:29	Publish complete.
+10:03:29	Processed 1 section(s)
+10:03:29	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\Webresources\BidReview'
+10:03:29	Deployed 0 webresource(s)
+10:03:29	Publishing 0 webresources...
+10:03:29	Publish complete.
+10:03:29	Processed 1 section(s)
+10:03:29	Processed 3 config(s)
+10:05:01	Deploying WebResources
+10:05:01	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+10:05:01	arup_BidReviewTabs has not changed, skipping...
+10:05:01	ccrm_BidReview_Label has not changed, skipping...
+10:05:01	ccrm_bidreview_main_library_2015.js has not changed, skipping...
+10:05:01	ccrm_bidreviewjcloseout has not changed, skipping...
+10:05:01	Deployed 0 webresource(s)
+10:05:01	Publishing 0 webresources...
+10:05:01	Publish complete.
+10:05:01	Processed 1 section(s)
+10:05:01	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\spkl'
+10:05:01	Deployed 0 webresource(s)
+10:05:01	Publishing 0 webresources...
+10:05:01	Publish complete.
+10:05:01	Processed 1 section(s)
+10:05:01	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\Webresources\BidReview'
+10:05:01	Deployed 0 webresource(s)
+10:05:01	Publishing 0 webresources...
+10:05:01	Publish complete.
+10:05:01	Processed 1 section(s)
+10:05:01	Processed 3 config(s)
+10:17:52	Deploying WebResources
+10:17:52	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+10:17:52	arup_BidReviewTabs has not changed, skipping...
+10:17:52	ccrm_BidReview_Label has not changed, skipping...
+10:17:52	ccrm_bidreview_main_library_2015.js has not changed, skipping...
+10:17:52	ccrm_bidreviewjcloseout has not changed, skipping...
+10:17:52	Deployed 0 webresource(s)
+10:17:52	Publishing 0 webresources...
+10:17:52	Publish complete.
+10:17:52	Processed 1 section(s)
+10:17:52	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\spkl'
+10:17:52	Deployed 0 webresource(s)
+10:17:52	Publishing 0 webresources...
+10:17:52	Publish complete.
+10:17:52	Processed 1 section(s)
+10:17:52	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\Webresources\BidReview'
+10:17:52	Deployed 0 webresource(s)
+10:17:52	Publishing 0 webresources...
+10:17:52	Publish complete.
+10:17:52	Processed 1 section(s)
+10:17:52	Processed 3 config(s)
+10:18:09	Deploying WebResources
+10:18:09	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+10:18:09	arup_BidReviewTabs has not changed, skipping...
+10:18:09	ccrm_BidReview_Label has not changed, skipping...
+10:18:09	ccrm_bidreview_main_library_2015.js has not changed, skipping...
+10:18:10	ccrm_bidreviewjcloseout has not changed, skipping...
+10:18:10	Deployed 0 webresource(s)
+10:18:10	Publishing 0 webresources...
+10:18:10	Publish complete.
+10:18:10	Processed 1 section(s)
+10:18:10	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\spkl'
+10:18:10	Deployed 0 webresource(s)
+10:18:10	Publishing 0 webresources...
+10:18:10	Publish complete.
+10:18:10	Processed 1 section(s)
+10:18:10	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\Webresources\BidReview'
+10:18:10	Deployed 0 webresource(s)
+10:18:10	Publishing 0 webresources...
+10:18:10	Publish complete.
+10:18:10	Processed 1 section(s)
+10:18:10	Processed 3 config(s)
+10:20:28	Deploying WebResources
+10:20:28	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+10:20:28	arup_BidReviewTabs has not changed, skipping...
+10:20:28	ccrm_BidReview_Label has not changed, skipping...
+10:20:28	ccrm_bidreview_main_library_2015.js has not changed, skipping...
+10:20:28	ccrm_bidreviewjcloseout has not changed, skipping...
+10:20:28	Deployed 0 webresource(s)
+10:20:28	Publishing 0 webresources...
+10:20:28	Publish complete.
+10:20:28	Processed 1 section(s)
+10:20:28	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\spkl'
+10:20:28	Deployed 0 webresource(s)
+10:20:28	Publishing 0 webresources...
+10:20:28	Publish complete.
+10:20:28	Processed 1 section(s)
+10:20:28	Processed 2 config(s)
+10:20:55	Deploying WebResources
+10:20:55	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+10:20:55	arup_BidReviewTabs has not changed, skipping...
+10:20:55	ccrm_BidReview_Label has not changed, skipping...
+10:20:55	ccrm_bidreview_main_library_2015.js has not changed, skipping...
+10:20:55	ccrm_bidreviewjcloseout has not changed, skipping...
+10:20:55	Deployed 0 webresource(s)
+10:20:55	Publishing 0 webresources...
+10:20:55	Publish complete.
+10:20:55	Processed 1 section(s)
+10:20:55	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest\spkl'
+10:20:55	Deployed 0 webresource(s)
+10:20:55	Publishing 0 webresources...
+10:20:55	Publish complete.
+10:20:55	Processed 1 section(s)
+10:20:55	Processed 2 config(s)
