@@ -35,10 +35,9 @@ ARUP.ccrm_bidreview = function() {
 
             this.tab_SectionH_onLoad(executionContext);
 
-            bidReviewHappened = disableFormFields(executionContext)
-                .then((result) => {
-                    debugger;
-                    if (!result) { // BidReviewHappened
+            disableFormFields(executionContext)
+                .then((bidReviewHappened) => {
+                    if (!bidReviewHappened) { // BidReviewHappened
                         //load review Panel 
                         if (formContext.getAttribute("ccrm_reviewpanel").getValue() == null) {
                             this.loadReviewPanel(formContext);
