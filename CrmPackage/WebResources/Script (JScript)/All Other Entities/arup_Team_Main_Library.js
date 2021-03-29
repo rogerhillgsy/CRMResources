@@ -522,3 +522,28 @@ function MicrosoftTeams(primaryControl) {
         }
     }
 }
+
+function clearMicrosoftTeamsUrl(primaryControl) {
+    var formContext = primaryControl;
+    var teamId = formContext.data.entity.getId().replace(/[{}]/g, "");
+    var microsoftTeamsUrl = formContext.getAttribute("arup_microsoftteamsurl").getValue();
+    if (microsoftTeamsUrl != null) {
+        var entity = {};
+        entity.arup_microsoftteamsurl = "";
+
+        Xrm.WebApi.online.updateRecord("team", teamId, entity).then(
+            function success(result) {
+                var updatedEntityId = result.id;
+                if (updatedEntityId)
+                    Alert.show('<font size="6" color="#2E74B5"><b>Microsoft Teams</b></font>',
+                        '<font size="3" color="#000000"></br>Microsoft Teams URL is now cleared.</br></br>Please click on the "Microsoft Teams" button to re-enter the new URL.</font>',
+                        [
+                            new Alert.Button("<b>OK</b>")
+                        ], "INFO", 600, 220, formContext.context.getClientUrl(), true);
+            },
+            function (error) {
+                XrmOpenAlertDialog(this.statusText);
+            }
+        );
+    } 
+}
