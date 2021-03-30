@@ -104,7 +104,12 @@ export class QuestionnaireComponent implements ComponentFramework.StandardContro
 		this._context = context;
 		this._inputField.value = context.parameters.Question.raw || "";
 		debugger;
-		this._inputField.setAttribute("disabled",context.mode.isControlDisabled.toString()  )
+
+		if (context.mode.isControlDisabled) {
+			this._inputField.setAttribute("disabled", "true" )
+		} else {
+			this._inputField.removeAttribute("disabled");
+		}
 
 		// @ts-ignore
 		this._inputField.parentNode.dataset.replicatedValue = this._inputField.value
