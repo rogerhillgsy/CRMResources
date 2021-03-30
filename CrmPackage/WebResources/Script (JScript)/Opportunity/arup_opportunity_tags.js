@@ -59,7 +59,7 @@ ArupTags =  (
 
         function onGlobalServicesChange(executioncontext) {
             // Use a promise to defer execution of the value checking till after we have finished updating the control..
-            // Checking the value of a multiselect from within the onChange event is not reliablesetMi
+            // Checking the value of a multiselect from within the onChange event is not reliableset
             const p = new Promise((resolve, reject) => {
                 onGlobalServicesChange1(executioncontext);
                 resolve();

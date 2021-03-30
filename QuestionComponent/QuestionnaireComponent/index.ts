@@ -1,16 +1,14 @@
 import { groupCollapsed } from "console";
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-import { IQuestionnaireData, IQuestionnaireDataSource } from "./IQuestionnaireData";
-import { QuestionnaireTestSource } from "./QuestionnaireTestData";
 
 export class QuestionnaireComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
     private _context: ComponentFramework.Context<IInputs>; // ?? Is this valid as it probably changes from one call to the next?
     private _container : HTMLDivElement;
 	private _notifyOutputChanged: () => void;
-
-	private _questionnaireDataSource: IQuestionnaireDataSource;
-	private _questionnaireData : IQuestionnaireData;
+	private _columnText = new Array<string>();
+	private _inputField : HTMLTextAreaElement;
+	private _showInputField =false;
 
 	constructor()
 	{
@@ -32,15 +30,26 @@ export class QuestionnaireComponent implements ComponentFramework.StandardContro
 		this._container = container;
 		this._notifyOutputChanged = notifyOutputChanged;
 
-		this._questionnaireDataSource = new QuestionnaireTestSource();
-		this._questionnaireDataSource.getQuestionnaireData("Test Questionnaire",context).then( (data) => {
-			this._questionnaireData = data;
-			this.displayQuestionnaire()
-		} )
+		this._showInputField = context.parameters.ShowInputField.raw != "0";
+
+		// this._questionnaireDataSource = new QuestionnaireTestSource();
+		// this._questionnaireDataSource.getQuestionnaireData("Test Questionnaire",context).then( (data) => {
+		// 	this._questionnaireData = data;
+		// 	this.displayQuestionnaire()
+		// } )
+		this.addIfnotNull(this._columnText, context.parameters.Col1);
+		this.addIfnotNull(this._columnText, context.parameters.Col2);
+		this.addIfnotNull(this._columnText, context.parameters.Col3);
+		this.addIfnotNull(this._columnText, context.parameters.Col4);
+		this.addIfnotNull(this._columnText, context.parameters.Col5);
+		this.displayQuestion();
 	}
-	displayQuestionnaire() {
-		debugger;
-		this._container.innerHTML = "Hello World \"" + this._questionnaireData.name + "\"";
+	addIfnotNull(  array: Array<string>, text : ComponentFramework.PropertyTypes.StringProperty ) {
+		if (!!text && !!text.raw && text.raw.length !== 0 && !!text.raw.trim()) {
+			array.push(text.raw);
+		}
+	}
+	displayQuestion() {
 		let table = document.createElement("table");
 		table.setAttribute("class","questionnaireTable");
 		this._container.appendChild(table);
@@ -48,50 +57,40 @@ export class QuestionnaireComponent implements ComponentFramework.StandardContro
 		headerRow.setAttribute("class","questionTableHeaderRow")
 		let header = document.createElement("th");
 		header.setAttribute("class","questionTableHeader")
-		header.innerHTML = this._questionnaireData.headerRow[0];
-		header.colSpan =  this._questionnaireData.headerRow.length - 1;
+		header.innerHTML = this._context.parameters.Header.raw || "";
+		header.colSpan =  this._columnText.length + ( this._showInputField ? 1 : 0 );
 		headerRow.appendChild(header);
 		
-		table = document.createElement("table");
-		table.setAttribute("class","questionnaireTable");
-		this._container.appendChild(table);
-		headerRow  = table.createTHead();
-
-		 headerRow = table.createTHead();
-		headerRow.setAttribute("class","questionTableHeaderRow")
-		this._questionnaireData.headerRow.forEach((h, i) => {
-			if (i > 0) {
-				let header = document.createElement("th");
-				header.setAttribute("class","questionTableHeader")
-				header.innerHTML = h;
-				headerRow.appendChild(header);
-			}
+		let row = table.insertRow();
+		this._columnText.forEach((r) => {
+		let col = document.createElement("td");
+		col.setAttribute("class", "questionTableData");
+		col.innerHTML = r;
+		row.appendChild(col);
 		});
 
-		this._questionnaireData.ForEachRow((r) => {
-			let row = table.insertRow();
-			let col : HTMLTableCellElement = document.createElement("td");
-			col.setAttribute("class", "questionTableData");
-			col.colSpan = this._questionnaireData.headerRow.length - 1;
-			col.innerHTML = r.rubric[0];
-			row.appendChild(col);			
-		
-			row = table.insertRow();
-			r.rubric.forEach( (r,i) => {
-				if (i > 0 ) {
-				let col = document.createElement("td");
-				col.setAttribute("class", "questionTableData");
-				col.innerHTML = r;
-				row.appendChild(col);			
-				}
-			});
+		if (this._showInputField) {
 			let inputCol = document.createElement("td");
 			inputCol.setAttribute("class", "questionTableInput");
-			let input1 : HTMLTextAreaElement =  document.createElement("textarea");
-			inputCol.appendChild(input1);
-			row.appendChild(inputCol)
-		})
 
+			let growWrap = document.createElement("div");
+			growWrap.setAttribute("class","grow-wrap");
+			inputCol.appendChild(growWrap);
+
+			this._inputField = document.createElement("textarea");
+			this._inputField.setAttribute("class", "questionTableInput");
+			this._inputField.setAttribute("onInput", "this.parentNode.dataset.replicatedValue = this.value");
+
+			let  notifyChanged =  () => this._notifyOutputChanged();
+			this._inputField.addEventListener("input",
+			function(this:HTMLTextAreaElement ){
+				// @ts-ignore
+				this.parentNode.dataset.replicatedValue = this.value
+				notifyChanged();
+			})
+			growWrap.appendChild(this._inputField);
+			row.appendChild(inputCol);
+		}
 	}
 
 
@@ -102,6 +101,13 @@ export class QuestionnaireComponent implements ComponentFramework.StandardContro
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
 		// Add code to update control view
+		this._context = context;
+		this._inputField.value = context.parameters.Question.raw || "";
+		debugger;
+		this._inputField.setAttribute("disabled",context.mode.isControlDisabled.toString()  )
+
+		// @ts-ignore
+		this._inputField.parentNode.dataset.replicatedValue = this._inputField.value
 	}
 
 	/** 
@@ -110,7 +116,8 @@ export class QuestionnaireComponent implements ComponentFramework.StandardContro
 	 */
 	public getOutputs(): IOutputs
 	{
-		return {};
+		var result = <IOutputs>{ Question : this._inputField.value };
+		return result;
 	}
 
 	/** 
