@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<manifest>
+  <control namespace="Arup.PCF" constructor="QuestionnaireComponent" version="0.0.3" display-name-key="Question Control" description-key="Displays a formatted question" control-type="standard" api-version="1.2.3">
+    <property name="Question" display-name-key="Question" description-key="Question Field" of-type="Multiple" usage="bound" required="true"/>
+    <property name="Header" display-name-key="Header" description-key="Header text for question" of-type="SingleLine.TextArea" usage="input" required="true"/>
+    <property name="Col1" display-name-key="Col1" description-key="Column 1 text" of-type="SingleLine.TextArea" usage="input" required="true"/>
+    <property name="Col2" display-name-key="Col2" description-key="Column 2 text" of-type="SingleLine.TextArea" usage="input" required="false" default-value=""/>
+    <property name="Col3" display-name-key="Col3" description-key="Column 3 text" of-type="SingleLine.TextArea" usage="input" required="false" default-value=""/>
+    <property name="Col4" display-name-key="Col4" description-key="Column 4 text" of-type="SingleLine.TextArea" usage="input" required="false" default-value=""/>
+    <property name="Col5" display-name-key="Col5" description-key="Column 5 text" of-type="SingleLine.TextArea" usage="input" required="false" default-value=""/>
+    <property name="ShowInputField" display-name-key="ShowInputField" description-key="Show input field" of-type="SingleLine.Text" usage="input" required="false" default-value="false"/>
+    <resources>
+      <code path="bundle.js" order="1"/>
+      <css path="css/QuestionnaireComponent.css" order="1"/>
+    </resources>
+    <feature-usage>
+      <uses-feature name="WebAPI" required="true"/>
+    </feature-usage>
+    <built-by name="pac" version="1.5.5"/>
+  </control>
+</manifest>
