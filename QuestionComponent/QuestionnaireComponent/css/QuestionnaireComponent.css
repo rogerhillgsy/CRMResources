@@ -1,24 +1,15 @@
-main {
-  display: flex;
-  justify-content: center;
-}
-
-table {
+table.questionnaireTable {
   max-width: 100%;
   width: 100%;
 }
 
-tr:nth-child(odd) {
-  background-color: #eee;
-}
-
-th {
+th.questionTableHeader {
   background-color: #555;
   color: #fff;
 }
 
-th,
-td {
+th.questionTableHeader,
+td.questionTableData {
   text-align: left;
   padding: 0.5em 1em;
 }
@@ -45,8 +36,8 @@ td.questionTableData {
 td.questionTableInput {
     vertical-align: top;
     text-align: top;
-    width: 40%;
-    /* max-height: 100% ; */
+    width: 30%;
+    padding: 0.5em 1em;
     box-sizing: content-box;
 }
 
