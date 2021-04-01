@@ -499,11 +499,14 @@ function setLeadOwnerDetails(formContext) {
                 if (this.status === 200) {
                     var retrievedreq = JSON.parse(this.response);
                     if (retrievedreq != null) {
+                        if (retrievedreq["_ccrm_arupofficeid_value"] != null) {
+                            result.userOfficeID = retrievedreq["_ccrm_arupofficeid_value"];
+                        }
                         if (retrievedreq["_ccrm_arupregionid_value"] != null) {
 
                             result.userRegionID = retrievedreq["_ccrm_arupregionid_value"];
                             result.userRegionName = retrievedreq["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
-                            result.userOfficeID = retrievedreq["_ccrm_arupofficeid_value"];
+                           
                             var userCountry;
 
                             if (result.userRegionName == 'Australasia Region' && result.userOfficeID != null) {
@@ -527,17 +530,8 @@ function setLeadOwnerDetails(formContext) {
 
                         leadOwnerData = result;
 
-                        SetLookupField(result.arupcompanyid, result.arupcompanyname, 'ccrm_arupcompany', 'ccrm_arupcompanyid', formContext);
-                        formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
-                        if (useAccountingCentre) {
-                        SetLookupField(result.ccrm_accountingcentreid, result.ccrm_accountingcentrename, 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid', formContext);
-                        } else {
-                            formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
-                        }
-                        SetLookupField(result.ccrm_arupregioneid, result.ccrm_arupregionname, 'ccrm_arupregion', 'arup_arupregion', formContext);
+                        SetDefaultDetailsFromProfile(formContext, leadOwnerData, useAccountingCentre);
 
-                        if (leadOwnerData.ccrm_accountingcentreid != null)
-                            getArupGroup(leadOwnerData.ccrm_accountingcentreid, formContext);
                     }
 
                 } else {
@@ -547,6 +541,41 @@ function setLeadOwnerDetails(formContext) {
         };
         req.send();
     }
+}
+
+function setDefaultArupCompanyandCentre(formContext, result, useAccountingCentre) {
+    SetLookupField(result.arupcompanyid, result.arupcompanyname, 'ccrm_arupcompany', 'ccrm_arupcompanyid', formContext);
+    formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
+    if (useAccountingCentre) {
+        SetLookupField(result.ccrm_accountingcentreid, result.ccrm_accountingcentrename, 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid', formContext);
+    } else {
+        formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
+    }
+}
+
+function SetDefaultDetailsFromProfile(formContext, leadOwnerData, useAccountingCentre) {
+    //if Arup Office associated with current user has arup_donotdefault = true, then don't default Arup Company and Accounting centre
+    // If arup_donotdefault = flase or null or user office is blank on profile,then default Arup Company and Accounting centre from profile
+    if (leadOwnerData.userOfficeID != undefined) {
+        Xrm.WebApi.online.retrieveRecord("ccrm_arupoffice", leadOwnerData.userOfficeID, "?$select=arup_donotdefault").then(
+            function success(result) {
+                var arup_donotdefault = result["arup_donotdefault"];
+                if (!arup_donotdefault || arup_donotdefault == null) {
+                    setDefaultArupCompanyandCentre(formContext, leadOwnerData, useAccountingCentre);
+                }
+            },
+            function (error) {
+                ArupAlert.alertDialog("Error while retrieving Office Details : " + error.message);
+            }
+        );
+    } else {
+        setDefaultArupCompanyandCentre(formContext, leadOwnerData, useAccountingCentre);
+    }
+
+   // SetLookupField(leadOwnerData.ccrm_arupregioneid, leadOwnerData.ccrm_arupregionname, 'ccrm_arupregion', 'arup_arupregion', formContext);
+
+    if (leadOwnerData.ccrm_accountingcentreid != null)
+        getArupGroup(leadOwnerData.ccrm_accountingcentreid, formContext);
 }
 
 function GetOfficeCountryID(formContext, officeID) {
