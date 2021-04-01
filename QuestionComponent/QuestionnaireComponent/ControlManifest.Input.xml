@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="Arup.PCF" constructor="QuestionnaireComponent" version="0.0.3" display-name-key="Question Control" description-key="Displays a formatted question" control-type="standard">
+    <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
+    <property name="Question" display-name-key="Question" description-key="Question Field" of-type="Multiple" usage="bound" required="true" />
+    <property name="Header" display-name-key="Header" description-key="Header text for question" of-type="SingleLine.TextArea" usage="input" required="true" />
+    <property name="Col1" display-name-key="Col1" description-key="Column 1 text" of-type="SingleLine.TextArea" usage="input" required="true" />
+    <property name="Col2" display-name-key="Col2" description-key="Column 2 text" of-type="SingleLine.TextArea" usage="input" required="false" default-value="" />
+    <property name="Col3" display-name-key="Col3" description-key="Column 3 text" of-type="SingleLine.TextArea" usage="input" required="false" default-value=""/>
+    <property name="Col4" display-name-key="Col4" description-key="Column 4 text" of-type="SingleLine.TextArea" usage="input" required="false" default-value=""/>
+    <property name="Col5" display-name-key="Col5" description-key="Column 5 text" of-type="SingleLine.TextArea" usage="input" required="false" default-value=""/>
+    <property name="ShowInputField" display-name-key="ShowInputField" description-key="Show input field" of-type="SingleLine.Text" usage="input" required="false" default-value="false"/>
+    <!-- 
+      Property node's of-type attribute can be of-type-group attribute. 
+      Example:
+      <type-group name="numbers">
+        <type>Whole.None</type>
+        <type>Currency</type>
+        <type>FP</type>
+        <type>Decimal</type>
+      </type-group>
+      <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type-group="numbers" usage="bound" required="true" />
+    -->
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path="css/QuestionnaireComponent.css" order="1" />
+      <!-- UNCOMMENT TO ADD MORE RESOURCES
+      <resx path="strings/QuestionnaireComponent.1033.resx" version="1.0.0" />
+      -->
+    </resources>
+    <feature-usage>
+      <uses-feature name="WebAPI" required="true" />
+    <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
+      <uses-feature name="Device.captureAudio" required="true" />
+      <uses-feature name="Device.captureImage" required="true" />
+      <uses-feature name="Device.captureVideo" required="true" />
+      <uses-feature name="Device.getBarcodeValue" required="true" />
+      <uses-feature name="Device.getCurrentPosition" required="true" />
+      <uses-feature name="Device.pickFile" required="true" />
+      <uses-feature name="Utility" required="true" />
+    -->
+    </feature-usage>
+  </control>
+</manifest>

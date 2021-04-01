@@ -208,7 +208,7 @@
                 return;
             }
             // call the DuplicateCheck.js function to return the json
-            if (emailAddress != "" || emailAddress != null && entLogicName == "contact") {
+            if (emailAddress != "" && entLogicName == "contact") {
                 retreiveduplicateContacts(emailAddress);
             } else {
                 QCViewMoreButton(accName, entLogicName, firstName, lastName, ctryId, ipCity, recID, IPbussID);

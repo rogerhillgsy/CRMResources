@@ -3,9 +3,8 @@ var cacheValueBM = null;
 var cacheValueBD = null;
 
 function onSelectOfStage(formContext, selStageId) {
-    if (selStageId == null || selStageId == 'undefined' )
-        if (formContext.getAttribute === undefined )
-            formContext = formContext.getFormContext(); //1st paramter is executioncontext in case of FormOnload event
+    if (selStageId == null || selStageId == 'undefined')
+        formContext = formContext.getFormContext(); //1st paramter is executioncontext in case of FormOnload event
 
     cacheValueBDC = formContext.getAttribute("arup_biddecisionchair").getValue();
     cacheValueBM = formContext.getAttribute("ccrm_bidmanager_userid").getValue();
@@ -141,7 +140,7 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
                     }
                 }
 
-                for (var i = j = 0; i < reasonValue.length && j < reasonkey.length; i++ , j++) {
+                for (var i = j = 0; i < reasonValue.length && j < reasonkey.length; i++, j++) {
                     var key = reasonkey[j];
                     var value = reasonValue[i];
                     dictionary[key] = value;
@@ -388,8 +387,7 @@ function setBidDecisionChairRequired(formContext) {
     var isHidden = (!isRegionValidForBidDecision || opportunityType == 770000005 || arupInternal) ? true : false;
     //  var requiredLevel = (!isHidden && stage == ArupStages.Lead) ? 'required' : 'none';
 
-    var control = formContext.getControl("header_process_arup_biddecisionchair");
-    if ( control != null) control.setVisible(!isHidden);
+    formContext.getControl("header_process_arup_biddecisionchair").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionchair").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionchair1").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionproxy").setVisible(!isHidden);
@@ -527,8 +525,7 @@ function retreiveOrganisationChecks(executionContext) {
     //Check if client is not Unassigned and Not Internal Opportuntiy
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var client = formContext.getAttribute("ccrm_client").getValue();
-    var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
-    if (client != null && client[0].name != 'Unassigned' && arupInternal != true && isWriteable) {
+    if (client != null && client[0].name != 'Unassigned' && arupInternal != true) {
         var oppSanctionCheck = formContext.getAttribute("arup_duediligencecheck").getValue();
         var clientDirty = formContext.getAttribute("ccrm_client").getIsDirty();
         if (client != null) {
