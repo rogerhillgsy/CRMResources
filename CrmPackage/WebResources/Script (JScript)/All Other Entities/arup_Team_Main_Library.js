@@ -349,6 +349,13 @@ function AddTeamMember(formContext, user, team) {
             },
             function fail(e) {
                 debugger;
+                // If a user (e.g. owner, manager) has been disabled, then trying to add them automatically as a team member will fail.
+                formContext.ui.setFormNotification(
+                    "Could not add user " +
+                    user.name +
+                    " to the team. Check to see if this user has been disabled with a view to replacing them.",
+                    "WARNING",
+                    user.name);
                 teamError("Failed to add user " + user.name + " to team " + team + "\r\n" + e.message);
             });
 }
