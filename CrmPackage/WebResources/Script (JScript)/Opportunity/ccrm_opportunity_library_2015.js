@@ -118,6 +118,9 @@ function exitForm(formContext) {
     }
 
     if (ismodified == true && formContext.getAttribute("statecode").getValue() != 0) {
+        // Output the modified fields to Debug console.
+        console.log("Form has been modified - fields requiring saving are: " + formContext.data.entity.getDataXml());
+
         //get list of dirty fields
         var oppAttributes = formContext.data.entity.attributes.get();
         if (oppAttributes != null) {
@@ -199,8 +202,9 @@ function SetLookupField(formContext, id, name, entity, field) {
 
 function getStageId(formContext) {
     var activeStage = formContext.data.process.getActiveStage();
-    return activeStage.getId();
-
+    if (activeStage != null) {
+        return activeStage.getId();
+    }
 }
 
 function ArupApprovalType(approvalType) {
@@ -453,6 +457,7 @@ function OnChangeToDirtyField(a) {
 function FormOnload(executionContext) {
 
     var formContext = executionContext.getFormContext();
+    var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
 
     parent.formContext = formContext;
 
@@ -542,7 +547,10 @@ function FormOnload(executionContext) {
 
             //make sure the current stage process fields are hidden/shown
             if (!!formContext.data.process) {
-                hideProcessFields(formContext, formContext.data.process.getSelectedStage().getName());
+                var selectedStage = formContext.data.process.getSelectedStage();
+                if (!!selectedStage) {
+                    hideProcessFields(formContext, formContext.data.process.getSelectedStage().getName());
+                }
             }
 
             oldBidReviewChair = formContext.getAttribute("ccrm_bidreviewchair_userid").getValue();
@@ -550,7 +558,7 @@ function FormOnload(executionContext) {
             currentStage = getStageId(formContext);
 
             //ensure that the stage toggle flag is set to something other than 2
-            if (formContext.getAttribute("ccrm_stagetoggle").getValue() != 0) {
+            if (formContext.getAttribute("ccrm_stagetoggle").getValue() != 0 && isWriteable) {
                 formContext.getAttribute("ccrm_stagetoggle").setValue(0);
                 formContext.getAttribute("ccrm_stagetoggle").setSubmitMode("always");
                 formContext.getAttribute("ccrm_stagetoggle").fireOnChange();
@@ -4264,18 +4272,21 @@ function CallbackFunction(returnValue) { }
 
 // State Country lookup filter code - starts
 function getCountryManagerAndCategory(formContext, countryID) {
+    var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
+    if (isWriteable) {
+        Xrm.WebApi.online.retrieveRecord("ccrm_country", countryID, "?$select=ccrm_riskrating").then(
+            function success(result) {
+                var ccrm_riskrating =
+                    result["ccrm_riskrating"]; //(retrievedreq.Ccrm_RiskRating != null) ? retrievedreq.Ccrm_RiskRating.Value : null;
+                formContext.getAttribute("ccrm_countrycategory").setValue(ccrm_riskrating);
+                formContext.getAttribute("ccrm_countrycategory").setSubmitMode("always");
 
-    Xrm.WebApi.online.retrieveRecord("ccrm_country", countryID, "?$select=ccrm_riskrating").then(
-        function success(result) {
-            var ccrm_riskrating = result["ccrm_riskrating"]; //(retrievedreq.Ccrm_RiskRating != null) ? retrievedreq.Ccrm_RiskRating.Value : null;
-            formContext.getAttribute("ccrm_countrycategory").setValue(ccrm_riskrating);
-            formContext.getAttribute("ccrm_countrycategory").setSubmitMode("always");
-
-        },
-        function (error) {
-            Xrm.Navigation.openAlertDialog(error.message);
-        }
-    );
+            },
+            function(error) {
+                Xrm.Navigation.openAlertDialog(error.message);
+            }
+        );
+    }
 }
 
 function projectcountry_onchange_ec(executionContext, fromformload) {
@@ -6224,6 +6235,7 @@ ccrm_dateconsulted_onChange = function (executionContext) {
 }
 
 function fnBtnAddNewJobNumberSuffix(formContext) {
+    console.log("Form has been modified - fields requiring saving are: " + formContext.data.entity.getDataXml());
     openNewCJNAForm(formContext, false);
 }
 
