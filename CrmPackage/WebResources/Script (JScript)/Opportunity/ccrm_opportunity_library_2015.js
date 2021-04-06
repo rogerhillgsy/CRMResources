@@ -772,18 +772,21 @@ function HideShowBidDevTab(formContext) {
 
 function HideShowPJNCostTab(formContext) {
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+    var isTabVisible = true;
     if (arupInternal) {
         var arupRegion = formContext.getAttribute("ccrm_arupregionid").getValue()
         if (arupRegion != null) {
             if (arupRegion[0].name.toUpperCase() == ArupRegionName.UKMEA.toUpperCase())
                 formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(true);
-            else
+            else {
                 formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(false);
+                isTabVisible = false;
+            }
         }
     } else {
         formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(true);
     }
-
+    return isTabVisible;
 }
 function HideShowQualificationTab(formContext, activeStage) {
     var isQualificationAdded = formContext.getAttribute("arup_isqualificationadded").getValue();
@@ -4446,8 +4449,9 @@ function USStateLookupPreFilter(executionContext) {
 
 function IndiaCompanyFilter(formContext) {
     var fieldName = "ccrm_arupcompanyid";
+    var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var CountryName = formContext.getAttribute("ccrm_projectlocationid").getValue()[0].name + '';
-    if (CountryName.toUpperCase() == 'INDIA') {
+    if (CountryName.toUpperCase() == 'INDIA' && !arupInternal) {
         var fetch =
             "<filter type='or'>" +
             "<condition attribute='ccrm_arupcompanycode' operator='like' value='%55%' />" +
