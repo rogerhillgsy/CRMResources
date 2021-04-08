@@ -54,8 +54,10 @@ function Form_onload(executionContext) {
                 if (newCJN)// Remove below options if request is for CJN number and not for the Suffix
                 {
                     RemoveOptionFromOptionSet(formContext, "ccrm_createmethod", 2, 3, 4);
+                    fireOnFormLoad(executionContext, 'arup_opportunitytype'); // to display descriptiontext
                 }
                 RemoveOptionFromOptionSet(formContext, "ccrm_wonreason", 100000007, 100000012, 100000008, 100000011, 100000010, 100000009, 100000013, 100000004);
+                
             } else {
                 RemoveOptionFromOptionSet(formContext, "ccrm_wonreason", 770000007, 770000008, 770000009, 770000010, 770000011, 770000012, 770000013);
             }

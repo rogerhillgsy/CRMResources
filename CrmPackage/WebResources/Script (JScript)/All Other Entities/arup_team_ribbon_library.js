@@ -1,4 +1,14 @@
 ﻿/// <reference path="../All Other Entities/arup_exitFormFunctions.js"/>"/>
+
+/**
+ * This file contains a javascript ribbon function that will dynamically create a Relationship team/Opportunity view.
+ * This view will display opportunities connected to the current relationship team.
+ * It will then attempt to open the view (although this not may not always work due to race conditions occurring in the UI)
+ *
+ * If the view already exists, it will use the existing view rather than creating a new view.
+ * The View is created on the user level.
+ */
+
 if (typeof (ARUP) == "undefined") {
     ARUP = {};
 }
@@ -94,7 +104,10 @@ ARUP.ccrm_bidreview.ribbon = function() {
             gridContext.getViewSelector().getCurrentView().name;
         var template = {};
         var existingViewId = null; 
-        const getTemplate = Xrm.WebApi.retrieveRecord(currentViewRef.entityType, currentViewRef.id).then(
+
+        // Start async calls running to retrieve the details of the current view layout and to find 
+        // any existing user view with the right name.
+        const getTemplate = Xrm.WebApi.retreiveRecord(currentViewRef.entityType, currentViewRef.id).then(
             function success(result) {
                 template = result;
             },
@@ -111,6 +124,8 @@ ARUP.ccrm_bidreview.ribbon = function() {
                 error("Searching for existing user query")
                 );
 
+
+        // Wait for all async queries to complete.
         Promise.all([getTemplate, getExisting]).then(
             function createNew(result) {
                 if (!!existingViewId) {
