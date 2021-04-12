@@ -44,7 +44,6 @@ function SetDefaultBusinessUnit(formContext) {
             formContext.getAttribute("businessunitid").setValue(arup);
         },
             function reject(xhr) {
-                debugger;
                 teamError("Failed to get Arup business unit record : " + xhr );
             });
 }
@@ -162,7 +161,6 @@ function IfTeamMember(formContext, teams, userId) {
                     reject("No Matching team");
                 },
                 function rejectInner(xhr) {
-                    debugger;
                     teamError("Failed to query CRM : " + xhr);
                     reject("Failed " + xhr);
                 }
@@ -348,7 +346,13 @@ function AddTeamMember(formContext, user, team) {
                 grid.refresh();
             },
             function fail(e) {
-                debugger;
+                // If a user has been disabled, then trying to add them as a team member will fail.
+                formContext.ui.setFormNotification(
+                    "Could not add user " +
+                    user.name +
+                    " to the team. Check to see if this user has been disabled with a view to replacing them.",
+                    "WARNING",
+                    user.name);
                 teamError("Failed to add user " + user.name + " to team " + team + "\r\n" + e.message);
             });
 }
