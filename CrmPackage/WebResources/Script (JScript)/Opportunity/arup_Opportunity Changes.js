@@ -532,13 +532,14 @@ function retreiveOrganisationChecks(formContext) {
     var clientDDCheckResult;
     var ultimateClientDDresult;
     debugger;
-    clientName.forEach(function (fieldname) {
-        var client = formContext.getAttribute(fieldname).getValue();
+    for (var i = 0; i < clientName.length; i++) {
+
+        var client = formContext.getAttribute(clientName[i]).getValue();
 
         var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
         var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
         if (client != null && client[0].name != 'Unassigned' && arupInternal != true && isWriteable) {
-            var clientDirty = formContext.getAttribute(fieldname).getIsDirty();
+            var clientDirty = formContext.getAttribute(clientName[i]).getIsDirty();
             if (client != null) {
                 var clientId = client[0].id.replace('{', '').replace('}', '');
                 var req = new XMLHttpRequest();
@@ -547,7 +548,7 @@ function retreiveOrganisationChecks(formContext) {
                     "/api/data/v9.1/accounts(" +
                     clientId +
                     ")?$select=arup_creditcheck,arup_duediligencecheck",
-                    true);
+                    false);
                 req.setRequestHeader("OData-MaxVersion", "4.0");
                 req.setRequestHeader("OData-Version", "4.0");
                 req.setRequestHeader("Accept", "application/json");
@@ -559,7 +560,7 @@ function retreiveOrganisationChecks(formContext) {
                         if (this.status === 200) {
                             var result = JSON.parse(this.response);
 
-                            if (fieldName == "ccrm_client") {
+                            if (clientName[i] == "ccrm_client") {
                                 var arup_creditcheck = result["arup_creditcheck"];
                                 var arup_creditValue = result["arup_creditcheck@OData.Community.Display.V1.FormattedValue"];
                                 if (arup_creditValue != null) {
@@ -571,7 +572,7 @@ function retreiveOrganisationChecks(formContext) {
 
                             var arup_duediligencecheck = result["arup_duediligencecheck"];
 
-                            if (fieldName == "ccrm_client") {
+                            if (clientName[i] == "ccrm_client") {
                                 if (arup_duediligencecheck != null) {
                                     clientDDCheckResult = arup_duediligencecheck;
                                 } else {
@@ -579,7 +580,7 @@ function retreiveOrganisationChecks(formContext) {
                                 }
                             }
 
-                            if (fieldName == "ccrm_ultimateendclientid") {
+                            if (clientName[i] == "ccrm_ultimateendclientid") {
                                 if (arup_duediligencecheck != null) {
                                     ultimateClientDDresult = arup_duediligencecheck;
                                 } else {
@@ -599,27 +600,28 @@ function retreiveOrganisationChecks(formContext) {
                 req.send();
             }
         }
-    });
+    }
 
     setSanctionResultOnOppor(formContext, clientDDCheckResult, ultimateClientDDresult);
 }
 
 function setSanctionResultOnOppor(formContext, clientDDCheckResult, ultimateClientDDresult) {
-    //New logic to compare
     debugger;
     //if (clientDDCheckResult != null && ultimateClientDDresult != null) {
-        if (clientDDCheckResult == 3 || ultimateClientDDresult == 3) {
-            formContext.getAttribute("arup_duediligencecheck").setValue(3);
-        } else if (clientDDCheckResult == 8 || ultimateClientDDresult == 8) {
-            formContext.getAttribute("arup_duediligencecheck").setValue(8);
-        } else if (clientDDCheckResult == 2 || ultimateClientDDresult == 2) {
-            formContext.getAttribute("arup_duediligencecheck").setValue(2);
-        } else if (clientDDCheckResult == 1 || ultimateClientDDresult == 1) {
-            formContext.getAttribute("arup_duediligencecheck").setValue(1);
-        }
+    if (clientDDCheckResult == 3 || ultimateClientDDresult == 3) {
+        formContext.getAttribute("arup_duediligencecheck").setValue(3);
+    } else if (clientDDCheckResult == 8 || ultimateClientDDresult == 8) {
+        formContext.getAttribute("arup_duediligencecheck").setValue(8);
+    } else if (clientDDCheckResult == 2 || ultimateClientDDresult == 2) {
+        formContext.getAttribute("arup_duediligencecheck").setValue(2);
+    } else if (clientDDCheckResult == 1 || ultimateClientDDresult == 1) {
+        formContext.getAttribute("arup_duediligencecheck").setValue(1);
+    } else {
+        formContext.getAttribute("arup_duediligencecheck").setValue(7);
+    }
     //}
 }
- 
+
 function checkOrganisationChecks(executionContext) {
 
     var formContext = executionContext.getFormContext();
