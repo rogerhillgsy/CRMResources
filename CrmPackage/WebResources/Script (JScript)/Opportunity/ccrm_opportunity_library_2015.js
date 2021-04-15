@@ -334,7 +334,7 @@ function getCurrentUserDetails(formContext) {
 
                         result.userRegionID = retrievedreq["_ccrm_arupregionid_value"];
                         result.userRegionName = retrievedreq["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
-                        
+
                         var userCountry;
 
                         if (result.userRegionName == 'Australasia Region' && result.userOfficeID != null) {
@@ -491,9 +491,9 @@ function FormOnload(executionContext) {
 
             if (formContext.getAttribute("customerid").getValue() == null) {
                 setDefaultClientUnassigned(formContext);
-            }          
-            SetDefaultDetailsFromProfile(formContext, useAccountingCentre)                                   
-                    
+            }
+            SetDefaultDetailsFromProfile(formContext, useAccountingCentre)
+
             ccrm_arupbusinessid_onChange(formContext, false);
 
         }
@@ -749,9 +749,9 @@ function SetDefaultDetailsFromProfile(formContext, useAccountingCentre) {
     } else {
         setDefaultArupCompanyandCentre(formContext, useAccountingCentre);
     }
-  
+
     SetLookupField(formContext, globalContext.userSettings.userId, globalContext.userSettings.userName, 'systemuser', 'ccrm_leadoriginator');
-    SetLookupField(formContext, globalContext.userSettings.userId, globalContext.userSettings.userName, 'systemuser', 'ccrm_businessadministrator_userid');  
+    SetLookupField(formContext, globalContext.userSettings.userId, globalContext.userSettings.userName, 'systemuser', 'ccrm_businessadministrator_userid');
 }
 
 function HideShowBidDevTab(formContext) {
@@ -4285,7 +4285,7 @@ function getCountryManagerAndCategory(formContext, countryID) {
                 formContext.getAttribute("ccrm_countrycategory").setSubmitMode("always");
 
             },
-            function(error) {
+            function (error) {
                 Xrm.Navigation.openAlertDialog(error.message);
             }
         );
@@ -7854,7 +7854,13 @@ function GetMultiSelect(executionContext) {
 
 function SetMultiSelect(formContext) {
     var selectedValues = formContext.getAttribute("arup_globalservices").getValue();
-    if (selectedValues == null) return;
+    if (selectedValues == null) {
+        if (formContext.getControl("ccrm_othernetworkdetails").getVisible()) {
+            formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
+            formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
+        }
+        return;
+    }
     var otherOption = selectedValues.includes(100000003);
     var notApplicable = selectedValues.includes(770000000);
     var length = selectedValues.length;
