@@ -521,7 +521,7 @@ function BidReviewApprovalConfirmationMessage(formContext) {
     return message;
 }
 
-function checkDueDiligenceResults(executionContext) {
+function checkDueDiligenceResults(executionContext, timer) {
     var formContext = executionContext.getFormContext();
     retreiveOrganisationChecks(formContext);
 }
@@ -531,7 +531,6 @@ function retreiveOrganisationChecks(formContext) {
     var clientName = ["ccrm_client", "ccrm_ultimateendclientid"];
     var clientDDCheckResult;
     var ultimateClientDDresult;
-    debugger;
     for (var i = 0; i < clientName.length; i++) {
 
         var client = formContext.getAttribute(clientName[i]).getValue();
@@ -606,8 +605,6 @@ function retreiveOrganisationChecks(formContext) {
 }
 
 function setSanctionResultOnOppor(formContext, clientDDCheckResult, ultimateClientDDresult) {
-    debugger;
-    //if (clientDDCheckResult != null && ultimateClientDDresult != null) {
     if (clientDDCheckResult == 3 || ultimateClientDDresult == 3) {
         formContext.getAttribute("arup_duediligencecheck").setValue(3);
     } else if (clientDDCheckResult == 8 || ultimateClientDDresult == 8) {
@@ -619,67 +616,6 @@ function setSanctionResultOnOppor(formContext, clientDDCheckResult, ultimateClie
     } else {
         formContext.getAttribute("arup_duediligencecheck").setValue(7);
     }
-    //}
-}
-
-function checkOrganisationChecks(executionContext) {
-
-    var formContext = executionContext.getFormContext();
-    setTimeout(function () {
-        var client = formContext.getAttribute("ccrm_client").getValue();
-        if (client != null) {
-            var clientId = client[0].id.replace('{', '').replace('}', '');
-            var req = new XMLHttpRequest();
-            req.open("GET",
-                formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + clientId + ")?$select=arup_duediligencecheck", true);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            req.onreadystatechange = function () {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 200) {
-                        var result = JSON.parse(this.response);
-                        var org_duediligencecheck = result["arup_duediligencecheck"];
-                        var arup_duediligencecheck = formContext.getAttribute("arup_duediligencecheck").getValue();
-                        if ((arup_duediligencecheck != org_duediligencecheck))
-                            setOrganisationChecks(formContext, arup_duediligencecheck);
-                    }
-                }
-            };
-            req.send();
-        }
-    }, 5000);
-}
-
-function setOrganisationChecks(formContext, arup_duediligencecheck) {
-    var client = formContext.getAttribute("ccrm_client").getValue();
-    if (client != null) {
-        var clientId = client[0].id.replace('{', '').replace('}', '');
-    } else {
-        return;
-    }
-
-    var entity = {};
-    entity.arup_duediligencecheck = arup_duediligencecheck;
-    entity.arup_lastddcheckdate = new Date();
-
-    var req = new XMLHttpRequest();
-    req.open("PATCH", formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + clientId + ")", true);
-    req.setRequestHeader("OData-MaxVersion", "4.0");
-    req.setRequestHeader("OData-Version", "4.0");
-    req.setRequestHeader("Accept", "application/json");
-    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    req.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            req.onreadystatechange = null;
-            if (this.status === 204) {
-            }
-        }
-    };
-    req.send(JSON.stringify(entity));
 }
 
 function showSDGFields(formContext, arupInternal) {
@@ -688,7 +624,6 @@ function showSDGFields(formContext, arupInternal) {
         formContext.ui.tabs.get("Confirmed_Job_Project_Tab").sections.get("Confirmed_Job_Project_Sustainable_Development").setVisible(false);
         formContext.ui.tabs.get("Project_Details_Tab").sections.get("Project_Details_Sustainable_Development").setVisible(false);
     }
-
 }
 
 function SetSGDMultiSelect(executionContext, fieldname) {
