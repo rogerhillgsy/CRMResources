@@ -107,7 +107,7 @@ ARUP.ccrm_bidreview.ribbon = function() {
 
         // Start async calls running to retrieve the details of the current view layout and to find 
         // any existing user view with the right name.
-        const getTemplate = Xrm.WebApi.retreiveRecord(currentViewRef.entityType, currentViewRef.id).then(
+        const getTemplate = Xrm.WebApi.retrieveRecord(currentViewRef.entityType, currentViewRef.id).then(
             function success(result) {
                 template = result;
             },
@@ -149,15 +149,15 @@ ARUP.ccrm_bidreview.ribbon = function() {
                     }
 
                     return Xrm.WebApi.createRecord("userquery", userquery).then((result) => {
-                            gridContext.refresh();
-                            navigateTo(formContext, gridContext, result.id, secondaryEntityLogicalName);
-                        //    Xrm.Navigation.XrmOpenAlertDialog({
-                        //            title: "Creating view",
-                        //            text: "This will create a new peronal view for you: " + targetViewName
-                        //        })
-                        //        .then(function success() {
-                        //            navigateTo(formContext, gridContext, result.id, secondaryEntityLogicalName);
-                        //        });
+                            Xrm.Navigation.openAlertDialog({
+                                    title: "New view created",
+                                    text: "You have a new personal view:\r\n " + targetViewName + 
+                                        " \r\nPlease refresh if the view is not immediately visible"
+                                    }, 
+                                    {height : 200, width: 500 })
+                                .then(function success() {
+                                    navigateTo(formContext, gridContext, result.id, secondaryEntityLogicalName);
+                                });
                         },
                         error("Creating user query"));
                 }
