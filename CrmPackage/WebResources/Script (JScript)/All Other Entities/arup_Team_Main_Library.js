@@ -44,7 +44,6 @@ function SetDefaultBusinessUnit(formContext) {
             formContext.getAttribute("businessunitid").setValue(arup);
         },
             function reject(xhr) {
-                debugger;
                 teamError("Failed to get Arup business unit record : " + xhr );
             });
 }
@@ -162,7 +161,6 @@ function IfTeamMember(formContext, teams, userId) {
                     reject("No Matching team");
                 },
                 function rejectInner(xhr) {
-                    debugger;
                     teamError("Failed to query CRM : " + xhr);
                     reject("Failed " + xhr);
                 }

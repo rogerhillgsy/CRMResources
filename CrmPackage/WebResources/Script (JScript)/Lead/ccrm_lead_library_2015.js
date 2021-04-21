@@ -866,8 +866,9 @@ function getArupPractice(acctCentreId, regionId, formContext) {
 
 function IndiaCompanyFilter(formContext) {
     var fieldName = "ccrm_arupcompanyid";
+    var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var CountryName = formContext.getAttribute("ccrm_country").getValue()[0].name + '';
-    if (CountryName.toUpperCase() == 'INDIA') {
+    if (CountryName.toUpperCase() == 'INDIA' && !arupInternal) {
         var fetch =
             "<filter type='or'>" +
             "<condition attribute='ccrm_arupcompanycode' operator='like' value='%55%' />" +

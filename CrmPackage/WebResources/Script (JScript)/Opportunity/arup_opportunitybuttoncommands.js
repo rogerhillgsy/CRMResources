@@ -264,6 +264,10 @@ Arup = (
                 HideShowBidDevTab(formContext);
             },
 
+            IsPJNCostTabVisible: function (formContext) {              
+                return HideShowPJNCostTab(formContext);
+            },
+
             HideShowPJNCostTab: function (formContext) {
                 HideShowPJNCostTab(formContext);
             },
