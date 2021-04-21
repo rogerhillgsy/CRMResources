@@ -1317,6 +1317,11 @@
       <UniqueName>arup_team_ribbon_library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Contact\arup_contact_nextlastmeeting.js">
+      <DisplayName>arup_contact_nextlastmeeting</DisplayName>
+      <UniqueName>arup_contact_nextlastmeeting.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_opportunity_financialCalculations.js">
       <DisplayName>arup_opportunity_financialCalculations.js</DisplayName>
       <UniqueName>arup_opportunity_financialCalculations.js</UniqueName>
