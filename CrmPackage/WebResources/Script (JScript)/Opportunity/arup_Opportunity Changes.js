@@ -521,7 +521,7 @@ function BidReviewApprovalConfirmationMessage(formContext) {
     return message;
 }
 
-function checkDueDiligenceResults(executionContext, timer) {
+function checkDueDiligenceResults(executionContext) {
     var formContext = executionContext.getFormContext();
     retreiveOrganisationChecks(formContext);
 }
