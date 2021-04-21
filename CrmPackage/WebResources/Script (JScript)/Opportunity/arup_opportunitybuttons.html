@@ -425,6 +425,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'action': function () {
                         DisplayTab("PJN_Costs_Tab", this);
                     },
+                    'hidden': function () { return !parent.Arup.IsPJNCostTabVisible(formContext); },
                     'isredbutton': false
                 },              
                 {
