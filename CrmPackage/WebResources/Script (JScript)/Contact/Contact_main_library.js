@@ -29,6 +29,7 @@ function form_onLoad(executionContext) {
     canadaSectionVisibility(formContext);
     formContext.ui.tabs.get("SUMMARY_TAB").setFocus();
     defaultCustomerToAccount(formContext);
+    SetMultiSelect(formContext);
 
     var DQUser = isUserInTeamCheck(formContext);
     if (DQUser) {
@@ -1260,4 +1261,29 @@ function checkDuplicateContact(primaryControl) {
         }
     };
     req.send();
+}
+
+function GetMultiSelect(executionContext) {
+    var formContext = executionContext.getFormContext();
+    SetMultiSelect(formContext);
+}
+
+function SetMultiSelect(formContext) {
+    var selectedValues = formContext.getAttribute("arup_businessinterest_ms").getValue();
+    if (selectedValues == null) {
+        if (formContext.getControl("arup_businessinterestother").getVisible()) {
+            formContext.getControl("arup_businessinterestother").setVisible(false);
+            formContext.getAttribute("arup_businessinterestother").setRequiredLevel('none');
+        }
+        return;
+    }
+    var otherOption = selectedValues.includes(119);
+
+    if (otherOption) {
+        formContext.getControl("arup_businessinterestother").setVisible(true);
+        formContext.getAttribute("arup_businessinterestother").setRequiredLevel('required');
+    } else {
+        formContext.getControl("arup_businessinterestother").setVisible(false);
+        formContext.getAttribute("arup_businessinterestother").setRequiredLevel('none');
+    }
 }

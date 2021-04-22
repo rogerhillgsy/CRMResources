@@ -334,7 +334,7 @@ function getCurrentUserDetails(formContext) {
 
                         result.userRegionID = retrievedreq["_ccrm_arupregionid_value"];
                         result.userRegionName = retrievedreq["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
-                        
+
                         var userCountry;
 
                         if (result.userRegionName == 'Australasia Region' && result.userOfficeID != null) {
@@ -491,9 +491,9 @@ function FormOnload(executionContext) {
 
             if (formContext.getAttribute("customerid").getValue() == null) {
                 setDefaultClientUnassigned(formContext);
-            }          
-            SetDefaultDetailsFromProfile(formContext, useAccountingCentre)                                   
-                    
+            }
+            SetDefaultDetailsFromProfile(formContext, useAccountingCentre)
+
             ccrm_arupbusinessid_onChange(formContext, false);
 
         }
@@ -749,9 +749,9 @@ function SetDefaultDetailsFromProfile(formContext, useAccountingCentre) {
     } else {
         setDefaultArupCompanyandCentre(formContext, useAccountingCentre);
     }
-  
+
     SetLookupField(formContext, globalContext.userSettings.userId, globalContext.userSettings.userName, 'systemuser', 'ccrm_leadoriginator');
-    SetLookupField(formContext, globalContext.userSettings.userId, globalContext.userSettings.userName, 'systemuser', 'ccrm_businessadministrator_userid');  
+    SetLookupField(formContext, globalContext.userSettings.userId, globalContext.userSettings.userName, 'systemuser', 'ccrm_businessadministrator_userid');
 }
 
 function HideShowBidDevTab(formContext) {
@@ -772,18 +772,21 @@ function HideShowBidDevTab(formContext) {
 
 function HideShowPJNCostTab(formContext) {
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+    var isTabVisible = true;
     if (arupInternal) {
         var arupRegion = formContext.getAttribute("ccrm_arupregionid").getValue()
         if (arupRegion != null) {
             if (arupRegion[0].name.toUpperCase() == ArupRegionName.UKMEA.toUpperCase())
                 formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(true);
-            else
+            else {
                 formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(false);
+                isTabVisible = false;
+            }
         }
     } else {
         formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(true);
     }
-
+    return isTabVisible;
 }
 function HideShowQualificationTab(formContext, activeStage) {
     var isQualificationAdded = formContext.getAttribute("arup_isqualificationadded").getValue();
@@ -4282,7 +4285,7 @@ function getCountryManagerAndCategory(formContext, countryID) {
                 formContext.getAttribute("ccrm_countrycategory").setSubmitMode("always");
 
             },
-            function(error) {
+            function (error) {
                 Xrm.Navigation.openAlertDialog(error.message);
             }
         );
@@ -4446,8 +4449,9 @@ function USStateLookupPreFilter(executionContext) {
 
 function IndiaCompanyFilter(formContext) {
     var fieldName = "ccrm_arupcompanyid";
+    var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var CountryName = formContext.getAttribute("ccrm_projectlocationid").getValue()[0].name + '';
-    if (CountryName.toUpperCase() == 'INDIA') {
+    if (CountryName.toUpperCase() == 'INDIA' && !arupInternal) {
         var fetch =
             "<filter type='or'>" +
             "<condition attribute='ccrm_arupcompanycode' operator='like' value='%55%' />" +
@@ -4892,6 +4896,10 @@ function stageNotifications(formContext) {
         //if (triggerSave) {
         //    setTimeout(function () { formContext.data.save(null); }, 500);
         //}
+        //Check for Due Diligence
+        var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+        if (arupInternal != true)
+            formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
     }
 
     FormNotificationForOpportunityType(formContext, formContext.getAttribute("arup_opportunitytype").getValue());
@@ -7850,7 +7858,13 @@ function GetMultiSelect(executionContext) {
 
 function SetMultiSelect(formContext) {
     var selectedValues = formContext.getAttribute("arup_globalservices").getValue();
-    if (selectedValues == null) return;
+    if (selectedValues == null) {
+        if (formContext.getControl("ccrm_othernetworkdetails").getVisible()) {
+            formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
+            formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
+        }
+        return;
+    }
     var otherOption = selectedValues.includes(100000003);
     var notApplicable = selectedValues.includes(770000000);
     var length = selectedValues.length;
