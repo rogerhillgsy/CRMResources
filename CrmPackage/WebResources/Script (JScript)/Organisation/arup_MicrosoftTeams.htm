@@ -1,6 +1,8 @@
 ﻿<html lang="en">
 <head>
     <script type="text/javascript">
+        const { param } = require("../ccrm_ms_jQuery1102");
+
 
         function submitRequest() {
             var queryString = location.search.substring(1);
@@ -22,9 +24,9 @@
                 try {
                     var entity = {};
                     entity.arup_microsoftteamsurl = microsoftTeamsUrl;
-
+                    var entityName = params.entname.concat("s");
                     var req = new XMLHttpRequest();
-                    req.open("PATCH", params.clienturl + "/api/data/v9.1/accounts(" + params.orgid + ")", false);
+                    req.open("PATCH", params.clienturl + "/api/data/v9.1/" + entityName + "(" + params.entid + ")", false);
                     req.setRequestHeader("OData-MaxVersion", "4.0");
                     req.setRequestHeader("OData-Version", "4.0");
                     req.setRequestHeader("Accept", "application/json");

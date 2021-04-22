@@ -327,11 +327,14 @@ function getCurrentUserDetails(formContext) {
                 var retrievedreq = JSON.parse(this.response);
                 if (retrievedreq != null) {
                     result.FullName = retrievedreq["fullname"];
+                    if (retrievedreq["_ccrm_arupofficeid_value"] != null) {
+                        result.userOfficeID = retrievedreq["_ccrm_arupofficeid_value"];
+                    }
                     if (retrievedreq["_ccrm_arupregionid_value"] != null) {
 
                         result.userRegionID = retrievedreq["_ccrm_arupregionid_value"];
                         result.userRegionName = retrievedreq["_ccrm_arupregionid_value@OData.Community.Display.V1.FormattedValue"];
-                        result.userOfficeID = retrievedreq["_ccrm_arupofficeid_value"];
+
                         var userCountry;
 
                         if (result.userRegionName == 'Australasia Region' && result.userOfficeID != null) {
@@ -489,36 +492,12 @@ function FormOnload(executionContext) {
             if (formContext.getAttribute("customerid").getValue() == null) {
                 setDefaultClientUnassigned(formContext);
             }
+            SetDefaultDetailsFromProfile(formContext, useAccountingCentre)
 
-            //formContext.getAttribute("ccrm_accountingcentreid").setRequiredLevel('recommended');
-            //formContext.getAttribute("ccrm_arupcompanyid").setRequiredLevel('recommended');
-            SetLookupField(formContext, currUserData.arupcompanyid,
-                currUserData.arupcompanyname,
-                'ccrm_arupcompany',
-                'ccrm_arupcompanyid');
-            SetLookupField(formContext, globalContext.userSettings.userId,
-                globalContext.userSettings.userName,
-                'systemuser',
-                'ccrm_leadoriginator');
-            SetLookupField(formContext, globalContext.userSettings.userId,
-                globalContext.userSettings.userName,
-                'systemuser',
-                'ccrm_businessadministrator_userid');
-            formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
-
-            if (useAccountingCentre) {
-                SetLookupField(formContext, currUserData.ccrm_accountingcentreid,
-                    currUserData.ccrm_accountingcentrename,
-                    'ccrm_arupaccountingcode',
-                    'ccrm_accountingcentreid');
-            } else {
-                formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
-            }
-
-            formContext.getAttribute("ccrm_accountingcentreid").fireOnChange();
             ccrm_arupbusinessid_onChange(formContext, false);
 
-        } else if (formContext.ui.getFormType() != 1) {
+        }
+        else if (formContext.ui.getFormType() != 1) {
 
             //set internal opportunity banner
             if (formContext.getAttribute("ccrm_arupinternal").getValue() == true) {
@@ -741,6 +720,39 @@ function FormOnload(executionContext) {
         }*/
     }
 }
+function setDefaultArupCompanyandCentre(formContext, useAccountingCentre) {
+    SetLookupField(formContext, currUserData.arupcompanyid, currUserData.arupcompanyname, 'ccrm_arupcompany', 'ccrm_arupcompanyid');
+    formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
+    if (useAccountingCentre) {
+        SetLookupField(formContext, currUserData.ccrm_accountingcentreid, currUserData.ccrm_accountingcentrename, 'ccrm_arupaccountingcode', 'ccrm_accountingcentreid');
+    } else {
+        formContext.getAttribute("ccrm_accountingcentreid").setValue(null);
+    }
+    formContext.getAttribute("ccrm_accountingcentreid").fireOnChange();
+}
+
+function SetDefaultDetailsFromProfile(formContext, useAccountingCentre) {
+    //if Arup Office associated with current user has arup_donotdefault = true, then don't default Arup Company and Accounting centre
+    // If arup_donotdefault = flase or null or user office is blank on profile,then default Arup Company and Accounting centre from profile
+    if (currUserData.userOfficeID != undefined) {
+        Xrm.WebApi.online.retrieveRecord("ccrm_arupoffice", currUserData.userOfficeID, "?$select=arup_donotdefault").then(
+            function success(result) {
+                var arup_donotdefault = result["arup_donotdefault"];
+                if (!arup_donotdefault || arup_donotdefault == null) {
+                    setDefaultArupCompanyandCentre(formContext, useAccountingCentre);
+                }
+            },
+            function (error) {
+                ArupAlert.alertDialog("Error while retrieving Office Details : " + error.message);
+            }
+        );
+    } else {
+        setDefaultArupCompanyandCentre(formContext, useAccountingCentre);
+    }
+
+    SetLookupField(formContext, globalContext.userSettings.userId, globalContext.userSettings.userName, 'systemuser', 'ccrm_leadoriginator');
+    SetLookupField(formContext, globalContext.userSettings.userId, globalContext.userSettings.userName, 'systemuser', 'ccrm_businessadministrator_userid');
+}
 
 function HideShowBidDevTab(formContext) {
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
@@ -760,18 +772,21 @@ function HideShowBidDevTab(formContext) {
 
 function HideShowPJNCostTab(formContext) {
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+    var isTabVisible = true;
     if (arupInternal) {
         var arupRegion = formContext.getAttribute("ccrm_arupregionid").getValue()
         if (arupRegion != null) {
             if (arupRegion[0].name.toUpperCase() == ArupRegionName.UKMEA.toUpperCase())
                 formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(true);
-            else
+            else {
                 formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(false);
+                isTabVisible = false;
+            }
         }
     } else {
         formContext.ui.tabs.get("PJN_Costs_Tab").setVisible(true);
     }
-
+    return isTabVisible;
 }
 function HideShowQualificationTab(formContext, activeStage) {
     var isQualificationAdded = formContext.getAttribute("arup_isqualificationadded").getValue();
@@ -2842,19 +2857,6 @@ function requestPossibleJob(formContext) {
                     },
                 ], "WARNING", 600, 250, ClientUrl, true);
         }
-
-        if (arupCompanyCode == '5006') {
-            Alert.show('<font size="6" color="#F69922"><b>Invalid Company for PJN</b></font>',
-                '<font size="3" color="#000000"></br>' + 'PJN cannot be requested for company Arup US, INC (5006).' + '</font>',
-                [
-                    {
-                        label: "<b>OK</b>",
-                        setFocus: true
-                    },
-                ], "WARNING", 600, 250, ClientUrl, true);
-
-            return;
-        }
     }
 
     SetFieldRequirementForPreBidStage(formContext);
@@ -4283,7 +4285,7 @@ function getCountryManagerAndCategory(formContext, countryID) {
                 formContext.getAttribute("ccrm_countrycategory").setSubmitMode("always");
 
             },
-            function(error) {
+            function (error) {
                 Xrm.Navigation.openAlertDialog(error.message);
             }
         );
@@ -4447,8 +4449,9 @@ function USStateLookupPreFilter(executionContext) {
 
 function IndiaCompanyFilter(formContext) {
     var fieldName = "ccrm_arupcompanyid";
+    var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     var CountryName = formContext.getAttribute("ccrm_projectlocationid").getValue()[0].name + '';
-    if (CountryName.toUpperCase() == 'INDIA') {
+    if (CountryName.toUpperCase() == 'INDIA' && !arupInternal) {
         var fetch =
             "<filter type='or'>" +
             "<condition attribute='ccrm_arupcompanycode' operator='like' value='%55%' />" +
@@ -4893,6 +4896,10 @@ function stageNotifications(formContext) {
         //if (triggerSave) {
         //    setTimeout(function () { formContext.data.save(null); }, 500);
         //}
+        //Check for Due Diligence
+        var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+        if (arupInternal != true)
+            formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
     }
 
     FormNotificationForOpportunityType(formContext, formContext.getAttribute("arup_opportunitytype").getValue());
@@ -7851,7 +7858,13 @@ function GetMultiSelect(executionContext) {
 
 function SetMultiSelect(formContext) {
     var selectedValues = formContext.getAttribute("arup_globalservices").getValue();
-    if (selectedValues == null) return;
+    if (selectedValues == null) {
+        if (formContext.getControl("ccrm_othernetworkdetails").getVisible()) {
+            formContext.getControl("ccrm_othernetworkdetails").setVisible(false);
+            formContext.getAttribute("ccrm_othernetworkdetails").setRequiredLevel('none');
+        }
+        return;
+    }
     var otherOption = selectedValues.includes(100000003);
     var notApplicable = selectedValues.includes(770000000);
     var length = selectedValues.length;

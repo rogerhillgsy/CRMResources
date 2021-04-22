@@ -44,7 +44,6 @@ function SetDefaultBusinessUnit(formContext) {
             formContext.getAttribute("businessunitid").setValue(arup);
         },
             function reject(xhr) {
-                debugger;
                 teamError("Failed to get Arup business unit record : " + xhr );
             });
 }
@@ -162,7 +161,6 @@ function IfTeamMember(formContext, teams, userId) {
                     reject("No Matching team");
                 },
                 function rejectInner(xhr) {
-                    debugger;
                     teamError("Failed to query CRM : " + xhr);
                     reject("Failed " + xhr);
                 }
@@ -349,6 +347,13 @@ function AddTeamMember(formContext, user, team) {
             },
             function fail(e) {
                 debugger;
+                // If a user (e.g. owner, manager) has been disabled, then trying to add them automatically as a team member will fail.
+                formContext.ui.setFormNotification(
+                    "Could not add user " +
+                    user.name +
+                    " to the team. Check to see if this user has been disabled with a view to replacing them.",
+                    "WARNING",
+                    user.name);
                 teamError("Failed to add user " + user.name + " to team " + team + "\r\n" + e.message);
             });
 }
@@ -486,4 +491,64 @@ function ClearFields(formContext, fieldName) {
             }
         }
     }
+}
+
+function MicrosoftTeams(primaryControl) {
+    var formContext = primaryControl;
+    var teamId = formContext.data.entity.getId().replace(/[{}]/g, "");
+    var entityName = formContext.data.entity.getEntityName();
+    var microsoftTeamsUrl = formContext.getAttribute("arup_microsoftteamsurl").getValue();
+    var clientUrl = formContext.context.getClientUrl();
+    if (microsoftTeamsUrl != null) {
+        window.open(microsoftTeamsUrl, null, 800, 600, true, false, null);
+    } else {
+        if (teamId != null) {
+            var customParameters = "&entId=" + teamId + "&clientUrl=" + clientUrl + "&entName=" + entityName;
+
+            var pageInput = {
+                pageType: "webresource",
+                webresourceName: "arup_MicrosoftTeams",
+                data: customParameters
+
+            };
+            var navigationOptions = {
+                target: 2,
+                width: 700,
+                height: 500,
+                position: 1
+            };
+            Xrm.Navigation.navigateTo(pageInput, navigationOptions).then(
+                function success() {
+                    formContext.data.entity.save();
+                },
+                function error() {
+                }
+            );
+        }
+    }
+}
+
+function clearMicrosoftTeamsUrl(primaryControl) {
+    var formContext = primaryControl;
+    var teamId = formContext.data.entity.getId().replace(/[{}]/g, "");
+    var microsoftTeamsUrl = formContext.getAttribute("arup_microsoftteamsurl").getValue();
+    if (microsoftTeamsUrl != null) {
+        var entity = {};
+        entity.arup_microsoftteamsurl = "";
+
+        Xrm.WebApi.online.updateRecord("team", teamId, entity).then(
+            function success(result) {
+                var updatedEntityId = result.id;
+                if (updatedEntityId)
+                    Alert.show('<font size="6" color="#2E74B5"><b>Microsoft Teams</b></font>',
+                        '<font size="3" color="#000000"></br>Microsoft Teams URL is now cleared.</br></br>Please click on the "Microsoft Teams" button to re-enter the new URL.</font>',
+                        [
+                            new Alert.Button("<b>OK</b>")
+                        ], "INFO", 600, 220, formContext.context.getClientUrl(), true);
+            },
+            function (error) {
+                XrmOpenAlertDialog(this.statusText);
+            }
+        );
+    } 
 }

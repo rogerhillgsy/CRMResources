@@ -3,8 +3,8 @@ var cacheValueBM = null;
 var cacheValueBD = null;
 
 function onSelectOfStage(formContext, selStageId) {
-    if (selStageId == null || selStageId == 'undefined' )
-        if (formContext.getAttribute === undefined )
+    if (selStageId == null || selStageId == 'undefined')
+        if (formContext.getAttribute === undefined)
             formContext = formContext.getFormContext(); //1st paramter is executioncontext in case of FormOnload event
 
     cacheValueBDC = formContext.getAttribute("arup_biddecisionchair").getValue();
@@ -141,7 +141,7 @@ function getOpportunityReasons(ClientUrl, activeStageId, statusCode, arupInterna
                     }
                 }
 
-                for (var i = j = 0; i < reasonValue.length && j < reasonkey.length; i++ , j++) {
+                for (var i = j = 0; i < reasonValue.length && j < reasonkey.length; i++, j++) {
                     var key = reasonkey[j];
                     var value = reasonValue[i];
                     dictionary[key] = value;
@@ -162,18 +162,6 @@ function CloseOpportunityConfirmation(formContext, statusCode) {
 
         if (arupCompany != null) {
             denyArupCompanyPJN(formContext, arupCompany[0].id);
-            if (arupCompanyCode == '5006') {
-                Alert.show('<font size="6" color="#F69922"><b>Invalid Company for CJN</b></font>',
-                    '<font size="3" color="#000000"></br>' + 'CJN cannot be requested for company Arup US, INC (5006).' + '</font>',
-                    [
-                        {
-                            label: "<b>OK</b>",
-                            setFocus: true
-                        },
-                    ], "WARNING", 600, 250, '', true);
-
-                return;
-            }
         }
     }
 
@@ -401,7 +389,7 @@ function setBidDecisionChairRequired(formContext) {
     //  var requiredLevel = (!isHidden && stage == ArupStages.Lead) ? 'required' : 'none';
 
     var control = formContext.getControl("header_process_arup_biddecisionchair");
-    if ( control != null) control.setVisible(!isHidden);
+    if (control != null) control.setVisible(!isHidden);
     formContext.getControl("arup_biddecisionchair").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionchair1").setVisible(!isHidden);
     formContext.getControl("arup_biddecisionproxy").setVisible(!isHidden);
@@ -533,134 +521,101 @@ function BidReviewApprovalConfirmationMessage(formContext) {
     return message;
 }
 
-function retreiveOrganisationChecks(executionContext) {
-
+function checkDueDiligenceResults(executionContext) {
     var formContext = executionContext.getFormContext();
-    //Check if client is not Unassigned and Not Internal Opportuntiy
-    var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
-    var client = formContext.getAttribute("ccrm_client").getValue();
-    var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
-    if (client != null && client[0].name != 'Unassigned' && arupInternal != true && isWriteable) {
-        var oppSanctionCheck = formContext.getAttribute("arup_duediligencecheck").getValue();
-        var clientDirty = formContext.getAttribute("ccrm_client").getIsDirty();
-        if (client != null) {
-            var clientId = client[0].id.replace('{', '').replace('}', '');
-            var req = new XMLHttpRequest();
-            req.open("GET",
-                formContext.context.getClientUrl() +
-                "/api/data/v9.1/accounts(" +
-                clientId +
-                ")?$select=arup_creditcheck,arup_duediligencecheck,arup_lastddcheckdate,arup_duediligencetooltip,arup_duediligencemultipleresult",
-                true);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            req.onreadystatechange = function () {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 200) {
-                        var result = JSON.parse(this.response);
-
-                        var arup_creditcheck = result["arup_creditcheck"];
-                        var arup_creditValue = result["arup_creditcheck@OData.Community.Display.V1.FormattedValue"];
-                        if (arup_creditValue != null) {
-                            formContext.getAttribute("arup_creditcheck").setValue(arup_creditcheck);
-                        } else {
-                            formContext.getAttribute("arup_creditcheck").setValue(null);
-                        }
-
-                        var arup_duediligencecheck = result["arup_duediligencecheck"];
-                        if (arup_duediligencecheck != null) { // If Sanctions is null on Client
-                            formContext.getAttribute("arup_duediligencecheck").setValue(arup_duediligencecheck);
-                        } else {
-                            formContext.getAttribute("arup_duediligencecheck").setValue(null);
-                            formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
-                            //formContext.data.save();
-                        }
-
-                        //if (arup_duediligencecheck != null && !clientDirty) { // If sanctions is null on Opportunity
-                        //    formContext.getAttribute("arup_duediligencecheck").setValue(oppSanctionCheck);
-                        //    formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
-                        //    formContext.data.save();
-                        //} else
-                        if (clientDirty) { // If Client is not dirty //Top right coner in Design                                            
-                            formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
-                            //formContext.data.save();
-                            setTimeout(function () {
-                                formContext.getAttribute("arup_sanctionschecktrigger").fireOnChange();
-                            }, 3000);
-                        }
-                        //setTimeout(function () {
-                        //    formContext.getAttribute("arup_duediligencecheck").fireOnChange();
-                        //}, 1000);
-                    }
-                }
-            };
-            req.send();
-        }
-    }
+    retreiveOrganisationChecks(formContext);
 }
 
-function checkOrganisationChecks(executionContext) {
+function retreiveOrganisationChecks(formContext) {
 
-    var formContext = executionContext.getFormContext();
-    setTimeout(function () {
-        var client = formContext.getAttribute("ccrm_client").getValue();
-        if (client != null) {
-            var clientId = client[0].id.replace('{', '').replace('}', '');
-            var req = new XMLHttpRequest();
-            req.open("GET",
-                formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + clientId + ")?$select=arup_duediligencecheck", true);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            req.onreadystatechange = function () {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 200) {
-                        var result = JSON.parse(this.response);
-                        var org_duediligencecheck = result["arup_duediligencecheck"];
-                        var arup_duediligencecheck = formContext.getAttribute("arup_duediligencecheck").getValue();
-                        if ((arup_duediligencecheck != org_duediligencecheck))
-                            setOrganisationChecks(formContext, arup_duediligencecheck);
+    var clientName = ["ccrm_client", "ccrm_ultimateendclientid"];
+    var clientDDCheckResult;
+    var ultimateClientDDresult;
+    for (var i = 0; i < clientName.length; i++) {
+
+        var client = formContext.getAttribute(clientName[i]).getValue();
+
+        var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+        var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
+        if (client != null && client[0].name != 'Unassigned' && arupInternal != true && isWriteable) {
+            var clientDirty = formContext.getAttribute(clientName[i]).getIsDirty();
+            if (client != null) {
+                var clientId = client[0].id.replace('{', '').replace('}', '');
+                var req = new XMLHttpRequest();
+                req.open("GET",
+                    formContext.context.getClientUrl() +
+                    "/api/data/v9.1/accounts(" +
+                    clientId +
+                    ")?$select=arup_creditcheck,arup_duediligencecheck",
+                    false);
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+                req.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        req.onreadystatechange = null;
+                        if (this.status === 200) {
+                            var result = JSON.parse(this.response);
+
+                            if (clientName[i] == "ccrm_client") {
+                                var arup_creditcheck = result["arup_creditcheck"];
+                                var arup_creditValue = result["arup_creditcheck@OData.Community.Display.V1.FormattedValue"];
+                                if (arup_creditValue != null) {
+                                    formContext.getAttribute("arup_creditcheck").setValue(arup_creditcheck);
+                                } else {
+                                    formContext.getAttribute("arup_creditcheck").setValue(null);
+                                }
+                            }
+
+                            var arup_duediligencecheck = result["arup_duediligencecheck"];
+
+                            if (clientName[i] == "ccrm_client") {
+                                if (arup_duediligencecheck != null) {
+                                    clientDDCheckResult = arup_duediligencecheck;
+                                } else {
+                                    formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
+                                }
+                            }
+
+                            if (clientName[i] == "ccrm_ultimateendclientid") {
+                                if (arup_duediligencecheck != null) {
+                                    ultimateClientDDresult = arup_duediligencecheck;
+                                } else {
+                                    formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
+                                }
+                            }
+
+                            if (clientDirty) {
+                                formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
+                                setTimeout(function () {
+                                    formContext.getAttribute("arup_sanctionschecktrigger").fireOnChange();
+                                }, 3000);
+                            }
+                        }
                     }
-                }
-            };
-            req.send();
-        }
-    }, 5000);
-}
-
-function setOrganisationChecks(formContext, arup_duediligencecheck) {
-    var client = formContext.getAttribute("ccrm_client").getValue();
-    if (client != null) {
-        var clientId = client[0].id.replace('{', '').replace('}', '');
-    } else {
-        return;
-    }
-
-    var entity = {};
-    entity.arup_duediligencecheck = arup_duediligencecheck;
-    entity.arup_lastddcheckdate = new Date();
-
-    var req = new XMLHttpRequest();
-    req.open("PATCH", formContext.context.getClientUrl() + "/api/data/v9.1/accounts(" + clientId + ")", true);
-    req.setRequestHeader("OData-MaxVersion", "4.0");
-    req.setRequestHeader("OData-Version", "4.0");
-    req.setRequestHeader("Accept", "application/json");
-    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    req.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            req.onreadystatechange = null;
-            if (this.status === 204) {
+                };
+                req.send();
             }
         }
-    };
-    req.send(JSON.stringify(entity));
+    }
+
+    setSanctionResultOnOppor(formContext, clientDDCheckResult, ultimateClientDDresult);
+}
+
+function setSanctionResultOnOppor(formContext, clientDDCheckResult, ultimateClientDDresult) {
+    if (clientDDCheckResult == 3 || ultimateClientDDresult == 3) {
+        formContext.getAttribute("arup_duediligencecheck").setValue(3);
+    } else if (clientDDCheckResult == 8 || ultimateClientDDresult == 8) {
+        formContext.getAttribute("arup_duediligencecheck").setValue(8);
+    } else if (clientDDCheckResult == 2 || ultimateClientDDresult == 2) {
+        formContext.getAttribute("arup_duediligencecheck").setValue(2);
+    } else if (clientDDCheckResult == 1 || ultimateClientDDresult == 1) {
+        formContext.getAttribute("arup_duediligencecheck").setValue(1);
+    } else {
+        formContext.getAttribute("arup_duediligencecheck").setValue(7);
+    }
 }
 
 function showSDGFields(formContext, arupInternal) {
@@ -669,7 +624,6 @@ function showSDGFields(formContext, arupInternal) {
         formContext.ui.tabs.get("Confirmed_Job_Project_Tab").sections.get("Confirmed_Job_Project_Sustainable_Development").setVisible(false);
         formContext.ui.tabs.get("Project_Details_Tab").sections.get("Project_Details_Sustainable_Development").setVisible(false);
     }
-
 }
 
 function SetSGDMultiSelect(executionContext, fieldname) {
