@@ -523,7 +523,10 @@ function BidReviewApprovalConfirmationMessage(formContext) {
 
 function checkDueDiligenceResults(executionContext) {
     var formContext = executionContext.getFormContext();
-    retreiveOrganisationChecks(formContext);
+    var isWriteable = ({ 1: 'Create', 2: 'Update' }).hasOwnProperty(formContext.ui.getFormType());
+    if (isWriteable) {
+        retreiveOrganisationChecks(formContext);
+    }
 }
 
 function retreiveOrganisationChecks(formContext) {
