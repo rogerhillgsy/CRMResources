@@ -346,7 +346,7 @@ function AddTeamMember(formContext, user, team) {
                 grid.refresh();
             },
             function fail(e) {
-                // If a user has been disabled, then trying to add them as a team member will fail.
+                // If a user (e.g. owner, manager) has been disabled, then trying to add them automatically as a team member will fail.
                 formContext.ui.setFormNotification(
                     "Could not add user " +
                     user.name +
@@ -550,4 +550,23 @@ function clearMicrosoftTeamsUrl(primaryControl) {
             }
         );
     } 
+}
+
+/**
+ * For contact views, these are editable grids, but we want to disable the next and last meeting fields to stop uses trying to edit them.
+ * @param {any} executionContext - client execution context
+ * @param {any} disabledFields - Comma separated list of fields in the view to be disabled.
+ */
+function disableColumnsInEditableGrid(executionContext, disabledFields) {
+    // Convert list of fields into a set for easier lookup.
+    var disabled = new Set(disabledFields.split(","));
+    var formContext = executionContext.getFormContext();
+    formContext.getData().getEntity().attributes.forEach(
+        attr => {
+            if (disabled.has(attr.getName())) {
+                attr.controls.forEach(c => c.setDisabled(true));
+            }
+        });
+
+
 }

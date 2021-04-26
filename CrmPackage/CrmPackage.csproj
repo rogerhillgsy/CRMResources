@@ -1007,6 +1007,16 @@
       <UniqueName>arup_arup_mysubscription_icon_large</UniqueName>
       <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_people16.png">
+      <DisplayName>arup_people16</DisplayName>
+      <UniqueName>arup_people16.png</UniqueName>
+      <WebResourceType>PNG</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\PNG format\arup_people32.png">
+      <DisplayName>arup_people32</DisplayName>
+      <UniqueName>arup_people32.png</UniqueName>
+      <WebResourceType>PNG</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\PNG format\arup_projectparticipants_32">
       <DisplayName>arup_projectparticipants_32</DisplayName>
       <UniqueName>arup_arup_projectparticipants_32</UniqueName>
@@ -1315,6 +1325,16 @@
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_ie_warning.js">
       <DisplayName>arup_ie_warning.js</DisplayName>
       <UniqueName>arup_ie_warning.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_team_ribbon_library.js">
+      <DisplayName>arup_team_ribbon_library</DisplayName>
+      <UniqueName>arup_team_ribbon_library.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Contact\arup_contact_nextlastmeeting.js">
+      <DisplayName>arup_contact_nextlastmeeting</DisplayName>
+      <UniqueName>arup_contact_nextlastmeeting.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\Opportunity\arup_opportunity_financialCalculations.js">
@@ -2116,6 +2136,11 @@
       <Private>True</Private>
       <SilverlightApplication>False</SilverlightApplication>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WebResources\PNG format\arup_people32.svg">
+      <SubType>Content</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\CRM\Microsoft.CrmDeveloperTools.12.targets" />-->
