@@ -4895,11 +4895,7 @@ function stageNotifications(formContext) {
         }
         //if (triggerSave) {
         //    setTimeout(function () { formContext.data.save(null); }, 500);
-        //}
-        //Check for Due Diligence
-        var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
-        if (arupInternal != true)
-            formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
+        //}      
     }
 
     FormNotificationForOpportunityType(formContext, formContext.getAttribute("arup_opportunitytype").getValue());
@@ -5026,6 +5022,11 @@ function StageChange_event(formContext) {
     if (stageid == ArupStages.BidSubmitted) {
         var BidSubmitted = 200020;
         updateStatusCode(formContext, BidSubmitted);
+
+        //Check for Due Diligence
+        var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+        if (arupInternal != true)
+            formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
     }
 
     SetCurrentStatusFromServer(formContext);
