@@ -338,3 +338,16 @@ function userInSSCTeam(formContext) {
 function exitForm(formContext) {
     ArupExit.exitForm(formContext,"task");
 }
+
+/**
+ * @description Called from the command bar On Hold button
+ * @param {any} formContext
+ */
+function MarkOnHold(formContext) {
+    formContext.getAttribute('ccrm_taskstatus').setValue(6);
+    formContext.data.save().then(function () { // The save prevents "unsaved"-warning.
+    Alert.show('<font size="6" color="#2E74B5"><b>Task On Hold</b></font>',
+        '<font size="3" color="#000000"></br>The task has been put on hold.</font>',
+        [new Alert.Button("<b>OK</b>")], "INFO", 600, 200, formContext.context.getClientUrl(), true);
+    }, null);
+}
