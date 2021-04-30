@@ -459,7 +459,7 @@ function setCGFields(formContext) {
     formContext.getControl("ccrm_clienttype").setDisabled(!globalDQTeam);
     formContext.getControl("header_ccrm_clienttype").setDisabled(!globalDQTeam);
     formContext.getControl("arup_clientsector").setDisabled(!globalDQTeam);
-    //formContext.getControl("arup_highriskclient").setDisabled(!globalDQTeam);
+    formContext.getControl("arup_duediligencecheck").setDisabled(!SSCTeam);
 
     if (!globalDQTeam) {
         formContext.ui.setFormNotification("Some of the fields on this form have been locked down. Please contact Global Data Quality Team to make changes to these fields.", "INFORMATION", "DQLOCKED");
