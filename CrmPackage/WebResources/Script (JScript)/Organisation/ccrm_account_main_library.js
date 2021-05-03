@@ -420,7 +420,11 @@ function uselocaladdressOnchange(executionContext) {
 
 //function to make local language fields visible
 function uselocaladdress_onchange(formContext) {
-    var isVisible = formContext.getAttribute("ccrm_uselocaladdress").getValue() == true;
+
+    var useLocationAddressAttr = formContext.getAttribute("ccrm_uselocaladdress");
+    if (useLocationAddressAttr == null) { return; }
+
+    var isVisible = useLocationAddressAttr.getValue() == true;
     var tabObj = formContext.ui.tabs.get("contact_details");
     var sectionObj = tabObj.sections.get("section_LocalAddress");
     sectionObj.setVisible(isVisible);
