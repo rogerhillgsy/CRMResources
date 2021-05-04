@@ -866,7 +866,11 @@ function getArupPractice(acctCentreId, regionId, formContext) {
 
 function IndiaCompanyFilter(formContext) {
     var fieldName = "ccrm_arupcompanyid";
-    var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+    var arupInternal = false;
+
+    if (formContext.ui.getFormType() != 1)
+        arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+
     var CountryName = formContext.getAttribute("ccrm_country").getValue()[0].name + '';
     if (CountryName.toUpperCase() == 'INDIA' && !arupInternal) {
         var fetch =
@@ -1120,6 +1124,12 @@ function AddParentOpportunityFilter(formContext) {
                 "<condition attribute='statecode' operator='eq' value='0' />" +
                 "<condition attribute='statecode' operator='eq' value='1' />" +
                 "</filter>" +
+                "</filter>";
+            break;
+        case 770000004:
+            fetch = "<filter type='and'>" +
+                "<condition attribute='arup_opportunitytype' operator='eq' value='770000003' />" +
+                "<condition attribute='statecode' operator='ne' value='2' />" +
                 "</filter>";
             break;
         default:

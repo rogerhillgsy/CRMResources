@@ -1317,6 +1317,11 @@
       <UniqueName>arup_Contact</UniqueName>
       <WebResourceType>PNG</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_connection.js">
+      <DisplayName>arup_connection</DisplayName>
+      <UniqueName>new_arup_connection</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_ie_warning.js">
       <DisplayName>arup_ie_warning.js</DisplayName>
       <UniqueName>arup_ie_warning.js</UniqueName>

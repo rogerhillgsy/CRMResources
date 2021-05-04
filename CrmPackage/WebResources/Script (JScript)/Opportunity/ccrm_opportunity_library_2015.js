@@ -4339,7 +4339,7 @@ function projectcountry_onchange(formContext, fromformload) {
         getCountryManagerAndCategory(formContext, formContext.getAttribute("ccrm_projectlocationid").getValue()[0].id);
         // set proj country region
         if (!fromformload) {
-            var projcountryregion = getCountryregion(formContext.getAttribute("ccrm_projectlocationid").getValue()[0].id);
+            var projcountryregion = getCountryregion(formContext,formContext.getAttribute("ccrm_projectlocationid").getValue()[0].id);
             //if (projcountryregion != null) {
             //    SetLookupField(formContext,projcountryregion.Id, projcountryregion.Name, 'ccrm_arupregion', 'ccrm_projectcountryregionid');
             //    formContext.getAttribute("ccrm_projectcountryregionid").fireOnChange();
@@ -4389,7 +4389,7 @@ function isamericaregion(CountryName) {
     return result;
 }
 
-function getCountryregion(countryID) {
+function getCountryregion(formContext,countryID) {
     Xrm.WebApi.online.retrieveRecord("ccrm_country", countryID, "?$select=_ccrm_arupregionid_value").then(
         function success(result) {
             if (result != null)
@@ -4895,11 +4895,7 @@ function stageNotifications(formContext) {
         }
         //if (triggerSave) {
         //    setTimeout(function () { formContext.data.save(null); }, 500);
-        //}
-        //Check for Due Diligence
-        var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
-        if (arupInternal != true)
-            formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
+        //}      
     }
 
     FormNotificationForOpportunityType(formContext, formContext.getAttribute("arup_opportunitytype").getValue());
@@ -5026,6 +5022,11 @@ function StageChange_event(formContext) {
     if (stageid == ArupStages.BidSubmitted) {
         var BidSubmitted = 200020;
         updateStatusCode(formContext, BidSubmitted);
+
+        //Check for Due Diligence
+        var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+        if (arupInternal != true)
+            formContext.getAttribute("arup_sanctionschecktrigger").setValue(true);
     }
 
     SetCurrentStatusFromServer(formContext);
@@ -7446,6 +7447,7 @@ function AddParentOpportunityFilter(formContext) {
         case 770000004: /* Project under existing Framework/Panel/Call-Off */
             fetch = "<filter type='and'>" +
                 "<condition attribute='arup_opportunitytype' operator='eq' value='770000003' />" +
+                "<condition attribute='statecode' operator='ne' value='2' />" +
                 "</filter>";
             break;
         case 770000006:

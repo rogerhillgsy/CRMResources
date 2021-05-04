@@ -420,7 +420,11 @@ function uselocaladdressOnchange(executionContext) {
 
 //function to make local language fields visible
 function uselocaladdress_onchange(formContext) {
-    var isVisible = formContext.getAttribute("ccrm_uselocaladdress").getValue() == true;
+
+    var useLocationAddressAttr = formContext.getAttribute("ccrm_uselocaladdress");
+    if (useLocationAddressAttr == null) { return; }
+
+    var isVisible = useLocationAddressAttr.getValue() == true;
     var tabObj = formContext.ui.tabs.get("contact_details");
     var sectionObj = tabObj.sections.get("section_LocalAddress");
     sectionObj.setVisible(isVisible);
@@ -459,7 +463,7 @@ function setCGFields(formContext) {
     formContext.getControl("ccrm_clienttype").setDisabled(!globalDQTeam);
     formContext.getControl("header_ccrm_clienttype").setDisabled(!globalDQTeam);
     formContext.getControl("arup_clientsector").setDisabled(!globalDQTeam);
-    //formContext.getControl("arup_highriskclient").setDisabled(!globalDQTeam);
+    formContext.getControl("arup_duediligencecheck").setDisabled(!SSCTeam);
 
     if (!globalDQTeam) {
         formContext.ui.setFormNotification("Some of the fields on this form have been locked down. Please contact Global Data Quality Team to make changes to these fields.", "INFORMATION", "DQLOCKED");
