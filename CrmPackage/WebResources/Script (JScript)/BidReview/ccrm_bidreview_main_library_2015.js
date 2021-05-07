@@ -1908,7 +1908,7 @@ ARUP.ccrm_bidreview = function() {
 
     function disableFormFields(executionContext) {
         var formContext = executionContext.getFormContext();
-        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return false;
+        if (formContext.getAttribute("ccrm_opportunityid").getValue() == null) return Promise.reject();
 
         var opportunityId = formContext.getAttribute("ccrm_opportunityid").getValue()[0].id;
         // var bidReviewApproved = false;
