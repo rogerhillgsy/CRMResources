@@ -1142,11 +1142,13 @@ function AddParentOpportunityFilter(formContext) {
             break;
     }
 
-    if (fetch != "") {
-        formContext.getControl("arup_parentopportunityid").addPreSearch(function () {
-            formContext.getControl("arup_parentopportunityid").addCustomFilter(fetch);
-        });
-    }
+    formContext.getControl("arup_parentopportunityid").addCustomFilter(fetch);
+
+    //if (fetch != "") {
+    //    formContext.getControl("arup_parentopportunityid").addPreSearch(function () {
+    //        formContext.getControl("arup_parentopportunityid").addCustomFilter(fetch);
+    //    });
+    //}
 }
 
 function Onchange_ParentOpportunity(executionContext) {
