@@ -393,6 +393,8 @@ function FormOnload(executionContext) {
     SetMultiSelect(formContext);
 
     formContext.getControl("ownerid").setEntityTypes(["systemuser"]);
+
+    applyLeadBusinessRules( executionContext );
 }
 
 function FormOnSave(executionContext) {
@@ -1271,4 +1273,169 @@ function getUserAccountingCentre(formContext) {
     };
     req.send();
     return arup_useownaccountingcentreforopportunities;
+}
+
+
+/**
+ * This data structure is intended to encapsulate the business rules around the Lead Main form (also Quick create)
+ * The descriptions or each rule are based on inspection of the existing code.
+ */
+var businessRules =
+{
+    "GlobalServices": {
+        rule: function (formContext) {
+            SetMultiSelect(formContext);
+        }
+    },
+    "ArupBusiness": {
+        rule: function (formContext) {
+            // QuickDupeDetect() from arup_DuplicateCheck.js
+            ccrm_arupbusiness_onChange(false, formContext);
+            check_K12(formContext); // This just hides/shows the "Is K12" checkbox.
+        }
+    },
+    "ProjectCountry": {
+        rule: function (formContext) {
+            // If changing country to India/Canada/USa clear the companyid and accounting centre. 
+            // Clear the state field.
+            // Add a special filter on arup company for INDIA
+            projectcountry_onchange(null, formContext);
+
+            // In main form, also does a QuickDupeDetect() call.
+        }
+    },
+    "ArupCompany": {
+        rule: function (formContext) {
+            /** Deals with change in Arup company. This has impacts on
+             *     - accounting centre and accounting centre lookup prefilter.
+             *     - set ccrm_projectcurrency from arup company. (Or GBP by default)
+             *  ...not entirely clear from the code here what it is trying to achieve though :-/
+             *  TODO: The promise handing line 699 (Xrm.webapi.online.retreiveRecords("ccrm_arupcompany....) seems flaky - race on accCentreFilterCode value surely?)
+            **/
+            ccrm_arupcompanyid_onchange(formContext.executionContext); // Not sure this exists....
+        }
+    },
+    "AccountingCentre": {
+        rule: function (formContext) {
+            /** Deal with changes in accounting centre.
+             *  - Get arup group, then get arup practice.
+             *  - GetArupGroup - set ccrm_arupgroup, then calls getRegion. Should be using promise chaining.
+             *  - getArupPractise
+             *  TODO: Fix potential race by use of SetTimeout to schedule getArupPractice after getArupGroup. 
+            **/
+            ccrm_arupbusiness_onChange(false /* value changed */, formContext);
+
+            // Main form also does a QuickDupeDetect here.
+        }
+    },
+    "ProjectCurrency": {
+        rule: function (formContext) {
+            // QuickDupeDetect() from arup_DuplicateCheck.js
+        }
+    },
+    "LeadOwner": {
+        rule: function (formContext) {
+            // Updates the ccrm_arupcompanyid, ccrm_accountingcentreid, arup_arupofficeid from the Lead Owner's systmeuser record.
+            // Currently this gets the required values from systemuser and adds it to leadOwnerData (a global variable in this file.)
+            // It then uses SetDefaultDetailsFromProfile which reads the ccrm_arupoffice and uses the result to set the Arup company, centre and group (which )
+            // Also calls getArupGroup, which reads the ccrm_arupaccoutingcodes from the server. This calls GetRegion (which gets the ccrm_arupgroup from the server)
+            // This in turn calls getRegionalCurrency to read the transaction currency from the server.
+            // TODO: a lot of scope to use multi level chained queries and promises to streamline the code.
+            setLeadOwnerDetails(formContext)
+        }
+    },
+    
+    //  Rules below here currently only apply to the main form, not quick create.
+    "LeadShortName" : {
+        rule: function (formContext) {
+            // Sets the short title to the first 30 characters of the lead title.
+            changeShortTitle(formContext.executionContext); // Not sure this exists....
+        }
+    },
+    "ArupInternal": {
+        rule: function (formContext) {
+            // Filter parent opportunities to select only internal opportunities.
+            ParentOpportunityFilter(formContext);
+
+            // Call out to arup_dynamic_display_of_field_values()
+            GetDependentFieldValues(formContext.executionContext); // not sure this works!
+        }
+    },
+    "ArupRegion": {
+        rule: function (formContext) {
+            // Determine from the opportunity type and region whether a parent opportunity is required.
+            SetParentOpportunityRequired(formContext);
+        }
+    },
+    "Client": {
+        rule : function(formContext) {
+            // Currently just does a quick dupe detect.
+        }
+    },
+    "OpportunityType": {
+        rule: function (formContext) {
+            // set filters for parent opportunity
+            ParentOpportunityFilter(formContext);
+            // Get ccrm_contractarrangement from parent opp and pull into current opp.
+            ParentOpportunity_Onchange(formContext);
+
+            // Fire off dependent optionset calls
+            GetDependentOptionSetFieldValues(formContext.executionContext, "arup_opportunitytype","leadsourcecode");
+            GetDependentOptionSetFieldValues(formContext.executionContext, "arup_opportunitytype","ccrm_contractarrangement");
+            // Do this Generally for non-dependent option set values (arup_procurementmessage and arup_supportingtext2)
+            GetDependentFieldValues(formContext.executionContext);
+        }
+    },
+    "ProjectProcurement": {
+        rule: function (formContext) {
+            // Get the dependent field values for the "Project Procurement" field (arup_procurementmessage and arup_supportingtext2)
+            GetDependentFieldValues(formContext.executionContext);
+        }
+    },
+    "Project State/Province": {
+        rule: function (formContext) {
+            // For the USA certain states requre specific arup companies with their own accounting centres.
+            projectState_onChange(formContext);
+        }
+    },
+    "RelatedParentOpportunity": {
+        rule: function (formContext) {
+            // Gets the Project procurement/ccrm_contractarrangement value from the new parent opportunity.
+            ParentOpportunity_Onchange(formContext);
+        }
+    },
+    "SupportingTextFields": {
+        rule: function (formContext) {
+            // These fields should never be writable.
+            SetSubmitMode(formContext, "arup_procurementmessage","never")
+            SetSubmitMode(formContext, "arup_supportingtext2","never")
+        }
+    }
+};
+    
+// Apply business rules to lead (Work in Progress)
+function applyLeadBusinessRules( formContext ) {
+    // Make the function callable as an event handler or internally.
+    debugger;
+    executionContext = formContext;
+    if (typeof(formContext["getFormContext"]) === 'function' ) formContext = formContext.getFormContext();
+    formContext.executionContext = executionContext;
+
+    // Currently we just want to ensure that we have no "Unsaved Changes" when we load the main lead form after doing a quick creae.
+    // The arup_procurementmessage and arup_supportingtext2 fields should be set to 'never' save during onload.
+    // OnLoad
+    businessRules["SupportingTextFields"].rule(formContext);
+
+    // Also look at how arup_aruppracticeid is being set, as this is different between quick create and main form, causing unsaved changes.
+    // In quick create by call to getArupPractice() when accounting centre is set.
+    // QC - {@odata.etag: "W/"737034628"", ccrm_name: "Consulting", ccrm_practiceleaderid: "3b0ebf74-0e3d-e111-8d13-d8d385b829f8"}
+    // Form - onLoad - getArupPractice - acctCentreId = "{DC0E45D9-0C84-EA11-A811-000D3A86A78C}", regionId = "{E64E0A52-D139-E011-9A14-78E7D1644F78}", called from timeout in ccrm_accountingcentreid_onchange
+    
+}
+
+function SetSubmitMode(formContext, attribute, submitMode) {
+    var attr = formContext.getAttribute(attribute);
+    if (!!attr) {
+        attr.setSubmitMode(submitMode)
+    }
 }
