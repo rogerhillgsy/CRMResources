@@ -4433,8 +4433,13 @@ function USStateLookupPreFilter(executionContext) {
                         Id = Id.toUpperCase();
                         SetLookupField(formContext, Id, result["_ccrm_companyid_value@OData.Community.Display.V1.FormattedValue"], result["_ccrm_companyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"], 'ccrm_arupcompanyid');
                         formContext.getAttribute("ccrm_arupcompanyid").fireOnChange();
+                        var notificationText = '';
+                        if (formContext.getAttribute("ccrm_projectlocationid").getValue()[0].name.toUpperCase() == "CANADA")
+                            notificationText = 'Please select an Accounting Centre for the selected Canada State';
+                        else
+                            notificationText = 'Please select an Accounting Centre for the selected US State';
                         // show noticiation
-                        formContext.ui.setFormNotification('Please select an Accounting Centre for the selected US State', "WARNING", "statechangefieldreq");
+                        formContext.ui.setFormNotification(notificationText, "WARNING", "statechangefieldreq");
                         setTimeout(function () { formContext.ui.clearFormNotification("statechangefieldreq"); }, 10000);
                         formContext.getControl('ccrm_accountingcentreid').setFocus(true);
                     }
