@@ -32,6 +32,7 @@
             <br/>
             <button id="ProdApplicationInsights">Production Application Insights</button>
             <button id="UATApplicationInsights">UAT Application Insights</button>
+            <button id="TestApplicationInsights">UAT Application Insights</button>
             <button id="DevApplicationInsights">Dev Application Insights</button>
         </div>
     </div>
@@ -95,13 +96,12 @@
 
     // Open application isngihts in a new tab.
     function AddApplicationInsightsButtonCallback(buttonId, urlMatch, targetUrl) {
-        debugger;
         if (!document.location.hostname.startsWith(urlMatch)) {
             document.getElementById(buttonId).hidden=true;
         } else {
             document.getElementById(buttonId).addEventListener('click',
                 function() {
-                    window.open(targetUrl,buttonId)
+                    window.open(targetUrl, buttonId);
                 });
         }
     };
@@ -111,6 +111,7 @@
         AddButtonCallback("CheckConnectionButton", "arup_A14CheckConnection", "CheckConnectionResult");
         AddApplicationInsightsButtonCallback("ProdApplicationInsights", "arupcrm", 'https://portal.azure.com/#@4ae48b41-0137-4599-8661-fc641fe77bea/resource/subscriptions/17bd5e73-b7db-4291-a621-6d393cc0cff4/resourceGroups/arup-crm-cloud-prod-rg/providers/Microsoft.Insights/components/crm-interfaces-prod-insights/searchV1');
         AddApplicationInsightsButtonCallback("UATApplicationInsights", "arupuat", 'https://portal.azure.com/#@4ae48b41-0137-4599-8661-fc641fe77bea/resource/subscriptions/50e9be8b-b913-4b42-88de-b175f85f29eb/resourceGroups/arup-crm-cloud-uat-rg/providers/Microsoft.Insights/components/crm-interfaces-uat-insights/searchV1');
+        AddApplicationInsightsButtonCallback("TestApplicationInsights", "aruptest", 'https://portal.azure.com/#@4ae48b41-0137-4599-8661-fc641fe77bea/resource/subscriptions/50e9be8b-b913-4b42-88de-b175f85f29eb/resourceGroups/arup-crm-cloud-uat-rg/providers/Microsoft.Insights/components/crm-interfaces-uat-insights/searchV1');
         AddApplicationInsightsButtonCallback("DevApplicationInsights", "arupdev", 'https://portal.azure.com/#@4ae48b41-0137-4599-8661-fc641fe77bea/resource/subscriptions/d8263c9e-b9dd-425c-bb74-056f27f1cd96/resourceGroups/arup-crm-cloud-dev-rg/providers/Microsoft.Insights/components/crm-interfaces-dev-insights/searchV1');
     });
 </script>

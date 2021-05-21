@@ -521,30 +521,31 @@ function FormOnload(executionContext) {
 
             setCurrentApprovers(formContext);
 
-            stageNotifications(formContext);
+            if (isWriteable) {
+                stageNotifications(formContext);
 
-            ccrm_arupbusinessid_onChange(formContext, false);
+                ccrm_arupbusinessid_onChange(formContext, false);
 
-            setTimeout(function () { ccrm_confidential_onchange(formContext, 0); }, 1000);
+                setTimeout(function () { ccrm_confidential_onchange(formContext, 0); }, 1000);
 
-            ccrm_bidreviewoutcome_onChange(formContext);
+                ccrm_bidreviewoutcome_onChange(formContext);
 
-            //client
-            checkHighRiskClient(formContext.getAttribute('ccrm_client').getValue() == null
-                ? null
-                : formContext.getAttribute('ccrm_client').getValue()[0].id,
-                '',
-                false,
-                false, formContext.getAttribute('statecode').getValue(), formContext);
-            //ultimate/end client
-            checkHighRiskClient(
-                formContext.getAttribute('ccrm_ultimateendclientid').getValue() == null
+                //client
+                checkHighRiskClient(formContext.getAttribute('ccrm_client').getValue() == null
                     ? null
-                    : formContext.getAttribute('ccrm_ultimateendclientid').getValue()[0].id,
-                'Ultimate/End ',
-                false,
-                false, formContext.getAttribute('statecode').getValue(), formContext);
-
+                    : formContext.getAttribute('ccrm_client').getValue()[0].id,
+                    '',
+                    false,
+                    false, formContext.getAttribute('statecode').getValue(), formContext);
+                //ultimate/end client
+                checkHighRiskClient(
+                    formContext.getAttribute('ccrm_ultimateendclientid').getValue() == null
+                        ? null
+                        : formContext.getAttribute('ccrm_ultimateendclientid').getValue()[0].id,
+                    'Ultimate/End ',
+                    false,
+                    false, formContext.getAttribute('statecode').getValue(), formContext);
+            }
             //make sure the current stage process fields are hidden/shown
             if (!!formContext.data.process) {
                 var selectedStage = formContext.data.process.getSelectedStage();
@@ -2097,7 +2098,6 @@ function customerid_onChange(formContext, strSave) {
     var warnMsg = 'A valid client needs to be set for Opportunity Progression';//[RS-08/05/2017] - Replaced Lead in the message with Opportunity
     var warnMsgName = 'validcustomer';
     var result = false;
-    var tab = formContext.ui.tabs.get("Project_Details_Tab");
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     if (formContext.getAttribute("customerid").getValue() == null)
         SetValidField(formContext, fieldName, false, warnMsg, warnMsgName);
@@ -2671,8 +2671,8 @@ function fetchArupRegion(ClientUrl, arupGroupId) {
 
 // Common Methods - Starts 
 function SetValidField(formContext, fieldName, val, warningMsg, warMsgName) {
-    formContext.getAttribute(fieldName).setValue(val);
-    formContext.getAttribute(fieldName).setSubmitMode('always');
+          formContext.getAttribute(fieldName).setValue(val);
+        formContext.getAttribute(fieldName).setSubmitMode('always');
     if (warningMsg != null)
         formContext.ui.setFormNotification(warningMsg, 'WARNING', warMsgName);
     else
@@ -4768,7 +4768,6 @@ function HideApprovalButtonForRiskChange(regionName) {
 }
 
 function stageNotifications(formContext) {
-
     setLookupFiltering(formContext); // appy filter to user fields
 
     var pjnrequested = false;
@@ -4907,7 +4906,9 @@ function stageNotifications(formContext) {
     }
 
     if (formContext.data.getIsDirty())
-        setTimeout(function () { formContext.data.save(); }, 1000);
+        setTimeout(function () { 
+            formContext.data.save(); 
+        }, 1000);
 
     var isBidSubmitted = formContext.getAttribute("arup_bidsubmissionoutcome").getValue();
     if (isBidSubmitted == 770000001 && stageid == ArupStages.BidReviewApproval && formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
