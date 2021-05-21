@@ -1,6 +1,5 @@
 // Watch for the custom control dialog iframe being added.
 var observer = new MutationObserver( function(mutations, me ) {
-    debugger;
     // InlineDialog1_Iframe
     var iframe = mutations.find((a) => a.addedNodes.length > 0 && a.addedNodes[0].name === "InlineDialog1_Iframe")
     if (!!iframe ) {

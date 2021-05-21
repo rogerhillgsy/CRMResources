@@ -9,7 +9,7 @@
     <property name="Col3" display-name-key="Col3" description-key="Column 3 text" of-type="SingleLine.TextArea" usage="input" required="false" default-value=""/>
     <property name="Col4" display-name-key="Col4" description-key="Column 4 text" of-type="SingleLine.TextArea" usage="input" required="false" default-value=""/>
     <property name="Col5" display-name-key="Col5" description-key="Column 5 text" of-type="SingleLine.TextArea" usage="input" required="false" default-value=""/>
-    <property name="ShowInputField" display-name-key="ShowInputField" description-key="Show input field" of-type="SingleLine.Text" usage="input" required="false" default-value="false"/>
+    <property name="ShowInputField" display-name-key="ShowInputField" description-key="Show input field" of-type="SingleLine.Text" usage="input" required="false" default-value="true"/>
     <!-- 
       Property node's of-type attribute can be of-type-group attribute. 
       Example:
