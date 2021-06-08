@@ -10,7 +10,9 @@ function formOnLoad(executionContext) {
     if (connectedFrom != null) {
         formContext.ui.tabs.get("info").sections.get("info_section_1").setVisible(false);
 
-        setConnectionValues(formContext);
+        if (formContext.ui.getFormType() == 1) {
+            setConnectionValues(formContext);
+        }
 
         if (connectedFrom[0].entityType == "contact")
             filterLookups(formContext);
