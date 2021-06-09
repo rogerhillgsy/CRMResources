@@ -719,6 +719,10 @@ function FormOnload(executionContext) {
                 setPrintPreviewURL(formContext);
             }
         }*/
+
+        if (ShowButtonCloseFramework(formContext))
+            formContext.ui.setFormNotification("Framework in progress – do not close until end of Framework", "INFO", "FrameworkInProgress");
+
     }
 }
 function setDefaultArupCompanyandCentre(formContext, useAccountingCentre) {
