@@ -1,3 +1,5 @@
+
+import { start } from "repl";
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
 // import { TagsFromPCFValuesStore } from "./TagsFromPCFValuesStore";
 import { TagsFromTagGroupDefinition } from "./tagsFromTagGroupsDefinition";
@@ -12,7 +14,7 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
 
     private _containerBox: HTMLDivElement;
     private _innerContainer: HTMLDivElement;
-    private _spanElement: HTMLSpanElement;
+    private _titleElement: HTMLSpanElement;
     private _tagElement: HTMLDivElement;
     private _tagContent: HTMLDivElement;
     private _tagClose: HTMLAnchorElement;
@@ -129,7 +131,7 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
             this._containerBox.appendChild(this._innerContainer);
             this._container.appendChild(this._containerBox);
             if (availableTags != "" && ! this._isLocked ) {
-                this._container.appendChild(this._spanElement);
+                this._container.appendChild(this._titleElement);
                 this._container.appendChild(this._availableTagContainer);
             }
         }
@@ -142,8 +144,18 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         this._containerBox.setAttribute("class", "container");
         this._innerContainer = document.createElement("div");
         this._innerContainer.setAttribute("class", "innerDiv");
-        this._spanElement = document.createElement("span");
-        this._spanElement.innerHTML = "Choose available tags below - ";
+
+        this._titleElement = document.createElement("div");
+
+        var star = document.createElement("span");
+        star.innerHTML = "*";
+        star.classList.add("requiredStar");      
+
+        var title = document.createElement("span");
+        title.innerHTML = "Choose available tags below - "; 
+        this._titleElement.appendChild(star);
+        this._titleElement.appendChild(title);
+
         this._availableTagContainer = document.createElement("div");
         this._availableTagContainer.setAttribute("class", "innerDiv");
         this._availableTagContainer.classList.add(
@@ -225,12 +237,11 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
 	 * Function called On click of remove Tag
 	 */
     private onClickOfClose(e: any): void {
-        this._taggedValues.splice(this._taggedValues.indexOf(e.target.previousSibling.textContent), 1);
-        //this._availableTags.push(e.target.previousSibling.textContent);
+        this._taggedValues.splice(this._taggedValues.indexOf(e.target.nextSibling.textContent), 1);
         this._tagElement = document.createElement("div");
         this._tagElement.setAttribute("class", "customTag");
         this._tagContent = document.createElement("div");
-        this._tagContent.innerHTML = e.target.previousSibling.textContent;
+        this._tagContent.innerHTML = e.target.nextSibling.textContent;
         this._tagElement.append(this._tagContent);
         this._tagElement.addEventListener("click", this.onClickOfAvailableTag.bind(this));
         this._availableTagContainer.appendChild(this._tagElement);

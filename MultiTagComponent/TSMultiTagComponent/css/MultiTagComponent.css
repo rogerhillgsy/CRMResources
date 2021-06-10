@@ -58,3 +58,10 @@
 .availableTagContainer .customTag:hover {
     background-color: #24e095;
 }
+
+.requiredStar {
+    color: rgb(234, 6, 0);
+    /* display : flex; */
+    outline: none !important;
+    margin : 6px;
+}
