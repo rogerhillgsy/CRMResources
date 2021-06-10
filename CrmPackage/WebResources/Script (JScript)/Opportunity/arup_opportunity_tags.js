@@ -9,6 +9,7 @@
 //
 // See the Wiki article for more detail on how this is set up.
 
+
 ArupTags =  (
     function() {
         var obj = {}
@@ -32,6 +33,13 @@ ArupTags =  (
             }
         }
 
+        function setTagsControlRequired(isRequired, formContext, attribute) {
+            var attr = formContext.getAttribute(attribute);
+            if (!!attr) {
+                attr.setRequiredLevel(isRequired ? "required" : "none");
+            }
+        };
+
         function onGlobalServicesChange1(executioncontext) {
             const formContext = executioncontext.getFormContext();
 
@@ -50,16 +58,23 @@ ArupTags =  (
             tagTriggerFieldAttr.fireOnChange();
 
             var currentTagsValue = tagValueAttr.getValue();
+
             if ( ( !!currentOptions && currentOptions.find( p => p === "Advisory Services")) || !!currentTagsValue ) {
                 setTagSectionVisibility(true, formContext);
             } else {
                 setTagSectionVisibility(false, formContext);
             }
+
+            if ( ( !!currentOptions && currentOptions.find( p => p === "Advisory Services"))) {
+                setTagsControlRequired(true, formContext, "arup_tags");
+            } else {
+                setTagsControlRequired(false, formContext, "arup_tags");
+            }
         }
 
         function onGlobalServicesChange(executioncontext) {
             // Use a promise to defer execution of the value checking till after we have finished updating the control..
-            // Checking the value of a multiselect from within the onChange event is not reliableset
+            // Checking the value of a multiselect from within the onChange event is not reliable
             const p = new Promise((resolve, reject) => {
                 onGlobalServicesChange1(executioncontext);
                 resolve();
@@ -67,17 +82,22 @@ ArupTags =  (
             return true;
         }
 
-        function onGlobalServicesLoad(executioncontext) {
+        function onFormLoad(executioncontext) {
             const formContext = executioncontext.getFormContext();
+
             const globalServicesAttr = formContext.getAttribute(globalServices);
             globalServicesAttr.addOnChange(onGlobalServicesChange);
+
+            // We may need to hide the Services tag section when all tags are removed in some circumstances.
+            const serviceTagsAttr = formContext.getAttribute(tagValueField);
+            serviceTagsAttr.addOnChange(onGlobalServicesChange);
+            
             onGlobalServicesChange(executioncontext);
         }
 
         // Add hooks for global services load and change.
 
-        obj.GlobalServicesLoad = onGlobalServicesLoad;
-
+        obj.GlobalServicesLoad = onFormLoad;
         return obj;
     })();
 
