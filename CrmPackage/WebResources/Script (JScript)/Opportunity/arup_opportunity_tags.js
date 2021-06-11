@@ -5,9 +5,13 @@
 // 
 // However, as PCF controls cannot be directly linked to Multiselect optionsets (yet) we are using some JavaScript (here) to link
 // The optionset value, and changes in the optionset to a third field (arup tags trigger).
-// This third field is a text field which can be linked to the PCF control and used to drive the tags displayed.
+// This third field is a text field which can be linked to the PCF control and used to control the tags displayed.
 //
 // See the Wiki article for more detail on how this is set up.
+//
+// Note that this file is concerned with whether the tag controls should be displayed and whether they should be business required.
+// The actual tag implementation is in a PCF control (TSMultiTagComponent)
+//
 
 ArupTags =  (
     function() {
@@ -28,7 +32,7 @@ ArupTags =  (
             obj.supportedTagFields.push(
                 {
                     source: sourceField,
-                    sourceValues: [...sourceValues] ,
+                    sourceValues: sourceValues.split(","),
                     target: targetTagField,
                     sections: tagSections,
                     sourceChangeCallback : sourceChangeCallback
@@ -55,6 +59,7 @@ ArupTags =  (
          * @param {any} sectionName
          */
         function setTagSectionVisibility1( visibility, formContext, tabName, sectionName) {
+            console.log("Set visibility " + visibility + " tab " + tabName + " section " + sectionName);
             const tab = formContext.ui.tabs.get(tabName);
             if (!!tab) {
                 const tagSection = tab.sections.get(sectionName);
@@ -78,6 +83,20 @@ ArupTags =  (
         };
 
         /**
+         * Return an array of text value for the given attribute.
+         * @param {any} attribute
+         */
+        function getAttributeValues(attribute) {
+            switch (attribute.getAttributeType()) {
+            case "lookup":
+                var val = attribute.getValue();
+                return val == null ? [] : val.map(a => a.name);
+            default:
+                return [attribute.getValue()];
+            }
+        }
+
+        /**
          * Called via Promise when a tag source or target field changes.
          * @param {any} executioncontext
          * @param {any} tagContext
@@ -91,24 +110,25 @@ ArupTags =  (
             const currentTagsValue = targetAttr.getValue();
 
             // Call any source change callback (do any extra stuff that some fields require (i.e. multiselects))
-            // This may optionally return the current set of options.
+            // This may optionally return the current set of options as an array.
             var currentSourceOptions = !! tagContext.sourceChangeCallback
                 ? tagContext.sourceChangeCallback(formContext, sourceAttr)
                 : null;
-            currentSourceOptions = currentSourceOptions || sourceAttr.getValue();
+            currentSourceOptions = currentSourceOptions || getAttributeValues( sourceAttr);
 
             // Determine if the current options contain any of the source values that we are targeting
             var hasSourceValue = tagContext.sourceValues.reduce((accumulator, sourceValue) => {
-                return accumulator || currentSourceOptions.find(p => p === sourceValue);
-            });
+                    return accumulator || currentSourceOptions.includes( sourceValue);
+                },
+                false);
 
-            if ((!!currentSourceOptions && hasSourceValue) || !! currentTagsValue) {
+            if (( hasSourceValue) || !! currentTagsValue) {
                 setTagSectionVisibility(true, formContext, tagContext.sections);
             } else {
                 setTagSectionVisibility(false, formContext, tagContext.sections);
             }
 
-            if ((!!currentSourceOptions && hasSourceValue)) {
+            if (( hasSourceValue)) {
                 setTagsControlRequired(true, formContext, tagContext.target);
             } else {
                 setTagsControlRequired(false, formContext, tagContext.target);
@@ -164,11 +184,11 @@ ArupTags =  (
         return obj;
     })();
 
-// Configure global sevices tag control
+// Configure global services tag control
 ArupTags.AddTagControl("arup_globalservices",
     "Advisory Services",
     "arup_tags",
-    [{ tab: "Pre-Bid_Tab", section: "tags_section" }, { tab: "Summary", section: "tags_section1" }],
+    [{ tab: "Pre-Bid_Tab", section: "sec_service_tags" }, { tab: "Summary", section: "sec_service_tags2" }],
     function sourceChanged(formContext, globalServicesAttr) {
         const currentOptions = globalServicesAttr.getText();
         const tagTriggerFieldAttr = formContext.getAttribute("arup_tagstrigger");
@@ -183,105 +203,7 @@ ArupTags.AddTagControl("arup_globalservices",
     });
 
 // Configure business tag control.
-ArupTags.AddTagControl("arup_business",
+ArupTags.AddTagControl("ccrm_arupbusinessid",
     "Energy",
-    "arup__business_tags",
-    [{ tab: "Pre-Bid_Tab", section: "tags_section" }, {tab:"Summary", section:"tags_section1"}]);
-
-
-ArupTags1 =  (
-    function() {
-        var obj = {}
-
-        const globalServices = "arup_globalservices";
-        const tagTriggerField = "arup_tagstrigger";
-        const tagValueField = "arup_tags";
-        const subBusinessField = "arup_subbusiness";
-
-        function setTagSectionVisibility(visibility, formContext) {
-            setTagSectionVisibility1(visibility, formContext, "Pre-Bid_Tab","tags_section");
-            setTagSectionVisibility1(visibility, formContext, "Summary","tags_section1");
-        }
-
-        function setTagSectionVisibility1( visibility, formContext, tabName, sectionName) {
-            const tab = formContext.ui.tabs.get(tabName);
-            if (!!tab) {
-                const tagSection = tab.sections.get(sectionName);
-                if (!!tagSection) {
-                    tagSection.setVisible(visibility);
-                }
-            }
-        }
-
-        function setTagsControlRequired(isRequired, formContext, attribute) {
-            var attr = formContext.getAttribute(attribute);
-            if (!!attr) {
-                attr.setRequiredLevel(isRequired ? "required" : "none");
-            }
-        };
-
-        function onGlobalServicesChange1(executioncontext) {
-            const formContext = executioncontext.getFormContext();
-
-            // Dump a list of currently selected options into the trigger field.
-            const globalServicesAttr = formContext.getAttribute(globalServices);
-            const tagTriggerFieldAttr = formContext.getAttribute(tagTriggerField);
-            const tagValueAttr = formContext.getAttribute(tagValueField);
-
-            const currentOptions = globalServicesAttr.getText();
-            if (!!currentOptions) {
-                tagTriggerFieldAttr.setValue(currentOptions.join(";"));
-            } else {
-                tagTriggerFieldAttr.setValue("");
-            }
-            tagTriggerFieldAttr.setSubmitMode('never');
-            tagTriggerFieldAttr.fireOnChange();
-
-            var currentTagsValue = tagValueAttr.getValue();
-
-            if ( ( !!currentOptions && currentOptions.find( p => p === "Advisory Services")) || !!currentTagsValue ) {
-                setTagSectionVisibility(true, formContext);
-            } else {
-                setTagSectionVisibility(false, formContext);
-            }
-
-            if ( ( !!currentOptions && currentOptions.find( p => p === "Advisory Services"))) {
-                setTagsControlRequired(true, formContext, "arup_tags");
-            } else {
-                setTagsControlRequired(false, formContext, "arup_tags");
-            }
-        }
-
-        function onGlobalServicesChange(executioncontext) {
-            // Use a promise to defer execution of the value checking till after we have finished updating the control..
-            // Checking the value of a multiselect from within the onChange event is not reliable
-            const p = new Promise((resolve, reject) => {
-                onGlobalServicesChange1(executioncontext);
-                resolve();
-            });
-            return true;
-        }
-
-        function onFormLoad(executioncontext) {
-            const formContext = executioncontext.getFormContext();
-
-            const globalServicesAttr = formContext.getAttribute(globalServices);
-            globalServicesAttr.addOnChange(onGlobalServicesChange);
-
-            // We may need to hide the Services tag section when all tags are removed in some circumstances.
-            const serviceTagsAttr = formContext.getAttribute(tagValueField);
-            serviceTagsAttr.addOnChange(onGlobalServicesChange);
-            
-            // Track arup sub-business field.
-            const subBusinessAttr = formContext.getAttribute(subBusinessField);
-            subBusinessAttr.addOnChange(onGlobalServicesChange);
-
-            onGlobalServicesChange(executioncontext);
-        }
-
-        // Add hooks for global services load and change.
-
-        obj.GlobalServicesLoad = onFormLoad;
-        return obj;
-    })();
-
+    "arup_business_tags",
+    [{ tab: "Pre-Bid_Tab", section: "sec_business_tags" }, {tab:"Summary", section:"sec_business_tags2"}]);
