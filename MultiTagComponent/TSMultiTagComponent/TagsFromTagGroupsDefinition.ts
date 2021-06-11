@@ -18,12 +18,12 @@ export class TagsFromTagGroupDefinition implements TagValueSource {
      * Returns a Promise that will be resolved when the list of tag values is available (fetched asynchronously from the CRM server)
      * @param context PCF context value.
      */
-    public getAvailableTagValues(context: ComponentFramework.Context<IInputs>): Promise<string> {
+    public getAvailableTagValues(context: ComponentFramework.Context<IInputs>, dependentFieldValue : string ): Promise<string> {
         // Has a semicolon separated list of services for which we will obtain available tag values
-        const services = context.parameters.DependentField.raw;
+        // const services = context.parameters.DependentField.raw;
 
         return new Promise<string>((resolve, reject) => {
-            if (this._currentDependentFieldValue.localeCompare(services ?? "") == 0) {
+            if (this._currentDependentFieldValue.localeCompare(dependentFieldValue ?? "") == 0) {
                 // Dependent field value unchanged, so return existing tag value list.
                 resolve(this._availableTagValues);
             } else {
@@ -31,7 +31,7 @@ export class TagsFromTagGroupDefinition implements TagValueSource {
                 // For each value in the list we will get the related list of available tag values
                 // from arup_pcfvaluesstore.
                 // The combined set of tags from the value store will be returned.
-                this._currentDependentFieldValue = services ?? "";
+                this._currentDependentFieldValue = dependentFieldValue ?? "";
 
                 if (this._currentDependentFieldValue == "") {
                     resolve("");

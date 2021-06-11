@@ -1,7 +1,6 @@
 
 import { start } from "repl";
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-// import { TagsFromPCFValuesStore } from "./TagsFromPCFValuesStore";
 import { TagsFromTagGroupDefinition } from "./tagsFromTagGroupsDefinition";
 import { TagValueSource } from "./TagValueSource";
 import { TestTagValues } from "./TestTagValues";
@@ -27,9 +26,7 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
     private _dependentFieldValue: string;
 	private _notifyOutputChanged: () => void;
     private _isLocked: boolean;
-    //private _popUpService: ComponentFramework.FactoryApi.Popup.PopupService;
     private _availableTagContainer: HTMLDivElement;
-	//private _entity: ComponentFramework.EntityReference;
 
 	constructor()
 	{
@@ -72,26 +69,38 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-        /*let entityId = (<any>context.mode).contextInfo.entityId;
-        let entityTypeName = (<any>context.mode).contextInfo.entityTypeName;*/
         this._context = context;
-        //console.log("=========>>"+context.updatedProperties.toString());
-        let dependentFieldType = typeof(context.parameters.DependentField.raw);
 
-          // Set current tag values
-          let currentValues: string = context.parameters.TagValue.raw ? context.parameters.TagValue.raw : "";
-          this.setCurrentTagValues(currentValues);
-  
-          // Get available tag values
-          this._tagValueSource.getAvailableTagValues(context).then(
-              // Resolve
-              this.displayTags.bind(this),
-              // Reject
-              (error: string) => {
-                  console.log(`Error getting available tag values: ${error}`)
-              }
-          );
-    }
+         // Set current tag values
+         let currentValues: string = context.parameters.TagValue.raw ? context.parameters.TagValue.raw : "";
+        this.setCurrentTagValues(currentValues);
+
+        let dependentFieldType = context.parameters.DependentField.type;
+        let currentDependentFieldValue: string = "";
+        switch (dependentFieldType) {
+            case "Lookup.Simple" :
+                if ( context.parameters.DependentField.raw?.length > 0 ) {
+                    currentDependentFieldValue = context.parameters.DependentField.raw[0].Name ?? "";
+                } 
+                break;
+            case "SingleLine.Text" :
+            case"SingleLine.TextArea" :
+                currentDependentFieldValue = context.parameters.DependentField.raw ? context.parameters.DependentField.raw : "";
+                break;
+            default:
+                console.log("Unexpected dependent field type : " + dependentFieldType)
+        };
+ 
+        // Get available tag values
+        this._tagValueSource.getAvailableTagValues(context,currentDependentFieldValue).then(
+            // Resolve
+            this.displayTags.bind(this),
+            // Reject
+            (error: string) => {
+                console.log(`Error getting available tag values: ${error}`)
+            }
+        );
+}
 
 	/** 
 	 * Called by the framework prior to a control receiving new data. 
