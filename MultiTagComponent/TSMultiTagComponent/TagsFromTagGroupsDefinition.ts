@@ -17,6 +17,7 @@ export class TagsFromTagGroupDefinition implements TagValueSource {
     /**
      * Returns a Promise that will be resolved when the list of tag values is available (fetched asynchronously from the CRM server)
      * @param context PCF context value.
+     * @param tagGroups  A comma separaated .
      */
     public getAvailableTagValues(context: ComponentFramework.Context<IInputs>, dependentFieldValue : string ): Promise<string> {
         // Has a semicolon separated list of services for which we will obtain available tag values
