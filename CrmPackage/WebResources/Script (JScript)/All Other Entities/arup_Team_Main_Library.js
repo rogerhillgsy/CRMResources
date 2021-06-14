@@ -385,6 +385,26 @@ function OpenClientGroupingMatrix(primaryControl) {
     }
 }
 
+function OpenConnectionsReport(primaryControl) {
+
+    var formContext = primaryControl;
+    var teamId = formContext.data.entity.getId().replace('}', '').replace('{', '');
+    var reportURL;
+    var globalContext = Xrm.Utility.getGlobalContext();
+    var clientURL = globalContext.getClientUrl();
+    var isProduction = clientURL.includes('arupcrm');
+
+    if (isProduction) {
+        reportURL = 'https://azpsrsp365p01.global.arup.com/ReportServer/Pages/ReportViewer.aspx?/Paginated+Reports/Relationship+Team+Connections&RelationshipTeam=' + teamId.toString();
+    }
+    else {
+        reportURL = 'https://azpsrsd365d01.global.arup.com/ReportServer/Pages/ReportViewer.aspx?/Paginated+Reports/Relationship+Team+Connections&RelationshipTeam=' + teamId.toString();
+    }
+
+    window.open(reportURL, null, 1200, 800, true, false, null);   
+
+}
+
 // Ribbon function from legacy arup_teams.js
 function openFOPForm(primaryControl) {
     var formContext = primaryControl;
@@ -567,6 +587,4 @@ function disableColumnsInEditableGrid(executionContext, disabledFields) {
                 attr.controls.forEach(c => c.setDisabled(true));
             }
         });
-
-
 }
