@@ -157,7 +157,8 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         this._titleElement = document.createElement("div");
 
         var star = document.createElement("span");
-        star.innerHTML = "*";
+        if ( this._context.parameters.IsRequired.raw != "0")
+            star.innerHTML = "*";
         star.classList.add("requiredStar");      
 
         var title = document.createElement("span");
