@@ -2138,6 +2138,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="UploaderMapping.config">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="WebResources\PNG format\arup_people32.svg">
       <SubType>Content</SubType>
     </Content>
