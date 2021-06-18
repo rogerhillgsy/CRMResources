@@ -97,6 +97,10 @@ var DirtyFields = {};
 if (typeof (FORM_TYPE) === "undefined") FORM_TYPE = { CREATE: 1, UPDATE: 2, QUICK_CREATE: 5, BULK_EDIT: 6 };
 if (typeof (PI_REQUIREMENT) === "undefined") PI_REQUIREMENT = { MIN_COVER: 1 };
 
+var iso19650bimaccreditation;
+var principaldesigner;
+var iso44001collaboration;
+
 function HideTabForm(formContext) {
     formContext.ui.tabs.get("tab_9").setVisible(false);
     formContext.ui.tabs.get("tab_8").setVisible(true);
@@ -649,6 +653,10 @@ function FormOnload(executionContext) {
             if (isBidSubmitted == 770000001 && currentStage == ArupStages.BidReviewApproval && formContext.getAttribute('statecode').getValue() == OPPORTUNITY_STATE.OPEN) {
                 setBidSubmittedNotification(formContext);
             }
+
+            if (ShowButtonCloseFramework(formContext))
+                formContext.ui.setFormNotification("Framework in progress – do not close until end of Framework", "INFO", "FrameworkInProgress");
+
         }
 
         // Ensure that when the "Related Networks & Markets" field is set to "Other" that the "Other Network Details" field is made visible and mandatory.
@@ -720,8 +728,6 @@ function FormOnload(executionContext) {
             }
         }*/
 
-        if (ShowButtonCloseFramework(formContext))
-            formContext.ui.setFormNotification("Framework in progress – do not close until end of Framework", "INFO", "FrameworkInProgress");
 
     }
 }
@@ -871,6 +877,7 @@ function opportunityType_onChange(executionContext, trigger) {
     }
 
     ParentOpportunityFilter(formContext);
+    SetUltimateEndClientMandatory(formContext);
     SetUltimateClient(formContext);
     //SetFeeValue();
     VerifyParentOpportunity(formContext);
@@ -2699,6 +2706,7 @@ function PreStageChange(executionContext) {
 
     if (eventArgs.getDirection() == "Next") {
         SetFieldRequirementForPreBidStage(formContext);
+        SetFieldRequirementForDevelopingBidStage(formContext);
         setDefaultQualificationStatus(formContext);
 
         if (!formContext.data.isValid()) {
@@ -2864,6 +2872,7 @@ function requestPossibleJob(formContext) {
     }
 
     SetFieldRequirementForPreBidStage(formContext);
+    SetFieldRequirementForDevelopingBidStage(formContext);
     //Set below fields required to generate PJN
     setRequiredLevelOfFields(formContext, 'required', "ccrm_salarycost_num", "ccrm_grossexpenses_num", "ccrm_chargingbasis", "ccrm_bid_transactioncurrencyid", "ccrm_totalbidcost_num");
     VerifyProjectProcurement(formContext);
@@ -4474,6 +4483,12 @@ function IndiaCompanyFilter(formContext) {
             "</filter>";
         formContext.getControl(fieldName).addCustomFilter(fetch);
     }
+
+    if (CountryName.toUpperCase() == 'INDIA' && arupInternal) {
+        SetLookupField(formContext, currUserData.arupcompanyid, currUserData.arupcompanyname, 'ccrm_arupcompany',fieldName);
+        //formContext.getControl(fieldName).setValue();
+    }
+
 }
 
 //Set short title - starts
@@ -5008,6 +5023,7 @@ function BPFMoveNext(formContext) {
     if (opportunitytype == '770000005') { return; }
 
     SetFieldRequirementForPreBidStage(formContext);
+    SetFieldRequirementForDevelopingBidStage(formContext);
     //if (formContext.getAttribute("processid") != null) {
     moveNext(formContext, getStageId(formContext));
     // }
@@ -5168,29 +5184,30 @@ function hideProcessFields(formContext, selectedStage) {
         case "PRE-BID"://[RS-08/05/2017] - Changed the name of stage from LEAD to PRE-BID
             if (arupInternal) {
                 hideBPFFields(formContext, "arup_biddecisionchair", "ccrm_arups_role_in_project", "ccrm_arupuniversityiiaresearchinitiative", "ccrm_arupbidstartdate", "ccrm_arupbidfinishdate", "ccrm_confidentialoptionset", "ccrm_arupinternal", "ccrm_possiblejobnumberrequired", "ccrm_arupregionid", "ccrm_projectcountryregionid", "ccrm_opportunitytype");
-                // setRequiredLevelOfFields(formContext, "required", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend");
                 setRequiredLevelOfFields(formContext, "recommended", "ccrm_arups_role_in_project", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend", "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "ccrm_estimatedvalue_num", "ccrm_probabilityofprojectproceeding", "closeprobability", "arup_disciplines", "ccrm_descriptionofextentofarupservices");
-
             }
             else {
                 hideBPFFields(formContext, "ccrm_arupinternal", "ccrm_possiblejobnumberrequired", "ccrm_arupregionid", "ccrm_projectcountryregionid", "arup_isaccountingcentervalid", "ccrm_opportunitytype");
-                //  setRequiredLevelOfFields(formContext, "required", "ccrm_arups_role_in_project", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend");
                 setRequiredLevelOfFields(formContext, "recommended", "ccrm_arups_role_in_project", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend", "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "ccrm_estimatedvalue_num", "ccrm_probabilityofprojectproceeding", "closeprobability", "arup_disciplines", "ccrm_descriptionofextentofarupservices", "ccrm_arups_role_in_project", "arup_keymarkets", "arup_safeguardplanet", "arup_sharedvalues", "arup_partnership", "arup_betterway");
-
+                //Below fields will stay recommended till Developing Bid stage. On any action on Develpoing Bid stage, these fields will be required.
+                setRequiredLevelOfFields(formContext, "recommended", "ccrm_contractconditions", "ccrm_pirequirement", "ccrm_contractlimitofliability");
             }
             break;
         case "CROSS REGION":
             hideBPFFields(formContext, "ccrm_opportunitytype_1", "ccrm_possiblejobnumberrequired_1", "ccrm_arupregionid_1");
-            setRequiredLevelOfFields(formContext, "required", "ccrm_geographicmanagerid", "ccrm_geographicmanagerproxyconsulted");
+            setRequiredLevelOfFields(formContext, "required", "ccrm_geographicmanagerid", "ccrm_geographicmanagerproxyconsulted");    
+            if (!arupInternal) {
+                setRequiredLevelOfFields(formContext, "recommended", "ccrm_contractconditions", "ccrm_pirequirement", "ccrm_contractlimitofliability");
+            }
             break;
         case "DEVELOPING BID":
             if (arupInternal) {
                 hideBPFFields(formContext, "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_pilevelmoney_num", "ccrm_contractlimitofliability", "ccrm_limitofliabilityagreement", "ccrm_limitamount_num", "ccrm_financedetailscaptured");
-                setRequiredLevelOfFields(formContext, "required", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission");
+                setRequiredLevelOfFields(formContext, "recommended", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission", "ccrm_chargingbasis","ccrm_estexpenseincome_num", "ccrm_estprojectresourcecosts_num", "arup_expenses_num");
             }
             else {
                 hideBPFFields(formContext, "ccrm_financedetailscaptured");
-                setRequiredLevelOfFields(formContext, "required", "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission", "ccrm_chargingbasis");
+                setRequiredLevelOfFields(formContext, "recommended", "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission", "ccrm_chargingbasis", "ccrm_estexpenseincome_num", "ccrm_estprojectresourcecosts_num","arup_expenses_num");
             }
             break;
         case "BID REVIEW/SUBMISSION":
@@ -6982,15 +6999,11 @@ function ClearRPOppFiledsOnOppTypeChange_qc(executionContext) {
 
 function ClearRPOppFileds(formContext) {
     if (formContext.ui.getFormType() == 1) {
-        formContext.getAttribute("ccrm_parentopportunityid").setValue(null);
-        formContext.getAttribute("ccrm_contractarrangement").setValue(null);
-        formContext.getAttribute("ccrm_projectlocationid").setValue(null);
-        formContext.getAttribute("ccrm_location").setValue(null);
-        formContext.getAttribute("ccrm_arupbusinessid").setValue(null);
-        formContext.getAttribute("arup_subbusiness").setValue(null);
-        formContext.getAttribute("description").setValue(null);
-        formContext.getAttribute("ccrm_client").setValue(null);
-        formContext.getAttribute("ccrm_ultimateendclientid").setValue(null);
+        ClearFields(formContext, "ccrm_parentopportunityid", "ccrm_contractarrangement", "ccrm_projectlocationid", "ccrm_location", "ccrm_arupbusinessid", "arup_subbusiness",
+            "description", "ccrm_client", "ccrm_ultimateendclientid", "ccrm_arups_role_in_project", "ccrm_arupuniversityiiaresearchinitiative", "ccrm_arupusstateid", "ccrm_confidential",
+            "ccrm_contractconditions", "ccrm_contractlimitofliability", "ccrm_limitamount_num", "ccrm_limitofliabilityagreement", "ccrm_pi_transactioncurrencyid", "ccrm_pilevelmoney_num", "ccrm_pirequirement",
+            "arup_framework", "arup_iso19650bimaccreditation", "arup_iso44001collaboration", "arup_principaldesigner", "arup_tags", "arup_business_tags", "ccrm_chargingbasis", "ccrm_project_transactioncurrencyid",
+            "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "arup_keymarkets", "arup_safeguardplanet", "arup_sharedvalues", "arup_partnership", "arup_betterway", "arup_projecttype", "arup_projectsector");
     }
 }
 
@@ -7004,11 +7017,11 @@ function PullParentOpportunityDetailsForDiffOpportunityType(formContext, parentO
 
             var req = new XMLHttpRequest();
             if (opportunitytype == '770000002') {
-                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_location,_ccrm_projectlocationid_value,_arup_framework_value,arup_opportunitytype,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
+                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_location,_ccrm_projectlocationid_value,_arup_framework_value,arup_opportunitytype,name,_ccrm_ultimateendclientid_value,ccrm_arups_role_in_project,_ccrm_project_transactioncurrencyid_value,arup_business_tags,arup_keymarkets,arup_safeguardplanet,arup_sharedvalues,arup_partnership,arup_betterway,arup_projecttype,arup_projectsector,ccrm_contractarrangement&$filter=opportunityid eq " + parentOpportunityId + "", true);
             } else if (opportunitytype == '770000006') {
                 req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arups_role_in_project,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_contractarrangement,ccrm_location,_ccrm_projectlocationid_value,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
             } else if (opportunitytype == '770000001') {
-                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arups_role_in_project,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_contractarrangement,ccrm_contractconditions,ccrm_contractlimitofliability,ccrm_limitamount_num,ccrm_limitofliabilityagreement,ccrm_location,_ccrm_pi_transactioncurrencyid_value,ccrm_pilevelmoney_num,ccrm_pirequirement,_ccrm_projectlocationid_value,_arup_framework_value,arup_opportunitytype,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
+                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arups_role_in_project,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_contractarrangement,ccrm_contractconditions,ccrm_contractlimitofliability,ccrm_limitamount_num,ccrm_limitofliabilityagreement,ccrm_location,_ccrm_pi_transactioncurrencyid_value,ccrm_pilevelmoney_num,ccrm_pirequirement,_ccrm_projectlocationid_value,_arup_framework_value,arup_opportunitytype,name,arup_iso19650bimaccreditation,arup_iso44001collaboration,arup_principaldesigner,arup_tags,arup_business_tags,ccrm_chargingbasis,_ccrm_project_transactioncurrencyid_value,_ccrm_projectdirector_userid_value,_ccrm_projectmanager_userid_value,_ccrm_ultimateendclientid_value,arup_keymarkets,arup_safeguardplanet,arup_sharedvalues,arup_partnership,arup_betterway,arup_projecttype,arup_projectsector&$filter=opportunityid eq " + parentOpportunityId + "", true);
             }
 
             req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -7104,11 +7117,34 @@ function UpdateField(formContext, field, fieldName, fieldValueFromParent, lookUp
                 }
             }
             break;
+        case 'multiselectoptionset':
+            var fieldValue = field.getValue();
+            if (isOverRide) {
+                if (fieldValueFromParent != null) {
+                    if (fieldValue != fieldValueFromParent) {
+
+                        value = fieldValueFromParent.split(",");
+                        value = value.map(value => {
+                            return parseInt(value)
+                        })    
+                        field.setValue(value);
+                    }
+                }
+            } else {
+                if (fieldValue == null) {
+                    value = fieldValueFromParent.split(",");
+                    value = value.map(value => {
+                        return parseInt(value)
+                    })
+                    field.setValue(value);
+                }
+            }
+            break;
         case 'integer':
         case 'double':
         case 'string':
         case 'boolean':
-        case 'memo':
+        case 'memo':        
         case 'optionset':
             var fieldValue = field.getValue();
             if (isOverRide) {
@@ -7230,7 +7266,9 @@ function AssignDetailsFromParentOpportunity(formContext, results, opportunityTyp
                 AssignDetailsWhenOpportunityTypeNewContract(formContext, results);
                 break;
             case 770000001:
-                AssignBasicDetailsFromParentOpportunity(formContext, results);
+                if(formContext.ui.getFormType() == 1)
+                    AssignBasicDetailsFromParentOpportunity(formContext, results);
+
                 AssignDetailsWhenOpportunityTypeExistingContract(formContext, results);
                 break;
             case 770000006:
@@ -7299,11 +7337,28 @@ function AssignDetailsWhenOpportunityTypeNewContract(formContext, results) {
 
     var procurementType = formContext.getAttribute("ccrm_contractarrangement").getValue();
 
-    if (procurementType != null && procurementType != 100000003) {
+    //Assign value to Client And Ultimate Client from RPO when procurment is other than Novation. In case of Novation, Ultmate Client is a client from RPO . Refer fn-SetUltimateCLient
+    if (!IsNovationAndNewContract('770000002',procurementType)) {
         AssignFieldValueFromParent(formContext, "ccrm_client", results.value[0]["_ccrm_client_value"], results.value[0]["_ccrm_client_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_client_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+
+        //Assign value to ulitmate end client only if ulitmate end client is mandatory on RPO
+        if (IsUltimateEndClientMandatory(results.value[0]["arup_opportunitytype"], results.value[0]["ccrm_contractarrangement"]))
+            AssignFieldValueFromParent(formContext, "ccrm_ultimateendclientid", results.value[0]["_ccrm_ultimateendclientid_value"], results.value[0]["_ccrm_ultimateendclientid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_ultimateendclientid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
     }
 
-    UpdateCRMFrameworkRecord(formContext, results.value[0]["arup_opportunitytype"], results.value[0]["_arup_framework_value"], results.value[0]["_arup_framework_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_arup_framework_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+    UpdateCRMFrameworkRecord(formContext, results.value[0]["arup_opportunitytype"], results.value[0]["_arup_framework_value"], results.value[0]["_arup_framework_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_arup_framework_value@Microsoft.Dynamics.CRM.lookuplogicalname"]); 
+
+    AssignFieldValueFromParent(formContext, "ccrm_project_transactioncurrencyid", results.value[0]["_ccrm_project_transactioncurrencyid_value"], results.value[0]["_ccrm_project_transactioncurrencyid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_project_transactioncurrencyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+    AssignFieldValueFromParent(formContext, "ccrm_arups_role_in_project", results.value[0]["ccrm_arups_role_in_project"]);
+    AssignFieldValueFromParent(formContext, "arup_business_tags", results.value[0]["arup_business_tags"]);
+
+    AssignFieldValueFromParent(formContext, "arup_keymarkets", results.value[0]["arup_keymarkets"]);
+    AssignFieldValueFromParent(formContext, "arup_safeguardplanet", results.value[0]["arup_safeguardplanet"]);
+    AssignFieldValueFromParent(formContext, "arup_sharedvalues", results.value[0]["arup_sharedvalues"]);
+    AssignFieldValueFromParent(formContext, "arup_partnership", results.value[0]["arup_partnership"]);
+    AssignFieldValueFromParent(formContext, "arup_betterway", results.value[0]["arup_betterway"]);
+    AssignFieldValueFromParent(formContext, "arup_projecttype", results.value[0]["arup_projecttype"]);
+    AssignFieldValueFromParent(formContext, "arup_projectsector", results.value[0]["arup_projectsector"]);
 
 }
 
@@ -7329,6 +7384,31 @@ function AssignDetailsWhenOpportunityTypeExistingContract(formContext, results) 
         AssignFieldValueFromParent(formContext, "ccrm_pi_transactioncurrencyid", results.value[0]["_ccrm_pi_transactioncurrencyid_value"], results.value[0]["_ccrm_pi_transactioncurrencyid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_pi_transactioncurrencyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
         AssignFieldValueFromParent(formContext, "ccrm_pilevelmoney_num", results.value[0]["ccrm_pilevelmoney_num"]);
         AssignFieldValueFromParent(formContext, "ccrm_pirequirement", results.value[0]["ccrm_pirequirement"]);
+
+        AssignFieldValueFromParent(formContext, "ccrm_project_transactioncurrencyid", results.value[0]["_ccrm_project_transactioncurrencyid_value"], results.value[0]["_ccrm_project_transactioncurrencyid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_project_transactioncurrencyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+        AssignFieldValueFromParent(formContext, "arup_tags", results.value[0]["arup_tags"]);
+        AssignFieldValueFromParent(formContext, "arup_business_tags", results.value[0]["arup_business_tags"]);
+        AssignFieldValueFromParent(formContext, "ccrm_bidmanager_userid", results.value[0]["_ccrm_projectmanager_userid_value"], results.value[0]["_ccrm_projectmanager_userid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_projectmanager_userid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+        AssignFieldValueFromParent(formContext, "ccrm_biddirector_userid", results.value[0]["_ccrm_projectdirector_userid_value"], results.value[0]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_projectdirector_userid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+
+        iso19650bimaccreditation = results.value[0]["arup_iso19650bimaccreditation"];
+        principaldesigner = results.value[0]["arup_principaldesigner"];
+        iso44001collaboration = results.value[0]["arup_iso44001collaboration"];
+        SetISOFieldsFromParent(formContext); //These ISO/principledesginer fields will be set from parent only when region is UKIMEA
+
+        AssignFieldValueFromParent(formContext, "arup_keymarkets", results.value[0]["arup_keymarkets"]);
+        AssignFieldValueFromParent(formContext, "arup_safeguardplanet", results.value[0]["arup_safeguardplanet"]);
+        AssignFieldValueFromParent(formContext, "arup_sharedvalues", results.value[0]["arup_sharedvalues"]);
+        AssignFieldValueFromParent(formContext, "arup_partnership", results.value[0]["arup_partnership"]);
+        AssignFieldValueFromParent(formContext, "arup_betterway", results.value[0]["arup_betterway"]);
+        AssignFieldValueFromParent(formContext, "arup_projecttype", results.value[0]["arup_projecttype"]);
+        AssignFieldValueFromParent(formContext, "arup_projectsector", results.value[0]["arup_projectsector"]);
+
+        //Assign value to ulitmate end client only if ulitmate end client is mandatory on RPO
+        if (IsUltimateEndClientMandatory(results.value[0]["arup_opportunitytype"],results.value[0]["ccrm_contractarrangement"]))
+        AssignFieldValueFromParent(formContext, "ccrm_ultimateendclientid", results.value[0]["_ccrm_ultimateendclientid_value"], results.value[0]["_ccrm_ultimateendclientid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_ultimateendclientid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
+
+
     }
 }
 
@@ -7344,8 +7424,16 @@ function AssignDetailsWhenOpportunityTypeTeamOpportunity(formContext, results) {
     }
 }
 
+function IsNovationAndNewContract(opportunitytype, projectProcurement) {
+    if (opportunitytype == '770000002' && projectProcurement == '100000003')
+        return true;
+    else
+        return false;
+}
+
 function SetUltimateClient_ec(executionContext) {
     var formContext = executionContext.getFormContext();
+    SetUltimateEndClientMandatory(formContext);
     SetUltimateClient(formContext);
 }
 
@@ -7353,7 +7441,7 @@ function SetUltimateClient(formContext) {
 
     var opportunitytype = formContext.getAttribute("arup_opportunitytype").getValue();
     var projectProcurement = formContext.getAttribute("ccrm_contractarrangement").getValue();
-    if (opportunitytype == '770000002' && projectProcurement == '100000003') {
+    if (IsNovationAndNewContract(opportunitytype, projectProcurement)) {
         var parentOpportunity = formContext.getAttribute("ccrm_parentopportunityid").getValue();
         if (parentOpportunity != null && parentOpportunity != "undefined") {
             var parentOpportunityId = parentOpportunity[0].id.replace('{', '').replace('}', '');
@@ -7394,6 +7482,8 @@ function SetUltimateClient(formContext) {
 function ArupRegion_OnChange(executionContext) {
     var formContext = executionContext.getFormContext();
     SetParentOpportunityRequired(formContext);
+    SetISOFieldsFromParent(formContext); // Parent opportunty details are pulled/assigned only on Quick create fomr
+
     if (formContext.ui.getFormType() != 1)
         HideShowPJNCostTab(formContext);
 
@@ -7407,6 +7497,15 @@ function SetParentOpportunityRequired(formContext) {
     var arupRegionName = arupRegion != null ? arupRegion[0].name.toLowerCase() : '';
     var requiredLevel = (opportunitytype == 770000001 || opportunitytype == 770000002 || opportunitytype == 770000006 || (opportunitytype == 770000004 && arupRegionName == ArupRegionName.Australasia.toLowerCase())) ? 'required' : 'none';
     formContext.getAttribute("ccrm_parentopportunityid").setRequiredLevel(requiredLevel);
+}
+
+function SetISOFieldsFromParent(formContext) {
+    //UKIMEA region + Quick Create + Opty type = project extension- existingcontract + not empty parentopportunity + Not Internal opty
+    if (formContext.getAttribute("ccrm_arupregionid").getValue() != null && formContext.getAttribute("ccrm_arupregionid").getValue()[0].name.toUpperCase() == 'UKIMEA REGION' && formContext.getAttribute("ccrm_parentopportunityid").getValue() != null && formContext.getAttribute("arup_opportunitytype").getValue() == '770000001' && formContext.ui.getFormType() == 1 && !formContext.getAttribute("ccrm_arupinternal").getValue()) {
+        AssignFieldValueFromParent(formContext, "arup_iso19650bimaccreditation", iso19650bimaccreditation);
+        AssignFieldValueFromParent(formContext, "arup_iso44001collaboration", iso44001collaboration);
+        AssignFieldValueFromParent(formContext, "arup_principaldesigner", principaldesigner);
+    }
 }
 
 function ParentOpportunityFilter_ec(executionContext) {
@@ -7946,6 +8045,19 @@ function SetFieldRequirementForPreBidStage(formContext) {
     }
 }
 
+function SetFieldRequirementForDevelopingBidStage(formContext) {
+    var selectedStage = formContext.data.process.getSelectedStage().getName();
+    var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
+    if (selectedStage == "DEVELOPING BID") {     
+        if (arupInternal) {
+            setRequiredLevelOfFields(formContext, "required", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission", "ccrm_estexpenseincome_num", "ccrm_estprojectresourcecosts_num", "arup_expenses_num");
+        }
+        else {
+            setRequiredLevelOfFields(formContext, "required", "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission", "ccrm_chargingbasis", "ccrm_estexpenseincome_num", "ccrm_estprojectresourcecosts_num", "arup_expenses_num");
+        }
+    }
+}
+
 function getUserAccountingCentre(formContext) {
     var systemUser = formContext.context.getUserId().replace('{', '').replace('}', '');
     var arup_useownaccountingcentreforopportunities = null;
@@ -8039,4 +8151,23 @@ function existingcrmframework_onchange_qc(executionContext) {
     } else {
         formContext.getAttribute("ccrm_parentopportunityid").setValue(null);
     }
+}
+
+function IsUltimateEndClientMandatory(opportunityType, projectProcurement) {
+    //IF Project Procurement equals "Design & Construct/Design-Build/ECI,Alliance,Design-Build-Operate,Management Contracting/Construction Management,Turnkey" OR Opportunity Type equals "Architectural competition with multiple Arup teams – team opportunity"    
+    if (opportunityType == 770000006 || projectProcurement == 1 || projectProcurement == 100000002 || projectProcurement == 3 || projectProcurement == 6)
+        return true;
+    else
+        return false;
+}
+
+function SetUltimateEndClientMandatory(formContext) {
+
+    var opportunityType = formContext.getAttribute("arup_opportunitytype").getValue();
+    var projectProcurement = formContext.getAttribute("ccrm_contractarrangement").getValue();
+
+    if (IsUltimateEndClientMandatory(opportunityType, projectProcurement))
+        formContext.getAttribute("ccrm_ultimateendclientid").setRequiredLevel('required');
+    else
+        formContext.getAttribute("ccrm_ultimateendclientid").setRequiredLevel('none');
 }

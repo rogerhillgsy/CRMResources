@@ -368,6 +368,7 @@ Arup = (
                 }
 
                 SetFieldRequirementForPreBidStage(formContext);
+                SetFieldRequirementForDevelopingBidStage(formContext);
                 // Make sure form is saved.
                 //  formContext.data.entity.save();
                 formContext.data.save().then(
