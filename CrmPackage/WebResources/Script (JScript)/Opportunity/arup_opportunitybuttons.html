@@ -326,8 +326,8 @@ There will be several copies of the web resource visible in the debugger as "aru
                         }
 
                         if (!!button.tooltip) {
-                            span.title = button.title;
-                        }
+                            span.title = button.tooltip;
+                        } 
                     }
                 }
             }
@@ -364,9 +364,10 @@ There will be several copies of the web resource visible in the debugger as "aru
             }
         }
 
+        var helpMessage = "Open help pane to access support, e.g. on Arup contracting companies";
         var helpText =
         {
-            'label': "<br><p>Open help pane to access support information, e.g. on Arup contracting companies.</p>",
+            'label': "<br><p>" + helpMessage + "</p>",
             'islabel': true,
             'hidden': function () { return parent.document.querySelector("#helpLauncher-button") === null },
         };
@@ -378,7 +379,7 @@ There will be several copies of the web resource visible in the debugger as "aru
             },
             'hidden': function() { return parent.document.querySelector("#helpLauncher-button") === null },
             'backgroundcolor': '#105189',
-            'tooltip': "Open help pane to access support information, e.g. on Arup contracting companies.",
+            'tooltip': helpMessage,
         };
 
 
