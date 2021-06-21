@@ -1076,40 +1076,23 @@
         }
 
         function PopulateTop5LostOppors() {
-            var opportRecords;
-            var req = new XMLHttpRequest();
-            req.open("GET", clientURL + "/api/data/v9.1/opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20top%3D'5'%20aggregate%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20alias%3D'LostOpp_count'%20aggregate%3D'count'%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%20groupby%3D'true'%2F%3E%3Corder%20alias%3D'LostOpp_count'%20descending%3D'true'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'outer'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'bj'%20link-type%3D'outer'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Cfilter%20type%3D'or'%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3Ccondition%20entityname%3D%20'bj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E", false);
-            req.setRequestHeader("OData-MaxVersion", "4.0");
-            req.setRequestHeader("OData-Version", "4.0");
-            req.setRequestHeader("Accept", "application/json");
-            req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-            req.onreadystatechange = function() {
-                if (this.readyState === 4) {
-                    req.onreadystatechange = null;
-                    if (this.status === 200) {
-                        opportRecords = JSON.parse(this.response).value;
-                    } else {
-                        var alertStrings = { confirmButtonLabel: "OK", text: this.statusText, title: "Alert" };
-                        var alertOptions = { height: 120, width: 260 };
-                        AlertDialog( alertStrings, alertOptions);
+            return GetCRMData("opportunities?fetchXml=%3Cfetch%20version%3D'1.0'%20output-format%3D'xml-platform'%20mapping%3D'logical'%20distinct%3D'false'%20top%3D'5'%20aggregate%3D'true'%3E%3Centity%20name%3D'opportunity'%3E%3Cattribute%20name%3D'opportunityid'%20alias%3D'LostOpp_count'%20aggregate%3D'count'%2F%3E%3Cattribute%20name%3D'statuscode'%20alias%3D'StatusCode'%20groupby%3D'true'%2F%3E%3Corder%20alias%3D'LostOpp_count'%20descending%3D'true'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'customerid'%20alias%3D'aj'%20link-type%3D'outer'%20%2F%3E%3Clink-entity%20name%3D'account'%20from%3D'accountid'%20to%3D'ccrm_ultimateendclientid'%20alias%3D'bj'%20link-type%3D'outer'%20%2F%3E%3Cfilter%20type%3D'and'%3E%3Ccondition%20attribute%3D'statecode'%20operator%3D'eq'%20value%3D'2'%20%2F%3E%3Cfilter%20type%3D'or'%3E%3Ccondition%20entityname%3D%20'aj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3Ccondition%20entityname%3D%20'bj'%20attribute%3D'accountid'%20operator%3D'eq-or-under'%20uitype%3D'account'%20value%3D'" + parentaccountid + "'%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E",
+                function(opportunities) {
+
+                    var opporLst = [];
+
+                    if (opportunities.length > 0) {
+                        for (var i = 0; i < opportunities.length; i++) {
+                            var count = opportunities[i].LostOpp_count != undefined ? opportunities[i].LostOpp_count : 0;
+                            var status = opportunities[i].StatusCode != undefined ? opportunities[i]["StatusCode@OData.Community.Display.V1.FormattedValue"] : "";
+
+                            var oppor = {
+                                "label": status,
+                                "value": count
+                            };
+                            opporLst.push(oppor);
+                        }
                     }
-                }
-            };
-            req.send();
-
-            var opporLst = [];
-
-            if (opportRecords.length > 0) {
-                for (var i = 0; i < opportRecords.length; i++) {
-                    var count = opportRecords[i].LostOpp_count != undefined ? opportRecords[i].LostOpp_count : 0;
-                    var status = opportRecords[i].StatusCode != undefined ? opportRecords[i]["StatusCode@OData.Community.Display.V1.FormattedValue"] : "";
-
-                    var oppor = {
-                        "label": status, "value": count
-                    };
-                    opporLst.push(oppor);
-                }
-            }
 
                     DrawPieChart("#top5BidLossReason", opporLst);
                 },
@@ -1217,7 +1200,7 @@
                     if (opportRecords.length > 0 || opportRecordsUlt.length > 0) {
                         if (opportRecords.length > 0) {
                             for (var i = 0; i < opportRecords.length; i++) {
-                                var oppId = opportRecords[i].id;
+                                var oppId = opportRecords[i].opportunityid;
                                 var name = opportRecords[i].name != undefined ? opportRecords[i].name : "";
                                 var projectDirector = opportRecords[i]._ccrm_projectdirector_userid_value != undefined ? opportRecords[i]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"] : "";
                                 var fee = opportRecords[i].estimatedvalue_base != undefined ? opportRecords[i].estimatedvalue_base * exchangeratevalue : 0.00;
@@ -1238,7 +1221,7 @@
 
                         if (opportRecordsUlt.length > 0) {
                             for (var i = 0; i < opportRecordsUlt.length; i++) {
-                                var oppId = opportRecordsUlt[i].id;
+                                var oppId = opportRecordsUlt[i].opportunityid;
                                 var name = opportRecordsUlt[i].name != undefined ? opportRecordsUlt[i].name : "";
                                 var projectDirector = opportRecordsUlt[i].ccrm_projectdirector_userid != undefined ? opportRecordsUlt[i].ccrm_projectdirector_userid : "";
                                 var fee = opportRecordsUlt[i].estimatedvalue_base != undefined ? opportRecordsUlt[i].estimatedvalue_base * exchangeratevalue : 0.00;
@@ -1574,7 +1557,7 @@
         }
 
         function PopulateBasicAccProfile() {
-            var query = "accounts("+accId+")?$select=address1_addressid,address1_city,address1_country,address1_line1,address1_line2,address1_line3,address1_postalcode,arup_clientscovid19bcadvised,ccrm_clienttype,_ccrm_keyaccountmanagerid_value,_ccrm_managingteamid_value,description,name,_parentaccountid_value,statuscode,telephone1,websiteurl,arup_clientsector";
+            var query = "accounts(" + accId +")?$select=address1_addressid,address1_city,address1_country,address1_line1,address1_line2,address1_line3,address1_stateorprovince,address1_postalcode,arup_clientscovid19bcadvised,ccrm_clienttype,_ccrm_keyaccountmanagerid_value,_ccrm_managingteamid_value,description,name,_parentaccountid_value,statuscode,telephone1,websiteurl,arup_clientsector";
             var basicProfile = {};
             return GetCRMData(query,
                 function(result) {
@@ -1585,6 +1568,7 @@
                         address1_Line1: result.address1_line1 != undefined ? result.address1_line1 : "",
                         address1_Line2: result.address1_line2 != undefined ? result.address1_line2 : "",
                         address1_Line3: result.address1_line3 != undefined ? result.address1_line3 : "",
+                        address1_StateOrProvince: result.address1_stateorprovince != undefined ? result.address1_stateorprovince : "",
                         address1_PostalCode: result.address1_postalcode != undefined ? result.address1_postalcode : "",
                         ccrm_ClientSectorValue: result["arup_clientsector@OData.Community.Display.V1.FormattedValue"] || "",
                         ccrm_ClientType: result["ccrm_clienttype@OData.Community.Display.V1.FormattedValue"] || "",
@@ -1606,22 +1590,15 @@
    
 
         function AssociateProfileDataWithReport(profileData) {
-            var address = '';
-            if (profileData.address1_Line1 != null && profileData.address1_Line1.length > 0) {
-                address = address + profileData.address1_Line1.replace('\t', '').replace('\r', '').replace('\f', '') + " ";
-            }
-            if (profileData.address1_Line2 != null && profileData.address1_Line2.length > 0) {
-                address = address + profileData.address1_Line2.replace('\t', '').replace('\r', '').replace('\f', '') + " ";
-            }
-            if (profileData.address1_Line3 != null && profileData.address1_Line3.length > 0) {
-                address = address + profileData.address1_Line3.replace('\t', '').replace('\r', '').replace('\f', '') + " ";
-            }
-            if (profileData.address1_City != null && profileData.address1_City.length > 0) {
-                address = address + profileData.address1_City.replace('\t', '').replace('\r', '').replace('\f', '') + " ";
-            }
-            if (profileData.address1_PostalCode != null && profileData.address1_PostalCode.length > 0) {
-                address = address + profileData.address1_PostalCode.replace('\t', '').replace('\r', '').replace('\f', '');
-            }
+            var address = ["address1_Line1", "address1_Line2", "address1_Line3", "address1_City", "address1_StateOrProvince", "address1_PostalCode"].reduce(
+                (accumulator, current) => {
+                    if (profileData[current] != undefined && profileData[current] != null && profileData[current].length > 0) {
+                        return accumulator + profileData[current].replace('\t', '').replace('\r', '').replace('\f', '') + " ";
+                    }
+                    return accumulator;
+                },
+                "");
+
             accName = profileData.name;
             $("#accountName").text(profileData.name);
             $("#website").text(profileData.webSiteURL);
