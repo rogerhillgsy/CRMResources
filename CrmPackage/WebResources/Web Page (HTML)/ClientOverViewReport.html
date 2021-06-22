@@ -514,8 +514,6 @@
                 parentaccountid = accId;
             }
 
-            // debugger;
-
             Promise.all([
                 PopulateBasicAccProfile(),
                 GetExchangeRate().then(() => {
@@ -1136,7 +1134,6 @@
         }
 
         function PopulateTop10OpenOppors() {
-            debugger;
             GetCRMData("opportunities?fetchXml=%3Cfetch%20version%3D%221.0%22%20output-format%3D%22xml-platform%22%20mapping%3D%22logical%22%20distinct%3D%22false%22%20count%3D%2210%22%20%3E%3Centity%20name%3D%22opportunity%22%20%3E%3Cattribute%20name%3D%22opportunityid%22%20%2F%3E%3Cattribute%20name%3D%22name%22%20%2F%3E%3Cattribute%20name%3D%22estimatedvalue_base%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_projectmanager_userid%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_projectdirector_userid%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_probabilityofprojectproceeding%22%20alias%3D%22Probability_of_Proceeding%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_estarupinvolvementstart%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_closeprobability_synced%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_bidmanager_userid%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_biddirector_userid%22%20%2F%3E%3Cattribute%20name%3D%22ccrm_arupregionid%22%20%2F%3E%3Cattribute%20name%3D%22statuscode%22%20alias%3D%22StatusCode%22%20%2F%3E%3Cattribute%20name%3D%22statecode%22%20%2F%3E%3Corder%20attribute%3D%22estimatedvalue_base%22%20descending%3D%22true%22%20%2F%3E%3Clink-entity%20name%3D%22account%22%20from%3D%22accountid%22%20to%3D%22customerid%22%20alias%3D%22aj%22%20link-type%3D%22inner%22%20%2F%3E%3Cfilter%20type%3D%22and%22%20%3E%3Ccondition%20attribute%3D%22statecode%22%20operator%3D%22eq%22%20value%3D%220%22%20%2F%3E%3Ccondition%20attribute%3D%22statuscode%22%20operator%3D%22ne%22%20value%3D%223%22%20%2F%3E%3Ccondition%20attribute%3D%22statuscode%22%20operator%3D%22not-null%22%20%2F%3E%3Cfilter%20type%3D%22or%22%20%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22under%22%20uitype%3D%22account%22%20value%3D%22" + parentaccountid + "%22%20%2F%3E%3Ccondition%20entityname%3D%22aj%22%20attribute%3D%22accountid%22%20operator%3D%22eq%22%20uitype%3D%22account%22%20value%3D%22" + parentaccountid + "%22%20%2F%3E%3C%2Ffilter%3E%3C%2Ffilter%3E%3C%2Fentity%3E%3C%2Ffetch%3E"
             ).then(( data ) => {
                 var opportRecords = data;
