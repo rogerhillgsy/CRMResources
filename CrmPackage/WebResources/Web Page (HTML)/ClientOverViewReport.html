@@ -2094,9 +2094,6 @@
             })
             .slice(0,9)
             .map(
-            //var filOpp = sortOpp.filter(function (currVal, index, arr) { if (index < 10) return currVal; });
-
-            //var finalOpp = filOpp.map(
             function (d) {
                 return {
                     "Title": d.Name, "Project Director": d.ProjectDirector, "Status": d.Status, "Total Fee Income": Math.round(d.Fee / 1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
@@ -2106,7 +2103,7 @@
 
             $("#top10OpenOpporCnt").text("( " + allOpenOppor.length + " in Total)");
 
-            if (finalOpp.length > 0) {
+            if (top10Opps.length > 0) {
                 DrawTable("#top10OpenOportunities", top10Opps, Object.keys(top10Opps[0]).filter(function(d) { return d !== 'OpportunityId'; }));
             }
         }
