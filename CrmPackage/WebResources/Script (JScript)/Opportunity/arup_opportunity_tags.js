@@ -203,7 +203,8 @@ ArupTags.AddTagControl("arup_globalservices",
     });
 
 // Configure business tag control.
-ArupTags.AddTagControl("ccrm_arupbusinessid",
-    "Energy",
-    "arup_business_tags",
-    [{ tab: "Pre-Bid_Tab", section: "sec_business_tags" }, {tab:"Summary", section:"sec_business_tags2"}]);
+// Suppress the Business tags for the July 2021 release.
+//ArupTags.AddTagControl("ccrm_arupbusinessid",
+//    "Energy",
+//    "arup_business_tags",
+//    [{ tab: "Pre-Bid_Tab", section: "sec_business_tags" }, {tab:"Summary", section:"sec_business_tags2"}]);
