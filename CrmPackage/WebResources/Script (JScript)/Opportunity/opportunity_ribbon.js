@@ -250,4 +250,42 @@ function GetArupGroupCode(formContext) {
     }
 }
 
+function hideButtonDuplicateOpportunity(formContext) {
+    if (!userInTeamCheck(formContext, 'Global Data Quality'))
+        return true;
+    else
+        return false;
+}
 
+function CallDuplicateOpportunityFlow(formContext) {
+    var flowUrl = "https://prod-04.uksouth.logic.azure.com:443/workflows/57567ec449004fa4b24f9cbb76d4d221/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dNm2Z7TboaKYlhOwCvTzERN_31g7HtijAQlKmti_i30";
+    var input = JSON.stringify({
+        "id": formContext.data.entity.getId().replace("{", "").replace("}", "")
+    });
+    var req = new XMLHttpRequest();
+    req.open("POST", flowUrl, true);
+    req.setRequestHeader('Content-Type', 'application/json');
+
+    ////Response
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                var result = JSON.parse(this.response);               
+                var newid = result.id;
+                    alert("" + newid);
+                    OpenForm(formContext.data.entity.getEntityName(), newid);
+                
+              
+            }
+            else if (this.status === 400) {
+                alert(this.statusText);
+                var result = this.response;
+                alert("Error" + result);
+            }
+        }
+    };
+
+    ////End
+    req.send(input);
+}
