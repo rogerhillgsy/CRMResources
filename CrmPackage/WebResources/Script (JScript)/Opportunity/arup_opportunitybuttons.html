@@ -407,7 +407,6 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'hidden': function () { return !parent.Arup.IsPJNCostTabVisible(formContext); },
                     'isredbutton': false
                 },              
-                helpText, helpButton,
                 {
                     'label': function () { return GetLabelTextForPJN(); },
                     'hidden': function () { return !parent.Arup.IsRequestPossibleJobEnabled(formContext); },
@@ -431,9 +430,9 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'hidden': function () { return parent.Arup.IsBidDicisionApprovalEnable(formContext); },
                     'isredbutton': true
                 },
+                helpText, helpButton,
             ],
             'Cross_Region_Tab': [
-                helpText,helpButton,
                 {
                     'label': 'Progress to Developing Bid Stage',
                     'action': function () {
@@ -446,7 +445,8 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'label': function () { return GetLabelTextForPJN(); },
                     'hidden': function () { return !parent.Arup.IsRequestPossibleJobEnabled(formContext); },
                     'islabel': true
-                }
+                },
+                helpText,helpButton,
             ],
             'Developing_Bid_tab': [
                 {
@@ -458,7 +458,6 @@ There will be several copies of the web resource visible in the debugger as "aru
                     },
                     'isredbutton': false
                 },
-                helpText, helpButton,
                 {
                     'label': function () { return GetLabelTextForPJN(); },
                     'hidden': function () { return !parent.Arup.IsRequestPossibleJobEnabled(formContext); },
@@ -471,11 +470,11 @@ There will be several copies of the web resource visible in the debugger as "aru
                         MoveNext();
                     },
                     'isredbutton': true
-                }
+                },
+                helpText, helpButton,
                 
             ],
             'Bid_Review_Submission_tab': [
-                helpText, helpButton,
                 {
                     'label': 'Approve Bid Review',
                     'action': function () {
@@ -509,10 +508,10 @@ There will be several copies of the web resource visible in the debugger as "aru
                     'label': function () { return GetLabelTextWhenConfirmedBidSubmitted(); },
                     'hidden': function () { return parent.Arup.IsBidSubmittedEnabled(formContext) || parent.Arup.IsApproveBidReviewEnabled(formContext); },
                     'islabel': true
-                }
+                },
+                helpText, helpButton,
             ],
             'Confirmed_Job_Project_Tab': [
-                helpText, helpButton,
                 {
                     'label': 'Add Project Collaborators',
                     'action': function () {
@@ -529,7 +528,8 @@ There will be several copies of the web resource visible in the debugger as "aru
                         MoveNext();
                     },
                     'isredbutton': true
-                }
+                },
+                helpText, helpButton,
             ],
             'Confirmed_Job_commercial_Tab': [
                 {
@@ -541,12 +541,12 @@ There will be several copies of the web resource visible in the debugger as "aru
                     },
                     'isredbutton': false
                 },
-                helpText, helpButton,
                 {
                     'label': function () { return GetLabelTextForCommercialStage(); },
                     'hidden': false,
                     'islabel': true
-                }
+                },
+                helpText, helpButton,
             ],
             'PJN_Costs_Tab': [
                 {
@@ -571,7 +571,6 @@ There will be several copies of the web resource visible in the debugger as "aru
                 helpText, helpButton,
             ],
             'PJN_Approval_tab': [
-                helpText, helpButton,
                 {
                     'label': 'Approve PJN Group Leader',
                     'action': function () {
@@ -628,7 +627,8 @@ There will be several copies of the web resource visible in the debugger as "aru
                         return (parent.Arup.IsGroupLeaderApprovalEnabled(formContext) || parent.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext) || parent.Arup.IsSectorLeaderApprovalEnabled(formContext) || parent.Arup.IsBidDirectorApprovalEnabled(formContext) || parent.Arup.IsRegionalCOOApprovalEnabled(formContext));
                     },
                     'isredbutton': true
-                }
+                },
+                helpText, helpButton,
 
             ],
             'CJN_Approval_tab': [
