@@ -108,7 +108,7 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
 	 */
 	public getOutputs(): IOutputs
 	{
-		var result = <IOutputs>{ TagValue: this._taggedValues.join(";") };
+		var result = <IOutputs>{ TagValue: this._taggedValues.length == 0 ? null :  this._taggedValues.join(";") };
         return result;
 	}
 

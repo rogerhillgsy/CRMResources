@@ -59,7 +59,6 @@ ArupTags =  (
          * @param {any} sectionName
          */
         function setTagSectionVisibility1( visibility, formContext, tabName, sectionName) {
-            console.log("Set visibility " + visibility + " tab " + tabName + " section " + sectionName);
             const tab = formContext.ui.tabs.get(tabName);
             if (!!tab) {
                 const tagSection = tab.sections.get(sectionName);
