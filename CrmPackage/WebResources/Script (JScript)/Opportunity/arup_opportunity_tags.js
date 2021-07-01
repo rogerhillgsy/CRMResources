@@ -18,7 +18,7 @@ ArupTags =  (
         var obj = {}
 
         // A list of tag fields to trigger on.
-        obj.supportedTagFields = [];
+        var supportedTagFields = [];
 
         /**
          * Add a tag field that is dependent on other fields on the form
@@ -28,14 +28,15 @@ ArupTags =  (
          * @param {string} targetTagField The tag field that is targeted. If this will always be displayed if it contains data.
          * @param {any} tagSections A list of the tabs/sections that contain the 
          */
-        function addTagControl(sourceField, sourceValues, targetTagField, tagSections, sourceChangeCallback) {
-            obj.supportedTagFields.push(
+        function addTagControl(sourceField, sourceValues, targetTagField, tagSections, sourceChangeCallback, isRequiredCallback ) {
+            supportedTagFields.push(
                 {
                     source: sourceField,
                     sourceValues: sourceValues.split(","),
                     target: targetTagField,
                     sections: tagSections,
-                    sourceChangeCallback : sourceChangeCallback
+                    sourceChangeCallback : sourceChangeCallback,
+                    isRequiredCallback : isRequiredCallback
                 });
         }
 
@@ -53,10 +54,10 @@ ArupTags =  (
 
         /**
          * Set visibility of a specific section on the form.
-         * @param {any} visibility
-         * @param {any} formContext
-         * @param {any} tabName
-         * @param {any} sectionName
+         * @param {any} visibility : true/false
+         * @param {any} formContext : XRM form context
+         * @param {any} tabName : name of the tab that contains the section.
+         * @param {any} sectionName : section name to be shown/hidden.
          */
         function setTagSectionVisibility1( visibility, formContext, tabName, sectionName) {
             const tab = formContext.ui.tabs.get(tabName);
@@ -70,9 +71,9 @@ ArupTags =  (
 
         /**
          * Target Tag control attribute is only required when the source control has relevant values.
-         * @param {any} isRequired
-         * @param {any} formContext
-         * @param {any} attribute
+         * @param {any} isRequired - boolean
+         * @param {any} formContext - XRM form context
+         * @param {any} attribute - name of the attribute to be set to require/not requiired.
          */
         function setTagsControlRequired(isRequired, formContext, attribute) {
             var attr = formContext.getAttribute(attribute);
@@ -96,17 +97,19 @@ ArupTags =  (
         }
 
         /**
-         * Called via Promise when a tag source or target field changes.
-         * @param {any} executioncontext
+         * Set the visibility and requirement level of the tags field. This takes into account
+         * - The state of the source field: whether it contains any of the source values that cause the tag field to be visible (and potentially required)
+         * - Other factors, such as the current process stage.
+         * @param {any} formContext
          * @param {any} tagContext
+         * @param {any} formRequirement - requirement level from form.
          */
-        function onTagFieldsChangePromise(executioncontext, tagContext) {
-            const formContext = executioncontext.getFormContext();
-
+        function setTagsVisibilityAndRequirement(formContext, tagContext, formRequirement ) {
             // Get source and target attributes.
             const sourceAttr = formContext.getAttribute(tagContext.source);
             const targetAttr = formContext.getAttribute(tagContext.target);
             const currentTagsValue = targetAttr.getValue();
+            const selectedStage = formContext.data.process.getSelectedStage().getName();
 
             // Call any source change callback (do any extra stuff that some fields require (i.e. multiselects))
             // This may optionally return the current set of options as an array.
@@ -121,13 +124,17 @@ ArupTags =  (
                 },
                 false);
 
+            // Tags also have to be visible if tags have been selected, even if the original source trigger has changed to no longer require it.
             if (( hasSourceValue) || !! currentTagsValue) {
                 setTagSectionVisibility(true, formContext, tagContext.sections);
             } else {
                 setTagSectionVisibility(false, formContext, tagContext.sections);
             }
 
-            if (( hasSourceValue)) {
+            // Evaluate possible external factors in whether the tag control is required (i.e. the process stage)
+            const tagControlRequired = (!!tagContext.isRequiredCallback) ? tagContext.isRequiredCallback(formContext, selectedStage) :  false;
+
+            if ( hasSourceValue && ( tagControlRequired || formRequirement === "required")) {
                 setTagsControlRequired(true, formContext, tagContext.target);
             } else {
                 setTagsControlRequired(false, formContext, tagContext.target);
@@ -135,15 +142,26 @@ ArupTags =  (
         }
 
         /**
-         * Called when either the source or target field changes.
-         * @param {any} executioncontext
-         * @param {any} targetContext
+         * Called via Promise when a tag source or target field changes.
+         * Used to defer execution until after current event processing (avoid issues with multiselect state)
+         * @param {any} executionContext
+         * @param {any} tagContext
          */
-        function onTagFieldsChange(executioncontext, targetContext) {
+        function onTagFieldsChangePromise(executionContext, tagContext) {
+            const formContext = executionContext.getFormContext();
+
+            setTagsVisibilityAndRequirement(formContext, tagContext);
+        }
+        /**
+         * Called when either the source or target field changes.
+         * @param {any} executioncontext - CRM execution context
+         * @param {any} targetContext - From the supported tag fields array.
+         */
+        function onTagFieldsChange(executionContext, targetContext) {
             // Use a promise to defer execution of the value checking till after we have finished updating the control..
-            // Checking the value of a multiselects from within the onChange event itself is not reliable
-            const p = new Promise((resolve, reject) => {
-                onTagFieldsChangePromise(executioncontext, targetContext);
+            // Checking the value of a multiselect from within the onChange event itself is not reliable
+            const p = new Promise((resolve) => {
+                onTagFieldsChangePromise(executionContext, targetContext);
                 resolve();
             });
             return true;
@@ -151,12 +169,12 @@ ArupTags =  (
 
         /**
          * Called on load to set up any field change callbacks.
-         * @param {any} executioncontext
+         * @param {any} executionContext
          */
-        function onFormLoad(executioncontext) {
-            const formContext = executioncontext.getFormContext();
+        function onFormLoad(executionContext) {
+            const formContext = executionContext.getFormContext();
 
-            obj.supportedTagFields.forEach((tagContext) => {
+            supportedTagFields.forEach((tagContext) => {
                 try {
                     // Local onchange function
                     const onChange = (executionContext) => onTagFieldsChange(executionContext, tagContext);
@@ -168,18 +186,32 @@ ArupTags =  (
                     targetAttr.addOnChange(onChange);
 
                     // Make sure everything is initially up to date.
-                    onTagFieldsChange(executioncontext, tagContext);
+                    onTagFieldsChange(executionContext, tagContext);
 
                 } catch (ex) {
                     console.log("Error Adding tag callback for source " + tagContext.source + " target " + tagContext.target);
                 }
             });
+        }
 
+        /**
+         * There is a requirement on the opportunity to reevaluate whether tag values are required at various points.
+         * This normally happens before moving to a new stage.
+         * For example the services tags are only required once we move away from the pre-bid stage, and then only when Global Services include "Advisory Services"
+         * @param {any} formContext
+         * @param {string} formRequirement - required/recommended/none requirement level requested by the form (maybe overriden if tags control decides otherwise.)
+         */
+        function checkTagRequirement(formContext, formRequirement ) {
+            supportedTagFields.forEach((tagContext) => {
+                    setTagsVisibilityAndRequirement(formContext, tagContext, formRequirement);
+                }
+            );
         }
 
         // Add hooks for global services load and change.
         obj.GlobalServicesLoad = onFormLoad;
         obj.AddTagControl = addTagControl;
+        obj.CheckTagRequirement = checkTagRequirement;
         return obj;
     })();
 
@@ -196,9 +228,11 @@ ArupTags.AddTagControl("arup_globalservices",
         } else {
             tagTriggerFieldAttr.setValue("");
         }
-        tagTriggerFieldAttr.setSubmitMode('never');
         tagTriggerFieldAttr.fireOnChange();
         return currentOptions;
+    },
+    function isRequired(formContext, processStage) {
+        return processStage !== "PRE-BID";
     });
 
 // Configure business tag control.
