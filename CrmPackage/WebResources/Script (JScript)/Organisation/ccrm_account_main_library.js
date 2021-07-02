@@ -632,8 +632,8 @@ function sectiondisable(sectionname, disablestatus, formContext) {
         if (controlType != "iframe" && controlType != "webresource" && controlType != "subgrid" && ctrl.getParent() != null) {
             var ctrlSection = ctrl.getParent().getName();
             if (ctrlSection == sectionname) {
-                var defaultElements = ["ccrm_organisationid", "ccrm_lastcreditchecked", "arup_lastddcheckdate", "arup_parentorganisationid"];
-                if (defaultElements.indexOf(ctrl.getName()) == -1) {
+                var defaultElements = ["ccrm_organisationid", "ccrm_lastcreditchecked", "arup_lastddcheckdate", "arup_parentorganisationid", 'arup_creditcheck', 'arup_recommendedcreditlimit', 'arup_creditcurrency'];
+                if (defaultElements.indexOf(ctrl.getName()) == -1 && sectionname != 'SUMMARY_TAB_section_6') {
                     ctrl.setDisabled(disablestatus);
                 }
                 if (disablestatus) {

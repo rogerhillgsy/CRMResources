@@ -1,0 +1,11 @@
+{
+  "name": "opportunity-tags",
+  "version": "1.0.0",
+  "description": "PoC to replace the existing arup_opportunity_tags.js with a typescript version",
+  "main": "arup_opportunity_tags_ts.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arup",
+  "license": "ISC"
+}

@@ -110,12 +110,12 @@ ArupFinancials = (
             } );
 
             // Check to see there are no "extras" that we are not updating.
-            for (const property in updates) {
-                if (!outputAttributes.includes(property)) 
-                {
-                    console.log("Orphan update attribute :" + property + " = " + updates[property]);
-                }
-            }
+            //for (const property in updates) {
+            //    if (!outputAttributes.includes(property)) 
+            //    {
+            //        console.log("Orphan update attribute :" + property + " = " + updates[property]);
+            //    }
+            //}
         }
 
         /**

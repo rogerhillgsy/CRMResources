@@ -23,11 +23,14 @@ function formOnLoadTeams(executionContext) {
     formContext.getControl("Members").addOnLoad(HandleTeamGridUpdate); // Ensure that tabs are updated when member is added to team.
 
     // Ensure that the Team admin, manager and sponsor are all team members.
-    EnsureIsTeamMember(formContext, "administratorid");
-    EnsureIsTeamMember(formContext, "ccrm_relationshipmanager");
-    EnsureIsTeamMember(formContext, "ccrm_arupsponsor");
-    EnsureClientValuesSet(formContext);
-    formContext.getControl("ccrm_arupsponsor").setDefaultView("{26B373CD-C7CC-E811-8115-005056B509E1}");    
+    var teamCategory = formContext.getAttribute("arup_teamcategory").getValue();
+    if (teamCategory === 770000000) { // Relationship Team
+        EnsureIsTeamMember(formContext, "administratorid");
+        EnsureIsTeamMember(formContext, "ccrm_relationshipmanager");
+        EnsureIsTeamMember(formContext, "ccrm_arupsponsor");
+        EnsureClientValuesSet(formContext);
+        formContext.getControl("ccrm_arupsponsor").setDefaultView("{26B373CD-C7CC-E811-8115-005056B509E1}");
+    }
 
     DisplayOtherField(formContext, 'arup_sdcommitmentto', 587320006, 'arup_sdcommitmentother');
     //DisplayOtherField(formContext, 'arup_verifiedcommitments', 587320005, 'arup_verifiedcommitmentother');
@@ -134,6 +137,13 @@ function MakeAllSectionsVisible(formContext, targetTab) {
     }
 }
 
+/**
+ * Checks to see if a user is a member of the given team
+ * @param {any} formContext
+ * @param {any} teams
+ * @param {any} userId
+ * @returns  {Promise} This will be resolved if the user is a member of the given team.
+ */
 function IfTeamMember(formContext, teams, userId) {
     userId = userId || Xrm.Utility.getGlobalContext().userSettings.userId;
     var p1 = new Promise(function(resolve, reject) {

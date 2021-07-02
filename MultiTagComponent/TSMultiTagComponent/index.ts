@@ -108,7 +108,7 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
 	 */
 	public getOutputs(): IOutputs
 	{
-		var result = <IOutputs>{ TagValue: this._taggedValues.join(";") };
+		var result = <IOutputs>{ TagValue: this._taggedValues.length == 0 ? null :  this._taggedValues.join(";") };
         return result;
 	}
 
@@ -157,7 +157,8 @@ export class ArupMultiTagComponent implements ComponentFramework.StandardControl
         this._titleElement = document.createElement("div");
 
         var star = document.createElement("span");
-        star.innerHTML = "*";
+        if ( this._context.parameters.IsRequired.raw != "0")
+            star.innerHTML = "*";
         star.classList.add("requiredStar");      
 
         var title = document.createElement("span");
