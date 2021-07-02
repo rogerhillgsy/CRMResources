@@ -51,16 +51,16 @@ There will be several copies of the web resource visible in the debugger as "aru
             -webkit-transform: translate(4px, 4px);
         }
 
+        .tabButtons {
+            text-align: center;
+        }
+
         .blueButton:active {
             background: #91ac27;
             box-shadow: 1px 1px 2px 2px #ab918f;
             -webkit-box-shadow: 1px 1px 1px 1px #ab918f;
             -moz-box-shadow: 1px 1px 2px 2px #ab918f;
             -webkit-transform: translate(4px, 4px);
-        }
-
-        .tabButtons {
-            text-align: center;
         }
 
         .blueButton {
@@ -85,6 +85,19 @@ There will be several copies of the web resource visible in the debugger as "aru
             margin: 4px;
             cursor: pointer;
         }
+
+            .blueButton:hover {
+                background: #0F5573;
+                text-decoration: none;
+            }
+
+        .helpButton {
+            background: #156bb7;
+        }
+
+            .helpButton:hover {
+                 background: #0d4372;
+            }
 
         .caption {
             color: #000;
@@ -129,13 +142,8 @@ There will be several copies of the web resource visible in the debugger as "aru
 
 
 
-            .mainButton:hover {
-                background: #14553C;
-                text-decoration: none;
-            }
-
-        .blueButton:hover {
-            background: #0F5573;
+        .mainButton:hover {
+            background: #14553C;
             text-decoration: none;
         }
 
@@ -302,8 +310,15 @@ There will be several copies of the web resource visible in the debugger as "aru
                         if (!!button.backgroundcolor)
                             span.setAttribute("style", "background-color:" + button.backgroundcolor);
 
+                        if (!!button.hovercolor)
+                            span.setAttribute("style", "background-color:" + button.backgroundcolor);
+
                         if (button.islabel)
                             span.className = "label";
+
+                        if (!!button.additionalStyles) {
+                            span.classList.add(button.additionalStyles.split(" "));
+                        }
 
                         $("#tabButtons")[0].appendChild(span);
 
@@ -348,7 +363,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                     var formContext = parent.formContext;
                     // Tab number is specified as part of the data argument to the web resource.
                     tabName = location.search.split("=")[1];
-                    //tabNumber = formContext.Arup.GetTabNumber(formContext, tabName);
+                    //tabNumber =formContext.Arup.GetTabNumber(formContext, tabName);
                     tabNumber = parent.Arup.GetTabNumber(formContext, tabName);
                     console.log("Setup for tab " + tabName);
                     setupButtonsForTab(formContext, tabNumber);
@@ -380,8 +395,8 @@ There will be several copies of the web resource visible in the debugger as "aru
                 helpButton.click();
             },
             'hidden': function() { return parent.document.querySelector("#helpLauncher-button") === null },
-            'backgroundcolor': '#105189',
             'tooltip': helpMessage,
+            'additionalStyles' : "helpButton"
         };
 
 
@@ -395,6 +410,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         if (parent.Arup.IsQualificationAdded(this)) {
                             DisplayTab("Qualification_Tab", this);
                         } else {
+
                             parent.Arup.AddRemoveQualificationTab(this, true, "ADD");
                             DisplayTab("Qualification_Tab", this);
                         }
@@ -533,6 +549,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                 },
                 helpText, helpButton,
             ],
+
             'Confirmed_Job_commercial_Tab': [
                 {
                     'label': 'Update Financial Details',

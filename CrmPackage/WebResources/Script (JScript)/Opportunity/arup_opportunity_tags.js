@@ -192,6 +192,17 @@ ArupTags =  (
                     console.log("Error Adding tag callback for source " + tagContext.source + " target " + tagContext.target);
                 }
             });
+
+            // Add a temporary patch to track Onsave events and output diagnostics.
+            formContext.data.entity.addOnSave(onSave);
+        }
+        function onSave(executionContext) {
+            const formContext = executionContext.getFormContext();
+
+            // debugger;
+            var eventArgs = executionContext.getEventArgs();
+            var xml = formContext.data.entity.getDataXml();
+            console.log("Saving opportunity mode: " + eventArgs.getSaveMode() + " dataXML: " + xml);
         }
 
         /**
@@ -218,7 +229,7 @@ ArupTags =  (
 // Configure global services tag control
 ArupTags.AddTagControl("arup_globalservices",
     "Advisory Services",
-    "arup_tags",
+    "arup_tagsx",
     [{ tab: "Pre-Bid_Tab", section: "sec_service_tags" }, { tab: "Summary", section: "sec_service_tags2" }],
     function sourceChanged(formContext, globalServicesAttr) {
         const currentOptions = globalServicesAttr.getText();
