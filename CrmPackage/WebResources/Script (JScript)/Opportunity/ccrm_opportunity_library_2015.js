@@ -506,7 +506,6 @@ function FormOnload(executionContext) {
             //set internal opportunity banner
             if (formContext.getAttribute("ccrm_arupinternal").getValue() == true) {
                 setTimeout(function () { Notify.add("INTERNAL OPPORTUNITY", "INFO", "InternalOpportunity"); }, 1000);
-                //   formContext.ui.setFormNotification("INTERNAL OPPORTUNITY", "INFO", "InternalOpportunity");
             }
 
             //save Arup Business
@@ -517,7 +516,6 @@ function FormOnload(executionContext) {
             //set scroll bar height
             $('#processControlScrollbar').children().height(20);
             customerid_onChange(formContext);
-
 
             feeIncomeCheck(formContext);
 
@@ -657,6 +655,7 @@ function FormOnload(executionContext) {
             if (ShowButtonCloseFramework(formContext))
                 formContext.ui.setFormNotification("Framework in progress – do not close until end of Framework", "INFO", "FrameworkInProgress");
 
+            DisplayInterfaceErrorNotification(formContext);
         }
 
         // Ensure that when the "Related Networks & Markets" field is set to "Other" that the "Other Network Details" field is made visible and mandatory.
@@ -727,7 +726,7 @@ function FormOnload(executionContext) {
                 setPrintPreviewURL(formContext);
             }
         }*/
-
+     
 
     }
 }
@@ -5240,6 +5239,9 @@ function hideProcessFields(formContext, selectedStage) {
             break;
         case "PJN APPROVAL":
             HideFieldsOnApprovalTab(formContext, "PJN_Approval_tab", formContext.data.process.getSelectedStage().getId());
+            if (!arupInternal) {
+                setRequiredLevelOfFields(formContext, "recommended", "ccrm_contractconditions", "ccrm_pirequirement", "ccrm_contractlimitofliability");
+            }
             break;
     }
 }
@@ -8177,4 +8179,35 @@ function SetUltimateEndClientMandatory(formContext) {
         formContext.getAttribute("ccrm_ultimateendclientid").setRequiredLevel('required');
     else
         formContext.getAttribute("ccrm_ultimateendclientid").setRequiredLevel('none');
+}
+
+function DisplayInterfaceErrorNotification(formContext) {
+    var interfaceType = formContext.getAttribute("ccrm_interface_type").getValue();
+    var interfaceError = formContext.getAttribute("ccrm_interface_error").getValue();
+    var interfaceRetry = formContext.getAttribute("ccrm_interface_retries").getValue();
+
+    if (interfaceType != null) {
+    switch (interfaceType.toUpperCase().trim()) {
+        case "Error: Commit: CJN".toUpperCase().trim():
+            var cjn = formContext.getAttribute("ccrm_jna").getValue();
+            if (cjn == null) {
+                if (interfaceError.includes('-11'))
+                    formContext.ui.setFormNotification("The Job Number has already been allocated. Please select another job number.", "ERROR", "Error-11");
+                else if (interfaceError.includes('-12'))
+                    formContext.ui.setFormNotification("The selected Accounting Centre is dead. Please select another Accounting Centre and request a job again.", "ERROR", "Error-12");
+                else if (interfaceError.includes('-13'))
+                    formContext.ui.setFormNotification("The selected Parent Project is closed. Please select another job number.", "ERROR", "Error-12");
+                else if (interfaceError.includes('-1')) 
+                    formContext.ui.setFormNotification("The Job Number has already been allocated. Please select another job number.", "ERROR", "Error-1");
+                else {
+                    if (interfaceRetry >= 2 ) 
+                        formContext.ui.setFormNotification("Unexpected Error", "ERROR", "CommitCJNError");
+                }
+              
+                }
+            break;
+       
+    }
+}
+
 }
