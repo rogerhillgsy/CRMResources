@@ -109,7 +109,8 @@ ArupTags =  (
             const sourceAttr = formContext.getAttribute(tagContext.source);
             const targetAttr = formContext.getAttribute(tagContext.target);
             const currentTagsValue = targetAttr.getValue();
-            const selectedStage = formContext.data.process.getSelectedStage().getName();
+            const selectedStage = formContext.data.process.getSelectedStage();
+            const selectedStageName = selectedStage == null ? "" :  selectedStage.getName();
 
             // Call any source change callback (do any extra stuff that some fields require (i.e. multiselects))
             // This may optionally return the current set of options as an array.
@@ -132,7 +133,7 @@ ArupTags =  (
             }
 
             // Evaluate possible external factors in whether the tag control is required (i.e. the process stage)
-            const tagControlRequired = (!!tagContext.isRequiredCallback) ? tagContext.isRequiredCallback(formContext, selectedStage) :  false;
+            const tagControlRequired = (!!tagContext.isRequiredCallback) ? tagContext.isRequiredCallback(formContext, selectedStageName) :  false;
 
             if ( hasSourceValue && ( tagControlRequired || formRequirement === "required")) {
                 setTagsControlRequired(true, formContext, tagContext.target);
@@ -193,8 +194,8 @@ ArupTags =  (
                 }
             });
 
-            // Add a temporary patch to track Onsave events and output diagnostics.
-            formContext.data.entity.addOnSave(onSave);
+            // Add a temporary patch to track OnSave events and output diagnostics.
+            // formContext.data.entity.addOnSave(onSave);
         }
         function onSave(executionContext) {
             const formContext = executionContext.getFormContext();
@@ -220,7 +221,7 @@ ArupTags =  (
         }
 
         // Add hooks for global services load and change.
-        obj.GlobalServicesLoad = onFormLoad;
+        obj.FormLoad = onFormLoad;
         obj.AddTagControl = addTagControl;
         obj.CheckTagRequirement = checkTagRequirement;
         return obj;
@@ -229,7 +230,7 @@ ArupTags =  (
 // Configure global services tag control
 ArupTags.AddTagControl("arup_globalservices",
     "Advisory Services",
-    "arup_tagsx",
+    "arup_tags",
     [{ tab: "Pre-Bid_Tab", section: "sec_service_tags" }, { tab: "Summary", section: "sec_service_tags2" }],
     function sourceChanged(formContext, globalServicesAttr) {
         const currentOptions = globalServicesAttr.getText();

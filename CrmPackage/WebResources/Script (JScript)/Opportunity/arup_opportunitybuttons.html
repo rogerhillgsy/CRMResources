@@ -185,7 +185,7 @@ There will be several copies of the web resource visible in the debugger as "aru
         var formContext = parent.formContext;
 
         // Central logging function.
-        var Log = function (s) { console.log(s) };
+        var Log = console.log.bind(window.console);
 
         // Go back to the previous tab.
         function ReturnToActiveTab(formContext) {
@@ -351,13 +351,10 @@ There will be several copies of the web resource visible in the debugger as "aru
         }
 
         function GetFormContextandInitialize() {
-            Log("parent.document.readyState " + parent.document.readyState);
             if (parent.formContext != null && parent.document.readyState == "complete") {
 
                 var opportunityid = parent.document.location.href.split("&id=")[1].substring(0, 36);
                 var parentEntityRefId = parent.formContext.entityReference.id.replace('{', '').replace('}', '');
-                Log("opportunityid " + opportunityid);
-                Log("parentEntityRefId " + parentEntityRefId);
 
                 if (opportunityid.toUpperCase() == parentEntityRefId) {
                     var formContext = parent.formContext;
