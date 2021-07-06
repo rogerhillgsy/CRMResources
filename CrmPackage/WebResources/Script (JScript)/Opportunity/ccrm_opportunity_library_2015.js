@@ -5239,6 +5239,9 @@ function hideProcessFields(formContext, selectedStage) {
             break;
         case "PJN APPROVAL":
             HideFieldsOnApprovalTab(formContext, "PJN_Approval_tab", formContext.data.process.getSelectedStage().getId());
+            if (!arupInternal) {
+                setRequiredLevelOfFields(formContext, "recommended", "ccrm_contractconditions", "ccrm_pirequirement", "ccrm_contractlimitofliability");
+            }
             break;
     }
 }
