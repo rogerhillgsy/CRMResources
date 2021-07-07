@@ -7005,7 +7005,7 @@ function ClearRPOppFileds(formContext) {
             "description", "ccrm_client", "ccrm_ultimateendclientid", "ccrm_arups_role_in_project", "ccrm_arupuniversityiiaresearchinitiative", "ccrm_arupusstateid", "ccrm_confidential",
             "ccrm_contractconditions", "ccrm_contractlimitofliability", "ccrm_limitamount_num", "ccrm_limitofliabilityagreement", "ccrm_pi_transactioncurrencyid", "ccrm_pilevelmoney_num", "ccrm_pirequirement",
             "arup_framework", "arup_iso19650bimaccreditation", "arup_iso44001collaboration", "arup_principaldesigner", "arup_tags", "arup_business_tags", "ccrm_chargingbasis", "ccrm_project_transactioncurrencyid",
-            "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "arup_keymarkets", "arup_safeguardplanet", "arup_sharedvalues", "arup_partnership", "arup_betterway", "arup_projecttype", "arup_projectsector");
+            "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "arup_keymarkets", "arup_safeguardplanet", "arup_sharedvalues", "arup_partnership", "arup_betterway", "arup_projecttype", "arup_projectsector","arup_globalservices");
     }
 }
 
@@ -7023,7 +7023,7 @@ function PullParentOpportunityDetailsForDiffOpportunityType(formContext, parentO
             } else if (opportunitytype == '770000006') {
                 req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arups_role_in_project,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_contractarrangement,ccrm_location,_ccrm_projectlocationid_value,name&$filter=opportunityid eq " + parentOpportunityId + "", true);
             } else if (opportunitytype == '770000001') {
-                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arups_role_in_project,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_contractarrangement,ccrm_contractconditions,ccrm_contractlimitofliability,ccrm_limitamount_num,ccrm_limitofliabilityagreement,ccrm_location,_ccrm_pi_transactioncurrencyid_value,ccrm_pilevelmoney_num,ccrm_pirequirement,_ccrm_projectlocationid_value,_arup_framework_value,arup_opportunitytype,name,arup_iso19650bimaccreditation,arup_iso44001collaboration,arup_principaldesigner,arup_tags,arup_business_tags,ccrm_chargingbasis,_ccrm_project_transactioncurrencyid_value,_ccrm_projectdirector_userid_value,_ccrm_projectmanager_userid_value,_ccrm_ultimateendclientid_value,arup_keymarkets,arup_safeguardplanet,arup_sharedvalues,arup_partnership,arup_betterway,arup_projecttype,arup_projectsector&$filter=opportunityid eq " + parentOpportunityId + "", true);
+                req.open("GET", formContext.context.getClientUrl() + "/api/data/v8.2/opportunities?$select=_arup_subbusiness_value,_ccrm_arupbusinessid_value,description,ccrm_arups_role_in_project,ccrm_arupuniversityiiaresearchinitiative,_ccrm_arupusstateid_value,_ccrm_client_value,ccrm_confidential,ccrm_contractarrangement,ccrm_contractconditions,ccrm_contractlimitofliability,ccrm_limitamount_num,ccrm_limitofliabilityagreement,ccrm_location,_ccrm_pi_transactioncurrencyid_value,ccrm_pilevelmoney_num,ccrm_pirequirement,_ccrm_projectlocationid_value,_arup_framework_value,arup_opportunitytype,name,arup_iso19650bimaccreditation,arup_iso44001collaboration,arup_principaldesigner,arup_tags,arup_globalservices,arup_business_tags,ccrm_chargingbasis,_ccrm_project_transactioncurrencyid_value,_ccrm_projectdirector_userid_value,_ccrm_projectmanager_userid_value,_ccrm_ultimateendclientid_value,arup_keymarkets,arup_safeguardplanet,arup_sharedvalues,arup_partnership,arup_betterway,arup_projecttype,arup_projectsector&$filter=opportunityid eq " + parentOpportunityId + "", true);
             }
 
             req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -7386,9 +7386,9 @@ function AssignDetailsWhenOpportunityTypeExistingContract(formContext, results) 
         AssignFieldValueFromParent(formContext, "ccrm_pi_transactioncurrencyid", results.value[0]["_ccrm_pi_transactioncurrencyid_value"], results.value[0]["_ccrm_pi_transactioncurrencyid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_pi_transactioncurrencyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
         AssignFieldValueFromParent(formContext, "ccrm_pilevelmoney_num", results.value[0]["ccrm_pilevelmoney_num"]);
         AssignFieldValueFromParent(formContext, "ccrm_pirequirement", results.value[0]["ccrm_pirequirement"]);
+        AssignFieldValueFromParent(formContext, "ccrm_chargingbasis", results.value[0]["ccrm_chargingbasis"]);
 
         AssignFieldValueFromParent(formContext, "ccrm_project_transactioncurrencyid", results.value[0]["_ccrm_project_transactioncurrencyid_value"], results.value[0]["_ccrm_project_transactioncurrencyid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_project_transactioncurrencyid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
-        AssignFieldValueFromParent(formContext, "arup_tags", results.value[0]["arup_tags"]);
         AssignFieldValueFromParent(formContext, "arup_business_tags", results.value[0]["arup_business_tags"]);
         AssignFieldValueFromParent(formContext, "ccrm_bidmanager_userid", results.value[0]["_ccrm_projectmanager_userid_value"], results.value[0]["_ccrm_projectmanager_userid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_projectmanager_userid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
         AssignFieldValueFromParent(formContext, "ccrm_biddirector_userid", results.value[0]["_ccrm_projectdirector_userid_value"], results.value[0]["_ccrm_projectdirector_userid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_projectdirector_userid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
@@ -7406,6 +7406,10 @@ function AssignDetailsWhenOpportunityTypeExistingContract(formContext, results) 
         AssignFieldValueFromParent(formContext, "arup_projecttype", results.value[0]["arup_projecttype"]);
         AssignFieldValueFromParent(formContext, "arup_projectsector", results.value[0]["arup_projectsector"]);
 
+        AssignFieldValueFromParent(formContext, "arup_tags", results.value[0]["arup_tags"]);
+        if (results.value[0]["arup_tags"] != null) {
+            AssignFieldValueFromParent(formContext, "arup_globalservices", results.value[0]["arup_globalservices"]);
+        }
         //Assign value to ulitmate end client only if ulitmate end client is mandatory on RPO
         if (IsUltimateEndClientMandatory(results.value[0]["arup_opportunitytype"],results.value[0]["ccrm_contractarrangement"]))
         AssignFieldValueFromParent(formContext, "ccrm_ultimateendclientid", results.value[0]["_ccrm_ultimateendclientid_value"], results.value[0]["_ccrm_ultimateendclientid_value@OData.Community.Display.V1.FormattedValue"], results.value[0]["_ccrm_ultimateendclientid_value@Microsoft.Dynamics.CRM.lookuplogicalname"]);
