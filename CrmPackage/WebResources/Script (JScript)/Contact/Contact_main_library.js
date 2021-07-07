@@ -23,6 +23,7 @@ function form_onLoad(executionContext) {
         // this function will change the width of the header tile. It may not be supported
         setInterval(changeHeaderTileFormat, 1000);
     }
+
     formContext.ui.setFormNotification("A 'Marketing Contact' is only for external marketing purposes while a 'Client Relationship Contact' is for building relationships and delivering projects with their organisation, as well as for sending external marketing.", "INFORMATION", "1");
     setTimeout(function () { formContext.ui.clearFormNotification("1"); }, 60000);
     contactType_onchange(formContext, 'load');
@@ -36,13 +37,13 @@ function form_onLoad(executionContext) {
         formContext.getControl("arup_holdingpencontact").setVisible(true);
         formContext.getControl("arup_synctomkto").setVisible(true);
     } else {
+        formContext.ui.controls.get("arup_consentgiven").setDisabled(true);
         formContext.ui.controls.get("donotbulkemail").setDisabled(true);
         formContext.ui.controls.get("arup_donotevents").setDisabled(true);
         formContext.ui.controls.get("arup_donotannouncements").setDisabled(true);
         formContext.ui.controls.get("arup_donotthoughtleadership").setDisabled(true);
         formContext.ui.controls.get("arup_donotholidays").setDisabled(true);
     }
-
 }
 
 function qc_form_onload(executionContext) {
