@@ -277,8 +277,9 @@ There will be several copies of the web resource visible in the debugger as "aru
             var tabs = formContext.ui.tabs.get();
             // - generate buttons appropriate to the active tab.
             if (activeTabNum != null) {
-                var buttonConfig = buttonConfigs[tabs[activeTabNum].getName()];
-                Log("Active tab name " + tabs[activeTabNum].getName());
+                var activeTabName = tabs[activeTabNum].getName();
+                var buttonConfig = buttonConfigs[activeTabName];
+                Log("Active tab name " + activeTabName);
                 if (buttonConfigs != null) {
                     // Generate buttons listed in buttonConfig.
                     $("#tabButtons").empty();
@@ -324,7 +325,7 @@ There will be several copies of the web resource visible in the debugger as "aru
 
                         // Check for static or dynamic value for hidden.
                         if (button.hidden instanceof Function) {
-                            if (button.hidden()) {
+                            if (button.hidden(formContext, activeTabName,   )) {
                                 span.style.display = "none";
                             }
                         } else {
@@ -383,7 +384,7 @@ There will be several copies of the web resource visible in the debugger as "aru
         {
             'label': "<br><p>" + helpMessage + "</p>",
             'islabel': true,
-            'hidden': function () { return parent.document.querySelector("#helpLauncher-button") === null },
+            'hidden': function (formContext) { return parent.document.querySelector("#helpLauncher-button") === null || IsHelpHidden(formContext) }
         };
         var helpButton = {
             'label': 'Opportunity Form Help',
@@ -391,10 +392,19 @@ There will be several copies of the web resource visible in the debugger as "aru
                 var helpButton = parent.document.querySelector("#helpLauncher-button");
                 helpButton.click();
             },
-            'hidden': function() { return parent.document.querySelector("#helpLauncher-button") === null },
+            'hidden': function(formContext) {
+                debugger;
+                return parent.document.querySelector("#helpLauncher-button") === null || IsHelpHidden(formContext);
+            },
             'tooltip': helpMessage,
             'additionalStyles' : "helpButton"
         };
+
+        function IsHelpHidden(formContext) {
+            // Only show help on the main active tab for the stage.
+            const stateCode = formContext.getAttribute("statecode").getValue();
+            return parent.Arup.MainActiveTabForStage !== location.search.split("=")[1] || stateCode !== 0;
+        }
 
 
         // Declare the configuration of each button: label, action to take when pressed and whether the button should be hidden.
