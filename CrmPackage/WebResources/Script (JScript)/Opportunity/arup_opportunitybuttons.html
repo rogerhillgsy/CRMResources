@@ -393,7 +393,6 @@ There will be several copies of the web resource visible in the debugger as "aru
                 helpButton.click();
             },
             'hidden': function(formContext) {
-                debugger;
                 return parent.document.querySelector("#helpLauncher-button") === null || IsHelpHidden(formContext);
             },
             'tooltip': helpMessage,
