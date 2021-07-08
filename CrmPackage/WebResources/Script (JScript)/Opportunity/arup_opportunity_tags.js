@@ -194,13 +194,18 @@ ArupTags =  (
                 }
             });
 
-            // Add a temporary patch to track OnSave events and output diagnostics.
-            // formContext.data.entity.addOnSave(onSave);
+            // Need to tap into the OnSave event to make sure tags are all up to date before saving (to avoid any unsaved changes issues when the opportunity is reopened)
+            formContext.data.entity.addOnSave(onSave);
         }
         function onSave(executionContext) {
             const formContext = executionContext.getFormContext();
 
-            // debugger;
+            // make sure that tag fields are up to date before saving.
+            supportedTagFields.forEach((tagContext) => {
+                setTagsVisibilityAndRequirement(formContext, tagContext);
+            });
+
+            // // Uncomment for useful diagnostics on save mode and what is actually being saved.
             var eventArgs = executionContext.getEventArgs();
             var xml = formContext.data.entity.getDataXml();
             console.log("Saving opportunity mode: " + eventArgs.getSaveMode() + " dataXML: " + xml);
@@ -215,7 +220,7 @@ ArupTags =  (
          */
         function checkTagRequirement(formContext, formRequirement ) {
             supportedTagFields.forEach((tagContext) => {
-                    setTagsVisibilityAndRequirement(formContext, tagContext, formRequirement);
+                    onTagFieldsChange(formContext, tagContext);
                 }
             );
         }
@@ -232,6 +237,8 @@ ArupTags.AddTagControl("arup_globalservices",
     "Advisory Services",
     "arup_tags",
     [{ tab: "Pre-Bid_Tab", section: "sec_service_tags" }, { tab: "Summary", section: "sec_service_tags2" }],
+    // The Global services multiselect needs some additional help to transfer it's value to the PCF control.
+    // PCF controls cannot react directly to changes in multiselects.
     function sourceChanged(formContext, globalServicesAttr) {
         const currentOptions = globalServicesAttr.getText();
         const tagTriggerFieldAttr = formContext.getAttribute("arup_tagstrigger");
@@ -240,6 +247,13 @@ ArupTags.AddTagControl("arup_globalservices",
         } else {
             tagTriggerFieldAttr.setValue("");
         }
+
+        // Only want to make the trigger field submittable on create/update forms.
+        const formTypes = { 1: "Create", 2: "Update" };
+        if (!formTypes[ formContext.ui.getFormType()]) {
+            tagTriggerFieldAttr.setSubmitMode('never');
+        } 
+        // For PCF control update.
         tagTriggerFieldAttr.fireOnChange();
         return currentOptions;
     },
