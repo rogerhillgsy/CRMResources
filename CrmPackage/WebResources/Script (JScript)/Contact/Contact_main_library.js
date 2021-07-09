@@ -38,6 +38,7 @@ function form_onLoad(executionContext) {
         formContext.getControl("arup_synctomkto").setVisible(true);
     } else {
         formContext.ui.controls.get("arup_consentgiven").setDisabled(true);
+        formContext.ui.controls.get("arup_sourceofconsent").setDisabled(true);
         formContext.ui.controls.get("donotbulkemail").setDisabled(true);
         formContext.ui.controls.get("arup_donotevents").setDisabled(true);
         formContext.ui.controls.get("arup_donotannouncements").setDisabled(true);
