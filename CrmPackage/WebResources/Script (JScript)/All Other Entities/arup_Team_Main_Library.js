@@ -433,8 +433,12 @@ function openFOPForm(primaryControl) {
         openInNewWindow: true
     };
 
+    var entityFormOptions = {};
+    entityFormOptions["entityName"] = "arup_fieldofplay"; // logical name of the entity
+    Xrm.Navigation.openForm(entityFormOptions, formParameters);
+
     //pop up form with default values
-    Xrm.Utility.openEntityForm("arup_fieldofplay", null, formParameters, windowOptions);
+   // Xrm.Utility.openEntityForm("arup_fieldofplay", null, formParameters, windowOptions);
 
 }
 
