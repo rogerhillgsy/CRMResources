@@ -8060,7 +8060,7 @@ function SetFieldRequirementForPreBidStage(formContext) {
         }
         // Let ArupTags worry about whether tag values are required.
         if (!!ArupTags) {
-            ArupTags.CheckTagRequirement(formContext, "required");
+            ArupTags.CheckTagRequirement(formContext);
         }
     }
 }
@@ -8076,7 +8076,7 @@ function SetFieldRequirementForDevelopingBidStage(formContext) {
             setRequiredLevelOfFields(formContext, "required", "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission", "ccrm_chargingbasis", "ccrm_estexpenseincome_num", "ccrm_estprojectresourcecosts_num", "arup_expenses_num");
         }
         if (!!ArupTags) {
-            ArupTags.CheckTagRequirement(formContext,"required");
+            ArupTags.CheckTagRequirement(formContext);
         }
     }
 }

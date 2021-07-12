@@ -197,6 +197,11 @@ ArupTags =  (
             // Need to tap into the OnSave event to make sure tags are all up to date before saving (to avoid any unsaved changes issues when the opportunity is reopened)
             formContext.data.entity.addOnSave(onSave);
         }
+
+        /**
+         * Ensure that the tag field visibility and requirement levels are up to date before the form is saved (this may include making fields)
+         * @param {any} executionContext
+         */
         function onSave(executionContext) {
             const formContext = executionContext.getFormContext();
 
@@ -216,9 +221,8 @@ ArupTags =  (
          * This normally happens before moving to a new stage.
          * For example the services tags are only required once we move away from the pre-bid stage, and then only when Global Services include "Advisory Services"
          * @param {any} formContext
-         * @param {string} formRequirement - required/recommended/none requirement level requested by the form (maybe overriden if tags control decides otherwise.)
          */
-        function checkTagRequirement(formContext, formRequirement ) {
+        function checkTagRequirement(formContext) {
             supportedTagFields.forEach((tagContext) => {
                     onTagFieldsChange(formContext, tagContext);
                 }
