@@ -1242,7 +1242,7 @@ function setCompanyRegistrationRequired(formContext) {
         var countryId = formContext.getAttribute("ccrm_countryid").getValue()[0].id.replace('{', '').replace('}', '');
 
         var req = new XMLHttpRequest();
-        req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v9.1/ccrm_countries("+countryId+")?$select=_ccrm_arupregionid_value", true);
+        req.open("GET", formContext.context.getClientUrl() + "/api/data/v9.1/ccrm_countries("+countryId+")?$select=_ccrm_arupregionid_value", true);
         req.setRequestHeader("OData-MaxVersion", "4.0");
         req.setRequestHeader("OData-Version", "4.0");
         req.setRequestHeader("Accept", "application/json");
