@@ -405,7 +405,7 @@ function OpenConnectionsReport(primaryControl) {
     var isProduction = clientURL.includes('arupcrm');
 
     if (isProduction) {
-        reportURL = 'https://azpsrsp365p01.global.arup.com/ReportServer/Pages/ReportViewer.aspx?/Paginated+Reports/Relationship+Team+Connections&RelationshipTeam=' + teamId.toString();
+        reportURL = 'https://azpsrsd365p01.global.arup.com/ReportServer/Pages/ReportViewer.aspx?/Paginated+Reports/Relationship+Team+Connections&RelationshipTeam=' + teamId.toString();
     }
     else {
         reportURL = 'https://azpsrsd365d01.global.arup.com/ReportServer/Pages/ReportViewer.aspx?/Paginated+Reports/Relationship+Team+Connections&RelationshipTeam=' + teamId.toString();
