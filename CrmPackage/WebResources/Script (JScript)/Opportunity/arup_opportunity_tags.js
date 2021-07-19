@@ -149,7 +149,7 @@ ArupTags =  (
          * @param {any} tagContext
          */
         function onTagFieldsChangePromise(executionContext, tagContext) {
-            const formContext = executionContext.getFormContext();
+            const formContext = !!executionContext.getFormContext ? executionContext.getFormContext() : executionContext;
 
             setTagsVisibilityAndRequirement(formContext, tagContext);
         }

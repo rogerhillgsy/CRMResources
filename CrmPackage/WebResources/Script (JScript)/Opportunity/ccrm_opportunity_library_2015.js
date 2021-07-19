@@ -5176,8 +5176,11 @@ function checkAccountingCentre(formContext) {
     setTimeout(function () { formContext.ui.clearFormNotification("accountingcentre"); }, 10000);
 }
 
-function hideProcessFields(formContext, selectedStage) {
+/// Fields that are required as part of #92687
+var RequiredFieldsAfterPreBid = ["arup_betterway", "arup_keymarkets", "arup_partnership","arup_safeguardplanet", "arup_sharedvalues",  "ccrm_arups_role_in_project"];
+var RequiredFieldsAfterDevelopingBid = [ "ccrm_contractconditions","ccrm_contractlimitofliability","ccrm_pirequirement" ];
 
+function hideProcessFields(formContext, selectedStage) {
     /// <summary>Hide fields that are required by the Bbusiness Process Flow, but which we do not want the user to see.</summary>
     var arupInternal = formContext.getAttribute("ccrm_arupinternal").getValue();
     switch (selectedStage) {
@@ -5188,16 +5191,17 @@ function hideProcessFields(formContext, selectedStage) {
             }
             else {
                 hideBPFFields(formContext, "ccrm_arupinternal", "ccrm_possiblejobnumberrequired", "ccrm_arupregionid", "ccrm_projectcountryregionid", "arup_isaccountingcentervalid", "ccrm_opportunitytype");
-                setRequiredLevelOfFields(formContext, "recommended", "ccrm_arups_role_in_project", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend", "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "ccrm_estimatedvalue_num", "ccrm_probabilityofprojectproceeding", "closeprobability", "arup_disciplines", "ccrm_descriptionofextentofarupservices", "ccrm_arups_role_in_project", "arup_keymarkets", "arup_safeguardplanet", "arup_sharedvalues", "arup_partnership", "arup_betterway");
+                setRequiredLevelOfFields(formContext, "recommended", "ccrm_arups_role_in_project", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend", "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "ccrm_estimatedvalue_num", "ccrm_probabilityofprojectproceeding", "closeprobability", "arup_disciplines", "ccrm_descriptionofextentofarupservices");
                 //Below fields will stay recommended till Developing Bid stage. On any action on Develpoing Bid stage, these fields will be required.
-                setRequiredLevelOfFields(formContext, "recommended", "ccrm_contractconditions", "ccrm_pirequirement", "ccrm_contractlimitofliability");
+                setRequiredLevelOfFields(formContext, "recommended", ...RequiredFieldsAfterPreBid, ...RequiredFieldsAfterDevelopingBid);
             }
             break;
         case "CROSS REGION":
             hideBPFFields(formContext, "ccrm_opportunitytype_1", "ccrm_possiblejobnumberrequired_1", "ccrm_arupregionid_1");
             setRequiredLevelOfFields(formContext, "required", "ccrm_geographicmanagerid", "ccrm_geographicmanagerproxyconsulted");    
             if (!arupInternal) {
-                setRequiredLevelOfFields(formContext, "recommended", "ccrm_contractconditions", "ccrm_pirequirement", "ccrm_contractlimitofliability");
+                setRequiredLevelOfFields(formContext, "required", ...RequiredFieldsAfterPreBid  );
+                setRequiredLevelOfFields(formContext, "recommended", ...RequiredFieldsAfterDevelopingBid);
             }
             break;
         case "DEVELOPING BID":
@@ -5207,12 +5211,17 @@ function hideProcessFields(formContext, selectedStage) {
             }
             else {
                 hideBPFFields(formContext, "ccrm_financedetailscaptured");
-                setRequiredLevelOfFields(formContext, "recommended", "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission", "ccrm_chargingbasis", "ccrm_estexpenseincome_num", "ccrm_estprojectresourcecosts_num","arup_expenses_num");
+                setRequiredLevelOfFields(formContext, "recommended", "ccrm_pi_transactioncurrencyid", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission", "ccrm_chargingbasis", "ccrm_estexpenseincome_num", "ccrm_estprojectresourcecosts_num","arup_expenses_num");
+                setRequiredLevelOfFields(formContext, "required", ...RequiredFieldsAfterPreBid  );
+                setRequiredLevelOfFields(formContext, "recommended", ...RequiredFieldsAfterDevelopingBid);
             }
             break;
         case "BID REVIEW/SUBMISSION":
             hideBPFFields(formContext, "arup_biddecisiondate", "estimatedclosedate");
             //  setRequiredLevelOfFields(formContext, "ccrm_bidreviewdecisiondate", "arup_bidsubmissionoutcome","arup_bidsubmitteddate");
+            if (!arupInternal) {
+                setRequiredLevelOfFields(formContext, "required", ...RequiredFieldsAfterPreBid, ...RequiredFieldsAfterDevelopingBid  );
+            }
 
             break;
         case "CONFIRMED JOB - PROJECT":
@@ -5223,6 +5232,7 @@ function hideProcessFields(formContext, selectedStage) {
 
             } else {
                 setRequiredLevelOfFields(formContext, "required", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "arup_services", "arup_projecttype", "arup_projectsector", "arup_projpartreqd", "ccrm_chargingbasis");
+                setRequiredLevelOfFields(formContext, "required", ...RequiredFieldsAfterPreBid, ...RequiredFieldsAfterDevelopingBid  );
             }
             break;
         case "CONFIRMED JOB - COMMERCIAL":
@@ -5233,15 +5243,20 @@ function hideProcessFields(formContext, selectedStage) {
             else {
                 hideBPFFields(formContext, "ccrm_jobnumberprogression", "ccrm_arupregionid_2", "ccrm_opportunitytype_2");
                 setRequiredLevelOfFields(formContext, "required", "ccrm_estexpenseincome_num", "ccrm_projecttotalincome_num", "arup_grossstaffcost_num", "ccrm_estprojectexpenses_num", "ccrm_projecttotalcosts_num", "ccrm_chargingbasis", "ccrm_estprojectprofit_num", "ccrm_profitasapercentageoffeedec", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability");
+                setRequiredLevelOfFields(formContext, "required", ...RequiredFieldsAfterPreBid, ...RequiredFieldsAfterDevelopingBid  );
             }
             break;
         case "CJN APPROVAL":
             HideFieldsOnApprovalTab(formContext, "CJN_Approval_tab", formContext.data.process.getSelectedStage().getId());
+            if (!arupInternal) {
+                setRequiredLevelOfFields(formContext, "required", ...RequiredFieldsAfterPreBid, ...RequiredFieldsAfterDevelopingBid  );
+            }
             break;
         case "PJN APPROVAL":
             HideFieldsOnApprovalTab(formContext, "PJN_Approval_tab", formContext.data.process.getSelectedStage().getId());
             if (!arupInternal) {
-                setRequiredLevelOfFields(formContext, "recommended", "ccrm_contractconditions", "ccrm_pirequirement", "ccrm_contractlimitofliability");
+                setRequiredLevelOfFields(formContext, "recommended", ...RequiredFieldsAfterDevelopingBid);
+                setRequiredLevelOfFields(formContext, "required", ...RequiredFieldsAfterPreBid );
             }
             break;
     }
@@ -8052,7 +8067,8 @@ function SetFieldRequirementForPreBidStage(formContext) {
             setRequiredLevelOfFields(formContext, "required", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend", "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "ccrm_estimatedvalue_num", "ccrm_probabilityofprojectproceeding", "closeprobability", "arup_disciplines", "ccrm_descriptionofextentofarupservices");
         }
         else {
-            setRequiredLevelOfFields(formContext, "required", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend", "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "ccrm_estimatedvalue_num", "ccrm_probabilityofprojectproceeding", "closeprobability", "arup_disciplines", "ccrm_descriptionofextentofarupservices", "ccrm_arups_role_in_project", "arup_keymarkets", "arup_safeguardplanet", "arup_sharedvalues", "arup_partnership", "arup_betterway", "arup_biddecisionchair");
+            setRequiredLevelOfFields(formContext, "required", "ccrm_estarupinvolvementstart", "ccrm_estarupinvolvementend", "ccrm_bidmanager_userid", "ccrm_biddirector_userid", "ccrm_estimatedvalue_num", "ccrm_probabilityofprojectproceeding", "closeprobability", "arup_disciplines", "ccrm_descriptionofextentofarupservices", "arup_biddecisionchair");
+            setRequiredLevelOfFields(formContext, "required", ...RequiredFieldsAfterPreBid);
             if (formContext.getControl("arup_biddecisionchair").getVisible())
                 formContext.getAttribute("arup_biddecisionchair").setRequiredLevel("required");
             else
@@ -8074,6 +8090,7 @@ function SetFieldRequirementForDevelopingBidStage(formContext) {
         }
         else {
             setRequiredLevelOfFields(formContext, "required", "ccrm_contractconditions", "ccrm_pi_transactioncurrencyid", "ccrm_pirequirement", "ccrm_contractlimitofliability", "ccrm_projectmanager_userid", "ccrm_projectdirector_userid", "ccrm_bidreviewchair_userid", "ccrm_bidreview", "ccrm_bidsubmission", "ccrm_chargingbasis", "ccrm_estexpenseincome_num", "ccrm_estprojectresourcecosts_num", "arup_expenses_num");
+            setRequiredLevelOfFields(formContext, "required", ...RequiredFieldsAfterPreBid, ...RequiredFieldsAfterDevelopingBid);
         }
         if (!!ArupTags) {
             ArupTags.CheckTagRequirement(formContext);
