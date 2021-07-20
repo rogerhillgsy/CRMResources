@@ -15,6 +15,19 @@ function formOnLoadTeams(executionContext) {
         SetDefaultBusinessUnit(formContext);
         SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager","ccrm_clientgrouping"]);
     } else {
+
+        var securityTeam = formContext.getAttribute("arup_securityteam").getValue();
+        // if security team, disbale all of the controls on the form
+        if (securityTeam) {
+
+            Xrm.Page.ui.controls.forEach(function (control, i) {
+                if (control && control.getDisabled && !control.getDisabled()) {
+                    control.setDisabled(true);
+                }
+            });
+            return;
+        }
+
         SetupForRelationshipTeam(formContext);
         LockFields(formContext, ["arup_teamcategory"]);
         SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager", "ccrm_clientgrouping"],"required");
@@ -41,7 +54,7 @@ function formOnLoadTeams(executionContext) {
 function SetDefaultBusinessUnit(formContext) {
     Xrm.WebApi.retrieveMultipleRecords("businessunit", "?$select=businessunitid&$filter=name eq 'Arup'")
         .then(function resolve(results) {
-            if (results.entities.length !== 1) teamLog("Expected 1 business unit, not " + results.length);
+            //if (results.entities.length !== 1) teamLog("Expected 1 business unit, not " + results.length);
             var arup = [{ name : "Arup", entityType : "businessunit" }];
             arup[0].id = results.entities[0]["businessunitid"];
             formContext.getAttribute("businessunitid").setValue(arup);
@@ -91,7 +104,7 @@ function hideFields(formContext, fieldsToHide, ishide) {
 }
 
 function HandleTeamGridUpdate(gridContext) {
-    teamLog("Handling Grid Change");
+    //teamLog("Handling Grid Change");
     SetupForRelationshipTeam(gridContext.getFormContext());
 }
 function SetupForRelationshipTeam(formContext) {
@@ -103,11 +116,11 @@ function SetupForRelationshipTeam(formContext) {
         // Make fields mandatory
         IfTeamMember(formContext, [thisTeam, 'Development', 'Global Data Quality', 'Business Development Staff','Regional and Group board members'])
             .then(function resolve(results) {
-                teamLog("Setting all tabs visible for user");
+                //teamLog("Setting all tabs visible for user");
                 SetTabVisibilty(formContext, "all");
             },
                 function reject(message) {
-                    teamLog("Current user is not part of this relationship team - just show team setup tabs.");
+                    //teamLog("Current user is not part of this relationship team - just show team setup tabs.");
                     SetTabVisibilty(formContext, "default");
                 }
             );
@@ -155,7 +168,7 @@ function IfTeamMember(formContext, teams, userId) {
                     var fullName = result["fullname"];
                     // Evaluate if any of the returned teams are in the list of teams we are looking for.
                     if (result.teammembership_association.length === 0) {
-                        teamLog("User " + fullName + " was not member of any teams");
+                        //teamLog("User " + fullName + " was not member of any teams");
                         reject("No Teams");
                     }
                     for (var a = 0; a < result.teammembership_association.length; a++) {
@@ -267,7 +280,7 @@ function setField(formContext, results, targetAttribute, sourceField) {
     if (!value) {
         teamError("Source field " + sourceField + " not found");
     }
-    teamLog("Set attribute " + targetAttribute + ' to "' + value + '"');
+    //teamLog("Set attribute " + targetAttribute + ' to "' + value + '"');
      attr.setValue(value);
 }
 
@@ -309,11 +322,11 @@ function EnsureIsTeamMember(formContext, attributeName) {
 function MakeTeamMember(formContext, user, team) {
     IfTeamMember(formContext, [team], user[0].id.normalize()).then(
         function isAlreadyTeamMember() {
-            teamLog("OK - " + user[0].name + " is already team member");
+            //teamLog("OK - " + user[0].name + " is already team member");
         },
         function isNotTeamMember(e) {
             if (e === "No Matching team") {
-                teamLog("Add " + user[0].name + " as member of team: " + team);
+                //teamLog("Add " + user[0].name + " as member of team: " + team);
                 return AddTeamMember(formContext, user[0], team);
             } else {
                 teamError("Checking if team member :" + e.message);
