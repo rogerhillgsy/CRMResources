@@ -1229,8 +1229,8 @@ function SetMultiSelect(formContext) {
             setTimeout(function () { formContext.ui.clearFormNotification('3'); }, 10000);
             formContext.getControl("arup_othernetworkdetails").setVisible(false);
             formContext.getAttribute("arup_othernetworkdetails").setRequiredLevel('none');
+            formContext.getAttribute("arup_globalservices").setValue([770000000]);
         }
-        formContext.getAttribute("arup_globalservices").setValue([770000000]);
         return;
     }
 
@@ -1429,9 +1429,8 @@ ArupLead = (
         // Apply business rules to lead (Work in Progress)
         function applyLeadBusinessRules(formContext) {
             // Make the function callable as an event handler or internally.
-            debugger;
             executionContext = formContext;
-            if (typeof (formContext["getFormContext"]) === 'function') formContext = formContext.getFormContext();
+            if (typeof (formContext["getFormContext"]) === 'function') formContext = executionContext.getFormContext();
             formContext.executionContext = executionContext;
 
             // Currently we just want to ensure that we have no "Unsaved Changes" when we load the main lead form after doing a quick create.
@@ -1460,7 +1459,5 @@ ArupLead = (
 
         // Add hooks for global services load and change.
         obj.ApplyLeadBusinessRules = applyLeadBusinessRules;
-
         return obj;
-
     })();
