@@ -135,7 +135,7 @@ ArupTags =  (
             // Evaluate possible external factors in whether the tag control is required (i.e. the process stage)
             const tagControlRequired = (!!tagContext.isRequiredCallback) ? tagContext.isRequiredCallback(formContext, selectedStageName) :  false;
 
-            if ( hasSourceValue && ( tagControlRequired || formRequirement === "required")) {
+            if ( hasSourceValue && ( tagControlRequired || formRequirement )) {
                 setTagsControlRequired(true, formContext, tagContext.target);
             } else {
                 setTagsControlRequired(false, formContext, tagContext.target);
@@ -147,22 +147,24 @@ ArupTags =  (
          * Used to defer execution until after current event processing (avoid issues with multiselect state)
          * @param {any} executionContext
          * @param {any} tagContext
+         * @param {boolean} isMandatory
          */
-        function onTagFieldsChangePromise(executionContext, tagContext) {
+        function onTagFieldsChangePromise(executionContext, tagContext, isMandatory ) {
             const formContext = !!executionContext.getFormContext ? executionContext.getFormContext() : executionContext;
 
-            setTagsVisibilityAndRequirement(formContext, tagContext);
+            setTagsVisibilityAndRequirement(formContext, tagContext, isMandatory);
         }
         /**
          * Called when either the source or target field changes.
          * @param {any} executioncontext - CRM execution context
          * @param {any} targetContext - From the supported tag fields array.
+         * @param {boolean} isMandatory - Is there a requirement for the field from the form.
          */
-        function onTagFieldsChange(executionContext, targetContext) {
+        function onTagFieldsChange(executionContext, targetContext, isMandatory) {
             // Use a promise to defer execution of the value checking till after we have finished updating the control..
             // Checking the value of a multiselect from within the onChange event itself is not reliable
             const p = new Promise((resolve) => {
-                onTagFieldsChangePromise(executionContext, targetContext);
+                onTagFieldsChangePromise(executionContext, targetContext, isMandatory);
                 resolve();
             });
             return true;
@@ -220,11 +222,12 @@ ArupTags =  (
          * There is a requirement on the opportunity to reevaluate whether tag values are required at various points.
          * This normally happens before moving to a new stage.
          * For example the services tags are only required once we move away from the pre-bid stage, and then only when Global Services include "Advisory Services"
-         * @param {any} formContext
+         * @param {any} formContext 
+         * @param {boolean} isMandatory - Does the form require the tags?
          */
-        function checkTagRequirement(formContext) {
+        function checkTagRequirement(formContext, isMandatory) {
             supportedTagFields.forEach((tagContext) => {
-                    onTagFieldsChange(formContext, tagContext);
+                    onTagFieldsChange(formContext, tagContext,isMandatory);
                 }
             );
         }
