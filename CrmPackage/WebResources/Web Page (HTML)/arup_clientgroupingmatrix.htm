@@ -4866,7 +4866,11 @@
             };
             req.send();
 
-            DrawMatrixForceLayout4("#connectionMatrix", contactLst, connectionLst);
+            if (contactLst.length < 1) {
+                Alert("No contacts found");
+            } else {
+                DrawMatrixForceLayout4("#connectionMatrix", contactLst, connectionLst);
+            }
         }
 
         var ChildOrgids = [];
