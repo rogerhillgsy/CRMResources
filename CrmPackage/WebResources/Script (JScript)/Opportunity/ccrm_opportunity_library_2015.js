@@ -8093,7 +8093,7 @@ function SetFieldRequirementForDevelopingBidStage(formContext) {
             setRequiredLevelOfFields(formContext, "required", ...RequiredFieldsAfterPreBid, ...RequiredFieldsAfterDevelopingBid);
         }
         if (!!ArupTags) {
-            ArupTags.CheckTagRequirement(formContext);
+            ArupTags.CheckTagRequirement(formContext,true);
         }
     }
 }
