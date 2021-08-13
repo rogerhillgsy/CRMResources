@@ -36,7 +36,8 @@ ArupTags =  (
                     target: targetTagField,
                     sections: tagSections,
                     sourceChangeCallback : sourceChangeCallback,
-                    isRequiredCallback : isRequiredCallback
+                    isRequiredCallback : isRequiredCallback,
+                    isRequirementLocked : false
                 });
         }
 
@@ -135,7 +136,7 @@ ArupTags =  (
             // Evaluate possible external factors in whether the tag control is required (i.e. the process stage)
             const tagControlRequired = (!!tagContext.isRequiredCallback) ? tagContext.isRequiredCallback(formContext, selectedStageName) :  false;
 
-            if ( hasSourceValue && ( tagControlRequired || formRequirement )) {
+            if ( hasSourceValue && ( tagControlRequired || formRequirement || tagContext.isRequirementLocked )) {
                 setTagsControlRequired(true, formContext, tagContext.target);
             } else {
                 setTagsControlRequired(false, formContext, tagContext.target);
@@ -230,12 +231,28 @@ ArupTags =  (
                     onTagFieldsChange(formContext, tagContext,isMandatory);
                 }
             );
+        }        
+        
+        /**
+         * The MoveNext functionality on the opportunity form is rather "convoluted".
+         * It will at some point try to save the opportunity, but will give no indication that it is trying to move to the next stage (and
+         * thus that different requirements may apply with respect to whether tag fields are required.)
+         * Use this call to lock in the tag requirements as "mandatory"
+         * @param {any} formContext 
+         * @param {boolean} isMandatory - Does the form require the tags?
+         */
+        function lockTagRequirement(formContext, isMandatory) {
+            supportedTagFields.forEach((tagContext) => {
+                    tagContext.isRequirementLocked = isMandatory;
+                }
+            );
         }
 
         // Add hooks for global services load and change.
         obj.FormLoad = onFormLoad;
         obj.AddTagControl = addTagControl;
         obj.CheckTagRequirement = checkTagRequirement;
+        obj.LockTagRequirement = lockTagRequirement;
         return obj;
     })();
 
