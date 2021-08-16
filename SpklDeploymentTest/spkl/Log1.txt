@@ -171,3 +171,23 @@
 10:20:55	Publish complete.
 10:20:55	Processed 1 section(s)
 10:20:55	Processed 2 config(s)
+13:09:05	Deploying WebResources
+13:09:05	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+13:09:05	Updating Webresource 'Opportunity\arup_opportunity_tags.js' -> 'arup_opportunity_tags.js'
+13:09:16	Adding to solution 'BUG95847'
+13:09:18	ccrm_opportunity_library_2015 has not changed, skipping...
+13:09:18	Deployed 1 webresource(s)
+13:09:18	Publishing 1 webresources...
+13:09:33	Publish complete.
+13:09:33	Processed 1 section(s)
+13:09:33	Processed 1 config(s)
+14:08:07	Deploying WebResources
+14:08:07	Using Config 'C:\Work\Arup\repos\CRM Web Resources\SpklDeploymentTest'
+14:08:07	arup_opportunity_tags.js has not changed, skipping...
+14:08:08	Updating Webresource 'Opportunity\ccrm_opportunity_library_2015.js' -> 'ccrm_opportunity_library_2015'
+14:08:36	Adding to solution 'BUG95847'
+14:08:37	Deployed 1 webresource(s)
+14:08:37	Publishing 1 webresources...
+14:09:04	Publish complete.
+14:09:04	Processed 1 section(s)
+14:09:04	Processed 1 config(s)

@@ -209,9 +209,10 @@ ArupTags =  (
             const formContext = executionContext.getFormContext();
 
             // make sure that tag fields are up to date before saving.
-            supportedTagFields.forEach((tagContext) => {
-                setTagsVisibilityAndRequirement(formContext, tagContext);
-            });
+            // Not sure that changing requirement level during on save works.
+            //supportedTagFields.forEach((tagContext) => {
+            //    setTagsVisibilityAndRequirement(formContext, tagContext);
+            //});
 
             // // Uncomment for useful diagnostics on save mode and what is actually being saved.
             var eventArgs = executionContext.getEventArgs();

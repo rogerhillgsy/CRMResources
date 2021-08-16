@@ -8076,7 +8076,7 @@ function SetFieldRequirementForPreBidStage(formContext) {
         }
         // Let ArupTags worry about whether tag values are required.
         if (!!ArupTags) {
-            ArupTags.LockTagRequirement(formContext, true);
+            ArupTags.CheckTagRequirement(formContext, true);
         }
     }
 }
