@@ -41,6 +41,8 @@ function Form_onload(executionContext) {
             // if CJN request has been originated from clicking Request Suffix button on the opportunity form
             if (!newCJN) {
 
+                formContext.getAttribute("ccrm_name").setValue(null);
+                SetRequiredLevel("ccrm_name", "required", formContext);
                 defaultCreateMethod = 3;
                 formContext.getControl("ccrm_projectsuffixisforintcostmonitoringonly").setDisabled(true);
                 //delete new number and extsing prefix
