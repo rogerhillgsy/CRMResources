@@ -102,6 +102,7 @@
     <Content Include="spkl.json" />
     <Content Include="spkl\get-webresources.bat" />
     <Content Include="spkl.bidReview.json" />
+    <Content Include="Readme.md" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

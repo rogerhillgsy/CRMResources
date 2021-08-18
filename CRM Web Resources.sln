@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{88A30576-7583-4F75-8136-5EFD2C14ADFF}") = "CrmPackage", "CrmPackage\CrmPackage.csproj", "{C7027909-CFA4-4561-9D6E-59EE3C9B8396}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpklDeploymentTest", "SpklDeploymentTest\SpklDeploymentTest.csproj", "{E305BAAA-9256-4E81-B5E5-7E90514883E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployment", "SpklDeploymentTest\Deployment.csproj", "{E305BAAA-9256-4E81-B5E5-7E90514883E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
