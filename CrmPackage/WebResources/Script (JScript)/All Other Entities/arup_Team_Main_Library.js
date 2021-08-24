@@ -41,6 +41,8 @@ function formOnLoadTeams(executionContext) {
         EnsureIsTeamMember(formContext, "administratorid");
         EnsureIsTeamMember(formContext, "ccrm_relationshipmanager");
         EnsureIsTeamMember(formContext, "ccrm_arupsponsor");
+        EnsureIsTeamMember(formContext, "arup_marketingliaison");
+        EnsureIsTeamMember(formContext, "arup_businessservicesponsor");
         EnsureClientValuesSet(formContext);
         formContext.getControl("ccrm_arupsponsor").setDefaultView("{26B373CD-C7CC-E811-8115-005056B509E1}");
     }
@@ -125,6 +127,15 @@ function SetupForRelationshipTeam(formContext) {
                 }
             );
         MakeAllSectionsVisible(formContext, "Team Set-Up");
+
+        IfTeamMember(formContext, ['Global Data Quality', 'Business Development Staff'])
+            .then(function resolve(results) {             
+                ShowFields(formContext, true, "arup_globalrelationshiptype");
+            },
+                function reject(message) {
+                    ShowFields(formContext, false, "arup_globalrelationshiptype");
+                }
+            );
     }
     else {
         SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager", "ccrm_arup150", "ccrm_clientgrouping"]);
