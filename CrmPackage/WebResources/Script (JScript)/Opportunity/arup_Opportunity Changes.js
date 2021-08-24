@@ -50,6 +50,9 @@ function CloseOpportunity(formContext, statusCode, isCloseFramework) {
     formContext.getAttribute("arup_biddecisionchair").setRequiredLevel('none');
     formContext.getAttribute("ccrm_bidreviewchair_userid").setRequiredLevel('none');
 
+    //set all fields as non required while closing as lost
+    byPassRequiredFields(formContext);
+
     formContext.data.save().then(
         function success(status) {
 
@@ -90,6 +93,16 @@ function CloseOpportunity(formContext, statusCode, isCloseFramework) {
             console.log("failure status " + status.message);
         });
 }
+
+function byPassRequiredFields(formContext) {
+    formContext.data.entity.attributes.forEach(function (attribute, index) {
+        if (attribute.getRequiredLevel() == "required") {
+            var attributename = attribute.getName();
+            formContext.getAttribute(attributename).setRequiredLevel("none");
+        }
+    });
+}
+
 function DisplayFrameworkPopUp(messageText) {
     var customParameters = "&messageText=" + messageText;
     DisplayWebResource("arup_PopUp", customParameters, 400, 800);
