@@ -892,7 +892,7 @@ function contactType_onchange(formContext, event) {
         formContext.getControl("address1_line3").setVisible(false);
         formContext.getControl("address1_postalcode").setVisible(false);
         formContext.getControl("telephone1").setVisible(false);
-        formContext.getControl("mobilephone").setVisible(false);
+        formContext.getControl("arup_mobilephone").setVisible(false);
         formContext.getAttribute("parentcustomerid").setRequiredLevel('none');
         formContext.getControl("parentcustomerid").setVisible(false);
         formContext.getControl("arup_currentorganisation").setVisible(true);
@@ -933,7 +933,7 @@ function contactType_onchange(formContext, event) {
         formContext.getControl("address1_line3").setVisible(true);
         formContext.getControl("address1_postalcode").setVisible(true);
         formContext.getControl("telephone1").setVisible(true);
-        formContext.getControl("mobilephone").setVisible(true);
+        formContext.getControl("arup_mobilephone").setVisible(true);
         formContext.getControl("parentcustomerid").setVisible(true);
         formContext.getAttribute("arup_currentorganisation").setRequiredLevel('none');
         formContext.getControl("arup_currentorganisation").setVisible(false);
