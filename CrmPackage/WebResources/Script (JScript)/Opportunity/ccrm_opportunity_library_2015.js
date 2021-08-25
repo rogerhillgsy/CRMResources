@@ -4848,8 +4848,8 @@ function stageNotifications(formContext) {
         }
 
         if (stageid == ArupStages.Lead) {
-            //once bid decision is approved - move to next stage
-            if (formContext.getAttribute("arup_biddecisionoutcome").getValue() == "770000001") {
+            //once bid decision is approved - move to next stage - provided client has been assigned.
+            if (formContext.getAttribute("arup_biddecisionoutcome").getValue() == "770000001" && !customerid_onChange(formContext)) {
                 setTimeout(function () {
                     BPFMoveNext(formContext);
                     hideProcessFields(formContext, formContext.data.process.getSelectedStage().getName());
