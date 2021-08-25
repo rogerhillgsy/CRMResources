@@ -605,15 +605,15 @@ There will be several copies of the web resource visible in the debugger as "aru
                     hidden: function () { return !parent.Arup.IsGroupLeaderApprovalEnabled(formContext); },
                     'isredbutton': true
                 },
-                {
-                    'label': 'Approve PJN Regional Sector Leader',
-                    'action': function () {
-                        Log("Move next stage");
-                        parent.Arup.PJNApproveRegionalSectorLeader(formContext);
-                    },
-                    hidden: function () { return !parent.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext); },
-                    'isredbutton': true
-                },
+                //{
+                //    'label': 'Approve PJN Regional Sector Leader',
+                //    'action': function () {
+                //        Log("Move next stage");
+                //        parent.Arup.PJNApproveRegionalSectorLeader(formContext);
+                //    },
+                //    hidden: function () { return !parent.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext); },
+                //    'isredbutton': true
+                //},
                 {
                     'label': 'Approve PJN  Sector Leader',
                     'action': function () {
@@ -649,7 +649,7 @@ There will be several copies of the web resource visible in the debugger as "aru
                         MoveNext();
                     },
                     hidden: function () {
-                        return (parent.Arup.IsGroupLeaderApprovalEnabled(formContext) || parent.Arup.IsRegionalSectorLeaderApprovalEnabled(formContext) || parent.Arup.IsSectorLeaderApprovalEnabled(formContext) || parent.Arup.IsBidDirectorApprovalEnabled(formContext) || parent.Arup.IsRegionalCOOApprovalEnabled(formContext));
+                        return (parent.Arup.IsGroupLeaderApprovalEnabled(formContext) || parent.Arup.IsSectorLeaderApprovalEnabled(formContext) || parent.Arup.IsBidDirectorApprovalEnabled(formContext) || parent.Arup.IsRegionalCOOApprovalEnabled(formContext));
                     },
                     'isredbutton': true
                 },
