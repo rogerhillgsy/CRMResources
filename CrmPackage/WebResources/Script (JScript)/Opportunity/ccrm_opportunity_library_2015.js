@@ -422,6 +422,35 @@ function setDefaultClientUnassigned(formContext) {
 
 }
 
+var UnassignedClientPromise = null;
+/**
+ * Async function to return the ultimate client record.
+ * Intention is that this only needs to retrieve the record once.
+ * @param {any} formContext
+ */
+function UnassignedClient(formContext) {
+    if (!!UnassignedClientPromise) {
+        UnassignedClientPromise =  Xrm.WebApi.online.retrieveRecord("account", "9c3b9071-4d46-e011-9aa7-78e7d1652028", "?$select=accountid,name");
+    }
+    return await UnassignedClientPromise;
+}
+
+/**
+ * The Ultimate client field can either be blank or
+ * @param {any} formContext
+ */
+function IsUltimateClientValid(formContext ) {
+    debugger;
+    var ultClient = UnassignedClient(formContext);
+    ultClientId = ultClient["accountid"];
+    var ultClientValue = formContext.getAttribute("ccrm_ultimateendclientid");
+    ultClientValue = ultClientValue && ultClientValue.Value();
+    if (ultClientValue == null || ultClientValue != ultClientId) {
+        return true;
+    }
+    return false;
+}
+
 function SuppressDirtyFields(formContext, formonload) {
 
     if (formonload)
@@ -3141,7 +3170,7 @@ function IsFormValid(formContext, IsPJNRequest) {
         arupRegionFlg = false;
     if (formContext.getControl('ccrm_arupusstateid').getVisible() && v30 == null)
         stateFlag = false;
-    if ((v27 == 'Unassigned' || v27 == null) && arupInternal != true)
+    if ((v27 == 'Unassigned' || v27 == null) && arupInternal != true || ! IsUltimateClientValid(formContext))
         valClientFlag = false;
 
     if (!validfieldflag || !mandatoryfieldflag || !stateFlag || !arupRegionFlg || acctCentreInvalid || !valClientFlag) {
@@ -4849,7 +4878,7 @@ function stageNotifications(formContext) {
 
         if (stageid == ArupStages.Lead) {
             //once bid decision is approved - move to next stage - provided client has been assigned.
-            if (formContext.getAttribute("arup_biddecisionoutcome").getValue() == "770000001" && !customerid_onChange(formContext)) {
+            if (formContext.getAttribute("arup_biddecisionoutcome").getValue() == "770000001" && !customerid_onChange(formContext) && IsUltimateClientValid(formContext)) {
                 setTimeout(function () {
                     BPFMoveNext(formContext);
                     hideProcessFields(formContext, formContext.data.process.getSelectedStage().getName());
