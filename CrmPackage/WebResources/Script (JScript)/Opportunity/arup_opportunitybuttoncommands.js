@@ -127,16 +127,16 @@ Arup = (
                     "ccrm_financeapprovaldate");
             },
 
-            IsRegionalSectorLeaderApprovalEnabled: function (formContext) {
+            //IsRegionalSectorLeaderApprovalEnabled: function (formContext) {
 
-                var statecode = GetAttribute(formContext, "statecode");
-                var sectorApprovalOptions = GetAttribute(formContext, "ccrm_regionalpracticeleaderapprovaloptions");
-                var oppType = GetAttribute(formContext, "ccrm_opportunitytype");
+            //    var statecode = GetAttribute(formContext, "statecode");
+            //    var sectorApprovalOptions = GetAttribute(formContext, "ccrm_regionalpracticeleaderapprovaloptions");
+            //    var oppType = GetAttribute(formContext, "ccrm_opportunitytype");
 
-                return statecode == 0 &&
-                    oppType == 200003 &&
-                    (sectorApprovalOptions == 100000000 || sectorApprovalOptions == 100000002);
-            },
+            //    return statecode == 0 &&
+            //        oppType == 200003 &&
+            //        (sectorApprovalOptions == 100000000 || sectorApprovalOptions == 100000002);
+            //},
 
             IsSectorLeaderApprovalEnabled: function (formContext) {
 
@@ -145,7 +145,7 @@ Arup = (
                 var oppType = GetAttribute(formContext, "ccrm_opportunitytype");
 
                 return statecode == 0 &&
-                    oppType == 200002 &&
+                    (oppType == 200002 || oppType == 200003) &&
                     (sectorApprovalOptions == 100000000 || sectorApprovalOptions == 100000002);
             },
 
@@ -166,13 +166,13 @@ Arup = (
                     "ccrm_biddirectorapprovaldate");
             },
 
-            PJNApproveRegionalSectorLeader: function () {
-                ApprovalButtonClick(formContext, "Approve",
-                    "RegionalPracticeLeader",
-                    "ccrm_regionalpracticeleaderapprovaloptions",
-                    "ccrm_regionalpracticeleaderapproval",
-                    "ccrm_regionalpracticeleaderapprovaldate");
-            },
+            //PJNApproveRegionalSectorLeader: function () {
+            //    ApprovalButtonClick(formContext, "Approve",
+            //        "RegionalPracticeLeader",
+            //        "ccrm_regionalpracticeleaderapprovaloptions",
+            //        "ccrm_regionalpracticeleaderapproval",
+            //        "ccrm_regionalpracticeleaderapprovaldate");
+            //},
 
             PJNApproveSectorLeader: function () {
                 ApprovalButtonClick(formContext, "Approve",
