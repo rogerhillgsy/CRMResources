@@ -408,7 +408,7 @@ function getAusCompanyDetails(formContext, companyCode) {
 }
 
 //default the Client to 'Unassigned' record
-function setDefaultClientUnassigned(formContext) {
+function setDefaultClientUnassigned(formContext, ) {
     Xrm.WebApi.online.retrieveRecord("account", "9c3b9071-4d46-e011-9aa7-78e7d1652028", "?$select=accountid,name").then(
         function success(result) {
             SetLookupField(formContext, result["accountid"], result["name"], 'account', 'customerid');
@@ -422,30 +422,18 @@ function setDefaultClientUnassigned(formContext) {
 
 }
 
-var UnassignedClientPromise = null;
-/**
- * Async function to return the ultimate client record.
- * Intention is that this only needs to retrieve the record once.
- * @param {any} formContext
- */
-function UnassignedClient(formContext) {
-    if (!!UnassignedClientPromise) {
-        UnassignedClientPromise =  Xrm.WebApi.online.retrieveRecord("account", "9c3b9071-4d46-e011-9aa7-78e7d1652028", "?$select=accountid,name");
-    }
-    return await UnassignedClientPromise;
-}
+var UnassignedClientId = "{9C3B9071-4D46-E011-9AA7-78E7D1652028}";
 
 /**
- * The Ultimate client field can either be blank or
- * @param {any} formContext
+ * The Ultimate client field can either be blank or set to a valid client (*not* the Unassigned client)
+ * @param {formContext} formContext 
+ * @returns {boolean} - True of the ultimate client is valid
  */
-function IsUltimateClientValid(formContext ) {
-    debugger;
-    var ultClient = UnassignedClient(formContext);
-    ultClientId = ultClient["accountid"];
+function IsUltimateClientValid(formContext) {
     var ultClientValue = formContext.getAttribute("ccrm_ultimateendclientid");
-    ultClientValue = ultClientValue && ultClientValue.Value();
-    if (ultClientValue == null || ultClientValue != ultClientId) {
+    ultClientValue = ultClientValue && ultClientValue.getValue();
+    ultClientValue = ultClientValue && ultClientValue[0].id;
+    if (ultClientValue == null || ultClientValue != UnassignedClientId) {
         return true;
     }
     return false;
@@ -2250,10 +2238,17 @@ function ccrm_client_onChange(executionContext, quickCreate) {
 
 function ccrm_ultimateclient_onchange(executionContext, quickCreate) {
     var formContext = executionContext.getFormContext();
-    var clientVal = formContext.getAttribute('ccrm_ultimateendclientid').getValue();
+    var ultimateClientAttr = formContext.getAttribute('ccrm_ultimateendclientid');
+    var clientVal = ultimateClientAttr.getValue();
 
     checkHighRiskClient(clientVal == null ? null : clientVal[0].id, 'Ultimate/End ', true, quickCreate, formContext.getAttribute('statecode').getValue(), formContext);
 
+    if (!IsUltimateClientValid(formContext)) {
+        formContext.ui.setFormNotification("The ultimate client cannot be \"Unassigned\"", "WARNING", "UltClientInvalid")
+        ultimateClientAttr.setValue([]);
+    } else {
+        formContext.ui.clearFormNotification("UltClientInvalid")
+    }
 }
 
 function ccrm_arupbusinessid_onChange_ec(executionContext, valueChanged) {
