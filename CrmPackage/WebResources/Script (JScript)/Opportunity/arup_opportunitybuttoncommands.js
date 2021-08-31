@@ -369,31 +369,33 @@ Arup = (
 
                 SetFieldRequirementForPreBidStage(formContext);
                 SetFieldRequirementForDevelopingBidStage(formContext);
-                // Make sure form is saved.
-                //  formContext.data.entity.save();
-                formContext.data.save().then(
-                    function success(status) {
-                        Log("success status" + status);
-                        var process = formContext.data.process;
-                        if (process != null) {
-                            process.moveNext(
-                                function (result) {
-                                    Log("result is " + result);
-                                    if (result == "success") {
-                                        obj.SetupTabsForStage(formContext);
-                                        !!successCallback();
-                                    } else {
-                                        Xrm.Navigation.openAlertDialog({
-                                            title: "Process error",
-                                            text: "Unable to move to next stage: " + result
-                                        });
-                                    }
-                                });
-                        }
-                    },
-                    function (status) {
-                        Log("failure status " + status);
-                    });
+                if (validateUltimateClient(formContext)) {
+                    // Make sure form is saved.
+                    //  formContext.data.entity.save();
+                    formContext.data.save().then(
+                        function success(status) {
+                            Log("success status" + status);
+                            var process = formContext.data.process;
+                            if (process != null) {
+                                process.moveNext(
+                                    function(result) {
+                                        Log("result is " + result);
+                                        if (result == "success") {
+                                            obj.SetupTabsForStage(formContext);
+                                            !!successCallback();
+                                        } else {
+                                            Xrm.Navigation.openAlertDialog({
+                                                title: "Process error",
+                                                text: "Unable to move to next stage: " + result
+                                            });
+                                        }
+                                    });
+                            }
+                        },
+                        function(status) {
+                            Log("failure status " + status);
+                        });
+                }
             },
 
             stageToTabMapping: {

@@ -2242,12 +2242,18 @@ function ccrm_ultimateclient_onchange(executionContext, quickCreate) {
     var clientVal = ultimateClientAttr.getValue();
 
     checkHighRiskClient(clientVal == null ? null : clientVal[0].id, 'Ultimate/End ', true, quickCreate, formContext.getAttribute('statecode').getValue(), formContext);
+    validateUltimateClient(formContext);
+}
 
+function  validateUltimateClient(formContext) {
     if (!IsUltimateClientValid(formContext)) {
         formContext.ui.setFormNotification("The ultimate client cannot be \"Unassigned\"", "WARNING", "UltClientInvalid")
+        var ultimateClientAttr = formContext.getAttribute('ccrm_ultimateendclientid');
         ultimateClientAttr.setValue([]);
+        return false;
     } else {
         formContext.ui.clearFormNotification("UltClientInvalid")
+        return true;
     }
 }
 
