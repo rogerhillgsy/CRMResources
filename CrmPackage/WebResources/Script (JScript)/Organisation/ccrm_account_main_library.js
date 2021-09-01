@@ -1092,11 +1092,11 @@ function retreiveTeamDetails(formContext, status) {
                     
                         if (ccrm_relationshiptype != null) {
                             switch (ccrm_relationshiptype) {
-                                case 100000000:
+                                case 100000004:
                                     formContext.getAttribute("ccrm_keyaccounttype").setValue(1);
                                     break;
-                                case 100000001:
-                                    formContext.getAttribute("ccrm_keyaccounttype").setValue(4);
+                                case 100000006:
+                                    formContext.getAttribute("ccrm_keyaccounttype").setValue(5);
                                     break;
                                 case 100000002:
                                     formContext.getAttribute("ccrm_keyaccounttype").setValue(2);
