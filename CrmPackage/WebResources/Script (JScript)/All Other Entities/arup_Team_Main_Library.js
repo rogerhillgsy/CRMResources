@@ -13,7 +13,7 @@ function formOnLoadTeams(executionContext) {
     var formType = formContext.ui.getFormType();
     if (formType === CREATE_FORM) {
         SetDefaultBusinessUnit(formContext);
-        SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager","ccrm_clientgrouping"]);
+        SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager", "ccrm_clientgrouping", "ccrm_leadclientorganisation", "arup_relationshipmanagedbyregion"]);
     } else {
 
         var securityTeam = formContext.getAttribute("arup_securityteam").getValue();
@@ -30,7 +30,7 @@ function formOnLoadTeams(executionContext) {
 
         SetupForRelationshipTeam(formContext);
         LockFields(formContext, ["arup_teamcategory"]);
-        SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager", "ccrm_clientgrouping"],"required");
+        SetFieldsNotRequired(formContext, ["ccrm_relationshiptype", "ccrm_relationshipmanager", "ccrm_clientgrouping", "ccrm_leadclientorganisation", "arup_relationshipmanagedbyregion"],"required");
 
     }
     formContext.getControl("Members").addOnLoad(HandleTeamGridUpdate); // Ensure that tabs are updated when member is added to team.
