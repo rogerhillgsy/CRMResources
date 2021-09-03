@@ -45,6 +45,7 @@
     <Folder Include="WebResources\Script %28JScript%29\BidReview" />
     <Folder Include="WebResources\Script %28JScript%29\All Other Entities" />
     <Folder Include="WebResources\Script %28JScript%29\Lead" />
+    <Folder Include="WebResources\Script %28JScript%29\Activities" />
     <Folder Include="WebResources\Script %28JScript%29\Opportunity" />
     <Folder Include="WebResources\Script %28JScript%29\Organisation" />
     <Folder Include="WebResources\Style Sheet %28CSS%29\" />
@@ -1317,6 +1318,26 @@
       <UniqueName>arup_Contact</UniqueName>
       <WebResourceType>PNG</WebResourceType>
     </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Activities\arup_Activities_Common_Library.js">
+      <DisplayName>arup_Activities_Common_Library</DisplayName>
+      <UniqueName>new_arup_Activities_Common_Library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Activities\arup_Appointment_Main_Library.js">
+      <DisplayName>arup_Appointment_Main_Library</DisplayName>
+      <UniqueName>new_arup_Appointment_Main_Library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Activities\arup_Phonecall_Main_Library.js">
+      <DisplayName>arup_Phonecall_Main_Library</DisplayName>
+      <UniqueName>new_arup_Phonecall_Main_Library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\Activities\arup_Task_Main_Library.js">
+      <DisplayName>arup_Task_Main_Library</DisplayName>
+      <UniqueName>new_arup_Task_Main_Library</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_connection.js">
       <DisplayName>arup_connection</DisplayName>
       <UniqueName>new_arup_connection</UniqueName>
@@ -1325,6 +1346,11 @@
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_ie_warning.js">
       <DisplayName>arup_ie_warning.js</DisplayName>
       <UniqueName>arup_ie_warning.js</UniqueName>
+      <WebResourceType>Script</WebResourceType>
+    </CRMWebResource>
+    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_relationship_team_helper.js">
+      <DisplayName>arup_relationship_team_helper</DisplayName>
+      <UniqueName>new_arup_relationship_team_helper</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_team_ribbon_library.js">
@@ -1402,11 +1428,6 @@
       <UniqueName>arup_alert.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_Appointment_Main_Library.js">
-      <DisplayName>arup_Appointment_Main_Library</DisplayName>
-      <UniqueName>arup_Appointment_Main_Library.js</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_exitFormFunctions.js">
       <DisplayName>Common Exit Functions library</DisplayName>
       <UniqueName>arup_exitFormFunctions.js</UniqueName>
@@ -1420,11 +1441,6 @@
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_projectparticipant_library.js">
       <DisplayName>arup_projectparticipant_library</DisplayName>
       <UniqueName>arup_projectparticipant_library</UniqueName>
-      <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_Task_Main_Library.js">
-      <DisplayName>arup_Task_Main_Library</DisplayName>
-      <UniqueName>arup_Task_Main_Library.js</UniqueName>
       <WebResourceType>Script</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script %28JScript%29\All Other Entities\arup_Team_Main_Library.js">
@@ -1577,11 +1593,6 @@
       <UniqueName>ccrm_/HTML/ConnectionMatrix.html</UniqueName>
       <WebResourceType>WebPage</WebResourceType>
     </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script (JScript)\arup_Activities_Common_Library.js">
-      <DisplayName>Activities_Common_Library</DisplayName>
-      <UniqueName>arup_Activities_Common_Library</UniqueName>
-      <WebResourceType>NotSupported</WebResourceType>
-    </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_ContactTemp.js">
       <DisplayName>ContactTemp</DisplayName>
       <UniqueName>arup_ContactTemp</UniqueName>
@@ -1621,11 +1632,6 @@
       <DisplayName>arup_OrgFrom16SpacingFix</DisplayName>
       <UniqueName>arup_arup_OrgFrom16SpacingFix</UniqueName>
       <WebResourceType>Script</WebResourceType>
-    </CRMWebResource>
-    <CRMWebResource Include="WebResources\Script (JScript)\arup_Phonecall_Main_Library.js">
-      <DisplayName>Phonecall_Main_Library</DisplayName>
-      <UniqueName>arup_Phonecall_Main_Library</UniqueName>
-      <WebResourceType>NotSupported</WebResourceType>
     </CRMWebResource>
     <CRMWebResource Include="WebResources\Script (JScript)\arup_TEST.js">
       <DisplayName>arup_TEST</DisplayName>

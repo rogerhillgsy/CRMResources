@@ -1,5 +1,6 @@
-/// <reference path="arup_exitFormFunctions.js"/>"
-/// <reference path="arup_alert.js"/>"
+/// <reference path="../All Other Entities/arup_exitFormFunctions.js"/>"
+/// <reference path="../All Other Entities/arup_alert.js"/>"
+/// <reference path="arup_Activities_Common_Library.js"/>
 
 function onForm_Load(executionContext) {
     var formContext = executionContext.getFormContext();
@@ -11,7 +12,6 @@ function onForm_Load(executionContext) {
 
     //addEventHandler(formContext);
     changeLookFor(formContext, 'regardingobjectid');
-   // formContext.getControl("regardingobjectid").setEntityTypes(["opportunity", "contact"]);
 }
 
 function onForm_save(executionContext) {
@@ -21,6 +21,8 @@ function onForm_save(executionContext) {
 function QuickCreateForm_Load(executionContext) {
     var formContext = executionContext.getFormContext();
     changeLookFor(formContext, 'regardingobjectid');
+
+    ArupRelationshipTeam.FormLoad(formContext,"requiredattendees","ccrm_relationshipteam");
 }
 
 

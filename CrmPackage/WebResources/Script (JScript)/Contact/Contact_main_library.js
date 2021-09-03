@@ -1242,7 +1242,6 @@ function checkDuplicateContact(primaryControl) {
             req.onreadystatechange = null;
             if (this.status === 200) {
                 var results = JSON.parse(this.response);
-                debugger;
                 if (results.value.length > 0) {
                     for (var i = 0; i < results.value.length; i++) {
                         var dataparams = "FirstName=" + firstName + "&LastName=" + lastName + "&email=" + emailAddress + "&entLogicName=" + entName + "&warningMsg=" + warningMsg + "&clientUrl=" + clientURL;

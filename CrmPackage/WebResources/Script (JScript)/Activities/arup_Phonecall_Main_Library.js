@@ -24,6 +24,7 @@ function QuickCreateForm_OnLoad(executionContext) {
 
     changeLookFor(formContext, 'regardingobjectid');
 
+    ArupRelationshipTeam.FormLoad(formContext,"to","ccrm_relationshipteam");
 }
 
 function onForm_save(executionContext) {
@@ -43,7 +44,7 @@ function onForm_save(executionContext) {
                     preventClose: false
                 }
             ],
-            'Error', 500, 250, formContext.context.getClientUrl(), true);
+            'Error', 500, 250, '', true);
 
         saveEvent.preventDefault();
     }
@@ -280,35 +281,6 @@ function setOrganisation(executionContext, fieldname) {
     }
 }
 
-//function fetchCurrentOrganisation(contactId, contactName, fieldName) {
-
-//    var req = new XMLHttpRequest();
-//    contactId = contactId.replace('{', '').replace('}', '');
-//    req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v8.2/contacts(" + contactId + ")?$select=_parentcustomerid_value", true);
-//    req.setRequestHeader("OData-MaxVersion", "4.0");
-//    req.setRequestHeader("OData-Version", "4.0");
-//    req.setRequestHeader("Accept", "application/json");
-//    req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-//    req.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
-//    req.onreadystatechange = function () {
-//        if (this.readyState === 4) {
-//            req.onreadystatechange = null;
-//            if (this.status === 200) {
-//                var result = JSON.parse(this.response);
-//                var _parentcustomerid_value = result["_parentcustomerid_value"];
-//                var _parentcustomerid_value_formatted = result["_parentcustomerid_value@OData.Community.Display.V1.FormattedValue"];
-//                var _parentcustomerid_value_lookuplogicalname = result["_parentcustomerid_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
-//                if (_parentcustomerid_value != null) {
-//                    setLookupField(formContext, _parentcustomerid_value, _parentcustomerid_value_formatted, _parentcustomerid_value_lookuplogicalname, fieldName);
-//                }
-//            } else {
-//                Xrm.Utility.alertDialog(this.statusText);
-//            }
-//        }
-//    };
-//    req.send();
-//}
-
 function setLookupField(formContext, id, name, entity, field) {
 
     if (id != null) {
@@ -333,11 +305,11 @@ function fetchContactPhones(formContext, contactID) {
         function success(result) {
             var mobilephone = result["mobilephone"] != null ? result["mobilephone"] : null;
             var telephone = result["telephone1"] != null ? result["telephone1"] : null;
-            formContext.getAttribute('arup_contactmobile').setValue(mobilephone);
-            formContext.getAttribute('arup_contacttelephone').setValue(telephone);
+            formContext.getAttribute('arup_contact_mobile').setValue(mobilephone);
+            formContext.getAttribute('arup_contact_telephone').setValue(telephone);
         },
         function (error) {
-            Xrm.Navigation.openAlertDialog(error.message);
+            Xrm.Utility.alertDialog(error.message);
         }
     );
 }
@@ -396,5 +368,5 @@ function exitForm(primaryControl) {
                 preventClose: false
             }
         ],
-        'Warning', 600, 250, formContext.context.getClientUrl(), true);
+        'Warning', 600, 250, '', true);
 }
