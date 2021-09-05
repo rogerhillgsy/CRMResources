@@ -21,7 +21,7 @@ function ShowHideOpportunityTypeAndProjectProcurement(formContext, stageId) {
     setTimeout(function () {
         if (stageId != null && stageId != undefined) {
 
-            if (stageId == ArupStages.Lead || isPartOfDQTeam(formContext)) {
+            if (stageId == ArupStages.Lead || isPartOfDQTeam(formContext) || isPartOfSuperUser(formContext)) {
 
                 formContext.getControl("arup_opportunitytype").setDisabled(false);
                 if (!formContext.getControl("ccrm_contractarrangement").getDisabled())

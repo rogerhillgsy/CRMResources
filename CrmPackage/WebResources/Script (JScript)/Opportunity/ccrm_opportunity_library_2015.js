@@ -6908,6 +6908,12 @@ function isPartOfDQTeam(formContext) {
     return dqteam;
 }
 
+function isPartOfSuperUser(formContext) {
+
+    var superusersteam = userInTeamCheck(formContext, 'Global CRM Super Users');
+    return superusersteam;
+}
+
 //Param - teamm name . This function checks whether the logged in user is a member of the team. Returns true if he/ she is a member.
 function userInTeamCheck(formContext, TeamNameInput) {
 
