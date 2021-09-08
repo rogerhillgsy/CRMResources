@@ -299,6 +299,24 @@ function setLookupField(formContext, id, name, entity, field) {
     }
 }
 
+/**
+ * Used in Quick Create form to update the (hidden) contact telephone and mobile numbers.
+ * @param {any} executionContext
+ */
+function fetchContactPhones_ex(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var source = executionContext.getEventSource();
+    if (!!source) {
+        var ids = source.getValue();
+        if (ids.length > 0) {
+            var firstContact = ids.filter((a) => a.entityType === "contact").shift();
+            if (!!firstContact) {
+                fetchContactPhones(formContext, firstContact.id);
+            }
+        }
+    }
+}
+
 function fetchContactPhones(formContext, contactID) {
 
     Xrm.WebApi.online.retrieveRecord("contact", contactID, "?$select=mobilephone,telephone1").then(

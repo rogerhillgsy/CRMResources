@@ -1998,12 +1998,12 @@ ARUP.ccrm_bidreview = function() {
         Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
     }
 
-    //object.exitForm = exitForm;
     //object.QuestionE6 = QuestionE6;
     //object.errorHandler = errorHandler;
 
     object.setup_display_other_field = setup_display_other_field;
     object.multiselectfields_onchange = multiselectfields_onchange;
     object.HideFields = HideFields;
+    object.exitForm = exitForm;
     return object;
 }();
