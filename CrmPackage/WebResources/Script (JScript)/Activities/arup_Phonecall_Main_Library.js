@@ -8,7 +8,7 @@ function onForm_Load(executionContext) {
     filterOnLoad(formContext, 'to');
 
     changeLookFor(formContext, 'regardingobjectid');
-   // addEventHandler(formContext);
+    // addEventHandler(formContext);
 
     if (formContext.ui.getFormType() == 1) {
         formContext.getAttribute('arup_isfullform').setValue(true);
@@ -24,7 +24,7 @@ function QuickCreateForm_OnLoad(executionContext) {
 
     changeLookFor(formContext, 'regardingobjectid');
 
-    ArupRelationshipTeam.FormLoad(formContext,"to","ccrm_relationshipteam");
+    ArupRelationshipTeam.FormLoad(formContext, "to", "ccrm_relationshipteam");
 }
 
 function onForm_save(executionContext) {
@@ -159,7 +159,7 @@ function reOpen(primaryControl) {
     formContext.getAttribute('statuscode').setValue(1);
 
     formContext.data.save().then(function () {    // The save prevents "unsaved"-warning.
-        formContext .data.refresh();
+        formContext.data.refresh();
     }, null);
 
 }
@@ -265,6 +265,8 @@ function setOrganisation(executionContext, fieldname) {
     contact = isPartyContact(formContext, fieldname);
     if (contact != null) {
         fetchContactPhones(formContext, contact.id);
+        ArupRelationshipTeam.FormLoad(formContext, "to", "ccrm_relationshipteam");
+        fetchContactNotes(formContext, contact.id)
     }
 
     if (members == null || (!lookupOrg && !lookupKeyPerson)) { return; }
@@ -312,6 +314,7 @@ function fetchContactPhones_ex(executionContext) {
             var firstContact = ids.filter((a) => a.entityType === "contact").shift();
             if (!!firstContact) {
                 fetchContactPhones(formContext, firstContact.id);
+                fetchContactNotes(formContext, firstContact.id);
             }
         }
     }
@@ -325,6 +328,26 @@ function fetchContactPhones(formContext, contactID) {
             var telephone = result["telephone1"] != null ? result["telephone1"] : null;
             formContext.getAttribute('arup_contact_mobile').setValue(mobilephone);
             formContext.getAttribute('arup_contact_telephone').setValue(telephone);
+        },
+        function (error) {
+            Xrm.Utility.alertDialog(error.message);
+        }
+    );
+}
+
+function fetchContactNotes(formContext, contactID) {
+    Xrm.WebApi.online.retrieveMultipleRecords("annotation", "?$select=notetext,subject&$filter=_objectid_value eq" + contactID).then(
+        function success(results) {
+            var subject = [];
+            var notetext = [];
+            var description = "";
+            for (var i = 0; i < results.entities.length; i++) {
+                subject[i] = results.entities[i]["subject"];
+                notetext[i] = results.entities[i]["notetext"].replace(/(<([^>]+)>)/gi, "").replace(/\n/g, "");
+                var updatedDesc = [subject[i] + " : " + notetext[i] + "\r\n\n"].toString();
+                description = description.concat(updatedDesc);               
+            }
+            formContext.getAttribute('description').setValue(description);
         },
         function (error) {
             Xrm.Utility.alertDialog(error.message);
