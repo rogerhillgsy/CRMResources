@@ -266,7 +266,6 @@ function setOrganisation(executionContext, fieldname) {
     if (contact != null) {
         fetchContactPhones(formContext, contact.id);
         ArupRelationshipTeam.FormLoad(formContext, "to", "ccrm_relationshipteam");
-        fetchContactNotes(formContext, contact.id)
     }
 
     if (members == null || (!lookupOrg && !lookupKeyPerson)) { return; }
@@ -314,7 +313,6 @@ function fetchContactPhones_ex(executionContext) {
             var firstContact = ids.filter((a) => a.entityType === "contact").shift();
             if (!!firstContact) {
                 fetchContactPhones(formContext, firstContact.id);
-                fetchContactNotes(formContext, firstContact.id);
             }
         }
     }
@@ -328,26 +326,6 @@ function fetchContactPhones(formContext, contactID) {
             var telephone = result["telephone1"] != null ? result["telephone1"] : null;
             formContext.getAttribute('arup_contact_mobile').setValue(mobilephone);
             formContext.getAttribute('arup_contact_telephone').setValue(telephone);
-        },
-        function (error) {
-            Xrm.Utility.alertDialog(error.message);
-        }
-    );
-}
-
-function fetchContactNotes(formContext, contactID) {
-    Xrm.WebApi.online.retrieveMultipleRecords("annotation", "?$select=notetext,subject&$filter=_objectid_value eq" + contactID).then(
-        function success(results) {
-            var subject = [];
-            var notetext = [];
-            var description = "";
-            for (var i = 0; i < results.entities.length; i++) {
-                subject[i] = results.entities[i]["subject"];
-                notetext[i] = results.entities[i]["notetext"].replace(/(<([^>]+)>)/gi, "").replace(/\n/g, "");
-                var updatedDesc = [subject[i] + " : " + notetext[i] + "\r\n\n"].toString();
-                description = description.concat(updatedDesc);               
-            }
-            formContext.getAttribute('description').setValue(description);
         },
         function (error) {
             Xrm.Utility.alertDialog(error.message);
