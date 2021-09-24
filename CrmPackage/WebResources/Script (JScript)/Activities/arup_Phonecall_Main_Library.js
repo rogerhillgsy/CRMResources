@@ -8,7 +8,7 @@ function onForm_Load(executionContext) {
     filterOnLoad(formContext, 'to');
 
     changeLookFor(formContext, 'regardingobjectid');
-   // addEventHandler(formContext);
+    // addEventHandler(formContext);
 
     if (formContext.ui.getFormType() == 1) {
         formContext.getAttribute('arup_isfullform').setValue(true);
@@ -24,7 +24,7 @@ function QuickCreateForm_OnLoad(executionContext) {
 
     changeLookFor(formContext, 'regardingobjectid');
 
-    ArupRelationshipTeam.FormLoad(formContext,"to","ccrm_relationshipteam");
+    ArupRelationshipTeam.FormLoad(formContext, "to", "ccrm_relationshipteam");
 }
 
 function onForm_save(executionContext) {
@@ -159,7 +159,7 @@ function reOpen(primaryControl) {
     formContext.getAttribute('statuscode').setValue(1);
 
     formContext.data.save().then(function () {    // The save prevents "unsaved"-warning.
-        formContext .data.refresh();
+        formContext.data.refresh();
     }, null);
 
 }
@@ -265,6 +265,7 @@ function setOrganisation(executionContext, fieldname) {
     contact = isPartyContact(formContext, fieldname);
     if (contact != null) {
         fetchContactPhones(formContext, contact.id);
+        ArupRelationshipTeam.FormLoad(formContext, "to", "ccrm_relationshipteam");
     }
 
     if (members == null || (!lookupOrg && !lookupKeyPerson)) { return; }

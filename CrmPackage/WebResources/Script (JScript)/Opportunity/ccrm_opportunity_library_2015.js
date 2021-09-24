@@ -6587,7 +6587,7 @@ function OpenDWBidsSiteLink(formContext) {
         projectID = pjn + "," + projectID;
     var baseurl = formContext.context.getClientUrl();
     var url;
-    if (baseurl.indexOf("uat") != -1) { url = "https://arupuat.sharepoint.com/sites/bids#k="; }
+    if (baseurl.indexOf("uat") != -1) { url = "https://arupuat.sharepoint.com/sites/bids?k="; }
     else { url = 'https://arup.sharepoint.com/sites/bids#k='; }
     url += 'WORDS(' + projectID + ')';
     formContext.ui.setFormNotification("It may take 15-20 min from the time PJN was issued for the BIDS site to be provisioned", 'INFO', 'BidsSiteProvision');
