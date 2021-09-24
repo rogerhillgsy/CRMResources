@@ -374,7 +374,6 @@ Arup = (
                     //  formContext.data.entity.save();
                     formContext.data.save().then(
                         function success(status) {
-
                             Log("success status" + status);
                             var process = formContext.data.process;
                             if (process != null) {
