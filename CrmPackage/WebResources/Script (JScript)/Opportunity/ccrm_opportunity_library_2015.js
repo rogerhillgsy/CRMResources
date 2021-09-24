@@ -2405,7 +2405,7 @@ function ccrm_opportunitytype_onchange(formContext) {
         //set the isValid flag to false        
         SetValidField(formContext, 'ccrm_validopportunitytrack', false, 'Opportunity Track needs to be set for Opportunity Progression', 'opportunitytrack');
         //[RS-08/05/2017] - changed the message above to say Opportunity instead of Lead
-    } else if (formContext.getAttribute("ccrm_validopportunitytrack").getValue() != 1) {
+    } else if (!formContext.getAttribute("ccrm_validopportunitytrack").getValue()) {
         //set the isValid flag to true 
         SetValidField(formContext, 'ccrm_validopportunitytrack', true, null, 'opportunitytrack');
     }

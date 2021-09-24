@@ -11,6 +11,7 @@
     <Name>MultiTagComponent</Name>
     <ProjectGuid>f4610991-b36e-4cdc-94d5-e71677fbbca5</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
+    <PcfBuildMode>production</PcfBuildMode>
   </PropertyGroup>
 
   <PropertyGroup>
