@@ -1,25 +1,25 @@
 ﻿<html>
 <head>
     <script type="text/javascript">
-       
+
         parent.$("h1[data-id='defaultDialogChromeTitle']", parent.document).html("");
-		try{
-			theViewer.defaultViewer = new theViewer.Viewer({});
-		}catch(e){}
+        try {
+            theViewer.defaultViewer = new theViewer.Viewer({});
+        } catch (e) { }
 
         function showHideButton() {
             var checkBox = document.getElementById("message");
             var text = document.getElementById("button");
             if (checkBox.checked == true) {
                 text.style.display = "inline";
-				text.style.margin = "0 0 0 12px";
+                text.style.margin = "0 0 0 12px";
             } else {
                 text.style.display = "none";
             }
         }
 
         function getUserSettings() {
-            Xrm = parent.Xrm;     
+            Xrm = parent.Xrm;
             var globalContext = Xrm.Utility.getGlobalContext();
             var clientUrl = globalContext.getClientUrl();
             var userId = globalContext.userSettings.userId.replace("{", "").replace("}", "");
@@ -48,41 +48,41 @@
             var userId = globalContext.userSettings.userId.replace("{", "").replace("}", "");
 
             var entity = {};
-            if(result["arup_defaultpane"] != null){
-				entity.homepagearea = result["arup_defaultpane"];
-			}else{
-				entity.homepagearea = "<Default>";
-			}
+            if (result["arup_defaultpane"] != null) {
+                entity.homepagearea = result["arup_defaultpane"];
+            } else {
+                entity.homepagearea = "<Default>";
+            }
 
-			if(result["arup_defaulttab"] != null){
-				entity.homepagesubarea = result["arup_defaulttab"];
-			}
-			else{
-				entity.homepagesubarea = "";
-			}
+            if (result["arup_defaulttab"] != null) {
+                entity.homepagesubarea = result["arup_defaulttab"];
+            }
+            else {
+                entity.homepagesubarea = "";
+            }
 
-				var req = new XMLHttpRequest();
-				req.open("PATCH", globalContext.getClientUrl() + "/api/data/v9.1/usersettingscollection(" + userId + ")", false);
-				req.setRequestHeader("OData-MaxVersion", "4.0");
-				req.setRequestHeader("OData-Version", "4.0");
-				req.setRequestHeader("Accept", "application/json");
-				req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-				req.onreadystatechange = function () {
-					if (this.readyState === 4) {
-						req.onreadystatechange = null;
-						if (this.status === 204) {
-							closeDlg();
-						}
-					}
-				};
-				req.send(JSON.stringify(entity));
+            var req = new XMLHttpRequest();
+            req.open("PATCH", globalContext.getClientUrl() + "/api/data/v9.1/usersettingscollection(" + userId + ")", false);
+            req.setRequestHeader("OData-MaxVersion", "4.0");
+            req.setRequestHeader("OData-Version", "4.0");
+            req.setRequestHeader("Accept", "application/json");
+            req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            req.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    req.onreadystatechange = null;
+                    if (this.status === 204) {
+                        closeDlg();
+                    }
+                }
+            };
+            req.send(JSON.stringify(entity));
         }
 
         function closeDlg() {
             try {
                 Xrm = parent.Xrm;
-				var url = Xrm.Utility.getGlobalContext().getClientUrl();
-				parent.window.open(url, "_self");
+                var url = Xrm.Utility.getGlobalContext().getClientUrl();
+                parent.window.open(url, "_self");
             }
             catch (e) { }
         }
@@ -173,31 +173,33 @@
     <div id="page-container" style="font-family: undefined;">
         <!--<div class="pf w0 h0" id="pf1" data-page-no="1"><div class="pc pc1 w0 h0"><img class="bi x0 y0 w0 h0" alt="" src="../webresources/arup_splashscreen"><div class="t m0 x1 h1 y1 ff1 fs0 fc0 sc0 ls0 ws0">Arup CRM</div><div class="t m0 x1 h2 y2 ff2 fs1 fc0 sc0 ls0 ws0">January 2021 Release</div><div class="t m0 x2 h3 y3 ff1 fs2 fc1 sc0 ls0 ws0">Minor Updates Release</div><div class="t m0 x2 h4 y4 ff3 fs3 fc2 sc0 ls0 ws0"><span class="_ _0"> </span><span class="ff1 fs4 fc1"></span></div><div class="t m0 x2 h4 y5 ff3 fs3 fc2 sc0 ls0 ws0">  -<span class="_ _0"> </span><span class="ff1 fs4 fc1">Updated look and feel and improved navigation </span></div><div class="t m0 x3 h5 y6 ff3 fs3 fc1 sc0 ls0 ws0"></div><div class="t m0 x2 h4 y7 ff3 fs3 fc2 sc0 ls0 ws0">  -<span class="_ _0"> </span><span class="ff1 fs4 fc1">Inclusion of sustainable development information </span></div><div class="t m0 x3 h4 y8 ff3 fs3 fc1 sc0 ls0 ws0">on opportunity form (see link to guide)</div><div class="t m0 x2 h4 y15 ff3 fs3 fc2 sc0 ls0 ws0">  <span class="_ _0"> </span><span class="ff1 fs4 fc1"></span></div><div class="t m0 x2 h4 y16 ff3 fs3 fc2 sc0 ls0 ws0">  -<span class="_ _0"></span><span class="ff1 fs4 fc1">New client relationship management features</span></div><div class="t m0 x3 h4 y17 ff3 fs3 fc1 sc0 ls0 ws0"></div><div class="t m0 x4 h6 y9 ff1 fs5 fc2 sc0 ls0 ws0">Links to Information</div><div class="t m0 x5 h2 ya ff1 fs1 fc3 sc0 ls0 ws0"><a href="https://media.arup.com/media/Intro+to+CRM+Move+to+the+Cloud/1_tby0rt4p" target="_blank">Overview video</a></div><div class="t m0 x6 h2 yb ff1 fs1 fc3 sc0 ls0 ws0"><a href="https://sharepoint.arup.com/communities/crmsp/Latest%20Changes/User%20Guide%20-%20External%20Opportunities%20-March%202020.pdf" target="_blank">User guide to new layout</a></div><div class="t m0 x10 h2 ybc ff1 fs1 fc3 sc0 ls0 ws0"><a href="https://sharepoint.arup.com/communities/crmsp/Latest%20Changes/User%20Guide%20-%20Internal%20Opportunities%20March%202020.pdf" target="_blank">Guide to sustainable development fields</a></div><div class="t m0 x7 h7 yc ff1 fs6 fc3 sc0 ls0 ws0">Pipeline Management</div><div class="t m0 x8 h7 yd ff1 fs6 fc3 sc0 ls0 ws0">Client Relationship Management</div><div class="t m0 x9 h2 ye ff1 fs1 fc3 sc0 ls0 ws0"><a href="https://www.yammer.com/arup.com/#/threads/inGroup?type=in_group&amp;feedId=4478702&amp;view=all" target="_blank"><p style="margin: 0px;">Join the conversations on<br>Yammer</p></a></div></div><div class="pi" data-data="{&quot;ctm&quot;:[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}"></div></div>-->
 
-        <div class="pf w0 h0" id="pf1" data-page-no="1"><div class="pc pc1 w0 h0">
-    <img class="bi x0 y0 w0 h0" alt="" src="../webresources/arup_splashscreen"><div class="t m0 x1 h1 y1 ff1 fs0 fc0 sc0 ls0 ws0">Arup CRM</div><div class="t m0 x1 h2 y2 ff2 fs1 fc0 sc0 ls0 ws0">July 2021 Release</div><div class="t m0 x2 h3 y3 ff1 fs2 fc1 sc0 ls0 ws0">Minor Updates Release</div>
-    <div class="t m0 x2 h4 y4 ff3 fs3 fc2 sc0 ls0 ws0"><span class="_ _0"> </span><span class="ff1 fs4 fc1"></span></div>
-    <div class="t m0 x2 h4 y5 ff3 fs3 fc2 sc0 ls0 ws0">  -<span class="_ _0"> </span><span class="ff1 fs4 fc1">Opportunity form enhancements</span></div>
-    <div class="t m0 x3 h4 y6 ff3 fs3 fc2 sc0 ls0 ws0">       -<span class="_ _0"> </span><span class="ff1 fs4 fc1">New "Help Pane" to provide quick access to information</span></div>
-    <div class="t m0 x3 h4 y7 ff3 fs3 fc2 sc0 ls0 ws0">       -<span class="_ _0"> </span><span class="ff1 fs4 fc1">Pre-population of fields when creating Project Extension</span></div>
-    <div class="t m0 x3 h4 y8 ff3 fs3 fc1 sc0 ls0 ws0">        <span class="_ _0"> </span><span class="ff1 fs4 fc1">opportunities</span></div>
+        <div class="pf w0 h0" id="pf1" data-page-no="1">
+            <div class="pc pc1 w0 h0">
+                <img class="bi x0 y0 w0 h0" alt="" src="../webresources/arup_splashscreen"><div class="t m0 x1 h1 y1 ff1 fs0 fc0 sc0 ls0 ws0">Arup CRM</div><div class="t m0 x1 h2 y2 ff2 fs1 fc0 sc0 ls0 ws0">September 2021 Release</div><div class="t m0 x2 h3 y3 ff1 fs2 fc1 sc0 ls0 ws0">Approvals and Minor Updates Release</div>
+                <div class="t m0 x2 h4 y4 ff3 fs3 fc2 sc0 ls0 ws0"><span class="_ _0"> </span><span class="ff1 fs4 fc1"></span></div>
+                <div class="t m0 x2 h4 y5 ff3 fs3 fc2 sc0 ls0 ws0">  -<span class="_ _0"> </span><span class="ff1 fs4 fc1">New ways to approve PJNs and CJNs using MS Teams and via </span></div>
+                <div class="t m0 x3 h4 y6 ff3 fs3 fc1 sc0 ls0 ws0">e-mail</div>
 
-    <div class="t m0 x2 h4 y9 ff3 fs3 fc2 sc0 ls0 ws0">  <span class="_ _0"> </span><span class="ff1 fs4 fc1"></span></div>
+                <div class="t m0 x2 h4 y7 ff3 fs3 fc2 sc0 ls0 ws0">  <span class="_ _0"> </span><span class="ff1 fs4 fc1"></span></div>
 
-    <div class="t m0 x2 h4 y10 ff3 fs3 fc2 sc0 ls0 ws0">  -<span class="_ _0"> </span><span class="ff1 fs4 fc1">Access to Connections report from Relationship Team form</span></div>
+                <div class="t m0 x2 h4 y8 ff3 fs3 fc2 sc0 ls0 ws0">  -<span class="_ _0"> </span><span class="ff1 fs4 fc1">Updates to the relationship team functionality to meet </span></div>
+                <div class="t m0 x3 h4 y9 ff3 fs3 fc1 sc0 ls0 ws0">requirements of the Global Clients programme</div>
 
-    <div class="t m0 x2 h4 y11 ff3 fs3 fc2 sc0 ls0 ws0">  <span class="_ _0"> </span><span class="ff1 fs4 fc1"></span></div>
+                <div class="t m0 x2 h4 y10 ff3 fs3 fc2 sc0 ls0 ws0">  <span class="_ _0"> </span><span class="ff1 fs4 fc1"></span></div>
 
-    <div class="t m0 x2 h4 y12 ff3 fs3 fc2 sc0 ls0 ws0">  -<span class="_ _0"></span><span class="ff1 fs4 fc1">Other minor changes</span></div>
+                <div class="t m0 x2 h4 y11 ff3 fs3 fc2 sc0 ls0 ws0">  -<span class="_ _0"></span><span class="ff1 fs4 fc1">Other minor updates and background task improvements</span></div>
 
-    <div class="t m0 x2 h4 y13 ff3 fs3 fc2 sc0 ls0 ws0">  <span class="_ _0"> </span><span class="ff1 fs4 fc1"></span></div>
+                <div class="t m0 x2 h4 y12 ff3 fs3 fc2 sc0 ls0 ws0">  <span class="_ _0"> </span><span class="ff1 fs4 fc1"></span></div>
 
-    <div class="t m0 x2 h4 y14 ff3 fs3 fc2 sc0 ls0 ws0">  </div>
+                <div class="t m0 x2 h4 y13 ff3 fs3 fc2 sc0 ls0 ws0">  </div>
 
-    <div class="t m0 x3 h4 y15 ff3 fs3 fc1 sc0 ls0 ws0"></div><div class="t m0 x4 h6 y17 ff1 fs5 fc2 sc0 ls0 ws0">Links to Information</div>
-    <div class="t m0 x5 h2 ya ff1 fs1 fc3 sc0 ls0 ws0"><a href="https://arup.sharepoint.com/sites/essentials-global-clients-and-business" target="_blank"><p style="text-align:center">Overview of Changes in this Release</p></a></div>
+                <div class="t m0 x3 h4 y15 ff3 fs3 fc1 sc0 ls0 ws0"></div><div class="t m0 x4 h6 y17 ff1 fs5 fc2 sc0 ls0 ws0">Links to Information</div>
+                <div class="t m0 x5 h2 ya ff1 fs1 fc3 sc0 ls0 ws0"><a href="https://arup.sharepoint.com/sites/essentials-global-clients-and-business/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2Fessentials%2Dglobal%2Dclients%2Dand%2Dbusiness%2FShared%20Documents%2FTraining%20Resources%2FIntroduction%20to%20CRM%2FSeptember%202021%20release%20guide%20v1%2Epdf&parent=%2Fsites%2Fessentials%2Dglobal%2Dclients%2Dand%2Dbusiness%2FShared%20Documents%2FTraining%20Resources%2FIntroduction%20to%20CRM" target="_blank"><p style="text-align:center">Overview of Changes in this Release</p></a></div>
+                <div class="t m0 x6 h2 yb ff1 fs1 fc3 sc0 ls0 ws0"><a href="https://arup.sharepoint.com/sites/essentials-global-clients-and-business/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2Fessentials%2Dglobal%2Dclients%2Dand%2Dbusiness%2FShared%20Documents%2FPipeline%20Management%2FGeneral%20Information%2FApprovals%20Guide%20%2D%20September%202021%20v1%2Epdf&parent=%2Fsites%2Fessentials%2Dglobal%2Dclients%2Dand%2Dbusiness%2FShared%20Documents%2FPipeline%20Management%2FGeneral%20Information" target="_blank"><p style="text-align:center">Guide to Approvals</p></a></div>
 
-    <div class="t m0 x7 h7 yc ff1 fs6 fc3 sc0 ls0 ws0">Pipeline Management</div><div class="t m0 x8 h7 yd ff1 fs6 fc3 sc0 ls0 ws0">Client Relationship Management</div><div class="t m0 x9 h2 ye ff1 fs1 fc3 sc0 ls0 ws0"><a href="https://www.yammer.com/arup.com/#/threads/inGroup?type=in_group&amp;feedId=4478702&amp;view=all" target="_blank"><p style="margin: 0px;">Join the conversations on<br>Yammer</p></a></div>
-</div><div class="pi" data-data="{&quot;ctm&quot;:[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}"></div></div>
+                <div class="t m0 x7 h7 yc ff1 fs6 fc3 sc0 ls0 ws0">Pipeline Management</div><div class="t m0 x8 h7 yd ff1 fs6 fc3 sc0 ls0 ws0">Client Relationship Management</div><div class="t m0 x9 h2 ye ff1 fs1 fc3 sc0 ls0 ws0"><a href="https://www.yammer.com/arup.com/#/threads/inGroup?type=in_group&amp;feedId=4478702&amp;view=all" target="_blank"><p style="margin: 0px;">Join the conversations on<br>Yammer</p></a></div>
+            </div><div class="pi" data-data="{&quot;ctm&quot;:[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}"></div>
+        </div>
 
         <input id="message" onclick="showHideButton();" type="checkbox"> Don't show this again
         <input id="button" onclick="getUserSettings();" type="submit" value="Ok">
