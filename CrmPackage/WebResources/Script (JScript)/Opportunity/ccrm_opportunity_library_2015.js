@@ -4961,7 +4961,10 @@ function stageNotifications(formContext) {
 
     if (formContext.data.getIsDirty())
         setTimeout(function () { 
-            formContext.data.save(); 
+            // The form could become clean before the timeout fires...
+            if (formContext.data.getIsDirty()) {
+                formContext.data.save(); 
+            }
         }, 1000);
 
     var isBidSubmitted = formContext.getAttribute("arup_bidsubmissionoutcome").getValue();
